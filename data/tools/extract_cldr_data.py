@@ -1,16 +1,27 @@
 """
 Extracts data from CLDR-JSON repository, e.g. nouns like month or day names.
 Script either creates a new inflection file, or appends data to existing one.
+The nomenclature is taken from https://unimorph.github.io/doc/unimorph-schema.pdf (see Appendix)
+
+Part of Speech;Gender;Case;Number;Animacy
+
 Run script from data folder.
 
 Before running the script clone cldr-json repository:
 
 gh repo clone unicode-org/cldr-json
+
+and install jsonpath-ng package:
+
+pip install jsonpath-ng
 """
 
 import argparse
 import json
 import os
+
+from jsonpath_ng import jsonpath, parse
+
 
 def load_json(filename):
     """Loads JSON data from the specified file.
@@ -23,11 +34,40 @@ def load_json(filename):
     """
 
     try:
-        with open(filename, 'r') as file:
+        with open(filename, 'r', encoding='utf-8') as file:
             return json.load(file)
     except FileNotFoundError:
         print(f"Error: File '{filename}' not found.")
         return None
+
+
+def write_to_lexicon(output_file, language, json_data):
+    """Extracts specified data from cldr-json file
+       and writes it to the lexicon file.
+
+    Args:
+        output_file: name of the lexicon.
+        language: cldr-json file language.
+        json_data: parsed cldr-json data.
+    """
+    MONTH_NAMES_EXPRESSION = parse('main..dates.calendars.gregorian.months.format.wide.*')
+    DAY_NAMES_EXPRESSION = parse('main..dates.calendars.gregorian.days.format.wide.*')
+    EXPRESSIONS = [MONTH_NAMES_EXPRESSION, DAY_NAMES_EXPRESSION]
+
+    results = []
+    for expression in EXPRESSIONS:
+        match = expression.find(json_data)
+        for m in match:
+            results.append(m.value + ';N;MASC;NOM;SG;INAN\n')
+
+    full_filename = os.path.join(language, output_file)
+    try:
+        os.makedirs(os.path.dirname(full_filename), exist_ok=True)
+        with open(full_filename, 'a', encoding='utf-8') as file:
+            file.writelines(results)
+    except FileNotFoundError:
+        print(f"Error: file '{output_file}' can't be created.")
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Load and process CLDR-JSON files for given languages.')
@@ -42,5 +82,4 @@ if __name__ == "__main__":
         data = load_json(full_filename)
 
         if data:
-            # Do something with the loaded JSON data
-            print(data) 
+            write_to_lexicon(args.output_file, language, data)

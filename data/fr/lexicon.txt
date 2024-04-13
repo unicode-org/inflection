@@ -1,19 +1,19 @@
-janvier;N;MASC;SG
-février;N;MASC;SG
-mars;N;MASC;SG
-avril;N;MASC;SG
-mai;N;MASC;SG
-juin;N;MASC;SG
-juillet;N;MASC;SG
-août;N;MASC;SG
-septembre;N;MASC;SG
-octobre;N;MASC;SG
-novembre;N;MASC;SG
-décembre;N;MASC;SG
-dimanche;N;MASC;SG
-lundi;N;MASC;SG
-mardi;N;MASC;SG
-mercredi;N;MASC;SG
-jeudi;N;MASC;SG
-vendredi;N;MASC;SG
-samedi;N;MASC;SG
+janvier: noun masculine singular
+février: noun masculine singular
+mars: noun masculine singular
+avril: noun masculine singular
+mai: noun masculine singular
+juin: noun masculine singular
+juillet: noun masculine singular
+août: noun masculine singular
+septembre: noun masculine singular
+octobre: noun masculine singular
+novembre: noun masculine singular
+décembre: noun masculine singular
+dimanche: noun masculine singular
+lundi: noun masculine singular
+mardi: noun masculine singular
+mercredi: noun masculine singular
+jeudi: noun masculine singular
+vendredi: noun masculine singular
+samedi: noun masculine singular

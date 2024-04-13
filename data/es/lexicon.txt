@@ -1,19 +1,19 @@
-enero;N;MASC;NOM;SG;INAN
-febrero;N;MASC;NOM;SG;INAN
-marzo;N;MASC;NOM;SG;INAN
-abril;N;MASC;NOM;SG;INAN
-mayo;N;MASC;NOM;SG;INAN
-junio;N;MASC;NOM;SG;INAN
-julio;N;MASC;NOM;SG;INAN
-agosto;N;MASC;NOM;SG;INAN
-septiembre;N;MASC;NOM;SG;INAN
-octubre;N;MASC;NOM;SG;INAN
-noviembre;N;MASC;NOM;SG;INAN
-diciembre;N;MASC;NOM;SG;INAN
-domingo;N;MASC;NOM;SG;INAN
-lunes;N;MASC;NOM;SG;INAN
-martes;N;MASC;NOM;SG;INAN
-miércoles;N;MASC;NOM;SG;INAN
-jueves;N;MASC;NOM;SG;INAN
-viernes;N;MASC;NOM;SG;INAN
-sábado;N;MASC;NOM;SG;INAN
+enero: noun masculine nominative singular inanimate
+febrero: noun masculine nominative singular inanimate
+marzo: noun masculine nominative singular inanimate
+abril: noun masculine nominative singular inanimate
+mayo: noun masculine nominative singular inanimate
+junio: noun masculine nominative singular inanimate
+julio: noun masculine nominative singular inanimate
+agosto: noun masculine nominative singular inanimate
+septiembre: noun masculine nominative singular inanimate
+octubre: noun masculine nominative singular inanimate
+noviembre: noun masculine nominative singular inanimate
+diciembre: noun masculine nominative singular inanimate
+domingo: noun masculine nominative singular inanimate
+lunes: noun masculine nominative singular inanimate
+martes: noun masculine nominative singular inanimate
+miércoles: noun masculine nominative singular inanimate
+jueves: noun masculine nominative singular inanimate
+viernes: noun masculine nominative singular inanimate
+sábado: noun masculine nominative singular inanimate

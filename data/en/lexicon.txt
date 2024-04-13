@@ -1,19 +1,19 @@
-January;N;MASC;NOM;SG;INAN
-February;N;MASC;NOM;SG;INAN
-March;N;MASC;NOM;SG;INAN
-April;N;MASC;NOM;SG;INAN
-May;N;MASC;NOM;SG;INAN
-June;N;MASC;NOM;SG;INAN
-July;N;MASC;NOM;SG;INAN
-August;N;MASC;NOM;SG;INAN
-September;N;MASC;NOM;SG;INAN
-October;N;MASC;NOM;SG;INAN
-November;N;MASC;NOM;SG;INAN
-December;N;MASC;NOM;SG;INAN
-Sunday;N;MASC;NOM;SG;INAN
-Monday;N;MASC;NOM;SG;INAN
-Tuesday;N;MASC;NOM;SG;INAN
-Wednesday;N;MASC;NOM;SG;INAN
-Thursday;N;MASC;NOM;SG;INAN
-Friday;N;MASC;NOM;SG;INAN
-Saturday;N;MASC;NOM;SG;INAN
+January: noun singular
+February: noun singular
+March: noun singular
+April: noun singular
+May: noun singular
+June: noun singular
+July: noun singular
+August: noun singular
+September: noun singular
+October: noun singular
+November: noun singular
+December: noun singular
+Sunday: noun singular
+Monday: noun singular
+Tuesday: noun singular
+Wednesday: noun singular
+Thursday: noun singular
+Friday: noun singular
+Saturday: noun singular

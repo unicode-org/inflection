@@ -1,9 +1,8 @@
 """
 Extracts data from CLDR-JSON repository, e.g. nouns like month or day names.
 Script either creates a new inflection file, or appends data to existing one.
-The nomenclature is taken from https://unimorph.github.io/doc/unimorph-schema.pdf (see Appendix)
 
-Part of Speech;Gender;Case;Number;Animacy
+Part of Speech, Gender, Case, Number. Animacy
 
 Run script from data folder.
 
@@ -58,7 +57,7 @@ def write_to_lexicon(output_file, language, json_data):
     for expression in EXPRESSIONS:
         match = expression.find(json_data)
         for m in match:
-            results.append(m.value + ';N;MASC;NOM;SG;INAN\n')
+            results.append(m.value + ': noun masculine nominative singular inanimate\n')
 
     full_filename = os.path.join(language, output_file)
     try:

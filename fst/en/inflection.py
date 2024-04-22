@@ -16,9 +16,11 @@ def _priority_union(q: p.Fst, r: p.Fst, sigma: p.Fst) -> p.Fst:
   complement_domain_q = sigma - p.project(q, 'input')
   return p.union(q, complement_domain_q @ r)
 
-_v = p.union('a', 'e', 'i', 'o', 'u')
+_v = p.union('a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U')
 _c = p.union('b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n',
-             'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z')
+             'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z',
+             'B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N',
+             'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z')
 _sigma = p.union(_v, _c).closure().optimize()
 
 # Load exceptions from the file.

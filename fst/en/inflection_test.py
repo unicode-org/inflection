@@ -31,12 +31,19 @@ class TestClassification(unittest.TestCase):
         self.assertEqual('phenomena', inflect('phenomenon'))
         self.assertEqual('criteria', inflect('criterion'))
         self.assertEqual('potatoes', inflect('potato'))
+        self.assertEqual('Mays', inflect('May'))
+        self.assertEqual('Julys', inflect('July'))
 
     def test_s(self):
         self.assertEqual('cats', inflect('cat'))
         self.assertEqual('houses', inflect('house'))
         self.assertEqual('roofs', inflect('roof'))
-    
+        self.assertEqual('Januaries', inflect('January'))
+        self.assertEqual('Marches', inflect('March'))
+        self.assertEqual('Junes', inflect('June'))
+        self.assertEqual('Decembers', inflect('December'))
+        self.assertEqual('Mondays', inflect('Monday'))
+
     def test_ies(self):
         self.assertEqual('cities', inflect('city'))
         self.assertEqual('puppies', inflect('puppy'))

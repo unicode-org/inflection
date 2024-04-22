@@ -1,6 +1,8 @@
 """
 Inflects English nouns - creates a plural form from singular.
 
+Run from project root folder.
+
 Install Pynini package before running.
 """
 
@@ -20,7 +22,7 @@ _c = p.union('b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n',
 _sigma = p.union(_v, _c).closure().optimize()
 
 # Load exceptions from the file.
-_exceptions = p.string_file(os.path.normpath('../../data/en/exceptions.tsv'))
+_exceptions = p.string_file(os.path.normpath('data/en/exceptions.tsv'))
 
 # If a singular noun ends in -y and the letter before the -y is a consonant, change the ending to -ies.
 # city - cities

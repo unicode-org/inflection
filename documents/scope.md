@@ -4,6 +4,13 @@
 
 Estimated completion 2024.
 
+Deliverable (based on points below):
+1. FST rules for a set of languages are specified, using e.g. Pynini framwork.
+2. C++ API for noun inflection is proposed and implemented using OpenFST library and above mentioned rules.
+3. Lexicon is not optimized in any way, e.g. for size or lookup speed, and is based on CLDR date/time data. Further expansion would happen from Wikidata lexicon.
+
+NOTE: The API could become part of ICU library. This is part of further discussion and it can impact language features or dependancies we are allowed to use, e.g. std library or exceptions.
+
 Based on discussion from [2024-04-02](https://docs.google.com/document/d/1a-777RetR4k2gZKHJ5pG3apWKt86jV7-vU-QChX7lv4/edit?usp=sharing) our stage 1 plan is:
 
 1. Focus on a small set of nouns, sourced from CLDR, e.g. month names, units etc to facilitate faster prototyping. See "Noun cases" section for details.

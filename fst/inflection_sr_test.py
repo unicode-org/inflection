@@ -31,5 +31,21 @@ class TestClassification(unittest.TestCase):
         self.assertEqual('дугме', inflect('дугме: noun neuter srinsertt', 'nom', 'sg'))
         self.assertEqual('дугметима', inflect('дугме: noun neuter srinsertt', 'dat', 'pl'))
 
+    def test_inflect_group4(self):
+        self.assertEqual('ствар', inflect('ствар: noun feminine', 'nom', 'sg'))
+        self.assertEqual('стварима', inflect('ствар: noun feminine', 'loc', 'pl'))
+        self.assertEqual('стварју', inflect('ствар: noun feminine', 'ins', 'sg'))
+        self.assertEqual('пећу', inflect('пећ: noun feminine', 'ins', 'sg'))
+        self.assertEqual('љубављу', inflect('љубав: noun feminine', 'ins', 'sg'))
+        self.assertEqual('младошћу', inflect('младост: noun feminine', 'ins', 'sg'))
+        self.assertEqual('чађу', inflect('чађ: noun feminine', 'ins', 'sg'))
+        self.assertEqual('памећу', inflect('памет: noun feminine', 'ins', 'sg'))
+
+    def test_exceptions(self):
+        self.assertEqual('кћи', inflect('кћи: noun feminine', 'nom', 'sg'))
+        self.assertEqual('кћерима', inflect('кћи: noun feminine', 'dat', 'pl'))
+        self.assertEqual('мати', inflect('мати: noun feminine', 'nom', 'sg'))
+        self.assertEqual('матерама', inflect('мати: noun feminine', 'dat', 'pl'))
+
 if __name__ == '__main__':
     unittest.main()

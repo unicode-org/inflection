@@ -25,7 +25,8 @@ _c = p.union('б', 'в', 'г', 'д', 'ђ', 'ж', 'з', 'ј', 'к', 'л', 'љ', '
              'Н', 'Њ', 'П', 'Р', 'С', 'Т', 'Ћ', 'Ф', 'Х', 'Ц', 'Ч', 'Џ', 'Ш')
 _sigma = p.union(_v, _c).closure().optimize()
 
-# Noun group rules for classification
+# Noun group rules for classification.
+# Match pattern and append group name to the end.
 
 # Group 1:
 #  - Masculine with nominative sg that ends with consonant, -о и -е.
@@ -99,7 +100,7 @@ _neut_en_para = paradigms.Paradigm(
   name='Neuter group2 n',
   slots=_slot_neut_en,
   lemma_feature_vector=nomsg,
-  stems=['име'])
+  stems=[_sigma])
 
 _slot_neut_et = [
   (stem, nomsg),
@@ -122,8 +123,44 @@ _neut_et_para = paradigms.Paradigm(
   name='Neuter group2 t',
   slots=_slot_neut_et,
   lemma_feature_vector=nomsg,
-  stems=['дугме'])
+  stems=[_sigma])
 
+# Group 4 rules
+_jy = _sigma + pynutil.insert('ју')
+# These changes happen for consonants placed before j.
+_pbmv = p.cdrewrite(p.string_map([('пј', 'пљ'), ('бј', 'бљ'), ('мј', 'мљ'), ('вј', 'вљ')]), '', 'у', _sigma)
+_palatial = p.cdrewrite(p.string_map([('ђј', 'ђ'), ('ћј', 'ћ'), ('љј', 'љ'),
+                                      ('њј', 'њ'), ('жј', 'ж'), ('шј', 'ш')]), '', 'у', _sigma)
+_j_union = p.cdrewrite(p.string_map([('дј', 'ђ'), ('тј', 'ћ'), ('лј', 'љ'), ('нј', 'њ'), ('зј', 'ж'), ('сј', 'ш')]),
+                                    '', 'у', _sigma)
+# At this point we need to check if any 'с', 'з' are in front of 'ђ', 'ћ', 'љ', 'њ', 'ж', 'ш'
+# and replace them with 'ш' and 'ж'.
+_sz_repl = p.cdrewrite(p.string_map([('с', 'ш'), ('з', 'ж')]), '', p.union('ђ', 'ћ', 'љ', 'њ', 'ж', 'ш'), _sigma)
+# Final incantation for the whole chain of changes in instrumental.
+_ins = (_jy @ _pbmv @ _palatial @ _j_union @ _sz_repl).optimize()
+
+_slot_fem_c = [
+  (stem, nomsg),
+  (paradigms.suffix('+и', stem), gensg),
+  (paradigms.suffix('+и', stem), datsg),
+  (stem, accsg),
+  (paradigms.suffix('+и', stem), vocsg),
+  (paradigms.suffix('', stem @ _ins), inssg),
+  (paradigms.suffix('+и', stem), locsg),
+  (paradigms.suffix('+и', stem), nompl),
+  (paradigms.suffix('+и', stem), genpl),
+  (paradigms.suffix('+има', stem), datpl),
+  (paradigms.suffix('+и', stem), accpl),
+  (paradigms.suffix('+и', stem), vocpl),
+  (paradigms.suffix('+има', stem), inspl),
+  (paradigms.suffix('+има', stem), locpl),
+]
+_fem_c_para = paradigms.Paradigm(
+  category=noun,
+  name='Feminine group 4',
+  slots=_slot_fem_c,
+  lemma_feature_vector=nomsg,
+  stems=[_sigma])
 
 def classify(singular: str, attributes: list[str]):
   """
@@ -146,6 +183,12 @@ def inflect(lexicon_entry: str, noun_case: str, number: str) -> str:
   if not noun or not attributes:
     return ''
 
+  # Check exceptions before doing heavy work.
+  try:
+    return(rewrite.one_top_rewrite(':'.join([noun, noun_case, number]), _exceptions))
+  except rewrite.Error:
+    pass
+
   # See which rule applies to the noun.
   group = classify(noun, attributes)
 
@@ -159,7 +202,13 @@ def inflect(lexicon_entry: str, noun_case: str, number: str) -> str:
   # We can probably connect classify and match into one FST and avoid this match/case section.
   # But it's ok for the first iteration.
   match group:
+    case 'Group1':
+      return('not supported')
     case 'Group2n':
       return(_neut_en_para.inflect(noun, feature_vector)[0])
     case 'Group2t':
       return(_neut_et_para.inflect(noun, feature_vector)[0])
+    case 'Group3':
+      return('not supported')
+    case 'Group4':
+      return(_fem_c_para.inflect(noun, feature_vector)[0])

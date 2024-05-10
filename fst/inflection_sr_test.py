@@ -31,6 +31,10 @@ class TestClassification(unittest.TestCase):
         self.assertEqual('дугме', inflect('дугме: noun neuter srinsertt', 'nom', 'sg'))
         self.assertEqual('дугметима', inflect('дугме: noun neuter srinsertt', 'dat', 'pl'))
 
+    def test_inflect_group3(self):
+        self.assertEqual('судија', inflect('судија: noun masculine', 'nom', 'sg'))
+        self.assertEqual('девојкама', inflect('девојка: noun feminine', 'dat', 'pl'))
+
     def test_inflect_group4(self):
         self.assertEqual('ствар', inflect('ствар: noun feminine', 'nom', 'sg'))
         self.assertEqual('стварима', inflect('ствар: noun feminine', 'loc', 'pl'))

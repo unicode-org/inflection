@@ -125,6 +125,30 @@ _neut_et_para = paradigms.Paradigm(
   lemma_feature_vector=nomsg,
   stems=[_sigma])
 
+# Group 3 rules
+_slot_a = [
+  (paradigms.suffix('+а', stem + pynutil.delete('а')), nomsg),
+  (paradigms.suffix('+е', stem + pynutil.delete('а')), gensg),
+  (paradigms.suffix('+и', stem + pynutil.delete('а')), datsg),
+  (paradigms.suffix('+у', stem + pynutil.delete('а')), accsg),
+  (paradigms.suffix('+о', stem + pynutil.delete('а')), vocsg),
+  (paradigms.suffix('+ом', stem + pynutil.delete('а')), inssg),
+  (paradigms.suffix('+и', stem + pynutil.delete('а')), locsg),
+  (paradigms.suffix('+е', stem + pynutil.delete('а')), nompl),
+  (paradigms.suffix('+а', stem + pynutil.delete('а')), genpl),
+  (paradigms.suffix('+ама', stem + pynutil.delete('а')), datpl),
+  (paradigms.suffix('+е', stem + pynutil.delete('а')), accpl),
+  (paradigms.suffix('+е', stem + pynutil.delete('а')), vocpl),
+  (paradigms.suffix('+ама', stem + pynutil.delete('а')), inspl),
+  (paradigms.suffix('+ама', stem + pynutil.delete('а')), locpl),
+]
+_a_para = paradigms.Paradigm(
+  category=noun,
+  name='Group 3',
+  slots=_slot_a,
+  lemma_feature_vector=nomsg,
+  stems=[_sigma])
+
 # Group 4 rules
 _jy = _sigma + pynutil.insert('ју')
 # These changes happen for consonants placed before j.
@@ -145,7 +169,7 @@ _slot_fem_c = [
   (paradigms.suffix('+и', stem), datsg),
   (stem, accsg),
   (paradigms.suffix('+и', stem), vocsg),
-  (paradigms.suffix('', stem @ _ins), inssg),
+  (stem @ _ins, inssg),
   (paradigms.suffix('+и', stem), locsg),
   (paradigms.suffix('+и', stem), nompl),
   (paradigms.suffix('+и', stem), genpl),
@@ -209,6 +233,52 @@ def inflect(lexicon_entry: str, noun_case: str, number: str) -> str:
     case 'Group2t':
       return(_neut_et_para.inflect(noun, feature_vector)[0])
     case 'Group3':
-      return('not supported')
+      return(_a_para.inflect(noun, feature_vector)[0])
     case 'Group4':
       return(_fem_c_para.inflect(noun, feature_vector)[0])
+
+# Remove after generation.
+import sys
+def main() -> int:
+    """ Output data for training """
+    word_list = [
+      ('име: noun neuter srinsertn', 'n'),
+      ('дугме: noun neuter srinsertt', 'n'),
+      ('ствар: noun feminine', 'f'),
+      ('пећ: noun feminine', 'f'),
+      ('љубав: noun feminine', 'f'),
+      ('младост: noun feminine', 'f'),
+      ('чађ: noun feminine', 'f'),
+      ('памет: noun feminine', 'f'),
+      ('кћи: noun feminine', 'f'),
+      ('мати: noun feminine', 'f'),
+      ('судија: noun masculine', 'm'),
+      ('владика: noun masculine', 'm'),
+      ('бурегџија: noun masculine', 'm'),
+      ('жена: noun feminine', 'f'),
+      ('учитељица: noun feminine', 'f'),
+      ('Небојша: noun masculine', 'm'),
+      ('Француска: noun feminine', 'f'),
+      ('Италија: noun feminine', 'f'),
+      ('Кина: noun feminine', 'f'),
+      ('претња: noun feminine', 'f'),
+      ('девојка: noun feminine', 'f'),
+      ('земља: noun feminine', 'f'),
+      ('овца: noun feminine', 'f'),
+      ('боца: noun feminine', 'f'),
+      ('коза: noun feminine', 'f'),
+      ('ташта: noun feminine', 'f'),
+      ('недеља: noun feminine', 'f'),
+    ]
+    with open("training_data.tsv", "w") as file: 
+      for word, gender in word_list:
+        for case, num, enc in [('nom', 'sg', '11'), ('gen', 'sg', '21'), ('dat', 'sg', '31'), ('acc', 'sg', '41'), ('voc', 'sg', '51'), ('ins', 'sg', '61'), ('loc', 'sg', '71'),
+                               ('nom', 'pl', '12'), ('gen', 'pl', '22'), ('dat', 'pl', '32'), ('acc', 'pl', '42'), ('voc', 'pl', '52'), ('ins', 'pl', '62'), ('loc', 'pl', '72')]:
+          stem = inflect(word, 'nom', 'sg')
+          result = inflect(word, case, num)
+          file.write(stem + gender + enc + '\t' + result + '\n')
+
+    return 0
+
+if __name__ == '__main__':
+    sys.exit(main())

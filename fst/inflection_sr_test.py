@@ -5,11 +5,13 @@ import unittest
 class TestClassification(unittest.TestCase):
 
     def test_categorize_group1(self):
-        self.assertEqual('Group1', classify('Марко', ['noun', 'masculine']))
-        self.assertEqual('Group1', classify('камен', ['noun', 'masculine']))
-        self.assertEqual('Group1', classify('Павле', ['noun', 'masculine']))
-        self.assertEqual('Group1', classify('село', ['noun', 'neuter']))
-        self.assertEqual('Group1', classify('поље', ['noun', 'neuter']))
+        self.assertEqual('Group1m', classify('Марко', ['noun', 'masculine']))
+        self.assertEqual('Group1mi', classify('камен', ['noun', 'masculine', 'inanimate']))
+        self.assertEqual('Group1mi', classify('прозор', ['noun', 'masculine', 'inanimate']))
+        self.assertEqual('Group1m', classify('ученик', ['noun', 'masculine']))
+        self.assertEqual('Group1m', classify('Павле', ['noun', 'masculine']))
+        self.assertEqual('Group1n', classify('село', ['noun', 'neuter']))
+        self.assertEqual('Group1n', classify('поље', ['noun', 'neuter']))
 
     def test_categorize_group2(self):
         self.assertEqual('Group2n', classify('име', ['noun', 'neuter', 'srinsertn']))
@@ -22,6 +24,15 @@ class TestClassification(unittest.TestCase):
 
     def test_categorize_group4(self):
         self.assertEqual('Group4', classify('ствар', ['noun', 'feminine']))
+
+    def test_inflect_group1(self):
+        self.assertEqual('ученик', inflect('ученик: noun masculine', 'nom', 'sg'))
+        self.assertEqual('ученикима', inflect('ученик: noun masculine', 'dat', 'pl'))
+        self.assertEqual('каменима', inflect('камен: noun masculine inanimate', 'dat', 'pl'))
+        self.assertEqual('село', inflect('село: noun neuter', 'nom', 'sg'))
+        self.assertEqual('селу', inflect('село: noun neuter', 'dat', 'sg'))
+        self.assertEqual('поље', inflect('поље: noun neuter', 'nom', 'sg'))
+        self.assertEqual('пољима', inflect('поље: noun neuter', 'ins', 'pl'))
 
     def test_inflect_group2(self):
         self.assertEqual('име', inflect('име: noun neuter srinsertn', 'nom', 'sg'))

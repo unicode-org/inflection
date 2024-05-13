@@ -30,10 +30,12 @@ _sigma = p.union(_v, _c).closure().optimize()
 
 # Group 1:
 #  - Masculine with nominative sg that ends with consonant, -о и -е.
+#  - Masculine forms are affected by animate/inanimate forms
 #  - Neuter with nominative sg that ends with -о и -е
 #  - Base form doesn't change in all cases
-_masc_coe = 'masculine:' + _sigma + p.union(_c, 'о', 'е') + pynutil.insert('|Group1')
-_neut_coe = 'neuter:' + _sigma + p.union('о', 'е') + pynutil.insert('|Group1')
+_masc_coe = 'masculine:' + _sigma + p.union(_c, 'о', 'е') + pynutil.insert('|Group1m')
+_neut_coe = 'neuter:' + _sigma + p.union('о', 'е') + pynutil.insert('|Group1n')
+_masc_coe_inan = 'masculine:inanimate:' + _sigma + p.union(_c, 'о', 'е') + pynutil.insert('|Group1mi')
 
 # Group 2(n,t):
 #  - Neuter with nominative sg that ends with -е
@@ -49,7 +51,7 @@ _all_a = p.union('masculine:', 'feminine:', 'neuter:') + _sigma + p.union('а') 
 #  - Feminine with nominative sg that ends with consonant.
 _fem_c = 'feminine:' + _sigma + _c + pynutil.insert('|Group4')
 
-_classify = p.union(_masc_coe, _neut_coe, _neut_en, _neut_et, _all_a, _fem_c).optimize()
+_classify = p.union(_masc_coe, _neut_coe, _masc_coe_inan, _neut_en, _neut_et, _all_a, _fem_c).optimize()
 
 # Load exceptions from the file.
 _exceptions = p.string_file(os.path.normpath('data/sr/exceptions.tsv'))
@@ -77,6 +79,78 @@ accpl = features.FeatureVector(noun, 'case=acc', 'num=pl')
 vocpl = features.FeatureVector(noun, 'case=voc', 'num=pl')
 inspl = features.FeatureVector(noun, 'case=ins', 'num=pl')
 locpl = features.FeatureVector(noun, 'case=loc', 'num=pl')
+
+# Group 1m rules
+_slot_coe = [
+  (stem, nomsg),
+  (paradigms.suffix('+а', stem), gensg),
+  (paradigms.suffix('+у', stem), datsg),
+  (paradigms.suffix('+а', stem), accsg),
+  (paradigms.suffix('+о', stem), vocsg),
+  (paradigms.suffix('+ом', stem), inssg),
+  (paradigms.suffix('+у', stem), locsg),
+  (paradigms.suffix('+и', stem), nompl),
+  (paradigms.suffix('+а', stem), genpl),
+  (paradigms.suffix('+има', stem), datpl),
+  (paradigms.suffix('+е', stem), accpl),
+  (paradigms.suffix('+и', stem), vocpl),
+  (paradigms.suffix('+има', stem), inspl),
+  (paradigms.suffix('+има', stem), locpl),
+]
+_masc_coe_para = paradigms.Paradigm(
+  category=noun,
+  name='Group 1 masculine',
+  slots=_slot_coe,
+  lemma_feature_vector=nomsg,
+  stems=[_sigma])
+
+# Group 1mi inanimate rules
+_slot_coe_i = [
+  (stem, nomsg),
+  (paradigms.suffix('+а', stem), gensg),
+  (paradigms.suffix('+у', stem), datsg),
+  (stem, accsg),
+  (paradigms.suffix('+е', stem), vocsg),
+  (paradigms.suffix('+ом', stem), inssg),
+  (paradigms.suffix('+у', stem), locsg),
+  (paradigms.suffix('+и', stem), nompl),
+  (paradigms.suffix('+а', stem), genpl),
+  (paradigms.suffix('+има', stem), datpl),
+  (paradigms.suffix('+е', stem), accpl),
+  (paradigms.suffix('+и', stem), vocpl),
+  (paradigms.suffix('+има', stem), inspl),
+  (paradigms.suffix('+има', stem), locpl),
+]
+_masc_coei_para = paradigms.Paradigm(
+  category=noun,
+  name='Group 1 masculine inanimate',
+  slots=_slot_coe_i,
+  lemma_feature_vector=nomsg,
+  stems=[_sigma])
+
+# Group 1n rules
+_slot_oe = [
+  (stem, nomsg),
+  (paradigms.suffix('+а', stem + pynutil.delete(p.union('о', 'е'))), gensg),
+  (paradigms.suffix('+у', stem + pynutil.delete(p.union('о', 'е'))), datsg),
+  (stem, accsg),
+  (stem, vocsg),
+  (paradigms.suffix('+ом', stem + pynutil.delete(p.union('о', 'е'))), inssg),
+  (paradigms.suffix('+у', stem + pynutil.delete(p.union('о', 'е'))), locsg),
+  (paradigms.suffix('+а', stem + pynutil.delete(p.union('о', 'е'))), nompl),
+  (paradigms.suffix('+а', stem + pynutil.delete(p.union('о', 'е'))), genpl),
+  (paradigms.suffix('+има', stem + pynutil.delete(p.union('о', 'е'))), datpl),
+  (paradigms.suffix('+а', stem + pynutil.delete(p.union('о', 'е'))), accpl),
+  (paradigms.suffix('+а', stem + pynutil.delete(p.union('о', 'е'))), vocpl),
+  (paradigms.suffix('+има', stem + pynutil.delete(p.union('о', 'е'))), inspl),
+  (paradigms.suffix('+има', stem + pynutil.delete(p.union('о', 'е'))), locpl),
+]
+_neut_oe_para = paradigms.Paradigm(
+  category=noun,
+  name='Group 1 neuter',
+  slots=_slot_oe,
+  lemma_feature_vector=nomsg,
+  stems=[_sigma])
 
 # Group 2n rules
 _slot_neut_en = [
@@ -192,7 +266,7 @@ def classify(singular: str, attributes: list[str]):
   We expect attributes for gender, anim/inanimate and n/t insertion.
   Attributes will be inserted before the noun, : delimited to aid classification.
   """
-  reduced_attributes = [attrib for attrib in attributes if attrib in ['masculine', 'feminine', 'neuter', 'srinsertt', 'srinsertn']]
+  reduced_attributes = [attrib for attrib in attributes if attrib in ['masculine', 'feminine', 'neuter', 'srinsertt', 'srinsertn', 'inanimate']]
   prefix = ':'.join(reduced_attributes) + ':'
   result = rewrite.one_top_rewrite(prefix + singular, _classify)
   return result.split('|')[1]
@@ -226,8 +300,12 @@ def inflect(lexicon_entry: str, noun_case: str, number: str) -> str:
   # We can probably connect classify and match into one FST and avoid this match/case section.
   # But it's ok for the first iteration.
   match group:
-    case 'Group1':
-      return('not supported')
+    case 'Group1m':
+      return(_masc_coe_para.inflect(noun, feature_vector)[0])
+    case 'Group1n':
+      return(_neut_oe_para.inflect(noun, feature_vector)[0])
+    case 'Group1mi':
+      return(_masc_coei_para.inflect(noun, feature_vector)[0])
     case 'Group2n':
       return(_neut_en_para.inflect(noun, feature_vector)[0])
     case 'Group2t':

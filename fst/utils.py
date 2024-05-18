@@ -2,6 +2,8 @@
 Helper functions
 """
 
+import pynini as p
+
 def parse_lexicon_entry(lexicon_entry: str) -> tuple[str, list[str]]:
     """
     Parses the lexicon entry in form of word: attr, attr(, attr)*
@@ -33,3 +35,10 @@ def parse_lexicon_entry(lexicon_entry: str) -> tuple[str, list[str]]:
         return (word, result)
     else:
         return (word, None)
+
+def priority_union(q: p.Fst, r: p.Fst, sigma: p.Fst) -> p.Fst:
+  """
+  If q matches the input, don't execute r. Otherwise do r.
+  """
+  complement_domain_q = sigma - p.project(q, 'input')
+  return p.union(q, complement_domain_q @ r)

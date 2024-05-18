@@ -44,7 +44,32 @@ class TestClassification(unittest.TestCase):
 
     def test_inflect_group3(self):
         self.assertEqual('судија', inflect('судија: noun masculine', 'nom', 'sg'))
+        self.assertEqual('Небојша', inflect('Небојша: noun masculine', 'voc', 'sg'))
+        self.assertEqual('учитељице', inflect('учитељица: noun feminine', 'voc', 'sg'))
+        self.assertEqual('овцо', inflect('овца: noun feminine', 'voc', 'sg'))
+        self.assertEqual('Зоро', inflect('Зора: noun feminine', 'voc', 'sg'))
+        self.assertEqual('Анђо', inflect('Анђа: noun feminine', 'voc', 'sg'))
+        self.assertEqual('Данска', inflect('Данска: noun feminine', 'voc', 'sg'))
+        self.assertEqual('Немачка', inflect('Немачка: noun feminine', 'voc', 'sg'))
+        self.assertEqual('Норвешка', inflect('Норвешка: noun feminine', 'voc', 'sg'))
+        self.assertEqual('Чехословачка', inflect('Чехословачка: noun feminine', 'voc', 'sg'))
+        self.assertEqual('Кино', inflect('Кина: noun feminine', 'voc', 'sg'))
+        self.assertEqual('птицо', inflect('птица: noun feminine', 'voc', 'sg'))
         self.assertEqual('девојкама', inflect('девојка: noun feminine', 'dat', 'pl'))
+        # Genitive plural
+        self.assertEqual('девојака', inflect('девојка: noun feminine', 'gen', 'pl'))
+        self.assertEqual('учитељица', inflect('учитељица: noun feminine', 'gen', 'pl'))
+        self.assertEqual('оваца', inflect('овца: noun feminine', 'gen', 'pl'))
+        self.assertEqual('звезда', inflect('звезда: noun feminine', 'gen', 'pl'))
+        self.assertEqual('лопти', inflect('лопта: noun feminine', 'gen', 'pl'))
+        self.assertEqual('претњи', inflect('претња: noun feminine', 'gen', 'pl'))
+        self.assertEqual('приповедака', inflect('приповетка: noun feminine', 'gen', 'pl'))
+        self.assertEqual('звезда', inflect('звезда: noun feminine', 'gen', 'pl'))
+        # Exceptions
+        self.assertEqual('Ана', inflect('Ана: noun feminine', 'voc', 'sg'))
+        self.assertEqual('Италијо', inflect('Италија: noun feminine', 'voc', 'sg'))
+        self.assertEqual('мама', inflect('мама: noun feminine', 'voc', 'sg'))
+        self.assertEqual('слугу', inflect('слуга: noun masculine', 'gen', 'pl'))
 
     def test_inflect_group4(self):
         self.assertEqual('ствар', inflect('ствар: noun feminine', 'nom', 'sg'))

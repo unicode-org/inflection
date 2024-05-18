@@ -11,10 +11,7 @@ import pynini as p
 
 from pynini.lib import pynutil
 from pynini.lib import rewrite
-
-def _priority_union(q: p.Fst, r: p.Fst, sigma: p.Fst) -> p.Fst:
-  complement_domain_q = sigma - p.project(q, 'input')
-  return p.union(q, complement_domain_q @ r)
+from utils import priority_union
 
 _v = p.union('a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U')
 _c = p.union('b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n',
@@ -52,8 +49,8 @@ _s = _sigma + pynutil.insert("s")
 # Exclusions of rules are done through priority unions.
 # Order is important, as _s rule should come in the end (catch all).
 # _exceptions->(_ies, _a, _i)->_es->s
-_plural = _priority_union(
-   _exceptions, _priority_union(_ies, _priority_union(_es, _s, _sigma),
+_plural = priority_union(
+   _exceptions, priority_union(_ies, priority_union(_es, _s, _sigma),
                                 _sigma), _sigma).optimize()
 
 def inflect(singular: str) -> str:

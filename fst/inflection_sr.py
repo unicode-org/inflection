@@ -17,13 +17,15 @@ from pynini.lib import paradigms
 from pynini.lib import pynutil
 from pynini.lib import rewrite
 from utils import parse_lexicon_entry
+from utils import priority_union
 
-_v = p.union('а', 'е', 'и', 'о', 'у', 'А', 'Е', 'И', 'О', 'У')
+_v = p.union('а', 'е', 'и', 'о', 'у')
+_v_up = p.union('А', 'Е', 'И', 'О', 'У')
 _c = p.union('б', 'в', 'г', 'д', 'ђ', 'ж', 'з', 'ј', 'к', 'л', 'љ', 'м',
-             'н', 'њ', 'п', 'р', 'с', 'т', 'ћ', 'ф', 'х', 'ц', 'ч', 'џ', 'ш',
-             'Б', 'В', 'Г', 'Д', 'Ђ', 'Ж', 'З', 'Ј', 'К', 'Л', 'Љ', 'М',
-             'Н', 'Њ', 'П', 'Р', 'С', 'Т', 'Ћ', 'Ф', 'Х', 'Ц', 'Ч', 'Џ', 'Ш')
-_sigma = p.union(_v, _c).closure().optimize()
+             'н', 'њ', 'п', 'р', 'с', 'т', 'ћ', 'ф', 'х', 'ц', 'ч', 'џ', 'ш')
+_c_up = p.union('Б', 'В', 'Г', 'Д', 'Ђ', 'Ж', 'З', 'Ј', 'К', 'Л', 'Љ', 'М',
+                'Н', 'Њ', 'П', 'Р', 'С', 'Т', 'Ћ', 'Ф', 'Х', 'Ц', 'Ч', 'Џ', 'Ш')
+_sigma = p.union(_v, _v_up, _c, _c_up).closure().optimize()
 
 # Noun group rules for classification.
 # Match pattern and append group name to the end.
@@ -200,16 +202,33 @@ _neut_et_para = paradigms.Paradigm(
   stems=[_sigma])
 
 # Group 3 rules
+_multi_3 = p.union(_v + _c.star + _v, _c.plus + _v + _c.star + _v)
+_multi_personal_3 = p.union(_v_up + _c.star + _v, _c_up + _c.star + _v + _c.star + _v)
+# Vocative singular special rules
+_ica_multi = _multi_3 + _sigma + 'иц' + p.cross('а', 'е')
+_ska_country = p.union(_c_up, _v_up) + _sigma + p.union('ска', 'чка', 'шка')
+_person_3 = _multi_personal_3 + _sigma + 'а'
+_all_3 = _sigma + p.cross('а', 'о')
+_spec_3 = p.union(_ica_multi, _person_3, _ska_country)
+_voc_3 = priority_union(_spec_3, _all_3, _sigma).optimize()
+# Genitive plural special rules
+_i_3 = p.cdrewrite(p.cross('а', 'и'), p.union('тњ', 'дњ', 'пт', 'лб', 'рв'), '', _sigma)
+_volatile_a = p.cdrewrite(p.string_map([('јк', 'јак'), ('мљ', 'маљ'), ('вц', 'вац'),
+                                        ('тк', 'так'), ('тк', 'дак'), ('пк', 'пак')]), '', 'а', _sigma)
+_spec_g_3 = _i_3 @ _volatile_a
+_all_g_3 = _sigma + 'a'
+_gen_3 = priority_union(_spec_g_3, _all_g_3, _sigma).optimize()
+
 _slot_a = [
   (paradigms.suffix('+а', stem + pynutil.delete('а')), nomsg),
   (paradigms.suffix('+е', stem + pynutil.delete('а')), gensg),
   (paradigms.suffix('+и', stem + pynutil.delete('а')), datsg),
   (paradigms.suffix('+у', stem + pynutil.delete('а')), accsg),
-  (paradigms.suffix('+о', stem + pynutil.delete('а')), vocsg),
+  (stem @ _voc_3, vocsg),
   (paradigms.suffix('+ом', stem + pynutil.delete('а')), inssg),
   (paradigms.suffix('+и', stem + pynutil.delete('а')), locsg),
   (paradigms.suffix('+е', stem + pynutil.delete('а')), nompl),
-  (paradigms.suffix('+а', stem + pynutil.delete('а')), genpl),
+  (stem @ _gen_3, genpl),
   (paradigms.suffix('+ама', stem + pynutil.delete('а')), datpl),
   (paradigms.suffix('+е', stem + pynutil.delete('а')), accpl),
   (paradigms.suffix('+е', stem + pynutil.delete('а')), vocpl),
@@ -347,6 +366,12 @@ def main() -> int:
       ('коза: noun feminine', 'f'),
       ('ташта: noun feminine', 'f'),
       ('недеља: noun feminine', 'f'),
+      ('Ана: noun feminine', 'f'),
+      ('Италија: noun feminine', 'f'),
+      ('мама: noun feminine', 'f'),
+      ('рука: noun feminine', 'f'),
+      ('слуга: noun masculine', 'm'),
+      ('нога: noun feminine', 'f'),
     ]
     with open("training_data.tsv", "w") as file: 
       for word, gender in word_list:

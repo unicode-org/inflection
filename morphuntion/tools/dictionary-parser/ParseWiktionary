@@ -1,0 +1,9 @@
+#
+# Copyright 2020-2024 Apple Inc. All rights reserved.
+#
+JAR=build/libs/dictionary-parser-all.jar
+if [ ! -e "$JAR" ]
+then
+    ../../gradlew clean fatJar
+fi
+java -Dfile.encoding=UTF-8 -cp $JAR com.apple.wiktionary.ParseWiktionary $*

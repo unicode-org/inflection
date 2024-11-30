@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2024-2024 Apple Inc. All rights reserved.
+-->
+<patterns>
+    <pattern name="1" words="8916">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular" case="genitive" definiteness="definite" gender="common"><t><stem/>ens</t></inflection>
+            <inflection number="singular" case="genitive" definiteness="indefinite" gender="common"><t><stem/>s</t></inflection>
+            <inflection number="plural" case="genitive" definiteness="definite" gender="common"><t><stem/>ernes</t></inflection>
+            <inflection number="plural" case="genitive" definiteness="indefinite" gender="common"><t><stem/>ers</t></inflection>
+            <inflection number="singular" definiteness="definite" gender="common"><t><stem/>en</t></inflection>
+            <inflection number="singular" definiteness="indefinite" gender="common"><t><stem/></t></inflection>
+            <inflection number="plural" definiteness="definite" gender="common"><t><stem/>erne</t></inflection>
+            <inflection number="plural" definiteness="indefinite" gender="common"><t><stem/>er</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="2" words="5229">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular" case="genitive" definiteness="definite" gender="common"><t><stem/>ns</t></inflection>
+            <inflection number="singular" case="genitive" definiteness="indefinite" gender="common"><t><stem/>s</t></inflection>
+            <inflection number="plural" case="genitive" definiteness="definite" gender="common"><t><stem/>rnes</t></inflection>
+            <inflection number="plural" case="genitive" definiteness="indefinite" gender="common"><t><stem/>rs</t></inflection>
+            <inflection number="singular" definiteness="definite" gender="common"><t><stem/>n</t></inflection>
+            <inflection number="singular" definiteness="indefinite" gender="common"><t><stem/></t></inflection>
+            <inflection number="plural" definiteness="definite" gender="common"><t><stem/>rne</t></inflection>
+            <inflection number="plural" definiteness="indefinite" gender="common"><t><stem/>r</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="7" words="1806">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular" case="genitive" definiteness="definite" gender="neuter"><t><stem/>ets</t></inflection>
+            <inflection number="singular" case="genitive" definiteness="indefinite" gender="neuter"><t><stem/>s</t></inflection>
+            <inflection number="plural" case="genitive" definiteness="definite" gender="neuter"><t><stem/>ernes</t></inflection>
+            <inflection number="plural" case="genitive" definiteness="indefinite" gender="neuter"><t><stem/>ers</t></inflection>
+            <inflection number="singular" definiteness="definite" gender="neuter"><t><stem/>et</t></inflection>
+            <inflection number="singular" definiteness="indefinite" gender="neuter"><t><stem/></t></inflection>
+            <inflection number="plural" definiteness="definite" gender="neuter"><t><stem/>erne</t></inflection>
+            <inflection number="plural" definiteness="indefinite" gender="neuter"><t><stem/>er</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="8" words="1785">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular" case="genitive" definiteness="definite" gender="common"><t><stem/>ens</t></inflection>
+            <inflection number="singular" case="genitive" definiteness="indefinite" gender="common"><t><stem/>s</t></inflection>
+            <inflection number="plural" case="genitive" definiteness="definite" gender="common"><t><stem/>enes</t></inflection>
+            <inflection number="plural" case="genitive" definiteness="indefinite" gender="common"><t><stem/>es</t></inflection>
+            <inflection number="singular" definiteness="definite" gender="common"><t><stem/>en</t></inflection>
+            <inflection number="singular" definiteness="indefinite" gender="common"><t><stem/></t></inflection>
+            <inflection number="plural" definiteness="definite" gender="common"><t><stem/>ene</t></inflection>
+            <inflection number="plural" definiteness="indefinite" gender="common"><t><stem/>e</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="c" words="839">
+        <pos>noun</pos>
+        <pos>proper-noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular" case="genitive" definiteness="indefinite" gender="common"><t><stem/>s</t></inflection>
+            <inflection number="singular" definiteness="indefinite" gender="common"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="15" words="267">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular" case="genitive" definiteness="definite" gender="common"><t><stem/>kens</t></inflection>
+            <inflection number="singular" case="genitive" definiteness="indefinite" gender="common"><t><stem/>s</t></inflection>
+            <inflection number="plural" case="genitive" definiteness="definite" gender="common"><t><stem/>kernes</t></inflection>
+            <inflection number="plural" case="genitive" definiteness="indefinite" gender="common"><t><stem/>kers</t></inflection>
+            <inflection number="singular" definiteness="definite" gender="common"><t><stem/>ken</t></inflection>
+            <inflection number="singular" definiteness="indefinite" gender="common"><t><stem/></t></inflection>
+            <inflection number="plural" definiteness="definite" gender="common"><t><stem/>kerne</t></inflection>
+            <inflection number="plural" definiteness="indefinite" gender="common"><t><stem/>ker</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="27" words="123">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular" case="genitive" definiteness="definite" gender="common"><t><stem/>lens</t></inflection>
+            <inflection number="singular" case="genitive" definiteness="indefinite" gender="common"><t><stem/>s</t></inflection>
+            <inflection number="plural" case="genitive" definiteness="definite" gender="common"><t><stem/>lernes</t></inflection>
+            <inflection number="plural" case="genitive" definiteness="indefinite" gender="common"><t><stem/>lers</t></inflection>
+            <inflection number="singular" definiteness="definite" gender="common"><t><stem/>len</t></inflection>
+            <inflection number="singular" definiteness="indefinite" gender="common"><t><stem/></t></inflection>
+            <inflection number="plural" definiteness="definite" gender="common"><t><stem/>lerne</t></inflection>
+            <inflection number="plural" definiteness="indefinite" gender="common"><t><stem/>ler</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="3a" words="75">
+        <pos>noun</pos>
+        <pos>proper-noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular" case="genitive" definiteness="indefinite" gender="common"><t><stem/>'</t></inflection>
+            <inflection number="singular" definiteness="indefinite" gender="common"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="5b" words="40">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular" case="genitive" definiteness="indefinite" gender="common"><t><stem/>'</t></inflection>
+            <inflection number="singular" definiteness="indefinite" gender="common"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="dc" words="8">
+        <pos>adjective</pos>
+        <suffix>el</suffix>
+        <inflections>
+            <inflection number="singular" case="genitive" definiteness="definite"><t><stem/>les</t></inflection>
+            <inflection number="singular" case="genitive" definiteness="definite"><t><stem/>lestes</t></inflection>
+            <inflection number="singular" case="genitive" definiteness="indefinite"><t><stem/>els</t></inflection>
+            <inflection number="singular" case="genitive" definiteness="indefinite"><t><stem/>elts</t></inflection>
+            <inflection number="plural" case="genitive" definiteness="definite"><t><stem/>les</t></inflection>
+            <inflection number="plural" case="genitive" definiteness="definite"><t><stem/>lestes</t></inflection>
+            <inflection number="plural" case="genitive" definiteness="indefinite"><t><stem/>les</t></inflection>
+            <inflection number="singular" case="genitive"><t><stem/>els</t></inflection>
+            <inflection number="singular" case="genitive"><t><stem/>elts</t></inflection>
+            <inflection number="singular" case="genitive"><t><stem/>leres</t></inflection>
+            <inflection number="singular" definiteness="definite"><t><stem/>le</t></inflection>
+            <inflection number="singular" definiteness="definite"><t><stem/>leste</t></inflection>
+            <inflection number="singular" definiteness="indefinite"><t><stem/>el</t></inflection>
+            <inflection number="singular" definiteness="indefinite"><t><stem/>elt</t></inflection>
+            <inflection number="singular" definiteness="indefinite"><t><stem/>lest</t></inflection>
+            <inflection number="plural" case="genitive"><t><stem/>leres</t></inflection>
+            <inflection number="plural" case="genitive"><t><stem/>les</t></inflection>
+            <inflection number="plural" definiteness="definite"><t><stem/>le</t></inflection>
+            <inflection number="plural" definiteness="definite"><t><stem/>leste</t></inflection>
+            <inflection number="plural" definiteness="indefinite"><t><stem/>le</t></inflection>
+            <inflection number="plural" definiteness="indefinite"><t><stem/>lest</t></inflection>
+            <inflection number="singular"><t><stem/>el</t></inflection>
+            <inflection number="singular"><t><stem/>elt</t></inflection>
+            <inflection number="singular"><t><stem/>lere</t></inflection>
+            <inflection number="plural"><t><stem/>le</t></inflection>
+            <inflection number="plural"><t><stem/>lere</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="4a2" words="1">
+        <pos>adjective</pos>
+        <suffix>or</suffix>
+        <inflections>
+            <inflection number="singular" case="genitive" definiteness="definite"><t><stem/>ores</t></inflection>
+            <inflection number="singular" case="genitive" definiteness="definite"><t><stem/>ørstes</t></inflection>
+            <inflection number="singular" case="genitive" definiteness="indefinite"><t><stem/>ors</t></inflection>
+            <inflection number="singular" case="genitive" definiteness="indefinite"><t><stem/>orts</t></inflection>
+            <inflection number="plural" case="genitive" definiteness="definite"><t><stem/>ores</t></inflection>
+            <inflection number="plural" case="genitive" definiteness="definite"><t><stem/>ørstes</t></inflection>
+            <inflection number="plural" case="genitive" definiteness="indefinite"><t><stem/>ores</t></inflection>
+            <inflection number="singular" case="genitive"><t><stem/>ors</t></inflection>
+            <inflection number="singular" case="genitive"><t><stem/>orts</t></inflection>
+            <inflection number="singular" case="genitive"><t><stem/>ørres</t></inflection>
+            <inflection number="singular" definiteness="definite"><t><stem/>ore</t></inflection>
+            <inflection number="singular" definiteness="definite"><t><stem/>ørste</t></inflection>
+            <inflection number="singular" definiteness="indefinite"><t><stem/>or</t></inflection>
+            <inflection number="singular" definiteness="indefinite"><t><stem/>ort</t></inflection>
+            <inflection number="singular" definiteness="indefinite"><t><stem/>ørst</t></inflection>
+            <inflection number="plural" case="genitive"><t><stem/>ores</t></inflection>
+            <inflection number="plural" case="genitive"><t><stem/>ørres</t></inflection>
+            <inflection number="plural" definiteness="definite"><t><stem/>ore</t></inflection>
+            <inflection number="plural" definiteness="definite"><t><stem/>ørste</t></inflection>
+            <inflection number="plural" definiteness="indefinite"><t><stem/>ore</t></inflection>
+            <inflection number="plural" definiteness="indefinite"><t><stem/>ørst</t></inflection>
+            <inflection number="singular"><t><stem/>or</t></inflection>
+            <inflection number="singular"><t><stem/>ort</t></inflection>
+            <inflection number="singular"><t><stem/>ørre</t></inflection>
+            <inflection number="plural"><t><stem/>ore</t></inflection>
+            <inflection number="plural"><t><stem/>ørre</t></inflection>
+        </inflections>
+    </pattern>
+</patterns>

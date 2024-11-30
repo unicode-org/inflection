@@ -1,0 +1,190 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!--
+ Copyright 2021-2024 Apple Inc. All rights reserved.
+-->
+<inflectionTest locale="tr">
+    <test><source/><result interrogativeArticle=" mi"/></test>
+    <test><source>qzxyzq</source><result interrogativeArticle="qzxyzq mi"/></test>
+    <test><source>kitap</source><result interrogativeArticle="kitap mı"/></test>
+    <test><source>terlik</source><result interrogativeArticle="terlik mi"/></test>
+    <test><source>okul</source><result interrogativeArticle="okul mu"/></test>
+    <test><source>gözlük</source><result interrogativeArticle="gözlük mü"/></test>
+
+    <test><source/><result deConjunction=" de"/></test>
+    <test><source>qzxyzq</source><result deConjunction="qzxyzq de"/></test>
+    <test><source>kitap</source><result deConjunction="kitap da"/></test>
+    <test><source>terlik</source><result deConjunction="terlik de"/></test>
+
+    <test><source>alarm</source><result>alarm</result></test>
+    <test><source number="plural">alarm</source><result>alarmlar</result></test>
+    <test><source/><result/></test>
+    <test><source>iPhone</source><result>iPhone</result></test>
+    <test><source>Miami’</source><result>Miami’</result></test>
+    <test><source number="plural" person="first" pronounNumber="plural" case="ablative" copula="third" tense="present">alarm</source><result>alarmlarımızdandır</result></test>
+    <test><source number="plural" person="third" pronounNumber="singular">alarm</source><result>alarmları</result></test>
+    <test><source number="singular" person="third" pronoun="plural">alarm</source><result>alarmları</result></test> <!-- TODO change pronoun to pronounNumber when it's no longer in use. -->
+    <test><source number="plural" person="third" pronounNumber="plural">alarm</source><result>alarmları</result></test>
+    <test><source case="accusative">uçak</source><result>uçağı</result></test>
+    <test><source case="accusative">küp</source><result>küpü</result></test>
+    <test><source case="accusative">knot</source><result>knotu</result></test>
+    <test><source case="locative">uçak</source><result>uçakta</result></test>
+    <test><source case="accusative">arka</source><result>arkayı</result></test>
+    <test><source case="accusative" person="third" pronounNumber="singular">arka</source><result>arkasını</result></test>
+    <test><source case="accusative">Uçak'</source><result>Uçak'ı</result></test>
+    <test><source case="accusative">Uçak’</source><result>Uçak’ı</result></test>
+    <test><source case="accusative">"Uçak"</source><result>"Uçak"ı</result></test>
+    <test><source case="accusative">Uçak </source><result>Uçak ı</result></test>
+    <test><source case="accusative">iPhone</source><result>iPhone’u</result></test>
+    <test><source case="accusative">iPad'</source><result>iPad’i</result></test>
+    <test><source case="accusative">Domino’s’</source><result>Domino’s’u</result></test>
+    <test><source case="accusative">Domino’s</source><result>Domino’su</result></test>
+    <test><source case="accusative">IKEA’</source><result>IKEA’yı</result></test>
+    <test><source case="dative">6:00’</source><result>6:00’ya</result></test>
+    <test><source case="dative">6:01’</source><result>6:01’e</result></test>
+    <test><source case="locative">pazar 6:00’</source><result>pazar 6:00’da</result></test>
+    <test><source case="locative">pazar ÖS 6’</source><result>pazar ÖS 6’da</result></test>
+    <test><source case="locative">Mart 2013</source><result>Mart 2013’te</result></test>
+    <test><source case="dative">6,80</source><result>6,80’e</result></test>
+    <test><source case="dative">2,00</source><result>2,00’ye</result></test>
+    <test><source case="dative">00:00</source><result>00:00’a</result></test>
+    <test><source case="dative">3.000</source><result>3.000’e</result></test>
+    <test><source case="dative">21.12.2009</source><result>21.12.2009’a</result></test>
+    <test><source case="dative">0 555 333 22 17</source><result>0 555 333 22 17’ye</result></test>
+    <test><source case="dative">Numara 0</source><result>Numara 0’a</result></test>
+    <test><source case="accusative">Blink23</source><result>Blink23’ü</result></test>
+    <test><source case="accusative">Blink23”</source><result>Blink23”ü</result></test>
+    <test><source case="dative">3.</source><result>3.’ye</result></test>
+    <test><source case="dative">,'</source><result>,'e</result></test>
+    <test><source case="dative">😎’</source><result>😎’e</result></test>
+    <test><source case="genitive">Sanayi ve Ticaret A.Ş.</source><result>Sanayi ve Ticaret A.Ş.’nin</result></test>
+    <test><source case="dative">Galata Kulesi</source><result>Galata Kulesine</result></test>
+    <test><source case="locative">Amerika Birleşik Devletleri’</source><result>Amerika Birleşik Devletleri’nde</result></test>
+    <test><source case="locative">Birleşik Arap Emirlikleri’</source><result>Birleşik Arap Emirlikleri’nde</result></test>
+    <test><source case="locative" person="second" pronounNumber="singular">Apple Watch</source><result>Apple Watch’unda</result></test>
+    <test><source copula="third" tense="present">garaj kapısı</source><result>garaj kapısıdır</result></test>
+    <test><source person="first" pronounNumber="plural">el feneri</source><result>el fenerimiz</result></test>
+    <test><source person="second" pronounNumber="singular">El Feneri’</source><result>El Feneri’n</result></test>
+    <test><source person="third" pronounNumber="singular">El Feneri’</source><result>El Feneri’si</result></test>
+    <test><source case="dative">Merkez Cami’</source><result>Merkez Cami’ye</result></test>
+    <test><source case="locative">Şampiyonlar Ligi’</source><result>Şampiyonlar Ligi’nde</result></test>
+    <test><source case="dative">Avrupa Ligi’</source><result>Avrupa Ligi’ne</result></test>
+    <test><source case="ablative">Zlatan Ibrahimović’</source><result>Zlatan Ibrahimović’ten</result></test>
+    <test><source case="accusative">Ousmane Dembélé’</source><result>Ousmane Dembélé’yi</result></test>
+    <test><source case="accusative">Testó’</source><result>Testó’yu</result></test>
+    <test><source case="accusative">Manchester United’</source><result>Manchester United’ı</result></test>
+    <test><source case="accusative">Chelsea’</source><result>Chelsea’yi</result></test>
+    <test><source case="accusative">Lakers’</source><result>Lakers’ı</result></test>
+    <test><source case="accusative">basket</source><result>basketi</result></test>
+    <test><source case="accusative">faul</source><result>faulü</result></test>
+    <test><source case="locative">NBA Finalleri’</source><result>NBA Finalleri’nde</result></test>
+    <test><source case="accusative">Gençlerbirliği’</source><result>Gençlerbirliği’ni</result></test>
+    <test><source case="accusative">Ankaragücü’</source><result>Ankaragücü’nü</result></test>
+    <test><source case="dative">Kuşadası’</source><result>Kuşadası’na</result></test>
+    <test><source case="dative">Taşucu’</source><result>Taşucu’na</result></test>
+    <test><source case="dative">Atatürk Havalimanı’</source><result>Atatürk Havalimanı’na</result></test>
+    <test><source case="dative">Esenboğa Havaalanı’</source><result>Esenboğa Havaalanı’na</result></test>
+    <test><source person="first">alarm</source><result>alarmım</result></test>
+    <test><source tense="present">alarm</source><result>alarmdır</result></test>
+    <test><source case="dative">gol</source><result>gole</result></test>
+    <test><source case="dative">avukat</source><result>avukata</result></test>
+    <test><source case="dative">tuvalet</source><result>tuvalete</result></test>
+    <test><source case="dative">noter</source><result>notere</result></test>
+    <test><source case="dative">Kemal’</source><result>Kemal’e</result></test>
+    <test><source case="genitive">Tom Cruise’</source><result>Tom Cruise’un</result></test>
+    <test><source case="dative">Stockholm’</source><result>Stockholm’e</result></test>
+    <test><source case="dative">Bilal’</source><result>Bilal’e</result></test>
+    <test><source case="dative">Yasemin Mori’</source><result>Yasemin Mori’ye</result></test>
+    <test><source case="accusative">cep</source><result>cebi</result></test>
+    <test><source case="accusative">kürk</source><result>kürkü</result></test>
+    <test><source case="accusative">renk</source><result>rengi</result></test>
+    <test><source case="locative">renk</source><result>renkte</result></test>
+    <test><source case="accusative">ampul</source><result>ampulü</result></test>
+    <test><source case="accusative">pist</source><result>pisti</result></test>
+    <test><source case="accusative">kâr</source><result>kârı</result></test>
+    <test><source case="accusative">termostat</source><result>termostatı</result></test>
+    <test><source case="accusative">limit</source><result>limiti</result></test>
+    <test><source case="dative">market</source><result>markete</result></test>
+    <test><source case="locative">Xerox’</source><result>Xerox’ta</result></test>
+    <test><source case="ablative">Clorox’</source><result>Clorox’tan</result></test>
+    <test><source case="accusative">iPhone</source><result>iPhone’u</result></test>
+    <test><source case="locative">iPhone</source><result>iPhone’da</result></test>
+    <test><source case="accusative">iPad</source><result>iPad’i</result></test>
+    <test><source case="locative">iPad</source><result>iPad’de</result></test>
+    <test><source case="accusative">3D touch</source><result>3D touch’ı</result></test>
+    <test><source case="locative">3D touch</source><result>3D touch’ta</result></test>
+    <test><source case="accusative">iBooks</source><result>iBooks’u</result></test>
+    <test><source case="locative">iBooks</source><result>iBooks’da</result></test>
+    <test><source case="accusative">App Store</source><result>App Store’u</result></test>
+    <test><source case="locative">App Store</source><result>App Store’da</result></test>
+    <test><source case="accusative">MacBook</source><result>MacBook’u</result></test>
+    <test><source case="locative">MacBook</source><result>MacBook’ta</result></test>
+    <test><source case="accusative">iMac</source><result>iMac’i</result></test>
+    <test><source case="locative">iMac</source><result>iMac’te</result></test>
+    <test><source case="accusative">Apple Music</source><result>Apple Music’i</result></test>
+    <test><source case="locative">Apple Music</source><result>Apple Music’te</result></test>
+    <test><source case="accusative">iTunes Match</source><result>iTunes Match’i</result></test>
+    <test><source case="locative">iTunes Match</source><result>iTunes Match’te</result></test>
+    <test><source case="accusative">iTunes Pass</source><result>iTunes Pass’i</result></test>
+    <test><source case="locative">iTunes Pass</source><result>iTunes Pass’te</result></test>
+    <test><source case="accusative">Wallet</source><result>Wallet’ı</result></test>
+    <test><source case="locative">Wallet</source><result>Wallet’ta</result></test>
+    <test><source case="accusative">iCloud Drive</source><result>iCloud Drive’ı</result></test>
+    <test><source case="locative">iCloud Drive</source><result>iCloud Drive’da</result></test>
+    <test><source case="accusative">Apple Watch</source><result>Apple Watch’u</result></test>
+    <test><source case="locative">Apple Watch</source><result>Apple Watch’ta</result></test>
+    <test><source case="accusative">Beats</source><result>Beats’i</result></test>
+    <test><source case="locative">Beats</source><result>Beats’te</result></test>
+    <test><source case="accusative">iPad Pro</source><result>iPad Pro’yu</result></test>
+    <test><source case="locative">iPad Pro</source><result>iPad Pro’da</result></test>
+    <test><source case="accusative">iPad Air</source><result>iPad Air’i</result></test>
+    <test><source case="locative">iPad Air</source><result>iPad Air’de</result></test>
+    <test><source case="accusative">Split View</source><result>Split View’i</result></test>
+    <test><source case="locative">Split View</source><result>Split View’de</result></test>
+    <test><source case="accusative">GarageBand</source><result>GarageBand’i</result></test>
+    <test><source case="locative">GarageBand</source><result>GarageBand’de</result></test>
+    <test><source case="accusative">Pages</source><result>Pages’ı</result></test>
+    <test><source case="locative">Pages</source><result>Pages’da</result></test>
+    <test><source case="accusative">Numbers</source><result>Numbers’ı</result></test>
+    <test><source case="locative">Numbers</source><result>Numbers’da</result></test>
+    <test><source case="accusative">iTunes</source><result>iTunes’u</result></test>
+    <test><source case="locative">iTunes</source><result>iTunes’da</result></test>
+    <test><source case="accusative">News</source><result>News’i</result></test>
+    <test><source case="locative">News</source><result>News’de</result></test>
+    <test><source case="accusative">iOS</source><result>iOS’i</result></test>
+    <test><source case="locative">iOS</source><result>iOS’te</result></test>
+    <test><source case="accusative">TestFlight</source><result>TestFlight’ı</result></test>
+    <test><source case="locative">TestFlight</source><result>TestFlight’ta</result></test>
+    <test><source case="locative" copula="third" tense="past">okul</source><result>okuldaydı</result></test>
+    <test><source case="locative" copula="third" tense="past">Eir Sport’</source><result>Eir Sport’taydı</result></test>
+    <test><source case="accusative">Country’</source><result>Country’yi</result></test>
+    <test><source case="locative">Podcasts</source><result>Podcasts’te</result></test>
+    <test><source case="accusative">iPhone 7S’</source><result>iPhone 7S’yi</result></test>
+    <test><source person="third" pronounNumber="singular" case="genitive">iPhone XR’</source><result>iPhone XR’sinin</result></test>
+    <test><source case="accusative">Apple TV 4K’</source><result>Apple TV 4K’yı</result></test>
+    <test><source case="dative">gece yarısı</source><result>gece yarısına</result></test>
+    <test><source case="accusative">playlist</source><result>playlist’i</result></test>
+    <test><source case="accusative">Wi-Fi</source><result>Wi-Fi’ı</result></test>
+    <test><source case="dative">Zuhal’</source><result>Zuhal’e</result></test>
+    <test><source case="locative">müzikal</source><result>müzikalde</result></test>
+    <test><source case="accusative">mail’</source><result>mail’i</result></test>
+    <test><source case="locative">mail’</source><result>mail’de</result></test>
+    <test><source case="accusative">artist</source><result>artisti</result></test>
+    <test><source case="dative">sohbet</source><result>sohbete</result></test>
+    <test><source case="genitive">cumhuriyet</source><result>cumhuriyetin</result></test>
+    <test><source case="accusative">sepet</source><result>sepeti</result></test>
+    <test><source case="accusative">adalet</source><result>adaleti</result></test>
+    <test><source tense="past">iki</source><result>ikiydi</result></test>
+    <test><source person="third" tense="past">araba</source><result>arabasıydı</result></test>
+    <test><source copula="first" tense="present">sıkıcı</source><result>sıkıcıyım</result></test>
+    <test><source copula="first" person="third" tense="present">abla</source><result>ablasıyım</result></test>
+    <test><source case="instrumental">abla</source><result>ablayla</result></test>
+    <test><source case="instrumental">kalem</source><result>kalemle</result></test>
+    <test><source case="instrumental">elbise</source><result>elbiseyle</result></test>
+    <test><source case="instrumental">kaşık</source><result>kaşıkla</result></test>
+    <test><source case="accusative">bu</source><result>bunu</result></test>
+    <test><source case="accusative">şu</source><result>şunu</result></test>
+    <test><source case="dative">o</source><result>ona</result></test>
+    <test><source case="locative">şu</source><result>şunda</result></test>
+    <test><source copula="first" person="third" tense="present" case="instrumental">abla</source><result>ablasıylayım</result></test>
+    <test><source case="dative">°C’</source><result>°C’ye</result></test>
+</inflectionTest>

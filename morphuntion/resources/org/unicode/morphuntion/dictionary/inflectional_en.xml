@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2024-2024 Apple Inc. All rights reserved.
+-->
+<patterns>
+    <pattern name="1" words="224438">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular"><t><stem/></t></inflection>
+            <inflection number="plural"><t><stem/>s</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="2" words="39764">
+        <pos>proper-noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular"><t><stem/></t></inflection>
+            <inflection number="plural"><t><stem/>s</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="3" words="26607">
+        <pos>verb</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular" person="first" tense="present"><t><stem/></t></inflection>
+            <inflection number="singular" person="second" tense="present"><t><stem/></t></inflection>
+            <inflection number="singular" person="third" tense="present"><t><stem/>s</t></inflection>
+            <inflection number="plural" person="first" tense="present"><t><stem/></t></inflection>
+            <inflection number="plural" person="second" tense="present"><t><stem/></t></inflection>
+            <inflection number="plural" person="third" tense="present"><t><stem/></t></inflection>
+            <inflection number="singular" tense="past"><t><stem/>ed</t></inflection>
+            <inflection number="plural" tense="past"><t><stem/>ed</t></inflection>
+            <inflection tense="past" verb-type="participle"><t><stem/>ed</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/></t></inflection>
+            <inflection verb-type="gerund"><t><stem/>ing</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="4" words="22473">
+        <pos>verb</pos>
+        <suffix>e</suffix>
+        <inflections>
+            <inflection number="singular" person="first" tense="present"><t><stem/>e</t></inflection>
+            <inflection number="singular" person="second" tense="present"><t><stem/>e</t></inflection>
+            <inflection number="singular" person="third" tense="present"><t><stem/>es</t></inflection>
+            <inflection number="plural" person="first" tense="present"><t><stem/>e</t></inflection>
+            <inflection number="plural" person="second" tense="present"><t><stem/>e</t></inflection>
+            <inflection number="plural" person="third" tense="present"><t><stem/>e</t></inflection>
+            <inflection number="singular" tense="past"><t><stem/>ed</t></inflection>
+            <inflection number="plural" tense="past"><t><stem/>ed</t></inflection>
+            <inflection tense="past" verb-type="participle"><t><stem/>ed</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>e</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>ing</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="6" words="18178">
+        <pos>noun</pos>
+        <suffix>y</suffix>
+        <inflections>
+            <inflection number="singular"><t><stem/>y</t></inflection>
+            <inflection number="plural"><t><stem/>ies</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="7" words="16841">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular"><t><stem/></t></inflection>
+            <inflection number="plural"><t><stem/>es</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="8" words="12487">
+        <pos>proper-noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="9" words="3989">
+        <pos>verb</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular" person="first" tense="present"><t><stem/></t></inflection>
+            <inflection number="singular" person="second" tense="present"><t><stem/></t></inflection>
+            <inflection number="singular" person="third" tense="present"><t><stem/>es</t></inflection>
+            <inflection number="plural" person="first" tense="present"><t><stem/></t></inflection>
+            <inflection number="plural" person="second" tense="present"><t><stem/></t></inflection>
+            <inflection number="plural" person="third" tense="present"><t><stem/></t></inflection>
+            <inflection number="singular" tense="past"><t><stem/>ed</t></inflection>
+            <inflection number="plural" tense="past"><t><stem/>ed</t></inflection>
+            <inflection tense="past" verb-type="participle"><t><stem/>ed</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/></t></inflection>
+            <inflection verb-type="gerund"><t><stem/>ing</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="a" words="3584">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular"><t><stem/></t></inflection>
+            <inflection number="plural"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="b" words="3103">
+        <pos>proper-noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular"><t><stem/></t></inflection>
+            <inflection number="plural"><t><stem/>es</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="c" words="2538">
+        <pos>noun</pos>
+        <suffix>an</suffix>
+        <inflections>
+            <inflection number="singular"><t><stem/>an</t></inflection>
+            <inflection number="plural"><t><stem/>en</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="10" words="1495">
+        <pos>noun</pos>
+        <suffix>is</suffix>
+        <inflections>
+            <inflection number="singular"><t><stem/>is</t></inflection>
+            <inflection number="plural"><t><stem/>es</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="14" words="769">
+        <pos>verb</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular" person="first" tense="present"><t><stem/></t></inflection>
+            <inflection number="singular" person="second" tense="present"><t><stem/></t></inflection>
+            <inflection number="singular" person="third" tense="present"><t><stem/>s</t></inflection>
+            <inflection number="plural" person="first" tense="present"><t><stem/></t></inflection>
+            <inflection number="plural" person="second" tense="present"><t><stem/></t></inflection>
+            <inflection number="plural" person="third" tense="present"><t><stem/></t></inflection>
+            <inflection number="singular" tense="past"><t><stem/>ged</t></inflection>
+            <inflection number="plural" tense="past"><t><stem/>ged</t></inflection>
+            <inflection tense="past" verb-type="participle"><t><stem/>ged</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/></t></inflection>
+            <inflection verb-type="gerund"><t><stem/>ging</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="15" words="691">
+        <pos>noun</pos>
+        <suffix>us</suffix>
+        <inflections>
+            <inflection number="singular"><t><stem/>us</t></inflection>
+            <inflection number="plural"><t><stem/>i</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="1d" words="456">
+        <pos>verb</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular" person="first" tense="present"><t><stem/></t></inflection>
+            <inflection number="singular" person="second" tense="present"><t><stem/></t></inflection>
+            <inflection number="singular" person="third" tense="present"><t><stem/>s</t></inflection>
+            <inflection number="plural" person="first" tense="present"><t><stem/></t></inflection>
+            <inflection number="plural" person="second" tense="present"><t><stem/></t></inflection>
+            <inflection number="plural" person="third" tense="present"><t><stem/></t></inflection>
+            <inflection number="singular" tense="past"><t><stem/>ned</t></inflection>
+            <inflection number="plural" tense="past"><t><stem/>ned</t></inflection>
+            <inflection tense="past" verb-type="participle"><t><stem/>ned</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/></t></inflection>
+            <inflection verb-type="gerund"><t><stem/>ning</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="26" words="327">
+        <pos>determiner</pos>
+    </pattern>
+    <pattern name="63" words="36">
+        <pos>noun</pos>
+        <suffix>ouse</suffix>
+        <inflections>
+            <inflection number="singular"><t><stem/>ouse</t></inflection>
+            <inflection number="plural"><t><stem/>ice</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="83" words="27">
+        <pos>verb</pos>
+        <suffix>ad</suffix>
+        <inflections>
+            <inflection number="singular" person="first" tense="present"><t><stem/>ad</t></inflection>
+            <inflection number="singular" person="second" tense="present"><t><stem/>ad</t></inflection>
+            <inflection number="singular" person="third" tense="present"><t><stem/>ads</t></inflection>
+            <inflection number="plural" person="first" tense="present"><t><stem/>ad</t></inflection>
+            <inflection number="plural" person="second" tense="present"><t><stem/>ad</t></inflection>
+            <inflection number="plural" person="third" tense="present"><t><stem/>ad</t></inflection>
+            <inflection number="singular" tense="past"><t><stem/>d</t></inflection>
+            <inflection number="plural" tense="past"><t><stem/>d</t></inflection>
+            <inflection tense="past" verb-type="participle"><t><stem/>d</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>ad</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>ading</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="9e" words="18">
+        <pos>verb</pos>
+        <suffix>ght</suffix>
+        <inflections>
+            <inflection number="singular" person="first" tense="present"><t><stem/>ght</t></inflection>
+            <inflection number="singular" person="second" tense="present"><t><stem/>ght</t></inflection>
+            <inflection number="singular" person="third" tense="present"><t><stem/>ghts</t></inflection>
+            <inflection number="plural" person="first" tense="present"><t><stem/>ght</t></inflection>
+            <inflection number="plural" person="second" tense="present"><t><stem/>ght</t></inflection>
+            <inflection number="plural" person="third" tense="present"><t><stem/>ght</t></inflection>
+            <inflection number="singular" tense="past"><t><stem/>t</t></inflection>
+            <inflection number="plural" tense="past"><t><stem/>t</t></inflection>
+            <inflection tense="past" verb-type="participle"><t><stem/>t</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>ght</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>ghting</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="f4" words="9">
+        <pos>noun</pos>
+        <suffix>oose</suffix>
+        <inflections>
+            <inflection number="singular"><t><stem/>oose</t></inflection>
+            <inflection number="plural"><t><stem/>eese</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="fa" words="9">
+        <pos>verb</pos>
+        <suffix>ve</suffix>
+        <inflections>
+            <inflection number="singular" person="first" tense="present"><t><stem/>ve</t></inflection>
+            <inflection number="singular" person="second" tense="present"><t><stem/>ve</t></inflection>
+            <inflection number="singular" person="third" tense="present"><t><stem/>s</t></inflection>
+            <inflection number="plural" person="first" tense="present"><t><stem/>ve</t></inflection>
+            <inflection number="plural" person="second" tense="present"><t><stem/>ve</t></inflection>
+            <inflection number="plural" person="third" tense="present"><t><stem/>ve</t></inflection>
+            <inflection number="singular" tense="past"><t><stem/>d</t></inflection>
+            <inflection number="plural" tense="past"><t><stem/>d</t></inflection>
+            <inflection tense="past" verb-type="participle"><t><stem/>d</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>ve</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>ving</t></inflection>
+            <inflection number="singular" person="second" tense="present"><t><stem/>st</t></inflection>
+            <inflection number="singular" person="third" tense="present"><t><stem/>th</t></inflection>
+            <inflection number="plural" person="first" tense="present"><t><stem/>st</t></inflection>
+            <inflection number="plural" person="second" tense="present"><t><stem/>st</t></inflection>
+            <inflection number="plural" person="third" tense="present"><t><stem/>st</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="15d" words="9">
+        <pos>determiner</pos>
+        <suffix>is</suffix>
+        <inflections>
+            <inflection number="singular" definiteness="demonstrative"><t><stem/>is</t></inflection>
+            <inflection number="plural" definiteness="demonstrative"><t><stem/>ese</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="17f" words="9">
+        <pos>noun</pos>
+        <suffix>us maximus</suffix>
+        <inflections>
+            <inflection number="singular"><t><stem/>us maximus</t></inflection>
+            <inflection number="plural"><t><stem/>i maximi</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="18b" words="9">
+        <pos>determiner</pos>
+        <suffix>at</suffix>
+        <inflections>
+            <inflection number="singular" definiteness="demonstrative"><t><stem/>at</t></inflection>
+            <inflection number="plural" definiteness="demonstrative"><t><stem/>ose</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="1b0" words="9">
+        <pos>verb</pos>
+        <suffix>be</suffix>
+        <inflections>
+            <inflection number="singular" person="first" tense="present"><t><stem/>am</t></inflection>
+            <inflection number="singular" person="second" tense="present"><t><stem/>are</t></inflection>
+            <inflection number="singular" person="third" tense="present"><t><stem/>is</t></inflection>
+            <inflection number="plural" person="first" tense="present"><t><stem/>are</t></inflection>
+            <inflection number="plural" person="second" tense="present"><t><stem/>are</t></inflection>
+            <inflection number="plural" person="third" tense="present"><t><stem/>are</t></inflection>
+            <inflection number="singular" tense="past"><t><stem/>was</t></inflection>
+            <inflection number="singular" tense="past"><t><stem/>wast</t></inflection>
+            <inflection number="plural" tense="past"><t><stem/>were</t></inflection>
+            <inflection tense="past" verb-type="participle"><t><stem/>been</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>be</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>being</t></inflection>
+            <inflection number="singular" tense="past"><t><stem/>wert</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="1c9" words="9">
+        <pos>verb</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular" person="first" tense="present"><t><stem/></t></inflection>
+            <inflection number="singular" person="second" tense="present"><t><stem/></t></inflection>
+            <inflection number="singular" person="third" tense="present"><t><stem/>s</t></inflection>
+            <inflection number="plural" person="first" tense="present"><t><stem/></t></inflection>
+            <inflection number="plural" person="second" tense="present"><t><stem/></t></inflection>
+            <inflection number="plural" person="third" tense="present"><t><stem/></t></inflection>
+            <inflection number="singular" tense="past"><t><stem/>ted</t></inflection>
+            <inflection number="plural" tense="past"><t><stem/>ted</t></inflection>
+            <inflection tense="past" verb-type="participle"><t><stem/>ted</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/></t></inflection>
+            <inflection verb-type="gerund"><t><stem/>tin'</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>ting</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="2e5" words="1">
+        <pos>proper-noun</pos>
+        <suffix> of America</suffix>
+        <inflections>
+            <inflection number="singular"><t><stem/></t></inflection>
+            <inflection number="singular"><t><stem/> of America</t></inflection>
+            <inflection number="plural"><t><stem/> of Americas</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="33b" words="1">
+        <pos>noun</pos>
+        <suffix>er</suffix>
+        <inflections>
+            <inflection number="singular"><t><stem/>a</t></inflection>
+            <inflection number="singular"><t><stem/>er</t></inflection>
+            <inflection number="plural"><t><stem/>ers</t></inflection>
+        </inflections>
+    </pattern>
+</patterns>

@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2024-2024 Apple Inc. All rights reserved.
+-->
+<patterns>
+    <pattern name="1" words="2184">
+        <pos>noun</pos>
+        <suffix>ה</suffix>
+        <inflections>
+            <inflection number="singular" definiteness="construct" gender="feminine"><t><stem/>ת</t></inflection>
+            <inflection number="singular" gender="feminine"><t><stem/>ה</t></inflection>
+            <inflection number="plural" gender="feminine"><t><stem/>ות</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="4" words="1950">
+        <pos>adjective</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular" gender="masculine"><t><stem/></t></inflection>
+            <inflection number="singular" gender="feminine"><t><stem/>ת</t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>ים</t></inflection>
+            <inflection number="plural" gender="feminine"><t><stem/>ות</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="5" words="1948">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="plural" definiteness="construct" gender="masculine"><t><stem/>י</t></inflection>
+            <inflection number="singular" gender="masculine"><t><stem/></t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>ים</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="7" words="1505">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular" gender="masculine"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="a" words="892">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular" gender="masculine"><t><stem/></t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>ים</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="b" words="752">
+        <pos>noun</pos>
+        <suffix>ת</suffix>
+        <inflections>
+            <inflection number="singular" gender="feminine"><t><stem/>ת</t></inflection>
+            <inflection number="plural" gender="feminine"><t><stem/>יות</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="f" words="558">
+        <pos>noun</pos>
+        <suffix>ה</suffix>
+        <inflections>
+            <inflection number="singular" definiteness="construct" gender="feminine"><t><stem/>ית</t></inflection>
+            <inflection number="singular" gender="feminine"><t><stem/>ה</t></inflection>
+            <inflection number="plural" gender="feminine"><t><stem/>ות</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="10" words="553">
+        <pos>noun</pos>
+        <pos>proper-noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular" gender="masculine"><t><stem/></t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>ים</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="11" words="510">
+        <pos>noun</pos>
+        <suffix>ן</suffix>
+        <inflections>
+            <inflection number="plural" definiteness="construct" gender="masculine"><t><stem/>ני</t></inflection>
+            <inflection number="singular" gender="masculine"><t><stem/>ן</t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>נים</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="13" words="497">
+        <pos>noun</pos>
+        <suffix>ת</suffix>
+        <inflections>
+            <inflection number="singular" gender="feminine"><t><stem/>ת</t></inflection>
+            <inflection number="plural" gender="feminine"><t><stem/>ות</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="14" words="433">
+        <pos>adjective</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular" definiteness="construct" gender="feminine"><t><stem/>ת</t></inflection>
+            <inflection number="plural" definiteness="construct" gender="masculine"><t><stem/>י</t></inflection>
+            <inflection number="singular" gender="masculine"><t><stem/></t></inflection>
+            <inflection number="singular" gender="feminine"><t><stem/>ה</t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>ים</t></inflection>
+            <inflection number="plural" gender="feminine"><t><stem/>ות</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="18" words="245">
+        <pos>noun</pos>
+        <suffix>ן</suffix>
+        <inflections>
+            <inflection number="singular" gender="masculine"><t><stem/>ן</t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>נים</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="1b" words="199">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="plural" definiteness="construct" gender="masculine"><t><stem/>י</t></inflection>
+            <inflection number="singular" gender="masculine"><t><stem/></t></inflection>
+            <inflection number="singular" gender="feminine"><t><stem/>ת</t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>ים</t></inflection>
+            <inflection number="plural" gender="feminine"><t><stem/>ות</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="20" words="150">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="plural" definiteness="construct" gender="masculine"><t><stem/>י</t></inflection>
+            <inflection number="singular" gender="masculine"><t><stem/></t></inflection>
+            <inflection number="singular" gender="feminine"><t><stem/>ית</t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>ים</t></inflection>
+            <inflection number="plural" gender="feminine"><t><stem/>יות</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="2d" words="80">
+        <pos>noun</pos>
+        <suffix>ך</suffix>
+        <inflections>
+            <inflection number="plural" definiteness="construct" gender="masculine"><t><stem/>כי</t></inflection>
+            <inflection number="singular" gender="masculine"><t><stem/>ך</t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>כים</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="3d" words="47">
+        <pos>noun</pos>
+        <suffix>ן</suffix>
+        <inflections>
+            <inflection number="singular" gender="masculine"><t><stem/>ן</t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>נות</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="5a" words="25">
+        <pos>noun</pos>
+        <pos>proper-noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular" gender="masculine"><t><stem/></t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>אים</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="f6" words="4">
+        <pos>noun</pos>
+        <pos>proper-noun</pos>
+        <suffix>ם</suffix>
+        <inflections>
+            <inflection number="plural" definiteness="construct" gender="masculine"><t><stem/>מי</t></inflection>
+            <inflection number="singular" gender="masculine"><t><stem/>ם</t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>מים</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="2cc" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular" gender="feminine"><t><stem/></t></inflection>
+            <inflection number="plural" gender="feminine"><t><stem/>ות</t></inflection>
+            <inflection number="plural" gender="feminine"><t><stem/>יים</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="2cd" words="1">
+        <pos>noun</pos>
+        <pos>proper-noun</pos>
+        <suffix>א</suffix>
+        <inflections>
+            <inflection number="singular" definiteness="construct" gender="feminine"><t><stem/>ת</t></inflection>
+            <inflection number="singular" gender="feminine"><t><stem/>א</t></inflection>
+            <inflection number="singular" gender="feminine"><t><stem/>ה</t></inflection>
+            <inflection number="plural" gender="feminine"><t><stem/>ות</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="478" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular" definiteness="construct" gender="feminine"><t><stem/>ת</t></inflection>
+            <inflection number="plural" definiteness="construct" gender="masculine"><t><stem/>י</t></inflection>
+            <inflection number="singular" gender="masculine"><t><stem/></t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>ים</t></inflection>
+            <inflection number="plural" gender="feminine"><t><stem/>ות</t></inflection>
+            <inflection gender="masculine"><t><stem/>ה</t></inflection>
+            <inflection gender="masculine"><t><stem/>ותיכם</t></inflection>
+            <inflection gender="masculine"><t><stem/>ותינו</t></inflection>
+            <inflection gender="masculine"><t><stem/>תך</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="4b7" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular" definiteness="construct" gender="feminine"><t><stem/>ת</t></inflection>
+            <inflection number="plural" definiteness="construct" gender="masculine"><t><stem/>י</t></inflection>
+            <inflection number="singular" gender="masculine"><t><stem/></t></inflection>
+            <inflection number="singular" gender="feminine"><t><stem/>ה</t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>ים</t></inflection>
+            <inflection number="plural" gender="feminine"><t><stem/>ות</t></inflection>
+            <inflection gender="masculine"><t><stem/>ך</t></inflection>
+            <inflection gender="masculine"><t><stem/>תך</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="787" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular" gender="masculine"><t><stem/></t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>ות</t></inflection>
+            <inflection number="dual" gender="masculine"><t><stem/>יים</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="882" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular" definiteness="construct" gender="masculine"><t><stem/>י</t></inflection>
+            <inflection number="plural" definiteness="construct" gender="masculine"><t><stem/>י</t></inflection>
+            <inflection number="singular" gender="masculine"><t><stem/></t></inflection>
+            <inflection number="singular" gender="feminine"><t><stem/>ות</t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>ים</t></inflection>
+            <inflection number="plural" gender="feminine"><t><stem/>יות</t></inflection>
+            <inflection gender="masculine"><t><stem/>יה</t></inflection>
+            <inflection gender="masculine"><t><stem/>יו</t></inflection>
+            <inflection gender="masculine"><t><stem/>יך</t></inflection>
+            <inflection gender="masculine"><t><stem/>יכם</t></inflection>
+            <inflection gender="masculine"><t><stem/>ינו</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="ae0" words="1">
+        <pos>noun</pos>
+        <suffix>איש</suffix>
+        <inflections>
+            <inflection number="singular" definiteness="construct" gender="feminine"><t><stem/>אשת</t></inflection>
+            <inflection number="plural" definiteness="construct" gender="masculine"><t><stem/>אנשי</t></inflection>
+            <inflection number="plural" definiteness="construct" gender="feminine"><t><stem/>נשות</t></inflection>
+            <inflection number="plural" definiteness="construct" gender="feminine"><t><stem/>נשי</t></inflection>
+            <inflection number="singular" gender="masculine"><t><stem/>איש</t></inflection>
+            <inflection number="singular" gender="feminine"><t><stem/>אישה</t></inflection>
+            <inflection number="singular" gender="feminine"><t><stem/>אשה</t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>אישים</t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>אנשים</t></inflection>
+            <inflection number="plural" gender="feminine"><t><stem/>נשים</t></inflection>
+            <inflection gender="masculine"><t><stem/>אישתו</t></inflection>
+            <inflection gender="masculine"><t><stem/>אישתי</t></inflection>
+            <inflection gender="masculine"><t><stem/>אישתך</t></inflection>
+            <inflection number="plural" definiteness="construct" gender="masculine"><t><stem/>אישי</t></inflection>
+        </inflections>
+    </pattern>
+</patterns>

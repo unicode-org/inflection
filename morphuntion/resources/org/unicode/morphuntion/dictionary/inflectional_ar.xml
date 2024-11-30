@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2024-2024 Apple Inc. All rights reserved.
+-->
+<patterns>
+    <pattern name="1" words="3117">
+        <pos>adjective</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="plural" animacy="animate" case="accusative" definiteness="indefinite" gender="masculine"><t><stem/>ين</t></inflection>
+            <inflection number="plural" animacy="animate" case="accusative" definiteness="construct" gender="masculine"><t><stem/>ي</t></inflection>
+            <inflection number="plural" animacy="animate" case="nominative" definiteness="indefinite" gender="masculine"><t><stem/>ون</t></inflection>
+            <inflection number="plural" animacy="animate" case="nominative" definiteness="construct" gender="masculine"><t><stem/>و</t></inflection>
+            <inflection number="singular" case="nominative" definiteness="indefinite" gender="masculine"><t><stem/></t></inflection>
+            <inflection number="singular" case="nominative" definiteness="indefinite" gender="feminine"><t><stem/>ة</t></inflection>
+            <inflection number="singular" case="nominative" definiteness="construct" gender="masculine"><t><stem/></t></inflection>
+            <inflection number="singular" case="nominative" definiteness="construct" gender="feminine"><t><stem/>ة</t></inflection>
+            <inflection number="plural" case="nominative" definiteness="indefinite" gender="feminine"><t><stem/>ات</t></inflection>
+            <inflection number="plural" case="nominative" definiteness="construct" gender="feminine"><t><stem/>ات</t></inflection>
+            <inflection number="dual" case="accusative" definiteness="indefinite" gender="masculine"><t><stem/>ين</t></inflection>
+            <inflection number="dual" case="accusative" definiteness="indefinite" gender="feminine"><t><stem/>تين</t></inflection>
+            <inflection number="dual" case="accusative" definiteness="construct" gender="masculine"><t><stem/>ي</t></inflection>
+            <inflection number="dual" case="accusative" definiteness="construct" gender="feminine"><t><stem/>تي</t></inflection>
+            <inflection number="dual" case="nominative" definiteness="indefinite" gender="masculine"><t><stem/>ان</t></inflection>
+            <inflection number="dual" case="nominative" definiteness="indefinite" gender="feminine"><t><stem/>تان</t></inflection>
+            <inflection number="dual" case="nominative" definiteness="construct" gender="masculine"><t><stem/>ا</t></inflection>
+            <inflection number="dual" case="nominative" definiteness="construct" gender="feminine"><t><stem/>تا</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="2" words="2279">
+        <pos>noun</pos>
+        <suffix>ة</suffix>
+        <inflections>
+            <inflection number="singular" case="nominative" definiteness="indefinite" gender="feminine"><t><stem/>ة</t></inflection>
+            <inflection number="singular" case="nominative" definiteness="construct" gender="feminine"><t><stem/>ة</t></inflection>
+            <inflection number="plural" case="nominative" definiteness="indefinite" gender="feminine"><t><stem/>ات</t></inflection>
+            <inflection number="plural" case="nominative" definiteness="construct" gender="feminine"><t><stem/>ات</t></inflection>
+            <inflection number="dual" case="accusative" definiteness="indefinite" gender="feminine"><t><stem/>تين</t></inflection>
+            <inflection number="dual" case="accusative" definiteness="construct" gender="feminine"><t><stem/>تي</t></inflection>
+            <inflection number="dual" case="nominative" definiteness="indefinite" gender="feminine"><t><stem/>تان</t></inflection>
+            <inflection number="dual" case="nominative" definiteness="construct" gender="feminine"><t><stem/>تا</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="3" words="2189">
+        <pos>noun</pos>
+        <pos>proper-noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular" case="nominative" definiteness="indefinite" gender="masculine"><t><stem/></t></inflection>
+            <inflection number="singular" case="nominative" definiteness="construct" gender="masculine"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="7" words="866">
+        <pos>adjective</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular" case="nominative" definiteness="indefinite" gender="masculine"><t><stem/></t></inflection>
+            <inflection number="singular" case="nominative" definiteness="indefinite" gender="feminine"><t><stem/>ة</t></inflection>
+            <inflection number="singular" case="nominative" definiteness="construct" gender="masculine"><t><stem/></t></inflection>
+            <inflection number="singular" case="nominative" definiteness="construct" gender="feminine"><t><stem/>ة</t></inflection>
+            <inflection number="plural" case="accusative" definiteness="indefinite" gender="masculine"><t><stem/>ين</t></inflection>
+            <inflection number="plural" case="accusative" definiteness="construct" gender="masculine"><t><stem/>ي</t></inflection>
+            <inflection number="plural" case="nominative" definiteness="indefinite" gender="masculine"><t><stem/>ون</t></inflection>
+            <inflection number="plural" case="nominative" definiteness="indefinite" gender="feminine"><t><stem/>ات</t></inflection>
+            <inflection number="plural" case="nominative" definiteness="construct" gender="masculine"><t><stem/>و</t></inflection>
+            <inflection number="plural" case="nominative" definiteness="construct" gender="feminine"><t><stem/>ات</t></inflection>
+            <inflection number="dual" case="accusative" definiteness="indefinite" gender="masculine"><t><stem/>ين</t></inflection>
+            <inflection number="dual" case="accusative" definiteness="indefinite" gender="feminine"><t><stem/>تين</t></inflection>
+            <inflection number="dual" case="accusative" definiteness="construct" gender="masculine"><t><stem/>ي</t></inflection>
+            <inflection number="dual" case="accusative" definiteness="construct" gender="feminine"><t><stem/>تي</t></inflection>
+            <inflection number="dual" case="nominative" definiteness="indefinite" gender="masculine"><t><stem/>ان</t></inflection>
+            <inflection number="dual" case="nominative" definiteness="indefinite" gender="feminine"><t><stem/>تان</t></inflection>
+            <inflection number="dual" case="nominative" definiteness="construct" gender="masculine"><t><stem/>ا</t></inflection>
+            <inflection number="dual" case="nominative" definiteness="construct" gender="feminine"><t><stem/>تا</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="d" words="365">
+        <pos>adjective</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="plural" animacy="animate" case="accusative" definiteness="indefinite" gender="masculine"><t><stem/>ين</t></inflection>
+            <inflection number="plural" animacy="animate" case="accusative" definiteness="construct" gender="masculine"><t><stem/>ي</t></inflection>
+            <inflection number="plural" animacy="animate" case="nominative" definiteness="indefinite" gender="masculine"><t><stem/>ون</t></inflection>
+            <inflection number="plural" animacy="animate" case="nominative" definiteness="construct" gender="masculine"><t><stem/>و</t></inflection>
+            <inflection number="singular" case="nominative" definiteness="indefinite" gender="masculine"><t><stem/></t></inflection>
+            <inflection number="singular" case="nominative" definiteness="indefinite" gender="feminine"><t><stem/>ة</t></inflection>
+            <inflection number="singular" case="nominative" definiteness="construct" gender="masculine"><t><stem/></t></inflection>
+            <inflection number="singular" case="nominative" definiteness="construct" gender="feminine"><t><stem/>ة</t></inflection>
+            <inflection number="plural" case="nominative" definiteness="indefinite" gender="feminine"><t><stem/>ات</t></inflection>
+            <inflection number="plural" case="nominative" definiteness="construct" gender="feminine"><t><stem/>ات</t></inflection>
+            <inflection number="dual" case="accusative" definiteness="indefinite" gender="masculine"><t><stem/>ين</t></inflection>
+            <inflection number="dual" case="accusative" definiteness="indefinite" gender="feminine"><t><stem/>تين</t></inflection>
+            <inflection number="dual" case="accusative" definiteness="construct" gender="masculine"><t><stem/>ي</t></inflection>
+            <inflection number="dual" case="accusative" definiteness="construct" gender="feminine"><t><stem/>تي</t></inflection>
+            <inflection number="dual" case="nominative" definiteness="indefinite" gender="masculine"><t><stem/>ان</t></inflection>
+            <inflection number="dual" case="nominative" definiteness="indefinite" gender="feminine"><t><stem/>تان</t></inflection>
+            <inflection number="dual" case="nominative" definiteness="construct" gender="masculine"><t><stem/>ا</t></inflection>
+            <inflection number="dual" case="nominative" definiteness="construct" gender="feminine"><t><stem/>تا</t></inflection>
+            <inflection case="nominative" definiteness="construct"><t><stem/>ا</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="19" words="189">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular" case="nominative" definiteness="indefinite" gender="masculine"><t><stem/></t></inflection>
+            <inflection number="singular" case="nominative" definiteness="construct" gender="masculine"><t><stem/></t></inflection>
+            <inflection number="plural" case="accusative" definiteness="indefinite" gender="masculine"><t><stem/>ين</t></inflection>
+            <inflection number="plural" case="accusative" definiteness="construct" gender="masculine"><t><stem/>ي</t></inflection>
+            <inflection number="plural" case="nominative" definiteness="indefinite" gender="masculine"><t><stem/>ون</t></inflection>
+            <inflection number="plural" case="nominative" definiteness="construct" gender="masculine"><t><stem/>و</t></inflection>
+            <inflection number="dual" case="accusative" definiteness="indefinite" gender="masculine"><t><stem/>ين</t></inflection>
+            <inflection number="dual" case="accusative" definiteness="construct" gender="masculine"><t><stem/>ي</t></inflection>
+            <inflection number="dual" case="nominative" definiteness="indefinite" gender="masculine"><t><stem/>ان</t></inflection>
+            <inflection number="dual" case="nominative" definiteness="construct" gender="masculine"><t><stem/>ا</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="2d" words="61">
+        <pos>noun</pos>
+        <suffix>ة</suffix>
+        <inflections>
+            <inflection number="singular" case="nominative" definiteness="indefinite" gender="masculine"><t><stem/>ة</t></inflection>
+            <inflection number="singular" case="nominative" definiteness="construct" gender="masculine"><t><stem/>ة</t></inflection>
+            <inflection number="plural" case="nominative" definiteness="indefinite" gender="masculine"><t><stem/>ات</t></inflection>
+            <inflection number="plural" case="nominative" definiteness="construct" gender="masculine"><t><stem/>ات</t></inflection>
+            <inflection number="dual" case="accusative" definiteness="indefinite" gender="masculine"><t><stem/>تين</t></inflection>
+            <inflection number="dual" case="accusative" definiteness="construct" gender="masculine"><t><stem/>تي</t></inflection>
+            <inflection number="dual" case="nominative" definiteness="indefinite" gender="masculine"><t><stem/>تان</t></inflection>
+            <inflection number="dual" case="nominative" definiteness="construct" gender="masculine"><t><stem/>تا</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="3f" words="34">
+        <pos>noun</pos>
+        <suffix>ة</suffix>
+        <inflections>
+            <inflection number="singular" animacy="inanimate" case="nominative" definiteness="indefinite" gender="feminine"><t><stem/>ة</t></inflection>
+            <inflection number="singular" animacy="inanimate" case="nominative" definiteness="construct" gender="feminine"><t><stem/>ة</t></inflection>
+            <inflection number="plural" animacy="inanimate" case="nominative" definiteness="indefinite" gender="feminine"><t><stem/></t></inflection>
+            <inflection number="plural" animacy="inanimate" case="nominative" definiteness="indefinite" gender="feminine"><t><stem/>ات</t></inflection>
+            <inflection number="plural" animacy="inanimate" case="nominative" definiteness="construct" gender="feminine"><t><stem/></t></inflection>
+            <inflection number="plural" animacy="inanimate" case="nominative" definiteness="construct" gender="feminine"><t><stem/>ات</t></inflection>
+            <inflection number="dual" animacy="inanimate" case="accusative" definiteness="indefinite" gender="feminine"><t><stem/>تين</t></inflection>
+            <inflection number="dual" animacy="inanimate" case="accusative" definiteness="construct" gender="feminine"><t><stem/>تي</t></inflection>
+            <inflection number="dual" animacy="inanimate" case="nominative" definiteness="indefinite" gender="feminine"><t><stem/>تان</t></inflection>
+            <inflection number="dual" animacy="inanimate" case="nominative" definiteness="construct" gender="feminine"><t><stem/>تا</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="4c" words="27">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular" case="genitive" definiteness="indefinite" gender="masculine"><t><stem/></t></inflection>
+            <inflection number="singular" case="nominative" definiteness="indefinite" gender="masculine"><t><stem/></t></inflection>
+            <inflection number="singular" case="nominative" definiteness="construct" gender="masculine"><t><stem/></t></inflection>
+            <inflection number="plural" case="nominative" definiteness="indefinite" gender="masculine"><t><stem/>ات</t></inflection>
+            <inflection number="plural" case="nominative" definiteness="construct" gender="masculine"><t><stem/>ات</t></inflection>
+            <inflection number="dual" case="accusative" definiteness="indefinite" gender="masculine"><t><stem/>ين</t></inflection>
+            <inflection number="dual" case="accusative" definiteness="construct" gender="masculine"><t><stem/>ي</t></inflection>
+            <inflection number="dual" case="nominative" definiteness="indefinite" gender="masculine"><t><stem/>ان</t></inflection>
+            <inflection number="dual" case="nominative" definiteness="construct" gender="masculine"><t><stem/>ا</t></inflection>
+            <inflection number="singular" case="accusative" definiteness="indefinite" gender="masculine"><t><stem/>ا</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="34a" words="1">
+        <pos>noun</pos>
+        <suffix>يل</suffix>
+        <inflections>
+            <inflection number="singular" case="nominative" definiteness="indefinite" gender="masculine"><t><stem/>يل</t></inflection>
+            <inflection number="singular" case="nominative" definiteness="construct" gender="masculine"><t><stem/>يل</t></inflection>
+            <inflection number="plural" case="nominative" definiteness="indefinite" gender="masculine"><t><stem/>ائل</t></inflection>
+            <inflection number="plural" case="nominative" definiteness="construct" gender="masculine"><t><stem/>ائل</t></inflection>
+            <inflection number="dual" case="accusative" definiteness="indefinite" gender="masculine"><t><stem/>يلين</t></inflection>
+            <inflection number="dual" case="accusative" definiteness="construct" gender="masculine"><t><stem/>يلي</t></inflection>
+            <inflection number="dual" case="nominative" definiteness="indefinite" gender="masculine"><t><stem/>يلان</t></inflection>
+            <inflection number="dual" case="nominative" definiteness="construct" gender="masculine"><t><stem/>يلا</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="7ad" words="1">
+        <pos>determiner</pos>
+        <suffix>ذلك</suffix>
+        <inflections>
+            <inflection number="singular" gender="masculine"><t><stem/>ذلك</t></inflection>
+            <inflection number="singular" gender="feminine"><t><stem/>تلك</t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>أولئك</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="841" words="1">
+        <pos>noun</pos>
+        <suffix>لة</suffix>
+        <inflections>
+            <inflection number="singular" case="nominative" definiteness="indefinite" gender="feminine"><t><stem/>لة</t></inflection>
+            <inflection number="singular" case="nominative" definiteness="construct" gender="feminine"><t><stem/>لة</t></inflection>
+            <inflection number="plural" case="nominative" definiteness="indefinite" gender="feminine"><t><stem/>ئل</t></inflection>
+            <inflection number="plural" case="nominative" definiteness="indefinite" gender="feminine"><t><stem/>لات</t></inflection>
+            <inflection number="plural" case="nominative" definiteness="construct" gender="feminine"><t><stem/>ئل</t></inflection>
+            <inflection number="plural" case="nominative" definiteness="construct" gender="feminine"><t><stem/>لات</t></inflection>
+            <inflection number="dual" case="accusative" definiteness="indefinite" gender="feminine"><t><stem/>لتين</t></inflection>
+            <inflection number="dual" case="accusative" definiteness="construct" gender="feminine"><t><stem/>لتي</t></inflection>
+            <inflection number="dual" case="nominative" definiteness="indefinite" gender="feminine"><t><stem/>لتان</t></inflection>
+            <inflection number="dual" case="nominative" definiteness="construct" gender="feminine"><t><stem/>لتا</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="d18" words="1">
+        <pos>verb</pos>
+        <suffix>أرسل</suffix>
+        <inflections>
+            <inflection number="singular" aspect="imperfective" gender="masculine" person="second" tense="present"><t><stem/>ترسل</t></inflection>
+            <inflection number="singular" aspect="imperfective" gender="masculine" person="second" tense="future"><t><stem/>سترسل</t></inflection>
+            <inflection number="singular" aspect="imperfective" gender="masculine" person="third" tense="present"><t><stem/>يرسل</t></inflection>
+            <inflection number="singular" aspect="imperfective" gender="masculine" person="third" tense="future"><t><stem/>سيرسل</t></inflection>
+            <inflection number="singular" aspect="imperfective" gender="feminine" person="second" tense="present"><t><stem/>ترسلين</t></inflection>
+            <inflection number="singular" aspect="imperfective" gender="feminine" person="second" tense="future"><t><stem/>سترسلين</t></inflection>
+            <inflection number="singular" aspect="imperfective" gender="feminine" person="third" tense="present"><t><stem/>ترسل</t></inflection>
+            <inflection number="singular" aspect="imperfective" gender="feminine" person="third" tense="future"><t><stem/>سترسل</t></inflection>
+            <inflection number="singular" aspect="perfective" gender="masculine" person="second" tense="past"><t><stem/>أرسلت</t></inflection>
+            <inflection number="singular" aspect="perfective" gender="masculine" person="third" tense="past"><t><stem/>أرسل</t></inflection>
+            <inflection number="singular" aspect="perfective" gender="feminine" person="second" tense="past"><t><stem/>أرسلت</t></inflection>
+            <inflection number="singular" aspect="perfective" gender="feminine" person="third" tense="past"><t><stem/>أرسلت</t></inflection>
+            <inflection number="plural" aspect="imperfective" gender="masculine" person="second" tense="present"><t><stem/>ترسلون</t></inflection>
+            <inflection number="plural" aspect="imperfective" gender="masculine" person="second" tense="future"><t><stem/>سترسلون</t></inflection>
+            <inflection number="plural" aspect="imperfective" gender="masculine" person="third" tense="present"><t><stem/>يرسلون</t></inflection>
+            <inflection number="plural" aspect="imperfective" gender="masculine" person="third" tense="future"><t><stem/>سيرسلون</t></inflection>
+            <inflection number="plural" aspect="imperfective" gender="feminine" person="second" tense="present"><t><stem/>ترسلن</t></inflection>
+            <inflection number="plural" aspect="imperfective" gender="feminine" person="second" tense="future"><t><stem/>سترسلن</t></inflection>
+            <inflection number="plural" aspect="imperfective" gender="feminine" person="third" tense="present"><t><stem/>يرسلن</t></inflection>
+            <inflection number="plural" aspect="imperfective" gender="feminine" person="third" tense="future"><t><stem/>سيرسلن</t></inflection>
+            <inflection number="plural" aspect="perfective" gender="masculine" person="second" tense="past"><t><stem/>أرسلتم</t></inflection>
+            <inflection number="plural" aspect="perfective" gender="masculine" person="third" tense="past"><t><stem/>أرسلوا</t></inflection>
+            <inflection number="plural" aspect="perfective" gender="feminine" person="second" tense="past"><t><stem/>أرسلتنّ</t></inflection>
+            <inflection number="plural" aspect="perfective" gender="feminine" person="third" tense="past"><t><stem/>أرسلن</t></inflection>
+            <inflection number="dual" aspect="imperfective" gender="masculine" person="third" tense="present"><t><stem/>يرسلان</t></inflection>
+            <inflection number="dual" aspect="imperfective" gender="masculine" person="third" tense="future"><t><stem/>سيرسلان</t></inflection>
+            <inflection number="dual" aspect="imperfective" gender="feminine" person="third" tense="present"><t><stem/>ترسلان</t></inflection>
+            <inflection number="dual" aspect="imperfective" gender="feminine" person="third" tense="future"><t><stem/>سترسلان</t></inflection>
+            <inflection number="dual" aspect="perfective" gender="masculine" person="third" tense="past"><t><stem/>أرسلا</t></inflection>
+            <inflection number="dual" aspect="perfective" gender="feminine" person="third" tense="past"><t><stem/>أرسلتا</t></inflection>
+            <inflection number="singular" aspect="imperfective" person="first" tense="present"><t><stem/>أرسل</t></inflection>
+            <inflection number="singular" aspect="imperfective" person="first" tense="future"><t><stem/>سأرسل</t></inflection>
+            <inflection number="singular" aspect="perfective" person="first" tense="past"><t><stem/>أرسلت</t></inflection>
+            <inflection number="singular" gender="masculine" mood="imperative" person="second"><t><stem/>أرسل</t></inflection>
+            <inflection number="singular" gender="masculine" person="second" tense="future"><t><stem/>سترسل</t></inflection>
+            <inflection number="singular" gender="masculine" person="third" tense="future"><t><stem/>سيرسل</t></inflection>
+            <inflection number="singular" gender="feminine" mood="imperative" person="second"><t><stem/>أرسلي</t></inflection>
+            <inflection number="singular" gender="feminine" person="second" tense="future"><t><stem/>سترسلين</t></inflection>
+            <inflection number="singular" gender="feminine" person="third" tense="future"><t><stem/>سترسل</t></inflection>
+            <inflection number="plural" aspect="imperfective" person="first" tense="present"><t><stem/>نرسل</t></inflection>
+            <inflection number="plural" aspect="imperfective" person="first" tense="future"><t><stem/>سنرسل</t></inflection>
+            <inflection number="plural" aspect="perfective" person="first" tense="past"><t><stem/>أرسلنا</t></inflection>
+            <inflection number="plural" gender="masculine" mood="imperative" person="second"><t><stem/>أرسلوا</t></inflection>
+            <inflection number="plural" gender="masculine" person="second" tense="future"><t><stem/>سترسلون</t></inflection>
+            <inflection number="plural" gender="masculine" person="third" tense="future"><t><stem/>سيرسلون</t></inflection>
+            <inflection number="plural" gender="feminine" mood="imperative" person="second"><t><stem/>أرسلن</t></inflection>
+            <inflection number="plural" gender="feminine" person="second" tense="future"><t><stem/>سترسلن</t></inflection>
+            <inflection number="plural" gender="feminine" person="third" tense="future"><t><stem/>سيرسلن</t></inflection>
+            <inflection number="dual" aspect="imperfective" person="second" tense="present"><t><stem/>ترسلان</t></inflection>
+            <inflection number="dual" aspect="imperfective" person="second" tense="future"><t><stem/>سترسلان</t></inflection>
+            <inflection number="dual" aspect="perfective" person="second" tense="past"><t><stem/>أرسلتما</t></inflection>
+            <inflection number="dual" gender="masculine" person="third" tense="future"><t><stem/>سيرسلان</t></inflection>
+            <inflection number="dual" gender="feminine" person="third" tense="future"><t><stem/>سترسلان</t></inflection>
+            <inflection number="singular" person="first" tense="future"><t><stem/>سأرسل</t></inflection>
+            <inflection number="plural" person="first" tense="future"><t><stem/>سنرسل</t></inflection>
+            <inflection number="dual" mood="imperative" person="second"><t><stem/>أرسلا</t></inflection>
+            <inflection number="dual" person="second" tense="future"><t><stem/>سترسلان</t></inflection>
+            <inflection verb-type="participle" voice="active"><t><stem/>مرسل</t></inflection>
+            <inflection verb-type="participle" voice="passive"><t><stem/>مرسل</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>إرسال</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="15f2" words="1">
+        <pos>verb</pos>
+        <suffix>أسند</suffix>
+        <inflections>
+            <inflection number="singular" aspect="imperfective" gender="masculine" person="second" tense="present"><t><stem/>تسند</t></inflection>
+            <inflection number="singular" aspect="imperfective" gender="masculine" person="second" tense="future"><t><stem/>ستسند</t></inflection>
+            <inflection number="singular" aspect="imperfective" gender="masculine" person="third" tense="present"><t><stem/>يسند</t></inflection>
+            <inflection number="singular" aspect="imperfective" gender="masculine" person="third" tense="future"><t><stem/>سيسند</t></inflection>
+            <inflection number="singular" aspect="imperfective" gender="feminine" person="second" tense="present"><t><stem/>تسندين</t></inflection>
+            <inflection number="singular" aspect="imperfective" gender="feminine" person="second" tense="future"><t><stem/>ستسندين</t></inflection>
+            <inflection number="singular" aspect="imperfective" gender="feminine" person="third" tense="present"><t><stem/>تسند</t></inflection>
+            <inflection number="singular" aspect="imperfective" gender="feminine" person="third" tense="future"><t><stem/>ستسند</t></inflection>
+            <inflection number="singular" aspect="perfective" gender="masculine" person="second" tense="past"><t><stem/>أسندت</t></inflection>
+            <inflection number="singular" aspect="perfective" gender="masculine" person="third" tense="past"><t><stem/>أسند</t></inflection>
+            <inflection number="singular" aspect="perfective" gender="feminine" person="second" tense="past"><t><stem/>أسندت</t></inflection>
+            <inflection number="singular" aspect="perfective" gender="feminine" person="third" tense="past"><t><stem/>أسندت</t></inflection>
+            <inflection number="plural" aspect="imperfective" gender="masculine" person="second" tense="present"><t><stem/>تسندون</t></inflection>
+            <inflection number="plural" aspect="imperfective" gender="masculine" person="second" tense="future"><t><stem/>ستسندون</t></inflection>
+            <inflection number="plural" aspect="imperfective" gender="masculine" person="third" tense="present"><t><stem/>يسندون</t></inflection>
+            <inflection number="plural" aspect="imperfective" gender="masculine" person="third" tense="future"><t><stem/>سيسندون</t></inflection>
+            <inflection number="plural" aspect="imperfective" gender="feminine" person="second" tense="present"><t><stem/>تسندن</t></inflection>
+            <inflection number="plural" aspect="imperfective" gender="feminine" person="second" tense="future"><t><stem/>ستسندن</t></inflection>
+            <inflection number="plural" aspect="imperfective" gender="feminine" person="third" tense="present"><t><stem/>يسندن</t></inflection>
+            <inflection number="plural" aspect="imperfective" gender="feminine" person="third" tense="future"><t><stem/>سيسندن</t></inflection>
+            <inflection number="plural" aspect="perfective" gender="masculine" person="second" tense="past"><t><stem/>أسندتم</t></inflection>
+            <inflection number="plural" aspect="perfective" gender="masculine" person="third" tense="past"><t><stem/>أسندوا</t></inflection>
+            <inflection number="plural" aspect="perfective" gender="feminine" person="second" tense="past"><t><stem/>أسندتنّ</t></inflection>
+            <inflection number="plural" aspect="perfective" gender="feminine" person="third" tense="past"><t><stem/>أسندن</t></inflection>
+            <inflection number="dual" aspect="imperfective" gender="masculine" person="third" tense="present"><t><stem/>يسندان</t></inflection>
+            <inflection number="dual" aspect="imperfective" gender="masculine" person="third" tense="future"><t><stem/>سيسندان</t></inflection>
+            <inflection number="dual" aspect="imperfective" gender="feminine" person="third" tense="present"><t><stem/>تسندان</t></inflection>
+            <inflection number="dual" aspect="imperfective" gender="feminine" person="third" tense="future"><t><stem/>ستسندان</t></inflection>
+            <inflection number="dual" aspect="perfective" gender="masculine" person="third" tense="past"><t><stem/>أسندا</t></inflection>
+            <inflection number="dual" aspect="perfective" gender="feminine" person="third" tense="past"><t><stem/>أسندتا</t></inflection>
+            <inflection number="singular" aspect="imperfective" person="first" tense="present"><t><stem/>أسند</t></inflection>
+            <inflection number="singular" aspect="imperfective" person="first" tense="future"><t><stem/>سأسند</t></inflection>
+            <inflection number="singular" aspect="perfective" person="first" tense="past"><t><stem/>أسندت</t></inflection>
+            <inflection number="singular" gender="masculine" mood="imperative" person="second"><t><stem/>أسند</t></inflection>
+            <inflection number="singular" gender="masculine" person="second" tense="future"><t><stem/>ستسند</t></inflection>
+            <inflection number="singular" gender="masculine" person="third" tense="future"><t><stem/>سيسند</t></inflection>
+            <inflection number="singular" gender="feminine" mood="imperative" person="second"><t><stem/>أسندي</t></inflection>
+            <inflection number="singular" gender="feminine" person="second" tense="future"><t><stem/>ستسندين</t></inflection>
+            <inflection number="singular" gender="feminine" person="third" tense="future"><t><stem/>ستسند</t></inflection>
+            <inflection number="plural" aspect="imperfective" person="first" tense="present"><t><stem/>نسند</t></inflection>
+            <inflection number="plural" aspect="imperfective" person="first" tense="future"><t><stem/>سنسند</t></inflection>
+            <inflection number="plural" aspect="perfective" person="first" tense="past"><t><stem/>أسندنا</t></inflection>
+            <inflection number="plural" gender="masculine" mood="imperative" person="second"><t><stem/>أسندوا</t></inflection>
+            <inflection number="plural" gender="masculine" person="second" tense="future"><t><stem/>ستسندون</t></inflection>
+            <inflection number="plural" gender="masculine" person="third" tense="future"><t><stem/>سيسندون</t></inflection>
+            <inflection number="plural" gender="feminine" mood="imperative" person="second"><t><stem/>أسندن</t></inflection>
+            <inflection number="plural" gender="feminine" person="second" tense="future"><t><stem/>ستسندن</t></inflection>
+            <inflection number="plural" gender="feminine" person="third" tense="future"><t><stem/>سيسندن</t></inflection>
+            <inflection number="dual" aspect="imperfective" person="second" tense="present"><t><stem/>تسندان</t></inflection>
+            <inflection number="dual" aspect="imperfective" person="second" tense="future"><t><stem/>ستسندان</t></inflection>
+            <inflection number="dual" aspect="perfective" person="second" tense="past"><t><stem/>أسندتما</t></inflection>
+            <inflection number="dual" gender="masculine" person="third" tense="future"><t><stem/>سيسندان</t></inflection>
+            <inflection number="dual" gender="feminine" person="third" tense="future"><t><stem/>ستسندان</t></inflection>
+            <inflection number="singular" person="first" tense="future"><t><stem/>سأسند</t></inflection>
+            <inflection number="plural" person="first" tense="future"><t><stem/>سنسند</t></inflection>
+            <inflection number="dual" mood="imperative" person="second"><t><stem/>أسندا</t></inflection>
+            <inflection number="dual" person="second" tense="future"><t><stem/>ستسندان</t></inflection>
+            <inflection verb-type="participle" voice="active"><t><stem/>مسند</t></inflection>
+            <inflection verb-type="participle" voice="passive"><t><stem/>مسند</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>إسناد</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="1894" words="1">
+        <pos>noun</pos>
+        <suffix>عم</suffix>
+        <inflections>
+            <inflection number="singular" case="genitive" definiteness="indefinite" gender="masculine"><t><stem/>عم</t></inflection>
+            <inflection number="singular" case="nominative" definiteness="indefinite" gender="masculine"><t><stem/>عم</t></inflection>
+            <inflection number="singular" case="nominative" definiteness="construct" gender="masculine"><t><stem/>عم</t></inflection>
+            <inflection number="plural" case="nominative" definiteness="indefinite" gender="masculine"><t><stem/>اعم</t></inflection>
+            <inflection number="plural" case="nominative" definiteness="construct" gender="masculine"><t><stem/>اعم</t></inflection>
+            <inflection number="dual" case="accusative" definiteness="indefinite" gender="masculine"><t><stem/>عمين</t></inflection>
+            <inflection number="dual" case="accusative" definiteness="construct" gender="masculine"><t><stem/>عمي</t></inflection>
+            <inflection number="dual" case="nominative" definiteness="indefinite" gender="masculine"><t><stem/>عمان</t></inflection>
+            <inflection number="dual" case="nominative" definiteness="construct" gender="masculine"><t><stem/>عما</t></inflection>
+            <inflection number="singular" case="accusative" definiteness="indefinite" gender="masculine"><t><stem/>عما</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="18ff" words="1">
+        <pos>noun</pos>
+        <suffix>عم</suffix>
+        <inflections>
+            <inflection number="singular" case="genitive" definiteness="indefinite" gender="masculine"><t><stem/>عم</t></inflection>
+            <inflection number="singular" case="nominative" definiteness="indefinite" gender="masculine"><t><stem/>عم</t></inflection>
+            <inflection number="singular" case="nominative" definiteness="construct" gender="masculine"><t><stem/>عم</t></inflection>
+            <inflection number="plural" case="nominative" definiteness="indefinite" gender="masculine"><t><stem/>اعم</t></inflection>
+            <inflection number="plural" case="nominative" definiteness="construct" gender="masculine"><t><stem/>اعم</t></inflection>
+            <inflection number="dual" case="accusative" definiteness="indefinite" gender="masculine"><t><stem/>عمين</t></inflection>
+            <inflection number="dual" case="accusative" definiteness="construct" gender="masculine"><t><stem/>عمي</t></inflection>
+            <inflection number="dual" case="nominative" definiteness="indefinite" gender="masculine"><t><stem/>عمان</t></inflection>
+            <inflection number="dual" case="nominative" definiteness="construct" gender="masculine"><t><stem/>عما</t></inflection>
+            <inflection number="singular" case="accusative" definiteness="indefinite" gender="masculine"><t><stem/>عما</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="1d33" words="1">
+        <pos>determiner</pos>
+        <suffix>ذا</suffix>
+        <inflections>
+            <inflection number="plural" animacy="animate" case="nominative" gender="masculine"><t><stem/>ؤلاء</t></inflection>
+            <inflection number="dual" case="accusative" gender="masculine"><t><stem/>ذين</t></inflection>
+            <inflection number="dual" case="accusative" gender="feminine"><t><stem/>اتين</t></inflection>
+            <inflection number="dual" case="nominative" gender="masculine"><t><stem/>ذان</t></inflection>
+            <inflection number="dual" case="nominative" gender="feminine"><t><stem/>اتان</t></inflection>
+            <inflection number="singular" gender="masculine"><t><stem/>ذا</t></inflection>
+            <inflection number="singular" gender="feminine"><t><stem/>ذه</t></inflection>
+            <inflection number="plural" gender="feminine"><t><stem/>ؤلاء</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="1f31" words="1">
+        <pos>verb</pos>
+        <suffix>أعجب</suffix>
+        <inflections>
+            <inflection number="singular" aspect="imperfective" gender="masculine" person="second" tense="present"><t><stem/>تعجب</t></inflection>
+            <inflection number="singular" aspect="imperfective" gender="masculine" person="second" tense="future"><t><stem/>ستعجب</t></inflection>
+            <inflection number="singular" aspect="imperfective" gender="masculine" person="third" tense="present"><t><stem/>يعجب</t></inflection>
+            <inflection number="singular" aspect="imperfective" gender="masculine" person="third" tense="future"><t><stem/>سيعجب</t></inflection>
+            <inflection number="singular" aspect="imperfective" gender="feminine" person="second" tense="present"><t><stem/>تعجبين</t></inflection>
+            <inflection number="singular" aspect="imperfective" gender="feminine" person="second" tense="future"><t><stem/>ستعجبين</t></inflection>
+            <inflection number="singular" aspect="imperfective" gender="feminine" person="third" tense="present"><t><stem/>تعجب</t></inflection>
+            <inflection number="singular" aspect="imperfective" gender="feminine" person="third" tense="future"><t><stem/>ستعجب</t></inflection>
+            <inflection number="singular" aspect="perfective" gender="masculine" person="second" tense="past"><t><stem/>أعجبت</t></inflection>
+            <inflection number="singular" aspect="perfective" gender="masculine" person="third" tense="past"><t><stem/>أعجب</t></inflection>
+            <inflection number="singular" aspect="perfective" gender="feminine" person="second" tense="past"><t><stem/>أعجبت</t></inflection>
+            <inflection number="singular" aspect="perfective" gender="feminine" person="third" tense="past"><t><stem/>أعجبت</t></inflection>
+            <inflection number="plural" aspect="imperfective" gender="masculine" person="second" tense="present"><t><stem/>تعجبون</t></inflection>
+            <inflection number="plural" aspect="imperfective" gender="masculine" person="second" tense="future"><t><stem/>ستعجبون</t></inflection>
+            <inflection number="plural" aspect="imperfective" gender="masculine" person="third" tense="present"><t><stem/>يعجبون</t></inflection>
+            <inflection number="plural" aspect="imperfective" gender="masculine" person="third" tense="future"><t><stem/>سيعجبون</t></inflection>
+            <inflection number="plural" aspect="imperfective" gender="feminine" person="second" tense="present"><t><stem/>تعجبن</t></inflection>
+            <inflection number="plural" aspect="imperfective" gender="feminine" person="second" tense="future"><t><stem/>ستعجبن</t></inflection>
+            <inflection number="plural" aspect="imperfective" gender="feminine" person="third" tense="present"><t><stem/>يعجبن</t></inflection>
+            <inflection number="plural" aspect="imperfective" gender="feminine" person="third" tense="future"><t><stem/>سيعجبن</t></inflection>
+            <inflection number="plural" aspect="perfective" gender="masculine" person="second" tense="past"><t><stem/>أعجبتم</t></inflection>
+            <inflection number="plural" aspect="perfective" gender="masculine" person="third" tense="past"><t><stem/>أعجبوا</t></inflection>
+            <inflection number="plural" aspect="perfective" gender="feminine" person="second" tense="past"><t><stem/>أعجبتنّ</t></inflection>
+            <inflection number="plural" aspect="perfective" gender="feminine" person="third" tense="past"><t><stem/>أعجبن</t></inflection>
+            <inflection number="dual" aspect="imperfective" gender="masculine" person="third" tense="present"><t><stem/>يعجبان</t></inflection>
+            <inflection number="dual" aspect="imperfective" gender="masculine" person="third" tense="future"><t><stem/>سيعجبان</t></inflection>
+            <inflection number="dual" aspect="imperfective" gender="feminine" person="third" tense="present"><t><stem/>تعجبان</t></inflection>
+            <inflection number="dual" aspect="imperfective" gender="feminine" person="third" tense="future"><t><stem/>ستعجبان</t></inflection>
+            <inflection number="dual" aspect="perfective" gender="masculine" person="third" tense="past"><t><stem/>أعجبا</t></inflection>
+            <inflection number="dual" aspect="perfective" gender="feminine" person="third" tense="past"><t><stem/>أعجبتا</t></inflection>
+            <inflection number="singular" aspect="imperfective" person="first" tense="present"><t><stem/>أعجب</t></inflection>
+            <inflection number="singular" aspect="imperfective" person="first" tense="future"><t><stem/>سأعجب</t></inflection>
+            <inflection number="singular" aspect="perfective" person="first" tense="past"><t><stem/>أعجبت</t></inflection>
+            <inflection number="singular" gender="masculine" mood="imperative" person="second"><t><stem/>أعجب</t></inflection>
+            <inflection number="singular" gender="masculine" person="second" tense="future"><t><stem/>ستعجب</t></inflection>
+            <inflection number="singular" gender="masculine" person="third" tense="future"><t><stem/>سيعجب</t></inflection>
+            <inflection number="singular" gender="feminine" mood="imperative" person="second"><t><stem/>أعجبي</t></inflection>
+            <inflection number="singular" gender="feminine" person="second" tense="future"><t><stem/>ستعجبين</t></inflection>
+            <inflection number="singular" gender="feminine" person="third" tense="future"><t><stem/>ستعجب</t></inflection>
+            <inflection number="plural" aspect="imperfective" person="first" tense="present"><t><stem/>نعجب</t></inflection>
+            <inflection number="plural" aspect="imperfective" person="first" tense="future"><t><stem/>سنعجب</t></inflection>
+            <inflection number="plural" aspect="perfective" person="first" tense="past"><t><stem/>أعجبنا</t></inflection>
+            <inflection number="plural" gender="masculine" mood="imperative" person="second"><t><stem/>أعجبوا</t></inflection>
+            <inflection number="plural" gender="masculine" person="second" tense="future"><t><stem/>ستعجبون</t></inflection>
+            <inflection number="plural" gender="masculine" person="third" tense="future"><t><stem/>سيعجبون</t></inflection>
+            <inflection number="plural" gender="feminine" mood="imperative" person="second"><t><stem/>أعجبن</t></inflection>
+            <inflection number="plural" gender="feminine" person="second" tense="future"><t><stem/>ستعجبن</t></inflection>
+            <inflection number="plural" gender="feminine" person="third" tense="future"><t><stem/>سيعجبن</t></inflection>
+            <inflection number="dual" aspect="imperfective" person="second" tense="present"><t><stem/>تعجبان</t></inflection>
+            <inflection number="dual" aspect="imperfective" person="second" tense="future"><t><stem/>ستعجبان</t></inflection>
+            <inflection number="dual" aspect="perfective" person="second" tense="past"><t><stem/>أعجبتما</t></inflection>
+            <inflection number="dual" gender="masculine" person="third" tense="future"><t><stem/>سيعجبان</t></inflection>
+            <inflection number="dual" gender="feminine" person="third" tense="future"><t><stem/>ستعجبان</t></inflection>
+            <inflection number="singular" person="first" tense="future"><t><stem/>سأعجب</t></inflection>
+            <inflection number="plural" person="first" tense="future"><t><stem/>سنعجب</t></inflection>
+            <inflection number="dual" mood="imperative" person="second"><t><stem/>أعجبا</t></inflection>
+            <inflection number="dual" person="second" tense="future"><t><stem/>ستعجبان</t></inflection>
+            <inflection verb-type="participle" voice="active"><t><stem/>معجب</t></inflection>
+            <inflection verb-type="participle" voice="passive"><t><stem/>معجب</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>إعجاب</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="2b9d" words="1">
+        <pos>noun</pos>
+        <suffix>أب</suffix>
+        <inflections>
+            <inflection number="singular" case="accusative" definiteness="indefinite" gender="masculine"><t><stem/>أبا</t></inflection>
+            <inflection number="singular" case="accusative" definiteness="construct" gender="masculine"><t><stem/>أبا</t></inflection>
+            <inflection number="singular" case="genitive" definiteness="indefinite" gender="masculine"><t><stem/>أب</t></inflection>
+            <inflection number="singular" case="genitive" definiteness="construct" gender="masculine"><t><stem/>أبي</t></inflection>
+            <inflection number="singular" case="nominative" definiteness="indefinite" gender="masculine"><t><stem/>أب</t></inflection>
+            <inflection number="singular" case="nominative" definiteness="construct" gender="masculine"><t><stem/>أب</t></inflection>
+            <inflection number="singular" case="nominative" definiteness="construct" gender="masculine"><t><stem/>أبو</t></inflection>
+            <inflection number="plural" case="accusative" definiteness="indefinite" gender="masculine"><t><stem/>آباء</t></inflection>
+            <inflection number="plural" case="accusative" definiteness="construct" gender="masculine"><t><stem/>آباء</t></inflection>
+            <inflection number="plural" case="genitive" definiteness="indefinite" gender="masculine"><t><stem/>آباء</t></inflection>
+            <inflection number="plural" case="genitive" definiteness="construct" gender="masculine"><t><stem/>آباء</t></inflection>
+            <inflection number="plural" case="nominative" definiteness="indefinite" gender="masculine"><t><stem/>آباء</t></inflection>
+            <inflection number="plural" case="nominative" definiteness="construct" gender="masculine"><t><stem/>آباء</t></inflection>
+            <inflection number="dual" case="accusative" definiteness="indefinite" gender="masculine"><t><stem/>أبوين</t></inflection>
+            <inflection number="dual" case="accusative" definiteness="construct" gender="masculine"><t><stem/>أبوي</t></inflection>
+            <inflection number="dual" case="genitive" definiteness="indefinite" gender="masculine"><t><stem/>أبوين</t></inflection>
+            <inflection number="dual" case="genitive" definiteness="construct" gender="masculine"><t><stem/>أبوي</t></inflection>
+            <inflection number="dual" case="nominative" definiteness="indefinite" gender="masculine"><t><stem/>أبوان</t></inflection>
+            <inflection number="dual" case="nominative" definiteness="construct" gender="masculine"><t><stem/>أبوا</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="3134" words="1">
+        <pos>noun</pos>
+        <suffix>بيت</suffix>
+        <inflections>
+            <inflection number="singular" case="accusative" definiteness="indefinite" gender="masculine"><t><stem/>بيتا</t></inflection>
+            <inflection number="singular" case="accusative" definiteness="construct" gender="masculine"><t><stem/>بيتا</t></inflection>
+            <inflection number="singular" case="genitive" definiteness="indefinite" gender="masculine"><t><stem/>بيت</t></inflection>
+            <inflection number="singular" case="nominative" definiteness="indefinite" gender="masculine"><t><stem/>بيت</t></inflection>
+            <inflection number="singular" case="nominative" definiteness="construct" gender="masculine"><t><stem/>بيت</t></inflection>
+            <inflection number="plural" case="accusative" definiteness="indefinite" gender="masculine"><t><stem/>بيوتا</t></inflection>
+            <inflection number="plural" case="accusative" definiteness="construct" gender="masculine"><t><stem/>بيوتا</t></inflection>
+            <inflection number="plural" case="genitive" definiteness="indefinite" gender="masculine"><t><stem/>بيوت</t></inflection>
+            <inflection number="plural" case="nominative" definiteness="indefinite" gender="masculine"><t><stem/>أبيات</t></inflection>
+            <inflection number="plural" case="nominative" definiteness="indefinite" gender="masculine"><t><stem/>بيوت</t></inflection>
+            <inflection number="plural" case="nominative" definiteness="indefinite" gender="masculine"><t><stem/>بيوتات</t></inflection>
+            <inflection number="plural" case="nominative" definiteness="construct" gender="masculine"><t><stem/>أبيات</t></inflection>
+            <inflection number="plural" case="nominative" definiteness="construct" gender="masculine"><t><stem/>بيوت</t></inflection>
+            <inflection number="plural" case="nominative" definiteness="construct" gender="masculine"><t><stem/>بيوتات</t></inflection>
+            <inflection number="dual" case="accusative" definiteness="indefinite" gender="masculine"><t><stem/>بيتين</t></inflection>
+            <inflection number="dual" case="accusative" definiteness="construct" gender="masculine"><t><stem/>بيتي</t></inflection>
+            <inflection number="dual" case="nominative" definiteness="indefinite" gender="masculine"><t><stem/>بيتان</t></inflection>
+            <inflection number="dual" case="nominative" definiteness="construct" gender="masculine"><t><stem/>بيتا</t></inflection>
+        </inflections>
+    </pattern>
+</patterns>

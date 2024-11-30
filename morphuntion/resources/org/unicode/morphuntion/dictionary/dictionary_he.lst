@@ -1,0 +1,38 @@
+אגם: singular masculine lemma-word noun proper-noun verb inflection=f6
+אובססיה: singular feminine lemma-word noun inflection=f
+אוטו: singular masculine lemma-word noun proper-noun inflection=5a
+אח: singular masculine lemma-word interjection noun inflection=882
+אחות: singular feminine noun inflection=882
+איש: singular masculine lemma-word noun inflection=ae0
+אפשרות: singular feminine lemma-word noun inflection=b
+דלת: singular construct feminine lemma-word adjective noun particle inflection=14 inflection=2cc
+דלתות: plural feminine noun proper-noun inflection=2cc inflection=2cd
+הודעת: singular construct masculine feminine noun verb inflection=1
+העדפה: singular feminine lemma-word noun inflection=1
+חבר: singular masculine lemma-word noun verb inflection=7 inflection=478
+חברה: singular masculine feminine lemma-word noun verb inflection=1 inflection=478
+טלפון: singular masculine lemma-word noun inflection=18
+טקסט: singular masculine lemma-word noun inflection=a
+ידיד: singular masculine lemma-word noun inflection=4b7
+ידידה: singular feminine noun inflection=4b7
+מוסך: singular masculine lemma-word noun verb inflection=2d
+מכונית: singular feminine lemma-word noun inflection=13
+מכפי: adposition
+מלון: singular masculine lemma-word noun inflection=11 inflection=3d
+מלונה: singular feminine lemma-word noun inflection=1
+מנהל: singular masculine lemma-word noun verb inflection=5 inflection=1b
+מנהלת: singular construct feminine noun verb inflection=1 inflection=1b
+מספר: singular masculine lemma-word noun verb inflection=5
+סטונהנג׳: singular masculine lemma-word noun proper-noun inflection=10
+קשר: singular masculine lemma-word noun verb inflection=5 inflection=20
+רעיון: singular masculine lemma-word noun inflection=3d
+שבוע: singular masculine lemma-word noun inflection=787
+שבועות: singular plural masculine feminine lemma-word noun inflection=1 inflection=7 inflection=787
+שבועיים: plural dual masculine adjective noun inflection=4 inflection=787
+תרומת: singular construct feminine noun inflection=1
+תשואה: singular feminine lemma-word noun inflection=1
+תתעלל: singular masculine feminine verb
+תתרענן: singular masculine feminine verb
+==============================================
+Manually curated for tests to pass
+Copyright 2024-2024 Apple Inc. All rights reserved.

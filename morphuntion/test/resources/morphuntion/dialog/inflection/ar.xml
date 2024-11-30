@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!--
+ Copyright 2021-2024 Apple Inc. All rights reserved.
+-->
+<inflectionTest locale="ar">
+    <!-- It's both indefinite and construct -->
+    <test><source>أختا</source><result definiteness=""/></test>
+    <!-- Particle with possessive pronoun attached as suffix is definite -->
+    <test><source>أيهما</source><result definiteness="definite"/></test>
+    <!--Example Construct value -->
+    <test><source>ياردتا</source><result definiteness="construct"/></test>
+    <!-- Example Indefinite value -->
+    <test><source>طاولتين</source><result definiteness="indefinite"/></test>
+    <!-- Starts with ال hence definite -->
+    <test><source>المطعم</source><result definiteness="definite"/></test>
+    <!-- Proper-nouns are definite -->
+    <test><source>مصر</source><result definiteness="definite"/></test>
+    <!-- Pronouns don't have definiteness -->
+    <test><source>أأنتم</source><result definiteness=""/></test>
+    <!-- Word not in dictionary, empty definite value -->
+    <test><source>أأأأأأأأ</source><result definiteness=""/></test>
+
+    <test><source case="nominative" number="singular">مطعم</source><result>مطعم</result></test>
+    <test><source case="nominative" number="dual">مطعم</source><result>مطعمان</result></test>
+    <test><source case="nominative" number="plural">مطعم</source><result>مطاعم</result></test>
+    <test><source case="accusative" number="singular">مطعم</source><result>مطعما</result></test>
+    <test><source case="accusative" number="dual">مطعم</source><result>مطعمين</result></test>
+    <test><source case="accusative" number="plural">مطعم</source><result>مطاعم</result></test>
+    <test><source case="genitive" number="singular">مطعم</source><result>مطعم</result></test>
+    <test><source case="genitive" number="dual">مطعم</source><result>مطعمين</result></test>
+    <test><source case="genitive" number="plural">مطعم</source><result>مطاعم</result></test>
+
+    <test><source case="nominative" number="singular">كيلومتر</source><result>كيلومتر</result></test>
+    <test><source case="nominative" number="dual">كيلومتر</source><result>كيلومتران</result></test>
+    <test><source case="nominative" number="plural">كيلومتر</source><result>كيلومترات</result></test>
+    <test><source case="accusative" number="singular">كيلومتر</source><result>كيلومترا</result></test>
+    <test><source case="accusative" number="dual">كيلومتر</source><result>كيلومترين</result></test>
+    <test><source case="accusative" number="plural">كيلومتر</source><result>كيلومترات</result></test>
+    <test><source case="genitive" number="singular">كيلومتر</source><result>كيلومتر</result></test>
+    <test><source case="genitive" number="dual">كيلومتر</source><result>كيلومترين</result></test>
+    <test><source case="genitive" number="plural">كيلومتر</source><result>كيلومترات</result></test>
+
+    <!-- Determiner This (هذا/هذه): Objects -->
+    <test><source gender="masculine" number="singular">هذا</source><result>هذا</result></test>
+    <test><source case="genitive" gender="masculine" number="dual">هذا</source><result>هذين</result></test>
+    <test><source case="accusative" gender="masculine" number="dual">هذا</source><result>هذين</result></test>
+    <test><source case="nominative" gender="masculine" number="dual">هذا</source><result>هذان</result></test>
+
+    <test><source gender="feminine" number="singular">هذا</source><result>هذه</result></test>
+    <test><source case="genitive" gender="feminine" number="dual">هذا</source><result>هاتين</result></test>
+    <test><source case="nominative" gender="feminine" number="dual">هذا</source><result>هاتان</result></test>
+    <test><source case="accusative" gender="feminine" number="dual">هذا</source><result>هاتين</result></test>
+
+    <test><source gender="masculine" number="singular">هذه</source><result>هذا</result></test>
+    <test><source case="genitive" gender="masculine" number="dual">هذه</source><result>هذين</result></test>
+    <test><source case="accusative" gender="masculine" number="dual">هذه</source><result>هذين</result></test>
+    <test><source case="nominative" gender="masculine" number="dual">هذه</source><result>هذان</result></test>
+
+    <test><source gender="feminine" number="singular">هذه</source><result>هذه</result></test>
+    <test><source case="genitive" gender="feminine" number="dual">هذه</source><result>هاتين</result></test>
+    <test><source case="nominative" gender="feminine" number="dual">هذه</source><result>هاتان</result></test>
+    <test><source case="accusative" gender="feminine" number="dual">هذه</source><result>هاتين</result></test>
+
+    <!-- Determiner That (ذلك/تلك) -->
+    <test><source gender="masculine" number="singular">ذلك</source><result>ذلك</result></test>
+    <test><source gender="feminine" number="singular">ذلك</source><result>تلك</result></test>
+    <test><source gender="masculine" number="singular">تلك</source><result>ذلك</result></test>
+    <test><source gender="feminine" number="singular">تلك</source><result>تلك</result></test>
+    <test><source number="plural">ذلك</source><result>أولئك</result></test>
+
+    <!-- Adjective Inflection Test Cases -->
+    <!--- Closed -->
+    <test><source gender="feminine" pos="adjective" number="singular">مغلق</source><result>مغلقة</result></test>
+    <test><source case="genitive" pos="adjective" gender="feminine" number="dual">مغلق</source><result>مغلقتين</result></test>
+    <test><source case="accusative" pos="adjective" gender="feminine" number="dual">مغلق</source><result>مغلقتين</result></test>
+    <test><source case="nominative" pos="adjective" gender="feminine" number="dual">مغلق</source><result>مغلقتان</result></test>
+
+    <!--- Locked -->
+    <test><source gender="feminine" pos="adjective" number="singular">مقفل</source><result>مقفلة</result></test>
+    <test><source case="genitive" pos="adjective" gender="feminine" number="dual">مقفل</source><result>مقفلتين</result></test>
+    <test><source case="accusative" pos="adjective" gender="feminine" number="dual">مقفل</source><result>مقفلتين</result></test>
+    <test><source case="nominative" pos="adjective" gender="feminine" number="dual">مقفل</source><result>مقفلتان</result></test>
+
+    <!--- Disarmed -->
+    <test><source gender="feminine" pos="adjective" number="singular">معطل</source><result>معطلة</result></test>
+    <test><source case="genitive" pos="adjective" gender="feminine" number="dual">معطل</source><result>معطلتين</result></test>
+    <test><source case="accusative" pos="adjective" gender="feminine" number="dual">معطل</source><result>معطلتين</result></test>
+    <test><source case="nominative" pos="adjective" gender="feminine" number="dual">معطل</source><result>معطلتان</result></test>
+
+    <!--- Jammed -->
+    <test><source gender="feminine" pos="adjective" number="singular">عالق</source><result>عالقة</result></test>
+    <test><source case="genitive" pos="adjective" gender="feminine" number="dual">عالق</source><result>عالقتين</result></test>
+    <test><source case="accusative" pos="adjective" gender="feminine" number="dual">عالق</source><result>عالقتين</result></test>
+    <test><source case="nominative" pos="adjective" gender="feminine" number="dual">عالق</source><result>عالقتان</result></test>
+
+    <!-- Open -->
+    <test><source gender="feminine" pos="adjective" number="singular">مفتوح</source><result>مفتوحة</result></test>
+    <test><source case="genitive" pos="adjective" gender="feminine" number="dual">مفتوح</source><result>مفتوحتين</result></test>
+    <test><source case="accusative" pos="adjective" gender="feminine" number="dual">مفتوح</source><result>مفتوحتين</result></test>
+    <test><source case="nominative" pos="adjective" gender="feminine" number="dual">مفتوح</source><result>مفتوحتان</result></test>
+
+    <!-- Sent it ('it' is attached to the verb) -->
+    <test><source number="singular" gender="feminine">أرسله</source><result>أرسلته</result></test>
+
+    <!-- Send it ('it' is attached to the verb) -->
+    <test><source number="singular" gender="feminine">يرسله</source><result>ترسله</result></test>
+
+    <!-- Like it ('it' is attached to the verb) -->
+    <test><source number="singular" gender="feminine">يعجبه</source><result>تعجبه</result></test>
+
+    <!-- Verb Inflection -->
+    <!-- assigned -->
+    <test><source gender="feminine" number="singular" pos="verb" tense="past">أسند</source><result>أسندت</result></test>
+    <test><source gender="feminine" number="dual" tense="past">أسند</source><result>أسندتا</result></test>
+    <test><source gender="feminine" number="plural" tense="past">أسند</source><result>أسندن</result></test>
+    <test><source gender="masculine" number="singular" tense="past">أسند</source><result>أسند</result></test>
+    <test><source gender="masculine" number="dual" tense="past">أسند</source><result>أسندا</result></test>
+    <test><source gender="masculine" number="plural" tense="past">أسند</source><result>أسندوا</result></test>
+
+    <!-- sent -->
+    <test><source gender="feminine" number="singular" tense="past">أرسل</source><result>أرسلت</result></test>
+    <test><source gender="feminine" number="dual" tense="past">أرسل</source><result>أرسلتا</result></test>
+    <test><source gender="feminine" number="plural" tense="past">أرسل</source><result>أرسلن</result></test>
+    <test><source gender="masculine" number="singular" tense="past">أرسل</source><result>أرسل</result></test>
+    <test><source gender="masculine" number="dual" tense="past">أرسل</source><result>أرسلا</result></test>
+    <test><source gender="masculine" number="plural" tense="past">أرسل</source><result>أرسلوا</result></test>
+
+    <test><source number="dual" case="nominative">بيت جميل</source><result>بيتان جميلان</result></test>
+
+    <test><source/><result withWithPrep=""/></test>
+    <test><source>هاتف</source><result withWithPrep="بهاتف"/></test>
+    <test><source>iPhone</source><result withWithPrep="بـ iPhone"/></test>
+    <test><source> هاتف</source><result withWithPrep="بهاتف"/></test>
+    <test><source> iPhone</source><result withWithPrep="بـ iPhone"/></test>
+
+    <test><source/><result withToPrep=""/></test>
+    <test><source>هاتف</source><result withToPrep="لهاتف"/></test>
+    <test><source>iPhone</source><result withToPrep="لـ iPhone"/></test>
+    <test><source> هاتف</source><result withToPrep="لهاتف"/></test>
+    <test><source> iPhone</source><result withToPrep="لـ iPhone"/></test>
+    <test><source>المنزل</source><result withToPrep="للمنزل"/></test>
+    <test><source>احمد</source><result withToPrep="لاحمد"/></test>
+
+    <test><source/><result withAsPrep=""/></test>
+    <test><source>هاتف</source><result withAsPrep="كهاتف"/></test>
+    <test><source>iPhone</source><result withAsPrep="كـ iPhone"/></test>
+    <test><source> هاتف</source><result withAsPrep="كهاتف"/></test>
+    <test><source> iPhone</source><result withAsPrep="كـ iPhone"/></test>
+
+    <test><source>هاتف</source><result>هاتف</result></test>
+    <test><source case="nominative">أخ</source><result>أخ</result></test>
+    <test><source case="accusative">أب</source><result>أبا</result></test>
+    <test><source case="genitive">أب</source><result>أب</result></test>
+</inflectionTest>

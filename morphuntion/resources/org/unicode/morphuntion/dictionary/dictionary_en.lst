@@ -1,0 +1,100 @@
+Joses: plural proper-noun inflection=2
+Paris: singular plural proper-noun inflection=2 inflection=b
+United States: singular proper-noun inflection=8 inflection=2e5
+a: determiner inflection=26
+an: determiner inflection=26
+animal: singular adjective noun inflection=1
+apple: singular adjective noun inflection=1
+apples: plural noun inflection=1
+are: singular plural first second third present noun verb inflection=1b0 inflection=1
+around: adposition
+bean: singular plural first second third present infinitive noun verb inflection=1 inflection=3
+beans: singular plural third present noun verb inflection=1 inflection=3
+between: adposition
+boy: singular interjection noun inflection=1
+boys: plural noun inflection=1
+cat: singular plural first second third present infinitive noun verb inflection=1 inflection=1c9
+cats: singular plural third present noun verb inflection=1 inflection=1c9
+church: singular plural first second third present infinitive noun verb inflection=7 inflection=9
+churches: singular plural third present noun verb inflection=7 inflection=9
+cities: plural noun inflection=6
+city: singular adjective noun inflection=6
+create: singular plural first second third present infinitive verb inflection=4
+creates: singular third present verb inflection=4
+day: singular noun inflection=1
+days: plural noun inflection=1
+fan: singular plural first second third present infinitive noun verb inflection=1 inflection=1d
+fans: singular plural third present noun verb inflection=1 inflection=1d
+flock: singular plural first second third present infinitive noun verb inflection=1 inflection=3
+friend: singular plural first second third present infinitive noun verb inflection=1 inflection=3
+friends: singular plural third present noun verb inflection=1 inflection=3
+garbage: singular noun inflection=1
+garbages: plural noun inflection=1
+garden: singular plural first second third present infinitive noun verb inflection=1 inflection=3
+geese: plural noun inflection=f4
+glutei maximi: plural noun inflection=17f
+glutei: plural noun inflection=15
+gluteus maximus: singular noun inflection=17f
+gluteus: singular noun inflection=15
+good: singular adjective noun inflection=1
+goods: plural noun inflection=1
+goose: singular plural first second third present infinitive noun verb inflection=4 inflection=f4
+has: singular third present verb inflection=fa
+have: singular plural first second third present infinitive noun verb inflection=1 inflection=fa
+head: singular plural first second third present infinitive adjective noun verb inflection=1 inflection=3
+heads: singular plural third present noun verb inflection=1 inflection=3
+hour: singular vowel-start noun inflection=1
+hours: plural vowel-start noun inflection=1
+houses: singular plural third present noun verb inflection=1 inflection=4
+is: singular third present verb inflection=1b0
+it: singular inanimate accusative nominative third pronoun
+kidney: singular noun inflection=1
+leading: singular gerund adjective noun verb inflection=1 inflection=83
+light: singular plural first second third present infinitive adjective noun verb inflection=1 inflection=9e
+lights: singular plural third present noun verb inflection=1 inflection=9e
+man: singular plural first second third present infinitive interjection noun verb inflection=c inflection=1d
+men: plural noun inflection=c
+mice: plural noun inflection=63
+mouse: singular plural first second third present infinitive noun verb inflection=4 inflection=63
+noun: singular noun inflection=1
+nouns: plural noun inflection=1
+of: adposition
+on: adverb adposition
+orange: singular adjective noun inflection=1
+patio: singular noun inflection=1
+patios: plural noun inflection=1
+phrase: singular plural first second third present infinitive noun verb inflection=1 inflection=4
+phrases: singular plural third present noun verb inflection=1 inflection=4
+pie: singular noun inflection=1
+pies: plural noun inflection=1
+plural: singular adjective noun inflection=1
+plurals: plural noun inflection=1
+red: singular adjective noun inflection=1
+sag: singular plural first second third present infinitive noun verb inflection=1 inflection=14
+sags: singular plural third present noun verb inflection=1 inflection=14
+sheep: singular plural noun inflection=a
+sister: singular noun inflection=1 inflection=33b
+sisters: plural noun inflection=1 inflection=33b
+spatula: singular noun inflection=1
+test: singular plural first second third present infinitive noun verb inflection=1 inflection=3
+tests: singular plural third present noun verb inflection=1 inflection=3
+that: singular inanimate demonstrative determiner pronoun inflection=18b
+the: determiner inflection=26
+theories: plural noun inflection=6
+theory: singular noun inflection=6
+these: plural inanimate demonstrative determiner pronoun inflection=15d
+thesis: singular noun inflection=10
+this: singular inanimate demonstrative determiner pronoun inflection=15d
+those: plural inanimate demonstrative determiner pronoun inflection=18b
+to: adposition
+truss: singular plural first second third present infinitive noun verb inflection=7 inflection=9
+trusses: singular plural third present noun verb inflection=7 inflection=9
+umbrella: singular noun inflection=1
+unicorn: singular consonant-start noun inflection=1
+word: singular plural first second third present infinitive noun verb inflection=1 inflection=3
+work: singular plural first second third present infinitive noun verb inflection=1 inflection=3
+works: singular plural third present noun verb inflection=1 inflection=3
+yen: singular plural noun inflection=a
+==============================================
+Manually curated for tests to pass
+Copyright 2024-2024 Apple Inc. All rights reserved.

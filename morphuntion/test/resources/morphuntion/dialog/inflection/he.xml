@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!--
+ Copyright 2021-2024 Apple Inc. All rights reserved.
+-->
+<inflectionTest locale="he">
+    <test><source>אובססיה</source><result gender="feminine"/></test>
+    <test><source>אגם</source><result gender="masculine"/></test>
+    <test><source>אחות</source><result gender="feminine"/></test>
+    <test><source>חברה</source><result gender="feminine"/></test>
+    <test><source>מנהלת</source><result gender="feminine"/></test>
+    <test><source>מלונה</source><result gender="feminine"/></test>
+    <test><source>ידידה</source><result gender="feminine"/></test>
+    <test><source>אפשרות</source><result gender="feminine"/></test>
+    <test><source>העדפה</source><result gender="feminine"/></test>
+    <test><source>מכונית</source><result gender="feminine"/></test>
+    <test><source>חבר</source><result gender="masculine"/></test>
+    <test><source>ידיד</source><result gender="masculine"/></test>
+    <test><source>מנהל</source><result gender="masculine"/></test>
+    <test><source>מלון</source><result gender="masculine"/></test>
+    <test><source>רעיון</source><result gender="masculine"/></test>
+    <test><source>אוטו</source><result gender="masculine"/></test>
+    <test><source>אח</source><result gender="masculine"/></test>
+
+    <test><source>תשואה</source><result definiteness="indefinite"/></test>
+    <test><source>שרבה</source><result definiteness=""/></test>
+    <test><source>הסטונהנג׳</source><result definiteness="definite"/></test>
+    <test><source>סטונהנג׳</source><result definiteness="indefinite"/></test>
+    <test><source>תרומת</source><result definiteness="construct"/></test>
+    <test><source>תתרענן</source><result definiteness=""/></test>
+    <test><source>תתתתתתתתתתתת</source><result definiteness="definite"/></test> <!-- unknown word -->
+    <test><source>תתעלל</source><result definiteness=""/></test> <!-- verbs don't have definiteness -->
+    <test><source>word</source><result definiteness=""/></test> <!-- Not a Hebrew word -->
+
+    <test><source number="plural">דלת</source><result>דלתות</result></test> <!-- rdar://125358987 ([he_IL][morphun] Wrong Inflection of דלת) -->
+
+    <test><source>ספרים</source><result>ספרים</result></test>
+    <test><source definiteness="indefinite">ספרים</source><result>ספרים</result></test>
+    <test><source definiteness="definite">ספרים</source><result>הספרים</result></test>
+
+    <test><source>מחשב</source><result>מחשב</result></test>
+    <test><source definiteness="indefinite">מחשב</source><result>מחשב</result></test>
+    <test><source definiteness="definite">מחשב</source><result>המחשב</result></test>
+
+    <test><source>משרד מכירות</source><result>משרד מכירות</result></test>
+    <test><source definiteness="indefinite">משרד מכירות</source><result>משרד מכירות</result></test>
+    <test><source definiteness="definite">משרד מכירות</source><result>משרד המכירות</result></test>
+
+    <test><source>משרד עורכי-דין</source><result>משרד עורכי-דין</result></test>
+    <test><source definiteness="indefinite">משרד עורכי-דין</source><result>משרד עורכי-דין</result></test>
+    <test><source definiteness="definite">משרד עורכי-דין</source><result>משרד עורכי-הדין</result></test>
+
+    <test><source>בית-משפט</source><result>בית-משפט</result></test>
+    <test><source definiteness="indefinite">בית-משפט</source><result>בית-משפט</result></test>
+    <test><source definiteness="definite">בית-משפט</source><result>בית-המשפט</result></test>
+
+    <test><source>חבר</source><result>חבר</result></test>
+    <test><source number="singular">חבר</source><result>חבר</result></test>
+    <test><source number="dual">חבר</source><result>חברים</result></test>
+    <test><source number="plural">חבר</source><result>חברים</result></test>
+
+    <test><source>מכונית</source><result>מכונית</result></test>
+    <test><source number="singular">מכונית</source><result>מכונית</result></test>
+    <test><source number="dual">מכונית</source><result>מכוניות</result></test>
+    <test><source number="plural">מכונית</source><result>מכוניות</result></test>
+
+    <test><source>חברה</source><result>חברה</result></test>
+    <test><source number="singular">חברה</source><result>חברה</result></test>
+    <test><source number="dual">חברה</source><result>חברות</result></test>
+    <test><source number="plural">חברה</source><result>חברות</result></test>
+
+    <test><source>דרך</source><result>דרך</result></test>
+    <test><source number="singular">דרך</source><result>דרך</result></test>
+    <test><source number="dual">דרך</source><result>דרכים</result></test>
+    <test><source number="plural">דרך</source><result>דרכים</result></test>
+
+    <test><source>מכונית</source><result>מכונית</result></test>
+    <test><source number="singular">מכונית</source><result>מכונית</result></test>
+    <test><source number="dual">מכונית</source><result>מכוניות</result></test>
+    <test><source number="plural">מכונית</source><result>מכוניות</result></test>
+
+    <test><source>חשבון</source><result>חשבון</result></test>
+    <test><source number="singular">חשבון</source><result>חשבון</result></test>
+    <test><source number="dual">חשבון</source><result>חשבונות</result></test>
+    <test><source number="plural">חשבון</source><result>חשבונות</result></test>
+
+    <test><source>רעיון</source><result>רעיון</result></test>
+    <test><source number="singular">רעיון</source><result>רעיון</result></test>
+    <test><source number="dual">רעיון</source><result>רעיונות</result></test>
+    <test><source number="plural">רעיון</source><result>רעיונות</result></test>
+
+    <test><source>צל</source><result>צל</result></test>
+    <test><source number="singular">צל</source><result>צל</result></test>
+    <test><source number="dual">צל</source><result>צללים</result></test>
+    <test><source number="plural">צל</source><result>צללים</result></test>
+
+    <test><source>אפשרות</source><result>אפשרות</result></test>
+    <test><source number="singular">אפשרות</source><result>אפשרות</result></test>
+    <test><source number="dual">אפשרות</source><result>אפשרויות</result></test>
+    <test><source number="plural">אפשרות</source><result>אפשרויות</result></test>
+
+    <test><source>חלון</source><result>חלון</result></test>
+    <test><source number="singular">חלון</source><result>חלון</result></test>
+    <test><source number="dual">חלון</source><result>חלונות</result></test>
+    <test><source number="plural">חלון</source><result>חלונות</result></test>
+
+    <test><source>שבוע</source><result>שבוע</result></test>
+    <test><source number="singular">שבוע</source><result>שבוע</result></test>
+    <test><source number="dual">שבוע</source><result>שבועיים</result></test>
+    <test><source number="plural">שבוע</source><result>שבועות</result></test>
+
+    <test><source>איש קשר</source><result>איש קשר</result></test>
+    <test><source number="singular">איש קשר</source><result>איש קשר</result></test>
+    <test><source number="dual">איש קשר</source><result>אנשי קשר</result></test>
+    <test><source number="plural">איש קשר</source><result>אנשי קשר</result></test>
+
+    <test><source>הודעת טקסט</source><result>הודעת טקסט</result></test>
+    <test><source number="singular">הודעת טקסט</source><result>הודעת טקסט</result></test>
+    <test><source number="dual">הודעת טקסט</source><result>הודעות טקסט</result></test>
+    <test><source number="plural">הודעת טקסט</source><result>הודעות טקסט</result></test>
+
+    <test><source>מספר טלפון</source><result>מספר טלפון</result></test>
+    <test><source number="singular">מספר טלפון</source><result>מספר טלפון</result></test>
+    <test><source number="dual">מספר טלפון</source><result>מספרי טלפון</result></test>
+    <test><source number="plural">מספר טלפון</source><result>מספרי טלפון</result></test>
+
+    <test><source>שעון מעורר</source><result>שעון מעורר</result></test>
+    <test><source number="singular">שעון מעורר</source><result>שעון מעורר</result></test>
+    <test><source number="dual">שעון מעורר</source><result>שעונים מעוררים</result></test>
+    <test><source number="plural">שעון מעורר</source><result>שעונים מעוררים</result></test>
+
+    <test><source>מסעדה צרפתית</source><result>מסעדה צרפתית</result></test>
+    <test><source number="singular">מסעדה צרפתית</source><result>מסעדה צרפתית</result></test>
+    <test><source number="dual">מסעדה צרפתית</source><result>מסעדות צרפתיות</result></test>
+    <test><source number="plural">מסעדה צרפתית</source><result>מסעדות צרפתיות</result></test>
+
+    <test><source>פרק הבא</source><result>פרק הבא</result></test>
+    <test><source number="singular">פרק הבא</source><result>פרק הבא</result></test>
+    <test><source number="dual">פרק הבא</source><result>פרקים הבאים</result></test>
+    <test><source number="plural">פרק הבא</source><result>פרקים הבאים</result></test>
+
+    <test><source>אובססיה</source><result withConditionalHyphen="אובססיה"/></test>
+    <test><source>test</source><result withConditionalHyphen="-test"/></test>
+    <test><source>9</source><result withConditionalHyphen="-9"/></test>
+    <test><source>9אובססיה</source><result withConditionalHyphen="-9אובססיה"/></test>
+
+    <!-- Test pluralization of <noun> <noun> compounds (smixut) case in point: "garage door" -->
+    <test><source number="plural">דלת מוסך</source><result>דלתות מוסך</result></test> 
+    <test><source definiteness="definite">דלת מוסך</source><result>דלת המוסך</result></test>
+    <test><source number="plural" definiteness="definite">דלת מוסך</source><result>דלתות המוסך</result></test>  <!-- several doors single garage -->
+
+</inflectionTest>

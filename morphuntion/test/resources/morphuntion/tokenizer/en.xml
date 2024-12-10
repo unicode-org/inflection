@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!--
+ Copyright 2022-2024 Apple Inc. All rights reserved.
+-->
+<tokenizerTest locale="en">
+    <!-- Patterns to trigger partial explicit token handling. -->
+    <test>
+        <annotatedTokens>^</annotatedTokens>
+    </test>
+    <test>
+        <annotatedTokens>^|key</annotatedTokens>
+    </test>
+    <test>
+        <annotatedTokens>^|key|^</annotatedTokens>
+    </test>
+    <test>
+        <annotatedTokens>^|key|^|=</annotatedTokens>
+    </test>
+    <test>
+        <annotatedTokens>^|key|^|=|^</annotatedTokens>
+    </test>
+    <test>
+        <annotatedTokens>^|key|^|=|^|value</annotatedTokens>
+    </test>
+    <test>
+        <annotatedTokens>^|key|^| |=|^|value|^</annotatedTokens>
+    </test>
+    <test>
+        <annotatedTokens>^|key|^|=| |^|value|^</annotatedTokens>
+    </test>
+    <test>
+        <annotatedTokens>A|.|9</annotatedTokens>
+    </test>
+</tokenizerTest>

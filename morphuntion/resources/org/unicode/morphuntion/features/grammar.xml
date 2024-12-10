@@ -1,0 +1,2628 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!--
+ Copyright 2016-2024 Apple Inc. All rights reserved.
+-->
+<!DOCTYPE languages SYSTEM "grammar.dtd">
+<languages>
+    <!-- This file contains all the semantic features for SemanticConcept objects. -->
+    <!--
+     The grammar categories can be used as annotation of tokens in addition to the properties provided by the DictionaryMetaData class.
+     So similar concepts should not diverge in name. The features are not used with DictionaryMetaData.
+      -->
+    <!-- @author George Rhoten 2015-01-23 -->
+    <common>
+        <!-- This is the common stuff regardless of what the other languages specify. -->
+        <grammar>
+            <category name="pos">
+                <grammeme name="abbreviation"/>
+                <grammeme name="adjective"/>
+                <grammeme name="adverb"/>
+                <!-- grammeme name="article" -->
+                <grammeme name="conjunction"/>
+                <!-- grammeme name="determiner" -->
+                <grammeme name="interjection"/>
+                <!-- grammeme name="letter"/ -->
+                <grammeme name="noun"/>
+                <!-- grammeme name="number"/ -->
+                <!-- grammeme name="participle" -->
+                <grammeme name="particle"/>
+                <!-- grammeme name="postposition"/ -->
+                <!-- grammeme name="preposition" -->
+                <grammeme name="proper-noun"/>
+                <grammeme name="pronoun"/>
+                <grammeme name="verb"/>
+            </category>
+            <category name="sound">
+                <grammeme name="vowel-start"/>
+                <grammeme name="consonant-start"/>
+                <grammeme name="vowel-end"/>
+                <grammeme name="consonant-end"/>
+            </category>
+        </grammar>
+        <features>
+            <feature name="speak"/>
+        </features>
+    </common>
+    <language id="ar">
+        <grammar>
+            <category name="animacy">
+                <grammeme name="human"/>
+                <grammeme name="nonhuman"/>
+            </category>
+            <category name="case">
+                <grammeme name="accusative"/>
+                <grammeme name="genitive"/>
+                <grammeme name="nominative"/>
+            </category>
+            <category name="number">
+                <grammeme name="singular"/>
+                <grammeme name="dual"/>
+                <grammeme name="plural"/> <!-- other -->
+            </category>
+            <category name="numberPronoun" aliasable="false">
+                <grammeme name="singular"/>
+                <grammeme name="dual"/>
+                <grammeme name="plural"/> <!-- other -->
+            </category>
+            <category name="definiteness"><!-- state -->
+                <grammeme name="definite"/>
+                <grammeme name="indefinite"/>
+                <grammeme name="construct"/>
+            </category>
+            <category name="gender">
+                <grammeme name="masculine"/>
+                <grammeme name="feminine"/>
+            </category>
+            <category name="genderPronoun" aliasable="false">
+                <grammeme name="masculine"/>
+                <grammeme name="feminine"/>
+            </category>
+            <category name="person">
+                <grammeme name="first"/>
+                <grammeme name="second"/>
+                <grammeme name="third"/>
+            </category>
+            <category name="pronounType">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="personal"/>
+                <grammeme name="reflexive"/>
+            </category>
+            <category name="mood">
+                <restrictions>
+                    <restriction name="pos" value="verb"/>
+                </restrictions>
+                <grammeme name="imperative"/>
+                <grammeme name="indicative"/>
+                <grammeme name="jussive"/>
+                <grammeme name="subjunctive"/>
+                <!-- long and short energetic? -->
+            </category>
+            <category name="tense">
+                <grammeme name="past"/>
+                <grammeme name="present"/>
+                <grammeme name="future"/>
+            </category>
+        </grammar>
+        <features>
+            <feature name="reflexivePron"/>
+            <feature name="withPossessivePron"/>
+            <feature name="withToPrep"/> <!--ل -->
+            <feature name="withWithPrep"/> <!-- ب -->
+            <feature name="withAndPrep"/> <!-- و -->
+            <feature name="withAsPrep"/> <!-- ك-->
+        </features>
+    </language>
+    <language id="bg">
+        <grammar>
+            <category name="case">
+                <restrictions>
+                    <restriction name="pos" value="noun"/>
+                    <restriction name="pos" value="proper-noun"/>
+                </restrictions>
+                <grammeme name="accusative">
+                    <restrictions>
+                        <restriction name="pos" value="pronoun"/>
+                    </restrictions>
+                </grammeme>
+                <grammeme name="dative">
+                    <restrictions>
+                        <restriction name="pos" value="pronoun"/>
+                    </restrictions>
+                </grammeme>
+                <grammeme name="genitive">
+                    <restrictions>
+                        <restriction name="pos" value="pronoun"/>
+                    </restrictions>
+                </grammeme>
+                <grammeme name="nominative"/>
+                <grammeme name="vocative"/>
+            </category>
+            <category name="number">
+                <grammeme name="singular"/>
+                <grammeme name="plural"/>
+            </category>
+            <category name="definiteness">
+                <grammeme name="definite"/>
+                <grammeme name="indefinite"/>
+            </category>
+            <category name="emphasis">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="stressed"/>
+                <grammeme name="unstressed"/>
+            </category>
+            <category name="gender">
+                <grammeme name="masculine"/>
+                <grammeme name="feminine"/>
+                <grammeme name="neuter"/>
+            </category>
+            <category name="person">
+                <grammeme name="first"/>
+                <grammeme name="second"/>
+                <grammeme name="third"/>
+            </category>
+            <category name="pronounType">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="personal"/>
+                <grammeme name="reflexive"/>
+            </category>
+        </grammar>
+    </language>
+    <language id="ca">
+        <grammar>
+            <category name="case">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="nominative"/>
+                <grammeme name="genitive"/> <!-- AKA possessive -->
+                <grammeme name="accusative"/>
+                <grammeme name="dative"/>
+            </category>
+            <category name="gender">
+                <grammeme name="masculine"/>
+                <grammeme name="feminine"/>
+                <grammeme name="neuter"/>
+            </category>
+            <category name="number">
+                <grammeme name="singular"/>
+                <grammeme name="plural"/>
+            </category>
+            <category name="definiteness">
+                <grammeme name="definite"/>
+                <grammeme name="indefinite"/>
+            </category>
+            <category name="pos">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="adposition"/>
+            </category>
+            <category name="person">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="first"/>
+                <grammeme name="second"/>
+                <grammeme name="third"/>
+            </category>
+            <category name="position">
+                <grammeme name="proclitic"/>
+                <grammeme name="enclitic"/>
+            </category>
+            <category name="pronounType">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="personal"/>
+                <grammeme name="reflexive"/>
+            </category>
+            <category name="register">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="casual"/> <!-- AKA informal, but not to be confused with intimate -->
+                <grammeme name="formal"/>
+            </category>
+        </grammar>
+    </language>
+    <language id="cs">
+        <grammar>
+            <category name="animacy">
+                <restrictions>
+                    <restriction name="gender" value="masculine"/>
+                </restrictions>
+                <grammeme name="animate"/>
+                <grammeme name="inanimate"/>
+            </category>
+            <category name="case">
+                <restrictions>
+                    <restriction name="pos" value="noun"/>
+                    <restriction name="pos" value="proper-noun"/>
+                </restrictions>
+                <grammeme name="accusative"/>
+                <grammeme name="dative"/>
+                <grammeme name="genitive"/>
+                <grammeme name="instrumental"/>
+                <grammeme name="locative"/>
+                <grammeme name="nominative"/>
+                <grammeme name="vocative"/>
+            </category>
+            <category name="number">
+                <grammeme name="singular"/>
+                <grammeme name="plural"/>
+            </category>
+            <category name="emphasis">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="stressed"/>
+                <grammeme name="unstressed"/>
+            </category>
+            <category name="gender">
+                <grammeme name="masculine"/>
+                <grammeme name="feminine"/>
+                <grammeme name="neuter"/>
+            </category>
+            <category name="pos">
+                <grammeme name="adposition"/>
+            </category>
+            <category name="person">
+                <grammeme name="first"/>
+                <grammeme name="second"/>
+                <grammeme name="third"/>
+            </category>
+            <category name="pronounType">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="personal"/>
+                <grammeme name="possessive"/>
+                <grammeme name="reflexive"/>
+            </category>
+            <category name="register">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="casual"/> <!-- AKA familiar, but not to be confused with intimate -->
+                <grammeme name="formal"/> <!-- AKA polite -->
+            </category>
+        </grammar>
+    </language>
+    <language id="da">
+        <grammar>
+            <category name="case">
+                <grammeme name="nominative"/> <!-- AKA caseless -->
+                <grammeme name="genitive"/> <!-- AKA possessive -->
+                <grammeme name="accusative">
+                    <restrictions>
+                        <restriction name="pos" value="pronoun"/>
+                    </restrictions>
+                </grammeme>
+            </category>
+            <category name="gender">
+                <grammeme name="neuter"/>
+                <grammeme name="common"/>
+                <grammeme name="masculine">
+                    <restrictions>
+                        <restriction name="pos" value="pronoun"/>
+                    </restrictions>
+                </grammeme>
+                <grammeme name="feminine">
+                    <restrictions>
+                        <restriction name="pos" value="pronoun"/>
+                    </restrictions>
+                </grammeme>
+            </category>
+            <category name="number">
+                <grammeme name="singular"/>
+                <grammeme name="plural"/>
+            </category>
+            <category name="definiteness">
+                <grammeme name="definite"/>
+                <grammeme name="indefinite"/>
+            </category>
+            <category name="form">
+                <restrictions>
+                    <restriction name="pos" value="verb"/>
+                </restrictions>
+                <grammeme name="infinitive"/>
+                <grammeme name="participle"/>
+            </category>
+            <category name="person">
+                <grammeme name="first"/>
+                <grammeme name="second"/>
+                <grammeme name="third"/>
+            </category>
+            <category name="pronounType">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="personal"/>
+                <grammeme name="reflexive"/>
+            </category>
+            <category name="tense">
+                <grammeme name="past"/>
+                <grammeme name="present"/>
+                <grammeme name="future"/> <!-- Requires time words instead of an isolated word -->
+            </category>
+        </grammar>
+        <features>
+            <feature name="negArticle" default="ingen">
+                <value result="intet" number="singular" gender="neuter"/>
+                <value result="ingen"/>
+            </feature>
+            <feature name="withNegArticle"/>
+            <feature name="defArticle" default="den">
+                <value result="den" number="singular" gender="common"/>
+                <value result="det" number="singular" gender="neuter"/>
+                <value result="de" number="plural"/>
+            </feature>
+            <feature name="withDefArticle"/>
+            <feature name="indefArticle" default="en">
+                <value result="en" number="singular" gender="common"/>
+                <value result="et" number="singular" gender="neuter"/>
+                <value result="flere" number="plural"/>
+            </feature>
+            <feature name="withIndefArticle"/>
+            <feature name="possArticle" default="din">
+                <value result="din" number="singular" gender="common"/>
+                <value result="dit" number="singular" gender="neuter"/>
+                <value result="dine" number="plural"/>
+            </feature>
+            <feature name="withPossArticle"/>
+            <feature name="newArticle" default="ny">
+                <value result="ny" number="singular" gender="common"/>
+                <value result="nyt" number="singular" gender="neuter"/>
+                <value result="nye" number="plural"/>
+            </feature>
+            <feature name="withNewArticle"/>
+            <feature name="otherArticle" default="anden">
+                <value result="anden" number="singular" gender="common"/>
+                <value result="andet" number="singular" gender="neuter"/>
+                <value result="andre" number="plural"/>
+            </feature>
+            <feature name="withOtherArticle"/>
+            <feature name="interrogativeArticle" default="hvilken">
+                <value result="hvilken" number="singular" gender="common"/>
+                <value result="hvilket" number="singular" gender="neuter"/>
+                <value result="hvilke" number="plural"/>
+            </feature>
+            <feature name="withInterrogativeArticle"/>
+            <feature name="indefPron" default="nogen">
+                <value result="nogen" number="singular" gender="common"/>
+                <value result="noget" number="singular" gender="neuter"/>
+                <value result="nogle" number="plural"/>
+            </feature>
+            <feature name="withIndefPron"/>
+            <feature name="demonArticle" default="denne">
+                <value result="denne" number="singular" gender="common"/>
+                <value result="dette" number="singular" gender="neuter"/>
+                <value result="disse" number="plural"/>
+            </feature>
+            <feature name="withDemonArticle"/>
+        </features>
+    </language>
+    <language id="de">
+        <grammar>
+            <category name="case">
+                <grammeme name="accusative"/>
+                <grammeme name="dative"/>
+                <grammeme name="genitive"/>
+                <grammeme name="nominative"/>
+            </category>
+            <category name="gender">
+                <grammeme name="masculine"/>
+                <grammeme name="feminine"/>
+                <grammeme name="neuter"/>
+            </category>
+            <category name="number">
+                <grammeme name="singular"/>
+                <grammeme name="plural"/>
+            </category>
+            <category name="declension">
+                <grammeme name="strong"/>
+                <grammeme name="mixed"/>
+                <grammeme name="weak"/>
+            </category>
+            <category name="definiteness">
+                <grammeme name="definite"/>
+                <grammeme name="indefinite"/>
+            </category>
+            <category name="determination">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                    <restriction name="case" value="genitive"/>
+                </restrictions>
+                <grammeme name="independent"/> <!-- e.g. mine -->
+                <grammeme name="dependent"/> <!-- e.g. my {object} -->
+            </category>
+            <category name="form">
+                <grammeme name="infinitive"/>
+                <grammeme name="participle"/>
+            </category>
+            <category name="mood">
+                <restrictions>
+                    <restriction name="pos" value="verb"/>
+                </restrictions>
+                <grammeme name="imperative"/>
+                <grammeme name="indicative"/>
+                <grammeme name="subjunctive"/>
+            </category>
+            <category name="person">
+                <grammeme name="first"/>
+                <grammeme name="second"/>
+                <grammeme name="third"/>
+            </category>
+            <category name="pronounType">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="personal"/>
+                <grammeme name="reflexive"/>
+            </category>
+            <category name="tense">
+                <grammeme name="past"/>
+                <grammeme name="present"/>
+                <grammeme name="future"/> <!-- Requires auxiliary words -->
+            </category>
+        </grammar>
+        <features>
+            <feature name="stem"/>
+            <feature name="pronoun"/>
+            <feature name="withPronoun"/>
+            <feature name="possessivePronoun"/>
+            <feature name="withPossessivePronoun"/>
+            <feature name="defArticle"/>
+            <feature name="defArticleInPreposition"/>
+            <feature name="withDefArticleInPreposition"/>
+            <feature name="indefArticle"/>
+            <feature name="possArticle"/>
+            <feature name="withPossArticle"/>
+            <feature name="negArticle"/>
+            <feature name="withNegArticle"/>
+            <feature name="demonArticle"/>
+            <feature name="withDemonArticle"/>
+            <feature name="interrogativeArticle"/>
+            <feature name="withInterrogativeArticle"/>
+        </features>
+    </language>
+    <language id="el">
+        <grammar>
+            <category name="case">
+                <restrictions>
+                    <restriction name="pos" value="noun"/>
+                    <restriction name="pos" value="proper-noun"/>
+                </restrictions>
+                <grammeme name="accusative"/>
+                <grammeme name="genitive"/>
+                <grammeme name="dative"/>
+                <grammeme name="nominative"/>
+            </category>
+            <category name="number">
+                <grammeme name="singular"/>
+                <grammeme name="plural"/>
+            </category>
+            <category name="emphasis">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="stressed"/>
+                <grammeme name="unstressed"/>
+            </category>
+            <category name="gender">
+                <grammeme name="masculine"/>
+                <grammeme name="feminine"/>
+                <grammeme name="neuter"/>
+            </category>
+            <category name="person">
+                <grammeme name="first"/>
+                <grammeme name="second"/>
+                <grammeme name="third"/>
+            </category>
+        </grammar>
+    </language>
+    <language id="en">
+        <grammar>
+            <category name="case">
+                <restrictions>
+                    <restriction name="pos" value="noun"/>
+                    <restriction name="pos" value="proper-noun"/>
+                </restrictions>
+                <grammeme name="nominative"/>
+                <grammeme name="genitive"/> <!-- AKA possessive -->
+                <grammeme name="accusative">
+                    <restrictions>
+                        <restriction name="pos" value="pronoun"/>
+                    </restrictions>
+                </grammeme>
+            </category>
+            <category name="number"> <!-- Valid with almost any other grammeme -->
+                <grammeme name="singular"/>
+                <grammeme name="plural"/>
+            </category>
+            <category name="definiteness">
+                <restrictions>
+                    <restriction name="pos" value="noun"/>
+                </restrictions>
+                <grammeme name="definite"/>
+                <grammeme name="indefinite"/>
+            </category>
+            <category name="form">
+                <restrictions>
+                    <restriction name="pos" value="verb"/>
+                </restrictions>
+                <grammeme name="infinitive"/>
+                <grammeme name="gerund"/>
+                <grammeme name="participle"/>
+            </category>
+            <category name="mood">
+                <restrictions>
+                    <restriction name="pos" value="verb"/>
+                </restrictions>
+                <grammeme name="imperative"/>
+                <grammeme name="conditional"/>
+                <grammeme name="indicative"/>
+                <grammeme name="subjunctive"/>
+            </category>
+            <category name="tense">
+                <restrictions>
+                    <restriction name="pos" value="verb"/>
+                </restrictions>
+                <grammeme name="past"/>
+                <grammeme name="present"/>
+                <grammeme name="future"/> <!-- Requires auxiliary words -->
+            </category>
+            <category name="person">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="first"/>
+                <grammeme name="second"/>
+                <grammeme name="third"/>
+            </category>
+            <category name="gender"> <!-- This is physical gender and not grammatical gender. -->
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="common"/> <!-- unspecified/unknown/epicene e.g. "them" or "one" -->
+                <grammeme name="masculine"/> <!-- e.g. "him" -->
+                <grammeme name="feminine"/> <!-- e.g. "her" -->
+                <grammeme name="neuter"/> <!-- e.g. "it", and not to be confused with "them" -->
+            </category>
+            <category name="pronounType">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="personal"/>
+                <grammeme name="reflexive"/>
+            </category>
+            <category name="determination">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                    <restriction name="case" value="genitive"/>
+                </restrictions>
+                <grammeme name="independent"/> <!-- e.g. mine -->
+                <grammeme name="dependent"/> <!-- e.g. my {object} -->
+            </category>
+        </grammar>
+        <features>
+            <feature name="defArticle" default="the">
+                <value result="the"/>
+            </feature>
+            <feature name="indefArticle" default="a">
+                <value result="a"/>
+                <value result="an"/>
+            </feature>
+        </features>
+    </language>
+    <language id="es">
+        <grammar>
+            <category name="case">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="nominative"/>
+                <grammeme name="genitive"/> <!-- AKA possessive -->
+                <grammeme name="accusative"/>
+                <grammeme name="dative"/>
+                <grammeme name="prepositional"/>
+            </category>
+            <category name="gender">
+                <grammeme name="masculine"/>
+                <grammeme name="feminine"/>
+                <grammeme name="neuter" >
+                    <restrictions>
+                        <restriction name="pos" value="pronoun"/>
+                    </restrictions>
+                </grammeme>
+            </category>
+            <category name="number">
+                <grammeme name="singular"/>
+                <grammeme name="plural"/>
+            </category>
+            <category name="definiteness">
+                <grammeme name="definite"/>
+                <grammeme name="indefinite"/>
+            </category>
+            <category name="form">
+                <restrictions>
+                    <restriction name="pos" value="verb"/>
+                </restrictions>
+                <grammeme name="infinitive"/>
+                <grammeme name="gerund"/>
+                <grammeme name="participle"/>
+            </category>
+            <category name="mood">
+                <restrictions>
+                    <restriction name="pos" value="verb"/>
+                </restrictions>
+                <grammeme name="imperative"/>
+                <grammeme name="indicative"/>
+                <grammeme name="subjunctive"/>
+            </category>
+            <category name="person">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="first"/>
+                <grammeme name="second"/>
+                <grammeme name="third"/>
+            </category>
+            <category name="determination">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                    <restriction name="case" value="genitive"/>
+                </restrictions>
+                <grammeme name="independent"/>
+                <grammeme name="dependent"/>
+            </category>
+            <category name="pronounType">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="personal"/>
+                <grammeme name="reflexive"/>
+            </category>
+            <category name="register">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="casual"/> <!-- AKA informal, but not to be confused with intimate -->
+                <grammeme name="formal"/>
+            </category>
+            <category name="tense">
+                <restrictions>
+                    <restriction name="pos" value="verb"/>
+                </restrictions>
+                <grammeme name="past"/>
+                <grammeme name="present"/>
+                <grammeme name="future"/>
+            </category>
+        </grammar>
+        <features>
+            <feature name="defArticle" default="">
+                <value result="el" number="singular" gender="masculine"/>
+                <value result="la" number="singular" gender="feminine"/>
+                <value result="los" number="plural" gender="masculine"/>
+                <value result="las" number="plural" gender="feminine"/>
+                <value result=""/>
+            </feature>
+            <feature name="indefArticle" default="">
+                <value result="un" number="singular" gender="masculine"/>
+                <value result="una" number="singular" gender="feminine"/>
+                <value result="unos" number="plural" gender="masculine"/>
+                <value result="unas" number="plural" gender="feminine"/>
+            </feature>
+            <feature name="dePrepArticle" default="de">
+                <value result="del" number="singular" gender="masculine"/>
+                <value result="de la" number="singular" gender="feminine"/>
+                <value result="de los" number="plural" gender="masculine"/>
+                <value result="de las" number="plural" gender="feminine"/>
+                <value result="de"/> <!-- The "de" value is the uncommon case. The rest are derived from the gender and number when they are defined. -->
+            </feature>
+            <feature name="withDePrepArticle"/>
+            <feature name="aPrepArticle" default="a">
+                <value result="al" number="singular" gender="masculine"/>
+                <value result="a la" number="singular" gender="feminine"/>
+                <value result="a los" number="plural" gender="masculine"/>
+                <value result="a las" number="plural" gender="feminine"/>
+                <value result="a"/> <!-- The "a" value is the uncommon case. The rest are derived from the gender and number when they are defined. -->
+            </feature>
+            <feature name="withAPrepArticle"/>
+            <feature name="demAdj" default="">
+                <value result="este" number="singular" gender="masculine"/>
+                <value result="esta" number="singular" gender="feminine"/>
+                <value result="estos" number="plural" gender="masculine"/>
+                <value result="estas" number="plural" gender="feminine"/>
+            </feature>
+            <feature name="withDemAdj"/>
+        </features>
+    </language>
+    <language id="et">
+        <grammar>
+            <category name="animacy">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="animate"/>
+                <grammeme name="inanimate"/>
+            </category>
+            <category name="case">
+                <grammeme name="nominative"/>
+                <grammeme name="accusative"/>
+                <grammeme name="genitive"/>
+                <grammeme name="partitive"/>
+                <grammeme name="illative"/>
+                <grammeme name="inessive"/>
+                <grammeme name="elative"/>
+                <grammeme name="allative"/>
+                <grammeme name="adessive"/>
+                <grammeme name="ablative"/>
+                <grammeme name="translative"/>
+                <grammeme name="terminative"/>
+                <grammeme name="essive"/>
+                <grammeme name="abessive"/>
+                <grammeme name="comitative"/>
+            </category>
+            <category name="number">
+                <grammeme name="singular"/>
+                <grammeme name="plural"/>
+            </category>
+            <category name="emphasis">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="stressed"/>
+                <grammeme name="unstressed"/>
+            </category>
+            <category name="person">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="first"/>
+                <grammeme name="second"/>
+                <grammeme name="third"/>
+            </category>
+            <category name="pronounType">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="personal"/>
+                <grammeme name="reflexive"/>
+            </category>
+            <category name="register">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="casual"/> <!-- AKA informal, but not to be confused with intimate -->
+                <grammeme name="formal"/>
+            </category>
+            <category name="tense">
+                <restrictions>
+                    <restriction name="pos" value="verb"/>
+                </restrictions>
+                <grammeme name="past"/>
+                <grammeme name="present"/>
+            </category>
+        </grammar>
+    </language>
+    <language id="fi">
+        <grammar>
+            <category name="animacy">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="animate"/>
+                <grammeme name="inanimate"/>
+            </category>
+            <category name="case">
+                <grammeme name="nominative"/>
+                <grammeme name="genitive"/>
+                <grammeme name="partitive"/>
+                <grammeme name="inessive"/>
+                <grammeme name="elative"/>
+                <grammeme name="illative"/>
+                <grammeme name="adessive"/>
+                <grammeme name="ablative"/>
+                <grammeme name="allative"/>
+                <grammeme name="essive"/>
+                <grammeme name="translative"/>
+                <grammeme name="abessive"/>
+            </category>
+            <category name="number">
+                <grammeme name="singular"/>
+                <grammeme name="plural"/>
+            </category>
+            <category name="person">
+                <grammeme name="first"/>
+                <grammeme name="second"/>
+                <grammeme name="third"/>
+            </category>
+            <category name="tense">
+                <grammeme name="present"/>
+                <grammeme name="past"/>
+                <!-- Future tense doesn't exist in Finnish nor with auxiliary words. -->
+            </category>
+            <category name="locative">
+                <grammeme name="inner"/>
+                <grammeme name="outer"/>
+            </category>
+        </grammar>
+    </language>
+    <language id="fr">
+        <grammar>
+            <category name="case">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="nominative"/>
+                <grammeme name="genitive"/> <!-- AKA possessive -->
+                <grammeme name="accusative"/>
+                <grammeme name="dative"/>
+            </category>
+            <category name="number">
+                <grammeme name="singular"/>
+                <grammeme name="plural"/>
+            </category>
+            <category name="definiteness">
+                <grammeme name="definite"/>
+                <grammeme name="indefinite"/>
+            </category>
+            <category name="gender">
+                <grammeme name="masculine"/>
+                <grammeme name="feminine"/>
+            </category>
+            <category name="form">
+                <grammeme name="infinitive"/>
+                <grammeme name="participle"/>
+            </category>
+            <category name="mood">
+                <restrictions>
+                    <restriction name="pos" value="verb"/>
+                </restrictions>
+                <grammeme name="imperative"/>
+                <grammeme name="conditional"/>
+                <grammeme name="indicative"/>
+                <grammeme name="subjunctive"/>
+            </category>
+            <category name="person">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="first"/>
+                <grammeme name="second"/>
+                <grammeme name="third"/>
+            </category>
+            <category name="pronounType">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="personal"/>
+                <grammeme name="disjunctive"/>
+                <grammeme name="reflexive"/>
+            </category>
+            <category name="tense">
+                <grammeme name="past"/>
+                <grammeme name="present"/>
+                <grammeme name="future"/>
+            </category>
+        </grammar>
+        <features>
+            <!--
+            If you modify the French grammar, please take these web pages into consideration:
+            http://french.about.com/od/grammar/a/articles.htm
+            http://french.about.com/od/grammar/a/preposition_a.htm
+            -->
+            <feature name="indefArticle" default="">
+                <value result="un" number="singular" gender="masculine"/>
+                <value result="une" number="singular" gender="feminine"/>
+                <value result="des" number="plural"/>
+                <!--
+                FIXME Need a way to properly prevent wiktionary from generating articles when they are not wanted
+                The empty entry in the list of definite and indefinite articles are needed to fix
+                words polluting the sports dialogs with articles for cities
+                -->
+                <value result=""/>
+            </feature>
+            <feature name="defArticle" default="">
+                <value result="l’" number="singular" sound="vowel-start"/>
+                <value result="le " number="singular" gender="masculine"/>
+                <value result="la " number="singular" gender="feminine"/>
+                <value result="les " number="plural"/>
+                <value result=""/>
+            </feature>
+            <feature name="dePrepArticle" default="">
+                <value result="de l’" number="singular" sound="vowel-start"/>
+                <value result="du " number="singular" gender="masculine"/>
+                <value result="de la " number="singular" gender="feminine"/>
+                <value result="des " number="plural"/>
+                <value result="d’" sound="vowel-start"/>
+                <value result="de "/>
+            </feature>
+            <feature name="withDePrepArticle"/>
+            <feature name="aPrepArticle" default="">
+                <value result="à l’" number="singular" sound="vowel-start"/>
+                <value result="au " number="singular" gender="masculine"/>
+                <value result="à la " number="singular" gender="feminine"/>
+                <value result="aux " number="plural"/>
+                <value result="à "/>
+            </feature>
+            <feature name="withAPrepArticle"/>
+            <feature name="genitiveArticle" default="">
+                <value result="de l’" number="singular" sound="vowel-start"/>
+                <value result="de " number="singular" gender="masculine"/>
+                <value result="de la " number="singular" gender="feminine"/>
+                <value result="les " number="plural"/>
+                <value result="de "/>
+            </feature>
+            <feature name="demonArticle" default="">
+                <value result="cet" number="singular" gender="masculine" sound="vowel-start"/>
+                <value result="ce" number="singular" gender="masculine"/>
+                <value result="cette" number="singular" gender="feminine"/>
+                <value result="ces" number="plural"/>
+                <value result=""/>
+            </feature>
+            <feature name="withDemonArticle"/>
+            <feature name="withGenitiveArticle"/>
+            <feature name="dePrep" default="">
+                <value result="d’" sound="vowel-start"/>
+                <value result="de " sound="consonant-start"/>
+                <value result=""/>
+            </feature>
+            <feature name="withDePrep"/>
+            <feature name="que" default="">
+                <value result="qu’" sound="vowel-start"/>
+                <value result="que " sound="consonant-start"/>
+                <value result=""/>
+            </feature>
+            <feature name="withQue"/>
+        </features>
+    </language>
+    <language id="he">
+        <grammar>
+            <category name="case">
+                <grammeme name="genitive"/>
+                <grammeme name="nominative"/>
+            </category>
+            <category name="number">
+                <grammeme name="singular"/>
+                <grammeme name="dual"/>
+                <grammeme name="plural"/> <!-- other -->
+            </category>
+            <category name="definiteness">
+                <grammeme name="definite"/>
+                <grammeme name="indefinite"/>
+                <grammeme name="construct"/>
+            </category>
+            <category name="gender">
+                <grammeme name="masculine"/>
+                <grammeme name="feminine"/>
+            </category>
+            <category name="person">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="first"/>
+                <grammeme name="second"/>
+                <grammeme name="third"/>
+            </category>
+            <category name="pronounType">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="personal"/>
+                <grammeme name="reflexive"/>
+            </category>
+            <category name="form">
+                <grammeme name="infinitive"/>
+                <grammeme name="participle"/>
+            </category>
+            <category name="tense">
+                <grammeme name="past"/>
+                <grammeme name="present"/>
+                <grammeme name="future"/>
+            </category>
+        </grammar>
+        <features>
+            <feature name="withConditionalHyphen"/>
+        </features>
+    </language>
+    <language id="hi">
+        <grammar>
+            <category name="case">
+                <grammeme name="oblique"/>
+                <grammeme name="direct"/>
+                <grammeme name="genitive">
+                    <restrictions>
+                        <restriction name="pos" value="pronoun"/>
+                    </restrictions>
+                </grammeme>
+                <grammeme name="ergative">
+                    <restrictions>
+                        <restriction name="pos" value="pronoun"/>
+                    </restrictions>
+                </grammeme>
+                <grammeme name="accusative">
+                    <restrictions>
+                        <restriction name="pos" value="pronoun"/>
+                    </restrictions>
+                </grammeme>
+            </category>
+            <category name="number">
+                <grammeme name="singular"/>
+                <grammeme name="plural"/>
+            </category>
+            <category name="person">
+                <grammeme name="first"/>
+                <grammeme name="second"/>
+                <!-- <grammeme name="third"/> --> <!-- Third person doesn't really exist. It uses demonstratives instead for the third person. -->
+            </category>
+            <category name="gender">
+                <grammeme name="masculine"/>
+                <grammeme name="feminine"/>
+            </category>
+            <category name="register">
+                <grammeme name="intimate"/>
+                <grammeme name="informal"/>
+                <grammeme name="formal"/>
+                <grammeme name="high"/>
+            </category>
+        </grammar>
+    </language>
+    <language id="hr">
+        <grammar>
+            <category name="case">
+                <restrictions>
+                    <restriction name="pos" value="noun"/>
+                    <restriction name="pos" value="proper-noun"/>
+                </restrictions>
+                <grammeme name="accusative"/>
+                <grammeme name="dative"/>
+                <grammeme name="genitive"/>
+                <grammeme name="instrumental"/>
+                <grammeme name="locative"/>
+                <grammeme name="nominative"/>
+                <grammeme name="vocative"/>
+            </category>
+            <category name="number">
+                <grammeme name="singular"/>
+                <grammeme name="plural"/>
+            </category>
+            <category name="emphasis">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="stressed"/>
+                <grammeme name="unstressed"/>
+            </category>
+            <category name="gender">
+                <grammeme name="masculine"/>
+                <grammeme name="feminine"/>
+                <grammeme name="neuter"/>
+            </category>
+            <category name="person">
+                <grammeme name="first"/>
+                <grammeme name="second"/>
+                <grammeme name="third"/>
+            </category>
+            <category name="pronounType">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="personal"/>
+                <grammeme name="reflexive"/>
+            </category>
+        </grammar>
+    </language>
+    <language id="hu">
+        <grammar>
+            <category name="case">
+                <grammeme name="ablative"/>
+                <grammeme name="accusative"/>
+                <grammeme name="adessive"/>
+                <grammeme name="allative"/>
+                <grammeme name="causal"/>
+                <grammeme name="dative"/>
+                <grammeme name="delative"/>
+                <grammeme name="elative"/>
+                <grammeme name="essive"/>
+                <grammeme name="illative"/>
+                <grammeme name="inessive"/>
+                <grammeme name="instrumental"/>
+                <grammeme name="nominative"/>
+                <grammeme name="sublative"/>
+                <grammeme name="superessive"/>
+                <grammeme name="terminative"/>
+                <grammeme name="translative"/>
+            </category>
+            <category name="number">
+                <grammeme name="singular"/>
+                <grammeme name="plural"/>
+            </category>
+            <category name="person">
+                <grammeme name="first"/>
+                <grammeme name="second"/>
+                <grammeme name="third"/>
+            </category>
+            <category name="pronounType">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="personal"/>
+                <grammeme name="reflexive"/>
+            </category>
+            <category name="tense">
+                <restrictions>
+                    <restriction name="pos" value="verb"/>
+                </restrictions>
+                <grammeme name="past"/>
+                <grammeme name="present"/>
+                <grammeme name="future"/>
+            </category>
+        </grammar>
+    </language>
+    <language id="id">
+        <grammar>
+            <category name="clusivity">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="inclusive"/>
+                <grammeme name="exclusive"/>
+            </category>
+            <category name="number">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="singular"/>
+                <grammeme name="plural"/>
+            </category>
+            <category name="case">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="genitive"/>
+                <grammeme name="nominative"/>
+            </category>
+            <category name="person">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="first"/>
+                <grammeme name="second"/>
+                <grammeme name="third"/>
+            </category>
+            <category name="tense">
+                <grammeme name="past"/>
+                <grammeme name="present"/>
+                <grammeme name="future"/>
+            </category>
+            <category name="register">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="casual"/> <!-- AKA familiar, but not to be confused with intimate -->
+                <grammeme name="formal"/> <!-- AKA polite -->
+            </category>
+        </grammar>
+        <features>
+            <feature name="measure"/>   <!-- See http://en.wikipedia.org/wiki/Measure_word for details. -->
+        </features>
+    </language>
+    <language id="is">
+        <grammar>
+            <category name="case">
+                <grammeme name="accusative"/>
+                <grammeme name="dative"/>
+                <grammeme name="genitive"/>
+                <grammeme name="nominative"/>
+            </category>
+            <category name="number">
+                <grammeme name="singular"/>
+                <grammeme name="plural"/>
+            </category>
+            <category name="definiteness">
+                <grammeme name="indefinite"/>
+                <grammeme name="definite"/>
+            </category>
+            <category name="gender">
+                <grammeme name="masculine"/>
+                <grammeme name="feminine"/>
+                <grammeme name="neuter"/>
+            </category>
+            <category name="person">
+                <grammeme name="first"/>
+                <grammeme name="second"/>
+                <grammeme name="third"/>
+            </category>
+            <category name="pronounType">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="personal"/>
+                <grammeme name="reflexive"/>
+            </category>
+            <category name="tense">
+                <restrictions>
+                    <restriction name="pos" value="verb"/>
+                </restrictions>
+                <grammeme name="past"/>
+                <grammeme name="present"/>
+                <grammeme name="future"/>
+            </category>
+        </grammar>
+    </language>
+    <language id="it">
+        <grammar>
+            <category name="case">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="nominative"/>
+                <grammeme name="genitive"/> <!-- AKA possessive -->
+                <grammeme name="accusative"/>
+                <grammeme name="dative"/>
+            </category>
+            <category name="gender">
+                <grammeme name="masculine"/>
+                <grammeme name="feminine"/>
+            </category>
+            <category name="number">
+                <grammeme name="singular"/>
+                <grammeme name="plural"/>
+            </category>
+            <category name="definiteness">
+                <grammeme name="definite"/>
+                <grammeme name="indefinite"/>
+            </category>
+            <category name="emphasis">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="stressed"/>
+                <grammeme name="unstressed"/>
+            </category>
+            <category name="form">
+                <grammeme name="infinitive"/>
+                <grammeme name="gerund"/>
+                <grammeme name="participle"/>
+            </category>
+            <category name="mood">
+                <restrictions>
+                    <restriction name="pos" value="verb"/>
+                </restrictions>
+                <grammeme name="imperative"/>
+                <grammeme name="conditional"/>
+                <grammeme name="indicative"/>
+                <grammeme name="subjunctive"/>
+            </category>
+            <category name="person">
+                <grammeme name="first"/>
+                <grammeme name="second"/>
+                <grammeme name="third"/>
+            </category>
+            <category name="pronounType">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="personal"/>
+                <grammeme name="reflexive"/>
+            </category>
+            <category name="tense">
+                <grammeme name="past"/>
+                <grammeme name="present"/>
+                <grammeme name="future"/>
+            </category>
+            <category name="sound">
+                <grammeme name="elision-vowel-start"/>
+                <grammeme name="complex-consonant-start"/>
+            </category>
+        </grammar>
+        <features>
+            <feature name="defArticle" default="">
+                <value result="le " number="plural" gender="feminine"/>
+                <value result="gli " number="plural" gender="masculine" sound="complex-consonant-start"/>
+                <value result="gli " number="plural" gender="masculine" sound="vowel-start"/>
+                <value result="i " number="plural" gender="masculine"/>
+                <value result="l’" sound="elision-vowel-start"/>
+                <value result="la " number="singular" gender="feminine"/>
+                <value result="lo " number="singular" gender="masculine" sound="complex-consonant-start"/>
+                <value result="il " number="singular" gender="masculine"/>
+            </feature>
+            <feature name="indefArticle" default="">
+                <!-- "delle ", "degli ", "dei " are uncommon but possible -->
+                <value result="delle " number="plural" gender="feminine"/>
+                <value result="degli " number="plural" gender="masculine" sound="complex-consonant-start"/>
+                <value result="degli " number="plural" gender="masculine" sound="vowel-start"/>
+                <value result="dei " number="plural" gender="masculine"/>
+                <value result="un’" gender="feminine" sound="elision-vowel-start"/>
+                <value result="una " number="singular" gender="feminine"/>
+                <value result="uno " number="singular" gender="masculine" sound="complex-consonant-start"/>
+                <value result="un " number="singular" gender="masculine"/>
+            </feature>
+            <feature name="aPrepArticle" default="">
+                <value result="alle " number="plural" gender="feminine"/>
+                <value result="agli " number="plural" gender="masculine" sound="complex-consonant-start"/>
+                <value result="agli " number="plural" gender="masculine" sound="vowel-start"/>
+                <value result="ai " number="plural" gender="masculine"/>
+                <value result="all’" sound="elision-vowel-start"/>
+                <value result="alla " number="singular" gender="feminine"/>
+                <value result="allo " number="singular" gender="masculine" sound="complex-consonant-start"/>
+                <value result="al " number="singular" gender="masculine"/>
+                <!-- The "a" value is the uncommon case. "in ufficio" is a special case -->
+                <value result="a "/>
+                <value result="in "/>
+            </feature>
+            <feature name="withAPrepArticle"/>
+            <feature name="daPrepArticle" default="">
+                <value result="dalle " number="plural" gender="feminine"/>
+                <value result="dagli " number="plural" gender="masculine" sound="complex-consonant-start"/>
+                <value result="dagli " number="plural" gender="masculine" sound="vowel-start"/>
+                <value result="dai " number="plural" gender="masculine"/>
+                <value result="dall’" sound="elision-vowel-start"/>
+                <value result="dalla " number="singular" gender="feminine"/>
+                <value result="dallo " number="singular" gender="masculine" sound="complex-consonant-start"/>
+                <value result="dal " number="singular" gender="masculine"/>
+                <!-- The "da" value is the uncommon case. -->
+                <value result="da "/>
+            </feature>
+            <feature name="withDaPrepArticle"/>
+            <feature name="dePrepArticle" default="">
+                <value result="delle " number="plural" gender="feminine"/>
+                <value result="degli " number="plural" gender="masculine" sound="complex-consonant-start"/>
+                <value result="degli " number="plural" gender="masculine" sound="vowel-start"/>
+                <value result="dei " number="plural" gender="masculine"/>
+                <value result="dell’" sound="elision-vowel-start"/>
+                <value result="della " number="singular" gender="feminine"/>
+                <value result="dello " number="singular" gender="masculine" sound="complex-consonant-start"/>
+                <value result="del " number="singular" gender="masculine"/>
+                <!-- The "de" value is the uncommon case. -->
+                <value result="de "/>
+            </feature>
+            <feature name="withDePrepArticle"/>
+            <feature name="inPrepArticle" default="">
+                <value result="nelle " number="plural" gender="feminine"/>
+                <value result="negli " number="plural" gender="masculine" sound="complex-consonant-start"/>
+                <value result="negli " number="plural" gender="masculine" sound="vowel-start"/>
+                <value result="nei " number="plural" gender="masculine"/>
+                <value result="nell’" sound="elision-vowel-start"/>
+                <value result="nella " number="singular" gender="feminine"/>
+                <value result="nello " number="singular" gender="masculine" sound="complex-consonant-start"/>
+                <value result="nel " number="singular" gender="masculine"/>
+                <!-- The "in" value is the uncommon case. -->
+                <value result="in "/>
+            </feature>
+            <feature name="withInPrepArticle"/>
+            <feature name="suPrepArticle" default="">
+                <value result="sulle " number="plural" gender="feminine"/>
+                <value result="sugli " number="plural" gender="masculine" sound="complex-consonant-start"/>
+                <value result="sugli " number="plural" gender="masculine" sound="vowel-start"/>
+                <value result="sui " number="plural" gender="masculine"/>
+                <value result="sull’" sound="elision-vowel-start"/>
+                <value result="sulla " number="singular" gender="feminine"/>
+                <value result="sullo " number="singular" gender="masculine" sound="complex-consonant-start"/>
+                <value result="sul " number="singular" gender="masculine"/>
+                <!-- The "su" value is the uncommon case. -->
+                <value result="su "/>
+            </feature>
+            <feature name="withSuPrepArticle"/>
+        </features>
+    </language>
+    <language id="ja">
+        <grammar>
+            <category name="gender">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="masculine"/>
+                <grammeme name="feminine"/>
+                <grammeme name="neuter"/>
+            </category>
+            <category name="person">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="first"/>
+                <grammeme name="second"/>
+                <grammeme name="third"/>
+            </category>
+            <category name="tense">
+                <grammeme name="past"/>
+                <grammeme name="present"/>
+                <grammeme name="future"/> <!-- Requires time words instead of an isolated word -->
+            </category>
+        </grammar>
+        <features>
+            <feature name="measure"/>   <!-- See http://en.wikipedia.org/wiki/Measure_word for details. -->
+        </features>
+    </language>
+    <language id="ko">
+        <grammar>
+            <category name="adjectival">
+                <grammeme name="predicative"/>  <!-- 이라/라 for the predicative particle -->
+                <grammeme name="attributive"/>
+            </category>
+            <category name="case">
+                <grammeme name="accusative"/>   <!-- 을/를 for the direct object -->
+                <grammeme name="comitative"/>   <!-- 와/과 It's like adding the word "and". -->
+                <grammeme name="genitive"/>     <!-- 의 -->
+                <grammeme name="instrumental"/> <!-- 로/으로 It's a particle that acts like the instrumental case. The lative, essive and ablative cases are related. -->
+                <grammeme name="nominative"/>   <!-- 이/가 for the subject and inclusive and 는/은 for topic and exclusive -->
+                <grammeme name="vocative"/>     <!-- 야/아 for saying hey! -->
+            </category>
+            <category name="clusivity">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="inclusive"/>
+                <grammeme name="exclusive"/>
+            </category>
+            <category name="number">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="singular"/>
+                <grammeme name="plural"/>
+            </category>
+            <category name="gender">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="masculine"/>
+                <grammeme name="feminine"/>
+            </category>
+            <category name="person">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="first"/>
+                <grammeme name="second"/>
+                <grammeme name="third"/>
+            </category>
+            <category name="register">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="casual"/> <!-- AKA informal, but not to be confused with intimate -->
+                <grammeme name="formal"/>
+            </category>
+            <category name="sound">
+                <grammeme name="rieul-end"/>
+            </category>
+            <category name="tense">
+                <grammeme name="past"/>
+                <grammeme name="present"/>
+                <grammeme name="future"/>
+            </category>
+        </grammar>
+        <features>
+            <feature name="measure"/>   <!-- See http://en.wikipedia.org/wiki/Measure_word for details. -->
+<!--            <feature name="eu" default="으">-->
+<!--                <value result="" sound="vowel-end"/>-->
+<!--                <value result="" sound="rieul-end"/>-->
+<!--                <value result="으"/>-->
+<!--            </feature>-->
+<!--            <feature name="yi" default="이">-->
+<!--                <value result="" sound="vowel-end"/>-->
+<!--                <value result="이"/>-->
+<!--            </feature>-->
+<!--            <feature name="topic" default="은"> &lt;!&ndash; This is an informational clitic. A clitic is syntactically independent but phonologically dependent on the previous word. They may override the case clitics, or be placed after other clitics. &ndash;&gt;-->
+<!--                <value result="는" sound="vowel-end"/>-->
+<!--                <value result="은"/>-->
+<!--            </feature>-->
+<!--            <feature name="subject" default="이"> &lt;!&ndash; It's a particle that acts like the nominative case &ndash;&gt;-->
+<!--                <value result="가" sound="vowel-end"/>-->
+<!--                <value result="이"/>-->
+<!--            </feature>-->
+<!--            <feature name="object" default="을"> &lt;!&ndash; It's a particle that acts like the accusative case &ndash;&gt;-->
+<!--                <value result="를" sound="vowel-end"/>-->
+<!--                <value result="을"/>-->
+<!--            </feature>-->
+<!--            <feature name="directional" default="으로"> &lt;!&ndash; It's a particle that acts like the lative case that means "onto" something or "with" something. It is related to the instrumental, essive and ablative cases. &ndash;&gt;-->
+<!--                <value result="로" sound="vowel-end"/>-->
+<!--                <value result="로" sound="rieul-end"/>-->
+<!--                <value result="으로"/>-->
+<!--            </feature>-->
+<!--            <feature name="addAnd" default="과"> &lt;!&ndash; It's a particle that acts like the comitative case. It's like adding the word "and". &ndash;&gt;-->
+<!--                <value result="와" sound="vowel-end"/>-->
+<!--                <value result="과"/>-->
+<!--            </feature>-->
+        </features>
+    </language>
+    <language id="kk">
+        <grammar>
+            <category name="case">
+                <grammeme name="nominative"/>
+                <grammeme name="genitive"/>
+                <grammeme name="dative"/>
+                <grammeme name="accusative"/>
+                <grammeme name="locative"/>
+                <grammeme name="ablative"/>
+                <grammeme name="instrumental"/>
+            </category>
+            <category name="number">
+                <grammeme name="singular"/>
+                <grammeme name="plural"/>
+            </category>
+            <category name="person">
+                <grammeme name="first"/>
+                <grammeme name="second"/>
+                <grammeme name="third"/>
+            </category>
+            <category name="pronounType">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="personal"/>
+                <grammeme name="reflexive"/>
+            </category>
+            <category name="register">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="casual"/> <!-- AKA informal, but not to be confused with intimate -->
+                <grammeme name="formal"/>
+            </category>
+            <category name="tense">
+                <restrictions>
+                    <restriction name="pos" value="verb"/>
+                </restrictions>
+                <grammeme name="past"/>
+                <grammeme name="present"/>
+                <grammeme name="future"/>
+            </category>
+        </grammar>
+    </language>
+    <language id="lt">
+        <grammar>
+            <category name="case">
+                <grammeme name="nominative"/>
+                <grammeme name="genitive"/>
+                <grammeme name="dative"/>
+                <grammeme name="accusative"/>
+                <grammeme name="instrumental"/>
+                <grammeme name="locative"/>
+                <grammeme name="vocative"/>
+            </category>
+            <category name="number">
+                <grammeme name="singular"/>
+                <grammeme name="dual"/>
+                <grammeme name="plural"/>
+            </category>
+            <category name="gender">
+                <grammeme name="masculine"/>
+                <grammeme name="feminine"/>
+            </category>
+            <category name="person">
+                <grammeme name="first"/>
+                <grammeme name="second"/>
+                <grammeme name="third"/>
+            </category>
+            <category name="tense">
+                <restrictions>
+                    <restriction name="pos" value="verb"/>
+                </restrictions>
+                <grammeme name="past"/>
+                <grammeme name="iterative"/>
+                <grammeme name="present"/>
+                <grammeme name="future"/>
+            </category>
+            <category name="pronounType">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="personal"/>
+                <grammeme name="possessive"/>
+                <grammeme name="reflexive"/>
+            </category>
+        </grammar>
+    </language>
+    <language id="ms">
+        <grammar>
+            <category name="clusivity">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="inclusive"/>
+                <grammeme name="exclusive"/>
+            </category>
+            <category name="number">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="singular"/>
+                <grammeme name="plural"/>
+            </category>
+            <category name="case">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="genitive"/>
+                <grammeme name="nominative"/>
+            </category>
+            <category name="person">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="first"/>
+                <grammeme name="second"/>
+                <grammeme name="third"/>
+            </category>
+            <category name="tense">
+                <grammeme name="past"/>
+                <grammeme name="present"/>
+                <grammeme name="future"/>
+            </category>
+            <category name="register">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="casual"/> <!-- AKA familiar, but not to be confused with intimate -->
+                <grammeme name="formal"/> <!-- AKA polite -->
+            </category>
+        </grammar>
+        <features>
+            <feature name="measure"/>   <!-- See http://en.wikipedia.org/wiki/Measure_word for details. -->
+        </features>
+    </language>
+    <language id="nb">
+        <grammar>
+            <category name="case">
+                <grammeme name="accusative"/>
+                <grammeme name="genitive"/>
+                <grammeme name="nominative"/>
+            </category>
+            <category name="pronounType">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="personal"/>
+                <grammeme name="reflexive"/>
+            </category>
+            <category name="person">
+                <grammeme name="first"/>
+                <grammeme name="second"/>
+                <grammeme name="third"/>
+            </category>
+            <category name="gender">
+                <grammeme name="masculine"/>
+                <grammeme name="feminine"/>
+                <grammeme name="neuter"/>
+            </category>
+            <category name="number">
+                <grammeme name="singular"/>
+                <grammeme name="plural"/>
+            </category>
+            <category name="definiteness">
+                <grammeme name="definite"/>
+                <grammeme name="indefinite"/>
+            </category>
+            <category name="form">
+                <grammeme name="infinitive"/>
+                <grammeme name="participle"/>
+            </category>
+            <category name="mood">
+                <restrictions>
+                    <restriction name="pos" value="verb"/>
+                </restrictions>
+                <grammeme name="imperative"/>
+                <grammeme name="indicative"/>
+            </category>
+            <category name="tense">
+                <grammeme name="past"/>
+                <grammeme name="present"/>
+                <grammeme name="future"/> <!-- Requires auxiliary words -->
+            </category>
+        </grammar>
+        <features>
+            <feature name="defArticle" default="">
+                <!-- See https://en.wiktionary.org/wiki/de#Norwegian_Bokm.C3.A5l for a list. -->
+                <value result="den" gender="masculine" number="singular"/>
+                <value result="den" gender="feminine" number="singular"/>
+                <value result="det" gender="neuter" number="singular"/>
+                <value result="de" number="plural"/>
+                <!-- If case is needed later on, case="nominative" should be added to the article above and the line below should be uncommented -->
+                <!-- <value result="dem" case="accusative" number="plural"/> -->
+            </feature>
+            <feature name="indefArticle" default="">
+                <value result="en" gender="masculine" number="singular"/>
+                <value result="ei" gender="feminine" number="singular"/>
+                <value result="et" gender="neuter" number="singular"/>
+                <value result="flere" number="plural"/> <!-- flere is plural, and maybe it shouldn't be here. -->
+            </feature>
+            <feature name="possArticle" default="">
+                <value result="din" gender="masculine" number="singular"/>
+                <value result="di" gender="feminine" number="singular"/>
+                <value result="ditt" gender="neuter" number="singular"/>
+                <value result="dine" number="plural"/>
+            </feature>
+            <feature name="withPossArticle"/>
+            <feature name="demonArticle" default="">
+                <value result="denne" gender="masculine" number="singular"/>
+                <value result="denne" gender="feminine" number="singular"/>
+                <value result="dette" gender="neuter" number="singular"/>
+                <value result="disse" number="plural"/>
+            </feature>
+            <feature name="withDemonArticle"/>
+            <feature name="interrogativeArticle" default="">
+                <value result="hvilken" gender="masculine" number="singular"/>
+                <value result="hvilken" gender="feminine" number="singular"/>
+                <value result="hvilket" gender="neuter" number="singular"/>
+                <value result="hvilke" number="plural"/>
+            </feature>
+            <feature name="withInterrogativeArticle"/>
+        </features>
+    </language>
+    <language id="nl">
+        <grammar>
+            <category name="case">
+                <grammeme name="genitive"/> <!-- AKA possessive -->
+                <grammeme name="nominative"/>
+                <grammeme name="accusative">
+                    <restrictions>
+                        <restriction name="pos" value="pronoun"/>
+                    </restrictions>
+                </grammeme>
+                <grammeme name="dative">
+                    <restrictions>
+                        <restriction name="pos" value="pronoun"/>
+                    </restrictions>
+                </grammeme>
+            </category>
+            <category name="number">
+                <grammeme name="singular"/>
+                <grammeme name="plural"/>
+            </category>
+            <category name="definiteness">
+                <grammeme name="definite"/>
+                <grammeme name="indefinite"/>
+            </category>
+            <category name="declension">
+                <grammeme name="declined"/>
+                <grammeme name="undeclined"/>
+            </category>
+            <category name="determination">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                    <restriction name="case" value="genitive"/>
+                </restrictions>
+                <grammeme name="independent"/> <!-- e.g. mine -->
+                <grammeme name="dependent"/> <!-- e.g. my {object} -->
+            </category>
+            <category name="emphasis">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="stressed"/>
+                <grammeme name="unstressed"/>
+            </category>
+            <category name="gender">
+                <grammeme name="masculine"/>
+                <grammeme name="feminine"/>
+                <grammeme name="neuter"/>
+            </category>
+            <category name="sizeness">
+                <grammeme name="diminutive"/>
+            </category>
+            <category name="mood">
+                <restrictions>
+                    <restriction name="pos" value="verb"/>
+                </restrictions>
+                <grammeme name="imperative"/>
+                <grammeme name="indicative"/>
+                <grammeme name="subjunctive"/>
+            </category>
+            <category name="person">
+                <grammeme name="first"/>
+                <grammeme name="second"/>
+                <grammeme name="third"/>
+            </category>
+            <category name="pronounType">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="personal"/>
+                <grammeme name="reflexive"/>
+            </category>
+            <category name="tense">
+                <grammeme name="past"/>
+                <grammeme name="present"/>
+                <grammeme name="future"/> <!-- Requires auxiliary words -->
+            </category>
+            <category name="type" aliasable="false">
+                <grammeme name="solo"/>
+                <grammeme name="compound"/>
+                <grammeme name="hyphenCompound"/>
+            </category>
+        </grammar>
+        <features>
+            <feature name="defArticle" default="de">
+                <value result="de"/>
+                <value result="het"/>
+            </feature>
+            <feature name="indefArticle" default="een">
+                <value result="een"/>
+            </feature>
+        </features>
+    </language>
+    <language id="pl">
+        <grammar>
+            <category name="animacy">
+                <grammeme name="animate"/>
+                <grammeme name="human"/>
+                <grammeme name="inanimate"/>
+            </category>
+            <category name="number">
+                <grammeme name="singular"/>
+                <grammeme name="plural"/>
+            </category>
+            <category name="case">
+                <grammeme name="accusative"/>
+                <grammeme name="dative"/>
+                <grammeme name="genitive"/>
+                <grammeme name="instrumental"/>
+                <grammeme name="locative"/>
+                <grammeme name="nominative"/>
+                <grammeme name="vocative"/>
+            </category>
+            <category name="emphasis">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="stressed"/>
+                <grammeme name="unstressed"/>
+            </category>
+            <category name="gender">
+                <grammeme name="masculine"/>
+                <grammeme name="feminine"/>
+                <grammeme name="neuter"/>
+            </category>
+            <category name="person">
+                <grammeme name="first"/>
+                <grammeme name="second"/>
+                <grammeme name="third"/>
+            </category>
+            <category name="pos">
+                <grammeme name="adposition"/>
+            </category>
+            <category name="pronounType">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="personal"/>
+                <grammeme name="possessive"/>
+                <grammeme name="reflexive"/>
+            </category>
+        </grammar>
+    </language>
+    <language id="pt">
+        <grammar>
+            <category name="case">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="nominative"/>
+                <grammeme name="genitive"/> <!-- AKA possessive -->
+                <grammeme name="accusative"/>
+                <grammeme name="dative"/>
+                <grammeme name="prepositional"/>
+            </category>
+            <category name="gender">
+                <grammeme name="masculine"/>
+                <grammeme name="feminine"/>
+            </category>
+            <category name="number">
+                <grammeme name="singular"/>
+                <grammeme name="plural"/>
+            </category>
+            <category name="definiteness">
+                <grammeme name="definite"/>
+                <grammeme name="indefinite"/>
+            </category>
+            <category name="form">
+                <grammeme name="infinitive"/>
+                <grammeme name="gerund"/>
+                <grammeme name="participle"/>
+            </category>
+            <category name="mood">
+                <restrictions>
+                    <restriction name="pos" value="verb"/>
+                </restrictions>
+                <grammeme name="imperative"/>
+                <grammeme name="conditional"/>
+                <grammeme name="indicative"/>
+                <grammeme name="subjunctive"/>
+            </category>
+            <category name="person">
+                <grammeme name="first"/>
+                <grammeme name="second"/>
+                <grammeme name="third"/>
+            </category>
+            <category name="pronounType">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="personal"/>
+                <grammeme name="reflexive"/>
+            </category>
+            <category name="tense">
+                <grammeme name="past"/>
+                <grammeme name="present"/>
+                <grammeme name="future"/>
+            </category>
+        </grammar>
+        <features>
+            <feature name="defArticle" default="">
+                <value result="o" gender="masculine" number="singular"/>
+                <value result="a" gender="feminine" number="singular"/>
+                <value result="os" gender="masculine" number="plural"/>
+                <value result="as" gender="feminine" number="plural"/>
+                <value result="o(a)" number="singular"/>
+                <value result="os(as)" number="plural"/>
+            </feature>
+            <feature name="indefArticle" default="">
+                <value result="um" gender="masculine" number="singular"/>
+                <value result="uma" gender="feminine" number="singular"/>
+                <value result="uns" gender="masculine" number="plural"/>
+                <value result="umas" gender="feminine" number="plural"/>
+                <value result="um(a)" number="singular"/>
+                <value result="uns(umas)" number="plural"/>
+            </feature>
+            <feature name="possArticle" default="">
+                <value result="seu" gender="masculine" number="singular"/>
+                <value result="sua" gender="feminine" number="singular"/>
+                <value result="seus" gender="masculine" number="plural"/>
+                <value result="suas" gender="feminine" number="plural"/>
+                <value result="seu(sua)" number="singular"/>
+                <value result="seus(suas)" number="plural"/>
+            </feature>
+            <feature name="withPossArticle"/>
+            <feature name="dePrepArticle" default="de">
+                <value result="do" gender="masculine" number="singular"/>
+                <value result="da" gender="feminine" number="singular"/>
+                <value result="dos" gender="masculine" number="plural"/>
+                <value result="das" gender="feminine" number="plural"/>
+                <value result="do(a)" number="singular"/>
+                <value result="dos(as)" number="plural"/>
+                <value result="de"/>
+            </feature>
+            <feature name="withDePrepArticle"/>
+            <feature name="emPrepArticle" default="em">
+                <value result="no" gender="masculine" number="singular"/>
+                <value result="na" gender="feminine" number="singular"/>
+                <value result="nos" gender="masculine" number="plural"/>
+                <value result="nas" gender="feminine" number="plural"/>
+                <value result="no(a)" number="singular"/>
+                <value result="nos(as)" number="plural"/>
+                <value result="em"/>
+            </feature>
+            <feature name="withEmPrepArticle"/>
+            <feature name="emPrepIndefArticle" default="em">
+                <value result="num" gender="masculine" number="singular"/>
+                <value result="numa" gender="feminine" number="singular"/>
+                <value result="nuns" gender="masculine" number="plural"/>
+                <value result="numas" gender="feminine" number="plural"/>
+                <value result="num(a)" number="singular"/>
+                <value result="nuns(as)" number="plural"/>
+                <value result="em"/>
+            </feature>
+            <feature name="withEmPrepIndefArticle"/>
+            <feature name="porPrepArticle" default="por">
+                <value result="pelo" gender="masculine" number="singular"/>
+                <value result="pela" gender="feminine" number="singular"/>
+                <value result="pelos" gender="masculine" number="plural"/>
+                <value result="pelas" gender="feminine" number="plural"/>
+                <value result="pelo(a)" number="singular"/>
+                <value result="pelos(as)" number="plural"/>
+                <value result="por"/>
+            </feature>
+            <feature name="withPorPrepArticle"/>
+            <feature name="aPrepArticle" default="">
+                <value result="ao" gender="masculine" number="singular"/>
+                <value result="à" gender="feminine" number="singular"/>
+                <value result="aos" gender="masculine" number="plural"/>
+                <value result="às" gender="feminine" number="plural"/>
+                <value result="ao(à)" number="singular"/>
+                <value result="aos(às)" number="plural"/>
+            </feature>
+            <feature name="withAPrepArticle"/>
+            <feature name="demAdj" default="">
+                <value result="este" gender="masculine" number="singular"/>
+                <value result="esta" gender="feminine" number="singular"/>
+                <value result="estes" gender="masculine" number="plural"/>
+                <value result="estas" gender="feminine" number="plural"/>
+                <value result="este(a)" number="singular"/>
+                <value result="estes(as)" number="plural"/>
+            </feature>
+            <feature name="withDemAdj"/>
+            <feature name="inDemAdj" default="">
+                <value result="neste" gender="masculine" number="singular"/>
+                <value result="nesta" gender="feminine" number="singular"/>
+                <value result="nestes" gender="masculine" number="plural"/>
+                <value result="nestas" gender="feminine" number="plural"/>
+                <value result="neste(a)" number="singular"/>
+                <value result="nestes(as)" number="plural"/>
+            </feature>
+            <feature name="withInDemAdj"/>
+            <feature name="ofDemAdj" default="">
+                <value result="deste" gender="masculine" number="singular"/>
+                <value result="desta" gender="feminine" number="singular"/>
+                <value result="destes" gender="masculine" number="plural"/>
+                <value result="destas" gender="feminine" number="plural"/>
+                <value result="deste(a)" number="singular"/>
+                <value result="destes(as)" number="plural"/>
+            </feature>
+            <feature name="withOfDemAdj"/>
+            <feature name="thisDemAdj" default="">
+                <value result="esse" gender="masculine" number="singular"/>
+                <value result="essa" gender="feminine" number="singular"/>
+                <value result="esses" gender="masculine" number="plural"/>
+                <value result="essas" gender="feminine" number="plural"/>
+                <value result="esse(a)" number="singular"/>
+                <value result="esses(as)" number="plural"/>
+            </feature>
+            <feature name="withThisDemAdj"/>
+            <feature name="inThisDemAdj" default="">
+                <value result="nesse" gender="masculine" number="singular"/>
+                <value result="nessa" gender="feminine" number="singular"/>
+                <value result="nesses" gender="masculine" number="plural"/>
+                <value result="nessas" gender="feminine" number="plural"/>
+                <value result="nesse(a)" number="singular"/>
+                <value result="nesses(as)" number="plural"/>
+            </feature>
+            <feature name="withInThisDemAdj"/>
+            <feature name="ofThisDemAdj" default="">
+                <value result="desse" gender="masculine" number="singular"/>
+                <value result="dessa" gender="feminine" number="singular"/>
+                <value result="desses" gender="masculine" number="plural"/>
+                <value result="dessas" gender="feminine" number="plural"/>
+                <value result="desse(a)" number="singular"/>
+                <value result="desses(as)" number="plural"/>
+            </feature>
+            <feature name="withOfThisDemAdj"/>
+            <feature name="thatDemAdj" default="">
+                <value result="aquele" gender="masculine" number="singular"/>
+                <value result="aquela" gender="feminine" number="singular"/>
+                <value result="aqueles" gender="masculine" number="plural"/>
+                <value result="aquelas" gender="feminine" number="plural"/>
+                <value result="aquele(a)" number="singular"/>
+                <value result="aqueles(as)" number="plural"/>
+            </feature>
+            <feature name="withThatDemAdj"/>
+            <feature name="inThatDemAdj" default="">
+                <value result="naquele" gender="masculine" number="singular"/>
+                <value result="naquela" gender="feminine" number="singular"/>
+                <value result="naqueles" gender="masculine" number="plural"/>
+                <value result="naquelas" gender="feminine" number="plural"/>
+                <value result="naquele(a)" number="singular"/>
+                <value result="naqueles(as)" number="plural"/>
+            </feature>
+            <feature name="withInThatDemAdj"/>
+            <feature name="ofThatDemAdj" default="">
+                <value result="daquele" gender="masculine" number="singular"/>
+                <value result="daquela" gender="feminine" number="singular"/>
+                <value result="daqueles" gender="masculine" number="plural"/>
+                <value result="daquelas" gender="feminine" number="plural"/>
+                <value result="daquele(a)" number="singular"/>
+                <value result="daqueles(as)" number="plural"/>
+            </feature>
+            <feature name="withOfThatDemAdj"/>
+        </features>
+    </language>
+    <language id="ro">
+        <grammar>
+            <category name="case">
+                <restrictions>
+                    <restriction name="pos" value="noun"/>
+                    <restriction name="pos" value="proper-noun"/>
+                </restrictions>
+                <grammeme name="genitive"/>
+                <grammeme name="nominative"/>
+                <grammeme name="vocative"/>
+                <grammeme name="accusative">
+                    <restrictions>
+                        <restriction name="pos" value="pronoun"/>
+                    </restrictions>
+                </grammeme>
+                <grammeme name="dative">
+                    <restrictions>
+                        <restriction name="pos" value="pronoun"/>
+                    </restrictions>
+                </grammeme>
+            </category>
+            <category name="number">
+                <grammeme name="singular"/>
+                <grammeme name="plural"/>
+            </category>
+            <category name="definiteness">
+                <grammeme name="definite"/>
+                <grammeme name="indefinite"/>
+            </category>
+            <category name="emphasis">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="stressed"/>
+                <grammeme name="unstressed"/>
+            </category>
+            <category name="gender">
+                <grammeme name="masculine"/>
+                <grammeme name="feminine"/>
+                <grammeme name="neuter"/>
+            </category>
+            <category name="person">
+                <grammeme name="first"/>
+                <grammeme name="second"/>
+                <grammeme name="third"/>
+            </category>
+            <category name="pronounType">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="personal"/>
+                <grammeme name="reflexive"/>
+            </category>
+        </grammar>
+    </language>
+    <language id="ru">
+        <grammar>
+            <category name="case">
+                <grammeme name="instrumental"/>
+                <grammeme name="accusative"/>
+                <grammeme name="dative"/>
+                <grammeme name="genitive"/>
+                <grammeme name="prepositional"/>
+                <grammeme name="nominative"/>
+            </category>
+            <category name="gender">
+                <grammeme name="masculine"/>
+                <grammeme name="feminine"/>
+                <grammeme name="neuter"/>
+            </category>
+            <category name="number">
+                <grammeme name="singular"/>
+                <grammeme name="plural"/>
+            </category>
+            <category name="form">
+                <grammeme name="infinitive"/>
+                <grammeme name="gerund"/>
+                <grammeme name="participle"/>
+            </category>
+            <category name="mood">
+                <restrictions>
+                    <restriction name="pos" value="verb"/>
+                </restrictions>
+                <grammeme name="imperative"/>
+                <grammeme name="indicative"/>
+            </category>
+            <category name="pos">
+                <grammeme name="adposition"/>
+            </category>
+            <category name="tense">
+                <grammeme name="past"/>
+                <grammeme name="present"/>
+                <grammeme name="future"/>
+            </category>
+            <!-- subset of nomenclature, superset of anthroponymy and disjoint from toponymy/etymology -->
+            <category name="onomastic" aliasable="false">
+                <grammeme name="family"/> <!-- last name -->
+                <grammeme name="given"/> <!-- first name -->
+                <grammeme name="organization"/>
+                <grammeme name="patronymic"/>
+            </category>
+            <category name="person">
+                <grammeme name="first"/>
+                <grammeme name="second"/>
+                <grammeme name="third"/>
+            </category>
+            <category name="animacy">
+                <grammeme name="animate"/>
+                <grammeme name="inanimate"/>
+            </category>
+            <category name="pronounType">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="personal"/>
+                <grammeme name="possessive"/>
+                <grammeme name="reflexive"/>
+            </category>
+        </grammar>
+        <features>
+            <feature name="aboutPrep" default="">
+                <value result="о"/>
+                <value result="об"/>
+                <value result="обо"/>
+            </feature>
+            <feature name="withAboutPrep"/>
+            <feature name="inPrep" default="">
+                <value result="в"/>
+                <value result="во"/>
+            </feature>
+            <feature name="withInPrep"/>
+            <feature name="withPrep" default="">
+                <value result="с"/>
+                <value result="со"/>
+            </feature>
+            <feature name="withWithPrep"/>
+            <feature name="toPrep" default="">
+                <value result="к"/>
+                <value result="ко"/>
+            </feature>
+            <feature name="withToPrep"/>
+        </features>
+    </language>
+    <language id="sk">
+        <grammar>
+            <category name="animacy">
+                <restrictions>
+                    <restriction name="gender" value="masculine"/>
+                </restrictions>
+                <grammeme name="animate"/>
+                <grammeme name="inanimate"/>
+            </category>
+            <category name="case">
+                <restrictions>
+                    <restriction name="pos" value="noun"/>
+                    <restriction name="pos" value="proper-noun"/>
+                </restrictions>
+                <grammeme name="accusative"/>
+                <grammeme name="dative"/>
+                <grammeme name="genitive"/>
+                <grammeme name="instrumental"/>
+                <grammeme name="locative"/>
+                <grammeme name="nominative"/>
+                <grammeme name="vocative"/>
+            </category>
+            <category name="number">
+                <grammeme name="singular"/>
+                <grammeme name="plural"/>
+            </category>
+            <category name="emphasis">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="stressed"/>
+                <grammeme name="unstressed"/>
+            </category>
+            <category name="gender">
+                <grammeme name="masculine"/>
+                <grammeme name="feminine"/>
+                <grammeme name="neuter"/>
+            </category>
+            <category name="person">
+                <grammeme name="first"/>
+                <grammeme name="second"/>
+                <grammeme name="third"/>
+            </category>
+            <category name="pos">
+                <grammeme name="adposition"/>
+            </category>
+            <category name="pronounType">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="personal"/>
+                <grammeme name="possessive"/>
+                <grammeme name="reflexive"/>
+            </category>
+        </grammar>
+    </language>
+    <language id="sv">
+        <grammar>
+            <category name="case">
+                <grammeme name="genitive"/> <!-- AKA possessive -->
+                <grammeme name="nominative"/> <!-- AKA caseless -->
+                <grammeme name="accusative">
+                    <restrictions>
+                        <restriction name="pos" value="pronoun"/>
+                    </restrictions>
+                </grammeme>
+            </category>
+            <category name="number">
+                <grammeme name="singular"/>
+                <grammeme name="plural"/>
+            </category>
+            <category name="definiteness">
+                <grammeme name="indefinite"/>
+                <grammeme name="definite"/>
+            </category>
+            <category name="pronounType">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="personal"/>
+                <grammeme name="reflexive"/>
+            </category>
+            <category name="gender">
+                <grammeme name="common"/>
+                <grammeme name="neuter"/>
+                <grammeme name="masculine">
+                    <restrictions>
+                        <restriction name="pos" value="pronoun"/>
+                    </restrictions>
+                </grammeme>
+                <grammeme name="feminine">
+                    <restrictions>
+                        <restriction name="pos" value="pronoun"/>
+                    </restrictions>
+                </grammeme>
+            </category>
+            <category name="form">
+                <grammeme name="infinitive"/>
+                <grammeme name="participle"/>
+                <grammeme name="supine"/>
+            </category>
+            <category name="person">
+                <grammeme name="first"/>
+                <grammeme name="second"/>
+                <grammeme name="third"/>
+            </category>
+            <category name="tense">
+                <grammeme name="past"/>
+                <grammeme name="present"/>
+                <grammeme name="future"/>
+            </category>
+            <category name="type" aliasable="false">
+                <grammeme name="solo"/>
+                <grammeme name="compound"/>
+            </category>
+        </grammar>
+        <features>
+            <feature name="defArticle" default="">
+                <value result="de"/>
+                <value result="det"/>
+                <value result="den"/>
+            </feature>
+            <feature name="indefArticle" default="">
+                <value result="ett"/>
+                <value result="en"/>
+                <value result="flera"/>
+            </feature>
+            <feature name="indefPron" default="">
+                <value result="någon"/>
+                <value result="något"/>
+                <value result="några"/>
+            </feature>
+            <feature name="withIndefPron"/>
+            <feature name="interrogativeArticle" default="">
+                <value result="vilket"/>
+                <value result="vilka"/>
+                <value result="vilken"/>
+            </feature>
+            <feature name="withInterrogativeArticle"/>
+            <feature name="negArticle" default="">
+                <value result="inget"/>
+                <value result="ingen"/>
+                <value result="inga"/>
+            </feature>
+            <feature name="withNegArticle"/>
+            <feature name="newArticle" default="">
+                <value result="nytt"/>
+                <value result="nya"/>
+                <value result="ny"/>
+            </feature>
+            <feature name="withNewArticle"/>
+            <feature name="otherArticle" default="">
+                <value result="annat"/>
+                <value result="andra"/>
+                <value result="annan"/>
+            </feature>
+            <feature name="withOtherArticle"/>
+            <feature name="possArticle" default="">
+                <value result="din"/>
+                <value result="dina"/>
+                <value result="ditt"/>
+            </feature>
+            <feature name="withPossArticle"/>
+        </features>
+    </language>
+    <language id="th">
+        <grammar>
+            <category name="animacy">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="human"/>
+                <grammeme name="nonhuman"/>
+            </category>
+            <category name="case">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="genitive"/>
+                <grammeme name="nominative"/>
+            </category>
+            <category name="number">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="singular"/>
+                <grammeme name="plural"/>
+            </category>
+            <category name="person">
+                <grammeme name="first"/>
+                <grammeme name="second"/>
+                <grammeme name="third"/>
+            </category>
+            <category name="pronounType">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="personal"/>
+                <grammeme name="reflexive"/>
+            </category>
+            <category name="tense">
+                <grammeme name="past"/>
+                <grammeme name="present"/>
+                <grammeme name="future"/>
+            </category>
+        </grammar>
+        <features>
+            <feature name="measure"/>   <!-- See http://en.wikipedia.org/wiki/Measure_word for details. -->
+        </features>
+    </language>
+    <language id="tr">
+        <grammar>
+            <category name="case">
+                <grammeme name="ablative"/>
+                <grammeme name="accusative"/>
+                <grammeme name="dative"/>
+                <grammeme name="genitive"/>
+                <grammeme name="locative"/>
+                <grammeme name="nominative"/> <!-- AKA caseless -->
+                <grammeme name="instrumental"/>
+            </category>
+            <category name="person">
+                <grammeme name="second"/>
+                <grammeme name="third"/>
+                <grammeme name="first"/>
+            </category>
+            <category name="pronoun" aliasable="false">
+                <grammeme name="plural"/>
+                <grammeme name="singular"/>
+            </category>
+            <category name="pronounNumber" aliasable="false">
+                <grammeme name="plural"/>
+                <grammeme name="singular"/>
+            </category>
+            <category name="number">
+                <grammeme name="plural"/>
+                <grammeme name="singular"/>
+            </category>
+            <category name="copula" aliasable="false">
+                <grammeme name="second"/>
+                <grammeme name="third"/>
+                <grammeme name="first"/>
+            </category>
+            <category name="pronounType">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="personal"/>
+                <grammeme name="reflexive"/>
+            </category>
+            <category name="tense">
+                <grammeme name="past"/>
+                <grammeme name="present"/>
+                <grammeme name="future"/>
+            </category>
+        </grammar>
+        <features>
+            <feature name="interrogativeArticle"/>
+            <feature name="deConjunction"/>
+        </features>
+    </language>
+    <language id="uk">
+        <grammar>
+            <category name="animacy">
+                <grammeme name="animate"/>
+                <grammeme name="inanimate"/>
+            </category>
+            <category name="case">
+                <grammeme name="instrumental"/>
+                <grammeme name="accusative"/>
+                <grammeme name="dative"/>
+                <grammeme name="genitive"/>
+                <grammeme name="locative"/>
+                <grammeme name="nominative"/>
+            </category>
+            <category name="number">
+                <grammeme name="singular"/>
+                <grammeme name="plural"/>
+            </category>
+            <category name="determination">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                    <restriction name="pronounType" value="possessive"/>
+                </restrictions>
+                <grammeme name="independent"/> <!-- e.g. mine -->
+                <grammeme name="dependent"/> <!-- e.g. my {object} -->
+            </category>
+            <category name="gender">
+                <grammeme name="masculine"/>
+                <grammeme name="feminine"/>
+                <grammeme name="neuter"/>
+            </category>
+            <category name="person">
+                <grammeme name="first"/>
+                <grammeme name="second"/>
+                <grammeme name="third"/>
+            </category>
+            <category name="pos">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="adposition"/>
+            </category>
+            <category name="pronounType">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="personal"/>
+                <grammeme name="possessive"/>
+                <grammeme name="reflexive"/>
+            </category>
+        </grammar>
+    </language>
+    <language id="vi">
+        <grammar>
+            <category name="person">
+                <grammeme name="first"/>
+                <grammeme name="second"/>
+                <grammeme name="third"/>
+            </category>
+        </grammar>
+        <features>
+            <feature name="measure"/>   <!-- See http://en.wikipedia.org/wiki/Measure_word for details. -->
+        </features>
+    </language>
+    <language id="yue">
+        <grammar>
+            <category name="person">
+                <grammeme name="first"/>
+                <grammeme name="second"/>
+                <grammeme name="third"/>
+            </category>
+            <category name="tense"> <!-- Usually takes form as a particle -->
+                <grammeme name="past"/>
+                <grammeme name="present"/>
+                <grammeme name="future"/>
+            </category>
+        </grammar>
+        <features>
+            <feature name="measure"/>   <!-- See http://en.wikipedia.org/wiki/Measure_word for details. -->
+        </features>
+    </language>
+    <language id="zh">
+        <grammar>
+            <category name="gender">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="masculine"/>
+                <grammeme name="feminine"/>
+                <grammeme name="neuter"/> <!-- It's like "it" -->
+            </category>
+            <category name="person">
+                <grammeme name="first"/>
+                <grammeme name="second"/>
+                <grammeme name="third"/>
+            </category>
+            <category name="tense"> <!-- Usually takes form as a particle -->
+                <grammeme name="past"/>
+                <grammeme name="present"/>
+                <grammeme name="future"/>
+            </category>
+        </grammar>
+        <features>
+            <feature name="measure"/>   <!-- See http://en.wikipedia.org/wiki/Measure_word for details. -->
+        </features>
+    </language>
+</languages>

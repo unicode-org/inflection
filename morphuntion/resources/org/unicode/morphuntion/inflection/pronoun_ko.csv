@@ -1,0 +1,48 @@
+그,third,singular,nominative,casual,masculine
+그분,third,singular,nominative,formal,masculine
+그녀,third,singular,nominative,casual,feminine
+그분,third,singular,nominative,formal,feminine
+그들,third,plural,nominative,casual
+그분들,third,plural,nominative,formal
+너,second,singular,nominative,casual
+당신,second,singular,nominative,formal,dependency=pos
+님,second,singular,nominative,formal,dependency=proper-noun
+너희,second,plural,nominative,casual
+여러분,second,plural,nominative,formal
+내,first,singular,nominative,casual
+제,first,singular,nominative,formal
+우리,first,plural,nominative,casual
+우리,first,plural,nominative,formal,inclusive
+저희,first,plural,nominative,formal,exclusive
+그,third,singular,accusative,casual,masculine
+그분,third,singular,accusative,formal,masculine
+그녀,third,singular,accusative,casual,feminine
+그분,third,singular,accusative,formal,feminine
+그들,third,plural,accusative,casual
+그분들,third,plural,accusative,formal
+너,second,singular,accusative,casual
+당신,second,singular,accusative,formal,dependency=pos
+님,second,singular,accusative,formal,dependency=proper-noun
+너희,second,plural,accusative,casual
+여러분,second,plural,accusative,formal
+나,first,singular,accusative,casual
+저,first,singular,accusative,formal
+우리,first,plural,accusative,casual
+우리,first,plural,accusative,formal,inclusive
+저희,first,plural,accusative,formal,exclusive
+그의 것,third,singular,genitive,casual,masculine
+그분의 것,third,singular,genitive,formal,masculine
+그녀의 것,third,singular,genitive,casual,feminine
+그분의 것,third,singular,genitive,formal,feminine
+그들의 것,third,plural,genitive,casual
+그분들의 것,third,plural,genitive,formal
+너의 것,second,singular,genitive,casual
+당신의 것,second,singular,genitive,formal,dependency=pos
+님의 것,second,singular,genitive,formal,dependency=proper-noun
+너희 것,second,plural,genitive,casual
+여러분의 것,second,plural,genitive,formal
+나의 것,first,singular,genitive,casual
+저의 것,first,singular,genitive,formal
+우리 것,first,plural,genitive,casual
+우리 것,first,plural,genitive,formal,inclusive
+저희 것,first,plural,genitive,formal,exclusive

@@ -1,0 +1,147 @@
+/*
+ * Copyright 2020-2024 Apple Inc. All rights reserved.
+ */
+
+plugins {
+    id 'net.ltgt.errorprone' version '1.1.1' apply false
+    id 'maven-publish'
+}
+
+String osName = System.getProperty("os.name").toLowerCase()
+ext.javaProjects = rootProject.subprojects.findAll { it.name != '' && it.buildFile.exists() }
+ext.projectVersion = getVersionName()
+
+def getVersionName() {
+    String morphuntionVersion = System.getenv('MORPHUNTION_VERSION')
+    if (morphuntionVersion != null) {
+        return morphuntionVersion
+    }
+    String snapshot = "snapshot"
+    ByteArrayOutputStream stdout = new ByteArrayOutputStream()
+    def result = exec {
+        commandLine 'git','diff-index','--quiet','HEAD'
+        standardOutput = stdout
+        ignoreExitValue = true
+    }
+    if (result.exitValue != 0) {
+        // There are local modifications or git doesn't work
+        return snapshot
+    }
+    stdout.reset()
+    exec {
+        commandLine 'sh','tools/scripts/version.sh'
+        standardOutput = stdout
+    }
+    String version = stdout.toString().trim()
+    if (version.empty) {
+        // There are no versions?
+        return snapshot
+    }
+
+    stdout.reset()
+    exec {
+        commandLine 'git','rev-list','-n','1','HEAD'
+        standardOutput = stdout
+    }
+    String headHash = stdout.toString().trim()
+    stdout.reset()
+    exec {
+        commandLine 'git','rev-list','-n','1',"Morphuntion-"+version
+        standardOutput = stdout
+    }
+    String tagHash = stdout.toString().trim()
+    if (tagHash != headHash) {
+        // This version is not tagged.
+        return snapshot
+    }
+
+    // There are no local modifications and we are on a tagged version!
+    return version
+}
+
+// Define the collection of all Java projects in Morphuntion
+
+allprojects {
+    // Default gradle task.
+    defaultTasks 'assemble'
+    version = projectVersion
+    repositories {
+        maven { url "https://repo.maven.apache.org/maven2/" }
+        maven { url "https://oss.sonatype.org/service/local/repositories/releases/content/" }
+    }
+}
+
+configure(javaProjects) {
+
+    apply plugin: 'java'
+    apply from: "$rootDir/gradle/versions.gradle"
+
+    // Before adding any non-test items here, please be aware that it adds the dependencies to all projects,
+    // and sometimes that isn't desired for consumers of this implementation.
+    // More dependencies make it harder to share code with groups using different library versions.
+    // Please keep this list minimal.
+    dependencies {
+        // nullability annotations
+        compileOnly group: 'com.google.code.findbugs', name: 'jsr305', version: dependencyVersions.jsr305
+        testImplementation group: 'com.google.code.findbugs', name: 'jsr305', version: dependencyVersions.jsr305
+        testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: dependencyVersions.junit_jupiter
+        testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: dependencyVersions.junit_jupiter
+        testRuntimeOnly group: 'org.junit.platform', name: 'junit-platform-launcher', version: dependencyVersions.junit_platform
+        implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: dependencyVersions.log4j
+        runtimeOnly group: 'org.apache.logging.log4j', name: 'log4j-core', version: dependencyVersions.log4j
+    }
+    configurations.all {
+        resolutionStrategy {
+            preferProjectModules()
+            force group: 'com.ibm.icu', name: 'icu4j', version: dependencyVersions.icu4j
+        }
+    }
+    java {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    test {
+    	testLogging {
+			events "failed"
+			exceptionFormat "full"
+		}
+        useJUnitPlatform()
+        maxHeapSize = '2g'
+        minHeapSize = '1g'
+        // Enable this if you're debugging JNI issues.
+        // jvmArgs '-verbose:jni', '-Xcheck:jni', '-XX:+RestoreMXCSROnJNICalls'
+    }
+    tasks.named('jar') {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
+    tasks.named('compileJava') {
+        options.encoding = "UTF-8"
+        options.verbose = false // set this to true in order to pass -verbose to javac
+        options.compilerArgs += [ '-Xlint:all', '-Xdoclint:html', '-Xdoclint:syntax', '-Xdoclint:reference' ]
+        options.incremental = true
+    }
+    tasks.named('compileTestJava') {
+        options.encoding = "UTF-8"
+        options.verbose = false // set this to true in order to pass -verbose to javac
+        options.compilerArgs += [ '-Xlint:all' ]
+        options.incremental = true
+    }
+
+    tasks.register('sourcesJar', Jar) {
+        dependsOn classes
+        archiveClassifier.set("sources")
+        from sourceSets.main.allSource
+    }
+
+    tasks.register('javadocJar', Jar) {
+        dependsOn javadoc
+        archiveClassifier.set("javadoc")
+        from javadoc.destinationDir
+    }
+
+    tasks.register('testJar', Jar) {
+        archiveClassifier.set("tests")
+        from sourceSets.test.output
+    }
+}
+

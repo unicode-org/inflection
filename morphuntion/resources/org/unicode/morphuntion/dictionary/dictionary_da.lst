@@ -1,0 +1,56 @@
+Ajax: singular indefinite common noun inflection=5b
+Andreas: singular indefinite common noun proper-noun inflection=3a
+Christian: singular indefinite common noun proper-noun inflection=c
+Julie: singular indefinite common noun proper-noun inflection=c
+KBHs: singular genitive indefinite common abbreviation noun
+Kbh's: singular genitive indefinite common abbreviation noun proper-noun
+Michael: singular indefinite common noun proper-noun inflection=c
+NATO: singular indefinite common abbreviation noun proper-noun
+Olsen: singular indefinite common noun proper-noun inflection=c
+Olsens: singular genitive indefinite common noun proper-noun inflection=c
+SAS: singular indefinite common abbreviation noun proper-noun
+abefest: singular indefinite common noun inflection=1
+de: plural nominative neuter common determiner pronoun
+den: singular inanimate nominative oblique common determiner pronoun
+det: singular neuter determiner pronoun
+fonem: singular indefinite neuter noun inflection=7
+hund: singular indefinite common noun inflection=8
+hunde: plural indefinite common noun inflection=8
+kvinde: singular indefinite common noun inflection=2
+kvinder: plural indefinite common noun inflection=2
+lampen: singular definite common noun inflection=2
+lampes: singular genitive indefinite common noun inflection=2
+lemma: singular indefinite neuter noun inflection=7
+lemmaer: plural indefinite neuter noun inflection=7
+lemmaerne: plural definite neuter noun inflection=7
+lemmaernes: plural genitive definite neuter noun inflection=7
+lemmaers: plural genitive indefinite neuter noun inflection=7
+lemmaet: singular definite neuter noun inflection=7
+lemmaets: singular genitive definite neuter noun inflection=7
+lemmas: singular genitive indefinite neuter noun inflection=7
+parcel: singular indefinite common noun inflection=27
+sarkom: singular indefinite neuter noun inflection=7
+sarkomer: plural indefinite neuter noun inflection=7
+sarkomerne: plural definite neuter noun inflection=7
+sarkomernes: plural genitive definite neuter noun inflection=7
+sarkomers: plural genitive indefinite neuter noun inflection=7
+sarkomet: singular definite neuter noun inflection=7
+sarkomets: singular genitive definite neuter noun inflection=7
+sarkoms: singular genitive indefinite neuter noun inflection=7
+spinklere: singular plural adjective inflection=dc
+stor: singular indefinite adjective inflection=4a2
+store: singular plural definite indefinite adjective inflection=4a2
+stort: singular indefinite adjective inflection=4a2
+taxa: singular indefinite common noun inflection=1
+torsdag: singular indefinite common noun inflection=8
+torsdage: plural indefinite common noun inflection=8
+torsdagen: singular definite common noun inflection=8
+torsdagene: plural definite common noun inflection=8
+torsdagenes: plural genitive definite common noun inflection=8
+torsdagens: singular genitive definite common noun inflection=8
+torsdages: plural genitive indefinite common noun inflection=8
+torsdags: singular genitive indefinite common noun inflection=8
+ølbrikken: singular definite common noun inflection=15
+==============================================
+Manually curated for tests to pass
+Copyright 2024-2024 Apple Inc. All rights reserved.

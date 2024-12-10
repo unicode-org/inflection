@@ -1,0 +1,25 @@
+/*
+ * Copyright 2020-2024 Apple Inc. All rights reserved.
+ */
+group = 'com.apple.morphuntion.tools'
+description = 'Converts lexical dictionaries into a form that can be consumed by Morphuntion'
+
+dependencies {
+    implementation group: 'com.ibm.icu', name: 'icu4j', version: dependencyVersions.icu4j
+    implementation(group: 'org.apache.commons', name: 'commons-text', version: dependencyVersions.commons_text)
+    runtimeOnly(group: 'xerces', name: 'xercesImpl', version: dependencyVersions.xerces) {
+        exclude(group: 'xml-apis')
+    }
+}
+
+tasks.register('fatJar', Jar) {
+    manifest {
+        attributes 'Implementation-Version': project.version,
+                'Main-Class': 'com.apple.wiktionary.ParseWiktionary'
+    }
+    archiveFileName = project.name + '-all.jar'
+    duplicatesStrategy = 'include'
+    zip64 = true
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}

@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2024-2024 Apple Inc. All rights reserved.
+-->
+<patterns>
+    <pattern name="1" words="7867">
+        <pos>adjective</pos>
+        <suffix>o</suffix>
+        <inflections>
+            <inflection number="singular" gender="masculine"><t><stem/>o</t></inflection>
+            <inflection number="singular" gender="feminine"><t><stem/>a</t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>i</t></inflection>
+            <inflection number="plural" gender="feminine"><t><stem/>e</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="2" words="6780">
+        <pos>noun</pos>
+        <suffix>o</suffix>
+        <inflections>
+            <inflection number="singular" gender="masculine"><t><stem/>o</t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>i</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="3" words="5619">
+        <pos>noun</pos>
+        <suffix>a</suffix>
+        <inflections>
+            <inflection number="singular" gender="feminine"><t><stem/>a</t></inflection>
+            <inflection number="plural" gender="feminine"><t><stem/>e</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="4" words="3964">
+        <pos>verb</pos>
+        <suffix>are</suffix>
+        <inflections>
+            <inflection number="singular" mood="conditional" person="first" tense="present"><t><stem/>erei</t></inflection>
+            <inflection number="singular" mood="conditional" person="second" tense="present"><t><stem/>eresti</t></inflection>
+            <inflection number="singular" mood="conditional" person="third" tense="present"><t><stem/>erebbe</t></inflection>
+            <inflection number="singular" mood="indicative" person="first" tense="past"><t><stem/>ai</t></inflection>
+            <inflection number="singular" mood="indicative" person="first" tense="past"><t><stem/>avo</t></inflection>
+            <inflection number="singular" mood="indicative" person="first" tense="present"><t><stem/>o</t></inflection>
+            <inflection number="singular" mood="indicative" person="first" tense="future"><t><stem/>erò</t></inflection>
+            <inflection number="singular" mood="indicative" person="second" tense="past"><t><stem/>asti</t></inflection>
+            <inflection number="singular" mood="indicative" person="second" tense="past"><t><stem/>avi</t></inflection>
+            <inflection number="singular" mood="indicative" person="second" tense="present"><t><stem/>i</t></inflection>
+            <inflection number="singular" mood="indicative" person="second" tense="future"><t><stem/>erai</t></inflection>
+            <inflection number="singular" mood="indicative" person="third" tense="past"><t><stem/>ava</t></inflection>
+            <inflection number="singular" mood="indicative" person="third" tense="present"><t><stem/>a</t></inflection>
+            <inflection number="singular" mood="indicative" person="third" tense="future"><t><stem/>erà</t></inflection>
+            <inflection number="singular" mood="subjunctive" person="first" tense="past"><t><stem/>assi</t></inflection>
+            <inflection number="singular" mood="subjunctive" person="first" tense="present"><t><stem/>i</t></inflection>
+            <inflection number="singular" mood="subjunctive" person="second" tense="past"><t><stem/>assi</t></inflection>
+            <inflection number="singular" mood="subjunctive" person="second" tense="present"><t><stem/>i</t></inflection>
+            <inflection number="singular" mood="subjunctive" person="third" tense="past"><t><stem/>asse</t></inflection>
+            <inflection number="singular" mood="subjunctive" person="third" tense="present"><t><stem/>i</t></inflection>
+            <inflection number="plural" mood="conditional" person="first" tense="present"><t><stem/>eremmo</t></inflection>
+            <inflection number="plural" mood="conditional" person="second" tense="present"><t><stem/>ereste</t></inflection>
+            <inflection number="plural" mood="conditional" person="third" tense="present"><t><stem/>erebbero</t></inflection>
+            <inflection number="plural" mood="indicative" person="first" tense="past"><t><stem/>ammo</t></inflection>
+            <inflection number="plural" mood="indicative" person="first" tense="past"><t><stem/>avamo</t></inflection>
+            <inflection number="plural" mood="indicative" person="first" tense="present"><t><stem/>iamo</t></inflection>
+            <inflection number="plural" mood="indicative" person="first" tense="future"><t><stem/>eremo</t></inflection>
+            <inflection number="plural" mood="indicative" person="second" tense="past"><t><stem/>aste</t></inflection>
+            <inflection number="plural" mood="indicative" person="second" tense="past"><t><stem/>avate</t></inflection>
+            <inflection number="plural" mood="indicative" person="second" tense="present"><t><stem/>ate</t></inflection>
+            <inflection number="plural" mood="indicative" person="second" tense="future"><t><stem/>erete</t></inflection>
+            <inflection number="plural" mood="indicative" person="third" tense="past"><t><stem/>arono</t></inflection>
+            <inflection number="plural" mood="indicative" person="third" tense="past"><t><stem/>avano</t></inflection>
+            <inflection number="plural" mood="indicative" person="third" tense="present"><t><stem/>ano</t></inflection>
+            <inflection number="plural" mood="indicative" person="third" tense="future"><t><stem/>eranno</t></inflection>
+            <inflection number="plural" mood="subjunctive" person="first" tense="past"><t><stem/>assimo</t></inflection>
+            <inflection number="plural" mood="subjunctive" person="first" tense="present"><t><stem/>iamo</t></inflection>
+            <inflection number="plural" mood="subjunctive" person="second" tense="past"><t><stem/>aste</t></inflection>
+            <inflection number="plural" mood="subjunctive" person="second" tense="present"><t><stem/>iate</t></inflection>
+            <inflection number="plural" mood="subjunctive" person="third" tense="past"><t><stem/>assero</t></inflection>
+            <inflection number="plural" mood="subjunctive" person="third" tense="present"><t><stem/>ino</t></inflection>
+            <inflection number="singular" mood="imperative" person="second"><t><stem/>a</t></inflection>
+            <inflection number="singular" mood="imperative" person="second"><t><stem/>i</t></inflection>
+            <inflection number="plural" mood="imperative" person="first"><t><stem/>iamo</t></inflection>
+            <inflection number="plural" mood="imperative" person="second"><t><stem/>ate</t></inflection>
+            <inflection tense="past" verb-type="participle"><t><stem/>ato</t></inflection>
+            <inflection tense="present" verb-type="participle"><t><stem/>ante</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>are</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>ando</t></inflection>
+            <inflection number="singular" mood="indicative" person="third" tense="past"><t><stem/>ò</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="5" words="3685">
+        <pos>adjective</pos>
+        <suffix>e</suffix>
+        <inflections>
+            <inflection number="singular" gender="masculine"><t><stem/>e</t></inflection>
+            <inflection number="singular" gender="feminine"><t><stem/>e</t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>i</t></inflection>
+            <inflection number="plural" gender="feminine"><t><stem/>i</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="9" words="1809">
+        <pos>adjective</pos>
+        <suffix>o</suffix>
+        <inflections>
+            <inflection number="singular" gender="masculine"><t><stem/>o</t></inflection>
+            <inflection number="singular" gender="feminine"><t><stem/>a</t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>i</t></inflection>
+            <inflection number="plural" gender="feminine"><t><stem/>he</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="12" words="607">
+        <pos>noun</pos>
+        <suffix>ore</suffix>
+        <inflections>
+            <inflection number="singular" gender="masculine"><t><stem/>ore</t></inflection>
+            <inflection number="singular" gender="feminine"><t><stem/>rice</t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>ori</t></inflection>
+            <inflection number="plural" gender="feminine"><t><stem/>rici</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="1e" words="311">
+        <pos>noun</pos>
+        <suffix>a</suffix>
+        <inflections>
+            <inflection number="singular" gender="feminine"><t><stem/>a</t></inflection>
+            <inflection number="plural" gender="feminine"><t><stem/>e</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="1d" words="367">
+        <pos>noun</pos>
+        <suffix>a</suffix>
+        <inflections>
+            <inflection number="singular" gender="feminine"><t><stem/>a</t></inflection>
+            <inflection number="plural" gender="feminine"><t><stem/>he</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="24" words="242">
+        <pos>adjective</pos>
+        <suffix>o</suffix>
+        <inflections>
+            <inflection number="singular" gender="masculine"><t><stem/>o</t></inflection>
+            <inflection number="singular" gender="feminine"><t><stem/>a</t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>i</t></inflection>
+            <inflection number="plural" gender="feminine"><t><stem/>e</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="29" words="198">
+        <pos>noun</pos>
+        <suffix>a</suffix>
+        <inflections>
+            <inflection number="singular" gender="masculine"><t><stem/>a</t></inflection>
+            <inflection number="singular" gender="feminine"><t><stem/>a</t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>i</t></inflection>
+            <inflection number="plural" gender="feminine"><t><stem/>e</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="2e" words="168">
+        <pos>noun</pos>
+        <suffix>ore</suffix>
+        <inflections>
+            <inflection number="singular" gender="masculine"><t><stem/>ore</t></inflection>
+            <inflection number="singular" gender="feminine"><t><stem/>rice</t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>ori</t></inflection>
+            <inflection number="plural" gender="feminine"><t><stem/>rici</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="32" words="151">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular" gender="masculine"><t><stem/></t></inflection>
+            <inflection number="singular" gender="feminine"><t><stem/></t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/></t></inflection>
+            <inflection number="plural" gender="feminine"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="3a" words="98">
+        <pos>noun</pos>
+        <suffix>e</suffix>
+        <inflections>
+            <inflection number="singular" gender="masculine"><t><stem/>e</t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>i</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="3f" words="84">
+        <pos>noun</pos>
+        <suffix>o</suffix>
+        <inflections>
+            <inflection number="singular" gender="masculine"><t><stem/>o</t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="4c" words="51">
+        <pos>noun</pos>
+        <suffix>e</suffix>
+        <inflections>
+            <inflection number="singular" gender="masculine"><t><stem/>e</t></inflection>
+            <inflection number="singular" gender="feminine"><t><stem/>a</t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>i</t></inflection>
+            <inflection number="plural" gender="feminine"><t><stem/>e</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="ab" words="8">
+        <pos>verb</pos>
+        <suffix>are</suffix>
+        <inflections>
+            <inflection number="singular" gender="masculine" tense="past" verb-type="participle"><t><stem/>ato</t></inflection>
+            <inflection number="singular" gender="feminine" tense="past" verb-type="participle"><t><stem/>ata</t></inflection>
+            <inflection number="singular" mood="conditional" person="first" tense="present"><t><stem/>erei</t></inflection>
+            <inflection number="singular" mood="conditional" person="second" tense="present"><t><stem/>eresti</t></inflection>
+            <inflection number="singular" mood="conditional" person="third" tense="present"><t><stem/>erebbe</t></inflection>
+            <inflection number="singular" mood="indicative" person="first" tense="past"><t><stem/>ai</t></inflection>
+            <inflection number="singular" mood="indicative" person="first" tense="past"><t><stem/>avo</t></inflection>
+            <inflection number="singular" mood="indicative" person="first" tense="present"><t><stem/>o</t></inflection>
+            <inflection number="singular" mood="indicative" person="first" tense="future"><t><stem/>erò</t></inflection>
+            <inflection number="singular" mood="indicative" person="second" tense="past"><t><stem/>asti</t></inflection>
+            <inflection number="singular" mood="indicative" person="second" tense="past"><t><stem/>avi</t></inflection>
+            <inflection number="singular" mood="indicative" person="second" tense="present"><t><stem/>i</t></inflection>
+            <inflection number="singular" mood="indicative" person="second" tense="future"><t><stem/>erai</t></inflection>
+            <inflection number="singular" mood="indicative" person="third" tense="past"><t><stem/>ava</t></inflection>
+            <inflection number="singular" mood="indicative" person="third" tense="past"><t><stem/>ò</t></inflection>
+            <inflection number="singular" mood="indicative" person="third" tense="present"><t><stem/>a</t></inflection>
+            <inflection number="singular" mood="indicative" person="third" tense="future"><t><stem/>erà</t></inflection>
+            <inflection number="singular" mood="subjunctive" person="first" tense="past"><t><stem/>assi</t></inflection>
+            <inflection number="singular" mood="subjunctive" person="first" tense="present"><t><stem/>i</t></inflection>
+            <inflection number="singular" mood="subjunctive" person="second" tense="past"><t><stem/>assi</t></inflection>
+            <inflection number="singular" mood="subjunctive" person="second" tense="present"><t><stem/>i</t></inflection>
+            <inflection number="singular" mood="subjunctive" person="third" tense="past"><t><stem/>asse</t></inflection>
+            <inflection number="singular" mood="subjunctive" person="third" tense="present"><t><stem/>i</t></inflection>
+            <inflection number="plural" gender="masculine" tense="past" verb-type="participle"><t><stem/>ati</t></inflection>
+            <inflection number="plural" gender="feminine" tense="past" verb-type="participle"><t><stem/>ate</t></inflection>
+            <inflection number="plural" mood="conditional" person="first" tense="present"><t><stem/>eremmo</t></inflection>
+            <inflection number="plural" mood="conditional" person="second" tense="present"><t><stem/>ereste</t></inflection>
+            <inflection number="plural" mood="conditional" person="third" tense="present"><t><stem/>erebbero</t></inflection>
+            <inflection number="plural" mood="indicative" person="first" tense="past"><t><stem/>ammo</t></inflection>
+            <inflection number="plural" mood="indicative" person="first" tense="past"><t><stem/>avamo</t></inflection>
+            <inflection number="plural" mood="indicative" person="first" tense="present"><t><stem/>iamo</t></inflection>
+            <inflection number="plural" mood="indicative" person="first" tense="future"><t><stem/>eremo</t></inflection>
+            <inflection number="plural" mood="indicative" person="second" tense="past"><t><stem/>aste</t></inflection>
+            <inflection number="plural" mood="indicative" person="second" tense="past"><t><stem/>avate</t></inflection>
+            <inflection number="plural" mood="indicative" person="second" tense="present"><t><stem/>ate</t></inflection>
+            <inflection number="plural" mood="indicative" person="second" tense="future"><t><stem/>erete</t></inflection>
+            <inflection number="plural" mood="indicative" person="third" tense="past"><t><stem/>arono</t></inflection>
+            <inflection number="plural" mood="indicative" person="third" tense="past"><t><stem/>avano</t></inflection>
+            <inflection number="plural" mood="indicative" person="third" tense="present"><t><stem/>ano</t></inflection>
+            <inflection number="plural" mood="indicative" person="third" tense="future"><t><stem/>eranno</t></inflection>
+            <inflection number="plural" mood="subjunctive" person="first" tense="past"><t><stem/>assimo</t></inflection>
+            <inflection number="plural" mood="subjunctive" person="first" tense="present"><t><stem/>iamo</t></inflection>
+            <inflection number="plural" mood="subjunctive" person="second" tense="past"><t><stem/>aste</t></inflection>
+            <inflection number="plural" mood="subjunctive" person="second" tense="present"><t><stem/>iate</t></inflection>
+            <inflection number="plural" mood="subjunctive" person="third" tense="past"><t><stem/>assero</t></inflection>
+            <inflection number="plural" mood="subjunctive" person="third" tense="present"><t><stem/>ino</t></inflection>
+            <inflection number="singular" mood="imperative" person="second"><t><stem/>a</t></inflection>
+            <inflection number="singular" mood="imperative" person="second"><t><stem/>i</t></inflection>
+            <inflection number="plural" mood="imperative" person="first"><t><stem/>iamo</t></inflection>
+            <inflection number="plural" mood="imperative" person="second"><t><stem/>ate</t></inflection>
+            <inflection gender="neuter" mood="imperative"><t><stem/>ane</t></inflection>
+            <inflection gender="neuter" mood="imperative"><t><stem/>atene</t></inflection>
+            <inflection gender="neuter" mood="imperative"><t><stem/>iamone</t></inflection>
+            <inflection gender="neuter" verb-type="infinitive"><t><stem/>arne</t></inflection>
+            <inflection gender="neuter" verb-type="gerund"><t><stem/>andone</t></inflection>
+            <inflection tense="past" verb-type="participle"><t><stem/>ato</t></inflection>
+            <inflection tense="present" verb-type="participle"><t><stem/>ante</t></inflection>
+            <inflection mood="imperative"><t><stem/>aci</t></inflection>
+            <inflection mood="imperative"><t><stem/>agli</t></inflection>
+            <inflection mood="imperative"><t><stem/>ala</t></inflection>
+            <inflection mood="imperative"><t><stem/>ale</t></inflection>
+            <inflection mood="imperative"><t><stem/>ali</t></inflection>
+            <inflection mood="imperative"><t><stem/>alo</t></inflection>
+            <inflection mood="imperative"><t><stem/>ami</t></inflection>
+            <inflection mood="imperative"><t><stem/>ateci</t></inflection>
+            <inflection mood="imperative"><t><stem/>ategli</t></inflection>
+            <inflection mood="imperative"><t><stem/>atela</t></inflection>
+            <inflection mood="imperative"><t><stem/>atele</t></inflection>
+            <inflection mood="imperative"><t><stem/>ateli</t></inflection>
+            <inflection mood="imperative"><t><stem/>atelo</t></inflection>
+            <inflection mood="imperative"><t><stem/>atemi</t></inflection>
+            <inflection mood="imperative"><t><stem/>ateti</t></inflection>
+            <inflection mood="imperative"><t><stem/>atevi</t></inflection>
+            <inflection mood="imperative"><t><stem/>ati</t></inflection>
+            <inflection mood="imperative"><t><stem/>avi</t></inflection>
+            <inflection mood="imperative"><t><stem/>iamoci</t></inflection>
+            <inflection mood="imperative"><t><stem/>iamogli</t></inflection>
+            <inflection mood="imperative"><t><stem/>iamola</t></inflection>
+            <inflection mood="imperative"><t><stem/>iamole</t></inflection>
+            <inflection mood="imperative"><t><stem/>iamoli</t></inflection>
+            <inflection mood="imperative"><t><stem/>iamolo</t></inflection>
+            <inflection mood="imperative"><t><stem/>iamomi</t></inflection>
+            <inflection mood="imperative"><t><stem/>iamoti</t></inflection>
+            <inflection mood="imperative"><t><stem/>iamovi</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>arcela</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>arcele</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>arceli</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>arcelo</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>arci</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>are</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>argli</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>argliela</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>argliele</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>arglieli</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>arglielo</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>arla</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>arle</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>arli</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>arlo</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>armela</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>armele</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>armeli</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>armelo</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>armi</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>artela</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>artele</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>arteli</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>artelo</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>arti</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>arvela</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>arvele</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>arveli</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>arvelo</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>arvi</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>ando</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>andocela</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>andocele</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>andoceli</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>andocelo</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>andoci</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>andogli</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>andogliela</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>andogliele</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>andoglieli</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>andoglielo</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>andola</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>andole</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>andoli</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>andolo</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>andomela</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>andomele</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>andomeli</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>andomelo</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>andomi</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>andotela</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>andotele</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>andoteli</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>andotelo</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>andoti</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>andovela</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>andotele</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>andoteli</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>andotelo</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>andoti</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>andovela</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>andovele</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>andoveli</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>andovelo</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>andovi</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="261" words="1">
+        <pos>verb</pos>
+        <suffix>essere</suffix>
+        <inflections>
+            <inflection number="singular" mood="indicative" person="first" tense="past"><t><stem/>ero</t></inflection>
+            <inflection number="singular" mood="indicative" person="second" tense="past"><t><stem/>eri</t></inflection>
+            <inflection number="singular" mood="indicative" person="third" tense="past"><t><stem/>era</t></inflection>
+            <inflection number="plural" mood="indicative" person="first" tense="past"><t><stem/>eravamo</t></inflection>
+            <inflection number="plural" mood="indicative" person="second" tense="past"><t><stem/>eravate</t></inflection>
+            <inflection number="plural" mood="indicative" person="third" tense="past"><t><stem/>erano</t></inflection>
+            <inflection number="singular" mood="conditional" person="first" tense="present"><t><stem/>sarei</t></inflection>
+            <inflection number="singular" mood="conditional" person="second" tense="present"><t><stem/>saresti</t></inflection>
+            <inflection number="singular" mood="conditional" person="third" tense="present"><t><stem/>sarebbe</t></inflection>
+            <inflection number="singular" mood="indicative" person="first" tense="past"><t><stem/>fui</t></inflection>
+            <inflection number="singular" mood="indicative" person="first" tense="present"><t><stem/>sono</t></inflection>
+            <inflection number="singular" mood="indicative" person="first" tense="future"><t><stem/>sarò</t></inflection>
+            <inflection number="singular" mood="indicative" person="second" tense="past"><t><stem/>fosti</t></inflection>
+            <inflection number="singular" mood="indicative" person="second" tense="present"><t><stem/>sei</t></inflection>
+            <inflection number="singular" mood="indicative" person="second" tense="future"><t><stem/>sarai</t></inflection>
+            <inflection number="singular" mood="indicative" person="third" tense="past"><t><stem/>fu</t></inflection>
+            <inflection number="singular" mood="indicative" person="third" tense="present"><t><stem/>è</t></inflection>
+            <inflection number="singular" mood="indicative" person="third" tense="future"><t><stem/>sarà</t></inflection>
+            <inflection number="singular" mood="subjunctive" person="first" tense="past"><t><stem/>fossi</t></inflection>
+            <inflection number="singular" mood="subjunctive" person="first" tense="present"><t><stem/>sia</t></inflection>
+            <inflection number="singular" mood="subjunctive" person="second" tense="past"><t><stem/>fossi</t></inflection>
+            <inflection number="singular" mood="subjunctive" person="second" tense="present"><t><stem/>sia</t></inflection>
+            <inflection number="singular" mood="subjunctive" person="third" tense="past"><t><stem/>fosse</t></inflection>
+            <inflection number="singular" mood="subjunctive" person="third" tense="present"><t><stem/>sia</t></inflection>
+            <inflection number="plural" mood="conditional" person="first" tense="present"><t><stem/>saremmo</t></inflection>
+            <inflection number="plural" mood="conditional" person="second" tense="present"><t><stem/>sareste</t></inflection>
+            <inflection number="plural" mood="conditional" person="third" tense="present"><t><stem/>sarebbero</t></inflection>
+            <inflection number="plural" mood="indicative" person="first" tense="past"><t><stem/>fummo</t></inflection>
+            <inflection number="plural" mood="indicative" person="first" tense="present"><t><stem/>siamo</t></inflection>
+            <inflection number="plural" mood="indicative" person="first" tense="future"><t><stem/>saremo</t></inflection>
+            <inflection number="plural" mood="indicative" person="second" tense="past"><t><stem/>foste</t></inflection>
+            <inflection number="plural" mood="indicative" person="second" tense="present"><t><stem/>siete</t></inflection>
+            <inflection number="plural" mood="indicative" person="second" tense="future"><t><stem/>sarete</t></inflection>
+            <inflection number="plural" mood="indicative" person="third" tense="past"><t><stem/>furono</t></inflection>
+            <inflection number="plural" mood="indicative" person="third" tense="present"><t><stem/>sono</t></inflection>
+            <inflection number="plural" mood="indicative" person="third" tense="future"><t><stem/>saranno</t></inflection>
+            <inflection number="plural" mood="subjunctive" person="first" tense="past"><t><stem/>fossimo</t></inflection>
+            <inflection number="plural" mood="subjunctive" person="first" tense="present"><t><stem/>siamo</t></inflection>
+            <inflection number="plural" mood="subjunctive" person="second" tense="past"><t><stem/>foste</t></inflection>
+            <inflection number="plural" mood="subjunctive" person="second" tense="present"><t><stem/>siate</t></inflection>
+            <inflection number="plural" mood="subjunctive" person="third" tense="past"><t><stem/>fossero</t></inflection>
+            <inflection number="plural" mood="subjunctive" person="third" tense="present"><t><stem/>siano</t></inflection>
+            <inflection number="singular" mood="imperative" person="second"><t><stem/>sia</t></inflection>
+            <inflection number="singular" mood="imperative" person="second"><t><stem/>sii</t></inflection>
+            <inflection number="plural" mood="imperative" person="first"><t><stem/>siamo</t></inflection>
+            <inflection number="plural" mood="imperative" person="second"><t><stem/>siete</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>essercela</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>essercele</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>esserceli</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>essercelo</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>esserci</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>essere</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>essergli</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>essergliela</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>essergliele</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>esserglieli</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>esserglielo</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>esserle</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>esserli</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>esserlo</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>essermela</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>essermele</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>essermeli</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>essermelo</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>essermi</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>esserne</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>essertela</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>essertele</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>esserteli</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>essertelo</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>esserti</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>esservela</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>esservele</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>esserveli</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>esservelo</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>esservi</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>essendo</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>essendocela</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>essendocele</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>essendoceli</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>essendocelo</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>essendoci</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>essendogli</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>essendogliela</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>essendogliele</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>essendoglieli</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>essendoglielo</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>essendoli</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>essendolo</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>essendomela</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>essendomele</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>essendomeli</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>essendomelo</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>essendomi</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>essendone</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>essendotela</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>essendotele</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>essendoteli</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>essendotelo</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>essendoti</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>essendovela</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>essendovele</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>essendoveli</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>essendovelo</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>essendovi</t></inflection>
+            <inflection tense="past" verb-type="participle"><t><stem/>stato</t></inflection>
+            <inflection tense="present" verb-type="participle"><t><stem/>essente</t></inflection>
+            <inflection verb-type="infinitive"><t><stem/>esserla</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>essendola</t></inflection>
+            <inflection verb-type="gerund"><t><stem/>essendole</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="28c" words="1">
+        <pos>determiner</pos>
+        <suffix>il</suffix>
+        <inflections>
+            <inflection number="singular" definiteness="definite" gender="masculine"><t><stem/>il</t></inflection>
+            <inflection number="singular" definiteness="definite" gender="masculine"><t><stem/>lo</t></inflection>
+            <inflection number="singular" definiteness="definite" gender="feminine"><t><stem/>la</t></inflection>
+            <inflection number="plural" definiteness="definite" gender="masculine"><t><stem/>gli</t></inflection>
+            <inflection number="plural" definiteness="definite" gender="masculine"><t><stem/>i</t></inflection>
+            <inflection number="plural" definiteness="definite" gender="feminine"><t><stem/>le</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="405" words="1">
+        <pos>determiner</pos>
+        <suffix>o</suffix>
+        <inflections>
+            <inflection number="singular" definiteness="indefinite" gender="masculine"><t><stem/></t></inflection>
+            <inflection number="singular" definiteness="indefinite" gender="masculine"><t><stem/>o</t></inflection>
+            <inflection number="singular" definiteness="indefinite" gender="feminine"><t><stem/>a</t></inflection>
+        </inflections>
+    </pattern>
+</patterns>
+

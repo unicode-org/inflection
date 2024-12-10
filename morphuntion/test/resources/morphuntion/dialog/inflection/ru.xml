@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!--
+ Copyright 2021-2024 Apple Inc. All rights reserved.
+-->
+<inflectionTest locale="ru">
+    <test><source>hello</source><result gender=""/></test>
+    <test><source>ясперсон</source><result gender=""/></test>
+    <test><source>Иванов</source><result gender="masculine"/></test>
+    <test><source>Ивановна</source><result gender="feminine"/></test>
+    <test><source>аббатство</source><result gender="neuter"/></test>
+
+    <test><source>всадники</source><result withAboutPrep="обо всадники"/></test>
+
+    <test><source>ресторан</source><result>ресторан</result></test>
+    <test><source case="dative" number="plural">склерозы</source><result>склерозам</result></test>
+    <test><source case="genitive" number="plural">ресторан</source><result>ресторанов</result></test>
+    <test><source case="genitive" number="plural"><text print="restaurant" speak="ресторан"/></source><result><text print="restaurant" speak="ресторан"/></result></test>
+    <test><source case="genitive" number="singular">завтра</source><result>завтра</result></test>
+    <test><source case="genitive" number="singular">сан-франциско</source><result>сан-франциско</result></test>
+    <test><source case="nominative" number="singular">кремлёвская башня</source><result>кремлёвская башня</result></test>
+    <test><source case="nominative" number="singular">эйфелева башня</source><result>эйфелева башня</result></test>
+    <test><source case="instrumental" number="singular">леной</source><result>леной</result></test>
+    <test><source case="instrumental" number="singular">79264496730</source><result>79264496730</result></test>
+    <test><source case="nominative" number="singular">пятого ноль второго 1988-го</source><result>пятый ноль второе 1988-го</result></test>
+    <test><source case="nominative" number="singular">12.01.1988</source><result>12.01.1988</result></test>
+    <test><source case="genitive" number="singular">10 января 2016 г.</source><result>10 января 2016 г.</result></test>
+    <test><source case="genitive" number="singular">10 марта 2016 г.</source><result>10 марта 2016 г.</result></test>
+    <test><source case="genitive" number="singular">10 мая 2016 г.</source><result>10 мая 2016 г.</result></test>
+    <test><source case="genitive">таджикистан</source><result>таджикистана</result></test>
+    <test><source case="genitive" number="singular">сегодняшний день в 17:21</source><result>сегодняшнего дня в 17:21</result></test>
+    <test><source case="genitive" number="singular">завтрашний день в 17:59</source><result>завтрашнего дня в 17:59</result></test>
+    <test><source case="nominative">Евгения Смирнова</source><result>Евгения Смирнова</result></test>
+    <test><source case="nominative">Абра Смирнова</source><result>Абра Смирнова</result></test>
+    <test><source case="genitive" pos="proper-noun">Майкл</source><result>Майкла</result></test>
+    <test><source case="genitive" pos="proper-noun">Иванович</source><result>Ивановича</result></test>
+    <test><source case="genitive" pos="proper-noun">Иваныч</source><result>Иваныча</result></test>
+    <test><source case="accusative" number="singular">23 апреля 2015 г.</source><result>23 апреля 2015 г.</result></test>
+    <test><source case="genitive">lifecell центр</source><result>lifecell центра</result></test>
+    <test><source case="genitive">Ремонт Iphone</source><result>Ремонта Iphone</result></test>
+    <test><source case="genitive">❤️Муж❤️</source><result>❤️Мужа❤️</result></test>
+    <test><source case="dative" number="singular">ОЛЬГА</source><result>ОЛЬГЕ</result></test>
+    <test><source case="genitive">лимонадный</source><result>лимонадного</result></test>
+
+    <!-- Example of input where the ML model changes the number of tokens -->
+    <!--  <test><source case="instrumental">Времена года Op. 37a No. 6 Июнь Barcarolle in G Minor</source><result>Временами годом Op. 37a No. 6 Июнем Barcarolle in G Minor</result></test> -->
+
+    <!-- Testing strings with hyphen -->
+    <test><source case="prepositional" number="singular">1-м</source><result>1-м</result></test>
+    <test><source case="prepositional" number="singular">м-м</source><result>м-м</result></test>
+    <test><source case="prepositional" number="singular">latin-м</source><result>latin-м</result></test>
+
+    <!-- Ukrainian character inside the Russian word (Ukrainian і) - do not inflect -->
+    <test><source case="genitive" number="singular">Сергій</source><result>Сергій</result></test>
+    <!-- Latin character inside the Russian word (Latin i) - do not inflect -->
+    <test><source case="genitive" number="singular">Сергiй</source><result>Сергiй</result></test>
+    <!-- Russian word + digit - do not send to ML -->
+    <test><source case="genitive" number="singular">Мама 2</source><result>Мамы 2</result></test>
+
+    <!-- Date time unit tests -->
+    <test><source case="genitive" number="singular">сегодняшний день в 23:30</source><result>сегодняшнего дня в 23:30</result></test>
+    <test><source case="genitive" number="singular">сегодняшний день с 13:00 по 14:00</source><result>сегодняшнего дня с 13:00 по 14:00</result></test>
+    <test><source case="genitive" number="singular">среда в 23:55</source><result>среды в 23:55</result></test>
+    <test><source case="accusative" number="singular">13:15 суббота</source><result>13:15 субботу</result></test>
+    <test><source case="instrumental" number="singular">утро в 6:00</source><result>утром в 6:00</result></test>
+    <test><source case="genitive" number="singular">завтрашний вечер в 5:21</source><result>завтрашнего вечера в 5:21</result></test>
+
+    <!-- Some nominative case tests, that were present in phrasebook -->
+    <test><source case="nominative">деревом</source><result>дерево</result></test>
+    <test><source case="nominative">дереве</source><result>дерево</result></test>
+    <test><source case="nominative">дерева</source><result>дерево</result></test>
+    <test><source case="nominative">дереву</source><result>дерево</result></test>
+
+    <test><source case="nominative">корзины</source><result>корзины</result></test>
+    <test><source case="nominative">корзине</source><result>корзина</result></test>
+    <test><source case="nominative">корзину</source><result>корзина</result></test>
+
+    <test><source case="nominative">стуле</source><result>стул</result></test>
+
+    <!-- Patronymic name -->
+    <test><source case="nominative" number="singular">Анатольевичу</source><result>Анатольевич</result></test>
+    <!-- Informal patronymic name -->
+    <test><source case="nominative" number="singular">Анатоличу</source><result>Анатолич</result></test>
+    <!-- Name -->
+    <test><source case="nominative" number="singular">Анатолию</source><result>Анатолий</result></test>
+
+    <!-- Ignore plural form while trying to inflect proper-nouns -->
+    <test><source case="nominative" number="singular">Филипов</source><result>Филипов</result></test>
+    <test><source case="nominative" number="singular">Сарапулов</source><result>Сарапулов</result></test>
+
+    <!-- Don't modify Cyrillic input if there are non-Russian Cyrillic characters -->
+    <test><source case="nominative">Назад Шляху Немає</source><result>Назад Шляху Немає</result></test>
+    <test><source case="genitive">Назад Шляху Немає</source><result>Назад Шляху Немає</result></test>
+
+    <test><source case="nominative">Вася Чапаєвський</source><result>Вася Чапаєвський</result></test>
+    <test><source case="genitive">Вася Чапаєвський</source><result>Вася Чапаєвський</result></test>
+
+    <test><source case="nominative">Теорія Простору</source><result>Теорія Простору</result></test>
+    <test><source case="genitive">Теорія Простору</source><result>Теорія Простору</result></test>
+    <test><source case="genitive">человек очень быстро бежит по большому саду</source><result>человека очень быстрого бежит по большого сада</result></test>
+
+    <test><source case="instrumental" number="plural">кошка</source><result>кошками</result></test>
+    <test><source case="instrumental" number="singular">кошка</source><result>кошкой</result></test>
+    <test><source case="accusative" number="plural">кошка</source><result>кошек</result></test>
+    <test><source case="accusative" number="singular">кошка</source><result>кошку</result></test>
+    <test><source case="dative" number="plural">кошка</source><result>кошкам</result></test>
+    <test><source case="dative" number="singular">кошка</source><result>кошке</result></test>
+    <test><source case="genitive" number="plural">кошка</source><result>кошек</result></test>
+    <test><source case="genitive" number="singular">кошка</source><result>кошки</result></test>
+    <test><source case="prepositional" number="plural">кошка</source><result>кошках</result></test>
+    <test><source case="prepositional" number="singular">кошка</source><result>кошке</result></test>
+    <test><source case="nominative" number="plural">кошка</source><result>кошки</result></test>
+    <test><source case="nominative" number="singular">кошка</source><result>кошка</result></test>
+
+    <test><source case="instrumental" number="plural">ресторан</source><result>ресторанами</result></test>
+    <test><source case="instrumental" number="singular">ресторан</source><result>рестораном</result></test>
+    <test><source case="accusative" number="plural">ресторан</source><result>рестораны</result></test>
+    <test><source case="accusative" number="singular">ресторан</source><result>ресторан</result></test>
+    <test><source case="dative" number="plural">ресторан</source><result>ресторанам</result></test>
+    <test><source case="dative" number="singular">ресторан</source><result>ресторану</result></test>
+    <test><source case="genitive" number="plural">ресторан</source><result>ресторанов</result></test>
+    <test><source case="genitive" number="singular">ресторан</source><result>ресторана</result></test>
+    <test><source case="prepositional" number="plural">ресторан</source><result>ресторанах</result></test>
+    <test><source case="prepositional" number="singular">ресторан</source><result>ресторане</result></test>
+    <test><source case="nominative" number="plural">ресторан</source><result>рестораны</result></test>
+    <test><source case="nominative" number="singular">ресторан</source><result>ресторан</result></test>
+
+    <test><source case="instrumental" number="plural">красивый</source><result>красивыми</result></test>
+    <test><source case="instrumental" number="singular">красивый</source><result>красивым</result></test>
+    <test><source case="accusative" number="plural" animacy="inanimate">красивый</source><result>красивые</result></test>
+    <test><source case="accusative" number="singular" animacy="inanimate">красивый</source><result>красивый</result></test>
+    <test><source case="dative" number="plural">красивый</source><result>красивым</result></test>
+    <test><source case="dative" number="singular">красивый</source><result>красивому</result></test>
+    <test><source case="genitive" number="plural">красивый</source><result>красивых</result></test>
+    <test><source case="genitive" number="singular">красивый</source><result>красивого</result></test>
+    <test><source case="prepositional" number="plural">красивый</source><result>красивых</result></test>
+    <test><source case="prepositional" number="singular">красивый</source><result>красивом</result></test>
+    <test><source case="nominative" number="plural">красивый</source><result>красивые</result></test>
+    <test><source case="nominative" number="singular">красивый</source><result>красивый</result></test>
+
+    <test><source case="nominative"/><result withAboutPrep="о"/></test>
+    <test><source case="nominative">ждлоыва</source><result withAboutPrep="о ждлоыва"/></test>
+    <test><source case="nominative">новости</source><result withAboutPrep="о новости"/></test>
+    <test><source case="prepositional">этом</source><result withAboutPrep="об этом"/></test>
+    <test><source case="prepositional">открытии</source><result withAboutPrep="об открытии"/></test>
+
+    <test><source case="nominative"/><result withInPrep="в"/></test>
+    <test><source case="nominative">ждлоыва</source><result withInPrep="в ждлоыва"/></test>
+    <test><source>речке</source><result withInPrep="в речке"/></test>
+    <test><source case="nominative">мне</source><result withInPrep="во мне"/></test>
+    <test><source case="dative">рву</source><result withInPrep="во рву"/></test>
+
+    <test><source case="nominative"/><result withWithPrep="с"/></test>
+    <test><source case="nominative">ждлоыва</source><result withWithPrep="со ждлоыва"/></test>
+    <test><source case="instrumental">тобой</source><result withWithPrep="с тобой"/></test>
+    <test><source case="instrumental">мной</source><result withWithPrep="со мной"/></test>
+    <test><source case="genitive">вторника</source><result withWithPrep="со вторника"/></test>
+    <test><source case="instrumental">сгущенкой</source><result withWithPrep="со сгущенкой"/></test>
+    <test><source case="nominative">вчерашний день</source><result withWithPrep="со вчерашний день"/></test>
+
+    <test><source case="nominative"/><result withToPrep="к"/></test>
+    <test><source case="nominative">ждлоыва</source><result withToPrep="к ждлоыва"/></test>
+    <test><source case="dative">нему</source><result withToPrep="к нему"/></test>
+    <test><source case="dative">мне</source><result withToPrep="ко мне"/></test>
+    <test><source case="dative">вторнику</source><result withToPrep="ко вторнику"/></test>
+</inflectionTest>

@@ -81,11 +81,21 @@ The following are the dependencies to use this code.
 
 ### Building
 
+#### Resolving ICU4C dependancy
+
 Before building this project, you must have a distribution of ICU4C available. The path to the ICU distribution must be
 set as ICU_ROOT in either options.mk or as a command line argument to cmake. The path should be the same as the
 --prefix value used when ICU was configured, built and installed.
 
-If you want to build this project faster, you can adjust the number of concurrent build jobs used when compiling.
+Typical ICU installation requires:
+* Downloading "Latest" released ICU4C "Source code.[zip|tar.gz]" from https://github.com/unicode-org/icu/releases.
+* Following [build and installation instructions](https://unicode-org.github.io/icu/userguide/icu4c/build.html).
+
+##### Linux specific
+* ICU4C is installed to /usr/local/lib/*icu* by default.
+* ICU_ROOT should point to /usr/local/lib/. Omitting /icu applies to any other installation path.
+
+#### Build instructions
 
 ```
 cd morphuntion
@@ -93,6 +103,11 @@ mkdir build
 cd build
 CC=clang CXX=clang++ cmake -DICU_ROOT=<PATH_TO_ICU> ..
 make -j 8 check
+```
+
+Alternatively, you can use cmake for the building, testing etc.
+```
+cmake --build . -j8 -t check
 ```
 
 Optionally, ICU_ROOT can be specified in the file options.mk with the following type of syntax.

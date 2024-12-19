@@ -441,6 +441,14 @@ public:
      */
     static const ::morphuntion::util::ULocale& SLOVAKIA();
     /**
+     * sr: Serbian
+     */
+    static const ::morphuntion::util::ULocale& SERBIAN();
+    /**
+     * sr_RS: Serbian (Serbia)
+     */
+    static const ::morphuntion::util::ULocale& SERBIA();
+    /**
      * sv: Swedish
      */
     static const ::morphuntion::util::ULocale& SWEDISH();

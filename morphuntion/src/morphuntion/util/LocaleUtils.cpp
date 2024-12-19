@@ -503,6 +503,18 @@ const ULocale& LocaleUtils::SLOVAKIA()
     return *npc(SLOVAKIA_);
 }
 
+const ULocale& LocaleUtils::SERBIAN()
+{
+    static auto SERBIAN_ = new ULocale("sr");
+    return *npc(SERBIAN_);
+}
+
+const ULocale& LocaleUtils::SERBIA()
+{
+    static auto SERBIA_ = new ULocale("sr", "RS");
+    return *npc(SERBIA_);
+}
+
 const ULocale& LocaleUtils::SWEDISH()
 {
     static auto SWEDISH_ = new ULocale("sv");

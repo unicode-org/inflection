@@ -17,6 +17,7 @@
 #include <morphuntion/grammar/synthesis/NlGrammarSynthesizer.hpp>
 #include <morphuntion/grammar/synthesis/PtGrammarSynthesizer.hpp>
 #include <morphuntion/grammar/synthesis/RuGrammarSynthesizer.hpp>
+#include <morphuntion/grammar/synthesis/SrGrammarSynthesizer.hpp>
 #include <morphuntion/grammar/synthesis/SvGrammarSynthesizer.hpp>
 #include <morphuntion/grammar/synthesis/TrGrammarSynthesizer.hpp>
 #include <morphuntion/util/LocaleUtils.hpp>

@@ -7,7 +7,7 @@ Adding a new language requires multiple steps:
 
 The following steps with help you identify files that need to be added or changed, and will guide you in rule writing and lexicon preparation.
 
-NOTE: Take a look at [PR #40](https://github.com/unicode-org/inflection/pull/40)) for example on how to add initial language support.
+NOTE: Take a look at [PR #40](https://github.com/unicode-org/inflection/pull/40) for example on how to add initial language support.
 In general, to bootstrap your progress look for grammatically similar language that's already supported, e.g. if you are adding Serbian look for existing Russian or Croatian implementation.
 This will help you find most of the files you need to add/change and will speed up implementation of the rules and lexicons.
 

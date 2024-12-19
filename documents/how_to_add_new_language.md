@@ -38,3 +38,8 @@ TODO: We need to expand what each of these do.
 
 ## Define and create lexion
 TODO: We need to describe how to get Wikidata lexicon and generate the files.
+
+### Add data to test lexicon
+Use our data driven testing approach to test your logic. You'll need to define a small lexicon that covers all test cases.
+
+* ADD: morphuntion/test/resources/morphuntion/dialog/inflection/Xx.xml

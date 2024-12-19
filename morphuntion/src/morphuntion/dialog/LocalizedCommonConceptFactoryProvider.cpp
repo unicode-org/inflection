@@ -20,6 +20,7 @@
 #include <morphuntion/dialog/language/NlCommonConceptFactory.hpp>
 #include <morphuntion/dialog/language/PtCommonConceptFactory.hpp>
 #include <morphuntion/dialog/language/RuCommonConceptFactory.hpp>
+#include <morphuntion/dialog/language/SrCommonConceptFactory.hpp>
 #include <morphuntion/dialog/language/SvCommonConceptFactory.hpp>
 #include <morphuntion/dialog/language/ThCommonConceptFactory.hpp>
 #include <morphuntion/dialog/language/TrCommonConceptFactory.hpp>
@@ -81,6 +82,7 @@ static CommonConceptFactory* constructCommonConceptFactory(const ::morphuntion::
         {"nl", &constructor<language::NlCommonConceptFactory>},
         {"pt", &constructor<language::PtCommonConceptFactory>},
         {"ru", &constructor<language::RuCommonConceptFactory>},
+        {"sr", &constructor<language::SrCommonConceptFactory>},
         {"sv", &constructor<language::SvCommonConceptFactory>},
         {"th", &constructor<language::ThCommonConceptFactory>},
         {"tr", &constructor<language::TrCommonConceptFactory>},

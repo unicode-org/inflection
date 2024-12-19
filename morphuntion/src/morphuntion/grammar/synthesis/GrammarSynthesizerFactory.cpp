@@ -44,6 +44,7 @@ static const ::std::map<::morphuntion::util::ULocale, addSemanticFeatures>& GRAM
         {::morphuntion::util::LocaleUtils::DUTCH(), &NlGrammarSynthesizer::addSemanticFeatures},
         {::morphuntion::util::LocaleUtils::PORTUGUESE(), &PtGrammarSynthesizer::addSemanticFeatures},
         {::morphuntion::util::LocaleUtils::RUSSIAN(), &RuGrammarSynthesizer::addSemanticFeatures},
+        {::morphuntion::util::LocaleUtils::SERBIAN(), &SrGrammarSynthesizer::addSemanticFeatures},
         {::morphuntion::util::LocaleUtils::SWEDISH(), &SvGrammarSynthesizer::addSemanticFeatures},
         {::morphuntion::util::LocaleUtils::TURKISH(), &TrGrammarSynthesizer::addSemanticFeatures},
     });

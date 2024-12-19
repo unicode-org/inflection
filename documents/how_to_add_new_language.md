@@ -16,25 +16,27 @@ This will help you find most of the files you need to add/change and will speed 
 * UPDATE: morphuntion/src/morphuntion/util/LocaleUtils.cpp
 * UPDATE: morphuntion/test/src/morphuntion/util/LocaleUtilsTest.cpp
 * UPDATE: morphuntion/resources/org/unicode/morphuntion/locale/supported-locales.properties
-* ADD: morphuntion/resources/org/unicode/morphuntion/tokenizer/config_XX.properties
+* ADD: morphuntion/resources/org/unicode/morphuntion/tokenizer/config_*XX*.properties
 
 ## Define language grammar
 * UPDATE: morphuntion/resources/org/unicode/morphuntion/features/grammar.xml
 
 ## Add pronouns if applicable
-* UPDATE: morphuntion/resources/org/unicode/morphuntion/features/grammar.xml
+* ADD: morphuntion/resources/org/unicode/morphuntion/inflection/pronoun_*XX*.csv
 
-## Implament basic handlers
+## Implement grammar synthesizer for inflecting words and retrieving grammatical properties
 TODO: We need to expand what each of these do.
-* ADD: morphuntion/src/morphuntion/grammar/synthesis/XxGrammarSynthesizer.hpp
-* ADD: morphuntion/src/morphuntion/grammar/synthesis/XxGrammarSynthesizer.cpp
-* ADD: morphuntion/src/morphuntion/grammar/synthesis/XxGrammarSynthesizer_XxDisplayFunction.hpp
-* ADD: morphuntion/src/morphuntion/grammar/synthesis/XxGrammarSynthesizer_XxDisplayFunction.hpp
+* ADD: morphuntion/src/morphuntion/grammar/synthesis/*Xx*GrammarSynthesizer.hpp
+* ADD: morphuntion/src/morphuntion/grammar/synthesis/*Xx*GrammarSynthesizer.cpp
+* ADD: morphuntion/src/morphuntion/grammar/synthesis/*Xx*GrammarSynthesizer_*Xx*DisplayFunction.hpp
+* ADD: morphuntion/src/morphuntion/grammar/synthesis/*Xx*GrammarSynthesizer_*Xx*DisplayFunction.hpp
 * UPDATE: morphuntion/src/morphuntion/grammar/synthesis/GrammarSynthesizerFactory.cpp
 * UPDATE: morphuntion/src/morphuntion/grammar/synthesis/fwd.hpp
-* UPDATE: morphuntion/src/morphuntion/grammar/synthesis/fwd.cpp
-* ADD: morphuntion/src/morphuntion/dialog/language/XxCommonConceptFactory.hpp
-* ADD: morphuntion/src/morphuntion/dialog/language/XxCommonConceptFactory.hpp
+
+## Add language specific properties for lists, quantities and related topics
+* ADD: morphuntion/src/morphuntion/dialog/language/*Xx*CommonConceptFactory.hpp
+* ADD: morphuntion/src/morphuntion/dialog/language/*Xx*CommonConceptFactory.hpp
+* UPDATE: morphuntion/src/morphuntion/dialog/language/fwd.hpp
 
 ## Define and create lexion
 TODO: We need to describe how to get Wikidata lexicon and generate the files.

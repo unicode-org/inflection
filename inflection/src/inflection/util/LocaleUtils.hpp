@@ -443,11 +443,11 @@ public:
     /**
      * sr: Serbian
      */
-    static const ::morphuntion::util::ULocale& SERBIAN();
+    static const ::inflection::util::ULocale& SERBIAN();
     /**
      * sr_RS: Serbian (Serbia)
      */
-    static const ::morphuntion::util::ULocale& SERBIA();
+    static const ::inflection::util::ULocale& SERBIA();
     /**
      * sv: Swedish
      */

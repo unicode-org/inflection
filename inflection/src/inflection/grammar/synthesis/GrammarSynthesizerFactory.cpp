@@ -17,6 +17,7 @@
 #include <inflection/grammar/synthesis/NlGrammarSynthesizer.hpp>
 #include <inflection/grammar/synthesis/PtGrammarSynthesizer.hpp>
 #include <inflection/grammar/synthesis/RuGrammarSynthesizer.hpp>
+#include <inflection/grammar/synthesis/SrGrammarSynthesizer.hpp>
 #include <inflection/grammar/synthesis/SvGrammarSynthesizer.hpp>
 #include <inflection/grammar/synthesis/TrGrammarSynthesizer.hpp>
 #include <inflection/util/LocaleUtils.hpp>
@@ -44,6 +45,7 @@ static const ::std::map<::inflection::util::ULocale, addSemanticFeatures>& GRAMM
         {::inflection::util::LocaleUtils::DUTCH(), &NlGrammarSynthesizer::addSemanticFeatures},
         {::inflection::util::LocaleUtils::PORTUGUESE(), &PtGrammarSynthesizer::addSemanticFeatures},
         {::inflection::util::LocaleUtils::RUSSIAN(), &RuGrammarSynthesizer::addSemanticFeatures},
+        {::inflection::util::LocaleUtils::SERBIAN(), &SrGrammarSynthesizer::addSemanticFeatures},
         {::inflection::util::LocaleUtils::SWEDISH(), &SvGrammarSynthesizer::addSemanticFeatures},
         {::inflection::util::LocaleUtils::TURKISH(), &TrGrammarSynthesizer::addSemanticFeatures},
     });

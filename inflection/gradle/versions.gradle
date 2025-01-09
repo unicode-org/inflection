@@ -1,0 +1,13 @@
+/*
+ * Copyright 2020-2024 Apple Inc. All rights reserved.
+ */
+// This is a sorted map of every dependency we want to use throughout the whole Inflection repo
+ext.dependencyVersions = [
+        commons_text: '1.10.0',
+        icu4j: '75.1',
+        jsr305: '3.0.2',
+        junit_jupiter: '5.10.2',
+        junit_platform: '1.10.2',
+        log4j: '2.22.1',
+        xerces: '2.12.2',
+]

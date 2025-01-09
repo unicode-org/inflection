@@ -12,36 +12,37 @@ In general, to bootstrap your progress look for grammatically similar language t
 This will help you find most of the files you need to add/change and will speed up implementation of the rules and lexicons.
 
 ## Mark your language as supported
-* UPDATE: morphuntion/src/morphuntion/util/LocaleUtils.hpp
-* UPDATE: morphuntion/src/morphuntion/util/LocaleUtils.cpp
-* UPDATE: morphuntion/test/src/morphuntion/util/LocaleUtilsTest.cpp
-* UPDATE: morphuntion/resources/org/unicode/morphuntion/locale/supported-locales.properties
-* ADD: morphuntion/resources/org/unicode/morphuntion/tokenizer/config_*XX*.properties
+* UPDATE: inflection/src/inflection/util/LocaleUtils.hpp
+* UPDATE: inflection/src/inflection/util/LocaleUtils.cpp
+* UPDATE: inflection/test/src/inflection/util/LocaleUtilsTest.cpp
+* UPDATE: inflection/resources/org/unicode/inflection/locale/supported-locales.properties
+* ADD: inflection/resources/org/unicode/inflection/tokenizer/config_*XX*.properties
 
 ## Define language grammar
-* UPDATE: morphuntion/resources/org/unicode/morphuntion/features/grammar.xml
+* UPDATE: inflection/resources/org/unicode/inflection/features/grammar.xml
 
 ## Add pronouns if applicable
-* ADD: morphuntion/resources/org/unicode/morphuntion/inflection/pronoun_*XX*.csv
+* ADD: inflection/resources/org/unicode/inflection/inflection/pronoun_*XX*.csv
 
 ## Implement grammar synthesizer for inflecting words and retrieving grammatical properties
 TODO: We need to expand what each of these do.
-* ADD: morphuntion/src/morphuntion/grammar/synthesis/*Xx*GrammarSynthesizer.hpp
-* ADD: morphuntion/src/morphuntion/grammar/synthesis/*Xx*GrammarSynthesizer.cpp
-* ADD: morphuntion/src/morphuntion/grammar/synthesis/*Xx*GrammarSynthesizer_*Xx*DisplayFunction.hpp
-* ADD: morphuntion/src/morphuntion/grammar/synthesis/*Xx*GrammarSynthesizer_*Xx*DisplayFunction.hpp
-* UPDATE: morphuntion/src/morphuntion/grammar/synthesis/GrammarSynthesizerFactory.cpp
-* UPDATE: morphuntion/src/morphuntion/grammar/synthesis/fwd.hpp
+* ADD: inflection/src/inflection/grammar/synthesis/*Xx*GrammarSynthesizer.hpp
+* ADD: inflection/src/inflection/grammar/synthesis/*Xx*GrammarSynthesizer.cpp
+* ADD: inflection/src/inflection/grammar/synthesis/*Xx*GrammarSynthesizer_*Xx*DisplayFunction.hpp
+* ADD: inflection/src/inflection/grammar/synthesis/*Xx*GrammarSynthesizer_*Xx*DisplayFunction.hpp
+* UPDATE: inflection/src/inflection/grammar/synthesis/GrammarSynthesizerFactory.cpp
+* UPDATE: inflection/src/inflection/grammar/synthesis/fwd.hpp
 
 ## Add language specific properties for lists, quantities and related topics
-* ADD: morphuntion/src/morphuntion/dialog/language/*Xx*CommonConceptFactory.hpp
-* ADD: morphuntion/src/morphuntion/dialog/language/*Xx*CommonConceptFactory.hpp
-* UPDATE: morphuntion/src/morphuntion/dialog/language/fwd.hpp
+* ADD: inflection/src/inflection/dialog/language/*Xx*CommonConceptFactory.hpp
+* ADD: inflection/src/inflection/dialog/language/*Xx*CommonConceptFactory.hpp
+* UPDATE: inflection/src/inflection/dialog/language/fwd.hpp
 
 ## Define and create lexion
 TODO: We need to describe how to get Wikidata lexicon and generate the files.
 
 ### Add data to test lexicon
-Use our data driven testing approach to test your logic. You'll need to define a small lexicon that covers all test cases.
+Use our data driven testing approach to test your logic. You'll need to define a small lexicon that covers all test cases for inflection and pronouns (if applicable for the language).
 
-* ADD: morphuntion/test/resources/morphuntion/dialog/inflection/Xx.xml
+* ADD: inflection/test/resources/inflection/dialog/inflection/Xx.xml
+* ADD: inflection/test/resources/inflection/dialog/pronoun/Xx.xml

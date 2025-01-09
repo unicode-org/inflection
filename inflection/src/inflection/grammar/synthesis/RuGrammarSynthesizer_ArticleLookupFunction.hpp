@@ -1,0 +1,31 @@
+/*
+ * Copyright 2017-2024 Apple Inc. All rights reserved.
+ */
+#pragma once
+
+#include <inflection/dictionary/fwd.hpp>
+#include <inflection/analysis/fwd.hpp>
+#include <inflection/dialog/fwd.hpp>
+#include <inflection/grammar/synthesis/fwd.hpp>
+#include <inflection/dialog/DefaultArticleLookupFunction.hpp>
+#include <map>
+#include <string>
+
+class inflection::grammar::synthesis::RuGrammarSynthesizer_ArticleLookupFunction
+    : public ::inflection::dialog::DefaultArticleLookupFunction
+{
+public:
+    typedef ::inflection::dialog::DefaultArticleLookupFunction super;
+
+private:
+    const ::inflection::dialog::SemanticFeature* derivedArticleFeature {  };
+
+protected: /* package */
+    virtual ::inflection::dialog::SpeakableString* getArticle(const ::inflection::dialog::SemanticFeatureModel_DisplayValue& displayValue) const = 0;
+
+public:
+    ::inflection::dialog::SpeakableString* getFeatureValue(const ::inflection::dialog::SemanticFeatureModel_DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const override;
+
+public: /* package */
+    RuGrammarSynthesizer_ArticleLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model, const ::std::u16string& derivedSemanticName);
+};

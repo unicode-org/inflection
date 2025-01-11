@@ -36,8 +36,6 @@ public:
 
     explicit FrGrammarSynthesizer_CountLookupFunction();
     ~FrGrammarSynthesizer_CountLookupFunction() override;
-
-private:
-    FrGrammarSynthesizer_CountLookupFunction(FrGrammarSynthesizer_CountLookupFunction&) = delete;
+    FrGrammarSynthesizer_CountLookupFunction(const FrGrammarSynthesizer_CountLookupFunction&) = delete;
     FrGrammarSynthesizer_CountLookupFunction& operator=(const FrGrammarSynthesizer_CountLookupFunction&) = delete;
 };

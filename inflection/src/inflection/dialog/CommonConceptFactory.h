@@ -23,7 +23,9 @@ INFLECTION_CTYPE(IDCommonConceptFactory)
  * Returns a pointer to the inheriting ConceptFactory's SemanticFeatureModel.
  *
  * @param thisObject The object to query
- * @param error The provided error reference is allocated when the function failed.
+ * @param status Must be a valid pointer to an error code value,
+ *        which must not indicate a failure before the function call.
+ *        This is set to a failure when a failure has occurred during execution.
  * @return The underlying language's SemanticFeatureModel
  */
 INFLECTION_CAPI const IDSemanticFeatureModel* iccf_getSemanticFeatureModel(const IDCommonConceptFactory *thisObject, UErrorCode* status);
@@ -32,7 +34,9 @@ INFLECTION_CAPI const IDSemanticFeatureModel* iccf_getSemanticFeatureModel(const
  * Returns this ConceptFactory's underlying language.
  *
  * @param thisObject The object to query
- * @param error The provided error reference is allocated when the function failed.
+ * @param status Must be a valid pointer to an error code value,
+ *        which must not indicate a failure before the function call.
+ *        This is set to a failure when a failure has occurred during execution.
  * @return The language.
  */
 INFLECTION_CAPI const char* iccf_getLanguage(const IDCommonConceptFactory* thisObject, UErrorCode* status);
@@ -45,7 +49,9 @@ INFLECTION_CAPI const char* iccf_getLanguage(const IDCommonConceptFactory* thisO
  *
  * @param thisObject The CommonConceptFactory used for formatting <code>str</code>
  * @param str The input SpeakableString to add quotation punctuation to.
- * @param error The provided error reference is allocated when the function failed.
+ * @param status Must be a valid pointer to an error code value,
+ *        which must not indicate a failure before the function call.
+ *        This is set to a failure when a failure has occurred during execution.
  * @return The quoted SpeakableString.
  */
 INFLECTION_CAPI IDSpeakableString* iccf_quote(const IDCommonConceptFactory* thisObject, const IDSpeakableString* str, UErrorCode* status);
@@ -70,7 +76,9 @@ INFLECTION_CAPI IDSpeakableString* iccf_quote(const IDCommonConceptFactory* this
  * @param number An input NumberConcept to represent the amount.
  * @param semanticConcept An input SemanticConcept to represent the word to be inflected based on
  * the amount.
- * @param error The provided error reference is allocated when the function failed.
+ * @param status Must be a valid pointer to an error code value,
+ *        which must not indicate a failure before the function call.
+ *        This is set to a failure when a failure has occurred during execution.
  * @return A new SpeakableString.
  */
 INFLECTION_CAPI IDSpeakableString* iccf_quantifyCopy(const IDCommonConceptFactory* thisObject, const IDNumberConcept* number, const IDSemanticFeatureConcept* semanticConcept, UErrorCode* status);
@@ -85,7 +93,9 @@ INFLECTION_CAPI IDSpeakableString* iccf_quantifyCopy(const IDCommonConceptFactor
  * @param formattedNumber If the default chosen cardinal number is wrong for the context of the noun, you can format a specific form of the number.
  * @param semanticConcept An input SemanticConcept to represent the word to be inflected based on
  * the amount.
- * @param error The provided error reference is allocated when the function failed.
+ * @param status Must be a valid pointer to an error code value,
+ *        which must not indicate a failure before the function call.
+ *        This is set to a failure when a failure has occurred during execution.
  * @return A new SpeakableString.
  */
 INFLECTION_CAPI IDSpeakableString* iccf_quantifyFormattedCopy(const IDCommonConceptFactory* thisObject, const IDNumberConcept* number, const IDSpeakableString* formattedNumber, const IDSemanticFeatureConcept* semanticConcept, UErrorCode* status);

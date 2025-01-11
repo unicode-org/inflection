@@ -6,7 +6,7 @@
 #include <inflection/grammar/synthesis/RuGrammarSynthesizer.hpp>
 #include <icu4cxx/UnicodeSet.hpp>
 #include <inflection/dialog/SpeakableString.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/util/StringViewUtils.hpp>
 #include <inflection/util/UnicodeSetUtils.hpp>
 #include <inflection/npc.hpp>
@@ -33,7 +33,7 @@ const ::icu4cxx::UnicodeSet& RuGrammarSynthesizer_InPrepositionLookupFunction::I
     return *npc(IN_FIRST_CHAR_);
 }
 
-inflection::dialog::SpeakableString* RuGrammarSynthesizer_InPrepositionLookupFunction::getArticle(const ::inflection::dialog::SemanticFeatureModel_DisplayValue& displayValue) const
+inflection::dialog::SpeakableString* RuGrammarSynthesizer_InPrepositionLookupFunction::getArticle(const ::inflection::dialog::DisplayValue& displayValue) const
 {
     const auto& displayString = displayValue.getDisplayString();
     if (IN_WORDS().count(displayString) != 0 || ::inflection::util::StringViewUtils::startsWith(displayString, u"мног") || ::inflection::util::StringViewUtils::startsWith(displayString, u"множ") || RuGrammarSynthesizer::startsWith2Consonant(displayString, IN_FIRST_CHAR())) {

@@ -8,16 +8,10 @@
 #include <inflection/dialog/SpeakableString.hpp>
 #include <inflection/util/LocaleUtils.hpp>
 #include <inflection/util/StringUtils.hpp>
-#include <inflection/util/AutoCFRelease.hpp>
+#include <inflection/util/AutoCRelease.hpp>
 #include <inflection/npc.hpp>
 
 typedef ::inflection::util::AutoCRelease<IDSpeakableString*, &iss_destroy> AutoSpeakableStringRelease;
-
-static void checkForSuccess(UErrorCode* status)
-{
-    REQUIRE(status != nullptr);
-    REQUIRE(U_SUCCESS(*status));
-}
 
 static void checkForFailure(UErrorCode* status)
 {
@@ -31,9 +25,9 @@ const IDCommonConceptFactory* getCommonConceptFactory_Quote(const char* language
 {
     auto error = U_ZERO_ERROR;
     auto ccfp = ilccfp_getDefaultCommonConceptFactoryProvider(&error);
-    checkForSuccess(&error);
+    REQUIRE(U_SUCCESS(error));
     auto ccf = ilccfp_getCommonConceptFactory(ccfp, language, &error);
-    checkForSuccess(&error);
+    REQUIRE(U_SUCCESS(error));
     return ccf;
 }
 
@@ -48,7 +42,7 @@ static void compareSpeakableStrings(const IDSpeakableString* expected, const IDS
 static void runTestCase(const IDCommonConceptFactory *conceptFactory, const inflection::dialog::SpeakableString quotedExpected, const inflection::dialog::SpeakableString input) {
     auto error = U_ZERO_ERROR;
     AutoSpeakableStringRelease quotedActual(iccf_quote(conceptFactory, (IDSpeakableString *) &input, &error));
-    checkForSuccess(&error);
+    REQUIRE(U_SUCCESS(error));
     compareSpeakableStrings((IDSpeakableString *) &quotedExpected, quotedActual.value);
 }
 

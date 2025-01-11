@@ -17,9 +17,11 @@ public:
     typedef RuGrammarSynthesizer_ArticleLookupFunction super;
 
 public: /* package */
-    ::inflection::dialog::SpeakableString* getArticle(const ::inflection::dialog::SemanticFeatureModel_DisplayValue& displayValue) const override;
+    ::inflection::dialog::SpeakableString* getArticle(const ::inflection::dialog::DisplayValue& displayValue) const override;
 
     RuGrammarSynthesizer_InPrepositionLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model, const ::std::u16string& derivedSemanticName);
+    RuGrammarSynthesizer_InPrepositionLookupFunction(const RuGrammarSynthesizer_InPrepositionLookupFunction&) = delete;
+    RuGrammarSynthesizer_InPrepositionLookupFunction& operator=(const RuGrammarSynthesizer_InPrepositionLookupFunction&) = delete;
 
 private:
     static const ::icu4cxx::UnicodeSet& IN_FIRST_CHAR();

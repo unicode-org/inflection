@@ -26,7 +26,6 @@ namespace inflection
         class MissingResourceException;
         class NullPointerException;
         class RuntimeException;
-        class StringIndexOutOfBoundsException;
         class Throwable;
         class XMLParseException;
         /// @endcond

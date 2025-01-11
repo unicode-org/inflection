@@ -73,7 +73,7 @@ public:
      * Returns the list of supported locales in Inflection as a <code>std::set<ULocale></code>.
      * @return The list of supported locales in Inflection.
      */
-    static ::std::set<::inflection::util::ULocale> getSupportedLocaleList();
+    static ::std::set<::inflection::util::ULocale, std::greater<>> getSupportedLocaleList();
     /**
      * Returns a map of the supported locales in Inflection, mapping the language string in the configuration file to the
      * ULocale object it represents.

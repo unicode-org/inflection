@@ -14,11 +14,11 @@ INFLECTION_CAPI bool isfc_isExists(IDSemanticFeatureConcept* thisObject, UErrorC
 /**
  * Retrieves the value from the feature name.
  */
-INFLECTION_CAPI CFStringRef isfc_createConstraintByNameCopy(const IDSemanticFeatureConcept* thisObject, const char16_t* featureName, UErrorCode* status);
+INFLECTION_CAPI int32_t isfc_getConstraintByName(const IDSemanticFeatureConcept* thisObject, const char16_t* featureName, char16_t* dest, int32_t destCapacity, UErrorCode* status);
 /**
  * Adds a constraint on the possible values to this concept.
  */
-INFLECTION_CAPI void isfc_putConstraintByName(IDSemanticFeatureConcept* thisObject, const char16_t* featureName, CFStringRef featureValue, UErrorCode* status);
+INFLECTION_CAPI void isfc_putConstraintByName(IDSemanticFeatureConcept* thisObject, const char16_t* featureName, const char16_t* featureValue, int32_t featureValueLen, UErrorCode* status);
 /**
  * Clears a constraint on the possible values to this concept.
  */

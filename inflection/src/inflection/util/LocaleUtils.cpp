@@ -699,9 +699,9 @@ ULocale LocaleUtils::toLocale(const std::u16string &localeString) {
     return toString(locale, u"_");
 }
 
-::std::set<ULocale> LocaleUtils::getSupportedLocaleList()
+::std::set<ULocale, std::greater<>> LocaleUtils::getSupportedLocaleList()
 {
-    ::std::set<ULocale> supportedLocales;
+    ::std::set<ULocale, std::greater<>> supportedLocales;
     for (const auto& keyGroup : getSupportedLocaleMap()) {
         for (const auto& locale : keyGroup.second) {
             supportedLocales.insert(locale);

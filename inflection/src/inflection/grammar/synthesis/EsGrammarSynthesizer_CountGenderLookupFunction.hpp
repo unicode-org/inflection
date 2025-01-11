@@ -32,8 +32,6 @@ public:
 
     EsGrammarSynthesizer_CountGenderLookupFunction(GrammarCategoryType categoryType, const ::std::vector<::std::u16string>& properties);
     ~EsGrammarSynthesizer_CountGenderLookupFunction() override;
-
-private:
-    EsGrammarSynthesizer_CountGenderLookupFunction(EsGrammarSynthesizer_CountGenderLookupFunction&) = delete;
+    EsGrammarSynthesizer_CountGenderLookupFunction(const EsGrammarSynthesizer_CountGenderLookupFunction&) = delete;
     EsGrammarSynthesizer_CountGenderLookupFunction& operator=(const EsGrammarSynthesizer_CountGenderLookupFunction&) = delete;
 };

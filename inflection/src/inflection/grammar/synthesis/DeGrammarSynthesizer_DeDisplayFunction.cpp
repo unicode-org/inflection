@@ -6,7 +6,7 @@
 #include <inflection/dialog/SemanticFeature.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
 #include <inflection/dialog/SemanticFeatureModel_DisplayData.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dictionary/DictionaryMetaData.hpp>
 #include <inflection/exception/ClassCastException.hpp>
 #include <inflection/grammar/synthesis/DeGrammarSynthesizer.hpp>
@@ -101,7 +101,7 @@ const ::std::map<int32_t, ::std::u16string_view>* DeGrammarSynthesizer_DeDisplay
     return nullptr;
 }
 
-inflection::dialog::SemanticFeatureModel_DisplayValue* DeGrammarSynthesizer_DeDisplayFunction::inflectByDeclension(const ::inflection::dialog::SemanticFeatureModel_DisplayData& displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, const ::std::u16string& declensionString) const
+inflection::dialog::DisplayValue* DeGrammarSynthesizer_DeDisplayFunction::inflectByDeclension(const ::inflection::dialog::SemanticFeatureModel_DisplayData& displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, const ::std::u16string& declensionString) const
 {
     auto const suffixMap = getSuffixMap(declensionString);
     if (suffixMap == nullptr) {
@@ -110,7 +110,7 @@ inflection::dialog::SemanticFeatureModel_DisplayValue* DeGrammarSynthesizer_DeDi
     ::std::u16string caseString(GrammarSynthesizerUtil::getFeatureValue(constraints, caseFeature));
     ::std::u16string countString(GrammarSynthesizerUtil::getFeatureValue(constraints, countFeature));
     ::std::u16string genderString(GrammarSynthesizerUtil::getFeatureValue(constraints, genderFeature));
-    const ::inflection::dialog::SemanticFeatureModel_DisplayValue* stemmedValue = nullptr;
+    const ::inflection::dialog::DisplayValue* stemmedValue = nullptr;
 
     for (const auto& value : displayData.getValues()) {
         auto valueConstraintMap = value.getConstraintMap();
@@ -120,7 +120,7 @@ inflection::dialog::SemanticFeatureModel_DisplayValue* DeGrammarSynthesizer_DeDi
             && (genderString.empty() || genderString == GrammarSynthesizerUtil::getFeatureValue(valueConstraintMap, genderFeature))
             && valueConstraintMap.find(*npc(declensionFeature)) == valueConstraintMap.end())
         {
-            return new ::inflection::dialog::SemanticFeatureModel_DisplayValue(value.getDisplayString(), value.getConstraintMap());
+            return new ::inflection::dialog::DisplayValue(value.getDisplayString(), value.getConstraintMap());
         }
 
         if (valueConstraintMap.find(*npc(stemFeature)) != valueConstraintMap.end() && stemmedValue == nullptr) {
@@ -145,7 +145,7 @@ inflection::dialog::SemanticFeatureModel_DisplayValue* DeGrammarSynthesizer_DeDi
     formConstraints.insert(npc(stemmedValue)->getConstraintMap().begin(), npc(stemmedValue)->getConstraintMap().end());
     formConstraints.insert(constraints.begin(), constraints.end());
 
-    return new ::inflection::dialog::SemanticFeatureModel_DisplayValue(result, formConstraints);
+    return new ::inflection::dialog::DisplayValue(result, formConstraints);
 }
 
 ::std::optional<::std::u16string> DeGrammarSynthesizer_DeDisplayFunction::inflectWord(const ::std::u16string &displayString, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, const ::std::vector<::std::u16string> &deducedConstraints, bool enableInflectionGuess) const
@@ -361,7 +361,7 @@ std::optional<::std::u16string> DeGrammarSynthesizer_DeDisplayFunction::getFeatu
     return displayString;
 }
 
-::inflection::dialog::SemanticFeatureModel_DisplayValue * DeGrammarSynthesizer_DeDisplayFunction::getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const
+::inflection::dialog::DisplayValue * DeGrammarSynthesizer_DeDisplayFunction::getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const
 {
     ::std::u16string displayString;
     if (!displayData.getValues().empty()) {
@@ -405,7 +405,7 @@ std::optional<::std::u16string> DeGrammarSynthesizer_DeDisplayFunction::getFeatu
         }
     }
     if (!displayString.empty()) {
-        return definitenessDisplayFunction.addDefiniteness(new ::inflection::dialog::SemanticFeatureModel_DisplayValue(displayString, constraints), constraints);
+        return definitenessDisplayFunction.addDefiniteness(new ::inflection::dialog::DisplayValue(displayString, constraints), constraints);
     }
     return nullptr;
 }

@@ -12,7 +12,10 @@ class inflection::grammar::synthesis::HeGrammarSynthesizer_WithConditionalHyphen
 {
 public:
     typedef ::inflection::dialog::DefaultFeatureFunction super;
-    ::inflection::dialog::SpeakableString* getFeatureValue(const ::inflection::dialog::SemanticFeatureModel_DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const override;
+    ::inflection::dialog::SpeakableString* getFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const override;
 
+public:
     HeGrammarSynthesizer_WithConditionalHyphen();
+    HeGrammarSynthesizer_WithConditionalHyphen(const HeGrammarSynthesizer_WithConditionalHyphen&) = delete;
+    HeGrammarSynthesizer_WithConditionalHyphen& operator=(const HeGrammarSynthesizer_WithConditionalHyphen&) = delete;
 };

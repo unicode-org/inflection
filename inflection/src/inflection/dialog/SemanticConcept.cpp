@@ -8,7 +8,7 @@
 #include <inflection/dialog/DefaultFeatureFunction.hpp>
 #include <inflection/dialog/SemanticFeature.hpp>
 #include <inflection/dialog/SemanticFeatureModel_DisplayData.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
 #include <inflection/exception/IllegalArgumentException.hpp>
 #include <inflection/exception/IllegalStateException.hpp>
@@ -48,9 +48,9 @@ const ::std::u16string& SemanticConcept::getSemanticValue()
     return semantic.getValue();
 }
 
-const SemanticFeatureModel_DisplayValue* SemanticConcept::getFirstPossibleValue(std::unique_ptr<SemanticFeatureModel_DisplayValue>& generatedDisplayValue) const
+const DisplayValue* SemanticConcept::getFirstPossibleValue(std::unique_ptr<DisplayValue>& generatedDisplayValue) const
 {
-    const SemanticFeatureModel_DisplayValue* possibleValue = nullptr;
+    const DisplayValue* possibleValue = nullptr;
     if (displayData != nullptr) {
         for (const auto& value : npc(displayData)->getValues()) {
             auto valueConstraintMap = value.getConstraintMap();
@@ -70,7 +70,7 @@ const SemanticFeatureModel_DisplayValue* SemanticConcept::getFirstPossibleValue(
     if (possibleValue == nullptr) {
         auto defaultDisplayFunction = npc(getModel())->getDefaultDisplayFunction();
         if (defaultDisplayFunction != nullptr) {
-            SemanticFeatureModel_DisplayValue* displayValue = nullptr;
+            DisplayValue* displayValue = nullptr;
             if (displayData == nullptr) {
                 if (defaultToSemantic) {
                     SemanticFeatureModel_DisplayData defaultDisplayData({defaultToSemanticValue});
@@ -94,7 +94,7 @@ const SemanticFeatureModel_DisplayValue* SemanticConcept::getFirstPossibleValue(
 
 SpeakableString* SemanticConcept::getFeatureValue(const SemanticFeature& feature) const
 {
-    std::unique_ptr<SemanticFeatureModel_DisplayValue> generatedDisplayValue;
+    std::unique_ptr<DisplayValue> generatedDisplayValue;
     auto tempCurrentValue = getCurrentValue(generatedDisplayValue);
     if (tempCurrentValue == nullptr) {
         return nullptr;
@@ -117,9 +117,9 @@ SpeakableString* SemanticConcept::getFeatureValue(const SemanticFeature& feature
     return nullptr;
 }
 
-const SemanticFeatureModel_DisplayValue* SemanticConcept::getCurrentValue(std::unique_ptr<SemanticFeatureModel_DisplayValue>& generatedDisplayValue) const
+const DisplayValue* SemanticConcept::getCurrentValue(std::unique_ptr<DisplayValue>& generatedDisplayValue) const
 {
-    const SemanticFeatureModel_DisplayValue* currentValue;
+    const DisplayValue* currentValue;
     auto currentPossibleValue = getFirstPossibleValue(generatedDisplayValue);
     if (currentPossibleValue != nullptr && !npc(currentPossibleValue)->getDisplayString().empty()) {
         currentValue = currentPossibleValue;
@@ -133,7 +133,7 @@ const SemanticFeatureModel_DisplayValue* SemanticConcept::getCurrentValue(std::u
 
 bool SemanticConcept::isExists() const
 {
-    std::unique_ptr<SemanticFeatureModel_DisplayValue> generatedDisplayValue;
+    std::unique_ptr<DisplayValue> generatedDisplayValue;
     return getCurrentValue(generatedDisplayValue) != nullptr;
 }
 
@@ -145,7 +145,7 @@ SpeakableString* SemanticConcept::toSpeakableString() const
 SpeakableString* SemanticConcept::toSpeakableStringDefault(bool defaultToSemantic) const
 {
     ::std::u16string printString;
-    std::unique_ptr<SemanticFeatureModel_DisplayValue> generatedDisplayValue;
+    std::unique_ptr<DisplayValue> generatedDisplayValue;
     auto displayValue = getCurrentValue(generatedDisplayValue);
     if (displayValue == nullptr) {
         if (defaultToSemantic) {

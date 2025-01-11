@@ -35,7 +35,7 @@ namespace inflection
         class SemanticFeatureConceptBase;
         class SemanticFeatureModel;
         class SemanticFeatureModel_DisplayData;
-        class SemanticFeatureModel_DisplayValue;
+        class DisplayValue;
         class SemanticUtils;
         class SemanticValue;
         class SpeakableConcept;

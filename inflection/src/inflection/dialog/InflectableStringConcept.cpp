@@ -7,7 +7,7 @@
 #include <inflection/dialog/DefaultFeatureFunction.hpp>
 #include <inflection/dialog/SemanticFeature.hpp>
 #include <inflection/dialog/SemanticFeatureModel_DisplayData.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
 #include <inflection/dialog/SpeakableString.hpp>
 #include <inflection/npc.hpp>
@@ -59,7 +59,7 @@ bool InflectableStringConcept::isExists() const
     return value.toString();
 }
 
-::std::optional<SemanticFeatureModel_DisplayValue> InflectableStringConcept::getDisplayValue(bool allowInflectionGuess) const
+::std::optional<DisplayValue> InflectableStringConcept::getDisplayValue(bool allowInflectionGuess) const
 {
     auto defaultDisplayFunction = npc(getModel())->getDefaultDisplayFunction();
     if (defaultDisplayFunction != nullptr && !constraints.empty()) {
@@ -67,8 +67,8 @@ bool InflectableStringConcept::isExists() const
         if (!value.speakEqualsPrint()) {
             constraintMap.emplace(*npc(getSpeakFeature()), value.getSpeak());
         }
-        SemanticFeatureModel_DisplayData displayData({SemanticFeatureModel_DisplayValue(value.getPrint(), constraintMap)});
-        ::std::unique_ptr<SemanticFeatureModel_DisplayValue> returnVal(npc(defaultDisplayFunction)->getDisplayValue(displayData, constraints, allowInflectionGuess));
+        SemanticFeatureModel_DisplayData displayData({DisplayValue(value.getPrint(), constraintMap)});
+        ::std::unique_ptr<DisplayValue> returnVal(npc(defaultDisplayFunction)->getDisplayValue(displayData, constraints, allowInflectionGuess));
         if (returnVal != nullptr) {
             return *returnVal;
         }

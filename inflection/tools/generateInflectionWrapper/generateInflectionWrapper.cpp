@@ -150,26 +150,18 @@ static void RunOnFile(const std::string& filePath, std::stringstream &dest) {
     }
 
     vector<RegexToMatch> typeMigration = {
-        RegexToMatch("const\\s+:*std::u16string(\\s*[*&])?", "CFStringRef "),
-        RegexToMatch(":*std::u16string_view(\\s*[*&])?", "CFStringRef "),
-        RegexToMatch(":*std::u16string(\\s*[*&])?", "CFMutableStringRef "),
-        RegexToMatch("const\\s+:*std::vector<[^>]*>(\\s*[*&])?", "CFArrayRef "),
-        RegexToMatch(":*std::vector<[^>]*>(\\s*[*&])?", "CFMutableArrayRef "),
-        RegexToMatch("const\\s+:*std::map<[^>]*>(\\s*[*&])?", "CFDictionaryRef "),
-        RegexToMatch(":*std::map<[^>]*>(\\s*[*&])?", "CFMutableDictionaryRef "),
-        RegexToMatch("const\\s+:*std::set<[^>]*>(\\s*[*&])?", "CFSetRef "),
-        RegexToMatch(":*std::set<[^>]*>(\\s*[*&])?", "CFMutableSetRef "),
+        RegexToMatch("const\\s+:*std::u16string(\\s*[*&])?", "const char16_t* "),
+        RegexToMatch(":*std::u16string_view(\\s*[*&])?", "const char16_t* "),
+        RegexToMatch(":*std::u16string(\\s*[*&])?", "char16_t* "),
         RegexToMatch("(const\\s+)?:*inflection::util::ULocale(\\s*[*&])?", "const char* "),
         RegexToMatch(":*icu4cxx::UnicodeSet(\\s*[*&])?", "USet*"),
-        RegexToMatch(":*inflection::Chunk", "MTokenChain"),
-        RegexToMatch(":*inflection::TokenChain", "MTokenChain"),
-        RegexToMatch("(:*inflection::dialog::)?SpeakableString(\\s*[*&])?", "MDSpeakableString*"),
-        RegexToMatch("(:*inflection::dialog::)?SemanticFeatureModel_DisplayValue(\\s*[*&])?", "MDSemanticFeatureModel_DisplayValue*"),
-        RegexToMatch("(:*inflection::dialog::)?SemanticFeatureModel(\\s*[*&])?", "MDSemanticFeatureModel*"),
-        RegexToMatch("(:*inflection::dialog::)?NumberConcept(\\s*[*&])?", "MDNumberConcept*"),
-        RegexToMatch("(:*inflection::dialog::)?InflectableStringConcept(\\s*[*&])?", "MDInflectableStringConcept*"),
-        RegexToMatch("(:*inflection::dialog::)?GrammaticalCountConcept(\\s*[*&])?", "MDGrammaticalCountConcept*"),
-        RegexToMatch("(:*inflection::dialog::)?SemanticFeatureConceptBase(\\s*[*&])?", "MDSemanticFeatureConcept*"),
+        RegexToMatch("(:*inflection::dialog::)?SpeakableString(\\s*[*&])?", "IDSpeakableString*"),
+        RegexToMatch("(:*inflection::dialog::)?SemanticFeatureModel_DisplayValue(\\s*[*&])?", "IDSemanticFeatureModel_DisplayValue*"),
+        RegexToMatch("(:*inflection::dialog::)?SemanticFeatureModel(\\s*[*&])?", "IDSemanticFeatureModel*"),
+        RegexToMatch("(:*inflection::dialog::)?NumberConcept(\\s*[*&])?", "IDNumberConcept*"),
+        RegexToMatch("(:*inflection::dialog::)?InflectableStringConcept(\\s*[*&])?", "IDInflectableStringConcept*"),
+        RegexToMatch("(:*inflection::dialog::)?GrammaticalCountConcept(\\s*[*&])?", "IDGrammaticalCountConcept*"),
+        RegexToMatch("(:*inflection::dialog::)?SemanticFeatureConceptBase(\\s*[*&])?", "IDSemanticFeatureConcept*"),
         RegexToMatch(" {2,}", " "),
     };
 
@@ -178,10 +170,6 @@ static void RunOnFile(const std::string& filePath, std::stringstream &dest) {
     }
 
     vector<RegexToMatch> headerInclusion = {
-        RegexToMatch("CF(Mutable)?String", "#include <CoreFoundation/CFString.h>\n"),
-        RegexToMatch("CF(Mutable)?Array", "#include <CoreFoundation/CFArray.h>\n"),
-        RegexToMatch("CF(Mutable)?Dictionary", "#include <CoreFoundation/CFDictionary.h>\n"),
-        RegexToMatch("CF(Mutable)?Set", "#include <CoreFoundation/CFSet.h>\n"),
         RegexToMatch("USet", "#include <unicode/uset.h>\n"),
         RegexToMatch("INFLECTION_CAPI", "#include <inflection/api.h>\n"),
         RegexToMatch("^", "#pragma once\n"),

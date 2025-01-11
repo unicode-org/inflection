@@ -8,7 +8,7 @@
 #include <inflection/dialog/SemanticConcept.hpp>
 #include <inflection/dialog/SemanticFeature.hpp>
 #include <inflection/dialog/SemanticFeatureModel_DisplayData.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
 #include <inflection/dictionary/DictionaryMetaData.hpp>
 #include <inflection/grammar/synthesis/GrammarSynthesizerFactory.hpp>
@@ -134,16 +134,16 @@ TEST_CASE("SemanticConceptTest#testConstraining")
     ::inflection::dialog::SemanticFeatureModel model(::inflection::util::LocaleUtils::SPANISH(), {
         {::inflection::dialog::SemanticValue(u"default", u"val1"), ::inflection::dialog::SemanticFeatureModel_DisplayData({})},
         {::inflection::dialog::SemanticValue(u"default", u"val2"), ::inflection::dialog::SemanticFeatureModel_DisplayData({
-            ::inflection::dialog::SemanticFeatureModel_DisplayValue(u"val2.1", createConstraints(originalModel, {u"number=singular"})),
-            ::inflection::dialog::SemanticFeatureModel_DisplayValue(u"val2.2", createConstraints(originalModel, {u"number=plural"}))
+            ::inflection::dialog::DisplayValue(u"val2.1", createConstraints(originalModel, {u"number=singular"})),
+            ::inflection::dialog::DisplayValue(u"val2.2", createConstraints(originalModel, {u"number=plural"}))
         })},
         {::inflection::dialog::SemanticValue(u"default", u"val3"), ::inflection::dialog::SemanticFeatureModel_DisplayData({
-            ::inflection::dialog::SemanticFeatureModel_DisplayValue(u"val3.1", createConstraints(originalModel, {u"gender=masculine", u"number=singular"})),
-            ::inflection::dialog::SemanticFeatureModel_DisplayValue(u"val3.2", createConstraints(originalModel, {u"gender=masculine", u"number=plural"}))
+            ::inflection::dialog::DisplayValue(u"val3.1", createConstraints(originalModel, {u"gender=masculine", u"number=singular"})),
+            ::inflection::dialog::DisplayValue(u"val3.2", createConstraints(originalModel, {u"gender=masculine", u"number=plural"}))
         })},
         {::inflection::dialog::SemanticValue(u"alternative", u"val3"), ::inflection::dialog::SemanticFeatureModel_DisplayData({
-            ::inflection::dialog::SemanticFeatureModel_DisplayValue(u"val3.1-alt", createConstraints(originalModel, {u"gender=feminine", u"number=singular"})),
-            ::inflection::dialog::SemanticFeatureModel_DisplayValue(u"val3.2-alt", createConstraints(originalModel, {u"gender=feminine", u"number=plural"}))
+            ::inflection::dialog::DisplayValue(u"val3.1-alt", createConstraints(originalModel, {u"gender=feminine", u"number=singular"})),
+            ::inflection::dialog::DisplayValue(u"val3.2-alt", createConstraints(originalModel, {u"gender=feminine", u"number=plural"}))
         })},
         });
 
@@ -169,12 +169,12 @@ TEST_CASE("SemanticConceptTest#testFeatureValue")
     ::inflection::dialog::SemanticFeatureModel model(::inflection::util::LocaleUtils::SPANISH(), {
         {::inflection::dialog::SemanticValue(u"default", u"val1"), ::inflection::dialog::SemanticFeatureModel_DisplayData({})},
         {::inflection::dialog::SemanticValue(u"default", u"val2"), ::inflection::dialog::SemanticFeatureModel_DisplayData({
-            ::inflection::dialog::SemanticFeatureModel_DisplayValue(u"val2.1", createConstraints(originalModel, {u"number=singular"})),
-            ::inflection::dialog::SemanticFeatureModel_DisplayValue(u"val2.2", createConstraints(originalModel, {u"number=plural"}))
+            ::inflection::dialog::DisplayValue(u"val2.1", createConstraints(originalModel, {u"number=singular"})),
+            ::inflection::dialog::DisplayValue(u"val2.2", createConstraints(originalModel, {u"number=plural"}))
         })},
         {::inflection::dialog::SemanticValue(u"default", u"val3"), ::inflection::dialog::SemanticFeatureModel_DisplayData({
-            ::inflection::dialog::SemanticFeatureModel_DisplayValue(u"val3.1", createConstraints(originalModel, {u"gender=masculine", u"number=singular"})),
-            ::inflection::dialog::SemanticFeatureModel_DisplayValue(u"val3.2", createConstraints(originalModel, {u"gender=masculine", u"number=plural"}))
+            ::inflection::dialog::DisplayValue(u"val3.1", createConstraints(originalModel, {u"gender=masculine", u"number=singular"})),
+            ::inflection::dialog::DisplayValue(u"val3.2", createConstraints(originalModel, {u"gender=masculine", u"number=plural"}))
         })},
         });
 
@@ -197,25 +197,25 @@ TEST_CASE("SemanticConceptTest#testGerman")
     auto originalModel = npc(npc(::inflection::dialog::LocalizedCommonConceptFactoryProvider::getDefaultCommonConceptFactoryProvider())->getCommonConceptFactory(::inflection::util::LocaleUtils::GERMANY()))->getSemanticFeatureModel();
     ::inflection::dialog::SemanticFeatureModel model(::inflection::util::LocaleUtils::GERMANY(), {
         {::inflection::dialog::SemanticValue(u"default", u"termin"), ::inflection::dialog::SemanticFeatureModel_DisplayData({
-            ::inflection::dialog::SemanticFeatureModel_DisplayValue(u"Termin", createConstraints(originalModel, {u"gender=masculine", u"number=singular", u"case=nominative"})),
-            ::inflection::dialog::SemanticFeatureModel_DisplayValue(u"Termins", createConstraints(originalModel, {u"gender=masculine", u"number=singular", u"case=genitive"})),
-            ::inflection::dialog::SemanticFeatureModel_DisplayValue(u"Termin", createConstraints(originalModel, {u"gender=masculine", u"number=singular", u"case=dative"})),
-            ::inflection::dialog::SemanticFeatureModel_DisplayValue(u"Termin", createConstraints(originalModel, {u"gender=masculine", u"number=singular", u"case=accusative"})),
-            ::inflection::dialog::SemanticFeatureModel_DisplayValue(u"Termine", createConstraints(originalModel, {u"gender=masculine", u"number=plural", u"case=nominative"})),
-            ::inflection::dialog::SemanticFeatureModel_DisplayValue(u"Termine", createConstraints(originalModel, {u"gender=masculine", u"number=plural", u"case=genitive"})),
-            ::inflection::dialog::SemanticFeatureModel_DisplayValue(u"Terminen", createConstraints(originalModel, {u"gender=masculine", u"number=plural", u"case=dative"})),
-            ::inflection::dialog::SemanticFeatureModel_DisplayValue(u"Termine", createConstraints(originalModel, {u"gender=masculine", u"number=plural", u"case=accusative"}))
+            ::inflection::dialog::DisplayValue(u"Termin", createConstraints(originalModel, {u"gender=masculine", u"number=singular", u"case=nominative"})),
+            ::inflection::dialog::DisplayValue(u"Termins", createConstraints(originalModel, {u"gender=masculine", u"number=singular", u"case=genitive"})),
+            ::inflection::dialog::DisplayValue(u"Termin", createConstraints(originalModel, {u"gender=masculine", u"number=singular", u"case=dative"})),
+            ::inflection::dialog::DisplayValue(u"Termin", createConstraints(originalModel, {u"gender=masculine", u"number=singular", u"case=accusative"})),
+            ::inflection::dialog::DisplayValue(u"Termine", createConstraints(originalModel, {u"gender=masculine", u"number=plural", u"case=nominative"})),
+            ::inflection::dialog::DisplayValue(u"Termine", createConstraints(originalModel, {u"gender=masculine", u"number=plural", u"case=genitive"})),
+            ::inflection::dialog::DisplayValue(u"Terminen", createConstraints(originalModel, {u"gender=masculine", u"number=plural", u"case=dative"})),
+            ::inflection::dialog::DisplayValue(u"Termine", createConstraints(originalModel, {u"gender=masculine", u"number=plural", u"case=accusative"}))
         })},
         {::inflection::dialog::SemanticValue(u"default", u"terminDefault"), ::inflection::dialog::SemanticFeatureModel_DisplayData({
-            ::inflection::dialog::SemanticFeatureModel_DisplayValue(u"Termin", {})
+            ::inflection::dialog::DisplayValue(u"Termin", {})
         })},
         {::inflection::dialog::SemanticValue(u"default", u"cheap"), ::inflection::dialog::SemanticFeatureModel_DisplayData({
-            ::inflection::dialog::SemanticFeatureModel_DisplayValue(u"Not a stem for some reason", createConstraints(originalModel, {u"number=singular", u"gender=masculine"})),
-            ::inflection::dialog::SemanticFeatureModel_DisplayValue(u"günstig", createConstraints(originalModel, {u"stem="}))
+            ::inflection::dialog::DisplayValue(u"Not a stem for some reason", createConstraints(originalModel, {u"number=singular", u"gender=masculine"})),
+            ::inflection::dialog::DisplayValue(u"günstig", createConstraints(originalModel, {u"stem="}))
         })},
         {::inflection::dialog::SemanticValue(u"default", u"expensive"), ::inflection::dialog::SemanticFeatureModel_DisplayData({
-            ::inflection::dialog::SemanticFeatureModel_DisplayValue(u"Not a stem for some reason", createConstraints(originalModel, {u"number=singular", u"gender=masculine"})),
-            ::inflection::dialog::SemanticFeatureModel_DisplayValue(u"teuer", createConstraints(originalModel, {u"stem=teur"}))
+            ::inflection::dialog::DisplayValue(u"Not a stem for some reason", createConstraints(originalModel, {u"number=singular", u"gender=masculine"})),
+            ::inflection::dialog::DisplayValue(u"teuer", createConstraints(originalModel, {u"stem=teur"}))
         })}
     });
     compareInflection(&model, u"Termine", u"default", u"termin", false, {u"case=accusative", u"number=plural", u"declension=strong"});
@@ -237,17 +237,17 @@ TEST_CASE("SemanticConceptTest#testGermanHomePod")
     auto originalModel = npc(npc(::inflection::dialog::LocalizedCommonConceptFactoryProvider::getDefaultCommonConceptFactoryProvider())->getCommonConceptFactory(::inflection::util::LocaleUtils::GERMANY()))->getSemanticFeatureModel();
     ::inflection::dialog::SemanticFeatureModel model(::inflection::util::LocaleUtils::GERMANY(), {
         {::inflection::dialog::SemanticValue(u"default", u"HomePod"), ::inflection::dialog::SemanticFeatureModel_DisplayData({
-            ::inflection::dialog::SemanticFeatureModel_DisplayValue(u"HomePod", createConstraints(originalModel, {u"gender=masculine", u"number=singular", u"case=nominative"})),
-            ::inflection::dialog::SemanticFeatureModel_DisplayValue(u"HomePods", createConstraints(originalModel, {u"gender=masculine", u"number=singular", u"case=genitive"})),
-            ::inflection::dialog::SemanticFeatureModel_DisplayValue(u"HomePod", createConstraints(originalModel, {u"gender=masculine", u"number=singular", u"case=dative"})),
-            ::inflection::dialog::SemanticFeatureModel_DisplayValue(u"HomePod", createConstraints(originalModel, {u"gender=masculine", u"number=singular", u"case=accusative"})),
-            ::inflection::dialog::SemanticFeatureModel_DisplayValue(u"HomePods", createConstraints(originalModel, {u"gender=masculine", u"number=plural", u"case=nominative"})),
-            ::inflection::dialog::SemanticFeatureModel_DisplayValue(u"HomePods", createConstraints(originalModel, {u"gender=masculine", u"number=plural", u"case=genitive"})),
-            ::inflection::dialog::SemanticFeatureModel_DisplayValue(u"HomePods", createConstraints(originalModel, {u"gender=masculine", u"number=plural", u"case=dative"})),
-            ::inflection::dialog::SemanticFeatureModel_DisplayValue(u"HomePods", createConstraints(originalModel, {u"gender=masculine", u"number=plural", u"case=accusative"}))
+            ::inflection::dialog::DisplayValue(u"HomePod", createConstraints(originalModel, {u"gender=masculine", u"number=singular", u"case=nominative"})),
+            ::inflection::dialog::DisplayValue(u"HomePods", createConstraints(originalModel, {u"gender=masculine", u"number=singular", u"case=genitive"})),
+            ::inflection::dialog::DisplayValue(u"HomePod", createConstraints(originalModel, {u"gender=masculine", u"number=singular", u"case=dative"})),
+            ::inflection::dialog::DisplayValue(u"HomePod", createConstraints(originalModel, {u"gender=masculine", u"number=singular", u"case=accusative"})),
+            ::inflection::dialog::DisplayValue(u"HomePods", createConstraints(originalModel, {u"gender=masculine", u"number=plural", u"case=nominative"})),
+            ::inflection::dialog::DisplayValue(u"HomePods", createConstraints(originalModel, {u"gender=masculine", u"number=plural", u"case=genitive"})),
+            ::inflection::dialog::DisplayValue(u"HomePods", createConstraints(originalModel, {u"gender=masculine", u"number=plural", u"case=dative"})),
+            ::inflection::dialog::DisplayValue(u"HomePods", createConstraints(originalModel, {u"gender=masculine", u"number=plural", u"case=accusative"}))
         })},
         {::inflection::dialog::SemanticValue(u"default", u"HomePodDefault"), ::inflection::dialog::SemanticFeatureModel_DisplayData({
-                ::inflection::dialog::SemanticFeatureModel_DisplayValue(u"HomePod", {})
+                ::inflection::dialog::DisplayValue(u"HomePod", {})
         })}
     });
 
@@ -284,8 +284,8 @@ TEST_CASE("SemanticConceptTest#testClone")
     auto originalModel = npc(npc(::inflection::dialog::LocalizedCommonConceptFactoryProvider::getDefaultCommonConceptFactoryProvider())->getCommonConceptFactory(::inflection::util::LocaleUtils::SPANISH()))->getSemanticFeatureModel();
     ::inflection::dialog::SemanticFeatureModel model(::inflection::util::LocaleUtils::SPANISH(), {
         {::inflection::dialog::SemanticValue(u"default", u"val2"), ::inflection::dialog::SemanticFeatureModel_DisplayData({
-            ::inflection::dialog::SemanticFeatureModel_DisplayValue(u"val2.1", createConstraints(originalModel, {u"number=singular"})),
-            ::inflection::dialog::SemanticFeatureModel_DisplayValue(u"val2.2", createConstraints(originalModel, {u"number=plural"}))
+            ::inflection::dialog::DisplayValue(u"val2.1", createConstraints(originalModel, {u"number=singular"})),
+            ::inflection::dialog::DisplayValue(u"val2.2", createConstraints(originalModel, {u"number=plural"}))
         })},
         });
 

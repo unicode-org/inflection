@@ -5,7 +5,7 @@
 
 #include <inflection/dialog/SpeakableString.hpp>
 #include <inflection/dialog/SemanticFeature.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
 #include <inflection/dictionary/PhraseProperties.hpp>
 #include <inflection/exception/IllegalArgumentException.hpp>
@@ -64,9 +64,9 @@ static std::mutex& CLASS_MUTEX() {
 }
 
 struct PronounConcept::DefaultPronounData {
-    std::vector<PronounEntry> data;
+    std::vector<PronounEntry> data {  };
     // dependencySemanticFeatures manages memory for the new dependency SemanticFeatures we create for the concept
-    std::map<std::u16string, const SemanticFeature> dependencySemanticFeatures;
+    std::map<std::u16string, const SemanticFeature> dependencySemanticFeatures {  };
 };
 
 std::shared_ptr<PronounConcept::DefaultPronounData> PronounConcept::createPronounDataForModel(const SemanticFeatureModel& model, const char16_t* const readerCharArray) {
@@ -150,7 +150,7 @@ public:
     PronounData(const PronounData&) = delete;
     PronounData& operator=(const PronounData&) = delete;
 
-    PronounData(const SemanticFeatureModel& model, const ::std::vector<SemanticFeatureModel_DisplayValue>& defaultDisplayData)
+    PronounData(const SemanticFeatureModel& model, const ::std::vector<DisplayValue>& defaultDisplayData)
     : defaultPronounData(getPronounData(model))
     {
         customizedPronounData.reserve(defaultDisplayData.size());
@@ -191,7 +191,7 @@ const ::std::u16string* PronounConcept::getFeatureValueForPronoun(const PronounC
     return &result->second;
 }
 
-PronounConcept::PronounConcept(const SemanticFeatureModel& model, const ::std::vector<::inflection::dialog::SemanticFeatureModel_DisplayValue>& defaultDisplayData, const ::std::map<SemanticFeature, ::std::u16string>& defaultConstraints)
+PronounConcept::PronounConcept(const SemanticFeatureModel& model, const ::std::vector<::inflection::dialog::DisplayValue>& defaultDisplayData, const ::std::map<SemanticFeature, ::std::u16string>& defaultConstraints)
     : super(&model)
     , pronounData(std::make_shared<PronounData>(model, defaultDisplayData))
     , defaultConstraints(defaultConstraints)

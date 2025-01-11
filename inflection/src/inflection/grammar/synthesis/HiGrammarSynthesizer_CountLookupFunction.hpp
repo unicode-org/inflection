@@ -23,8 +23,6 @@ public:
 
     HiGrammarSynthesizer_CountLookupFunction();
     ~HiGrammarSynthesizer_CountLookupFunction() override;
-
-private:
-    HiGrammarSynthesizer_CountLookupFunction(HiGrammarSynthesizer_CountLookupFunction&) = delete;
-    HiGrammarSynthesizer_CountLookupFunction& operator=(const HiGrammarSynthesizer_CountLookupFunction &) = delete;
+    HiGrammarSynthesizer_CountLookupFunction(const HiGrammarSynthesizer_CountLookupFunction&) = delete;
+    HiGrammarSynthesizer_CountLookupFunction& operator=(const HiGrammarSynthesizer_CountLookupFunction&) = delete;
 };

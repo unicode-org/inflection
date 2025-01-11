@@ -5,17 +5,18 @@
 
 #include <inflection/resources/DataRegistrationService.hpp>
 #include <inflection/util/TypeConversionUtils.hpp>
+#include <inflection/util/Validate.hpp>
 #include <inflection/npc.hpp>
+#include <string.h>
 
 using ::inflection::resources::DataRegistrationService;
 
 INFLECTION_CAPI void
-idr_registerDataPathForLocale(const char* locale, CFStringRef path, UErrorCode* status)
+idr_registerDataPathForLocale(const char* locale, const char* path, UErrorCode* status)
 {
     if (status != nullptr && U_SUCCESS(*status)) {
         try {
-            DataRegistrationService::registerDataPathForLocale(inflection::util::ULocale(npc(locale)),
-                                                               inflection::util::TypeConversionUtils::to_string(path));
+            DataRegistrationService::registerDataPathForLocale(inflection::util::ULocale(npc(locale)), path);
         }
         catch (const ::std::exception& e) {
             inflection::util::TypeConversionUtils::convert(e, status);
@@ -23,16 +24,21 @@ idr_registerDataPathForLocale(const char* locale, CFStringRef path, UErrorCode* 
     }
 }
 
-INFLECTION_CAPI CFStringRef
-idr_getDataPathForLocaleCopy(const char* locale, UErrorCode* status)
+INFLECTION_CAPI int32_t
+idr_getDataPathForLocale(const char* locale, char* dest, int32_t destCapacity, UErrorCode* status)
 {
     if (status != nullptr && U_SUCCESS(*status)) {
         try {
-            return inflection::util::TypeConversionUtils::to_CFString(DataRegistrationService::getDataPathForLocale(inflection::util::ULocale(npc(locale))));
+            inflection::util::Validate::notNull(dest);
+            auto result(DataRegistrationService::getDataPathForLocale(inflection::util::ULocale(npc(locale))));
+            if (destCapacity > 0 && int32_t(result.length()) < destCapacity) {
+                strncpy(dest, result.c_str(), result.length());
+            }
+            return inflection::util::TypeConversionUtils::terminateCharString(dest, destCapacity, int32_t(result.length()), status);
         }
         catch (const ::std::exception& e) {
             inflection::util::TypeConversionUtils::convert(e, status);
         }
     }
-    return nullptr;
+    return -1;
 }

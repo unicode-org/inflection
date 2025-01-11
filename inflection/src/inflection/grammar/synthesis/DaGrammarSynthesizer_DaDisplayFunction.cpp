@@ -7,7 +7,7 @@
 #include <inflection/dictionary/DictionaryMetaData.hpp>
 #include <inflection/dialog/SemanticFeature.hpp>
 #include <inflection/dialog/SemanticFeatureModel_DisplayData.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
 #include <inflection/grammar/synthesis/DaGrammarSynthesizer.hpp>
 #include <inflection/grammar/synthesis/GrammemeConstants.hpp>
@@ -90,7 +90,7 @@ DaGrammarSynthesizer_DaDisplayFunction::~DaGrammarSynthesizer_DaDisplayFunction(
     return inflection;
 }
 
-::inflection::dialog::SemanticFeatureModel_DisplayValue * DaGrammarSynthesizer_DaDisplayFunction::getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool /*enableInflectionGuess*/) const
+::inflection::dialog::DisplayValue * DaGrammarSynthesizer_DaDisplayFunction::getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool /*enableInflectionGuess*/) const
 {
     ::std::u16string displayString;
     if (!displayData.getValues().empty()) {
@@ -112,7 +112,7 @@ DaGrammarSynthesizer_DaDisplayFunction::~DaGrammarSynthesizer_DaDisplayFunction(
             displayString = inflectTokenChain(constraints, *npc(tokenChain.get()));
         }
     }
-    return new ::inflection::dialog::SemanticFeatureModel_DisplayValue(displayString, constraints);
+    return new ::inflection::dialog::DisplayValue(displayString, constraints);
 }
 
 ::std::u16string DaGrammarSynthesizer_DaDisplayFunction::inflectTokenChain(const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, const ::inflection::tokenizer::TokenChain& tokenChain) const

@@ -26,8 +26,6 @@ public:
 
     explicit ItGrammarSynthesizer_CountLookupFunction();
     ~ItGrammarSynthesizer_CountLookupFunction() override;
-
-private:
-    ItGrammarSynthesizer_CountLookupFunction(ItGrammarSynthesizer_CountLookupFunction&) = delete;
+    ItGrammarSynthesizer_CountLookupFunction(const ItGrammarSynthesizer_CountLookupFunction&) = delete;
     ItGrammarSynthesizer_CountLookupFunction& operator=(const ItGrammarSynthesizer_CountLookupFunction&) = delete;
 };

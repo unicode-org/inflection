@@ -50,12 +50,11 @@ private:
     ::std::optional<::std::vector<::std::u16string>> inflectSignificantWords(const std::vector<::std::u16string> &words, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const;
     ::std::optional<::std::u16string> inflectTokenChain(const ::inflection::tokenizer::TokenChain& tokenChain, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const;
 public:
-    ::inflection::dialog::SemanticFeatureModel_DisplayValue *getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const override;
+    ::inflection::dialog::DisplayValue *getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const override;
 
 public: /* package */
     explicit PtGrammarSynthesizer_PtDisplayFunction(const ::inflection::dialog::SemanticFeatureModel& model);
     ~PtGrammarSynthesizer_PtDisplayFunction() override;
-
-private:
     PtGrammarSynthesizer_PtDisplayFunction(const PtGrammarSynthesizer_PtDisplayFunction&) = delete;
+    PtGrammarSynthesizer_PtDisplayFunction& operator=(const PtGrammarSynthesizer_PtDisplayFunction&) = delete;
 };

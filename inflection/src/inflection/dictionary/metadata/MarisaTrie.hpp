@@ -65,7 +65,7 @@ public:
 
     explicit MarisaTrie(const ::std::map<::std::u16string_view, T>& input);
     explicit MarisaTrie(::inflection::util::MemoryMappedFile* mappedFile);
-    ~MarisaTrie();
+    ~MarisaTrie() {}
 
 private:
     ::marisa::Trie trie {  };
@@ -149,11 +149,6 @@ inflection::dictionary::metadata::MarisaTrie<T>::MarisaTrie(::inflection::util::
 template <typename T>
 inflection::dictionary::metadata::MarisaTrie<T>::MarisaTrie(::inflection::util::MemoryMappedFile* mappedFile)
     : MarisaTrie(mappedFile, util::Validate::notNull(mappedFile)->read<int32_t>())
-{
-}
-
-template <typename T>
-inflection::dictionary::metadata::MarisaTrie<T>::~MarisaTrie()
 {
 }
 

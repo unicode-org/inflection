@@ -3,7 +3,6 @@
  */
 
 #include <inflection/exception/ClassCastException.hpp>
-#include <inflection/exception/Exception.hpp>
 #include <inflection/exception/FileNotFoundException.hpp>
 #include <inflection/exception/ICUException.hpp>
 #include <inflection/exception/IllegalArgumentException.hpp>
@@ -14,15 +13,10 @@
 #include <inflection/exception/IOException.hpp>
 #include <inflection/exception/MissingResourceException.hpp>
 #include <inflection/exception/NullPointerException.hpp>
-#include <inflection/exception/RuntimeException.hpp>
-#include <inflection/exception/StringIndexOutOfBoundsException.hpp>
-#include <inflection/exception/Throwable.hpp>
 #include <inflection/exception/XMLParseException.hpp>
-#include <inflection/util/AutoCFRelease.hpp>
+#include <inflection/util/AutoCRelease.hpp>
 #include <inflection/util/TypeConversionUtils.hpp>
-#include <inflection/util/ULocale.hpp>
-#include <unicode/utf8.h>
-#include <inflection/npc.hpp>
+#include <unicode/ustring.h>
 
 namespace inflection::util {
 
@@ -45,15 +39,13 @@ TypeConversionUtils::convert(const ::std::exception& e, UErrorCode* status)
         } else if (dynamic_cast<const ::inflection::exception::IndexOutOfBoundsException*>(&e) != nullptr) {
             *status = U_INDEX_OUTOFBOUNDS_ERROR;
         } else if (dynamic_cast<const ::inflection::exception::InvalidConfigurationException*>(&e) != nullptr) {
-            *status = U_INVALID_FORMAT_ERROR;
+            *status = U_INVALID_STATE_ERROR;
         } else if (dynamic_cast<const ::inflection::exception::IOException*>(&e) != nullptr) {
             *status = U_INVALID_FORMAT_ERROR;
         } else if (dynamic_cast<const ::inflection::exception::MissingResourceException*>(&e) != nullptr) {
             *status = U_MISSING_RESOURCE_ERROR;
         } else if (dynamic_cast<const ::inflection::exception::NullPointerException*>(&e) != nullptr) {
             *status = U_MEMORY_ALLOCATION_ERROR;
-        } else if (dynamic_cast<const ::inflection::exception::StringIndexOutOfBoundsException*>(&e) != nullptr) {
-            *status = U_INDEX_OUTOFBOUNDS_ERROR;
         } else if (dynamic_cast<const ::inflection::exception::XMLParseException*>(&e) != nullptr) {
             *status = U_PARSE_ERROR;
         } else {
@@ -65,63 +57,66 @@ TypeConversionUtils::convert(const ::std::exception& e, UErrorCode* status)
     }
 }
 
-CFStringRef
-TypeConversionUtils::to_CFString(std::u16string_view str)
+int32_t TypeConversionUtils::terminateCharString(char *dest, int32_t destCapacity, int32_t length, UErrorCode *status)
 {
-    return CFStringCreateWithCharacters(nullptr, (const UniChar *)str.data(), str.length());
+    if (status != nullptr && U_SUCCESS(*status)) {
+        /* not a public function, so no complete argument checking */
+
+        if (length < 0) {
+            /* assume that the caller handles this */
+        } else if (length < destCapacity) {
+            /* NUL-terminate the string, the NUL fits */
+            dest[length] = 0;
+            /* unset the not-terminated warning but leave all others */
+            if (*status == U_STRING_NOT_TERMINATED_WARNING) {
+                *status = U_ZERO_ERROR;
+            }
+        } else if (length == destCapacity) {
+            /* unable to NUL-terminate, but the string itself fit - set a warning code */
+            *status = U_STRING_NOT_TERMINATED_WARNING;
+        } else /* length>destCapacity */ {
+            /* even the string itself did not fit - set an error code */
+            *status = U_BUFFER_OVERFLOW_ERROR;
+        }
+    }
+    return length;
 }
 
-CFStringRef
-TypeConversionUtils::to_CFString(std::string_view str)
+int32_t TypeConversionUtils::terminateString(char16_t *dest, int32_t destCapacity, int32_t length, UErrorCode *status)
 {
-    return CFStringCreateWithBytes(nullptr, (const UInt8 *)str.data(), str.length(), kCFStringEncodingUTF8, false);
+    if (status != nullptr && U_SUCCESS(*status)) {
+        /* not a public function, so no complete argument checking */
+
+        if (length < 0) {
+            /* assume that the caller handles this */
+        } else if (length < destCapacity) {
+            /* NUL-terminate the string, the NUL fits */
+            dest[length] = 0;
+            /* unset the not-terminated warning but leave all others */
+            if (*status == U_STRING_NOT_TERMINATED_WARNING) {
+                *status = U_ZERO_ERROR;
+            }
+        } else if (length == destCapacity) {
+            /* unable to NUL-terminate, but the string itself fit - set a warning code */
+            *status = U_STRING_NOT_TERMINATED_WARNING;
+        } else /* length>destCapacity */ {
+            /* even the string itself did not fit - set an error code */
+            *status = U_BUFFER_OVERFLOW_ERROR;
+        }
+    }
+    return length;
 }
 
-::std::u16string
-TypeConversionUtils::to_u16string(CFStringRef str)
+int32_t TypeConversionUtils::copyString(char16_t *dest, int32_t destCapacity, std::u16string_view str, UErrorCode *status)
 {
-    ::std::u16string retVal;
-    auto len = CFStringGetLength(npc(str));
-    retVal.resize(len);
-    CFStringGetCharacters(npc(str), CFRangeMake(0, len), (UniChar *)&(retVal[0]));
-    return retVal;
-}
-
-::std::string
-TypeConversionUtils::to_string(CFStringRef str)
-{
-    ::std::string retVal;
-    auto len = CFStringGetLength(npc(str));
-    retVal.resize(len);
-    if (CFStringGetBytes(npc(str), CFRangeMake(0, len), kCFStringEncodingUTF8, 0, false, (UInt8 *)&(retVal[0]), len, nullptr) != len)
-    {
-        auto capacity = len * U8_MAX_LENGTH;
-        retVal.resize(capacity);
-        CFStringGetBytes(npc(str), CFRangeMake(0, len), kCFStringEncodingUTF8, 0, false, (UInt8 *)&(retVal[0]), capacity, &capacity);
-        retVal.resize(capacity);
+    if (status == nullptr || U_FAILURE(*status)) {
+        return (int32_t)str.length();
     }
-    return retVal;
-}
-
-CFArrayRef TypeConversionUtils::to_CFArray(const ::std::vector<::std::u16string> &array) {
-    ::std::vector<CFStringRef> result;
-    for (const auto &item : array) {
-        result.push_back(to_CFString(item));
+    auto length = int32_t(str.length());
+    if (destCapacity > 0 && length <= destCapacity) {
+        u_strncpy((UChar*)dest, (const UChar*)str.data(), length);
     }
-    auto retVal = CFArrayCreate(nullptr, reinterpret_cast<const void **>(result.data()), (CFIndex) result.size(), &kCFTypeArrayCallBacks);
-    for (auto item : result) {
-        CFRelease(item);
-    }
-    return retVal;
-}
-
-::std::vector<::std::u16string> TypeConversionUtils::to_u16stringVector(CFArrayRef cfArray) {
-    ::std::vector<::std::u16string> result;
-    CFIndex numMappings = CFArrayGetCount(cfArray);
-    for (CFIndex idx = 0; idx < numMappings; idx++) {
-        result.push_back(TypeConversionUtils::to_u16string(static_cast<CFStringRef>(CFArrayGetValueAtIndex(cfArray, idx))));
-    }
-    return result;
+    return terminateString(dest, destCapacity, length, status);
 }
 
 } // namespace inflection::util

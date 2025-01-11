@@ -4,7 +4,7 @@
 #include <inflection/grammar/synthesis/NlGrammarSynthesizer_ArticleLookupFunction.hpp>
 
 #include <inflection/dialog/SemanticFeature.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
 #include <inflection/dialog/SpeakableString.hpp>
 #include <inflection/dictionary/DictionaryMetaData.hpp>
@@ -46,7 +46,7 @@ NlGrammarSynthesizer_ArticleLookupFunction::~NlGrammarSynthesizer_ArticleLookupF
 {
 }
 
-inflection::dialog::SpeakableString* NlGrammarSynthesizer_ArticleLookupFunction::getFeatureValue(const ::inflection::dialog::SemanticFeatureModel_DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& /*constraints*/) const
+inflection::dialog::SpeakableString* NlGrammarSynthesizer_ArticleLookupFunction::getFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& /*constraints*/) const
 {
     auto countValue = NlGrammarSynthesizer::getCount(displayValue.getFeatureValue(*npc(countFeature)));
     auto genderValue = NlGrammarSynthesizer::getGender(displayValue.getFeatureValue(*npc(genderFeature)));

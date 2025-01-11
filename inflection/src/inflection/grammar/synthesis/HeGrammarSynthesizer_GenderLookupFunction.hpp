@@ -16,4 +16,6 @@ public:
     ::std::u16string determine(const ::std::u16string& word) const override;
 
     HeGrammarSynthesizer_GenderLookupFunction();
+    HeGrammarSynthesizer_GenderLookupFunction(const HeGrammarSynthesizer_GenderLookupFunction&) = delete;
+    HeGrammarSynthesizer_GenderLookupFunction& operator=(const HeGrammarSynthesizer_GenderLookupFunction&) = delete;
 };

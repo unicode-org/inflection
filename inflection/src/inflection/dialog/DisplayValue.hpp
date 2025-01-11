@@ -15,7 +15,7 @@
  * The display value is valid for the constraints provided as semantic features.
  * @see SemanticFeatureConceptBase
  */
-class INFLECTION_CLASS_API inflection::dialog::SemanticFeatureModel_DisplayValue
+class INFLECTION_CLASS_API inflection::dialog::DisplayValue
     : public virtual ::inflection::Object
 {
 public:
@@ -40,34 +40,34 @@ public:
      * Returns all possible constraint values for this display value.
      */
     virtual const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& getConstraintMap() const;
-    bool operator==(const SemanticFeatureModel_DisplayValue& o) const;
-    bool operator!=(const SemanticFeatureModel_DisplayValue& o) const;
-    std::size_t operator()(const SemanticFeatureModel_DisplayValue& displayValue) const noexcept;
+    bool operator==(const DisplayValue& o) const;
+    bool operator!=(const DisplayValue& o) const;
+    std::size_t operator()(const DisplayValue& displayValue) const noexcept;
 
     /**
      * Construct a display value with a string and the associated constraints.
      * @param displayString A value with no speak information.
      * @param constraintMap All constraints that match the displayString.
      */
-    SemanticFeatureModel_DisplayValue(const ::std::u16string& displayString, const ::std::map<SemanticFeature, ::std::u16string>& constraintMap);
+    DisplayValue(const ::std::u16string& displayString, const ::std::map<SemanticFeature, ::std::u16string>& constraintMap);
     /**
      * Construct a display value with a string and not constraints.
      * @param value A value with no speak information.
      */
-    explicit SemanticFeatureModel_DisplayValue(const ::std::u16string& value);
+    explicit DisplayValue(const ::std::u16string& value);
     /**
      * Construct a display value with a SpeakableString.
      * @param value A SpeakableString
      * @param speakFeature The speakFeature from the SemanticFeatureModel that represents the SemanticFeature for the speak information for a SpeakableString.
      */
-    SemanticFeatureModel_DisplayValue(const SpeakableString& value, const SemanticFeature& speakFeature);
+    DisplayValue(const SpeakableString& value, const SemanticFeature& speakFeature);
     /**
      * The destructor
      */
-    ~SemanticFeatureModel_DisplayValue() override;
+    ~DisplayValue() override;
 
 private:
-    SemanticFeatureModel_DisplayValue& operator=(const SemanticFeatureModel_DisplayValue& other) = delete;
+    DisplayValue& operator=(const DisplayValue& other) = delete;
 
     friend class SemanticFeatureModel;
 };

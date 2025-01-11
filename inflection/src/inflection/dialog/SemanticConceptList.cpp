@@ -62,7 +62,7 @@ SemanticConceptList::~SemanticConceptList()
     }
 }
 
-void SemanticConceptList::putConstraint(const SemanticFeature& feature, const ::std::u16string& featureValue)
+void SemanticConceptList::putConstraint(const SemanticFeature& feature, ::std::u16string_view featureValue)
 {
     for (auto conceptObj : concepts) {
         npc(conceptObj)->putConstraint(feature, featureValue);

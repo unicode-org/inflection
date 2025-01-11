@@ -4,7 +4,7 @@
 #include <inflection/grammar/synthesis/ArGrammarSynthesizer_ArticleLookupFunction.hpp>
 
 #include <inflection/dialog/SemanticFeature.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
 #include <inflection/dialog/SpeakableString.hpp>
 #include <inflection/grammar/synthesis/ArGrammarSynthesizer.hpp>
@@ -21,7 +21,7 @@ ArGrammarSynthesizer_ArticleLookupFunction::ArGrammarSynthesizer_ArticleLookupFu
 {
 }
 
-inflection::dialog::SpeakableString* ArGrammarSynthesizer_ArticleLookupFunction::getFeatureValue(const ::inflection::dialog::SemanticFeatureModel_DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const
+inflection::dialog::SpeakableString* ArGrammarSynthesizer_ArticleLookupFunction::getFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const
 {
     auto countValue = ArGrammarSynthesizer::getPronounNumber(DefaultArticleLookupFunction::getFeatureValue(constraints, numberPronounFeature));
     auto genderValue = ArGrammarSynthesizer::getPronounGender(DefaultArticleLookupFunction::getFeatureValue(constraints, genderPronounFeature));

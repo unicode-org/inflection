@@ -4,7 +4,7 @@
 #include <inflection/grammar/synthesis/DaGrammarSynthesizer_ArticleLookupFunction.hpp>
 
 #include <inflection/dialog/SemanticFeature.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
 #include <inflection/dialog/SpeakableString.hpp>
 #include <inflection/grammar/synthesis/DaGrammarSynthesizer.hpp>
@@ -32,7 +32,7 @@ DaGrammarSynthesizer_ArticleLookupFunction::DaGrammarSynthesizer_ArticleLookupFu
     this->countFeature = model.getFeature(GrammemeConstants::NUMBER);
 }
 
-inflection::dialog::SpeakableString* DaGrammarSynthesizer_ArticleLookupFunction::getFeatureValue(const ::inflection::dialog::SemanticFeatureModel_DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const
+inflection::dialog::SpeakableString* DaGrammarSynthesizer_ArticleLookupFunction::getFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const
 {
     auto countValue = DaGrammarSynthesizer::getCount(displayValue.getFeatureValue(*npc(countFeature)));
     if (DaGrammarSynthesizer::Count::undefined == countValue) {

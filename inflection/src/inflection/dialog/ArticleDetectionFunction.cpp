@@ -3,7 +3,7 @@
  */
 #include <inflection/dialog/ArticleDetectionFunction.hpp>
 
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SpeakableString.hpp>
 #include <inflection/lang/features/LanguageGrammarFeatures.hpp>
 #include <inflection/util/ULocale.hpp>
@@ -56,7 +56,7 @@ ArticleDetectionFunction::ArticleDetectionFunction(const ::inflection::util::ULo
     }
 }
 
-SpeakableString* ArticleDetectionFunction::getFeatureValue(const SemanticFeatureModel_DisplayValue& displayValue, const ::std::map<SemanticFeature, ::std::u16string>& /*constraints*/) const
+SpeakableString* ArticleDetectionFunction::getFeatureValue(const DisplayValue& displayValue, const ::std::map<SemanticFeature, ::std::u16string>& /*constraints*/) const
 {
     const auto& displayString = displayValue.getDisplayString();
     if (displayString.length() < 2) {

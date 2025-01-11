@@ -44,11 +44,13 @@ private:
     ::std::u16string inflectDisplayString(const ::std::u16string& displayString, const std::u16string &count, const std::u16string &gender) const;
 
 public:
-    ::inflection::dialog::SemanticFeatureModel_DisplayValue* getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const override;
+    ::inflection::dialog::DisplayValue* getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const override;
 
 private:
     ::std::u16string applyDefiniteness(const ::std::u16string& input, ::std::u16string_view definiteness) const;
 
 public: /* package */
     explicit HeGrammarSynthesizer_HeDisplayFunction(const ::inflection::dialog::SemanticFeatureModel& model);
+    HeGrammarSynthesizer_HeDisplayFunction(const HeGrammarSynthesizer_HeDisplayFunction&) = delete;
+    HeGrammarSynthesizer_HeDisplayFunction& operator=(const HeGrammarSynthesizer_HeDisplayFunction&) = delete;
 };

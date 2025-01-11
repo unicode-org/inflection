@@ -19,4 +19,6 @@ public:
     inflection::dialog::SpeakableString* quantify(const NumberConcept& number, const SemanticFeatureConceptBase* semanticConcept) const override;
 
     explicit DeCommonConceptFactory(const ::inflection::util::ULocale& language);
+    DeCommonConceptFactory(const DeCommonConceptFactory&) = delete;
+    DeCommonConceptFactory& operator=(const DeCommonConceptFactory&) = delete;
 };

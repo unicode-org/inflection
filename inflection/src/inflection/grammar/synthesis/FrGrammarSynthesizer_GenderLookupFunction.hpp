@@ -25,8 +25,6 @@ public:
 
     explicit FrGrammarSynthesizer_GenderLookupFunction();
     ~FrGrammarSynthesizer_GenderLookupFunction() override;
-
-private:
-    FrGrammarSynthesizer_GenderLookupFunction(FrGrammarSynthesizer_GenderLookupFunction&) = delete;
+    FrGrammarSynthesizer_GenderLookupFunction(const FrGrammarSynthesizer_GenderLookupFunction&) = delete;
     FrGrammarSynthesizer_GenderLookupFunction& operator=(const FrGrammarSynthesizer_GenderLookupFunction&) = delete;
 };

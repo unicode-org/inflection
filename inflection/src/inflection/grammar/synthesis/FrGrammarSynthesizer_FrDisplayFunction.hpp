@@ -38,7 +38,7 @@ private:
     const ::inflection::dialog::DictionaryLookupInflector dictionaryInflector;
 
 public:
-    ::inflection::dialog::SemanticFeatureModel_DisplayValue * getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const override;
+    ::inflection::dialog::DisplayValue * getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const override;
 
 private:
     ::std::u16string guessPluralInflection(const ::std::u16string& word) const;
@@ -49,8 +49,6 @@ private:
 public:
     explicit FrGrammarSynthesizer_FrDisplayFunction(const ::inflection::dialog::SemanticFeatureModel& model);
     ~FrGrammarSynthesizer_FrDisplayFunction() override;
-
-public:
-    FrGrammarSynthesizer_FrDisplayFunction(FrGrammarSynthesizer_FrDisplayFunction&) = delete;
+    FrGrammarSynthesizer_FrDisplayFunction(const FrGrammarSynthesizer_FrDisplayFunction&) = delete;
     FrGrammarSynthesizer_FrDisplayFunction& operator=(const FrGrammarSynthesizer_FrDisplayFunction&) = delete;
 };

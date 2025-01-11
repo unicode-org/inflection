@@ -5,7 +5,7 @@
 
 #include <inflection/dialog/fwd.hpp>
 #include <inflection/dialog/SemanticFeature.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/Object.hpp>
 #include <map>
 #include <string>
@@ -22,13 +22,13 @@ public:
     typedef ::inflection::Object super;
 
 private:
-    ::std::vector<::inflection::dialog::SemanticFeatureModel_DisplayValue> allValues {  };
+    ::std::vector<::inflection::dialog::DisplayValue> allValues {  };
 
 public:
     /**
      * Returns all of the display values regardless of any constraints of a semantic features.
      */
-    const ::std::vector<::inflection::dialog::SemanticFeatureModel_DisplayValue>& getValues() const;
+    const ::std::vector<::inflection::dialog::DisplayValue>& getValues() const;
     std::size_t operator()(const inflection::dialog::SemanticFeatureModel_DisplayData& displayData) const noexcept;
     bool operator==(const SemanticFeatureModel_DisplayData& o) const;
     bool operator!=(const SemanticFeatureModel_DisplayData& o) const;
@@ -36,7 +36,7 @@ public:
     /**
      * Construct the display data with all of the known display values. Typically the first display value is shown that matches the desired semantic features.
      */
-    explicit SemanticFeatureModel_DisplayData(const ::std::vector<::inflection::dialog::SemanticFeatureModel_DisplayValue>& displayValues);
+    explicit SemanticFeatureModel_DisplayData(const ::std::vector<::inflection::dialog::DisplayValue>& displayValues);
     /**
      * The destructor
      */
@@ -44,5 +44,5 @@ public:
 
 private:
     friend class SemanticFeatureModel;
-    friend class SemanticFeatureModel_DisplayValue;
+    friend class DisplayValue;
 };

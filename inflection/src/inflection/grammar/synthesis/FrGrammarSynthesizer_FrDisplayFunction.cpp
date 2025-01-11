@@ -5,7 +5,7 @@
 
 #include <inflection/dialog/SemanticFeature.hpp>
 #include <inflection/dialog/SemanticFeatureModel_DisplayData.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
 #include <inflection/dictionary/DictionaryMetaData.hpp>
 #include <inflection/exception/ClassCastException.hpp>
@@ -156,7 +156,7 @@ bool FrGrammarSynthesizer_FrDisplayFunction::canBeInflectedToPlural(::std::u16st
     return inflectedString;
 }
 
-::inflection::dialog::SemanticFeatureModel_DisplayValue * FrGrammarSynthesizer_FrDisplayFunction::getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const
+::inflection::dialog::DisplayValue * FrGrammarSynthesizer_FrDisplayFunction::getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const
 {
     const auto displayValue = GrammarSynthesizerUtil::getTheBestDisplayValue(displayData, constraints);
     if (displayValue == nullptr) {
@@ -177,7 +177,7 @@ bool FrGrammarSynthesizer_FrDisplayFunction::canBeInflectedToPlural(::std::u16st
             return nullptr;
         }
     }
-    return definitenessDisplayFunction.addDefiniteness(new ::inflection::dialog::SemanticFeatureModel_DisplayValue(displayString, displayValueConstraints), constraints);
+    return definitenessDisplayFunction.addDefiniteness(new ::inflection::dialog::DisplayValue(displayString, displayValueConstraints), constraints);
 }
 
 } // namespace inflection::grammar::synthesis

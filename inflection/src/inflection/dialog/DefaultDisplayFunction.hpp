@@ -12,6 +12,6 @@ class INFLECTION_INTERNAL_API inflection::dialog::DefaultDisplayFunction
     : public virtual ::inflection::Object
 {
 public:
-    virtual SemanticFeatureModel_DisplayValue *getDisplayValue(const SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const = 0;
+    virtual DisplayValue *getDisplayValue(const SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const = 0;
     ~DefaultDisplayFunction() override;
 };

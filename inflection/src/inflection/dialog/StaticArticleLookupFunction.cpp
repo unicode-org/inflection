@@ -4,7 +4,7 @@
 #include <inflection/dialog/StaticArticleLookupFunction.hpp>
 
 #include <inflection/dialog/SemanticFeature.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
 #include <inflection/dialog/SpeakableString.hpp>
 #include <inflection/util/LocaleUtils.hpp>
@@ -22,7 +22,7 @@ StaticArticleLookupFunction::StaticArticleLookupFunction(const SemanticFeatureMo
     this->derivedArticleFeature = (derivedSemanticName != nullptr ? model.getFeature(npc(derivedSemanticName)) : static_cast<const SemanticFeature* >(nullptr));
 }
 
-SpeakableString* StaticArticleLookupFunction::getFeatureValue(const SemanticFeatureModel_DisplayValue& displayValue, const ::std::map<SemanticFeature, ::std::u16string>& /*constraints*/) const
+SpeakableString* StaticArticleLookupFunction::getFeatureValue(const DisplayValue& displayValue, const ::std::map<SemanticFeature, ::std::u16string>& /*constraints*/) const
 {
     if (derivedArticleFeature != nullptr) {
         auto featureValue = displayValue.getFeatureValue(*npc(derivedArticleFeature));

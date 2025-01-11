@@ -181,7 +181,8 @@ public:
 
 protected: /* package */
     Token(int32_t startChar, int32_t endChar, std::u16string_view value, std::u16string_view cleanValue, bool significant);
-
+    Token(const Token&) = delete;
+    Token& operator=(const Token&) = delete;
 
 private:
     friend class TokenChain;

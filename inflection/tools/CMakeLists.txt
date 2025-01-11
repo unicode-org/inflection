@@ -14,7 +14,6 @@ target_link_libraries(tool_libraries
             xml2
             ICU::uc ICU::i18n
             $<$<PLATFORM_ID:Linux>:${CMAKE_DL_LIBS}>
-            CoreFoundation
 )
 
 add_subdirectory(buildDictionary)

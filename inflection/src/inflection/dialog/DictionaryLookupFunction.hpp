@@ -30,7 +30,7 @@ private:
     void getImportantTokens(const ::inflection::tokenizer::TokenChain *tokenChain, bool firstWordDeterminesValue, const ::inflection::tokenizer::Token_Word *& firstWordToken, const ::inflection::tokenizer::Token_Word *& firstRelevantToken) const;
 
 public:
-    SpeakableString* getFeatureValue(const SemanticFeatureModel_DisplayValue& displayValue, const ::std::map<SemanticFeature, ::std::u16string>& constraints) const override;
+    SpeakableString* getFeatureValue(const DisplayValue& displayValue, const ::std::map<SemanticFeature, ::std::u16string>& constraints) const override;
 
 protected: /* protected */
     const dictionary::DictionaryMetaData & getDictionary() const;
@@ -45,6 +45,8 @@ public:
     DictionaryLookupFunction(const ::inflection::util::ULocale& locale, const ::std::vector<::std::u16string>& tags);
     /* Would construct a DictionaryLookupFunction that performs disambiguation before performing a lookup*/
     DictionaryLookupFunction(const ::inflection::util::ULocale& locale, const ::std::vector<::std::u16string>& tags, const ::std::vector<::std::u16string>& disambiguationPartsOfSpeech);
+    DictionaryLookupFunction(const DictionaryLookupFunction&) = delete;
+    DictionaryLookupFunction& operator=(const DictionaryLookupFunction&) = delete;
 
 private:
     const ::inflection::analysis::DictionaryExposableMorphology dictionaryMorphology;

@@ -20,12 +20,14 @@ private:
     const ::inflection::dialog::SemanticFeature& personPronounFeature;
 
 public:
-    ::inflection::dialog::SpeakableString* getFeatureValue(const ::inflection::dialog::SemanticFeatureModel_DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const override;
+    ::inflection::dialog::SpeakableString* getFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const override;
 
 public: /* package */
-    virtual ::inflection::dialog::SpeakableString* getArticle(const ::inflection::dialog::SemanticFeatureModel_DisplayValue& displayValue, ArGrammarSynthesizer::PronounNumber countValue, ArGrammarSynthesizer::PronounGender genderValue, ArGrammarSynthesizer::Person personValue) const = 0;
+    virtual ::inflection::dialog::SpeakableString* getArticle(const ::inflection::dialog::DisplayValue& displayValue, ArGrammarSynthesizer::PronounNumber countValue, ArGrammarSynthesizer::PronounGender genderValue, ArGrammarSynthesizer::Person personValue) const = 0;
 
 
 public: /* package */
     explicit ArGrammarSynthesizer_ArticleLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model);
+    ArGrammarSynthesizer_ArticleLookupFunction(const ArGrammarSynthesizer_ArticleLookupFunction&) = delete;
+    ArGrammarSynthesizer_ArticleLookupFunction& operator=(const ArGrammarSynthesizer_ArticleLookupFunction&) = delete;
 };

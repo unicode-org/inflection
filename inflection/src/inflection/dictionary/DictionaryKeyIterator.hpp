@@ -55,6 +55,9 @@ public:
      * The last word in the dictionary.
      */
     DictionaryKeyIterator    end() const;
+
+    DictionaryKeyIterator(const DictionaryKeyIterator&) = delete;
+    DictionaryKeyIterator& operator=(const DictionaryKeyIterator&) = delete;
 private:
 
     explicit DictionaryKeyIterator(const ::inflection::dictionary::metadata::MarisaTrieIterator<uint64_t>& trieIterator);

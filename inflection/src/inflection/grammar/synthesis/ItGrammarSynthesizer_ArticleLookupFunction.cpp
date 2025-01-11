@@ -4,7 +4,7 @@
 #include <inflection/grammar/synthesis/ItGrammarSynthesizer_ArticleLookupFunction.hpp>
 
 #include <inflection/dialog/SemanticFeature.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
 #include <inflection/dialog/SpeakableString.hpp>
 #include <inflection/grammar/synthesis/GrammemeConstants.hpp>
@@ -21,7 +21,7 @@ ItGrammarSynthesizer_ArticleLookupFunction::ItGrammarSynthesizer_ArticleLookupFu
     this->derivedArticleFeature = (!derivedSemanticName.empty() ? model.getFeature(derivedSemanticName) : static_cast<const ::inflection::dialog::SemanticFeature* >(nullptr));
 }
 
-inflection::dialog::SpeakableString* ItGrammarSynthesizer_ArticleLookupFunction::getFeatureValue(const ::inflection::dialog::SemanticFeatureModel_DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& /*constraints*/) const
+inflection::dialog::SpeakableString* ItGrammarSynthesizer_ArticleLookupFunction::getFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& /*constraints*/) const
 {
     if (derivedArticleFeature != nullptr) {
         auto featureValue = displayValue.getFeatureValue(*npc(derivedArticleFeature));

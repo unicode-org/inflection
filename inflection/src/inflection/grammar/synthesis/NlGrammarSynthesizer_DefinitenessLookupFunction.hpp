@@ -15,7 +15,9 @@ public:
     typedef ::inflection::dialog::DictionaryLookupFunction super;
 
 public:
-    ::inflection::dialog::SpeakableString* getFeatureValue(const ::inflection::dialog::SemanticFeatureModel_DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const override;
+    ::inflection::dialog::SpeakableString* getFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const override;
 
     NlGrammarSynthesizer_DefinitenessLookupFunction();
+    NlGrammarSynthesizer_DefinitenessLookupFunction(const NlGrammarSynthesizer_DefinitenessLookupFunction&) = delete;
+    NlGrammarSynthesizer_DefinitenessLookupFunction& operator=(const NlGrammarSynthesizer_DefinitenessLookupFunction&) = delete;
 };

@@ -5,7 +5,7 @@
 
 #include <inflection/dialog/DefaultFeatureFunction.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SpeakableString.hpp>
 #include <inflection/grammar/synthesis/GrammemeConstants.hpp>
 #include <inflection/lang/features/LanguageGrammarFeatures.hpp>
@@ -63,7 +63,7 @@ std::set<std::u16string> DefinitenessDisplayFunction::getArticles(const inflecti
     return result;
 }
 
-int32_t DefinitenessDisplayFunction::getArticlePrefixLength(SemanticFeatureModel_DisplayValue* originalDisplayValue, const std::set<std::u16string>& articlesToRemove)
+int32_t DefinitenessDisplayFunction::getArticlePrefixLength(DisplayValue* originalDisplayValue, const std::set<std::u16string>& articlesToRemove)
 {
     std::u16string lowerCasedValue;
     // Turkish doesn't have articles. So the language is not important in the following lower casing call.
@@ -76,20 +76,20 @@ int32_t DefinitenessDisplayFunction::getArticlePrefixLength(SemanticFeatureModel
     return -1;
 }
 
-SemanticFeatureModel_DisplayValue*
-DefinitenessDisplayFunction::replaceDisplayValue(SemanticFeatureModel_DisplayValue* originalDisplayValue, const SpeakableString& string) const
+DisplayValue*
+DefinitenessDisplayFunction::replaceDisplayValue(DisplayValue* originalDisplayValue, const SpeakableString& string) const
 {
-    ::std::map<SemanticFeature, ::std::u16string> displayValueConstraints(npc(originalDisplayValue)->getConstraintMap());
+    auto displayValueConstraints(npc(originalDisplayValue)->getConstraintMap());
     if (!string.speakEqualsPrint()) {
         displayValueConstraints[*npc(speakFeature)] = string.getSpeak();
     }
-    auto newValue = new SemanticFeatureModel_DisplayValue(string.getPrint(), displayValueConstraints);
+    auto newValue = new DisplayValue(string.getPrint(), displayValueConstraints);
     delete originalDisplayValue;
     return newValue;
 }
 
-SemanticFeatureModel_DisplayValue*
-DefinitenessDisplayFunction::addDefiniteness(SemanticFeatureModel_DisplayValue* displayValue, const ::std::map<SemanticFeature, ::std::u16string>& constraints) const
+DisplayValue*
+DefinitenessDisplayFunction::addDefiniteness(DisplayValue* displayValue, const ::std::map<SemanticFeature, ::std::u16string>& constraints) const
 {
     if (displayValue != nullptr) {
         auto definiteness = constraints.find(*npc(definiteFeature));
@@ -106,7 +106,7 @@ DefinitenessDisplayFunction::addDefiniteness(SemanticFeatureModel_DisplayValue* 
             else {
                 displayString = npc(displayValue)->getDisplayString();
             }
-            SemanticFeatureModel_DisplayValue baseDisplayValue(displayString, npc(displayValue)->getConstraintMap());
+            DisplayValue baseDisplayValue(displayString, npc(displayValue)->getConstraintMap());
             // We're asking for a specific form of definiteness, and it's not in that form already.
             if (definitePrefixLength <= 0 && definiteness->second == inflection::grammar::synthesis::GrammemeConstants::DEFINITENESS_DEFINITE()) {
                 ::std::unique_ptr<SpeakableString> newDisplayString(npc(definiteFeatureFunction)->getFeatureValue(baseDisplayValue, constraints));

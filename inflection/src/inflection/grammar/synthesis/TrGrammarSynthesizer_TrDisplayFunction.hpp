@@ -30,7 +30,7 @@ private:
     const ::inflection::dialog::SemanticFeature& tenseFeature;
 
 public:
-    ::inflection::dialog::SemanticFeatureModel_DisplayValue *getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const override;
+    ::inflection::dialog::DisplayValue *getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const override;
 
 private:
     static ::std::u16string addPossessiveSuffixes(TrGrammarSynthesizer::Count countValue, TrGrammarSynthesizer::Person personValue, TrGrammarSynthesizer::Pronoun pronounValue, bool isPossessiveCompound, TrGrammarSynthesizer::VowelGroup &vowGroup, const ::std::u16string& lastPart);
@@ -42,7 +42,7 @@ private:
             inflection::grammar::synthesis::TrGrammarSynthesizer::Tense tenseValue,
             inflection::grammar::synthesis::TrGrammarSynthesizer::VowelGroup vowGroup,
             const std::u16string &lastPart);
-    ::inflection::dialog::SemanticFeatureModel_DisplayValue* generateDisplayValue(const ::std::u16string& displayString, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& formConstraints, const ::std::u16string& displayStringNormalized, ::std::u16string* suffixString, bool endsWithNumber, bool isForeign, bool isException) const;
+    ::inflection::dialog::DisplayValue* generateDisplayValue(const ::std::u16string& displayString, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& formConstraints, const ::std::u16string& displayStringNormalized, ::std::u16string* suffixString, bool endsWithNumber, bool isForeign, bool isException) const;
     ::std::u16string normalizeString(const ::std::u16string& word) const;
     char16_t getLastLetter(const ::std::u16string& word) const;
     static bool endsWithVowel(const ::std::u16string& word);
@@ -78,6 +78,8 @@ public: /* package */
     explicit TrGrammarSynthesizer_TrDisplayFunction(const ::inflection::dialog::SemanticFeatureModel& model);
     TrGrammarSynthesizer_TrDisplayFunction(TrGrammarSynthesizer_TrDisplayFunction&) = delete;
     ~TrGrammarSynthesizer_TrDisplayFunction() override;
+    TrGrammarSynthesizer_TrDisplayFunction(const TrGrammarSynthesizer_TrDisplayFunction&) = delete;
+    TrGrammarSynthesizer_TrDisplayFunction& operator=(const TrGrammarSynthesizer_TrDisplayFunction&) = delete;
 
 
 private:

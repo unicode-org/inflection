@@ -35,17 +35,29 @@ INFLECTION_CAPI IDPronounConcept* ipron_toPronounConcept(IDSemanticFeatureConcep
 }
 
 INFLECTION_CAPI IDPronounConcept*
-ipron_createWithCustom(const IDSemanticFeatureModel* model, CFArrayRef defaultDisplayData, CFDictionaryRef defaultConstraints, UErrorCode* status)
+ipron_createWithCustom(const IDSemanticFeatureModel* model,
+                       const IDDisplayValue* defaultDisplayData,
+                       int32_t defaultDisplayDataLen,
+                       const IDDisplayValue_Constraint* defaultConstraints,
+                       int32_t defaultConstraintsLen,
+                       UErrorCode* status)
 {
     if (status != nullptr && U_SUCCESS(*status)) {
         try {
-            ::std::vector<::inflection::dialog::SemanticFeatureModel_DisplayValue> defaultDisplayDataVector;
-            ::std::map<inflection::dialog::SemanticFeature, ::std::u16string> defaultConstraintsMap(inflection::dialog::SemanticUtils::to_constraintMap(*npc((const inflection::dialog::SemanticFeatureModel*)model), defaultConstraints));
-            CFIndex numMappings = CFArrayGetCount(defaultDisplayData);
-            for (CFIndex idx = 0; idx < numMappings; idx++) {
-                defaultDisplayDataVector.push_back(*npc((const inflection::dialog::SemanticFeatureModel_DisplayValue*)CFArrayGetValueAtIndex(defaultDisplayData, idx)));
+            const auto& modelRef = *npc((const inflection::dialog::SemanticFeatureModel*)model);
+            ::std::vector<::inflection::dialog::DisplayValue> defaultDisplayDataVector;
+            if (defaultDisplayDataLen > 0) {
+                defaultDisplayDataVector.reserve(defaultDisplayDataLen);
+                for (int32_t idx = 0; idx < defaultDisplayDataLen; idx++) {
+                    const auto& displayValue = defaultDisplayData[idx];
+                    defaultDisplayDataVector.emplace_back(displayValue.displayStringLen < 0
+                                                       ? displayValue.displayString
+                                                       : std::u16string(displayValue.displayString, displayValue.displayStringLen),
+                                                       inflection::dialog::SemanticUtils::to_constraintMap(modelRef, displayValue.constraintMap, displayValue.constraintMapLen));
+                }
             }
-            return (IDPronounConcept*)new inflection::dialog::PronounConcept(*npc((const inflection::dialog::SemanticFeatureModel*)model), defaultDisplayDataVector, defaultConstraintsMap);
+            auto defaultConstraintsMap(inflection::dialog::SemanticUtils::to_constraintMap(modelRef, defaultConstraints, defaultConstraintsLen));
+            return (IDPronounConcept*)new inflection::dialog::PronounConcept(modelRef, defaultDisplayDataVector, defaultConstraintsMap);
         }
         catch (const ::std::exception& e) {
             inflection::util::TypeConversionUtils::convert(e, status);
@@ -55,11 +67,14 @@ ipron_createWithCustom(const IDSemanticFeatureModel* model, CFArrayRef defaultDi
 }
 
 INFLECTION_CAPI IDPronounConcept*
-ipron_createWithDefaults(const IDSemanticFeatureModel* model, const CFDictionaryRef defaultConstraints, UErrorCode* status)
+ipron_createWithDefaults(const IDSemanticFeatureModel* model,
+                         const IDDisplayValue_Constraint* defaultConstraints,
+                         int32_t defaultConstraintsLen,
+                         UErrorCode* status)
 {
     if (status != nullptr && U_SUCCESS(*status)) {
         try {
-            ::std::map<inflection::dialog::SemanticFeature, ::std::u16string> defaultConstraintsMap(inflection::dialog::SemanticUtils::to_constraintMap(*npc((const inflection::dialog::SemanticFeatureModel*)model), defaultConstraints));
+            auto defaultConstraintsMap(inflection::dialog::SemanticUtils::to_constraintMap(*npc((const inflection::dialog::SemanticFeatureModel*)model), defaultConstraints, defaultConstraintsLen));
             return (IDPronounConcept*)new inflection::dialog::PronounConcept(*npc((const inflection::dialog::SemanticFeatureModel*)model), defaultConstraintsMap);
         }
         catch (const ::std::exception& e) {
@@ -70,11 +85,14 @@ ipron_createWithDefaults(const IDSemanticFeatureModel* model, const CFDictionary
 }
 
 INFLECTION_CAPI IDPronounConcept*
-ipron_createFromInitialPronoun(const IDSemanticFeatureModel* model, CFStringRef initialPronoun, UErrorCode* status)
+ipron_createFromInitialPronoun(const IDSemanticFeatureModel* model, const char16_t* initialPronoun, int32_t initialPronounLen, UErrorCode* status)
 {
     if (status != nullptr && U_SUCCESS(*status)) {
         try {
-            return (IDPronounConcept*)new inflection::dialog::PronounConcept(*npc((const inflection::dialog::SemanticFeatureModel*)model),::inflection::util::TypeConversionUtils::to_u16string(initialPronoun));
+            return (IDPronounConcept*)new inflection::dialog::PronounConcept(*npc((const inflection::dialog::SemanticFeatureModel*)model),
+                                                                             initialPronounLen < 0
+                                                                             ? ::std::u16string(initialPronoun)
+                                                                             : ::std::u16string(initialPronoun, initialPronounLen));
         }
         catch (const ::std::exception& e) {
             inflection::util::TypeConversionUtils::convert(e, status);

@@ -3,12 +3,10 @@
  */
 #pragma once
 #include <inflection/api.h>
+#include <inflection/dialog/DisplayValue.h>
 #include <inflection/dialog/SpeakableString.h>
 #include <inflection/dialog/SemanticFeatureModel.h>
 #include <inflection/dialog/SemanticFeatureConcept.h>
-#include <CoreFoundation/CFDictionary.h>
-#include <CoreFoundation/CFArray.h>
-#include <CoreFoundation/CFString.h>
 #include <unicode/utypes.h>
 
 INFLECTION_CTYPE(IDPronounConcept)
@@ -27,20 +25,34 @@ INFLECTION_CAPI IDPronounConcept* ipron_toPronounConcept(IDSemanticFeatureConcep
 /**
  * Constructs a new PronounConcept based on dislay values with custom pronouns. Any unspecified pronouns will use the language's default pronouns.
  * @param model The SemanticFeatureModel for the language
- * @param defaultDisplayData An array of IDSemanticFeatureModel_DisplayValue objects
- * @param defaultConstraints The constraints to consider when a given constraint is undefined.
- * @param error The provided error reference is allocated when the function failed.
+ * @param defaultDisplayData An array of IDDisplayValue objects. The contents are copied and not referenced after this call.
+ * @param defaultDisplayDataLen The length of defaultDisplayData.
+ * @param defaultConstraints The constraints to consider when a given constraint is undefined. The contents are copied and not referenced after this call.
+ * @param defaultConstraintsLen The length of defaultConstraints.
+ * @param status Must be a valid pointer to an error code value,
+ *        which must not indicate a failure before the function call.
+ *        This is set to a failure when a failure has occurred during execution.
  */
-INFLECTION_CAPI IDPronounConcept* ipron_createWithCustom(const IDSemanticFeatureModel* model, CFArrayRef defaultDisplayData, CFDictionaryRef defaultConstraints, UErrorCode* status);
+INFLECTION_CAPI IDPronounConcept* ipron_createWithCustom(const IDSemanticFeatureModel* model,
+                                                         const IDDisplayValue* defaultDisplayData,
+                                                         int32_t defaultDisplayDataLen,
+                                                         const IDDisplayValue_Constraint* defaultConstraints,
+                                                         int32_t defaultConstraintsLen,
+                                                         UErrorCode* status);
 /**
  * Constructs a new PronounConcept with the default constraints. If you know the gender or person grammatical category
  * values of the desired pronoun, it's recommended to provide them with defaultConstraints.
  * A SemanticFeatureModel is required, as it will enforce the locale and provide the known constraints for the given language.
  * @param model The SemanticFeatureModel for the language
  * @param defaultConstraints The constraints to consider when a given constraint is undefined.
- * @param error The provided error reference is allocated when the function failed.
+ * @param status Must be a valid pointer to an error code value,
+ *        which must not indicate a failure before the function call.
+ *        This is set to a failure when a failure has occurred during execution.
  */
-INFLECTION_CAPI IDPronounConcept* ipron_createWithDefaults(const IDSemanticFeatureModel* model, CFDictionaryRef defaultConstraints, UErrorCode* status);
+INFLECTION_CAPI IDPronounConcept* ipron_createWithDefaults(const IDSemanticFeatureModel* model,
+                                                           const IDDisplayValue_Constraint* defaultConstraints,
+                                                           int32_t defaultConstraintsLen,
+                                                           UErrorCode* status);
 /**
  * Constructs a new PronounConcept with the default constraints based on an existing pronoun from the language.
  * For example, "I" will provide the default constraints "first", "singular" and "subjective" for English.
@@ -52,10 +64,13 @@ INFLECTION_CAPI IDPronounConcept* ipron_createWithDefaults(const IDSemanticFeatu
  * A SemanticFeatureModel is required, as it will enforce the locale and provide the known constraints for the given language.
  * @param model The SemanticFeatureModel for the language
  * @param initialPronoun The language specific pronoun to start inflecting the pronoun.
- * @param error The provided error reference is allocated when the function failed.
+ * @param initialPronounLen The string length of initialPronoun.
+ * @param status Must be a valid pointer to an error code value,
+ *        which must not indicate a failure before the function call.
+ *        This is set to a failure when a failure has occurred during execution.
  * @throws IllegalArgumentException Thrown when the pronoun is not a known pronoun for the given language.
  */
-INFLECTION_CAPI IDPronounConcept* ipron_createFromInitialPronoun(const IDSemanticFeatureModel* model, CFStringRef initialPronoun, UErrorCode* status);
+INFLECTION_CAPI IDPronounConcept* ipron_createFromInitialPronoun(const IDSemanticFeatureModel* model, const char16_t* initialPronoun, int32_t initialPronounLen, UErrorCode* status);
 /**
  * Destructor
  */

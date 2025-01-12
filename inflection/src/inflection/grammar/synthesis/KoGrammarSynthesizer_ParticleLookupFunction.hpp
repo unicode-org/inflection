@@ -19,7 +19,9 @@ private:
     KoGrammarSynthesizer_ParticleResolver particleResolver;
 
 public:
-    ::inflection::dialog::SpeakableString* getFeatureValue(const ::inflection::dialog::SemanticFeatureModel_DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const override;
+    ::inflection::dialog::SpeakableString* getFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const override;
 
     KoGrammarSynthesizer_ParticleLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model, const icu4cxx::UnicodeSet& vowelSet, const ::std::u16string& vowelParticle, const ::std::u16string& consonantParticle);
+    KoGrammarSynthesizer_ParticleLookupFunction(const KoGrammarSynthesizer_ParticleLookupFunction&) = delete;
+    KoGrammarSynthesizer_ParticleLookupFunction& operator=(const KoGrammarSynthesizer_ParticleLookupFunction&) = delete;
 };

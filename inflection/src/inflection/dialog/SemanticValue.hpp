@@ -5,7 +5,6 @@
 
 #include <inflection/dialog/fwd.hpp>
 #include <inflection/Object.hpp>
-#include <utility>
 #include <string>
 
 /**
@@ -13,11 +12,13 @@
  *
  */
 class INFLECTION_CLASS_API inflection::dialog::SemanticValue
-    : public virtual ::std::pair<::std::u16string, ::std::u16string>
-    , public virtual ::inflection::Object
+    : public virtual ::inflection::Object
 {
 public:
-    typedef ::std::pair<::std::u16string, ::std::u16string> super;
+    typedef ::inflection::Object super;
+private:
+    ::std::u16string label {  };
+    ::std::u16string value {  };
 public:
     /**
      * The string value associated with a semantic label
@@ -29,7 +30,19 @@ public:
      */
     const ::std::u16string& getLabel() const;
 
+    /**
+     * Returns a string representation of this label-value pair.
+     */
     ::std::u16string toString() const override;
+
+    /**
+     * String compares the values of this pair.
+     */
+    bool operator==(const SemanticValue& other) const;
+    /**
+     * String compares the order of the label and value of this pair.
+     */
+    std::strong_ordering operator<=>(const SemanticValue&) const;
 
     SemanticValue(const ::std::u16string& label, const ::std::u16string& string);
     /**
@@ -41,11 +54,11 @@ public:
 inline
 const ::std::u16string& inflection::dialog::SemanticValue::getValue() const
 {
-    return ::std::get<1>(*this);
+    return value;
 }
 
 inline
 const ::std::u16string& inflection::dialog::SemanticValue::getLabel() const
 {
-    return ::std::get<0>(*this);
+    return label;
 }

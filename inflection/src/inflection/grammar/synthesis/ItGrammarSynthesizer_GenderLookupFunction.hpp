@@ -26,8 +26,6 @@ public:
 
     explicit ItGrammarSynthesizer_GenderLookupFunction();
     ~ItGrammarSynthesizer_GenderLookupFunction() override;
-
-private:
-    ItGrammarSynthesizer_GenderLookupFunction(ItGrammarSynthesizer_GenderLookupFunction&) = delete;
+    ItGrammarSynthesizer_GenderLookupFunction(const ItGrammarSynthesizer_GenderLookupFunction&) = delete;
     ItGrammarSynthesizer_GenderLookupFunction& operator=(const ItGrammarSynthesizer_GenderLookupFunction&) = delete;
 };

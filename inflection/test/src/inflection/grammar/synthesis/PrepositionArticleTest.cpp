@@ -10,7 +10,7 @@
 #include <inflection/dialog/LocalizedCommonConceptFactoryProvider.hpp>
 #include <inflection/dialog/SemanticFeature.hpp>
 #include <inflection/dialog/SemanticFeatureModel_DisplayData.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
 #include <inflection/dialog/SpeakableString.hpp>
 #include <inflection/util/DelimitedStringIterator.hpp>
@@ -41,10 +41,10 @@ static ::std::map<inflection::dialog::SemanticFeature, ::std::u16string> createC
     return constraintMap;
 }
 
-static inflection::dialog::SemanticFeatureModel_DisplayValue createConstrainedDisplayValue(const ::inflection::dialog::SemanticFeatureModel* model, const ::std::u16string& value, const ::std::vector<::std::u16string>& namedValues)
+static inflection::dialog::DisplayValue createConstrainedDisplayValue(const ::inflection::dialog::SemanticFeatureModel* model, const ::std::u16string& value, const ::std::vector<::std::u16string>& namedValues)
 {
     auto constraintMap = createConstraints(model, namedValues);
-    return ::inflection::dialog::SemanticFeatureModel_DisplayValue(value, constraintMap);
+    return ::inflection::dialog::DisplayValue(value, constraintMap);
 }
 
 static void compare(const ::inflection::dialog::SpeakableString& expected, ::inflection::dialog::SpeakableString* result) {
@@ -58,7 +58,7 @@ static void compare(const ::std::u16string& expected, ::inflection::dialog::Spea
     compare(::inflection::dialog::SpeakableString(expected), result);
 }
 
-static void compare(const ::std::u16string& expected, ::inflection::dialog::SemanticFeatureModel_DisplayValue* result) {
+static void compare(const ::std::u16string& expected, ::inflection::dialog::DisplayValue* result) {
     INFO(::std::string("expected: ") + inflection::util::StringUtils::to_string(expected));
     auto resultStr(npc(result)->getDisplayString());
     INFO(::std::string("actual: ") + inflection::util::StringUtils::to_string(resultStr));
@@ -109,7 +109,7 @@ static ::std::map<inflection::dialog::SemanticFeature, ::std::u16string> createA
 static inflection::dialog::SemanticFeatureModel_DisplayData createArabicDisplayData(const ::inflection::dialog::SemanticFeatureModel* featureModel, const ::std::u16string& value, const ::std::u16string& definiteness)
 {
     auto constraintMap = createArabicConstraintMap(featureModel, u"", u"", u"", u"", definiteness);
-    return ::inflection::dialog::SemanticFeatureModel_DisplayData({::inflection::dialog::SemanticFeatureModel_DisplayValue(value, constraintMap)});
+    return ::inflection::dialog::SemanticFeatureModel_DisplayData({::inflection::dialog::DisplayValue(value, constraintMap)});
 }
 
 TEST_CASE("PrepositionArticleTest#testArticleAr")

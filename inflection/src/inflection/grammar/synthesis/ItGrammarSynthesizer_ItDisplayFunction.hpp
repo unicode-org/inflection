@@ -38,12 +38,11 @@ private:
 public:
     ::std::optional<::std::u16string> inflectWord(::std::u16string_view word, const std::map<dialog::SemanticFeature, std::u16string> &constraints, bool enableInflectionGuess) const;
     ::std::optional<::std::u16string> inflectCompoundWord(const ::inflection::tokenizer::TokenChain &tokenChain, const std::map<dialog::SemanticFeature, std::u16string> &constraints, bool enableInflectionGuess) const;
-    ::inflection::dialog::SemanticFeatureModel_DisplayValue *getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const override;
+    ::inflection::dialog::DisplayValue *getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const override;
 
 public: /* package */
     explicit ItGrammarSynthesizer_ItDisplayFunction(const ::inflection::dialog::SemanticFeatureModel& model);
     ~ItGrammarSynthesizer_ItDisplayFunction() override;
-
-private:
     ItGrammarSynthesizer_ItDisplayFunction(const ItGrammarSynthesizer_ItDisplayFunction&) = delete;
+    ItGrammarSynthesizer_ItDisplayFunction& operator=(const ItGrammarSynthesizer_ItDisplayFunction&) = delete;
 };

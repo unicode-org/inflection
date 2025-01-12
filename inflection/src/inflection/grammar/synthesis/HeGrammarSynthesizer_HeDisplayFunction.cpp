@@ -12,7 +12,7 @@
 #include <inflection/util/UnicodeSetUtils.hpp>
 #include <inflection/dialog/SemanticFeature.hpp>
 #include <inflection/dialog/SemanticFeatureModel_DisplayData.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
 #include <inflection/grammar/synthesis/GrammarSynthesizerUtil.hpp>
 #include <inflection/grammar/synthesis/GrammemeConstants.hpp>
@@ -197,7 +197,7 @@ static const char16_t FINAL_TO_MEDIAL_SUBSTITUTION[][2] = {
     return displayString;
 }
 
-::inflection::dialog::SemanticFeatureModel_DisplayValue * HeGrammarSynthesizer_HeDisplayFunction::getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool /*enableInflectionGuess*/) const
+::inflection::dialog::DisplayValue * HeGrammarSynthesizer_HeDisplayFunction::getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool /*enableInflectionGuess*/) const
 {
     ::std::u16string displayString;
     if (!displayData.getValues().empty()) {
@@ -216,7 +216,7 @@ static const char16_t FINAL_TO_MEDIAL_SUBSTITUTION[][2] = {
     if (!definitenessValue.empty()) {
         displayString = applyDefiniteness(displayString, definitenessValue);
     }
-    return new ::inflection::dialog::SemanticFeatureModel_DisplayValue(displayString, constraints);
+    return new ::inflection::dialog::DisplayValue(displayString, constraints);
 }
 
 ::std::u16string HeGrammarSynthesizer_HeDisplayFunction::applyDefiniteness(const ::std::u16string& input, ::std::u16string_view definiteness) const

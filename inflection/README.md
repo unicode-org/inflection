@@ -72,7 +72,6 @@ The following are the dependencies to use this code.
 
 | Library                                           | runtime | build time | test time | Note                     |
 |---------------------------------------------------|:-------:|:----------:|:---------:|--------------------------|
-| [CoreFoundation](https://www.swift.org/)          |    ✅    |     ✅      |     ✅     | automatically downloaded |
 | [ICU4C](https://icu.unicode.org/)                 |    ✅    |     ✅      |     ✅     |                          |
 | [marisa](https://github.com/s-yata/marisa-trie)   |    ✅    |     ✅      |     ✅     | statically linked        |
 | [cmake](https://cmake.org/)                       |         |     ✅      |           |                          |

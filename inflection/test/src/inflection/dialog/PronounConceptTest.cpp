@@ -37,7 +37,7 @@ static const inflection::dialog::SemanticFeature* getFeature(const ::inflection:
     return featureName;
 }
 
-static ::inflection::dialog::SemanticFeatureModel_DisplayValue createDisplayValue(const ::inflection::dialog::SemanticFeatureModel& model, const std::u16string& displayValue, const std::map<std::u16string, std::u16string>& constraints) {
+static ::inflection::dialog::DisplayValue createDisplayValue(const ::inflection::dialog::SemanticFeatureModel& model, const std::u16string& displayValue, const std::map<std::u16string, std::u16string>& constraints) {
     ::std::map<inflection::dialog::SemanticFeature, ::std::u16string> semanticConstraints;
     for (const auto& [key, value] : constraints) {
         semanticConstraints.emplace(*npc(getFeature(model, key, value)), value);
@@ -296,7 +296,7 @@ TEST_CASE("PronounConceptTest#testExistence")
 TEST_CASE("PronounConceptTest#testCustom")
 {
     const auto& model = *npc(npc(npc(::inflection::dialog::LocalizedCommonConceptFactoryProvider::getDefaultCommonConceptFactoryProvider())->getCommonConceptFactory(inflection::util::LocaleUtils::ENGLISH()))->getSemanticFeatureModel());
-    ::std::vector<::inflection::dialog::SemanticFeatureModel_DisplayValue> defaultDisplayData({
+    ::std::vector<::inflection::dialog::DisplayValue> defaultDisplayData({
         createDisplayValue(model, u"y'all", {{u"person", u"second"}, {u"number", u"plural"}, {u"case", u"nominative"}})
     });
     inflection::dialog::PronounConcept pronounConcept(model, defaultDisplayData, {});

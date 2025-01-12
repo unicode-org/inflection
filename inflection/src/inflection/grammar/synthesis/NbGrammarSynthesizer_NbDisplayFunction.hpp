@@ -38,7 +38,7 @@ private:
     ::std::u16string inflectString(const ::std::u16string& word, int64_t existingWordGrammemes, const ::std::u16string& count, const ::std::u16string& definiteness, const ::std::u16string& targetGender, bool targetIsANoun) const;
 
 public:
-    ::inflection::dialog::SemanticFeatureModel_DisplayValue *getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const override;
+    ::inflection::dialog::DisplayValue *getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const override;
 
 private:
     ::std::u16string inflectTokenChain(const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, const ::inflection::tokenizer::TokenChain& tokenChain) const;
@@ -56,7 +56,6 @@ public: /* package */
 
     explicit NbGrammarSynthesizer_NbDisplayFunction(const ::inflection::dialog::SemanticFeatureModel& model);
     ~NbGrammarSynthesizer_NbDisplayFunction() override;
-
-private:
     NbGrammarSynthesizer_NbDisplayFunction(const NbGrammarSynthesizer_NbDisplayFunction&) = delete;
+    NbGrammarSynthesizer_NbDisplayFunction& operator=(const NbGrammarSynthesizer_NbDisplayFunction&) = delete;
 };

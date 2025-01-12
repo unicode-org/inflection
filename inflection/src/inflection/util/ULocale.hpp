@@ -219,11 +219,11 @@ public:
     std::size_t operator()(const inflection::util::ULocale& locale) const noexcept;
 
 private:
-    ::std::string language;
-    ::std::string script;
-    ::std::string country;
-    ::std::string variant;
-    ::std::string fullName;
+    ::std::string language {  };
+    ::std::string script {  };
+    ::std::string country {  };
+    ::std::string variant {  };
+    ::std::string fullName {  };
 };
 
 inline bool

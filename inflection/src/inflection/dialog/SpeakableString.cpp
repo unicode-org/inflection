@@ -8,14 +8,14 @@
 
 namespace inflection::dialog {
 
-SpeakableString::SpeakableString(const ::std::u16string& print)
+SpeakableString::SpeakableString(std::u16string_view print)
     : super()
     , print(print)
     , speak(nullptr)
 {
 }
 
-SpeakableString::SpeakableString(const ::std::u16string& print, const ::std::u16string& speak)
+SpeakableString::SpeakableString(std::u16string_view print, std::u16string_view speak)
     : super()
     , print(print)
 {
@@ -128,7 +128,7 @@ SpeakableString* SpeakableString::toSpeakableString() const
     return new SpeakableString(*npc(this));
 }
 
-bool SpeakableString::contains(const ::std::u16string& s) const
+bool SpeakableString::contains(::std::u16string_view s) const
 {
     return getPrint().find(s) != ::std::u16string::npos;
 }

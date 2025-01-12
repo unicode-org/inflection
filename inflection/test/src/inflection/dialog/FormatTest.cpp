@@ -4,7 +4,7 @@
 #include "catch2/catch_test_macros.hpp"
 
 #include <inflection/dialog/SemanticFeatureModel_DisplayData.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/InflectableStringConcept.hpp>
 #include <inflection/dialog/LocalizedCommonConceptFactoryProvider.hpp>
 #include <inflection/dialog/NumberConcept.hpp>
@@ -190,7 +190,7 @@ getConstraints(const inflection::dialog::SemanticFeatureModel &model, const ::st
 static ::inflection::dialog::SemanticFeatureModel_DisplayData
 getDisplayData(const inflection::dialog::SemanticFeatureModel &model, const ::std::set<::std::u16string>& knownCategoryValues, xmlNodePtr nodePtr)
 {
-    std::vector<inflection::dialog::SemanticFeatureModel_DisplayValue> displayValues;
+    std::vector<inflection::dialog::DisplayValue> displayValues;
     ::std::u16string value;
     for (xmlNodePtr valueNode = nodePtr->children; valueNode != nullptr; valueNode = valueNode->next) {
         if (valueNode->type != XML_ELEMENT_NODE) {
@@ -199,7 +199,7 @@ getDisplayData(const inflection::dialog::SemanticFeatureModel &model, const ::st
         validateNodeName(valueNode, "value");
         auto constraints = getConstraints(model, knownCategoryValues, valueNode, "constraint");
         getContent(&value, valueNode);
-        displayValues.emplace_back(inflection::dialog::SemanticFeatureModel_DisplayValue(value, constraints));
+        displayValues.emplace_back(inflection::dialog::DisplayValue(value, constraints));
     }
     return ::inflection::dialog::SemanticFeatureModel_DisplayData(displayValues);
 }

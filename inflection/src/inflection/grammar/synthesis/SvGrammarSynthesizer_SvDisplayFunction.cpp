@@ -9,7 +9,7 @@
 #include <inflection/dialog/SemanticFeature.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
 #include <inflection/dialog/SemanticFeatureModel_DisplayData.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dictionary/DictionaryMetaData.hpp>
 #include <inflection/grammar/synthesis/GrammarSynthesizerUtil.hpp>
 #include <inflection/grammar/synthesis/GrammemeConstants.hpp>
@@ -77,7 +77,7 @@ SvGrammarSynthesizer_SvDisplayFunction::~SvGrammarSynthesizer_SvDisplayFunction(
     return inflection;
 }
 
-::inflection::dialog::SemanticFeatureModel_DisplayValue * SvGrammarSynthesizer_SvDisplayFunction::getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool /*enableInflectionGuess*/) const
+::inflection::dialog::DisplayValue * SvGrammarSynthesizer_SvDisplayFunction::getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool /*enableInflectionGuess*/) const
 {
     ::std::u16string displayString;
     if (!displayData.getValues().empty()) {
@@ -92,7 +92,7 @@ SvGrammarSynthesizer_SvDisplayFunction::~SvGrammarSynthesizer_SvDisplayFunction(
         ::std::unique_ptr<::inflection::tokenizer::TokenChain> tokenChain(npc(npc(tokenizer.get())->createTokenChain(displayString)));
         displayString = inflectTokenChain(constraints, *npc(tokenChain.get()));
     }
-    return new ::inflection::dialog::SemanticFeatureModel_DisplayValue(displayString, constraints);
+    return new ::inflection::dialog::DisplayValue(displayString, constraints);
 }
 
 ::std::u16string SvGrammarSynthesizer_SvDisplayFunction::inflectTokenChain(const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, const ::inflection::tokenizer::TokenChain& tokenChain) const

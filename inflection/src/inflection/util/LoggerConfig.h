@@ -33,7 +33,9 @@ INFLECTION_CEND
 
 /**
  * Sets the desired level of logging.
- * @param error The provided error reference is allocated when the function failed.
+ * @param status Must be a valid pointer to an error code value,
+ *        which must not indicate a failure before the function call.
+ *        This is set to a failure when a failure has occurred during execution.
  */
 INFLECTION_CAPI void ilogc_setLogLevel(ILogLevel newLogLevel, UErrorCode* status);
 
@@ -44,7 +46,9 @@ INFLECTION_CAPI ILogLevel ilogc_getLogLevel();
 
 /**
  * When true, the C++ std::clog stream will be used to log all logging information from Inflection.
- * @param error The provided error reference is allocated when the function failed.
+ * @param status Must be a valid pointer to an error code value,
+ *        which must not indicate a failure before the function call.
+ *        This is set to a failure when a failure has occurred during execution.
  */
 INFLECTION_CAPI void ilogc_logToConsole(bool value, UErrorCode* status);
 
@@ -52,7 +56,9 @@ INFLECTION_CAPI void ilogc_logToConsole(bool value, UErrorCode* status);
  * Registers a callback for all logging events above the current log level.
  * @param context A unique pointer for containing a context.
  * @param loggerCallback The C callback function to call
- * @param error The provided error reference is allocated when the function failed.
+ * @param status Must be a valid pointer to an error code value,
+ *        which must not indicate a failure before the function call.
+ *        This is set to a failure when a failure has occurred during execution.
  * @return true if sucessfully added
  */
 INFLECTION_CAPI bool ilogc_registerLogger(void* context, ILoggerCallback loggerCallback, UErrorCode* status);
@@ -60,7 +66,9 @@ INFLECTION_CAPI bool ilogc_registerLogger(void* context, ILoggerCallback loggerC
 /**
  * Unregisters a callback for all logging events
  * @param context A unique pointer for containing a context.
- * @param error The provided error reference is allocated when the function failed.
+ * @param status Must be a valid pointer to an error code value,
+ *        which must not indicate a failure before the function call.
+ *        This is set to a failure when a failure has occurred during execution.
  * @return true if sucessfully removed
  */
 INFLECTION_CAPI bool ilogc_unregisterLogger(void* context, UErrorCode* status);

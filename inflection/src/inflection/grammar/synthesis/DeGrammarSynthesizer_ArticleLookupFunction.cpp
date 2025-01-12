@@ -10,7 +10,7 @@
 #include <inflection/util/LocaleUtils.hpp>
 #include <inflection/util/Validate.hpp>
 #include <inflection/dialog/SemanticFeature.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
 #include <inflection/dialog/SpeakableString.hpp>
 #include <inflection/grammar/synthesis/DeGrammarSynthesizer.hpp>
@@ -48,7 +48,7 @@ DeGrammarSynthesizer_ArticleLookupFunction::~DeGrammarSynthesizer_ArticleLookupF
 
 }
 
-inflection::dialog::SpeakableString* DeGrammarSynthesizer_ArticleLookupFunction::getFeatureValue(const ::inflection::dialog::SemanticFeatureModel_DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& /*constraints*/) const
+inflection::dialog::SpeakableString* DeGrammarSynthesizer_ArticleLookupFunction::getFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& /*constraints*/) const
 {
     auto lookupKey = getArticleKey(&displayValue);
     auto preposition = articleMap.find(lookupKey.value);
@@ -58,7 +58,7 @@ inflection::dialog::SpeakableString* DeGrammarSynthesizer_ArticleLookupFunction:
     return createPreposition(displayValue, ::std::u16string(preposition->second));
 }
 
-DeGrammarSynthesizer::LookupKey DeGrammarSynthesizer_ArticleLookupFunction::getArticleKey(const ::inflection::dialog::SemanticFeatureModel_DisplayValue* displayValue) const
+DeGrammarSynthesizer::LookupKey DeGrammarSynthesizer_ArticleLookupFunction::getArticleKey(const ::inflection::dialog::DisplayValue* displayValue) const
 {
     auto caseValue = DeGrammarSynthesizer::getCase(npc(displayValue)->getFeatureValue(*npc(caseFeature)));
     auto countValue = DeGrammarSynthesizer::getCount(npc(displayValue)->getFeatureValue(*npc(countFeature)));

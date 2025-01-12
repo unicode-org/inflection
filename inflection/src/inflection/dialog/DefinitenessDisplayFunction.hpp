@@ -25,14 +25,16 @@ private:
 
 private:
     static std::set<std::u16string> getArticles(const inflection::util::ULocale& locale, std::u16string_view featureName);
-    static int32_t getArticlePrefixLength(SemanticFeatureModel_DisplayValue* originalDisplayValue, const std::set<std::u16string>& articlesToRemove);
-    SemanticFeatureModel_DisplayValue* replaceDisplayValue(SemanticFeatureModel_DisplayValue* originalDisplayValue, const SpeakableString& string) const;
+    static int32_t getArticlePrefixLength(DisplayValue* originalDisplayValue, const std::set<std::u16string>& articlesToRemove);
+    DisplayValue* replaceDisplayValue(DisplayValue* originalDisplayValue, const SpeakableString& string) const;
 
 public:
-    virtual SemanticFeatureModel_DisplayValue* addDefiniteness(SemanticFeatureModel_DisplayValue* displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const;
+    virtual DisplayValue* addDefiniteness(DisplayValue* displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const;
 
 public:
     DefinitenessDisplayFunction(const ::inflection::dialog::SemanticFeatureModel& model, const ::inflection::dialog::DefaultFeatureFunction* definiteFeatureFunction, std::u16string_view definiteFeatureArticlesName, const ::inflection::dialog::DefaultFeatureFunction* indefiniteFeatureFunction, std::u16string_view indefiniteFeatureArticlesName);
     DefinitenessDisplayFunction(const ::inflection::dialog::SemanticFeatureModel& model, const ::std::u16string& definiteFeatureName, std::u16string_view definiteFeatureArticlesName, const ::std::u16string& indefiniteFeatureName, std::u16string_view indefiniteFeatureArticlesName);
     ~DefinitenessDisplayFunction() override;
+    DefinitenessDisplayFunction(const DefinitenessDisplayFunction&) = delete;
+    DefinitenessDisplayFunction& operator=(const DefinitenessDisplayFunction&) = delete;
 };

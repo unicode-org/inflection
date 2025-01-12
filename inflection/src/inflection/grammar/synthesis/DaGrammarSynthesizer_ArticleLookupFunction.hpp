@@ -25,8 +25,10 @@ private:
     ::inflection::dialog::DictionaryLookupFunction genderLookupFunction;
 
 public:
-    ::inflection::dialog::SpeakableString* getFeatureValue(const ::inflection::dialog::SemanticFeatureModel_DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const override;
+    ::inflection::dialog::SpeakableString* getFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const override;
 
     DaGrammarSynthesizer_ArticleLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model, bool includeSemanticValue, const ::std::u16string& singularCommonString, const ::std::u16string& singularNeuterString, const ::std::u16string& pluralString);
     DaGrammarSynthesizer_ArticleLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model, bool includeSemanticValue, const ::inflection::dialog::SpeakableString& singularCommonString, const ::inflection::dialog::SpeakableString& singularNeuterString, const ::inflection::dialog::SpeakableString& pluralString);
+    DaGrammarSynthesizer_ArticleLookupFunction(const DaGrammarSynthesizer_ArticleLookupFunction&) = delete;
+    DaGrammarSynthesizer_ArticleLookupFunction& operator=(const DaGrammarSynthesizer_ArticleLookupFunction&) = delete;
 };

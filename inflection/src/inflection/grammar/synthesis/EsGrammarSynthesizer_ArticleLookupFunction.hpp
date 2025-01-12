@@ -32,9 +32,11 @@ private:
     bool hasStressedSingularFeminineForm {  };
 
 public:
-    ::inflection::dialog::SpeakableString* getFeatureValue(const ::inflection::dialog::SemanticFeatureModel_DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const override;
+    ::inflection::dialog::SpeakableString* getFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const override;
     const char16_t* getDerivedSemanticName() const override;
     EsGrammarSynthesizer_ArticleLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model, const char16_t* derivedSemanticName, ::std::u16string_view defaultString, ::std::u16string_view singularMasculineString, ::std::u16string_view singularFeminineString, ::std::u16string_view pluralMasculineString, ::std::u16string_view pluralFeminineString, bool hasStressedSingularFeminineForm);
     EsGrammarSynthesizer_ArticleLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model, const char16_t* derivedSemanticName, ::std::u16string_view defaultString, ::std::u16string_view singularMasculineString, ::std::u16string_view singularFeminineString, ::std::u16string_view pluralMasculineString, ::std::u16string_view pluralFeminineString);
     EsGrammarSynthesizer_ArticleLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model, const char16_t* derivedSemanticName, const EsGrammarSynthesizer_ArticleLookupFunction& other);
+    EsGrammarSynthesizer_ArticleLookupFunction(const EsGrammarSynthesizer_ArticleLookupFunction&) = delete;
+    EsGrammarSynthesizer_ArticleLookupFunction& operator=(const EsGrammarSynthesizer_ArticleLookupFunction&) = delete;
 };

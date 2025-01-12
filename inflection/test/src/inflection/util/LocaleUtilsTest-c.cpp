@@ -8,25 +8,21 @@
 #include <inflection/util/ULocale.hpp>
 #include <inflection/npc.hpp>
 
-static void checkForSuccess(UErrorCode* status)
-{
-    REQUIRE(status != nullptr);
-    REQUIRE(U_SUCCESS(*status));
-}
-
 TEST_CASE("LocaleUtils-c#testSupportedLocaleList")
 {
     auto error = U_ZERO_ERROR;
-    auto supportedLocaleArray = iloc_getSupportedLocalesList(&error);
-    checkForSuccess(&error);
+    auto supportedLocaleEnum = iloc_getSupportedLocalesList(&error);
+    REQUIRE(U_SUCCESS(error));
     auto supportedLocaleSet(inflection::util::LocaleUtils::getSupportedLocaleList());
-    CFIndex supportedLocaleCount = CFArrayGetCount(supportedLocaleArray);
-    REQUIRE((CFIndex)supportedLocaleSet.size() == supportedLocaleCount);
+    auto supportedLocaleCount = uenum_count(supportedLocaleEnum, &error);
+    REQUIRE(U_SUCCESS(error));
+    REQUIRE((int32_t)supportedLocaleSet.size() == supportedLocaleCount);
 
     for (int32_t idx = 0; idx < supportedLocaleCount; ++idx) {
-        const char* locale = (const char*)CFArrayGetValueAtIndex(supportedLocaleArray, idx);
+        const char* locale = uenum_next(supportedLocaleEnum, nullptr, &error);
+        REQUIRE(U_SUCCESS(error));
         REQUIRE(supportedLocaleSet.find(inflection::util::ULocale(npc(locale))) != supportedLocaleSet.end());
     }
 
-    CFRelease(supportedLocaleArray);
+    uenum_close(supportedLocaleEnum);
 }

@@ -7,17 +7,17 @@
 #include <inflection/util/StringViewUtils.hpp>
 #include <inflection/util/LocaleUtils.hpp>
 #include <inflection/util/ULocale.hpp>
-#include <inflection/exception/StringIndexOutOfBoundsException.hpp>
+#include <inflection/exception/IndexOutOfBoundsException.hpp>
 #include <math.h>
 
 TEST_CASE("StringUtilsTest#codePointAt")
 {
     REQUIRE(inflection::util::StringViewUtils::codePointAt(u"123", 0) == u'1');
     REQUIRE(inflection::util::StringViewUtils::codePointAt(u"123", 2) == u'3');
-    REQUIRE_THROWS_AS(inflection::util::StringViewUtils::codePointAt(u"123", -1), ::inflection::exception::StringIndexOutOfBoundsException);
+    REQUIRE_THROWS_AS(inflection::util::StringViewUtils::codePointAt(u"123", -1), ::inflection::exception::IndexOutOfBoundsException);
     REQUIRE(inflection::util::StringViewUtils::codePointAt(u"\U00010000", 0) == 0x10000);
     REQUIRE(inflection::util::StringViewUtils::codePointAt(u"\U00010000", 1) == 0x10000);
-    REQUIRE_THROWS_AS(inflection::util::StringViewUtils::codePointAt(u"\U00010000", 2), ::inflection::exception::StringIndexOutOfBoundsException);
+    REQUIRE_THROWS_AS(inflection::util::StringViewUtils::codePointAt(u"\U00010000", 2), ::inflection::exception::IndexOutOfBoundsException);
 }
 
 TEST_CASE("StringUtilsTest#startsWith")

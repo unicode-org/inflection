@@ -7,25 +7,17 @@
 #include <inflection/dialog/CommonConceptFactory.h>
 #include <inflection/dialog/InflectableStringConcept.h>
 #include <inflection/dialog/LocalizedCommonConceptFactoryProvider.h>
-#include <inflection/util/LocaleUtils.h>
 #include <inflection/dialog/SpeakableString.hpp>
 #include <inflection/util/StringUtils.hpp>
 #include <inflection/util/LocaleUtils.hpp>
-#include <inflection/util/AutoCFRelease.hpp>
+#include <inflection/util/AutoCRelease.hpp>
 #include <inflection/npc.hpp>
 #include <string>
-#include "util/CFUtils.hpp"
-
+#include "util/StringContainer.hpp"
 
 typedef ::inflection::util::AutoCRelease<IDSpeakableString*, &iss_destroy> AutoSpeakableStringRelease;
 typedef ::inflection::util::AutoCRelease<IDNumberConcept*, &inum_destroy> AutoNumberconceptRelease;
 typedef ::inflection::util::AutoCRelease<IDInflectableStringConcept*, &iinf_destroy> AutoInflectableStringConceptRelease;
-
-static void checkForSuccess(UErrorCode* status)
-{
-    REQUIRE(status != nullptr);
-    REQUIRE(U_SUCCESS(*status));
-}
 
 static void checkForFailure(UErrorCode* status)
 {
@@ -38,9 +30,9 @@ const IDCommonConceptFactory* getCommonConceptFactory(const char* language)
 {
     auto error = U_ZERO_ERROR;
     auto ccfp = ilccfp_getDefaultCommonConceptFactoryProvider(&error);
-    checkForSuccess(&error);
+    REQUIRE(U_SUCCESS(error));
     auto ccf = ilccfp_getCommonConceptFactory(ccfp, language, &error);
-    checkForSuccess(&error);
+    REQUIRE(U_SUCCESS(error));
     return ccf;
 }
 
@@ -48,7 +40,7 @@ const IDSemanticFeatureModel* getSemanticFeatureModel(const IDCommonConceptFacto
 {
     auto error = U_ZERO_ERROR;
     auto model = iccf_getSemanticFeatureModel(conceptFactory, &error);
-    checkForSuccess(&error);
+    REQUIRE(U_SUCCESS(error));
     return model;
 }
 
@@ -56,7 +48,7 @@ IDInflectableStringConcept* toInflectableStringConcept(const IDCommonConceptFact
 {
     auto error = U_ZERO_ERROR;
     auto result = iinf_create(getSemanticFeatureModel(conceptFactory), phrase, &error);
-    checkForSuccess(&error);
+    REQUIRE(U_SUCCESS(error));
     return result;
 }
 
@@ -73,9 +65,9 @@ static void assertQuantity(const IDCommonConceptFactory* conceptFactory, const I
     auto error = U_ZERO_ERROR;
     auto language(iccf_getLanguage(conceptFactory, &error));
     AutoNumberconceptRelease numberConcept(inum_createFromInt64(count, language, language, &error));
-    checkForSuccess(&error);
+    REQUIRE(U_SUCCESS(error));
     AutoSpeakableStringRelease actualSpeakableString(iccf_quantifyCopy(conceptFactory, numberConcept.value, fromPhrase, &error));
-    checkForSuccess(&error);
+    REQUIRE(U_SUCCESS(error));
 
     compareSpeakableStrings(expected, actualSpeakableString.value);
 }
@@ -84,23 +76,23 @@ static void assertQuantity(const IDCommonConceptFactory* conceptFactory, const I
 {
     auto error = U_ZERO_ERROR;
     AutoInflectableStringConceptRelease fromPhrase(toInflectableStringConcept(conceptFactory, from));
-    checkForSuccess(&error);
+    REQUIRE(U_SUCCESS(error));
     auto fromPhraseSemanticFeatureConcept = iinf_toSemanticFeatureConcept(fromPhrase.value, &error);
-    checkForSuccess(&error);
+    REQUIRE(U_SUCCESS(error));
     assertQuantity(conceptFactory, expected, count, fromPhraseSemanticFeatureConcept);
 }
 
-static void assertQuantity(const IDCommonConceptFactory* conceptFactory, const IDSpeakableString* expected, int64_t count, const IDSpeakableString* from, CFStringRef caseString)
+static void assertQuantity(const IDCommonConceptFactory* conceptFactory, const IDSpeakableString* expected, int64_t count, const IDSpeakableString* from, const char16_t* caseString)
 {
     auto error = U_ZERO_ERROR;
     AutoInflectableStringConceptRelease fromPhrase(toInflectableStringConcept(conceptFactory, from));
-    checkForSuccess(&error);
+    REQUIRE(U_SUCCESS(error));
 
     auto fromPhraseSemanticFeatureConcept = iinf_toSemanticFeatureConcept(fromPhrase.value, &error);
-    checkForSuccess(&error);
+    REQUIRE(U_SUCCESS(error));
 
-    isfc_putConstraintByName(fromPhraseSemanticFeatureConcept, u"case", caseString, &error);
-    checkForSuccess(&error);
+    isfc_putConstraintByName(fromPhraseSemanticFeatureConcept, u"case", caseString, -1, &error);
+    REQUIRE(U_SUCCESS(error));
 
     assertQuantity(conceptFactory, expected, count, fromPhraseSemanticFeatureConcept);
 }
@@ -117,8 +109,7 @@ static void runTestCaseWithCaseString(const IDCommonConceptFactory* conceptFacto
     for (const auto &testCase: testCases) {
         AutoSpeakableStringRelease expected((IDSpeakableString *) new ::inflection::dialog::SpeakableString(::std::get<0>(testCase), ::std::get<1>(testCase)));
         AutoSpeakableStringRelease fromPhrase((IDSpeakableString *) new ::inflection::dialog::SpeakableString(::std::get<3>(testCase)));
-        inflection::util::AutoCFRelease<CFStringRef> caseString(::util::TypeConversionUtils::to_CFString(::std::get<4>(testCase)));
-        assertQuantity(conceptFactory, expected.value, ::std::get<2>(testCase), fromPhrase.value, caseString.value);
+        assertQuantity(conceptFactory, expected.value, ::std::get<2>(testCase), fromPhrase.value, ::std::get<4>(testCase));
     }
 }
 
@@ -147,12 +138,12 @@ TEST_CASE("QuantifyTest-c#testFailure")
     iccf_getLanguage(nullptr, &error);
     checkForFailure(&error);
 
-    inum_toStringCopy(nullptr, &error);
+    inum_toString(nullptr, nullptr, -1, &error);
     checkForFailure(&error);
 
-    inum_asWordsCopy(nullptr, &error);
+    inum_asWords(nullptr, nullptr, -1, &error);
     checkForFailure(&error);
-    inum_asWordsVariantCopy(nullptr, nullptr, &error);
+    inum_asWordsVariant(nullptr, nullptr, nullptr, -1, &error);
     checkForFailure(&error);
 
     inum_asSpokenWordsCopy(nullptr, &error);
@@ -163,10 +154,10 @@ TEST_CASE("QuantifyTest-c#testFailure")
     inum_asDigitsCopy(nullptr, &error);
     checkForFailure(&error);
 
-    inum_asOrdinalDigitsCopy(nullptr, &error);
+    inum_asOrdinalDigits(nullptr, nullptr, -1, &error);
     checkForFailure(&error);
 
-    inum_asOrginalDigitsVariantCopy(nullptr, nullptr, &error);
+    inum_asOrginalDigitsVariant(nullptr, nullptr, nullptr, -1, &error);
     checkForFailure(&error);
 
     inum_clone(nullptr, &error);
@@ -282,27 +273,25 @@ TEST_CASE("QuantifyTest-c#testExplicitNumber")
     auto locale = ::inflection::util::LocaleUtils::US().getName().c_str();
     auto const conceptFactory = getCommonConceptFactory(locale);
 
-    inflection::util::AutoCFRelease<CFStringRef> note(util::TypeConversionUtils::to_CFString(u"note"));
-    AutoSpeakableStringRelease phraseStr(iss_create(note.value, &error));
-    checkForSuccess(&error);
+    AutoSpeakableStringRelease phraseStr(iss_create(u"note", -1, &error));
+    REQUIRE(U_SUCCESS(error));
 
-    inflection::util::AutoCFRelease<CFStringRef> aCoupeOf(util::TypeConversionUtils::to_CFString(u"a couple of"));
-    AutoSpeakableStringRelease coupleStr(iss_create(aCoupeOf.value, &error));
-    checkForSuccess(&error);
+    AutoSpeakableStringRelease coupleStr(iss_create(u"a couple of", -1, &error));
+    REQUIRE(U_SUCCESS(error));
 
     AutoInflectableStringConceptRelease phrase(iinf_create(getSemanticFeatureModel(conceptFactory), phraseStr.value, &error));
-    checkForSuccess(&error);
+    REQUIRE(U_SUCCESS(error));
 
     auto phraseConcept = iinf_toSemanticFeatureConcept(phrase.value, &error);
 
     AutoNumberconceptRelease numberConcept(inum_createFromInt64(2, locale, locale, &error));
-    checkForSuccess(&error);
+    REQUIRE(U_SUCCESS(error));
 
     AutoSpeakableStringRelease actualSpeakableString(iccf_quantifyFormattedCopy(conceptFactory, numberConcept.value, coupleStr.value, phraseConcept, &error));
-    checkForSuccess(&error);
+    REQUIRE(U_SUCCESS(error));
 
-    inflection::util::AutoCFRelease<CFStringRef> printedResult(iss_createPrintCopy(actualSpeakableString.value, &error));
-    checkForSuccess(&error);
+    util::StringContainer<IDSpeakableString, iss_getPrint> printedResult(actualSpeakableString.value);
+    REQUIRE(U_SUCCESS(error));
 
-    CHECK("a couple of notes" == ::util::TypeConversionUtils::to_string(printedResult.value));
+    CHECK("a couple of notes" == ::inflection::util::StringUtils::to_string(printedResult.value));
 }

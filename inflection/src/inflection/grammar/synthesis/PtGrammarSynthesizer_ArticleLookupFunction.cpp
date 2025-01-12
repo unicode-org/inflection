@@ -7,7 +7,7 @@
 #include <inflection/tokenizer/TokenizerFactory.hpp>
 #include <inflection/dialog/SemanticFeature.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SpeakableString.hpp>
 #include <inflection/dictionary/DictionaryMetaData.hpp>
 #include <inflection/grammar/synthesis/GrammemeConstants.hpp>
@@ -51,7 +51,7 @@ PtGrammarSynthesizer_ArticleLookupFunction::~PtGrammarSynthesizer_ArticleLookupF
 {
 }
 
-inflection::dialog::SpeakableString* PtGrammarSynthesizer_ArticleLookupFunction::getFeatureValue(const ::inflection::dialog::SemanticFeatureModel_DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& /*constraints*/) const
+inflection::dialog::SpeakableString* PtGrammarSynthesizer_ArticleLookupFunction::getFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& /*constraints*/) const
 {
     if (derivedArticleFeature != nullptr) {
         auto featureValue = displayValue.getFeatureValue(*npc(derivedArticleFeature));

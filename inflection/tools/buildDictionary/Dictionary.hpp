@@ -30,7 +30,7 @@ private:
     ::std::map<int64_t, ::std::u16string_view> valueToType {  };
     ::std::map<std::u16string_view, int64_t> wordsToTypes {  };
     ::std::map<::std::u16string_view, ::std::map<::std::u16string_view, ::std::vector<::std::u16string_view>>> wordToPropertyValue {  };
-    ::std::unordered_map<::std::u16string_view, char16_t*> stringSingletons;
+    ::std::unordered_map<::std::u16string_view, char16_t*> stringSingletons {  };
 
     /**
      * The first prime below an order of magnitude of 2^n that is a reasonable default starting size for a hash map.

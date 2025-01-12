@@ -6,7 +6,7 @@
 #include <inflection/grammar/synthesis/GrammemeConstants.hpp>
 #include <inflection/dictionary/PhraseProperties.hpp>
 #include <inflection/dialog/SemanticFeature.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SpeakableString.hpp>
 #include <inflection/resources/DataResource.hpp>
 #include <inflection/util/DelimitedStringIterator.hpp>
@@ -32,7 +32,7 @@ EnGrammarSynthesizer_CaseLookupFunction::EnGrammarSynthesizer_CaseLookupFunction
     }
 }
 
-inflection::dialog::SpeakableString* EnGrammarSynthesizer_CaseLookupFunction::getFeatureValue(const ::inflection::dialog::SemanticFeatureModel_DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& /*constraints*/) const
+inflection::dialog::SpeakableString* EnGrammarSynthesizer_CaseLookupFunction::getFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& /*constraints*/) const
 {
     std::u16string displayString;
     ::inflection::util::StringViewUtils::lowercase(&displayString, displayValue.getDisplayString(), ::inflection::util::LocaleUtils::ENGLISH());

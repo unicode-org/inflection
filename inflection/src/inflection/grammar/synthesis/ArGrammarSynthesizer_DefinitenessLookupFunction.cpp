@@ -8,7 +8,7 @@
 
 #include <inflection/grammar/synthesis/GrammemeConstants.hpp>
 #include <inflection/dialog/SemanticFeature.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SpeakableString.hpp>
 #include <inflection/util/LocaleUtils.hpp>
 #include <inflection/util/StringViewUtils.hpp>
@@ -37,7 +37,7 @@ ArGrammarSynthesizer_DefinitenessLookupFunction::ArGrammarSynthesizer_Definitene
     Validate::notNull(getDictionary().getBinaryProperties(&definitenessMask, DEFINITENESS_VALUES()));
 }
 
-SpeakableString* ArGrammarSynthesizer_DefinitenessLookupFunction::getFeatureValue(const ::inflection::dialog::SemanticFeatureModel_DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& /*constraints*/) const {
+SpeakableString* ArGrammarSynthesizer_DefinitenessLookupFunction::getFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& /*constraints*/) const {
     const auto& displayString = displayValue.getDisplayString();
     const auto &dictionary = getDictionary();
     // Return nullptr for empty string

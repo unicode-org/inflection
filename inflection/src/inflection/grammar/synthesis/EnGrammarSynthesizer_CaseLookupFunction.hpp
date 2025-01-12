@@ -19,7 +19,9 @@ private:
     ::std::set<::std::u16string> contractions {  };
 
 public:
-    ::inflection::dialog::SpeakableString* getFeatureValue(const ::inflection::dialog::SemanticFeatureModel_DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const override;
+    ::inflection::dialog::SpeakableString* getFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const override;
 
     EnGrammarSynthesizer_CaseLookupFunction();
+    EnGrammarSynthesizer_CaseLookupFunction(const EnGrammarSynthesizer_CaseLookupFunction&) = delete;
+    EnGrammarSynthesizer_CaseLookupFunction& operator=(const EnGrammarSynthesizer_CaseLookupFunction&) = delete;
 };

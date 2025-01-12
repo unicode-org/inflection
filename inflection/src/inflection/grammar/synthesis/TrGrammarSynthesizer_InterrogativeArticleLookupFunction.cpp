@@ -3,7 +3,7 @@
  */
 #include <inflection/grammar/synthesis/TrGrammarSynthesizer_InterrogativeArticleLookupFunction.hpp>
 
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SpeakableString.hpp>
 #include <inflection/grammar/synthesis/TrGrammarSynthesizer.hpp>
 #include <inflection/grammar/synthesis/TrGrammarSynthesizer_TrDisplayFunction.hpp>
@@ -17,7 +17,7 @@ TrGrammarSynthesizer_InterrogativeArticleLookupFunction::TrGrammarSynthesizer_In
 {
 }
 
-inflection::dialog::SpeakableString* TrGrammarSynthesizer_InterrogativeArticleLookupFunction::getFeatureValue(const ::inflection::dialog::SemanticFeatureModel_DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& /*constraints*/) const
+inflection::dialog::SpeakableString* TrGrammarSynthesizer_InterrogativeArticleLookupFunction::getFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& /*constraints*/) const
 {
     const auto& displayString = displayValue.getDisplayString();
     auto vowGroup = npc(displayFunction)->getVowelGroup(displayString);

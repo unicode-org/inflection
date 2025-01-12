@@ -25,8 +25,6 @@ public:
 
     explicit HiGrammarSynthesizer_GenderLookupFunction();
     ~HiGrammarSynthesizer_GenderLookupFunction() override;
-
-private:
-    HiGrammarSynthesizer_GenderLookupFunction(HiGrammarSynthesizer_GenderLookupFunction&) = delete;
+    HiGrammarSynthesizer_GenderLookupFunction(const HiGrammarSynthesizer_GenderLookupFunction&) = delete;
     HiGrammarSynthesizer_GenderLookupFunction& operator=(const HiGrammarSynthesizer_GenderLookupFunction&) = delete;
 };

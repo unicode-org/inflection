@@ -20,4 +20,6 @@ public:
     ::std::u16string determine(const ::std::u16string& word) const override;
 
     HeGrammarSynthesizer_DefinitenessLookupFunction();
+    HeGrammarSynthesizer_DefinitenessLookupFunction(const HeGrammarSynthesizer_DefinitenessLookupFunction&) = delete;
+    HeGrammarSynthesizer_DefinitenessLookupFunction& operator=(const HeGrammarSynthesizer_DefinitenessLookupFunction&) = delete;
 };

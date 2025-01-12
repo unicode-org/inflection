@@ -8,7 +8,7 @@
 #include <inflection/util/LocaleUtils.hpp>
 #include <inflection/util/StringViewUtils.hpp>
 #include <inflection/dialog/SemanticFeature.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
 #include <inflection/dialog/SpeakableString.hpp>
 #include <inflection/npc.hpp>
@@ -21,7 +21,7 @@ EnGrammarSynthesizer_ArticleLookupFunction::EnGrammarSynthesizer_ArticleLookupFu
 {
 }
 
-inflection::dialog::SpeakableString* EnGrammarSynthesizer_ArticleLookupFunction::getFeatureValue(const ::inflection::dialog::SemanticFeatureModel_DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& /*constraints*/) const
+inflection::dialog::SpeakableString* EnGrammarSynthesizer_ArticleLookupFunction::getFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& /*constraints*/) const
 {
     if (derivedArticleFeature != nullptr) {
         auto featureValue = displayValue.getFeatureValue(*npc(derivedArticleFeature));

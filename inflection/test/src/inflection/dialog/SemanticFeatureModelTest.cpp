@@ -7,7 +7,7 @@
 #include <inflection/dialog/SemanticConcept.hpp>
 #include <inflection/dialog/SemanticFeature.hpp>
 #include <inflection/dialog/SemanticFeatureModel_DisplayData.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
 #include <inflection/lang/features/LanguageGrammarFeatures.hpp>
 #include <inflection/util/DelimitedStringIterator.hpp>
@@ -42,16 +42,16 @@ TEST_CASE("SemanticFeatureModelTest#testEquality")
     ::std::map<::inflection::dialog::SemanticValue, ::inflection::dialog::SemanticFeatureModel_DisplayData> semanticValueMap({
         {::inflection::dialog::SemanticValue(u"default", u"val1"), ::inflection::dialog::SemanticFeatureModel_DisplayData({})},
         {::inflection::dialog::SemanticValue(u"default", u"val2"), ::inflection::dialog::SemanticFeatureModel_DisplayData({
-            ::inflection::dialog::SemanticFeatureModel_DisplayValue(u"val2.1", createConstraints(&originalModel, {u"number=singular"})),
-            ::inflection::dialog::SemanticFeatureModel_DisplayValue(u"val2.2", createConstraints(&originalModel, {u"number=plural"}))
+            ::inflection::dialog::DisplayValue(u"val2.1", createConstraints(&originalModel, {u"number=singular"})),
+            ::inflection::dialog::DisplayValue(u"val2.2", createConstraints(&originalModel, {u"number=plural"}))
         })},
         {::inflection::dialog::SemanticValue(u"default", u"val3"), ::inflection::dialog::SemanticFeatureModel_DisplayData({
-            ::inflection::dialog::SemanticFeatureModel_DisplayValue(u"val2.1", createConstraints(&originalModel, {u"number=singular"})),
-            ::inflection::dialog::SemanticFeatureModel_DisplayValue(u"val2.2", createConstraints(&originalModel, {u"number=plural"}))
+            ::inflection::dialog::DisplayValue(u"val2.1", createConstraints(&originalModel, {u"number=singular"})),
+            ::inflection::dialog::DisplayValue(u"val2.2", createConstraints(&originalModel, {u"number=plural"}))
         })},
         {::inflection::dialog::SemanticValue(u"default", u"val4"), ::inflection::dialog::SemanticFeatureModel_DisplayData({
-            ::inflection::dialog::SemanticFeatureModel_DisplayValue(u"val2.1", createConstraints(&originalModel, {})),
-            ::inflection::dialog::SemanticFeatureModel_DisplayValue(u"val2.2", createConstraints(&originalModel, {}))
+            ::inflection::dialog::DisplayValue(u"val2.1", createConstraints(&originalModel, {})),
+            ::inflection::dialog::DisplayValue(u"val2.2", createConstraints(&originalModel, {}))
         })},
     });
     REQUIRE(semanticValueMap.find(::inflection::dialog::SemanticValue(u"default", u"val1"))->second == semanticValueMap.find(::inflection::dialog::SemanticValue(u"default", u"val1"))->second);

@@ -17,7 +17,9 @@ private:
     const TrGrammarSynthesizer_TrDisplayFunction* displayFunction {  };
 
 public:
-    ::inflection::dialog::SpeakableString* getFeatureValue(const ::inflection::dialog::SemanticFeatureModel_DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const override;
+    ::inflection::dialog::SpeakableString* getFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const override;
 
     TrGrammarSynthesizer_InterrogativeArticleLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model, const TrGrammarSynthesizer_TrDisplayFunction* displayFunctionUtility);
+    TrGrammarSynthesizer_InterrogativeArticleLookupFunction(const TrGrammarSynthesizer_InterrogativeArticleLookupFunction&) = delete;
+    TrGrammarSynthesizer_InterrogativeArticleLookupFunction& operator=(const TrGrammarSynthesizer_InterrogativeArticleLookupFunction&) = delete;
 };

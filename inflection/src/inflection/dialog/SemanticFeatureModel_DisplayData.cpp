@@ -3,11 +3,11 @@
  */
 #include <inflection/dialog/SemanticFeatureModel_DisplayData.hpp>
 
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 
 namespace inflection::dialog {
 
-SemanticFeatureModel_DisplayData::SemanticFeatureModel_DisplayData(const ::std::vector<SemanticFeatureModel_DisplayValue>& displayValues)
+SemanticFeatureModel_DisplayData::SemanticFeatureModel_DisplayData(const ::std::vector<DisplayValue>& displayValues)
     : super()
     , allValues(displayValues)
 {
@@ -17,7 +17,7 @@ SemanticFeatureModel_DisplayData::~SemanticFeatureModel_DisplayData()
 {
 }
 
-const ::std::vector<SemanticFeatureModel_DisplayValue>& SemanticFeatureModel_DisplayData::getValues() const
+const ::std::vector<DisplayValue>& SemanticFeatureModel_DisplayData::getValues() const
 {
     return allValues;
 }

@@ -20,7 +20,9 @@ private:
     ::std::u16string articleSpacedPrefix {  };
 
 public:
-    ::inflection::dialog::SpeakableString* getFeatureValue(const ::inflection::dialog::SemanticFeatureModel_DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const override;
+    ::inflection::dialog::SpeakableString* getFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const override;
 
     StaticArticleLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model, const char16_t* derivedSemanticName, const char16_t* articlePrefix);
+    StaticArticleLookupFunction(const StaticArticleLookupFunction&) = delete;
+    StaticArticleLookupFunction& operator=(const StaticArticleLookupFunction&) = delete;
 };

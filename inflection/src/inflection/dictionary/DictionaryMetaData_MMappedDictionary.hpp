@@ -58,7 +58,7 @@ public:
 private:
     int16_t options {  };
     ::inflection::util::ULocale locale;
-    ::inflection::dictionary::metadata::StringArrayContainer typesStringContainer;
+    ::inflection::dictionary::metadata::StringArrayContainer typesStringContainer {  };
     int8_t bitsTypesSingletons {  };
     int8_t bitsPropertyMapId {  };
     int8_t bitsPropertyValueMapKey {  };

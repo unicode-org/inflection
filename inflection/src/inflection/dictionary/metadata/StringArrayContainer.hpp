@@ -39,6 +39,6 @@ public:
     StringArrayContainer();
     ~StringArrayContainer();
 private:
-    StringArrayContainer(StringArrayContainer& other) = delete;
+    StringArrayContainer(const StringArrayContainer& other) = delete;
     StringArrayContainer& operator=(const StringArrayContainer& other) = delete;
 };

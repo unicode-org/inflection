@@ -46,12 +46,11 @@ private:
     ::std::optional<::std::u16string> inflectCompoundWord(const ::inflection::tokenizer::TokenChain& tokenChain, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const;
 
 public:
-    ::inflection::dialog::SemanticFeatureModel_DisplayValue *getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const override;
+    ::inflection::dialog::DisplayValue *getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const override;
 
 public: /* package */
     explicit EsGrammarSynthesizer_EsDisplayFunction(const ::inflection::dialog::SemanticFeatureModel& model);
     ~EsGrammarSynthesizer_EsDisplayFunction() override;
-
-private:
     EsGrammarSynthesizer_EsDisplayFunction(const EsGrammarSynthesizer_EsDisplayFunction&) = delete;
+    EsGrammarSynthesizer_EsDisplayFunction& operator=(const EsGrammarSynthesizer_EsDisplayFunction&) = delete;
 };

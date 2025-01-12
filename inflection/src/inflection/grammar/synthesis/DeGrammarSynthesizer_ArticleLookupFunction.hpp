@@ -34,19 +34,16 @@ private:
     const ::std::unique_ptr<::inflection::tokenizer::Tokenizer> tokenizer;
 
 public:
-    ::inflection::dialog::SpeakableString* getFeatureValue(const ::inflection::dialog::SemanticFeatureModel_DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const override;
+    ::inflection::dialog::SpeakableString* getFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const override;
 
 private:
-    ::inflection::grammar::synthesis::DeGrammarSynthesizer::LookupKey getArticleKey(const ::inflection::dialog::SemanticFeatureModel_DisplayValue* displayValue) const;
+    ::inflection::grammar::synthesis::DeGrammarSynthesizer::LookupKey getArticleKey(const ::inflection::dialog::DisplayValue* displayValue) const;
 
 
 public:
     DeGrammarSynthesizer_ArticleLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model, bool includeSemanticValue, const ::std::map<int32_t, ::std::u16string_view>& articleMap);
     DeGrammarSynthesizer_ArticleLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model, bool includeSemanticValue, const DeGrammarSynthesizer_ArticleLookupFunction& other);
     ~DeGrammarSynthesizer_ArticleLookupFunction() override;
-
-
-private:
-    DeGrammarSynthesizer_ArticleLookupFunction(DeGrammarSynthesizer_ArticleLookupFunction&) = delete;
-    DeGrammarSynthesizer_ArticleLookupFunction& operator=(const DeGrammarSynthesizer_ArticleLookupFunction &) = delete;
+    DeGrammarSynthesizer_ArticleLookupFunction(const DeGrammarSynthesizer_ArticleLookupFunction&) = delete;
+    DeGrammarSynthesizer_ArticleLookupFunction& operator=(const DeGrammarSynthesizer_ArticleLookupFunction&) = delete;
 };

@@ -32,7 +32,11 @@ public:
     explicit CompressedArray(::inflection::util::MemoryMappedFile* mappedFile);
     CompressedArray(int32_t wordWidth, int32_t arraySize);
     explicit CompressedArray(const ::std::vector<T>& input);
-    ~CompressedArray();
+    ~CompressedArray() {
+        if (ownData) {
+            delete[] data;
+        }
+    }
 
 private:
     int32_t dataArrayLength {  };
@@ -107,13 +111,6 @@ inflection::dictionary::metadata::CompressedArray<T>::CompressedArray(const ::st
     const int32_t arraySize = (int32_t)input.size();
     for (int32_t i = 0; i < arraySize; i++) {
         write(i, input[i]);
-    }
-}
-
-template<typename T>
-inflection::dictionary::metadata::CompressedArray<T>::~CompressedArray() {
-    if (ownData) {
-        delete[] data;
     }
 }
 

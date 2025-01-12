@@ -13,6 +13,6 @@ class INFLECTION_INTERNAL_API inflection::dialog::DefaultFeatureFunction
     : public virtual ::inflection::Object
 {
 public:
-    virtual SpeakableString* getFeatureValue(const ::inflection::dialog::SemanticFeatureModel_DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const = 0;
+    virtual SpeakableString* getFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const = 0;
     ~DefaultFeatureFunction() override;
 };

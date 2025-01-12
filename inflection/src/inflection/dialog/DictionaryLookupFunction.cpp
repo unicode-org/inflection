@@ -4,7 +4,7 @@
 #include <inflection/npc.hpp>
 #include <inflection/dialog/DictionaryLookupFunction.hpp>
 
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SpeakableString.hpp>
 #include <inflection/dictionary/DictionaryMetaData.hpp>
 #include <inflection/util/Validate.hpp>
@@ -116,7 +116,7 @@ void DictionaryLookupFunction::getImportantTokens(const ::inflection::tokenizer:
     }
 }
 
-SpeakableString* DictionaryLookupFunction::getFeatureValue(const SemanticFeatureModel_DisplayValue& displayValue, const ::std::map<SemanticFeature, ::std::u16string>& /*constraints*/) const
+SpeakableString* DictionaryLookupFunction::getFeatureValue(const DisplayValue& displayValue, const ::std::map<SemanticFeature, ::std::u16string>& /*constraints*/) const
 {
     const auto& displayString = displayValue.getDisplayString();
     auto result = determine(displayString);

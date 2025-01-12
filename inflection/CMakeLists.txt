@@ -25,9 +25,6 @@ inflection_debug_vars(NUM_PROCESSORS_VAL)
 
 # Unicode Inflection cache variables
 set(NUM_PROCESSORS             ${NUM_PROCESSORS_VAL} CACHE STRING   "Number of cores to be used in make")
-if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-    set(CXX_STD_LIB_FLAG       -stdlib=libc++        CACHE STRING   "C++ Standard library to link against")
-endif()
 
 # Morphun options
 option(PROFILING "Turn on code profiling" OFF)
@@ -98,9 +95,6 @@ target_include_directories(xml2 INTERFACE ${CMAKE_OSX_SYSROOT}/usr/include/libxm
 
 # Runs Unicode Inflection unit tests: "make check"
 set(DYLD_LIBRARY_PATH ${ICU_LIB_DIRECTORY}:$<TARGET_FILE_DIR:inflection>)
-if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-    set(DYLD_LIBRARY_PATH ${DYLD_LIBRARY_PATH}:$<TARGET_PROPERTY:CoreFoundation,INTERFACE_LINK_DIRECTORIES>)
-endif()
 
 add_subdirectory(ext EXCLUDE_FROM_ALL)
 add_subdirectory(tools EXCLUDE_FROM_ALL)
@@ -123,9 +117,9 @@ add_custom_target(list-commands
 make list-commands          : Shows this message\\n\\n\
 make check                  : Runs unit tests\\n\
 make check-headers          : Tests whether all exported headers can be compiled independently.\\n\
-make inflection            : Builds the shared library.\\n\
-make inflection-headers    : Copy all inflection public headers to <build>/inflection_headers.\\n\
-make inflection-data       : Generate all inflection data under <build>/inflection_data.\\n\
+make inflection             : Builds the shared library.\\n\
+make inflection-headers     : Copy all inflection public headers to <build>/inflection_headers.\\n\
+make inflection-data        : Generate all inflection data under <build>/inflection_data.\\n\
 make dist                   : Builds inflection, the headers, and the data.\\n\
 make coverage               : Generates code coverage using sonar-scanner\\n\
 make generate-coverage-csv  : Generates code coverage as a csv\\n\

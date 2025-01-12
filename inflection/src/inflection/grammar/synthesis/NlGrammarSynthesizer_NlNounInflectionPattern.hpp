@@ -26,4 +26,6 @@ public:
 
 public: /* package */
     explicit NlGrammarSynthesizer_NlNounInflectionPattern(const ::inflection::dialog::SemanticFeatureModel& model);
+    NlGrammarSynthesizer_NlNounInflectionPattern(const NlGrammarSynthesizer_NlNounInflectionPattern&) = delete;
+    NlGrammarSynthesizer_NlNounInflectionPattern& operator=(const NlGrammarSynthesizer_NlNounInflectionPattern&) = delete;
 };

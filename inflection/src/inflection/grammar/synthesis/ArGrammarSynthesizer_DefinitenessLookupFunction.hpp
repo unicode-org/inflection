@@ -21,9 +21,11 @@ private:
     ::std::map<int32_t, ::std::u16string_view> pronounMap {  };
 
 public:
-    ::inflection::dialog::SpeakableString* getFeatureValue(const ::inflection::dialog::SemanticFeatureModel_DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const override;
+    ::inflection::dialog::SpeakableString* getFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const override;
 
     ArGrammarSynthesizer_DefinitenessLookupFunction(const ::std::map<int32_t, ::std::u16string_view>& pronounMap);
+    ArGrammarSynthesizer_DefinitenessLookupFunction(const ArGrammarSynthesizer_DefinitenessLookupFunction&) = delete;
+    ArGrammarSynthesizer_DefinitenessLookupFunction& operator=(const ArGrammarSynthesizer_DefinitenessLookupFunction&) = delete;
 
 private:
     int64_t properNounMask = 0;

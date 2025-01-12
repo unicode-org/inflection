@@ -1,7 +1,7 @@
 /*
  * Copyright 2016-2024 Apple Inc. All rights reserved.
  */
-#include <inflection/util/AutoCFRelease.hpp>
+#include <inflection/util/AutoCRelease.hpp>
 #include <inflection/util/Logger.hpp>
 #include <inflection/util/LoggerConfig.hpp>
 #include <inflection/util/StringViewUtils.hpp>
@@ -12,16 +12,11 @@
 
 #if defined(__APPLE__) && defined(__MACH__)
 #include <os/log.h>
-#include <CoreFoundation/CFURL.h>
-#include <CoreFoundation/CFDictionary.h>
-#include <CoreFoundation/CFPropertyList.h>
-#include <CoreFoundation/CFStream.h>
-#include <inflection/util/TypeConversionUtils.hpp>
 
 namespace inflection::util {
 
 static os_log_t getOSLog() {
-    static auto log = os_log_create("com.apple.inflection", "libinflection");
+    static auto log = os_log_create("org.unicode.inflection", "libinflection");
     return log;
 }
 
@@ -69,37 +64,10 @@ static ::std::u16string generatePlatformString()
 {
     ::std::u16string result;
 
-#if defined(__APPLE__) && defined(__MACH__)
-    // Add the product name (macOS, iOS, etc.) and product version from Apple operating systems
-    AutoCFRelease<CFURLRef> systemVersionURL(CFURLCreateWithFileSystemPath(kCFAllocatorDefault, CFSTR("/System/Library/CoreServices/SystemVersion.plist"), kCFURLPOSIXPathStyle, false));
-    if (systemVersionURL) {
-        AutoCFRelease<CFMutableDictionaryRef> systemVersionDict(CFDictionaryCreateMutable(kCFAllocatorDefault, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks));
-        if (systemVersionDict) {
-            AutoCFRelease<CFReadStreamRef> stream(CFReadStreamCreateWithFile(kCFAllocatorDefault, systemVersionURL.value));
-            if (stream) {
-                if (CFReadStreamOpen(stream.value)) {
-                    AutoCFRelease<CFPropertyListRef> systemVersionPropertyList(CFPropertyListCreateWithStream(kCFAllocatorDefault, stream.value, 0, kCFPropertyListImmutable, nullptr, nullptr));
-                    if (CFGetTypeID(systemVersionPropertyList.value) == CFDictionaryGetTypeID()) {
-                        auto value = (CFStringRef)CFDictionaryGetValue((CFDictionaryRef)systemVersionPropertyList.value, CFSTR("ProductName"));
-                        if (value != nullptr) {
-                            result += TypeConversionUtils::to_u16string(value);
-                        }
-                        value = (CFStringRef)CFDictionaryGetValue((CFDictionaryRef)systemVersionPropertyList.value, CFSTR("ProductVersion"));
-                        if (value != nullptr) {
-                            result += u"-" + TypeConversionUtils::to_u16string(value);
-                        }
-                    }
-                }
-                CFReadStreamClose(stream.value);
-            }
-        }
-    }
-#endif
-
-    struct utsname sysinfo;
+    struct utsname sysinfo = {};
     if (uname(&sysinfo) == 0) {
         if (result.empty()) {
-            // Either we failed to get the version information from an Apple OS or it's another OS.
+            // The default implementation.
             result = StringViewUtils::to_u16string(sysinfo.sysname)
                     + u"-" + StringViewUtils::to_u16string(sysinfo.release);
         }

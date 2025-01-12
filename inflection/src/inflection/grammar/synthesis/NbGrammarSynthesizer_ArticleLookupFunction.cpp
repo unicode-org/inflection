@@ -4,7 +4,7 @@
 #include <inflection/grammar/synthesis/NbGrammarSynthesizer_ArticleLookupFunction.hpp>
 
 #include <inflection/dialog/SemanticFeature.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
 #include <inflection/dialog/SpeakableString.hpp>
 #include <inflection/grammar/synthesis/GrammemeConstants.hpp>
@@ -28,7 +28,7 @@ NbGrammarSynthesizer_ArticleLookupFunction::NbGrammarSynthesizer_ArticleLookupFu
     this->countFeature = model.getFeature(GrammemeConstants::NUMBER);
 }
 
-inflection::dialog::SpeakableString* NbGrammarSynthesizer_ArticleLookupFunction::getFeatureValue(const ::inflection::dialog::SemanticFeatureModel_DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const
+inflection::dialog::SpeakableString* NbGrammarSynthesizer_ArticleLookupFunction::getFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const
 {
     auto countValue = NbGrammarSynthesizer::getCount(displayValue.getFeatureValue(*npc(countFeature)));
     if (NbGrammarSynthesizer::Count::UNDEFINED == countValue) {

@@ -6,7 +6,7 @@
 #include <inflection/lang/features/LanguageGrammarFeatures.hpp>
 #include <inflection/util/ULocale.hpp>
 #include <inflection/dialog/SemanticFeature.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
 #include <inflection/dialog/SpeakableString.hpp>
 #include <inflection/npc.hpp>
@@ -21,7 +21,7 @@ DefaultArticleLookupFunction::DefaultArticleLookupFunction(const SemanticFeature
 {
 }
 
-SpeakableString* DefaultArticleLookupFunction::createPreposition(const SemanticFeatureModel_DisplayValue& displayValue, const ::std::u16string& article) const
+SpeakableString* DefaultArticleLookupFunction::createPreposition(const DisplayValue& displayValue, const ::std::u16string& article) const
 {
     if (!includeSemanticValue) {
         return new SpeakableString(article);
@@ -38,7 +38,7 @@ SpeakableString* DefaultArticleLookupFunction::createPreposition(const SemanticF
     return new SpeakableString(SpeakableString(article) + SpeakableString(displayString, speakableValue));
 }
 
-SpeakableString* DefaultArticleLookupFunction::createPreposition(const SemanticFeatureModel_DisplayValue& displayValue, const SpeakableString& article) const
+SpeakableString* DefaultArticleLookupFunction::createPreposition(const DisplayValue& displayValue, const SpeakableString& article) const
 {
     if (!includeSemanticValue) {
         return new SpeakableString(article);
@@ -55,7 +55,7 @@ SpeakableString* DefaultArticleLookupFunction::createPreposition(const SemanticF
     return new SpeakableString(SpeakableString(article) + SpeakableString(displayString, speakableValue));
 }
 
-SpeakableString* DefaultArticleLookupFunction::createPostposition(const SemanticFeatureModel_DisplayValue& displayValue, const ::std::u16string& article) const
+SpeakableString* DefaultArticleLookupFunction::createPostposition(const DisplayValue& displayValue, const ::std::u16string& article) const
 {
     if (!includeSemanticValue) {
         return new SpeakableString(article);

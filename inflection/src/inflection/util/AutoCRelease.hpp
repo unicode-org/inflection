@@ -4,7 +4,6 @@
 #pragma once
 
 #include <inflection/util/fwd.hpp>
-#include <CoreFoundation/CFBase.h>
 
 namespace inflection::util {
     template <class T, auto Destroy>
@@ -38,7 +37,4 @@ namespace inflection::util {
         AutoCRelease(const AutoCRelease&) = delete;
         AutoCRelease& operator=(const AutoCRelease&) = delete;
     };
-
-    template <class T>
-    using AutoCFRelease = inflection::util::AutoCRelease<T, &CFRelease>;
 }

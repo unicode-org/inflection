@@ -24,8 +24,8 @@ public:
 
 private:
     const ::std::unique_ptr<::inflection::tokenizer::Tokenizer> tokenizer;
-    ::inflection::analysis::RussianExposableMorphology russianMorphology;
-    ::icu4cxx::UnicodeSet nonRussianCyrillicChars;
+    ::inflection::analysis::RussianExposableMorphology russianMorphology {  };
+    ::icu4cxx::UnicodeSet nonRussianCyrillicChars {  };
 
     const ::inflection::dialog::SemanticFeature& caseFeature;
     const ::inflection::dialog::SemanticFeature& countFeature;
@@ -37,10 +37,12 @@ private:
     ::std::u16string inflectWithML(const ::std::u16string& inputString, const ::inflection::tokenizer::TokenChain& words, ::std::u16string_view caseString, ::std::u16string_view countString, ::std::u16string_view genderString, ::std::u16string_view animacyString) const;
 
 public:
-    ::inflection::dialog::SemanticFeatureModel_DisplayValue *getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const override;
+    ::inflection::dialog::DisplayValue *getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const override;
 
 public: /* package */
 
     explicit RuGrammarSynthesizer_RuDisplayFunction(const ::inflection::dialog::SemanticFeatureModel& model);
     ~RuGrammarSynthesizer_RuDisplayFunction() override;
+    RuGrammarSynthesizer_RuDisplayFunction(const RuGrammarSynthesizer_RuDisplayFunction&) = delete;
+    RuGrammarSynthesizer_RuDisplayFunction& operator=(const RuGrammarSynthesizer_RuDisplayFunction&) = delete;
 };

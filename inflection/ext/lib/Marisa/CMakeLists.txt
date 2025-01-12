@@ -24,12 +24,14 @@ if(DEFINED ENV{MARISA_ROOT})
     set(PUBLIC_HEADERS_PATH ${MARISA_ROOT}/include)
 else()
 
-    file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/marisa-trie)
     set(ARTIFACT "v${MARISA_VERSION}.tar.gz")
     ExternalProject_Add(marisa-trie-download
             URL https://github.com/s-yata/marisa-trie/archive/refs/tags/v${MARISA_VERSION}.tar.gz
-            BUILD_COMMAND tar xzof <DOWNLOAD_DIR>/${ARTIFACT} -C ${CMAKE_CURRENT_BINARY_DIR}/marisa-trie --strip-components=1
-            CONFIGURE_COMMAND "" INSTALL_COMMAND "" LOG_DOWNLOAD ON EXCLUDE_FROM_ALL TRUE DOWNLOAD_NO_EXTRACT TRUE
+            # This patch is needed to address weak vtables, which is an issue when using full link time optimization.
+            # The patch may need to be updated if another version is created or additional patches are needed.
+            BUILD_COMMAND ${CMAKE_CURRENT_LIST_DIR}/patch.sh ${CMAKE_CURRENT_BINARY_DIR}/marisa-trie ${CMAKE_CURRENT_LIST_DIR}/Exception.patch
+            CONFIGURE_COMMAND "" INSTALL_COMMAND "" LOG_DOWNLOAD ON EXCLUDE_FROM_ALL TRUE
+            SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/marisa-trie
     )
     list(TRANSFORM MARISA_SOURCES PREPEND ${CMAKE_CURRENT_BINARY_DIR}/marisa-trie/lib/marisa/)
     set(PRIVATE_HEADERS_PATH ${CMAKE_CURRENT_BINARY_DIR}/marisa-trie/lib)

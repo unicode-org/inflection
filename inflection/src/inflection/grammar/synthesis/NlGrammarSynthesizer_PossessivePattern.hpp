@@ -30,6 +30,8 @@ private:
 
 public: /* package */
     explicit NlGrammarSynthesizer_PossessivePattern(const ::inflection::dialog::SemanticFeatureModel& model);
+    NlGrammarSynthesizer_PossessivePattern(const NlGrammarSynthesizer_PossessivePattern&) = delete;
+    NlGrammarSynthesizer_PossessivePattern& operator=(const NlGrammarSynthesizer_PossessivePattern&) = delete;
 
 private:
     static const ::std::map<::std::u16string_view, ::std::u16string_view>& POSSESSIVE_PRONOUNS();

@@ -30,7 +30,7 @@ private:
     int64_t adpositionMask = 0;
 
 public:
-    ::inflection::dialog::SemanticFeatureModel_DisplayValue * getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const override;
+    ::inflection::dialog::DisplayValue * getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const override;
 
 private:
     ::std::optional<::std::u16string> inflectWord(const ::std::u16string& word, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess, bool makeOblique) const;
@@ -40,8 +40,6 @@ private:
 public:
     explicit HiGrammarSynthesizer_HiDisplayFunction(const ::inflection::dialog::SemanticFeatureModel& model);
     ~HiGrammarSynthesizer_HiDisplayFunction() override;
-
-public:
-    HiGrammarSynthesizer_HiDisplayFunction(HiGrammarSynthesizer_HiDisplayFunction&) = delete;
+    HiGrammarSynthesizer_HiDisplayFunction(const HiGrammarSynthesizer_HiDisplayFunction&) = delete;
     HiGrammarSynthesizer_HiDisplayFunction& operator=(const HiGrammarSynthesizer_HiDisplayFunction&) = delete;
 };

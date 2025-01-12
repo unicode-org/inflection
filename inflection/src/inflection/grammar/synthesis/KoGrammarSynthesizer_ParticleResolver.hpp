@@ -38,4 +38,5 @@ public:
     KoGrammarSynthesizer_ParticleResolver(const icu4cxx::UnicodeSet& vowelSet, const ::std::u16string& vowelParticle, const ::std::u16string& consonantParticle);
     KoGrammarSynthesizer_ParticleResolver(const KoGrammarSynthesizer_ParticleResolver& other) noexcept;
     ~KoGrammarSynthesizer_ParticleResolver();
+    KoGrammarSynthesizer_ParticleResolver& operator=(const KoGrammarSynthesizer_ParticleResolver&) = delete;
 };

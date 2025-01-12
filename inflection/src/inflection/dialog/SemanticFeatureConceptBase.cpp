@@ -47,16 +47,16 @@ bool SemanticFeatureConceptBase::hasConstraint(const SemanticFeature& feature) c
     return result != constraints.end();
 }
 
-void SemanticFeatureConceptBase::putConstraint(const SemanticFeature& feature, const ::std::u16string& featureValue)
+void SemanticFeatureConceptBase::putConstraint(const SemanticFeature& feature, ::std::u16string_view featureValue)
 {
     constraints[feature] = featureValue;
 }
 
-void SemanticFeatureConceptBase::putConstraintByName(const ::std::u16string& featureName, const ::std::u16string& featureValue)
+void SemanticFeatureConceptBase::putConstraintByName(::std::u16string_view featureName, ::std::u16string_view featureValue)
 {
     auto feature = npc(getModel())->getFeature(featureName);
     if (feature == nullptr) {
-        throw ::inflection::exception::IllegalArgumentException(featureName + u" is not a valid feature name for the SemanticFeatureModel");
+        throw ::inflection::exception::IllegalArgumentException(std::u16string(featureName) + u" is not a valid feature name for the SemanticFeatureModel");
     }
     putConstraint(*npc(feature), featureValue);
 }
@@ -66,11 +66,11 @@ void SemanticFeatureConceptBase::clearConstraint(const SemanticFeature& feature)
     constraints.erase(feature);
 }
 
-void SemanticFeatureConceptBase::clearConstraintByName(const ::std::u16string& featureName)
+void SemanticFeatureConceptBase::clearConstraintByName(::std::u16string_view featureName)
 {
     auto feature = npc(getModel())->getFeature(featureName);
     if (feature == nullptr) {
-        throw ::inflection::exception::IllegalArgumentException(featureName + u" is not a valid feature name for the SemanticFeatureModel");
+        throw ::inflection::exception::IllegalArgumentException(std::u16string(featureName) + u" is not a valid feature name for the SemanticFeatureModel");
     }
     clearConstraint(*npc(feature));
 }
@@ -85,11 +85,11 @@ const SemanticFeature* SemanticFeatureConceptBase::getSpeakFeature() const
     return model != nullptr ? npc(model)->getFeature(SemanticFeatureModel::SPEAK) : static_cast<const SemanticFeature* >(nullptr);
 }
 
-SpeakableString* SemanticFeatureConceptBase::getFeatureValueByName(const ::std::u16string& featureName) const
+SpeakableString* SemanticFeatureConceptBase::getFeatureValueByName(::std::u16string_view featureName) const
 {
     auto const feature = npc(getModel())->getFeature(featureName);
     if (feature == nullptr) {
-        throw ::inflection::exception::IllegalArgumentException(featureName + u" is not a valid feature name for the SemanticFeatureModel");
+        throw ::inflection::exception::IllegalArgumentException(std::u16string(featureName) + u" is not a valid feature name for the SemanticFeatureModel");
     }
     return getFeatureValue(*npc(feature));
 }

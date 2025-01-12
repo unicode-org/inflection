@@ -8,7 +8,7 @@
 #include <inflection/dialog/SemanticFeature.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
 #include <inflection/dialog/SemanticFeatureModel_DisplayData.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dictionary/DictionaryMetaData.hpp>
 #include <inflection/dictionary/PhraseProperties.hpp>
 #include <inflection/grammar/synthesis/GrammemeConstants.hpp>
@@ -73,17 +73,17 @@ const ::icu4cxx::UnicodeSet& TrGrammarSynthesizer_TrDisplayFunction::DEFAULT_HAR
     return *npc(DEFAULT_HARD_CONSONANTS_END_);
 }
 
-::inflection::dialog::SemanticFeatureModel_DisplayValue * TrGrammarSynthesizer_TrDisplayFunction::getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool /*enableInflectionGuess*/) const
+::inflection::dialog::DisplayValue * TrGrammarSynthesizer_TrDisplayFunction::getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool /*enableInflectionGuess*/) const
 {
     ::std::u16string displayString;
     const auto& formConstraints(constraints);
     if (displayData.getValues().empty()) {
-        return new ::inflection::dialog::SemanticFeatureModel_DisplayValue(displayString, formConstraints);
+        return new ::inflection::dialog::DisplayValue(displayString, formConstraints);
     } else {
         displayString = displayData.getValues()[0].getDisplayString();
     }
     if (displayString.empty()) {
-        return new ::inflection::dialog::SemanticFeatureModel_DisplayValue(displayString, formConstraints);
+        return new ::inflection::dialog::DisplayValue(displayString, formConstraints);
     }
     auto displayStringNormalized = getLastWord(displayString);
     if (!isForeignWord(displayStringNormalized)) {
@@ -318,7 +318,7 @@ static const char16_t AFTER_VOWEL_GROUP[3][4][2] = {
     return result;
 }
 
-inflection::dialog::SemanticFeatureModel_DisplayValue* TrGrammarSynthesizer_TrDisplayFunction::generateDisplayValue(const ::std::u16string& displayStr, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& formConstraints, const std::u16string& displayStringNormalized, std::u16string* suffixString, bool endsWithNumber, bool isForeign, bool isException) const
+inflection::dialog::DisplayValue* TrGrammarSynthesizer_TrDisplayFunction::generateDisplayValue(const ::std::u16string& displayStr, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& formConstraints, const std::u16string& displayStringNormalized, std::u16string* suffixString, bool endsWithNumber, bool isForeign, bool isException) const
 {
     std::u16string displayString(displayStr);
     if (!displayString.empty()) {
@@ -340,9 +340,9 @@ inflection::dialog::SemanticFeatureModel_DisplayValue* TrGrammarSynthesizer_TrDi
         if (TrGrammarSynthesizer::ENDING_SINGLE_QUOTE().contains(displayString.back())) {
             displayString = displayString.substr(0, displayString.length() - 1);
         }
-        return new inflection::dialog::SemanticFeatureModel_DisplayValue(displayString + u"’" + *npc(suffixString), formConstraints);
+        return new inflection::dialog::DisplayValue(displayString + u"’" + *npc(suffixString), formConstraints);
     }
-    return new inflection::dialog::SemanticFeatureModel_DisplayValue(displayString + *npc(suffixString), formConstraints);
+    return new inflection::dialog::DisplayValue(displayString + *npc(suffixString), formConstraints);
 }
 
 ::std::u16string TrGrammarSynthesizer_TrDisplayFunction::normalizeString(const ::std::u16string& originalWord) const

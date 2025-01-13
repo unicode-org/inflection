@@ -4,17 +4,20 @@
  */
 #include <inflection/grammar/synthesis/SrGrammarSynthesizer_SrDisplayFunction.hpp>
 
-#include <inflection/dialog/SemanticFeature.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayData.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
-#include <inflection/dialog/SemanticFeatureModel.hpp>
-#include <inflection/dictionary/DictionaryMetaData.hpp>
-#include <inflection/grammar/synthesis/GrammarSynthesizerUtil.hpp>
-#include <inflection/grammar/synthesis/GrammemeConstants.hpp>
 #include <inflection/tokenizer/TokenChain.hpp>
+#include <inflection/tokenizer/Tokenizer.hpp>
 #include <inflection/tokenizer/TokenizerFactory.hpp>
+#include <inflection/dialog/SemanticFeature.hpp>
+#include <inflection/dialog/SemanticFeatureModel.hpp>
+#include <inflection/dialog/SemanticFeatureModel_DisplayData.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
+#include <inflection/grammar/synthesis/GrammemeConstants.hpp>
+#include <inflection/grammar/synthesis/GrammarSynthesizerUtil.hpp>
+#include <inflection/lang/StringFilterUtil.hpp>
 #include <inflection/util/LocaleUtils.hpp>
+#include <inflection/util/UnicodeSetUtils.hpp>
 #include <inflection/npc.hpp>
+#include <iterator>
 #include <memory>
 
 namespace inflection::grammar::synthesis {
@@ -39,7 +42,7 @@ SrGrammarSynthesizer_SrDisplayFunction::~SrGrammarSynthesizer_SrDisplayFunction(
 {
 }
 
-::inflection::dialog::SemanticFeatureModel_DisplayValue * SrGrammarSynthesizer_SrDisplayFunction::getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const
+::inflection::dialog::DisplayValue * SrGrammarSynthesizer_SrDisplayFunction::getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const
 {
     const auto displayValue = GrammarSynthesizerUtil::getTheBestDisplayValue(displayData, constraints);
     if (displayValue == nullptr) {
@@ -50,7 +53,12 @@ SrGrammarSynthesizer_SrDisplayFunction::~SrGrammarSynthesizer_SrDisplayFunction(
         return nullptr;
     }
 
+    // To make compiler quiet about unused variable.
+    if (enableInflectionGuess)
+        return nullptr;
+
     // TODO Implement the rest
+    return nullptr;
 }
 
 } // namespace inflection::grammar::synthesis

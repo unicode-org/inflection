@@ -2314,6 +2314,51 @@
             </category>
         </grammar>
     </language>
+    <language id="sr">
+        <grammar>
+            <category name="case">
+                <restrictions>
+                    <restriction name="pos" value="noun"/>
+                    <restriction name="pos" value="proper-noun"/>
+                </restrictions>
+                <grammeme name="nominative"/>
+                <grammeme name="genitive"/>
+                <grammeme name="dative"/>
+                <grammeme name="accusative"/>
+                <grammeme name="vocative"/>
+                <grammeme name="locative"/>
+                <grammeme name="instrumental"/>
+            </category>
+            <category name="count">
+                <grammeme name="singular"/>
+                <grammeme name="plural"/>
+            </category>
+            <category name="emphasis">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="stressed"/>
+                <grammeme name="unstressed"/>
+            </category>
+            <category name="gender">
+                <grammeme name="masculine"/>
+                <grammeme name="feminine"/>
+                <grammeme name="neuter"/>
+            </category>
+            <category name="person">
+                <grammeme name="first"/>
+                <grammeme name="second"/>
+                <grammeme name="third"/>
+            </category>
+            <category name="pronounType">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="personal"/>
+                <grammeme name="reflexive"/>
+            </category>
+        </grammar>
+    </language>
     <language id="sv">
         <grammar>
             <category name="case">

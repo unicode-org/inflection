@@ -92,6 +92,8 @@ namespace inflection
             class RuGrammarSynthesizer_RuDisplayFunction;
             class RuGrammarSynthesizer_ToPrepositionLookupFunction;
             class RuGrammarSynthesizer_WithPrepositionLookupFunction;
+            class SrGrammarSynthesizer;
+            class SrGrammarSynthesizer_SrDisplayFunction;
             class SvGrammarSynthesizer;
             class SvGrammarSynthesizer_ArticleLookupFunction;
             class SvGrammarSynthesizer_GenderLookupFunction;

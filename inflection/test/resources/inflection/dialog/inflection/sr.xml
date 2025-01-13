@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!--
+  Copyright 2024 and later: Unicode, Inc. and others.
+  License & terms of use: http://www.unicode.org/copyright.html
+-->
+<inflectionTest locale="sr">
+    <!-- Some nominative case tests where we don't expect changes -->
+    <test><source case="nominative" number="singular">једро</source><result>једро</result></test>
+    <test><source case="nominative" number="singular">жена</source><result>жена</result></test>
+    <test><source case="nominative" number="singular">камен</source><result>камен</result></test>
+    <test><source case="nominative" pos="proper-noun">Петар</source><result>Петар</result></test>
+</inflectionTest>

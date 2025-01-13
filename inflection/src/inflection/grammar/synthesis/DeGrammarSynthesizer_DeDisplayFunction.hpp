@@ -56,7 +56,7 @@ private:
 
 private:
     const ::std::map<int32_t, ::std::u16string_view>* getSuffixMap(::std::u16string_view declensionClass) const;
-    ::inflection::dialog::SemanticFeatureModel_DisplayValue* inflectByDeclension(const ::inflection::dialog::SemanticFeatureModel_DisplayData& displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, const ::std::u16string& declensionString) const;
+    ::inflection::dialog::DisplayValue* inflectByDeclension(const ::inflection::dialog::SemanticFeatureModel_DisplayData& displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, const ::std::u16string& declensionString) const;
     
     ::std::optional<::std::u16string> inflectWord(const ::std::u16string &displayString, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, const ::std::vector<::std::u16string> &deducedConstraints, bool enableInflectionGuess) const;
 
@@ -74,7 +74,7 @@ private:
     std::optional<::std::pair<::std::u16string, ::std::u16string>> inflect2Words(const ::std::u16string &dependentWord, const ::std::u16string &headWord, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const;
 
 public:
-    ::inflection::dialog::SemanticFeatureModel_DisplayValue *getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const override;
+    ::inflection::dialog::DisplayValue *getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const override;
 
 private:
     ::std::optional<::std::u16string> inflectTokenChain(const ::inflection::tokenizer::TokenChain &tokenChain, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const;
@@ -84,7 +84,6 @@ public:
 public: /* package */
     DeGrammarSynthesizer_DeDisplayFunction(const ::inflection::dialog::SemanticFeatureModel& model, const ::std::map<int32_t, ::std::u16string_view>& strongSuffixes, const ::std::map<int32_t, ::std::u16string_view>& weakSuffixes, const ::std::map<int32_t, ::std::u16string_view>& mixedSuffixes);
     ~DeGrammarSynthesizer_DeDisplayFunction() override;
-
-private:
     DeGrammarSynthesizer_DeDisplayFunction(const DeGrammarSynthesizer_DeDisplayFunction&) = delete;
+    DeGrammarSynthesizer_DeDisplayFunction& operator=(const DeGrammarSynthesizer_DeDisplayFunction&) = delete;
 };

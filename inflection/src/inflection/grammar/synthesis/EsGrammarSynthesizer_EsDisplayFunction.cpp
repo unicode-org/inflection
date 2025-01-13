@@ -5,7 +5,7 @@
 
 #include <inflection/dialog/SemanticFeature.hpp>
 #include <inflection/dialog/SemanticFeatureModel_DisplayData.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
 #include <inflection/dialog/SpeakableString.hpp>
 #include <inflection/dictionary/DictionaryMetaData.hpp>
@@ -168,7 +168,7 @@ EsGrammarSynthesizer_EsDisplayFunction::~EsGrammarSynthesizer_EsDisplayFunction(
     return inflectedString;
 }
 
-::inflection::dialog::SemanticFeatureModel_DisplayValue * EsGrammarSynthesizer_EsDisplayFunction::getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const
+::inflection::dialog::DisplayValue * EsGrammarSynthesizer_EsDisplayFunction::getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const
 {
     const auto displayValue = GrammarSynthesizerUtil::getTheBestDisplayValue(displayData, constraints);
     if (displayValue == nullptr) {
@@ -201,7 +201,7 @@ EsGrammarSynthesizer_EsDisplayFunction::~EsGrammarSynthesizer_EsDisplayFunction(
     }
 
     GrammarSynthesizerUtil::inflectAndAppendArticlePrefix(displayString, displayValueConstraints, articleData.first, articleData.second);
-    return definitenessDisplayFunction.addDefiniteness(new ::inflection::dialog::SemanticFeatureModel_DisplayValue(displayString, displayValueConstraints), constraints);
+    return definitenessDisplayFunction.addDefiniteness(new ::inflection::dialog::DisplayValue(displayString, displayValueConstraints), constraints);
 }
 
 } // namespace inflection::grammar::synthesis

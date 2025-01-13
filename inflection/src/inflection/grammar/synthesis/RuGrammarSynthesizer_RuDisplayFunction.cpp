@@ -9,7 +9,7 @@
 #include <inflection/dialog/SemanticFeature.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
 #include <inflection/dialog/SemanticFeatureModel_DisplayData.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/grammar/synthesis/GrammemeConstants.hpp>
 #include <inflection/lang/StringFilterUtil.hpp>
 #include <inflection/util/LocaleUtils.hpp>
@@ -56,7 +56,7 @@ constexpr int32_t MAXIMUM_WORDS_MODEL_INPUT = 6;
     return inflectionResult;
 }
 
-::inflection::dialog::SemanticFeatureModel_DisplayValue * RuGrammarSynthesizer_RuDisplayFunction::getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const
+::inflection::dialog::DisplayValue * RuGrammarSynthesizer_RuDisplayFunction::getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const
 {
     if (displayData.getValues().empty()) {
         return nullptr;
@@ -67,7 +67,7 @@ constexpr int32_t MAXIMUM_WORDS_MODEL_INPUT = 6;
 
     // Constraints are empty or no inflectable characters in input or contains a non-Russian cyrillic character -> return value as is
     if (constraints.empty() || !inflection::util::UnicodeSetUtils::containsSome(russianMorphology.inflectableChars, inputString) || inflection::util::UnicodeSetUtils::containsSome(nonRussianCyrillicChars, inputString)) {
-        return new inflection::dialog::SemanticFeatureModel_DisplayValue(firstDisplayValue);
+        return new inflection::dialog::DisplayValue(firstDisplayValue);
     }
     
     // Start: CONSTRAINT RETRIEVAL
@@ -141,14 +141,14 @@ constexpr int32_t MAXIMUM_WORDS_MODEL_INPUT = 6;
         inflectionResult = inflectWithML(inputString, *words, caseString, countString, genderString, animacyString);
         if (inflectionResult.empty()) {
             // Failed to inflect
-            return new ::inflection::dialog::SemanticFeatureModel_DisplayValue(firstDisplayValue);
+            return new ::inflection::dialog::DisplayValue(firstDisplayValue);
         }
     }
     // End
 
     inflectionResult[0] = inputString[0]; // Keep the letter case of the first letter.
     
-    return new ::inflection::dialog::SemanticFeatureModel_DisplayValue(inflectionResult, constraints);
+    return new ::inflection::dialog::DisplayValue(inflectionResult, constraints);
 }
 
 } // namespace inflection::grammar::synthesis

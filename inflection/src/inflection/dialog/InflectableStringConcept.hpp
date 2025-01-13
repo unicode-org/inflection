@@ -5,7 +5,7 @@
 
 #include <inflection/dialog/fwd.hpp>
 #include <inflection/dialog/SemanticFeatureConceptBase.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SpeakableString.hpp>
 #include <optional>
 #include <string>
@@ -21,7 +21,7 @@ public:
 
 private:
     SpeakableString value;
-    SemanticFeatureModel_DisplayValue defaultDisplayValue;
+    DisplayValue defaultDisplayValue;
 
 public: /* protected */
     /**
@@ -41,7 +41,7 @@ public:
     ::std::u16string toString() const override;
 
 private:
-    ::std::optional<SemanticFeatureModel_DisplayValue> getDisplayValue(bool allowInflectionGuess = true) const;
+    ::std::optional<DisplayValue> getDisplayValue(bool allowInflectionGuess = true) const;
 
 public:
     /**

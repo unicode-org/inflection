@@ -5,7 +5,7 @@
 
 #include <inflection/dialog/SemanticFeature.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SpeakableString.hpp>
 #include <inflection/grammar/synthesis/GrammemeConstants.hpp>
 #include <inflection/npc.hpp>
@@ -18,7 +18,7 @@ RuGrammarSynthesizer_ArticleLookupFunction::RuGrammarSynthesizer_ArticleLookupFu
 {
 }
 
-inflection::dialog::SpeakableString* RuGrammarSynthesizer_ArticleLookupFunction::getFeatureValue(const ::inflection::dialog::SemanticFeatureModel_DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& /*constraints*/) const
+inflection::dialog::SpeakableString* RuGrammarSynthesizer_ArticleLookupFunction::getFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& /*constraints*/) const
 {
     if (derivedArticleFeature != nullptr) {
         auto featureValue = displayValue.getFeatureValue(*npc(derivedArticleFeature));

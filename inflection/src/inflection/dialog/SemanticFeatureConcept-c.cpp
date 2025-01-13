@@ -10,6 +10,7 @@
 #include <inflection/util/TypeConversionUtils.hpp>
 #include <inflection/exception/IllegalArgumentException.hpp>
 #include <inflection/npc.hpp>
+#include <unicode/ustring.h>
 /**
  * Returns {@code true} if a value exists for the given constraints
  */
@@ -27,8 +28,8 @@ isfc_isExists(IDSemanticFeatureConcept* thisObject, UErrorCode* status)
     return false;
 }
 
-INFLECTION_CAPI CFStringRef
-isfc_createConstraintByNameCopy(const IDSemanticFeatureConcept* thisObject, const char16_t* featureName, UErrorCode* status)
+INFLECTION_CAPI int32_t
+isfc_getConstraintByName(const IDSemanticFeatureConcept* thisObject, const char16_t* featureName, char16_t* dest, int32_t destCapacity, UErrorCode* status)
 {
     if (status != nullptr && U_SUCCESS(*status)) {
         try {
@@ -40,25 +41,32 @@ isfc_createConstraintByNameCopy(const IDSemanticFeatureConcept* thisObject, cons
             }
             auto result= thisObjectConcept->getConstraint(*feature);
             if (result != nullptr) {
-                return inflection::util::TypeConversionUtils::to_CFString(*result);
+                auto resultLen = int32_t(result->length());
+                if (destCapacity > 0 && resultLen < destCapacity) {
+                    u_strncpy((UChar*)dest, (const UChar*)result->c_str(), resultLen);
+                }
+                return inflection::util::TypeConversionUtils::terminateString(dest, destCapacity, resultLen, status);
             }
         }
         catch (const ::std::exception& e) {
             inflection::util::TypeConversionUtils::convert(e, status);
         }
     }
-    return nullptr;
+    return -1;
 }
 
 /**
  * Adds a constraint on the possible values to this concept.
  */
 INFLECTION_CAPI void
-isfc_putConstraintByName(IDSemanticFeatureConcept* thisObject, const char16_t* featureName, CFStringRef featureValue, UErrorCode* status)
+isfc_putConstraintByName(IDSemanticFeatureConcept* thisObject, const char16_t* featureName, const char16_t* featureValue, int32_t featureValueLen, UErrorCode* status)
 {
     if (status != nullptr && U_SUCCESS(*status)) {
         try {
-            (npc((::inflection::dialog::SemanticFeatureConceptBase*)thisObject)->putConstraintByName(npc(featureName), ::inflection::util::TypeConversionUtils::to_u16string(featureValue)));
+            (npc((::inflection::dialog::SemanticFeatureConceptBase*)thisObject)->putConstraintByName(npc(featureName),
+                                                                                                     featureValueLen < 0
+                                                                                                     ? ::std::u16string_view(featureValue)
+                                                                                                     : ::std::u16string_view(featureValue, featureValueLen)));
         }
         catch (const ::std::exception& e) {
             inflection::util::TypeConversionUtils::convert(e, status);

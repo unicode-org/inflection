@@ -9,11 +9,10 @@
 #pragma once
 
 #include <inflection/api.h>
-#include <CoreFoundation/CFArray.h>
-#include <unicode/utypes.h>
+#include <unicode/uenum.h>
 
 /**
- * Returns the list of supported locales in Inflection as a <code>std::set<ULocale></code>.
+ * Returns the list of supported locales in Inflection as a <code>UEnumeration</code>.
  * @return The list of supported locales in Inflection.
  */
-INFLECTION_CAPI CFArrayRef iloc_getSupportedLocalesList(UErrorCode* status);
+INFLECTION_CAPI UEnumeration* iloc_getSupportedLocalesList(UErrorCode* status);

@@ -5,7 +5,7 @@
 
 #include <inflection/dialog/fwd.hpp>
 #include <inflection/dialog/SemanticFeatureConceptBase.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SemanticValue.hpp>
 #include <memory>
 #include <string>
@@ -22,7 +22,7 @@ public:
 
 private:
     SemanticValue semantic;
-    SemanticFeatureModel_DisplayValue defaultToSemanticValue;
+    DisplayValue defaultToSemanticValue;
     const SemanticFeatureModel_DisplayData *displayData {  };
     bool defaultToSemantic {  };
 
@@ -34,8 +34,8 @@ public:
     virtual const ::std::u16string& getSemanticValue();
 
 private: /* protected */
-    const SemanticFeatureModel_DisplayValue* getFirstPossibleValue(std::unique_ptr<SemanticFeatureModel_DisplayValue>& generatedDisplayValue) const;
-    const SemanticFeatureModel_DisplayValue* getCurrentValue(std::unique_ptr<SemanticFeatureModel_DisplayValue>& generatedDisplayValue) const;
+    const DisplayValue* getFirstPossibleValue(std::unique_ptr<DisplayValue>& generatedDisplayValue) const;
+    const DisplayValue* getCurrentValue(std::unique_ptr<DisplayValue>& generatedDisplayValue) const;
 
 public:
     /**

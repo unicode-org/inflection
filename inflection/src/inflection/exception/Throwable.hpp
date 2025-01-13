@@ -20,8 +20,8 @@ class INFLECTION_CLASS_API inflection::exception::Throwable
     : public ::std::exception
 {
 private:
-    ::std::u16string message;
-    ::std::string whatStr;
+    ::std::u16string message {  };
+    ::std::string whatStr {  };
 
 public:
     /**

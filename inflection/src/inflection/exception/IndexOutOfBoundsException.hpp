@@ -22,6 +22,11 @@ public:
      */
     IndexOutOfBoundsException();
     /**
+     * Constructs a new StringIndexOutOfBoundsException with the index that caused the exception to occur.
+     * @param index The index that caused the exception to occur.
+     */
+    explicit IndexOutOfBoundsException(int32_t index);
+    /**
      * Construct an exception with an informative message for debugging purposes.
      */
     explicit IndexOutOfBoundsException(const std::u16string& message);

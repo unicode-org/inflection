@@ -10,7 +10,6 @@ target_link_libraries(itest
             Catch2
             xml2
             marisa_objs
-            CoreFoundation
             ICU::uc ICU::i18n
             $<$<PLATFORM_ID:Darwin>:${PERFDATA_FRAMEWORK}>
             $<$<PLATFORM_ID:Linux>:pthread>

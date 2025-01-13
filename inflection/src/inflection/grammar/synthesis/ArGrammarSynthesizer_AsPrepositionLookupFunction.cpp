@@ -3,7 +3,7 @@
  */
 #include <inflection/grammar/synthesis/ArGrammarSynthesizer_AsPrepositionLookupFunction.hpp>
 
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SpeakableString.hpp>
 #include <inflection/grammar/synthesis/ArGrammarSynthesizer.hpp>
 #include <inflection/util/StringViewUtils.hpp>
@@ -21,7 +21,7 @@ ArGrammarSynthesizer_AsPrepositionLookupFunction::ArGrammarSynthesizer_AsPreposi
 static constexpr char16_t KA_WITH_KASHEDA[] = u"كـ\u00A0";
 static constexpr char16_t KA[] = u"ك";
 
-inflection::dialog::SpeakableString* ArGrammarSynthesizer_AsPrepositionLookupFunction::getArticle(const ::inflection::dialog::SemanticFeatureModel_DisplayValue& displayValue, ArGrammarSynthesizer::PronounNumber /*countValue*/, ArGrammarSynthesizer::PronounGender /*genderValue*/, ArGrammarSynthesizer::Person /*personValue*/) const
+inflection::dialog::SpeakableString* ArGrammarSynthesizer_AsPrepositionLookupFunction::getArticle(const ::inflection::dialog::DisplayValue& displayValue, ArGrammarSynthesizer::PronounNumber /*countValue*/, ArGrammarSynthesizer::PronounGender /*genderValue*/, ArGrammarSynthesizer::Person /*personValue*/) const
 {
     ::std::u16string article;
     std::u16string displayString(::inflection::util::StringViewUtils::trim(displayValue.getDisplayString()));

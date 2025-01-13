@@ -37,13 +37,11 @@ private:
     ::std::u16string pluralMasculineString {  };
     ::std::u16string pluralFeminineString {  };
 public:
-    ::inflection::dialog::SpeakableString* getFeatureValue(const ::inflection::dialog::SemanticFeatureModel_DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const override;
+    ::inflection::dialog::SpeakableString* getFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const override;
 
     PtGrammarSynthesizer_ArticleLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model, const ::std::u16string& derivedSemanticName, const ::std::u16string& defaultString, const ::std::u16string& defaultSingularString, const ::std::u16string& defaultPluralString, const ::std::u16string& singularMasculineString, const ::std::u16string& singularFeminineString, const ::std::u16string& pluralMasculineString, const ::std::u16string& pluralFeminineString);
     PtGrammarSynthesizer_ArticleLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model, const ::std::u16string& derivedSemanticName, const PtGrammarSynthesizer_ArticleLookupFunction& other);
     ~PtGrammarSynthesizer_ArticleLookupFunction() override;
-
-private:
-    PtGrammarSynthesizer_ArticleLookupFunction(PtGrammarSynthesizer_ArticleLookupFunction&) = delete;
+    PtGrammarSynthesizer_ArticleLookupFunction(const PtGrammarSynthesizer_ArticleLookupFunction&) = delete;
     PtGrammarSynthesizer_ArticleLookupFunction& operator=(const PtGrammarSynthesizer_ArticleLookupFunction&) = delete;
 };

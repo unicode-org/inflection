@@ -8,8 +8,8 @@ from pathlib import Path
 HEADER_TEMPLATE = """#include <inflection/{dir_}{class_}.h>
 
 #include <inflection/{dir_}{class_}.hpp>
+#include <inflection/util/TypeConversionUtils.hpp>
 #include <inflection/util/ULocale.hpp>
-#include <inflection/util/CFUtils.hpp>
 #include <inflection/npc.hpp>
 """
 
@@ -20,7 +20,7 @@ TRY_CATCH_PATTERN = """MORPHUN_CAPI {modifier}{return_type} {func_name_h}({args_
         {return_}{cast}(npc(({const}{class}*)thisObject)->{func_name}({args}));
     }}
     catch (const ::std::exception& e) {{
-        inflection::util::CFUtils::convert(e, error);
+        inflection::util::TypeConversionUtils::convert(e, error);
     }}{return_catch}
 }}
 """
@@ -35,7 +35,7 @@ CREATE_PATTERN = """MORPHUN_CAPI {return_type} {func_name_h}({args_h}) {{
         return ({return_type})new {class}({args});
     }}
     catch (const ::std::exception& e) {{
-        inflection::util::CFUtils::convert(e, error);
+        inflection::util::TypeConversionUtils::convert(e, error);
     }}{return_catch}
 }}
 """
@@ -63,10 +63,6 @@ def func_pattern(func_name: str) -> str:
 
 
 def cast_to_c_type(modifier: str, c_type: str) -> str:
-    if c_type == 'CFStringRef':
-        return 'inflection::util::CFUtils::to_CFString'
-    elif c_type == 'const char*':
-        return 'inflection::util::CFUtils::convert'
     c_type_prefix = '(' + modifier + c_type + ')'
     if c_type.endswith('*'):
         return c_type_prefix
@@ -77,22 +73,18 @@ def cast_to_c_type(modifier: str, c_type: str) -> str:
 
 
 def remap_type(c_type: str):
-    c_type = re.sub("^MDP", "inflection::dialog::proxy::", c_type)
-    c_type = re.sub("^MD", "inflection::dialog::", c_type)
-    c_type = re.sub("^MDICT", "inflection::dictionary::", c_type)
-    c_type = re.sub("^MR", "inflection::resources::", c_type)
-    c_type = re.sub("^MANA", "inflection::analysis::", c_type)
-    c_type = re.sub("^MFEAT", "inflection::lang::features::", c_type)
-    c_type = re.sub("^MLANG", "inflection::lang::", c_type)
+    c_type = re.sub("^IDP", "inflection::dialog::proxy::", c_type)
+    c_type = re.sub("^ID", "inflection::dialog::", c_type)
+    c_type = re.sub("^IDICT", "inflection::dictionary::", c_type)
+    c_type = re.sub("^IR", "inflection::resources::", c_type)
+    c_type = re.sub("^IANA", "inflection::analysis::", c_type)
+    c_type = re.sub("^IFEAT", "inflection::lang::features::", c_type)
+    c_type = re.sub("^ILANG", "inflection::lang::", c_type)
     return c_type
 
 
 def cast_to_cpp_type(c_type: str, arg: str) -> str:
-    if c_type == 'CFStringRef':
-        return f'inflection::util::CFUtils::to_u16string({arg})'
-    elif c_type == 'const char*':
-        return f'inflection::util::CFUtils::convert({arg})'
-    elif c_type.startswith('M'):
+    if c_type.startswith('I'):
         return f'({remap_type(c_type)}) {arg}'
     else:
         return arg
@@ -111,7 +103,7 @@ def convert_to_c(fpath: Path):
     data = re.sub(r"#include.+?\n", "", data)
     data = HEADER_TEMPLATE.format(dir_=dir_name + "/" if dir_name != "inflection" else "", class_=class_name) + data
 
-    data = re.sub(r'MORPHUN_CTYPE\([^(]+\);?', '', data)
+    data = re.sub(r'INFLECTION_CTYPE\([^(]+\);?', '', data)
 
     funcs = re.findall(FUNC_PATTERN, data)
     # for each function:

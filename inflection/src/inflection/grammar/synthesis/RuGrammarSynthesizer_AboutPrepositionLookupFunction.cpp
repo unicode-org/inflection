@@ -7,7 +7,7 @@
 #include <inflection/util/LocaleUtils.hpp>
 #include <inflection/util/StringViewUtils.hpp>
 #include <inflection/dialog/SpeakableString.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 
 namespace inflection::grammar::synthesis {
 
@@ -17,7 +17,7 @@ RuGrammarSynthesizer_AboutPrepositionLookupFunction::RuGrammarSynthesizer_AboutP
 {
 }
 
-inflection::dialog::SpeakableString* RuGrammarSynthesizer_AboutPrepositionLookupFunction::getArticle(const ::inflection::dialog::SemanticFeatureModel_DisplayValue& displayValue) const
+inflection::dialog::SpeakableString* RuGrammarSynthesizer_AboutPrepositionLookupFunction::getArticle(const ::inflection::dialog::DisplayValue& displayValue) const
 {
     const auto& displayString = displayValue.getDisplayString();
     ::std::u16string displayStringLowerCase;

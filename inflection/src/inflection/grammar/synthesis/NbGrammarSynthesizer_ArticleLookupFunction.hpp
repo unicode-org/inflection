@@ -24,7 +24,9 @@ private:
     ::inflection::dialog::DictionaryLookupFunction countLookupFunction;
     ::inflection::dialog::DictionaryLookupFunction genderLookupFunction;
 public:
-    ::inflection::dialog::SpeakableString* getFeatureValue(const ::inflection::dialog::SemanticFeatureModel_DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const override;
+    ::inflection::dialog::SpeakableString* getFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const override;
 
     NbGrammarSynthesizer_ArticleLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model, bool includeSemanticValue, const ::std::u16string& singularMasculineString, const ::std::u16string& singularFeminineString, const ::std::u16string& singularNeuterString, const ::std::u16string& pluralString);
+    NbGrammarSynthesizer_ArticleLookupFunction(const NbGrammarSynthesizer_ArticleLookupFunction&) = delete;
+    NbGrammarSynthesizer_ArticleLookupFunction& operator=(const NbGrammarSynthesizer_ArticleLookupFunction&) = delete;
 };

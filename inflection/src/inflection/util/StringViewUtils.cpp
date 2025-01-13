@@ -4,7 +4,7 @@
 #include <inflection/util/StringViewUtils.hpp>
 
 #include <inflection/util/ULocale.hpp>
-#include <inflection/exception/StringIndexOutOfBoundsException.hpp>
+#include <inflection/exception/IndexOutOfBoundsException.hpp>
 #include <inflection/util/StringUtils.hpp>
 #include <inflection/util/UnicodeSetUtils.hpp>
 #include <inflection/npc.hpp>
@@ -218,7 +218,7 @@ StringViewUtils::codePointAt(std::u16string_view str, int32_t idx)
 {
     int32_t length = int32_t(str.length());
     if (idx < 0 || length <= idx) {
-        throw ::inflection::exception::StringIndexOutOfBoundsException(idx);
+        throw ::inflection::exception::IndexOutOfBoundsException(idx);
     }
     char32_t cp;
     U16_GET(str, 0, idx, length, cp);

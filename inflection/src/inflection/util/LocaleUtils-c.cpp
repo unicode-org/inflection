@@ -6,43 +6,47 @@
 #include <inflection/util/TypeConversionUtils.hpp>
 #include <inflection/util/ULocale.hpp>
 #include <inflection/npc.hpp>
-
 #include <set>
-
-extern "C" {
-static void mloc_array_release(CFAllocatorRef, const void *value)
-{
-    free((void *)value);
-}
-}
+#include <string.h>
 
 using inflection::util::LocaleUtils;
 using inflection::util::ULocale;
-using inflection::util::TypeConversionUtils;
 
-INFLECTION_CAPI CFArrayRef iloc_getSupportedLocalesList(UErrorCode* status)
+static std::pair<char*const*, int32_t> createLocaleList() {
+    auto morphunLocales(LocaleUtils::getSupportedLocaleList());
+    char** array = new char*[morphunLocales.size()];
+    int32_t idx = 0;
+    int32_t fullSize = 0;
+    // Calculate the size.
+    for (const auto& iter : morphunLocales)
+    {
+        fullSize += int32_t(iter.getName().length() + 1); // +1 for null
+    }
+    // allocate 1 block for all strings. This can reduce the overall size and reduce heap fragmentation.
+    char* buffPtr = new char[fullSize];
+    // Populate the array with strings for the locales.
+    for (const auto& iter : morphunLocales)
+    {
+        const auto& locale(iter.getName());
+        array[idx++] = buffPtr;
+        strcpy(buffPtr, locale.c_str());
+        buffPtr += locale.length() + 1; // +1 for null
+    }
+    return {array, morphunLocales.size()};
+}
+
+static std::pair<char*const*, int32_t> LOCALE_LIST() {
+    static auto LOCALE_LIST_ = new std::pair<char*const*, int32_t>(createLocaleList());
+    return *npc(LOCALE_LIST_);
+}
+
+INFLECTION_CAPI UEnumeration* iloc_getSupportedLocalesList(UErrorCode* status)
 {
     if (status != nullptr && U_SUCCESS(*status)) {
         try {
-            static const CFArrayCallBacks callbacks
-            {
-                0,
-                nullptr,
-                mloc_array_release,
-                nullptr,
-                nullptr
-            };
+            auto localeList(LOCALE_LIST());
 
-            std::set<ULocale> morphunLocales = LocaleUtils::getSupportedLocaleList();
-            std::vector<const char*> cfLocales;
-            cfLocales.reserve(morphunLocales.size());
-
-            for (const auto& iter : morphunLocales)
-            {
-                cfLocales.emplace_back(npc(strdup(iter.getName().c_str())));
-            }
-
-            return CFArrayCreate(nullptr, (const void**)cfLocales.data(), (CFIndex)cfLocales.size(), &callbacks);
+            return uenum_openCharStringsEnumeration(localeList.first, localeList.second, status);
         }
         catch (const ::std::exception& e) {
             inflection::util::TypeConversionUtils::convert(e, status);

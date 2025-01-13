@@ -5,7 +5,7 @@
 
 #include <inflection/dialog/SemanticFeature.hpp>
 #include <inflection/dialog/SemanticFeatureModel_DisplayData.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
 #include <inflection/grammar/synthesis/GrammemeConstants.hpp>
 #include <inflection/grammar/synthesis/GrammarSynthesizerUtil.hpp>
@@ -44,7 +44,7 @@ KoGrammarSynthesizer_KoDisplayFunction::~KoGrammarSynthesizer_KoDisplayFunction(
 {
 }
 
-::inflection::dialog::SemanticFeatureModel_DisplayValue *
+::inflection::dialog::DisplayValue *
 KoGrammarSynthesizer_KoDisplayFunction::getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const
 {
     const auto displayValue = GrammarSynthesizerUtil::getTheBestDisplayValue(displayData, constraints);
@@ -80,7 +80,7 @@ KoGrammarSynthesizer_KoDisplayFunction::getDisplayValue(const dialog::SemanticFe
         return nullptr;
     }
 
-    return new ::inflection::dialog::SemanticFeatureModel_DisplayValue(displayString, constraints);
+    return new ::inflection::dialog::DisplayValue(displayString, constraints);
 }
 
 } // namespace inflection::grammar::synthesis

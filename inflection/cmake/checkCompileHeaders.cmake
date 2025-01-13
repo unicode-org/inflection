@@ -2,9 +2,6 @@
 # Copyright 2021-2024 Apple Inc. All rights reserved.
 #
 string(CONCAT HEADER_INCLUDES "-I" ${HEADER_DIR})
-if(NOT ${CF_INCLUDES} STREQUAL "")
-    string(APPEND HEADER_INCLUDES ";" ${CF_INCLUDES})
-endif()
 if(NOT ${ICU_INCLUDES} STREQUAL "")
     string(APPEND HEADER_INCLUDES ";" ${ICU_INCLUDES})
 endif()

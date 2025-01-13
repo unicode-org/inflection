@@ -24,4 +24,6 @@ public:
 
     SvGrammarSynthesizer_GenderLookupFunction();
     ~SvGrammarSynthesizer_GenderLookupFunction() override;
+    SvGrammarSynthesizer_GenderLookupFunction(const SvGrammarSynthesizer_GenderLookupFunction&) = delete;
+    SvGrammarSynthesizer_GenderLookupFunction& operator=(const SvGrammarSynthesizer_GenderLookupFunction&) = delete;
 };

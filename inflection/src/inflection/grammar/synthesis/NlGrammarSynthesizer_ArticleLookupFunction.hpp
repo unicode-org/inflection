@@ -35,7 +35,7 @@ private:
     ::std::u16string singularNeuterString {  };
 
 public:
-    ::inflection::dialog::SpeakableString* getFeatureValue(const ::inflection::dialog::SemanticFeatureModel_DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const override;
+    ::inflection::dialog::SpeakableString* getFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const override;
 
 private:
     bool isDiminutive(const ::std::u16string& word, int64_t phraseType) const;
@@ -44,8 +44,6 @@ private:
 public:
     NlGrammarSynthesizer_ArticleLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model, bool includeSemanticValue, const ::std::u16string& defaultString, const ::std::u16string& singularNeuterString);
     ~NlGrammarSynthesizer_ArticleLookupFunction() override;
-
-private:
     NlGrammarSynthesizer_ArticleLookupFunction(const NlGrammarSynthesizer_ArticleLookupFunction&) = delete;
     NlGrammarSynthesizer_ArticleLookupFunction& operator=(const NlGrammarSynthesizer_ArticleLookupFunction&) = delete;
 };

@@ -9,40 +9,40 @@
 #include <inflection/util/TypeConversionUtils.hpp>
 #include <inflection/npc.hpp>
 
-INFLECTION_CAPI CFStringRef inum_toStringCopy(const IDNumberConcept* thisObject, UErrorCode* status) {
+INFLECTION_CAPI int32_t inum_toString(const IDNumberConcept* thisObject, char16_t* dest, int32_t destCapacity, UErrorCode* status) {
     if (status != nullptr && U_SUCCESS(*status)) {
         try {
-            return inflection::util::TypeConversionUtils::to_CFString(npc((const ::inflection::dialog::NumberConcept*)thisObject)->toString());
+            return inflection::util::TypeConversionUtils::copyString(dest, destCapacity, npc((const ::inflection::dialog::NumberConcept*)thisObject)->toString(), status);
         }
         catch (const ::std::exception& e) {
             inflection::util::TypeConversionUtils::convert(e, status);
         }
     }
-    return nullptr;
+    return -1;
 }
 
-INFLECTION_CAPI CFStringRef inum_asWordsCopy(const IDNumberConcept* thisObject, UErrorCode* status) {
+INFLECTION_CAPI int32_t inum_asWords(const IDNumberConcept* thisObject, char16_t* dest, int32_t destCapacity, UErrorCode* status) {
     if (status != nullptr && U_SUCCESS(*status)) {
         try {
-            return inflection::util::TypeConversionUtils::to_CFString(npc((const ::inflection::dialog::NumberConcept*)thisObject)->getAsWords());
+            return inflection::util::TypeConversionUtils::copyString(dest, destCapacity, npc((const ::inflection::dialog::NumberConcept*)thisObject)->getAsWords(), status);
         }
         catch (const ::std::exception& e) {
             inflection::util::TypeConversionUtils::convert(e, status);
         }
     }
-    return nullptr;
+    return -1;
 }
 
-INFLECTION_CAPI CFStringRef inum_asWordsVariantCopy(const IDNumberConcept* thisObject, CFStringRef variant, UErrorCode* status) {
+INFLECTION_CAPI int32_t inum_asWordsVariant(const IDNumberConcept* thisObject, const char16_t* variant, char16_t* dest, int32_t destCapacity, UErrorCode* status) {
     if (status != nullptr && U_SUCCESS(*status)) {
         try {
-            return inflection::util::TypeConversionUtils::to_CFString(npc((const ::inflection::dialog::NumberConcept*)thisObject)->asWords(inflection::util::TypeConversionUtils::to_u16string(variant)));
+            return inflection::util::TypeConversionUtils::copyString(dest, destCapacity, npc((const ::inflection::dialog::NumberConcept*)thisObject)->asWords(npc(variant)), status);
         }
         catch (const ::std::exception& e) {
             inflection::util::TypeConversionUtils::convert(e, status);
         }
     }
-    return nullptr;
+    return -1;
 }
 
 INFLECTION_CAPI IDSpeakableString* inum_asSpokenWordsCopy(const IDNumberConcept* thisObject, UErrorCode* status) {
@@ -57,10 +57,10 @@ INFLECTION_CAPI IDSpeakableString* inum_asSpokenWordsCopy(const IDNumberConcept*
     return nullptr;
 }
 
-INFLECTION_CAPI IDSpeakableString* inum_asSpokenWordsVariantCopy(const IDNumberConcept* thisObject, CFStringRef variant, UErrorCode* status) {
+INFLECTION_CAPI IDSpeakableString* inum_asSpokenWordsVariantCopy(const IDNumberConcept* thisObject, const char16_t* variant, UErrorCode* status) {
     if (status != nullptr && U_SUCCESS(*status)) {
         try {
-            return (IDSpeakableString*) new inflection::dialog::SpeakableString(npc((const ::inflection::dialog::NumberConcept*)thisObject)->asSpokenWords(inflection::util::TypeConversionUtils::to_u16string(variant)));
+            return (IDSpeakableString*) new inflection::dialog::SpeakableString(npc((const ::inflection::dialog::NumberConcept*)thisObject)->asSpokenWords(npc(variant)));
         }
         catch (const ::std::exception& e) {
             inflection::util::TypeConversionUtils::convert(e, status);
@@ -81,28 +81,28 @@ INFLECTION_CAPI IDSpeakableString* inum_asDigitsCopy(const IDNumberConcept* this
     return nullptr;
 }
 
-INFLECTION_CAPI CFStringRef inum_asOrdinalDigitsCopy(const IDNumberConcept* thisObject, UErrorCode* status) {
+INFLECTION_CAPI int32_t inum_asOrdinalDigits(const IDNumberConcept* thisObject, char16_t* dest, int32_t destCapacity, UErrorCode* status) {
     if (status != nullptr && U_SUCCESS(*status)) {
         try {
-            return inflection::util::TypeConversionUtils::to_CFString(npc((const ::inflection::dialog::NumberConcept*)thisObject)->getAsOrdinalDigits());
+            return inflection::util::TypeConversionUtils::copyString(dest, destCapacity, npc((const ::inflection::dialog::NumberConcept*)thisObject)->getAsOrdinalDigits(), status);
         }
         catch (const ::std::exception& e) {
             inflection::util::TypeConversionUtils::convert(e, status);
         }
     }
-    return nullptr;
+    return -1;
 }
 
-INFLECTION_CAPI CFStringRef inum_asOrginalDigitsVariantCopy(const IDNumberConcept* thisObject, CFStringRef variant, UErrorCode* status) {
+INFLECTION_CAPI int32_t inum_asOrginalDigitsVariant(const IDNumberConcept* thisObject, const char16_t* variant, char16_t* dest, int32_t destCapacity, UErrorCode* status) {
     if (status != nullptr && U_SUCCESS(*status)) {
         try {
-            return inflection::util::TypeConversionUtils::to_CFString(npc((const ::inflection::dialog::NumberConcept*)thisObject)->asDigits(inflection::util::TypeConversionUtils::to_u16string(variant)));
+            return inflection::util::TypeConversionUtils::copyString(dest, destCapacity, npc((const ::inflection::dialog::NumberConcept*)thisObject)->asDigits(npc(variant)), status);
         }
         catch (const ::std::exception& e) {
             inflection::util::TypeConversionUtils::convert(e, status);
         }
     }
-    return nullptr;
+    return -1;
 }
 
 INFLECTION_CAPI IDNumberConcept* inum_createFromInt64(int64_t value, const char* language, const char* regionLocale, UErrorCode* status) {

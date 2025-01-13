@@ -23,8 +23,6 @@ public:
 
     explicit PtGrammarSynthesizer_GenericLookupFunction(const ::std::vector<::std::u16string>& properties);
     ~PtGrammarSynthesizer_GenericLookupFunction() override;
-
-private:
-    PtGrammarSynthesizer_GenericLookupFunction(PtGrammarSynthesizer_GenericLookupFunction&) = delete;
+    PtGrammarSynthesizer_GenericLookupFunction(const PtGrammarSynthesizer_GenericLookupFunction&) = delete;
     PtGrammarSynthesizer_GenericLookupFunction& operator=(const PtGrammarSynthesizer_GenericLookupFunction&) = delete;
 };

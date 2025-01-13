@@ -57,4 +57,6 @@ public:
     explicit CommonConceptFactoryImpl(const ::inflection::util::ULocale& language);
     CommonConceptFactoryImpl(const ::inflection::util::ULocale& language, const ::std::u16string& semanticFeatureForNumberConcept, const ::std::map<::std::u16string, ::std::u16string>& semanticFeatureToNumberConceptName);
     ~CommonConceptFactoryImpl() override;
+    CommonConceptFactoryImpl(const CommonConceptFactoryImpl&) = delete;
+    CommonConceptFactoryImpl& operator=(const CommonConceptFactoryImpl&) = delete;
 };

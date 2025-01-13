@@ -20,7 +20,9 @@ private:
     EnGrammarSynthesizer_CountLookupFunction countLookupFunction {  };
 
 public:
-    ::inflection::dialog::SpeakableString* getFeatureValue(const ::inflection::dialog::SemanticFeatureModel_DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const override;
+    ::inflection::dialog::SpeakableString* getFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const override;
 
     EnGrammarSynthesizer_ArticleLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model, const char16_t* derivedSemanticName);
+    EnGrammarSynthesizer_ArticleLookupFunction(const EnGrammarSynthesizer_ArticleLookupFunction&) = delete;
+    EnGrammarSynthesizer_ArticleLookupFunction& operator=(const EnGrammarSynthesizer_ArticleLookupFunction&) = delete;
 };

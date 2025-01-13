@@ -34,10 +34,10 @@ public: /* protected */
     virtual const SemanticFeatureModel* getModel() const;
     virtual const ::std::u16string* getConstraint(const SemanticFeature& feature) const;
     virtual bool hasConstraint(const SemanticFeature& feature) const;
-    virtual void putConstraint(const SemanticFeature& feature, const ::std::u16string& featureValue);
-    virtual void putConstraintByName(const ::std::u16string& featureName, const ::std::u16string& featureValue);
+    virtual void putConstraint(const SemanticFeature& feature, ::std::u16string_view featureValue);
+    virtual void putConstraintByName(::std::u16string_view featureName, ::std::u16string_view featureValue);
     virtual void clearConstraint(const SemanticFeature& feature);
-    virtual void clearConstraintByName(const ::std::u16string& featureName);
+    virtual void clearConstraintByName(::std::u16string_view featureName);
     /**
      * Returns {@code true} if a value exists for the given constraints
      */
@@ -54,7 +54,7 @@ public: /* protected */
      * Returns the String value of the specified feature for this concept, given its current constraints.
      * The featureName will be automatically converted to a SemanticFeature for lookup.
      */
-    virtual SpeakableString* getFeatureValueByName(const ::std::u16string& featureName) const;
+    virtual SpeakableString* getFeatureValueByName(::std::u16string_view featureName) const;
 protected: /* protected */
     virtual const SemanticFeature* getSpeakFeature() const;
 

@@ -46,19 +46,15 @@ private:
     ::std::optional<::std::u16string> inflectPhrase(const std::u16string &originalString, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const;
 
 public:
-    ::inflection::dialog::SemanticFeatureModel_DisplayValue *getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const override;
+    ::inflection::dialog::DisplayValue *getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const override;
 
 
 public: /* package */
     explicit EnGrammarSynthesizer_EnDisplayFunction(const ::inflection::dialog::SemanticFeatureModel& model);
     ~EnGrammarSynthesizer_EnDisplayFunction() override;
-
+    EnGrammarSynthesizer_EnDisplayFunction(const EnGrammarSynthesizer_EnDisplayFunction&) = delete;
+    EnGrammarSynthesizer_EnDisplayFunction& operator=(const EnGrammarSynthesizer_EnDisplayFunction&) = delete;
 
 private:
     static const ::std::map<::std::u16string_view, ::std::u16string_view>& POSSESSIVE_DETERMINERS();
-
-private:
-    EnGrammarSynthesizer_EnDisplayFunction(EnGrammarSynthesizer_EnDisplayFunction&) = delete;
-    EnGrammarSynthesizer_EnDisplayFunction& operator=(const EnGrammarSynthesizer_EnDisplayFunction &) = delete;
-
 };

@@ -6,7 +6,7 @@
 #include <inflection/grammar/synthesis/RuGrammarSynthesizer.hpp>
 #include <icu4cxx/UnicodeSet.hpp>
 #include <inflection/dialog/SpeakableString.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/util/LocaleUtils.hpp>
 #include <inflection/util/StringViewUtils.hpp>
 #include <inflection/util/UnicodeSetUtils.hpp>
@@ -47,7 +47,7 @@ const ::std::set<::std::u16string_view>& RuGrammarSynthesizer_WithPrepositionLoo
     return *npc(WITH_WORDS_);
 }
 
-inflection::dialog::SpeakableString* RuGrammarSynthesizer_WithPrepositionLookupFunction::getArticle(const ::inflection::dialog::SemanticFeatureModel_DisplayValue& displayValue) const
+inflection::dialog::SpeakableString* RuGrammarSynthesizer_WithPrepositionLookupFunction::getArticle(const ::inflection::dialog::DisplayValue& displayValue) const
 {
     const auto& displayString = displayValue.getDisplayString();
     ::std::u16string displayStringLowerCase;

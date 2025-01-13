@@ -67,21 +67,21 @@ public:
      * @param s - the substring to check for containment.
      * @return  boolean
      */
-    virtual bool contains(const ::std::u16string& s) const;
+    virtual bool contains(std::u16string_view s) const;
 
     /**
      * Constructs a speakable string given the print part.
      *
      * @param print - the expected print part for the speakable string
      */
-    explicit SpeakableString(const ::std::u16string& print);
+    explicit SpeakableString(std::u16string_view print);
     /**
      * Constructs a speakable string given both the print and speak part.
      *
      * @param print - the expected print part for the speakable string
      * @param speak - the expected speak part for the speakable string
      */
-    SpeakableString(const ::std::u16string& print, const ::std::u16string& speak);
+    SpeakableString(std::u16string_view print, std::u16string_view speak);
     /**
      * Copy constructor.
      */

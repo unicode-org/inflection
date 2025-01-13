@@ -4,18 +4,12 @@
 #include "catch2/catch_test_macros.hpp"
 
 #include <inflection/dialog/LocalizedCommonConceptFactoryProvider.h>
-#include <inflection/util/AutoCFRelease.hpp>
+#include <inflection/util/AutoCRelease.hpp>
 #include <inflection/util/StringUtils.hpp>
 #include <inflection/util/StringViewUtils.hpp>
 #include <inflection/util/LoggerConfig.h>
 #include <inflection/util/ULocale.hpp>
 #include <inflection/npc.hpp>
-
-static void checkForSuccess(UErrorCode* status)
-{
-    REQUIRE(status != nullptr);
-    REQUIRE(U_SUCCESS(*status));
-}
 
 INFLECTION_CBEGIN
 static void stringLogger(void *context, ILogLevel logLevel, const char16_t* category, const char16_t *message) {
@@ -43,16 +37,16 @@ TEST_CASE("LoggerConfigTest-c#testAPI", "[.]")
     auto locale = "tlh";
 
     ilogc_registerLogger(&logLines, stringLogger, &error);
-    checkForSuccess(&error);
+    REQUIRE(U_SUCCESS(error));
 
     IDLocalizedCommonConceptFactoryProvider* localizedCommonConceptFactoryProvider = ilccfp_getDefaultCommonConceptFactoryProvider(&error);
-    checkForSuccess(&error);
+    REQUIRE(U_SUCCESS(error));
 
     ilccfp_getCommonConceptFactory(localizedCommonConceptFactoryProvider, locale, &error);
-    checkForSuccess(&error);
+    REQUIRE(U_SUCCESS(error));
 
     ilogc_unregisterLogger(&logLines, &error);
-    checkForSuccess(&error);
+    REQUIRE(U_SUCCESS(error));
 
     INFO(logLines.size());
     REQUIRE((logLines.size() == 1 || logLines.size() == 2));
@@ -67,12 +61,12 @@ TEST_CASE("LoggerConfigTest-c#testAPI", "[.]")
 
     auto logLevel = ilogc_getLogLevel();
     ilogc_setLogLevel(ILOG_ERROR, &error);
-    checkForSuccess(&error);
+    REQUIRE(U_SUCCESS(error));
 
     REQUIRE(ILOG_ERROR == ilogc_getLogLevel());
 
     ilogc_setLogLevel(logLevel, &error);
-    checkForSuccess(&error);
+    REQUIRE(U_SUCCESS(error));
 
     REQUIRE(logLevel == ilogc_getLogLevel());
     REQUIRE(logLines.empty());

@@ -2,7 +2,7 @@
  * Copyright 2016-2024 Apple Inc. All rights reserved.
  */
 #include <inflection/util/DelimitedStringIterator.hpp>
-#include <inflection/exception/StringIndexOutOfBoundsException.hpp>
+#include <inflection/exception/IndexOutOfBoundsException.hpp>
 #include <unicode/ustring.h>
 
 namespace inflection::util {
@@ -62,7 +62,7 @@ DelimitedStringIterator::getNext()
 DelimitedStringIterator&
 DelimitedStringIterator::operator++() {
     if (!hasNext()) {
-        throw ::inflection::exception::StringIndexOutOfBoundsException();
+        throw ::inflection::exception::IndexOutOfBoundsException();
     }
     getNext();
     return *this;

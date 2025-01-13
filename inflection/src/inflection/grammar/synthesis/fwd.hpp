@@ -28,7 +28,6 @@ namespace inflection
             class DeGrammarSynthesizer;
             class DeGrammarSynthesizer_ArticleLookupFunction;
             class DeGrammarSynthesizer_DeDisplayFunction;
-            class ElGrammarSynthesizer;
             class EnGrammarSynthesizer;
             class EnGrammarSynthesizer_ArticleLookupFunction;
             class EnGrammarSynthesizer_CaseLookupFunction;
@@ -74,9 +73,7 @@ namespace inflection
             class NlGrammarSynthesizer;
             class NlGrammarSynthesizer_ArticleLookupFunction;
             class NlGrammarSynthesizer_DefinitenessLookupFunction;
-            class NlGrammarSynthesizer_EmptyConstraintInflectorPattern;
             class NlGrammarSynthesizer_InflectorPattern;
-            class NlGrammarSynthesizer_InflectorPatternChain;
             class NlGrammarSynthesizer_NlAdjectiveInflectionPattern;
             class NlGrammarSynthesizer_NlAdjectiveListInflectionPattern;
             class NlGrammarSynthesizer_NlAdjectiveNounInflectionPattern;

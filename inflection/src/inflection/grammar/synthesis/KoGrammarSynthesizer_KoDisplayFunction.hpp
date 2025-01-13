@@ -24,7 +24,7 @@ private:
     std::map<std::u16string, KoGrammarSynthesizer_ParticleResolver> particleMap {  };
 
 public:
-    ::inflection::dialog::SemanticFeatureModel_DisplayValue * getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const override;
+    ::inflection::dialog::DisplayValue * getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const override;
 
 public:
     explicit KoGrammarSynthesizer_KoDisplayFunction(const ::inflection::dialog::SemanticFeatureModel& model);

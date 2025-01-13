@@ -89,7 +89,9 @@ public:
 
 protected: /* protected */
     explicit Tokenizer(const ::inflection::tokenizer::TokenExtractor* wordExtractor);
-
+public:
+    Tokenizer(const Tokenizer&) = delete;
+    Tokenizer& operator=(const Tokenizer&) = delete;
 
 private:
     friend class TokenizerFactory;

@@ -5,7 +5,7 @@
 
 #include <inflection/dictionary/PhraseProperties.hpp>
 #include <inflection/lang/StringFilterUtil.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SpeakableString.hpp>
 
 namespace inflection::grammar::synthesis {
@@ -15,7 +15,7 @@ HeGrammarSynthesizer_WithConditionalHyphen::HeGrammarSynthesizer_WithConditional
 {
 }
 
-inflection::dialog::SpeakableString* HeGrammarSynthesizer_WithConditionalHyphen::getFeatureValue(const ::inflection::dialog::SemanticFeatureModel_DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& /*constraints*/) const
+inflection::dialog::SpeakableString* HeGrammarSynthesizer_WithConditionalHyphen::getFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& /*constraints*/) const
 {
     const auto& displayString = displayValue.getDisplayString();
     if (!::inflection::dictionary::PhraseProperties::isStartsWithUnicodeSets(displayString, ::inflection::dictionary::PhraseProperties::DEFAULT_MATCHABLE_SET(), ::inflection::lang::StringFilterUtil::HEBREW_SCRIPT(), {})) {

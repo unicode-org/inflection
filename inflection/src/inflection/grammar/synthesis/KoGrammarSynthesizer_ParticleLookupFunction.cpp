@@ -3,7 +3,7 @@
  */
 #include <inflection/grammar/synthesis/KoGrammarSynthesizer_ParticleLookupFunction.hpp>
 
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SpeakableString.hpp>
 #include <inflection/grammar/synthesis/KoGrammarSynthesizer.hpp>
 #include <inflection/util/LocaleUtils.hpp>
@@ -16,7 +16,7 @@ KoGrammarSynthesizer_ParticleLookupFunction::KoGrammarSynthesizer_ParticleLookup
 {
 }
 
-inflection::dialog::SpeakableString* KoGrammarSynthesizer_ParticleLookupFunction::getFeatureValue(const ::inflection::dialog::SemanticFeatureModel_DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& /*constraints*/) const
+inflection::dialog::SpeakableString* KoGrammarSynthesizer_ParticleLookupFunction::getFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& /*constraints*/) const
 {
     return createPostposition(displayValue, particleResolver.getParticleValue(displayValue.getDisplayString(), true));
 }

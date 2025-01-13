@@ -20,7 +20,7 @@ using ::inflection::tokenizer::TokenChain;
 using ::inflection::dialog::SemanticFeature;
 using ::inflection::dialog::DefaultFeatureFunction;
 using ::inflection::dialog::DefaultArticleLookupFunction;
-using ::inflection::dialog::SemanticFeatureModel_DisplayValue;
+using ::inflection::dialog::DisplayValue;
 using ::inflection::dialog::SpeakableString;
 
 ::std::vector<::std::u16string> GrammarSynthesizerUtil::getSignificantWords(const TokenChain& tokenChain)
@@ -115,8 +115,8 @@ bool GrammarSynthesizerUtil::checkSignificantTokenForInflection(const ::inflecti
     return !(!token.isSignificant() || token.isWhitespace() || word == u"-" || word.empty());
 }
 
-const SemanticFeatureModel_DisplayValue* GrammarSynthesizerUtil::getTheBestDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const std::map<SemanticFeature, ::std::u16string> &constraints) {
-    const SemanticFeatureModel_DisplayValue* choosenDisplayValue = nullptr;
+const DisplayValue* GrammarSynthesizerUtil::getTheBestDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const std::map<SemanticFeature, ::std::u16string> &constraints) {
+    const DisplayValue* choosenDisplayValue = nullptr;
     int32_t maxConstraintsMatch = -1;
     for (const auto& displayValue : displayData.getValues()) {
         int32_t numConstraintsMatch = 0;
@@ -134,7 +134,7 @@ const SemanticFeatureModel_DisplayValue* GrammarSynthesizerUtil::getTheBestDispl
     return choosenDisplayValue;
 }
 
-::std::map<SemanticFeature, ::std::u16string> GrammarSynthesizerUtil::mergeConstraintsWithDisplayValue(const dialog::SemanticFeatureModel_DisplayValue &displayValue, const std::map<SemanticFeature, ::std::u16string> &constraints) {
+::std::map<SemanticFeature, ::std::u16string> GrammarSynthesizerUtil::mergeConstraintsWithDisplayValue(const dialog::DisplayValue &displayValue, const std::map<SemanticFeature, ::std::u16string> &constraints) {
     auto mergedConstraints(constraints);
     const auto& displayDataConstraints(displayValue.getConstraintMap());
     mergedConstraints.insert(displayDataConstraints.begin(), displayDataConstraints.end());
@@ -154,7 +154,7 @@ void GrammarSynthesizerUtil::inflectAndAppendArticlePrefix(::std::u16string &dis
         auto articleConstraints(displayValueConstraints);
         GrammarSynthesizerUtil::mergeConstraintsWithExisting(articleConstraints, articleDisplayValue->second);
         const DefaultFeatureFunction *featureFunction = articleLookupFunction;
-        ::std::unique_ptr<SemanticFeatureModel_DisplayValue> inflectedDisplayValue(new SemanticFeatureModel_DisplayValue(displayString, articleConstraints));
+        ::std::unique_ptr<DisplayValue> inflectedDisplayValue(new DisplayValue(displayString, articleConstraints));
         ::std::unique_ptr<SpeakableString> speakableDisplayString(featureFunction->getFeatureValue(*inflectedDisplayValue, {}));
         if (speakableDisplayString != nullptr) {
             displayString = speakableDisplayString->getPrint();

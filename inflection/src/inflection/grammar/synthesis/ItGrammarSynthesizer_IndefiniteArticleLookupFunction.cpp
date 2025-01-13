@@ -6,7 +6,7 @@
 #include <inflection/dictionary/PhraseProperties.hpp>
 #include <inflection/util/LocaleUtils.hpp>
 #include <inflection/util/ULocale.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SpeakableString.hpp>
 #include <inflection/grammar/synthesis/ItGrammarSynthesizer.hpp>
 
@@ -18,7 +18,7 @@ ItGrammarSynthesizer_IndefiniteArticleLookupFunction::ItGrammarSynthesizer_Indef
 {
 }
 
-inflection::dialog::SpeakableString* ItGrammarSynthesizer_IndefiniteArticleLookupFunction::getArticle(const ::inflection::dialog::SemanticFeatureModel_DisplayValue& displayValue, bool /*wantArticle*/, ItGrammarSynthesizer::Count countValue, ItGrammarSynthesizer::Gender genderValue) const
+inflection::dialog::SpeakableString* ItGrammarSynthesizer_IndefiniteArticleLookupFunction::getArticle(const ::inflection::dialog::DisplayValue& displayValue, bool /*wantArticle*/, ItGrammarSynthesizer::Count countValue, ItGrammarSynthesizer::Gender genderValue) const
 {
     const auto& displayString = displayValue.getDisplayString();
     if (genderValue == ItGrammarSynthesizer::Gender::feminine) {

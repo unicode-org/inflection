@@ -6,7 +6,7 @@
 #include <inflection/dialog/fwd.hpp>
 #include <inflection/dialog/SemanticFeatureConceptBase.hpp>
 #include <inflection/dialog/SemanticFeatureModel_DisplayData.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <memory>
 #include <string>
 #include <vector>
@@ -116,7 +116,7 @@ public:
      * @param defaultDisplayData These are customized pronouns that override the default pronouns.
      * @param defaultConstraints The constraints to consider when a given constraint is undefined.
      */
-    PronounConcept(const SemanticFeatureModel& model, const ::std::vector<::inflection::dialog::SemanticFeatureModel_DisplayValue>& defaultDisplayData, const ::std::map<SemanticFeature, ::std::u16string>& defaultConstraints);
+    PronounConcept(const SemanticFeatureModel& model, const ::std::vector<::inflection::dialog::DisplayValue>& defaultDisplayData, const ::std::map<SemanticFeature, ::std::u16string>& defaultConstraints);
 
     /**
      * Constructs a new PronounConcept with the default constraints. If you know the gender or person grammatical category

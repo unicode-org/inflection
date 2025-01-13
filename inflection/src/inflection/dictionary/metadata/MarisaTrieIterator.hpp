@@ -56,8 +56,8 @@ public:
 private:
 
     const ::inflection::dictionary::metadata::MarisaTrie<T>& trie;
-    ::marisa::Agent agent;
-    ::std::u16string prefix;
+    ::marisa::Agent agent {  };
+    ::std::u16string prefix {  };
     ::std::pair<::std::u16string, T> value {  };
     bool reachedEnd { false };
 

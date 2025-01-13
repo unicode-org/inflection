@@ -11,7 +11,7 @@
 #include <inflection/util/Validate.hpp>
 #include <inflection/dialog/SemanticFeature.hpp>
 #include <inflection/dialog/SemanticFeatureModel_DisplayData.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
 #include <inflection/lang/StringFilterUtil.hpp>
 #include <inflection/npc.hpp>
@@ -176,7 +176,7 @@ namespace {
     return performInflection(word, inflectionContraints);
 }
 
-::inflection::dialog::SemanticFeatureModel_DisplayValue * ArGrammarSynthesizer_ArDisplayFunction::getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool /*enableInflectionGuess*/) const
+::inflection::dialog::DisplayValue * ArGrammarSynthesizer_ArDisplayFunction::getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool /*enableInflectionGuess*/) const
 {
     if (displayData.getValues().empty()) {
         return nullptr;
@@ -224,12 +224,12 @@ namespace {
                 displayString += u"ا";
             }
         }
-        return new ::inflection::dialog::SemanticFeatureModel_DisplayValue(displayString);
+        return new ::inflection::dialog::DisplayValue(displayString);
     }
     if (GrammemeConstants::DEFINITENESS_DEFINITE() == inflectionContraints.definitenessString && ::inflection::util::StringViewUtils::trim(dialogWord).find(u' ') == ::std::u16string::npos) {
         inflection = lookupDefiniteArticle(inflection);
     }
-    return new ::inflection::dialog::SemanticFeatureModel_DisplayValue(inflection, constraints);
+    return new ::inflection::dialog::DisplayValue(inflection, constraints);
 }
 
 ::std::u16string ArGrammarSynthesizer_ArDisplayFunction::lookupDefiniteArticle(const ::std::u16string& displayString)

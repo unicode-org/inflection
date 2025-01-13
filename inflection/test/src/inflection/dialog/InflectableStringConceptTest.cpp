@@ -13,7 +13,7 @@
 #include <inflection/dialog/InflectableStringConcept.hpp>
 #include <inflection/dialog/SemanticFeature.hpp>
 #include <inflection/dialog/SemanticFeatureModel_DisplayData.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
 #include <inflection/npc.hpp>
 #include <memory>
@@ -127,7 +127,7 @@ static ::std::map<inflection::dialog::SemanticFeature, ::std::u16string> createA
     return constraintMap;
 }
 
-static void appendDisplayValue(::std::vector<::inflection::dialog::SemanticFeatureModel_DisplayValue>* displayValues, const ::std::u16string& inflection, const ::inflection::dialog::SemanticFeatureModel* model, const ::std::u16string& countValue, const ::std::u16string& genderValue, const ::std::u16string& caseValue, const ::std::u16string& definitenessValue)
+static void appendDisplayValue(::std::vector<::inflection::dialog::DisplayValue>* displayValues, const ::std::u16string& inflection, const ::inflection::dialog::SemanticFeatureModel* model, const ::std::u16string& countValue, const ::std::u16string& genderValue, const ::std::u16string& caseValue, const ::std::u16string& definitenessValue)
 {
     auto constraintMap = createArabicConstraintMap(model, u"second", countValue, genderValue, caseValue, definitenessValue);
     npc(displayValues)->emplace_back(inflection, constraintMap);
@@ -138,7 +138,7 @@ TEST_CASE("InflectableStringConceptTest#testArabic")
     auto model = npc(npc(::inflection::dialog::LocalizedCommonConceptFactoryProvider::getDefaultCommonConceptFactoryProvider())->getCommonConceptFactory(::inflection::util::LocaleUtils::ARABIC()))->getSemanticFeatureModel();
     auto displayFunction = npc(model)->getDefaultDisplayFunction();
     auto constraints = createArabicConstraintMap(model, u"", u"plural", u"feminine", u"", u"");
-    ::std::vector<::inflection::dialog::SemanticFeatureModel_DisplayValue> displayValues;
+    ::std::vector<::inflection::dialog::DisplayValue> displayValues;
     appendDisplayValue(&displayValues, u"حانة", model, u"singular", u"feminine", u"", u"");
     appendDisplayValue(&displayValues, u"حانتان", model, u"dual", u"feminine", u"nominative", u"");
     appendDisplayValue(&displayValues, u"حانتين", model, u"dual", u"feminine", u"genitive", u"");

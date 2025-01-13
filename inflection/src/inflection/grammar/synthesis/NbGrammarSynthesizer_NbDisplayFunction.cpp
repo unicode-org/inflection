@@ -13,7 +13,7 @@
 #include <inflection/tokenizer/TokenizerFactory.hpp>
 #include <inflection/dialog/SemanticFeature.hpp>
 #include <inflection/dialog/SemanticFeatureModel_DisplayData.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
 #include <inflection/util/Validate.hpp>
 #include <inflection/npc.hpp>
@@ -66,7 +66,7 @@ NbGrammarSynthesizer_NbDisplayFunction::~NbGrammarSynthesizer_NbDisplayFunction(
     return word;
 }
 
-::inflection::dialog::SemanticFeatureModel_DisplayValue * NbGrammarSynthesizer_NbDisplayFunction::getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool /*enableInflectionGuess*/) const
+::inflection::dialog::DisplayValue * NbGrammarSynthesizer_NbDisplayFunction::getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool /*enableInflectionGuess*/) const
 {
     ::std::u16string displayString;
     if (!displayData.getValues().empty()) {
@@ -84,7 +84,7 @@ NbGrammarSynthesizer_NbDisplayFunction::~NbGrammarSynthesizer_NbDisplayFunction(
             displayString = inflectTokenChain(constraints, *tokenChain);
         }
     }
-    return new ::inflection::dialog::SemanticFeatureModel_DisplayValue(displayString, constraints);
+    return new ::inflection::dialog::DisplayValue(displayString, constraints);
 }
 
 ::std::u16string NbGrammarSynthesizer_NbDisplayFunction::inflectTokenChain(const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, const ::inflection::tokenizer::TokenChain& tokenChain) const

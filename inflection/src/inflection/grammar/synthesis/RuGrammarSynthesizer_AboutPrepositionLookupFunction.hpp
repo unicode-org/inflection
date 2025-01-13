@@ -16,7 +16,9 @@ public:
     typedef RuGrammarSynthesizer_ArticleLookupFunction super;
 
 public: /* package */
-    ::inflection::dialog::SpeakableString* getArticle(const ::inflection::dialog::SemanticFeatureModel_DisplayValue& displayValue) const override;
+    ::inflection::dialog::SpeakableString* getArticle(const ::inflection::dialog::DisplayValue& displayValue) const override;
 
     RuGrammarSynthesizer_AboutPrepositionLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model, const ::std::u16string& derivedSemanticName);
+    RuGrammarSynthesizer_AboutPrepositionLookupFunction(const RuGrammarSynthesizer_AboutPrepositionLookupFunction&) = delete;
+    RuGrammarSynthesizer_AboutPrepositionLookupFunction& operator=(const RuGrammarSynthesizer_AboutPrepositionLookupFunction&) = delete;
 };

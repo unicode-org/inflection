@@ -21,11 +21,13 @@ private:
     const ::inflection::dialog::SemanticFeature* derivedArticleFeature {  };
 
 protected: /* package */
-    virtual ::inflection::dialog::SpeakableString* getArticle(const ::inflection::dialog::SemanticFeatureModel_DisplayValue& displayValue) const = 0;
+    virtual ::inflection::dialog::SpeakableString* getArticle(const ::inflection::dialog::DisplayValue& displayValue) const = 0;
 
 public:
-    ::inflection::dialog::SpeakableString* getFeatureValue(const ::inflection::dialog::SemanticFeatureModel_DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const override;
+    ::inflection::dialog::SpeakableString* getFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const override;
 
 public: /* package */
     RuGrammarSynthesizer_ArticleLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model, const ::std::u16string& derivedSemanticName);
+    RuGrammarSynthesizer_ArticleLookupFunction(const RuGrammarSynthesizer_ArticleLookupFunction&) = delete;
+    RuGrammarSynthesizer_ArticleLookupFunction& operator=(const RuGrammarSynthesizer_ArticleLookupFunction&) = delete;
 };

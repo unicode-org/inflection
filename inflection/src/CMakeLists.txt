@@ -37,7 +37,7 @@ else()
 	target_sources(inflection_tool_objs PRIVATE ${TOOLS_SUBSET})
 	set_property(TARGET inflection_tool_objs PROPERTY POSITION_INDEPENDENT_CODE ON)
 	target_include_directories(inflection_tool_objs PUBLIC ${INFLECTION_INCLUDE_PATH} ${ICU_INCLUDE_DIR})
-	target_link_libraries(inflection_tool_objs PRIVATE resource_objs marisa_objs CoreFoundation ICU::uc ICU::i18n)
+	target_link_libraries(inflection_tool_objs PRIVATE resource_objs marisa_objs ICU::uc ICU::i18n)
 	target_compile_definitions(inflection_tool_objs PUBLIC ${inflection_compile_definitions})
 endif()
 add_dependencies(inflection_tool_objs generated_src)
@@ -51,7 +51,6 @@ target_compile_definitions(inflection PUBLIC ${inflection_compile_definitions})
 target_link_libraries(inflection
 		PRIVATE
 			ICU::uc ICU::i18n
-			CoreFoundation
 			marisa_objs resource_objs inflection_tool_objs
 )
 add_link_options(-no_inits)
@@ -79,20 +78,15 @@ add_custom_target(inflection-headers ALL DEPENDS ${INFLECTION_INCLUDE_ROOT}/infl
 
 set(CXX_CHECK_HEADER_FLAGS "${CXX_STD_LIB_FLAG}")
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-	get_target_property(CF_INCLUDES CoreFoundation INTERFACE_INCLUDE_DIRECTORIES)
-	set(CF_INCLUDES "-I${CF_INCLUDES}")
 	get_target_property(ICU_INCLUDES ICU::uc INTERFACE_INCLUDE_DIRECTORIES)
 	set(ICU_INCLUDES "-I${ICU_INCLUDES}")
 endif()
 
 add_custom_target(check-headers
-	COMMAND ${CMAKE_COMMAND} -DCPP_COMPILER_BIN=${CMAKE_CXX_COMPILER} -DC_COMPILER_BIN=${CMAKE_C_COMPILER} -DHEADER_DIR=${INFLECTION_INCLUDE_ROOT} "-DCXX_CHECK_HEADER_FLAGS=${CXX_CHECK_HEADER_FLAGS}" -DCXX_STANDARD=${CMAKE_CXX_STANDARD} -DCF_INCLUDES=${CF_INCLUDES} -DICU_INCLUDES=${ICU_INCLUDES} -P ${CMAKE_SOURCE_DIR}/cmake/checkCompileHeaders.cmake
+	COMMAND ${CMAKE_COMMAND} -DCPP_COMPILER_BIN=${CMAKE_CXX_COMPILER} -DC_COMPILER_BIN=${CMAKE_C_COMPILER} -DHEADER_DIR=${INFLECTION_INCLUDE_ROOT} "-DCXX_CHECK_HEADER_FLAGS=${CXX_CHECK_HEADER_FLAGS}" -DCXX_STANDARD=${CMAKE_CXX_STANDARD} -DICU_INCLUDES=${ICU_INCLUDES} -P ${CMAKE_SOURCE_DIR}/cmake/checkCompileHeaders.cmake
 	VERBATIM
 	DEPENDS inflection-headers
 )
-if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-	add_dependencies(check-headers CoreFoundation_dev)
-endif()
 
 set(ARCHS_DEFAULT_VAL "x86_64")
 if(DEFINED ENV{ARCHS})

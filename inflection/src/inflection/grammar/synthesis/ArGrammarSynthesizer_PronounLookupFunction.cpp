@@ -3,7 +3,7 @@
  */
 #include <inflection/grammar/synthesis/ArGrammarSynthesizer_PronounLookupFunction.hpp>
 
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SpeakableString.hpp>
 #include <inflection/lang/StringFilterUtil.hpp>
 #include <inflection/util/StringViewUtils.hpp>
@@ -20,7 +20,7 @@ ArGrammarSynthesizer_PronounLookupFunction::ArGrammarSynthesizer_PronounLookupFu
 static constexpr char16_t TEH_MARBUTA { u'\u0629' };
 static constexpr char16_t TEH[] = u"ت";
 
-inflection::dialog::SpeakableString* ArGrammarSynthesizer_PronounLookupFunction::getArticle(const ::inflection::dialog::SemanticFeatureModel_DisplayValue& displayValue, ArGrammarSynthesizer::PronounNumber countValue, ArGrammarSynthesizer::PronounGender genderValue, ArGrammarSynthesizer::Person personValue) const
+inflection::dialog::SpeakableString* ArGrammarSynthesizer_PronounLookupFunction::getArticle(const ::inflection::dialog::DisplayValue& displayValue, ArGrammarSynthesizer::PronounNumber countValue, ArGrammarSynthesizer::PronounGender genderValue, ArGrammarSynthesizer::Person personValue) const
 {
     auto value = articleMap.find(ArGrammarSynthesizer::makeLookupKey(countValue, genderValue, personValue).value);
     auto displayString = displayValue.getDisplayString();

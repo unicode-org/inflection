@@ -5,7 +5,7 @@
 
 #include <inflection/dialog/SemanticFeature.hpp>
 #include <inflection/dialog/SemanticFeatureModel_DisplayData.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
 #include <inflection/grammar/synthesis/GrammarSynthesizerUtil.hpp>
 #include <inflection/grammar/synthesis/GrammemeConstants.hpp>
@@ -22,7 +22,7 @@ namespace inflection::grammar::synthesis {
 
 using inflection::dialog::SemanticFeature;
 using inflection::dialog::SemanticFeatureModel;
-using inflection::dialog::SemanticFeatureModel_DisplayValue;
+using inflection::dialog::DisplayValue;
 using inflection::tokenizer::TokenChain;
 using inflection::util::LocaleUtils;
 using inflection::util::StringViewUtils;
@@ -260,7 +260,7 @@ namespace {
 }
 
 
-SemanticFeatureModel_DisplayValue* HiGrammarSynthesizer_HiDisplayFunction::getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const {
+DisplayValue* HiGrammarSynthesizer_HiDisplayFunction::getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const {
     const auto displayValue = GrammarSynthesizerUtil::getTheBestDisplayValue(displayData, constraints);
     if (displayValue == nullptr) {
         return nullptr;
@@ -279,7 +279,7 @@ SemanticFeatureModel_DisplayValue* HiGrammarSynthesizer_HiDisplayFunction::getDi
             return nullptr;
         }
     }
-    return new SemanticFeatureModel_DisplayValue(displayString, displayValueConstraints);
+    return new DisplayValue(displayString, displayValueConstraints);
 }
 
 } // namespace inflection::grammar::synthesis

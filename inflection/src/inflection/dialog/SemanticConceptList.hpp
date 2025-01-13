@@ -5,7 +5,7 @@
 
 #include <inflection/dialog/fwd.hpp>
 #include <inflection/dialog/SemanticFeatureConceptBase.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayValue.hpp>
+#include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SpeakableString.hpp>
 #include <string>
 #include <vector>
@@ -31,7 +31,7 @@ private:
     bool avoidAffixRedundancy { true };
 
 public:
-    void putConstraint(const SemanticFeature& feature, const ::std::u16string& featureValue) override;
+    void putConstraint(const SemanticFeature& feature, ::std::u16string_view featureValue) override;
     void clearConstraint(const SemanticFeature& feature) override;
     void reset() override;
 

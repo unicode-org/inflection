@@ -38,7 +38,7 @@ private:
     ::std::u16string inflectString(const ::std::u16string& lemma, const ::std::vector<::std::u16string>& inflectionType, const ::std::u16string& targetCount, const ::std::u16string& targetDefiniteness, const ::std::u16string& targetCase, const ::std::u16string& targetGender, bool targetIsANoun) const;
 
 public:
-    ::inflection::dialog::SemanticFeatureModel_DisplayValue *getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const override;
+    ::inflection::dialog::DisplayValue *getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const override;
 
 private:
     ::std::u16string inflectTokenChain(const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, const ::inflection::tokenizer::TokenChain& tokenChain) const;
@@ -56,7 +56,6 @@ public: /* package */
 
     explicit DaGrammarSynthesizer_DaDisplayFunction(const ::inflection::dialog::SemanticFeatureModel& model);
     ~DaGrammarSynthesizer_DaDisplayFunction() override;
-
-private:
     DaGrammarSynthesizer_DaDisplayFunction(const DaGrammarSynthesizer_DaDisplayFunction&) = delete;
+    DaGrammarSynthesizer_DaDisplayFunction& operator=(const DaGrammarSynthesizer_DaDisplayFunction&) = delete;
 };

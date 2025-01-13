@@ -9,10 +9,10 @@
 #include <inflection/exception/IllegalArgumentException.hpp>
 #include <inflection/exception/IllegalStateException.hpp>
 #include <inflection/exception/IncompatibleVersionException.hpp>
+#include <inflection/exception/IndexOutOfBoundsException.hpp>
 #include <inflection/exception/InvalidConfigurationException.hpp>
 #include <inflection/exception/MissingResourceException.hpp>
 #include <inflection/exception/NullPointerException.hpp>
-#include <inflection/exception/StringIndexOutOfBoundsException.hpp>
 #include <inflection/exception/XMLParseException.hpp>
 #include <inflection/util/Validate.hpp>
 
@@ -32,7 +32,6 @@ TEST_CASE("ExceptionTest#testThrowCatch")
     CHECK_THROWS(throw inflection::exception::InvalidConfigurationException(u"arg"));
     CHECK_THROWS(throw inflection::exception::MissingResourceException(u"The files are missing", u"inflection::exception::MissingResourceException", u"resource name"));
     CHECK_THROWS(throw inflection::exception::NullPointerException());
-    CHECK_THROWS(throw inflection::exception::StringIndexOutOfBoundsException());
     CHECK_THROWS(throw inflection::exception::XMLParseException());
     CHECK_THROWS(throw inflection::exception::XMLParseException(u"arg"));
 }
@@ -91,10 +90,10 @@ TEST_CASE("ExceptionTest#testICUException")
 TEST_CASE("ExceptionTest#testStringIndexOutOfBoundsException")
 {
     try {
-        throw inflection::exception::StringIndexOutOfBoundsException(u"Please stop going beyond my array boundaries!");
+        throw inflection::exception::IndexOutOfBoundsException(u"Please stop going beyond my array boundaries!");
         FAIL("throw did not execute");
     }
-    catch (const inflection::exception::StringIndexOutOfBoundsException& e) {
+    catch (const inflection::exception::IndexOutOfBoundsException& e) {
         REQUIRE(e.getMessage() == ::std::u16string(u"Please stop going beyond my array boundaries!"));
     }
 }

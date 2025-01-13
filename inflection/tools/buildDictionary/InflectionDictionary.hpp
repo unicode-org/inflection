@@ -57,6 +57,8 @@ class InflectionDictionary {
 public:
     explicit InflectionDictionary(const ::inflection::util::ULocale &locale, const Inflector_InflectionDictionary &dictionary, bool addAffixPatternMappings); // load from dictionary
     ~InflectionDictionary();
+    InflectionDictionary(const InflectionDictionary&) = delete;
+    InflectionDictionary& operator=(const InflectionDictionary&) = delete;
 
     int32_t getId(std::u16string_view identifierStr) const;
     void write(::std::ofstream& writer, DictionaryLogger& logger) const;

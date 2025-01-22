@@ -3,7 +3,6 @@
  */
 package org.unicode.wikidata;
 
-import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
@@ -15,9 +14,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * Converts the claims in LexemeForm from Wikidata in the JSON structure to usable Java classes.
+ */
 public class ClaimsJsonDeserializer extends JsonDeserializer<Map<String, List<String>>> {
     @Override
-    public Map<String, List<String>> deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JacksonException {
+    public Map<String, List<String>> deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
         Map<String, List<String>> result = null;
         JsonNode node = jsonParser.getCodec().readTree(jsonParser);
         var nodeItr = node.fields();

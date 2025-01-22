@@ -12,6 +12,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import javax.annotation.Nonnull;
 
+/**
+ * A dictionary entry has a lemma and a set of inflections. The lemma may have additional part of speech information
+ * that should be included in the inflections. Rare inflections are sorted last so that they're accessible,
+ * but not directly referencable by default, which is important when there may be more than one inflection with the same
+ * set of grammemes.
+ */
 public class DictionaryEntry implements Comparable<DictionaryEntry> {
 
     final String phrase;

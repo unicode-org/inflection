@@ -14,6 +14,7 @@ import static org.unicode.wikidata.Grammar.PartOfSpeech;
 
 
 /**
+ * An inflection is a surface form with a set of grammemes.
  * @author George Rhoten 2014/11/20
  */
 public final class Inflection implements Comparable<Inflection> {

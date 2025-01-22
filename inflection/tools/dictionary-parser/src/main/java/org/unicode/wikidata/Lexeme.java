@@ -8,6 +8,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * A Lexeme from Wikidata.
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Lexeme {
     public String type;

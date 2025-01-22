@@ -6,6 +6,9 @@ package org.unicode.wikidata;
 
 import java.util.Comparator;
 
+/**
+ * Sorts the enums in the Grammar class alphabetically.
+ */
 public final class EnumComparator implements Comparator<Enum<?>> {
     public static final EnumComparator ENUM_COMPARATOR = new EnumComparator();
     @Override

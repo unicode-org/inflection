@@ -50,6 +50,9 @@ import static org.unicode.wikidata.Grammar.Ignorable;
 import static org.unicode.wikidata.Grammar.PartOfSpeech;
 import static org.unicode.wikidata.Grammar.Sound;
 
+/**
+ * Default parser option values.
+ */
 final class ParserDefaults {
     static final String RESOURCES_DIR = "src/main/resources/org/unicode/wikidata/";
     static final String DEFAULT_INFLECTION_FILE_NAME = "inflectional.xml";
@@ -61,6 +64,9 @@ final class ParserDefaults {
     private ParserDefaults() {}
 }
 
+/**
+ * The options to extract the data from the data source.
+ */
 final class ParserOptions {
     private static final char COLON_SEPARATOR = ':';
     static final String INFLECTIONS_FILE = "--inflections";
@@ -297,6 +303,9 @@ final class ParserOptions {
     }
 }
 
+/**
+ * Contains statistical information on what has been analyzed.
+ */
 final class DocumentState {
     int lemmaCount = 0;
     int unusableLemmaCount = 0;

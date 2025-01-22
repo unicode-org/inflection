@@ -13,6 +13,9 @@ import java.util.Map;
 import java.util.TreeSet;
 
 /**
+ * An inflection pattern is a non-unique pattern to represent an ordered set of inflections.
+ * For example, take the singular form of "city" and the plural form of "cities".
+ * The lemma suffix is y (singular), and making the plural form of cities changes that y to an ies suffix.
  * @author George Rhoten 2014/11/18
  */
 public class InflectionPattern {
@@ -21,6 +24,7 @@ public class InflectionPattern {
     List<String> lemmaSuffixes = new ArrayList<>(1);
     List<TreeSet<Enum<?>>> grammemeList = new ArrayList<>(1);
     List<Inflection> inflectionSuffixes;
+    /** Are there multiple non-unique surface forms for the set of grammatical states? */
     boolean inflectional;
 
     public InflectionPattern(int id, String lemmaSuffix, TreeSet<Enum<?>> grammemeSet, List<Inflection> inflectionSuffixes) {

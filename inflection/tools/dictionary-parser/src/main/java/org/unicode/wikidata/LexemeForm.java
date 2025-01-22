@@ -8,6 +8,9 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * A Form from a Lexeme in Wikidata.
+ */
 public class LexemeForm {
     public String id;
     public Map<String, LexemeRepresentation> representations;

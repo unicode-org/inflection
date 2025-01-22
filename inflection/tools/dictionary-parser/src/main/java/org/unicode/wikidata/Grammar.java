@@ -13,6 +13,12 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+/**
+ * Contains the set of known grammemes (grammatical category values).
+ * Typically, they are mapped from Wikidata Q (query) and P (property) entries to more readable wording.
+ * Some of the Q entries can contain multiple grammemes, which is why a Q entry can have a set of grammemes to consider.
+ * Some of these grammemes affect sorting or if we care to include them into the lexical dictionary.
+ */
 public final class Grammar {
     public enum PartOfSpeech {
         ARTICLE,

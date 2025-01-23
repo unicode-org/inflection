@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!--
+ Copyright 2025 Unicode Incorporated and others. All rights reserved.
  Copyright 2016-2024 Apple Inc. All rights reserved.
 -->
 <!DOCTYPE languages SYSTEM "grammar.dtd">
@@ -23,7 +24,7 @@
                 <grammeme name="interjection"/>
                 <!-- grammeme name="letter"/ -->
                 <grammeme name="noun"/>
-                <!-- grammeme name="number"/ -->
+                <grammeme name="numeral"/>
                 <!-- grammeme name="participle" -->
                 <grammeme name="particle"/>
                 <!-- grammeme name="postposition"/ -->

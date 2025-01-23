@@ -1,0 +1,1061 @@
+/*
+ * Copyright 2025 Unicode Incorporated and others. All rights reserved.
+ * Copyright 2023-2024 Apple Inc. All rights reserved.
+ */
+package org.unicode.wikidata;
+
+import java.util.Arrays;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
+/**
+ * Contains the set of known grammemes (grammatical category values).
+ * Typically, they are mapped from Wikidata Q (query) and P (property) entries to more readable wording.
+ * Some of the Q entries can contain multiple grammemes, which is why a Q entry can have a set of grammemes to consider.
+ * Some of these grammemes affect sorting or if we care to include them into the lexical dictionary.
+ */
+public final class Grammar {
+    public enum PartOfSpeech {
+        ARTICLE,
+        ABBREVIATION,
+        ADJECTIVE,
+        ADVERB,
+        CLASSIFIER,
+        CONJUNCTION,
+        DETERMINER,
+        IGNORABLE,
+        INTERJECTION,
+        INTERROGATIVE,
+        NOUN,
+        NUMERAL,
+        //PARTICIPLE,
+        PARTICLE,
+        PREPOSITION,
+        ADPOSITION,
+        PROPER_NOUN,
+        PRONOUN,
+        VERB;
+
+        private final String printableValue;
+
+        PartOfSpeech() {
+            printableValue = super.toString().toLowerCase().replace('_', '-');
+        }
+
+        @Override
+        public String toString() {
+            return printableValue;
+        }
+    }
+
+    enum Miscellaneous {
+        LEMMA_WORD;
+
+        private final String printableValue;
+        Miscellaneous() {
+            printableValue = super.toString().toLowerCase().replace('_', '-');
+        }
+        @Override
+        public String toString() {
+            return printableValue;
+        }
+    }
+
+    enum Count {
+        COUNTABLE,
+        UNCOUNTABLE,
+        ;
+
+        private final String printableValue;
+        Count() {
+            printableValue = super.toString().toLowerCase().replace('_', '-');
+        }
+
+        @Override
+        public String toString() {
+            return printableValue;
+        }
+    }
+
+    enum Number {
+        SINGULAR,
+        PLURAL,
+        DUAL,
+        UNNUMBERED;
+        //FIXED//; // Both
+
+        private final String printableValue;
+        Number() {
+            printableValue = super.toString().toLowerCase().replace('_', '-');
+        }
+
+        @Override
+        public String toString() {
+            return printableValue;
+        }
+    }
+
+    enum Emphasis {
+        STRESSED,
+        UNSTRESSED;
+
+        private final String printableValue;
+        Emphasis() {
+            printableValue = super.toString().toLowerCase().replace('_', '-');
+        }
+
+        @Override
+        public String toString() {
+            return printableValue;
+        }
+    }
+
+    enum Gender {
+        MASCULINE,
+        FEMININE,
+        NEUTER,
+        COMMON, // Typical in Scandinavian languages. This is in contrast to neuter.
+        NONVIRILE; // All genders except masculine personal or masculine human
+
+        private final String printableValue;
+        Gender() {
+            printableValue = super.toString().toLowerCase().replace('_', '-');
+        }
+
+        @Override
+        public String toString() {
+            return printableValue;
+        }
+    }
+
+    enum Tense {
+        PAST,
+        PRESENT,
+        FUTURE;
+
+        private final String printableValue;
+        Tense() {
+            printableValue = super.toString().toLowerCase().replace('_', '-');
+        }
+
+        @Override
+        public String toString() {
+            return printableValue;
+        }
+    }
+
+    enum Transitivity {
+        INTRANSITIVE,
+        TRANSITIVE,
+        ;
+
+        private final String printableValue;
+        Transitivity() {
+            printableValue = super.toString().toLowerCase().replace('_', '-');
+        }
+
+        @Override
+        public String toString() {
+            return printableValue;
+        }
+    }
+
+    enum Person {
+        FIRST,
+        SECOND,
+        THIRD;
+
+        private final String printableValue;
+        Person() {
+            printableValue = super.toString().toLowerCase().replace('_', '-');
+        }
+
+        @Override
+        public String toString() {
+            return printableValue;
+        }
+    }
+
+    enum Voice {
+        ACTIVE,
+        PASSIVE;
+
+        private final String printableValue;
+        Voice() {
+            printableValue = super.toString().toLowerCase().replace('_', '-');
+        }
+
+        @Override
+        public String toString() {
+            return printableValue;
+        }
+    }
+
+    enum VerbType {
+        INFINITIVE,
+        NONFINITE,
+        GERUND,
+        GERUNDIVE, // a verb form that functions as a verbal adjective
+        PARTICIPLE,
+        SUPINE,
+        TRANSGRESSIVE,
+        ;
+
+        private final String printableValue;
+        VerbType() {
+            printableValue = super.toString().toLowerCase().replace('_', '-');
+        }
+
+        @Override
+        public String toString() {
+            return printableValue;
+        }
+    }
+
+    enum AdjectiveType {
+        ATTRIBUTIVE,
+        PREDICATIVE,
+        POSSESSIVE;
+
+        private final String printableValue;
+        AdjectiveType() {
+            printableValue = super.toString().toLowerCase().replace('_', '-');
+        }
+
+        @Override
+        public String toString() {
+            return printableValue;
+        }
+    }
+
+    enum DerivationType {
+        PATRONYMIC;
+
+        private final String printableValue;
+        DerivationType() {
+            printableValue = super.toString().toLowerCase().replace('_', '-');
+        }
+
+        @Override
+        public String toString() {
+            return printableValue;
+        }
+    }
+
+    enum FormType {
+        SHORT_FORM,
+        IRREGULAR;
+
+        private final String printableValue;
+        FormType() {
+            printableValue = super.toString().toLowerCase().replace('_', '-');
+        }
+
+        @Override
+        public String toString() {
+            return printableValue;
+        }
+    }
+
+    enum Polarity {
+        AFFIRMATIVE,
+        NEGATIVE;
+
+        private final String printableValue;
+        Polarity() {
+            printableValue = super.toString().toLowerCase().replace('_', '-');
+        }
+
+        @Override
+        public String toString() {
+            return printableValue;
+        }
+    }
+
+    enum ComparisonDegree {
+        POSITIVE,
+        PLAIN,
+        COMPARATIVE,
+        SUPERLATIVE,
+        EQUATIVE,
+        ;
+        private final String printableValue;
+        ComparisonDegree() {
+            printableValue = super.toString().toLowerCase().replace('_', '-');
+        }
+
+        @Override
+        public String toString() {
+            return printableValue;
+        }
+    }
+
+    enum DeclensionClass {
+        WEAK,
+        MIXED,
+        STRONG;
+        private final String printableValue;
+        DeclensionClass() {
+            printableValue = super.toString().toLowerCase().replace('_', '-');
+        }
+
+        @Override
+        public String toString() {
+            return printableValue;
+        }
+    }
+
+    enum Mood {
+        CONDITIONAL,
+        EMPHATIC,
+        IMPERATIVE,
+        INDICATIVE,
+        QUOTATIVE,
+        SUBJUNCTIVE,
+        VOLITIVE,
+        ;
+
+        private final String printableValue;
+        Mood() {
+            printableValue = super.toString().toLowerCase().replace('_', '-');
+        }
+
+        @Override
+        public String toString() {
+            return printableValue;
+        }
+    }
+
+    enum Ignorable {
+        IGNORABLE_LEMMA,
+        IGNORABLE_INFLECTION,
+        IGNORABLE_PROPERTY;
+
+        private final String printableValue;
+        Ignorable() {
+            printableValue = super.toString().toLowerCase().replace('_', '-');
+        }
+
+        @Override
+        public String toString() {
+            return printableValue;
+        }
+    }
+
+    enum Aspect {
+        HABITUAL,
+        IMPERFECTIVE,
+        PERFECT, // Not to be confused with Perfective aspect. See https://en.wikipedia.org/wiki/Perfect_(grammar)
+        PERFECTIVE,
+        PLUPERFECT,
+        SIMPLE, // verb form which is underspecified for grammatical aspect
+        ;
+
+        private final String printableValue;
+        Aspect() {
+            printableValue = super.toString().toLowerCase().replace('_', '-');
+        }
+
+        @Override
+        public String toString() {
+            return printableValue;
+        }
+    }
+
+    enum Alternate {
+        SPELLING;
+
+        private final String printableValue;
+        Alternate() {
+            printableValue = super.toString().toLowerCase().replace('_', '-');
+        }
+
+        @Override
+        public String toString() {
+            return printableValue;
+        }
+    }
+
+    enum Case {
+        ABESSIVE,
+        ABLATIVE,
+        ABSOLUTIVE,
+        ACCUSATIVE,
+        ADESSIVE,
+        ALLATIVE,
+        BENEFACTIVE,
+        CAUSAL,
+        CAUSATIVE,
+        COMITATIVE,
+        DATIVE,
+        DELATIVE,
+        DESTINATIVE,
+        DIRECT,
+        DIRECTIVE,
+        ELATIVE,
+        ERGATIVE,
+        ESSIVE,
+        GENITIVE,
+        ILLATIVE,
+        INESSIVE,
+        INSTRUCTIVE,
+        INSTRUMENTAL,
+        LOCATIVE,
+        MOTIVATIVE,
+        NOMINATIVE,
+        OBLIQUE,
+        PARTITIVE,
+        PREPOSITIONAL,
+        PROLATIVE,
+        SOCIATIVE,
+        SUBLATIVE,
+        SEMBLATIVE,
+        SUPERESSIVE,
+        TERMINATIVE,
+        TRANSLATIVE,
+        VOCATIVE
+        ;
+
+        private final String printableValue;
+        Case() {
+            printableValue = super.toString().toLowerCase().replace('_', '-');
+        }
+
+        @Override
+        public String toString() {
+            return printableValue;
+        }
+    }
+
+    enum Animacy {
+        ANIMATE,
+        HUMAN,
+        NONHUMAN,
+        INANIMATE
+        ;
+
+        private final String printableValue;
+        Animacy() {
+            printableValue = super.toString().toLowerCase().replace('_', '-');
+        }
+
+        @Override
+        public String toString() {
+            return printableValue;
+        }
+    }
+
+    enum Definiteness {
+        DEFINITE,
+        INDEFINITE,
+        DEMONSTRATIVE,
+        CONSTRUCT,
+        ;
+
+        private final String printableValue;
+        Definiteness() {
+            printableValue = super.toString().toLowerCase().replace('_', '-');
+        }
+
+        @Override
+        public String toString() {
+            return printableValue;
+        }
+    }
+
+    enum PronounType {
+        PERSONAL,
+        REFLEXIVE,
+        DEMONSTRATIVE,
+        ;
+
+        private final String printableValue;
+        PronounType() {
+            printableValue = super.toString().toLowerCase().replace('_', '-');
+        }
+
+        @Override
+        public String toString() {
+            return printableValue;
+        }
+    }
+
+    enum Sizeness {
+        AUGMENTATIVE,
+        DIMINUTIVE,
+        ;
+
+        private final String printableValue;
+        Sizeness() {
+            printableValue = super.toString().toLowerCase().replace('_', '-');
+        }
+
+        @Override
+        public String toString() {
+            return printableValue;
+        }
+    }
+
+    enum Sound {
+        CONSONANT_START,
+        CONSONANT_END,
+        RIEUL_END,
+        VOWEL_START,
+        VOWEL_END,
+        ;
+
+        private final String printableValue;
+        Sound() {
+            printableValue = super.toString().toLowerCase().replace('_', '-');
+        }
+
+        @Override
+        public String toString() {
+            return printableValue;
+        }
+    }
+
+    enum Register {
+        CONVERSATIONAL,
+        FAMILIAR,
+        FORMAL,
+        HIGH,
+        INFORMAL,
+        INTIMATE,
+        LITERARY;
+        private final String printableValue;
+        Register() {
+            printableValue = super.toString().toLowerCase().replace('_', '-');
+        }
+
+        @Override
+        public String toString() {
+            return printableValue;
+        }
+    }
+
+    enum Usage {
+        STANDARD,
+        RARE,
+        ;
+        private final String printableValue;
+        Usage() {
+            printableValue = super.toString().toLowerCase().replace('_', '-');
+        }
+
+        @Override
+        public String toString() {
+            return printableValue;
+        }
+    }
+
+    public static SortedSet<String> asSet(String... terms) {
+        return new TreeSet<>(Arrays.asList(terms));
+    }
+
+    static final Map<SortedSet<String>, Set<? extends Enum<?>>> TYPEMAP = new HashMap<>(1021);
+    static final Map<String, String> REMAP = new HashMap<>(1021);
+
+    static {
+
+        // Consider the following for reference:
+        // https://www.wikidata.org/wiki/Wikidata:Lexicographical_data/Statistics/Count_of_lexemes_by_lexical_category
+        // https://www.wikidata.org/wiki/Wikidata:Lexicographical_data/Statistics/Count_of_forms_by_grammatical_feature
+
+        TYPEMAP.put(asSet("Q103184"), EnumSet.of(PartOfSpeech.ARTICLE));
+        TYPEMAP.put(asSet("Q102786"), EnumSet.of(PartOfSpeech.ABBREVIATION)); // abbreviation
+        TYPEMAP.put(asSet("Q101244"), EnumSet.of(PartOfSpeech.ABBREVIATION)); // acronym
+        TYPEMAP.put(asSet("Q918270"), EnumSet.of(PartOfSpeech.ABBREVIATION)); // initalism
+        TYPEMAP.put(asSet("Q30619513"), EnumSet.of(PartOfSpeech.ABBREVIATION)); // USPS abbreviation
+        TYPEMAP.put(asSet("Q126473"), EnumSet.of(PartOfSpeech.ABBREVIATION)); // contraction
+        TYPEMAP.put(asSet("Q34698"), EnumSet.of(PartOfSpeech.ADJECTIVE));
+        TYPEMAP.put(asSet("Q12259986"), EnumSet.of(PartOfSpeech.ADJECTIVE)); // prenominal adjective
+        TYPEMAP.put(asSet("Q7233569"), EnumSet.of(PartOfSpeech.ADJECTIVE)); // postpositive adjective
+        TYPEMAP.put(asSet("Q11639843"), EnumSet.of(PartOfSpeech.ADJECTIVE)); // adnominal adjective
+        TYPEMAP.put(asSet("Q1091269"), EnumSet.of(PartOfSpeech.ADJECTIVE)); // na-adjective in Japanese
+        TYPEMAP.put(asSet("Q7250170"), EnumSet.of(PartOfSpeech.ADJECTIVE)); // proper adjective, the adjective form of a proper noun
+        TYPEMAP.put(asSet("Q332375"), EnumSet.of(PartOfSpeech.ADJECTIVE)); // absolute adjective (uncomparable adjective)
+        TYPEMAP.put(asSet("Q380057"), EnumSet.of(PartOfSpeech.ADVERB));
+        TYPEMAP.put(asSet("Q1668170"), EnumSet.of(PartOfSpeech.INTERROGATIVE, PartOfSpeech.ADVERB));
+        TYPEMAP.put(asSet("Q63153"), EnumSet.of(PartOfSpeech.CLASSIFIER)); // classifier, count word, measure word
+        TYPEMAP.put(asSet("Q36484"), EnumSet.of(PartOfSpeech.CONJUNCTION));
+        TYPEMAP.put(asSet("Q12262560"), EnumSet.of(PartOfSpeech.CONJUNCTION)); // adversative linker
+        TYPEMAP.put(asSet("Q576271"), EnumSet.of(PartOfSpeech.DETERMINER));
+        TYPEMAP.put(asSet("Q5051"), new HashSet<>(Arrays.asList(AdjectiveType.POSSESSIVE, PartOfSpeech.DETERMINER)));
+        TYPEMAP.put(asSet("Q83034"), EnumSet.of(PartOfSpeech.INTERJECTION));
+        TYPEMAP.put(asSet("Q2304610"), EnumSet.of(PartOfSpeech.INTERROGATIVE));
+        TYPEMAP.put(asSet("Q12021746"), EnumSet.of(PartOfSpeech.INTERROGATIVE));
+        TYPEMAP.put(asSet("Q54310231"), EnumSet.of(PartOfSpeech.INTERROGATIVE, PartOfSpeech.PRONOUN));
+        TYPEMAP.put(asSet("Q9788"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // letter
+        TYPEMAP.put(asSet("Q3241972"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // character
+        TYPEMAP.put(asSet("Q1084"), EnumSet.of(PartOfSpeech.NOUN));
+        TYPEMAP.put(asSet("Q1787727"), EnumSet.of(PartOfSpeech.NOUN)); // agent noun
+        TYPEMAP.put(asSet("Q2428747"), EnumSet.of(PartOfSpeech.NOUN)); // common noun
+        TYPEMAP.put(asSet("Q63116"), EnumSet.of(PartOfSpeech.NUMERAL));
+        TYPEMAP.put(asSet("Q1329258"), EnumSet.of(PartOfSpeech.NUMERAL)); // cardinal numeral
+        TYPEMAP.put(asSet("Q191780"), EnumSet.of(PartOfSpeech.NUMERAL)); // ordinal
+        TYPEMAP.put(asSet("Q55951821"), EnumSet.of(PartOfSpeech.NUMERAL)); // numeral adjective
+        TYPEMAP.put(asSet("Q11563"), EnumSet.of(PartOfSpeech.NUMERAL)); // number
+        TYPEMAP.put(asSet("Q25098893"), EnumSet.of(PartOfSpeech.NUMERAL)); // distributive numeral
+        TYPEMAP.put(asSet("Q115526488"), EnumSet.of(PartOfSpeech.NUMERAL)); // singulative numeral
+        TYPEMAP.put(asSet("Q38918"), EnumSet.of(PartOfSpeech.NUMERAL)); // Roman numerals
+        TYPEMAP.put(asSet("Q184943"), EnumSet.of(PartOfSpeech.PARTICLE));
+        TYPEMAP.put(asSet("Q1480213"), EnumSet.of(PartOfSpeech.PARTICLE)); // Japanese particle
+        TYPEMAP.put(asSet("Q161873"), EnumSet.of(PartOfSpeech.ADPOSITION)); // postposition
+        TYPEMAP.put(asSet("Q4833830"), EnumSet.of(PartOfSpeech.PREPOSITION));
+        TYPEMAP.put(asSet("Q36224"), EnumSet.of(PartOfSpeech.PRONOUN));
+        TYPEMAP.put(asSet("Q147276"), EnumSet.of(PartOfSpeech.PROPER_NOUN)); // proper noun
+        TYPEMAP.put(asSet("Q7884789"), EnumSet.of(PartOfSpeech.PROPER_NOUN)); // toponym
+        TYPEMAP.put(asSet("Q43229"), EnumSet.of(PartOfSpeech.PROPER_NOUN)); // organization
+        TYPEMAP.put(asSet("Q217438"), EnumSet.of(PartOfSpeech.PROPER_NOUN)); // demonym
+        TYPEMAP.put(asSet("Q81058955"), EnumSet.of(PartOfSpeech.PROPER_NOUN)); // national demonym
+        TYPEMAP.put(asSet("Q125546349"), EnumSet.of(PartOfSpeech.PROPER_NOUN)); // some sort of name
+        TYPEMAP.put(asSet("Q24905"), EnumSet.of(PartOfSpeech.VERB));
+        TYPEMAP.put(asSet("Q1350145"), EnumSet.of(PartOfSpeech.VERB, PartOfSpeech.NOUN)); // verbal noun
+        TYPEMAP.put(asSet("Q11399805"), EnumSet.of(PartOfSpeech.VERB)); // auxiliary verb
+        TYPEMAP.put(asSet("Q131431824"), EnumSet.of(PartOfSpeech.VERB)); // proper verb where you use a proper noun as a verb
+
+        TYPEMAP.put(asSet("Q4239848"), new HashSet<>(Arrays.asList(FormType.SHORT_FORM, PartOfSpeech.ADJECTIVE))); // short form of an adjective
+        TYPEMAP.put(asSet("short-form"), EnumSet.of(FormType.SHORT_FORM));
+        TYPEMAP.put(asSet("irregular"), EnumSet.of(FormType.IRREGULAR));
+
+        TYPEMAP.put(asSet("Q109267112"), EnumSet.of(Polarity.AFFIRMATIVE));
+        TYPEMAP.put(asSet("Q1478451"), EnumSet.of(Polarity.NEGATIVE));
+        TYPEMAP.put(asSet("Q3745428"), EnumSet.of(Polarity.AFFIRMATIVE, Polarity.NEGATIVE));
+        TYPEMAP.put(asSet("Q64012400"), new HashSet<>(Arrays.asList(Mood.IMPERATIVE, Polarity.AFFIRMATIVE))); // imperative affirmative
+        TYPEMAP.put(asSet("Q64004115"), new HashSet<>(Arrays.asList(Mood.IMPERATIVE, Polarity.NEGATIVE))); // negative imperative
+
+        TYPEMAP.put(asSet("Q3482678"), EnumSet.of(ComparisonDegree.POSITIVE));
+        TYPEMAP.put(asSet("Q5384239"), EnumSet.of(ComparisonDegree.EQUATIVE));
+        TYPEMAP.put(asSet("plain"), EnumSet.of(ComparisonDegree.PLAIN));
+//        TYPEMAP.put(asTreeSet("Q15737187"), EnumSet.of(ComparisonDegree.NEGATIVE));
+        TYPEMAP.put(asSet("Q14169499"), EnumSet.of(ComparisonDegree.COMPARATIVE));
+        TYPEMAP.put(asSet("Q1817208"), EnumSet.of(ComparisonDegree.SUPERLATIVE));
+
+        TYPEMAP.put(asSet("Q7977953"), EnumSet.of(DeclensionClass.WEAK));
+        TYPEMAP.put(asSet("Q96407524"), EnumSet.of(DeclensionClass.MIXED));
+        TYPEMAP.put(asSet("Q3481903"), EnumSet.of(DeclensionClass.STRONG));
+
+        TYPEMAP.put(asSet("Q110786"), EnumSet.of(Number.SINGULAR));
+        TYPEMAP.put(asSet("Q604984"), EnumSet.of(Number.SINGULAR)); // singulare tantum, the lack of a plural form in the inflection table conveys the same information.
+        TYPEMAP.put(asSet("Q146786"), EnumSet.of(Number.PLURAL));
+        TYPEMAP.put(asSet("Q138246"), EnumSet.of(Number.PLURAL)); // plurale tantum, the lack of a singular form in the inflection table conveys the same information.
+        TYPEMAP.put(asSet("Q118533730"), EnumSet.of(Number.PLURAL)); // substantive plural
+        TYPEMAP.put(asSet("Q110022"), EnumSet.of(Number.DUAL));
+
+        TYPEMAP.put(asSet("Q1520033"), EnumSet.of(Count.COUNTABLE)); // count noun
+        TYPEMAP.put(asSet("Q489168"), EnumSet.of(Count.UNCOUNTABLE)); // mass noun
+        TYPEMAP.put(asSet("Q53998049"), EnumSet.of(Count.UNCOUNTABLE)); // indefinite number, neither singular nor plural, uncountable. Unmarked appears in declension when it is not necessary to specify singular or plural, such as because it is a proper name or is next to a determiner or a quantifier.
+
+        TYPEMAP.put(asSet("stressed"), EnumSet.of(Emphasis.STRESSED));
+        TYPEMAP.put(asSet("unstressed"), EnumSet.of(Emphasis.UNSTRESSED));
+
+        TYPEMAP.put(asSet("Q499327"), EnumSet.of(Gender.MASCULINE));
+        TYPEMAP.put(asSet("Q54020116"), new HashSet<>(Arrays.asList(Gender.MASCULINE, Animacy.ANIMATE)));
+        TYPEMAP.put(asSet("Q52943434"), new HashSet<>(Arrays.asList(Gender.MASCULINE, Animacy.INANIMATE)));
+        TYPEMAP.put(asSet("Q27918551"), new HashSet<>(Arrays.asList(Gender.MASCULINE, Animacy.HUMAN))); // masculine personal
+        TYPEMAP.put(asSet("Q52943193"), new HashSet<>(Arrays.asList(Gender.MASCULINE, Animacy.ANIMATE))); // masculine animate non-personal
+        TYPEMAP.put(asSet("Q1775415"), EnumSet.of(Gender.FEMININE));
+        TYPEMAP.put(asSet("Q1775461"), EnumSet.of(Gender.NEUTER));
+        TYPEMAP.put(asSet("Q1305037"), EnumSet.of(Gender.COMMON));
+        TYPEMAP.put(asSet("Q54152717"), EnumSet.of(Gender.NONVIRILE));
+
+        TYPEMAP.put(asSet("Q319822"), EnumSet.of(Case.ABESSIVE));
+        TYPEMAP.put(asSet("Q156986"), EnumSet.of(Case.ABLATIVE));
+        TYPEMAP.put(asSet("Q332734"), EnumSet.of(Case.ABSOLUTIVE));
+        TYPEMAP.put(asSet("Q146078"), EnumSet.of(Case.ACCUSATIVE));
+        TYPEMAP.put(asSet("Q281954"), EnumSet.of(Case.ADESSIVE));
+        TYPEMAP.put(asSet("Q655020"), EnumSet.of(Case.ALLATIVE));
+        TYPEMAP.put(asSet("Q664905"), EnumSet.of(Case.BENEFACTIVE));
+        TYPEMAP.put(asSet("causal-final"), EnumSet.of(Case.CAUSAL));
+        TYPEMAP.put(asSet("Q113330743"), EnumSet.of(Case.CAUSATIVE));
+        TYPEMAP.put(asSet("Q838581"), EnumSet.of(Case.COMITATIVE));
+        TYPEMAP.put(asSet("Q145599"), EnumSet.of(Case.DATIVE));
+        TYPEMAP.put(asSet("Q1183901"), EnumSet.of(Case.DELATIVE));
+        TYPEMAP.put(asSet("Q55862897"), EnumSet.of(Case.DESTINATIVE, Case.ALLATIVE));
+        TYPEMAP.put(asSet("Q1751855"), EnumSet.of(Case.DIRECT));
+        TYPEMAP.put(asSet("Q55862884"), EnumSet.of(Case.DIRECTIVE, Case.ALLATIVE));
+        TYPEMAP.put(asSet("Q394253"), EnumSet.of(Case.ELATIVE));
+        TYPEMAP.put(asSet("Q324305"), EnumSet.of(Case.ERGATIVE));
+        TYPEMAP.put(asSet("Q148465"), EnumSet.of(Case.ESSIVE));
+        TYPEMAP.put(asSet("Q146233"), EnumSet.of(Case.GENITIVE));
+        TYPEMAP.put(asSet("Q474668"), EnumSet.of(Case.ILLATIVE));
+        TYPEMAP.put(asSet("Q65262551"), new HashSet<>(Arrays.asList(FormType.SHORT_FORM, Case.ILLATIVE))); // short illative or perhaps aditive
+        TYPEMAP.put(asSet("Q282031"), EnumSet.of(Case.INESSIVE));
+        TYPEMAP.put(asSet("Q1665275"), EnumSet.of(Case.INSTRUCTIVE));
+        TYPEMAP.put(asSet("Q192997"), EnumSet.of(Case.INSTRUMENTAL));
+        TYPEMAP.put(asSet("Q202142"), EnumSet.of(Case.LOCATIVE));
+        TYPEMAP.put(asSet("Q1949687"), EnumSet.of(Case.MOTIVATIVE));
+        TYPEMAP.put(asSet("Q131105"), EnumSet.of(Case.NOMINATIVE));
+        TYPEMAP.put(asSet("Q98946930"), EnumSet.of(Case.NOMINATIVE)); // non-genitive
+        TYPEMAP.put(asSet("object"), EnumSet.of(Case.OBLIQUE)); // AKA objective case for pronouns
+        TYPEMAP.put(asSet("Q1233197"), EnumSet.of(Case.OBLIQUE));
+        TYPEMAP.put(asSet("Q857325"), EnumSet.of(Case.PARTITIVE));
+        TYPEMAP.put(asSet("Q2114906"), EnumSet.of(Case.PREPOSITIONAL));
+        TYPEMAP.put(asSet("Q952933"), EnumSet.of(Case.PROLATIVE));
+        TYPEMAP.put(asSet("Q3773161"), EnumSet.of(Case.SOCIATIVE));
+        TYPEMAP.put(asSet("Q222355"), EnumSet.of(Case.SUPERESSIVE));
+        TYPEMAP.put(asSet("semblative"), EnumSet.of(Case.SEMBLATIVE));
+        TYPEMAP.put(asSet("Q2120615"), EnumSet.of(Case.SUBLATIVE));
+        TYPEMAP.put(asSet("Q747019"), EnumSet.of(Case.TERMINATIVE));
+        TYPEMAP.put(asSet("Q55862800"), EnumSet.of(Case.TERMINATIVE, Case.ALLATIVE));
+        TYPEMAP.put(asSet("Q950170"), EnumSet.of(Case.TRANSLATIVE));
+        TYPEMAP.put(asSet("Q185077"), EnumSet.of(Case.VOCATIVE));
+
+        TYPEMAP.put(asSet("Q51927507"), EnumSet.of(Animacy.ANIMATE));
+        TYPEMAP.put(asSet("Q67372736"), EnumSet.of(Animacy.HUMAN));
+        TYPEMAP.put(asSet("Q67372837"), EnumSet.of(Animacy.NONHUMAN));
+        TYPEMAP.put(asSet("Q51927539"), EnumSet.of(Animacy.INANIMATE));
+
+        TYPEMAP.put(asSet("Q53997851"), EnumSet.of(Definiteness.DEFINITE));
+        TYPEMAP.put(asSet("Q2865743"), new HashSet<>(Arrays.asList(Definiteness.DEFINITE, PartOfSpeech.ARTICLE)));
+        TYPEMAP.put(asSet("Q1641446"), EnumSet.of(Definiteness.CONSTRUCT));
+        TYPEMAP.put(asSet("Q53997857"), EnumSet.of(Definiteness.INDEFINITE)); // indefinite
+        TYPEMAP.put(asSet("Q3813849"), new HashSet<>(Arrays.asList(Definiteness.INDEFINITE, PartOfSpeech.ARTICLE)));
+        TYPEMAP.put(asSet("Q956030"), new HashSet<>(Arrays.asList(Definiteness.INDEFINITE, PartOfSpeech.PRONOUN)));
+//        TYPEMAP.put(asTreeSet("Q53998049"), EnumSet.of(Definiteness.INDEFINITE)); // indefinite number
+        TYPEMAP.put(asSet("Q10265745"), EnumSet.of(Definiteness.DEMONSTRATIVE));
+
+        TYPEMAP.put(asSet("Q10345583"), new HashSet<>(Arrays.asList(Tense.PRESENT, VerbType.PARTICIPLE)));
+        TYPEMAP.put(asSet("Q1230649"), new HashSet<>(Arrays.asList(Tense.PAST, VerbType.PARTICIPLE)));
+        TYPEMAP.put(asSet("Q72249355"), new HashSet<>(Arrays.asList(Voice.ACTIVE, VerbType.PARTICIPLE)));
+        TYPEMAP.put(asSet("Q72249544"), new HashSet<>(Arrays.asList(Voice.PASSIVE, VerbType.PARTICIPLE)));
+        TYPEMAP.put(asSet("Q192613"), EnumSet.of(Tense.PRESENT)); // present tense
+        TYPEMAP.put(asSet("Q3910936"), new HashSet<>(Arrays.asList(Aspect.SIMPLE, Tense.PRESENT))); // simple present and usually future
+        TYPEMAP.put(asSet("Q1994301"), EnumSet.of(Tense.PAST)); // past tense
+        TYPEMAP.put(asSet("Q1392475"), new HashSet<>(Arrays.asList(Aspect.SIMPLE, Tense.PAST))); // simple past
+        TYPEMAP.put(asSet("Q501405"), EnumSet.of(Tense.FUTURE)); // future tense
+        TYPEMAP.put(asSet("Q344"), EnumSet.of(Tense.FUTURE)); // future
+        TYPEMAP.put(asSet("Q1475560"), new HashSet<>(Arrays.asList(Aspect.SIMPLE, Tense.FUTURE))); // simple future
+        TYPEMAP.put(asSet("Q96323395"), new HashSet<>(Arrays.asList(Aspect.SIMPLE, Tense.FUTURE))); // simple future
+
+        TYPEMAP.put(asSet("Q21714344"), EnumSet.of(Person.FIRST));
+        TYPEMAP.put(asSet("Q51929049"), EnumSet.of(Person.SECOND));
+        TYPEMAP.put(asSet("Q51929074"), EnumSet.of(Person.THIRD));
+        TYPEMAP.put(asSet("Q88778575"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // zero person
+
+        TYPEMAP.put(asSet("Q179230"), EnumSet.of(VerbType.INFINITIVE));
+        TYPEMAP.put(asSet("Q106236131"), EnumSet.of(VerbType.INFINITIVE)); // personal infinitive. It could be first or third person.
+        TYPEMAP.put(asSet("Q52434245"), new HashSet<>(Arrays.asList(Tense.PRESENT, VerbType.INFINITIVE))); // present infinitive
+        TYPEMAP.put(asSet("Q52434302"), new HashSet<>(Arrays.asList(Tense.PAST, VerbType.INFINITIVE))); // past infinitive
+        TYPEMAP.put(asSet("Q115223950"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // infinitive form in Norwegian Nynorsk that ends in 'a'
+        TYPEMAP.put(asSet("Q115223951"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // infinitive form in Norwegian Nynorsk that ends in 'e'
+        TYPEMAP.put(asSet("Q1923028"), EnumSet.of(VerbType.GERUND));
+        TYPEMAP.put(asSet("Q52434511"), new HashSet<>(Arrays.asList(Tense.PRESENT, VerbType.GERUND)));
+        TYPEMAP.put(asSet("Q52434598"), new HashSet<>(Arrays.asList(Tense.PAST, VerbType.GERUND)));
+        TYPEMAP.put(asSet("Q1050494"), EnumSet.of(VerbType.NONFINITE));
+        TYPEMAP.put(asSet("Q731298"), EnumSet.of(VerbType.GERUNDIVE));
+        TYPEMAP.put(asSet("Q65540125"), new HashSet<>(Arrays.asList(Tense.PRESENT, VerbType.TRANSGRESSIVE))); // present infinitive, or participle
+        TYPEMAP.put(asSet("Q12750232"), new HashSet<>(Arrays.asList(Tense.PAST, VerbType.TRANSGRESSIVE))); // past infinitive, or participle
+        TYPEMAP.put(asSet("Q814722"), EnumSet.of(VerbType.PARTICIPLE));
+        TYPEMAP.put(asSet("Q814722"), new HashSet<>(Arrays.asList(Voice.ACTIVE, VerbType.PARTICIPLE)));
+        TYPEMAP.put(asSet("Q548470"), EnumSet.of(VerbType.SUPINE));
+        TYPEMAP.put(asSet("Q12717679"), new HashSet<>(Arrays.asList(Tense.PAST, VerbType.PARTICIPLE)));
+
+        TYPEMAP.put(asSet("Q4818723"), EnumSet.of(AdjectiveType.ATTRIBUTIVE));
+        TYPEMAP.put(asSet("Q1931259"), EnumSet.of(AdjectiveType.PREDICATIVE));
+
+        TYPEMAP.put(asSet("Q1774805"), EnumSet.of(Transitivity.TRANSITIVE)); // transitive verb
+        TYPEMAP.put(asSet("Q113330733"), EnumSet.of(Transitivity.TRANSITIVE)); // transitive phase
+        TYPEMAP.put(asSet("Q113330736"), EnumSet.of(Transitivity.INTRANSITIVE));
+
+        TYPEMAP.put(asSet("Q1317831"), EnumSet.of(Voice.ACTIVE));
+        TYPEMAP.put(asSet("Q1194697"), EnumSet.of(Voice.PASSIVE));
+        TYPEMAP.put(asSet("Q1509829"), EnumSet.of(Voice.PASSIVE)); // impersonal verb, verb that has no determinate subject
+        TYPEMAP.put(asSet("Q64003131"), new HashSet<>(Arrays.asList(Voice.PASSIVE, VerbType.INFINITIVE)));
+
+        TYPEMAP.put(asSet("Q468801"), EnumSet.of(PronounType.PERSONAL));
+        TYPEMAP.put(asSet("Q1502460"), new HashSet<>(Arrays.asList(AdjectiveType.POSSESSIVE, PartOfSpeech.PRONOUN)));
+        TYPEMAP.put(asSet("Q34793275"), new HashSet<>(Arrays.asList(PronounType.DEMONSTRATIVE, PartOfSpeech.PRONOUN)));
+        TYPEMAP.put(asSet("Q953129"), new HashSet<>(Arrays.asList(PronounType.REFLEXIVE, PartOfSpeech.PRONOUN)));
+        TYPEMAP.put(asSet("Q130266209"), new HashSet<>(Arrays.asList(PronounType.REFLEXIVE, PartOfSpeech.PRONOUN))); // reflexive personal pronoun
+
+        TYPEMAP.put(asSet("Q625581"), EnumSet.of(Mood.CONDITIONAL));
+        TYPEMAP.put(asSet("Q3686414"), new HashSet<>(Arrays.asList(Tense.PRESENT, Mood.CONDITIONAL))); // conditional present
+        TYPEMAP.put(asSet("Q65211247"), new HashSet<>(Arrays.asList(Aspect.SIMPLE, Mood.CONDITIONAL))); // simple conditional
+        TYPEMAP.put(asSet("Q7272884"), EnumSet.of(Mood.QUOTATIVE));
+        TYPEMAP.put(asSet("Q22716"), EnumSet.of(Mood.IMPERATIVE));
+        TYPEMAP.put(asSet("Q4348304"), EnumSet.of(Mood.IMPERATIVE)); // imperative form for Japanese verb
+        TYPEMAP.put(asSet("Q1665268"), EnumSet.of(Mood.IMPERATIVE)); // command
+        TYPEMAP.put(asSet("Q52434162"), new HashSet<>(Arrays.asList(Tense.PRESENT, Mood.IMPERATIVE))); // present imperative
+        TYPEMAP.put(asSet("Q682111"), EnumSet.of(Mood.INDICATIVE));
+        TYPEMAP.put(asSet("Q63997439"), new HashSet<>(Arrays.asList(Tense.FUTURE, Mood.INDICATIVE)));
+        TYPEMAP.put(asSet("Q56682909"), new HashSet<>(Arrays.asList(Tense.PRESENT, Mood.INDICATIVE)));
+        TYPEMAP.put(asSet("Q125286251"), new HashSet<>(Arrays.asList(Tense.PAST, Mood.INDICATIVE)));
+        TYPEMAP.put(asSet("Q473746"), EnumSet.of(Mood.SUBJUNCTIVE));
+        TYPEMAP.put(asSet("Q3502553"), new HashSet<>(Arrays.asList(Tense.PRESENT, Mood.SUBJUNCTIVE))); // present subjunctive
+        TYPEMAP.put(asSet("Q55685962"), new HashSet<>(Arrays.asList(Tense.PRESENT, Mood.SUBJUNCTIVE))); // subjunctive I, present subjunctive
+        TYPEMAP.put(asSet("Q54671845"), new HashSet<>(Arrays.asList(Tense.PAST, Mood.SUBJUNCTIVE))); // subjunctive II, past subjunctive
+        TYPEMAP.put(asSet("Q3502544"), new HashSet<>(Arrays.asList(Tense.PAST, Mood.SUBJUNCTIVE))); // past subjunctive
+        TYPEMAP.put(asSet("Q3502541"), new HashSet<>(Arrays.asList(Aspect.IMPERFECTIVE, Tense.PAST, Mood.SUBJUNCTIVE))); // imperfect subjunctive
+        TYPEMAP.put(asSet("emphatic"), EnumSet.of(Mood.EMPHATIC));
+        TYPEMAP.put(asSet("Q2532941"), EnumSet.of(Mood.VOLITIVE));
+
+        TYPEMAP.put(asSet("Q5636904"), EnumSet.of(Aspect.HABITUAL));
+        TYPEMAP.put(asSet("Q75243920"), new HashSet<>(Arrays.asList(Aspect.HABITUAL, Tense.PAST))); // habitual past
+        TYPEMAP.put(asSet("Q121765742"), EnumSet.of(Aspect.SIMPLE));
+        TYPEMAP.put(asSet("Q1424306"), EnumSet.of(Aspect.PERFECTIVE));
+        TYPEMAP.put(asSet("Q442485"), new HashSet<>(Arrays.asList(Aspect.PERFECTIVE, Tense.PAST))); // Preterite or perfective with past tense
+        TYPEMAP.put(asSet("Q216497"), new HashSet<>(Arrays.asList(Aspect.PERFECTIVE, Tense.PAST))); // aorist, verb forms usually express perfective aspect and refer to past events
+        TYPEMAP.put(asSet("Q12547192"), new HashSet<>(Arrays.asList(Aspect.IMPERFECTIVE, Tense.PAST, Mood.INDICATIVE))); // past imperfect, verb form in several languages indicating past tense, imperfective aspect, and indicative mood
+        TYPEMAP.put(asSet("Q625420"), EnumSet.of(Aspect.PERFECT));
+        TYPEMAP.put(asSet("Q1240211"), new HashSet<>(Arrays.asList(Tense.PRESENT, Aspect.PERFECT)));
+        TYPEMAP.put(asSet("Q64005357"), new HashSet<>(Arrays.asList(Tense.PAST, Aspect.PERFECT)));
+        TYPEMAP.put(asSet("Q23663136"), new HashSet<>(Arrays.asList(Tense.PAST, Aspect.PERFECT)));
+        TYPEMAP.put(asSet("Q371427"), EnumSet.of(Aspect.IMPERFECTIVE));
+        TYPEMAP.put(asSet("Q54556033"), EnumSet.of(Aspect.IMPERFECTIVE)); // imperfective verb
+        TYPEMAP.put(asSet("Q2898727"), EnumSet.of(Aspect.IMPERFECTIVE)); // imperfective form for Japanese verb
+//        TYPEMAP.put(asSet("Q108524486"), EnumSet.of(Aspect.IMPERFECT));
+        TYPEMAP.put(asSet("Q7240943"), new HashSet<>(Arrays.asList(Tense.PRESENT, Aspect.IMPERFECTIVE))); // present continuous/present imperfect
+        TYPEMAP.put(asSet("Q56650537"), new HashSet<>(Arrays.asList(Tense.PAST, Aspect.IMPERFECTIVE))); // past continuous/present imperfect
+        TYPEMAP.put(asSet("Q623742"), EnumSet.of(Aspect.PLUPERFECT));
+
+        TYPEMAP.put(asSet("patronymic"), EnumSet.of(DerivationType.PATRONYMIC));
+
+        TYPEMAP.put(asSet("Q77768943"), EnumSet.of(Register.INFORMAL));
+        TYPEMAP.put(asSet("Q1070730"), EnumSet.of(Register.INFORMAL)); // voseo in Spanish
+        TYPEMAP.put(asSet("Q77768790"), EnumSet.of(Register.FORMAL));
+        TYPEMAP.put(asSet("Q6158182"), EnumSet.of(Register.FORMAL)); // ustedeo in Spanish
+        TYPEMAP.put(asSet("Q56650512"), EnumSet.of(Register.FORMAL)); // Bangla polite form
+        TYPEMAP.put(asSet("Q56650487"), new HashSet<>(Arrays.asList(Person.SECOND, Register.FAMILIAR)));
+        TYPEMAP.put(asSet("Q56650485"), new HashSet<>(Arrays.asList(Person.SECOND, Register.INFORMAL)));
+        TYPEMAP.put(asSet("Q66664394"), EnumSet.of(Register.INTIMATE)); // endearing
+        TYPEMAP.put(asSet("high"), EnumSet.of(Register.HIGH));
+        TYPEMAP.put(asSet("Q75242466"), EnumSet.of(Register.CONVERSATIONAL)); // chalita bhasha
+        TYPEMAP.put(asSet("Q55228835"), EnumSet.of(Register.CONVERSATIONAL)); // colloquial form
+        TYPEMAP.put(asSet("Q20613396"), EnumSet.of(Register.LITERARY)); // historical language style that was used in 19th and 20th century Bangla literary works
+
+        TYPEMAP.put(asSet("Q124100534"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // surface representation in contrast to lexical representation
+        TYPEMAP.put(asSet("Q228503"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // uninflected word
+        TYPEMAP.put(asSet("Q11073520"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // kanyouku utterances with fixed forms and often non-literal meaning
+        TYPEMAP.put(asSet("Q12812139"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // technical term
+
+        TYPEMAP.put(asSet("Q1358239"), EnumSet.of(Sizeness.AUGMENTATIVE));
+        TYPEMAP.put(asSet("Q221446"), EnumSet.of(Sizeness.AUGMENTATIVE)); // reduplication in Japanese
+        TYPEMAP.put(asSet("Q108709"), EnumSet.of(Sizeness.DIMINUTIVE));
+
+        TYPEMAP.put(asSet("consonant-end"), EnumSet.of(Sound.CONSONANT_END));
+        TYPEMAP.put(asSet("consonant-start"), EnumSet.of(Sound.CONSONANT_START));
+        TYPEMAP.put(asSet("rieul-end"), EnumSet.of(Sound.RIEUL_END));
+        TYPEMAP.put(asSet("vowel-end"), EnumSet.of(Sound.VOWEL_END));
+        TYPEMAP.put(asSet("vowel-start"), EnumSet.of(Sound.VOWEL_START));
+        TYPEMAP.put(asSet("Q101252532"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // where consonant is unmutated
+        TYPEMAP.put(asSet("Q56648699"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // soft mutation, where consonant becomes more sonorous
+        TYPEMAP.put(asSet("Q117262361"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // pausal form, form of a word realised in hiatus between prosodic units
+        TYPEMAP.put(asSet("Q97130345"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // hard mutation, a voiced stop becomes an unvoiced stop in the same place of articulation
+        TYPEMAP.put(asSet("Q56648701"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // aspirate mutation, a consonant is transformed from an unvoiced stop into a fricative at a similar or the same point of articulation
+
+        TYPEMAP.put(asSet("Q101583900"), EnumSet.of(Alternate.SPELLING)); // alternative spelling
+        TYPEMAP.put(asSet("Q59342809"), EnumSet.of(Alternate.SPELLING)); // It's like a versus an in English depending on the pronunciation properties of the word after the preposition.
+
+        TYPEMAP.put(asSet("standard"), EnumSet.of(Usage.STANDARD));
+        TYPEMAP.put(asSet("Q55094451"), EnumSet.of(Usage.RARE)); // rare form
+        TYPEMAP.put(asSet("Q12237354"), EnumSet.of(Usage.RARE)); // obsolete word
+        TYPEMAP.put(asSet("Q54943392"), EnumSet.of(Usage.RARE)); // obsolete form
+        TYPEMAP.put(asSet("Q181970"), EnumSet.of(Usage.RARE)); // archaism
+
+        // Phrases and other things that don't inflect
+        TYPEMAP.put(asSet("Q101352"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // family name. Lots of them conflict with common nouns, like "light"
+        TYPEMAP.put(asSet("Q8436"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // family. Lots of them conflict with common nouns, like "light"
+        TYPEMAP.put(asSet("Q36867633"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // family name. Lots of them conflict with common nouns, like "light"
+        TYPEMAP.put(asSet("Q112146129"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // family name. Plura
+        TYPEMAP.put(asSet("Q3481344"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // female given name
+        TYPEMAP.put(asSet("Q202444"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // given name
+        TYPEMAP.put(asSet("Q22809413"), EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // Chinese given name
+        TYPEMAP.put(asSet("Q184511"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // slogan
+        TYPEMAP.put(asSet("Q30515"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // idiom
+        TYPEMAP.put(asSet("Q15841920"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // Redewendung (idiomatic expression)
+        TYPEMAP.put(asSet("Q104692917"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // idiomatic interjection
+        TYPEMAP.put(asSet("Q35102"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // proverb
+        TYPEMAP.put(asSet("Q187931"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // phrase
+        TYPEMAP.put(asSet("Q7188068"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // phrasal template
+        TYPEMAP.put(asSet("Q1401131"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // noun phrase
+        TYPEMAP.put(asSet("Q5551966"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // phraseme
+        TYPEMAP.put(asSet("Q3734650"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // adverbial phrase
+        TYPEMAP.put(asSet("Q357760"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // adjectival phrase
+        TYPEMAP.put(asSet("Q56042915"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // prepositional phrase
+        TYPEMAP.put(asSet("Q1778442"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // verb phrase
+        TYPEMAP.put(asSet("Q384876"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // set phrase
+        TYPEMAP.put(asSet("Q1527589"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // phrasal verb
+        TYPEMAP.put(asSet("Q12734432"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // attributive locution, phrase that grammatically is used as attribute
+        TYPEMAP.put(asSet("Q5978305"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // conjunctive locution, a multiword expression working as a conjunct
+        TYPEMAP.put(asSet("Q5978303"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // adverbial locution, a combination of words that acts as an adverb
+        TYPEMAP.put(asSet("Q3734650"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // adverbial phrase, a phrase the head of which is an adverb
+        TYPEMAP.put(asSet("Q1167104"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // adverb that connects two independent clauses
+        TYPEMAP.put(asSet("Q29888377"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // nominal locution, combination of words that acts as a noun
+        TYPEMAP.put(asSet("Q10319522"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // prepositional locution, a multiword expression working as a preposition
+        TYPEMAP.put(asSet("Q20430476"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // pronominal locution
+        TYPEMAP.put(asSet("Q10319520"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // interjectional locution
+        TYPEMAP.put(asSet("Q10976085"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // verbal locution, combination of words that acts as a verb
+        TYPEMAP.put(asSet("Q778379"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // expression
+        TYPEMAP.put(asSet("Q6935164"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // multiword expression
+        TYPEMAP.put(asSet("Q130270424"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // interrogative expression
+        TYPEMAP.put(asSet("Q3257782"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // locution, fixed expression
+        TYPEMAP.put(asSet("Q117605926"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // perfective verbal expression
+        TYPEMAP.put(asSet("Q65280376"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // collocation variant
+        TYPEMAP.put(asSet("Q117605650"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // verbal expression
+        TYPEMAP.put(asSet("Q41796"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // sentence
+        TYPEMAP.put(asSet("Q3026787"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // saying
+        TYPEMAP.put(asSet("Q63348589"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // popular saying
+        TYPEMAP.put(asSet("Q45594"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // greeting
+        TYPEMAP.put(asSet("Q1553339"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // chant
+        TYPEMAP.put(asSet("Q5456361"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // fixed expression
+        TYPEMAP.put(asSet("Q170239"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // onomatopoeia
+        TYPEMAP.put(asSet("Q102047"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // suffix
+        TYPEMAP.put(asSet("Q66614509"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // nominal suffix
+        TYPEMAP.put(asSet("Q1964223"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // name suffix
+        TYPEMAP.put(asSet("Q56681944"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // even suffix form
+        TYPEMAP.put(asSet("Q109528443"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // inflectional suffix
+        TYPEMAP.put(asSet("Q985836"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // bound morpheme
+        TYPEMAP.put(asSet("Q43249"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // morpheme
+        TYPEMAP.put(asSet("Q126728876"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // nominal modifier, suffix deriving a noun from a preceding noun
+        TYPEMAP.put(asSet("Q126734687"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // verbal modifier, verbal derivational suffix
+        TYPEMAP.put(asSet("Q134830"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // prefix
+        TYPEMAP.put(asSet("Q134830"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // prefix
+        TYPEMAP.put(asSet("Q54792077"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // prefixoid
+        TYPEMAP.put(asSet("Q125858556"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // number-person prefix
+        TYPEMAP.put(asSet("Q62155"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // affix
+        TYPEMAP.put(asSet("Q109249055"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // pseudo-affix
+        TYPEMAP.put(asSet("Q1153504"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // interfix
+        TYPEMAP.put(asSet("Q201322"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // infix
+        TYPEMAP.put(asSet("Q358417"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // circumposition
+        TYPEMAP.put(asSet("Q57156560"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // affixed form
+        TYPEMAP.put(asSet("Q3976700"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // adjectival suffix
+        TYPEMAP.put(asSet("Q106610283"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // adverbial suffix
+        TYPEMAP.put(asSet("Q57156426"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // standalone form of an affix
+        TYPEMAP.put(asSet("Q57584278"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // case suffix, suffix that changes the case of a word
+        TYPEMAP.put(asSet("Q8185162"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // lowercase letter
+        TYPEMAP.put(asSet("Q98912"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // uppercase letter
+        TYPEMAP.put(asSet("Q191494"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // digraph
+        TYPEMAP.put(asSet("Q65048529"), EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // lowercase text
+        TYPEMAP.put(asSet("Q111029"), EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // root, typically unusable and not inflected.
+        TYPEMAP.put(asSet("Q18514"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // lemma, this is redundant, and it's incorrect when there is more than one gender for lemmaless inflection.
+        TYPEMAP.put(asSet("Q10343770"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // indeclinable word
+        TYPEMAP.put(asSet("Q66364639"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // indeclinable noun
+        TYPEMAP.put(asSet("Q106644026"), EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // general, typically a default of something else
+        TYPEMAP.put(asSet("Q210523"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // word stem, part of a word
+        TYPEMAP.put(asSet("Q1122269"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // collocation, frequent occurrence of words next to each other
+        TYPEMAP.put(asSet("Q18915698"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // established collocation
+        TYPEMAP.put(asSet("Q1428334"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // paradigm, an inflection table instead of actual words
+        TYPEMAP.put(asSet("Q102500"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // chemical symbol
+        TYPEMAP.put(asSet("Q80071"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // symbol
+        TYPEMAP.put(asSet("Q1668151"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // semantic punctuation mark
+        TYPEMAP.put(asSet("Q1984758"), EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // misspelling, not helpful
+
+        // Types that are algorithmically added instead of stored.
+        TYPEMAP.put(asSet("Q69761768"), EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // feminine possessive
+        TYPEMAP.put(asSet("Q71469738"), EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // masculine or feminine possessive
+        TYPEMAP.put(asSet("Q69761633"), EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // masculine possessive
+        TYPEMAP.put(asSet("Q78191294"), EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // singular possessive
+        TYPEMAP.put(asSet("Q78191289"), EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // plural possessive
+        TYPEMAP.put(asSet("Q71470598"), EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // first-person possessive
+        TYPEMAP.put(asSet("Q71470837"), EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // second-person possessive
+        TYPEMAP.put(asSet("Q71470909"), EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // third-person possessive
+        TYPEMAP.put(asSet("Q107614077"), EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // The one with a fugenelement
+        TYPEMAP.put(asSet("Q2105891"), EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // possessive
+        TYPEMAP.put(asSet("Q1861696"), EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // English possessive
+        TYPEMAP.put(asSet("Q21470140"), EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // possessive/proprietive case
+        TYPEMAP.put(asSet("Q100952920"), EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // zu infinitive in German
+
+        // Forms of limited value.
+        TYPEMAP.put(asSet("Q42106"), EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // synonym
+        TYPEMAP.put(asSet("Q124100536"), EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // lexical representation
+        TYPEMAP.put(asSet("Q1380802"), EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // causal adverb
+        TYPEMAP.put(asSet("Q734832"), EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // typographical error
+        TYPEMAP.put(asSet("Q317623"), EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // technical standard
+        TYPEMAP.put(asSet("Q4923918"), EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // corruption
+        TYPEMAP.put(asSet("Q126729404"), EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // deverbal
+        TYPEMAP.put(asSet("Q98772589"), EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // expanded contraction
+        TYPEMAP.put(asSet("Q1192464"), EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // rendaku in Japanese
+        TYPEMAP.put(asSet("Q126897884"), EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // denominal
+        TYPEMAP.put(asSet("Q213458"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // clitic
+        TYPEMAP.put(asSet("Q340015"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // deixis, words requiring context to understand their meaning
+        TYPEMAP.put(asSet("Q162940"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // diacritic
+
+        // Hard to classify noun classes.
+        TYPEMAP.put(asSet("Q113335229"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY));
+        TYPEMAP.put(asSet("Q113335232"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY));
+        TYPEMAP.put(asSet("Q113335225"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY));
+        TYPEMAP.put(asSet("Q113331807"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY));
+        TYPEMAP.put(asSet("Q113335171"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY));
+        TYPEMAP.put(asSet("Q113335224"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY));
+        TYPEMAP.put(asSet("Q113335227"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY));
+        TYPEMAP.put(asSet("Q113194639"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY));
+        TYPEMAP.put(asSet("Q113335228"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY));
+        TYPEMAP.put(asSet("Q113194715"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY));
+        TYPEMAP.put(asSet("Q113335233"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY));
+        TYPEMAP.put(asSet("Q113335234"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY));
+        TYPEMAP.put(asSet("Q113335237"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY));
+        TYPEMAP.put(asSet("Q113335235"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY));
+        TYPEMAP.put(asSet("Q122255603"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY));
+        TYPEMAP.put(asSet("Q113383699"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY));
+        TYPEMAP.put(asSet("Q124513935"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY));
+        TYPEMAP.put(asSet("Q113195544"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY));
+        TYPEMAP.put(asSet("Q113195506"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY));
+        TYPEMAP.put(asSet("Q113383692"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY));
+        TYPEMAP.put(asSet("Q113383694"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY));
+        TYPEMAP.put(asSet("Q113195757"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY));
+        TYPEMAP.put(asSet("Q113335230"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY));
+
+        // Undocumented properties
+        TYPEMAP.put(asSet("Q123865651"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // undocumented Japanese property
+        TYPEMAP.put(asSet("Q89270548"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // undocumented Japanese property
+        TYPEMAP.put(asSet("Q63997520"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // undocumented property
+        TYPEMAP.put(asSet("Q94142002"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // undocumented Basque property
+        TYPEMAP.put(asSet("Q25554366"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // undocumented Sanskrit property
+        TYPEMAP.put(asSet("Q114902657"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // undocumented property
+        TYPEMAP.put(asSet("Q12273953"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // undocumented property
+        TYPEMAP.put(asSet("Q12975777"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // undocumented property
+        TYPEMAP.put(asSet("Q12975826"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // undocumented property
+        TYPEMAP.put(asSet("Q12988065"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // undocumented property
+        TYPEMAP.put(asSet("Q130611240"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // undocumented property
+        TYPEMAP.put(asSet("Q10638483"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // undocumented property
+        TYPEMAP.put(asSet("Q60799546"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // undocumented property
+        TYPEMAP.put(asSet("Q66664469"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // undocumented term of disparagement property
+        TYPEMAP.put(asSet("Q110113203"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // undocumented property
+        TYPEMAP.put(asSet("Q121824824"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // undocumented property
+
+        // TODO ignore for now
+        TYPEMAP.put(asSet("Q74674702"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // unmarked verb form in Basque
+        TYPEMAP.put(asSet("Q64448167"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // Dutch f/m shift, marker for the very gradual shift from feminine to masculine grammatical gender in a large group of Dutch nouns
+        TYPEMAP.put(asSet("Q74674960"), EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // a verb that can be used as a noun
+        TYPEMAP.put(asSet("Q18794"), EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // ezāfe
+        TYPEMAP.put(asSet("Q65262551"), EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // short illative or perhaps aditive
+        TYPEMAP.put(asSet("Q12360803"), EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // Des-form. Perhaps a part of da-infinitive, inessive, present. See saatma for an example.
+        TYPEMAP.put(asSet("Q15737187"), EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // negative form for Japanese verb
+        TYPEMAP.put(asSet("Q2888577"), EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // conjunctive form for Japanese verb
+        TYPEMAP.put(asSet("Q53608953"), EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // attributive form for Japanese verb
+        TYPEMAP.put(asSet("Q53609593"), EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // hypothetical form for Japanese verb
+        TYPEMAP.put(asSet("Q732699"), EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // grammatical modifier for Māori
+        TYPEMAP.put(asSet("Q2120608"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // function word words with little/ambiguous lexical meaning that express grammatical relationships or specify the speaker’s attitude/mood of the speaker
+        TYPEMAP.put(asSet("Q113389006"), EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // andative semantic feature of verb phrases in some languages; involves meanings related to 'take away'
+        TYPEMAP.put(asSet("Q3938"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // Wiki sandbox
+        TYPEMAP.put(asSet("Q94140447"), EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // what-who Basque verb
+        TYPEMAP.put(asSet("Q4423888"), EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // inflected form
+        TYPEMAP.put(asSet("Q55832778"), EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // lujvo
+        TYPEMAP.put(asSet("Q17239636"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // onbin
+        TYPEMAP.put(asSet("Q126729798"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // nominaliser, derivational suffix forming a noun from a preceding verb
+        TYPEMAP.put(asSet("Q503992"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // nominal, word class consisting of pronouns, nouns, adjectives and numerals
+        TYPEMAP.put(asSet("Q75244800"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // future imperative
+        TYPEMAP.put(asSet("Q113330960"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // basic phase
+        TYPEMAP.put(asSet("Q115042433"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // subtractive of basic phase
+        TYPEMAP.put(asSet("Q1909485"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // quantifier, but it might be used frequently as an indefinite noun
+        TYPEMAP.put(asSet("Q694268"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // collective
+        TYPEMAP.put(asSet("Q1450795"), EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // singulative
+    }
+
+    static Set<? extends Enum<?>> getMappedGrammemes(String... grammemes) {
+        TreeSet<String> remappedGrammemes = new TreeSet<>();
+        for (String grammeme : grammemes) {
+            remappedGrammemes.add(REMAP.getOrDefault(grammeme, grammeme));
+        }
+
+        return TYPEMAP.get(remappedGrammemes);
+    }
+
+}

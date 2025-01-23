@@ -1,4 +1,5 @@
 /*
+ * Copyright 2025 Unicode Incorporated and others. All rights reserved.
  * Copyright 2016-2024 Apple Inc. All rights reserved.
  */
 #include "catch2/catch_test_macros.hpp"
@@ -111,7 +112,7 @@ TEST_CASE("LanguageGrammarFeaturesTest#testLanguageGrammarFeatures") /* throws(E
     const auto& nbLangGramFeatures = ::inflection::lang::features::LanguageGrammarFeatures::getLanguageGrammarFeatures(::inflection::util::ULocale("nb"));
     auto nbCategories = nbLangGramFeatures.getCategories();
     REQUIRE(nbCategories.size() == 11);
-    REQUIRE(categorySize(nbCategories, u"pos") == 10);
+    REQUIRE(categorySize(nbCategories, u"pos") == 11);
     REQUIRE(categorySize(nbCategories, u"number") == 2);
 
     auto nbFeatures = nbLangGramFeatures.getFeatures();
@@ -134,7 +135,7 @@ TEST_CASE("LanguageGrammarFeaturesTest#testLanguageGrammarFeatures") /* throws(E
     const auto& rootLangGramFeatures = ::inflection::lang::features::LanguageGrammarFeatures::getLanguageGrammarFeatures(::inflection::util::LocaleUtils::ROOT());
     auto rootCategories = rootLangGramFeatures.getCategories();
     REQUIRE(rootCategories.size() == 2);
-    REQUIRE(categorySize(rootCategories, u"pos") == 10);
+    REQUIRE(categorySize(rootCategories, u"pos") == 11);
     REQUIRE(categorySize(rootCategories, u"gender") == -1);
 }
 

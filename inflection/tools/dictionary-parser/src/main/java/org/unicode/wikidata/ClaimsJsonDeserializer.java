@@ -25,7 +25,7 @@ public class ClaimsJsonDeserializer extends JsonDeserializer<Map<String, List<St
         var nodeItr = node.fields();
         while (nodeItr.hasNext()) {
             var claimsItr = nodeItr.next();
-            if (!ParseWikidata.PROPERTIES_WITH_PRONUNCIATION.contains(claimsItr.getKey())) {
+            if (!ParseWikidata.IMPORTANT_PROPERTIES.contains(claimsItr.getKey())) {
                 continue;
             }
             var claimItr = claimsItr.getValue().iterator();
@@ -41,7 +41,15 @@ public class ClaimsJsonDeserializer extends JsonDeserializer<Map<String, List<St
                             if (array == null) {
                                 array = new ArrayList<>();
                             }
-                            array.add(value.textValue());
+                            if (value.isTextual()) {
+                                array.add(value.textValue());
+                            }
+                            else {
+                                var id = value.get("id");
+                                if (id != null) {
+                                    array.add(id.textValue());
+                                }
+                            }
                         }
                     }
                 }

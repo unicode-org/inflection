@@ -740,7 +740,6 @@ public final class Grammar {
         TYPEMAP.put("Q65540125", new HashSet<>(Arrays.asList(Tense.PRESENT, VerbType.TRANSGRESSIVE))); // present infinitive, or participle
         TYPEMAP.put("Q12750232", new HashSet<>(Arrays.asList(Tense.PAST, VerbType.TRANSGRESSIVE))); // past infinitive, or participle
         TYPEMAP.put("Q814722", EnumSet.of(VerbType.PARTICIPLE));
-        TYPEMAP.put("Q814722", new HashSet<>(Arrays.asList(Voice.ACTIVE, VerbType.PARTICIPLE)));
         TYPEMAP.put("Q548470", EnumSet.of(VerbType.SUPINE));
         TYPEMAP.put("Q12717679", new HashSet<>(Arrays.asList(Tense.PAST, VerbType.PARTICIPLE)));
 
@@ -761,6 +760,7 @@ public final class Grammar {
         TYPEMAP.put("Q34793275", new HashSet<>(Arrays.asList(Definiteness.DEMONSTRATIVE, PartOfSpeech.PRONOUN))); // demonstrative pronoun
         TYPEMAP.put("Q953129", EnumSet.of(PartOfSpeech.PRONOUN)); // reflexive pronoun
         TYPEMAP.put("Q130266209", EnumSet.of(PartOfSpeech.PRONOUN)); // reflexive personal pronoun
+        TYPEMAP.put("Q1050744", EnumSet.of(PartOfSpeech.PRONOUN)); // relative pronoun
 
         TYPEMAP.put("Q625581", EnumSet.of(Mood.CONDITIONAL));
         TYPEMAP.put("Q3686414", new HashSet<>(Arrays.asList(Tense.PRESENT, Mood.CONDITIONAL))); // conditional present
@@ -865,16 +865,16 @@ public final class Grammar {
         TYPEMAP.put("Q7188068", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // phrasal template
         TYPEMAP.put("Q1401131", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // noun phrase
         TYPEMAP.put("Q5551966", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // phraseme
-        TYPEMAP.put("Q3734650", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // adverbial phrase
+        TYPEMAP.put("Q3734650", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // adverbial phrase, a phrase the head of which is an adverb
         TYPEMAP.put("Q357760", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // adjectival phrase
         TYPEMAP.put("Q56042915", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // prepositional phrase
         TYPEMAP.put("Q1778442", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // verb phrase
         TYPEMAP.put("Q384876", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // set phrase
         TYPEMAP.put("Q1527589", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // phrasal verb
+        TYPEMAP.put("Q117606981", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // verbo-nominal syntagma
         TYPEMAP.put("Q12734432", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // attributive locution, phrase that grammatically is used as attribute
         TYPEMAP.put("Q5978305", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // conjunctive locution, a multiword expression working as a conjunct
         TYPEMAP.put("Q5978303", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // adverbial locution, a combination of words that acts as an adverb
-        TYPEMAP.put("Q3734650", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // adverbial phrase, a phrase the head of which is an adverb
         TYPEMAP.put("Q1167104", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // adverb that connects two independent clauses
         TYPEMAP.put("Q29888377", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // nominal locution, combination of words that acts as a noun
         TYPEMAP.put("Q10319522", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // prepositional locution, a multiword expression working as a preposition
@@ -892,6 +892,7 @@ public final class Grammar {
         TYPEMAP.put("Q3026787", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // saying
         TYPEMAP.put("Q63348589", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // popular saying
         TYPEMAP.put("Q45594", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // greeting
+        TYPEMAP.put("Q516766", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // salutation
         TYPEMAP.put("Q1553339", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // chant
         TYPEMAP.put("Q5456361", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // fixed expression
         TYPEMAP.put("Q170239", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // onomatopoeia
@@ -904,7 +905,6 @@ public final class Grammar {
         TYPEMAP.put("Q43249", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // morpheme
         TYPEMAP.put("Q126728876", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // nominal modifier, suffix deriving a noun from a preceding noun
         TYPEMAP.put("Q126734687", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // verbal modifier, verbal derivational suffix
-        TYPEMAP.put("Q134830", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // prefix
         TYPEMAP.put("Q134830", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // prefix
         TYPEMAP.put("Q54792077", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // prefixoid
         TYPEMAP.put("Q125858556", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // number-person prefix
@@ -933,6 +933,8 @@ public final class Grammar {
         TYPEMAP.put("Q1428334", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // paradigm, an inflection table instead of actual words
         TYPEMAP.put("Q102500", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // chemical symbol
         TYPEMAP.put("Q80071", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // symbol
+        TYPEMAP.put("Q308229", EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // currency sign
+        TYPEMAP.put("Q31963", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // emoticon
         TYPEMAP.put("Q1668151", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // semantic punctuation mark
         TYPEMAP.put("Q1984758", EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // misspelling, not helpful
 
@@ -1014,7 +1016,6 @@ public final class Grammar {
         TYPEMAP.put("Q64448167", EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // Dutch f/m shift, marker for the very gradual shift from feminine to masculine grammatical gender in a large group of Dutch nouns
         TYPEMAP.put("Q74674960", EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // a verb that can be used as a noun
         TYPEMAP.put("Q18794", EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // ezāfe
-        TYPEMAP.put("Q65262551", EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // short illative or perhaps aditive
         TYPEMAP.put("Q12360803", EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // Des-form. Perhaps a part of da-infinitive, inessive, present. See saatma for an example.
         TYPEMAP.put("Q15737187", EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // negative form for Japanese verb
         TYPEMAP.put("Q2888577", EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // conjunctive form for Japanese verb
@@ -1041,5 +1042,4 @@ public final class Grammar {
     static Set<? extends Enum<?>> getMappedGrammemes(String grammeme) {
         return TYPEMAP.get(REMAP.getOrDefault(grammeme, grammeme));
     }
-
 }

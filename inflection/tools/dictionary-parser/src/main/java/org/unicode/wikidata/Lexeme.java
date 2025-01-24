@@ -4,6 +4,7 @@
 package org.unicode.wikidata;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.util.List;
 import java.util.Map;
@@ -17,5 +18,7 @@ public class Lexeme {
     public String id;
     public Map<String, LexemeRepresentation> lemmas;
     public String lexicalCategory;
+    @JsonDeserialize(using = ClaimsJsonDeserializer.class)
+    public Map<String, List<String>> claims;
     public List<LexemeForm> forms;
 }

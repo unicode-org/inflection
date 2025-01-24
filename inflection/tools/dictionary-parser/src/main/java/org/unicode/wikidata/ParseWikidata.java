@@ -17,7 +17,6 @@ import java.text.NumberFormat;
 import java.util.EnumMap;
 import java.util.Locale;
 import java.util.Properties;
-import java.util.SortedSet;
 import java.util.regex.Pattern;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -76,9 +75,8 @@ final class ParserOptions {
     static final String INFLECTION_TYPES = "--inflection-types";
     static final String ADD_LEMMAS_FOR_TYPES = "--add-lemma-forms-for-types";
     static final String IGNORE_GRAMMEMES_FOR_TYPES = "--ignore-grammemes-for-types";
-    static final String IGNORE_PROPERTY_SET = "--ignore-property-set";
+    static final String IGNORE_PROPERTY = "--ignore-property";
     static final String INCLUDE_LEMMAS_WITHOUT_WORD = "--include-lemmas-without-words";
-    static final String USE_FORM_ATTRIBUTE = "--use-form-attribute";
     static final String IGNORE_SURFACE_FORM = "--ignore-entries-with-grammemes";
     static final String IGNORE_UNANNOTATED_SURFACE_FORM = "--ignore-unannotated-entries";
     static final String ADD_NORMALIZED_ENTRY = "--add-normalized-entry";
@@ -90,11 +88,10 @@ final class ParserOptions {
 
     boolean includeLemmasWithoutWords = false;
     boolean ignoreUnannotated = false;
-    boolean useFormAttribute = false;
     boolean includeLemmaForms = false;
     boolean addNormalizedEntry = false;
     boolean ignoreUnstructuredEntries = false;
-    Set<String> propertiesToConsiderFromForm = null;
+    boolean debug = false;
     final boolean addSound;
 
     EnumSet<PartOfSpeech> posToBeInflected;
@@ -120,7 +117,7 @@ final class ParserOptions {
         System.err.println(ADD_LEMMAS_FOR_TYPES + " pos1[,pos2,...]\tthe part of speeches for which the known lemma form should be added to dict, default: (NONE)");
         System.err.println(IGNORE_GRAMMEMES_FOR_TYPES + " pos1[,pos2,...]\tthe part of speeches for which we don't want to include any grammeme info other than vowel/consonant start, default: (NONE)");
         System.err.println(MAP_GRAMMEME + " grammeme1,grammeme2\twhen grammeme1 is seen in the source dictionary, use grammeme2 instead of it");
-        System.err.println(IGNORE_PROPERTY_SET + " grammeme1[,grammeme2,...]\tthis property set is considered to be an ignorable property.");
+        System.err.println(IGNORE_PROPERTY + " grammeme1[,grammeme2,...]\teach property is considered to be an ignorable property.");
         System.err.println(IGNORE_SURFACE_FORM + " type1[,type2,...]\tignore entries with specified grammemes. Default: do not ignore");
         System.err.println(IGNORE_UNANNOTATED_SURFACE_FORM + " \tignore entries without any grammeme annotation. Default: do not ignore");
         System.err.println(INCLUDE_LEMMAS_WITHOUT_WORD + "\tinclude lemma entries which do not have corresponding word-entry. Default: do not include");
@@ -168,18 +165,11 @@ final class ParserOptions {
 
                 optionsUsedToInvoke.add(ParserOptions.MAP_GRAMMEME);
                 optionsUsedToInvoke.add(mapGrammeme);
-            } else if (ParserOptions.IGNORE_PROPERTY_SET.equals(arg)) {
+            } else if (ParserOptions.IGNORE_PROPERTY.equals(arg)) {
                 String propertySetToIgnore = args[++i];
-                SortedSet<String> key = Grammar.asSet(propertySetToIgnore.split(","));
-                TYPEMAP.put(key, EnumSet.of(Ignorable.IGNORABLE_PROPERTY));
-                optionsUsedToInvoke.add(ParserOptions.IGNORE_PROPERTY_SET);
+                setIgnoreProperty(propertySetToIgnore.split(","), Ignorable.IGNORABLE_PROPERTY);
+                optionsUsedToInvoke.add(ParserOptions.IGNORE_PROPERTY);
                 optionsUsedToInvoke.add(propertySetToIgnore);
-            } else if (ParserOptions.USE_FORM_ATTRIBUTE.equals(arg)) {
-                useFormAttribute = true;
-                String formAttribute = args[++i];
-                propertiesToConsiderFromForm = Grammar.asSet(formAttribute.split(","));
-                optionsUsedToInvoke.add(ParserOptions.USE_FORM_ATTRIBUTE);
-                optionsUsedToInvoke.add(formAttribute);
             } else if (ParserOptions.INFLECTION_TYPES.equals(arg)) {
                 String inflectionTypes = args[++i];
                 posToBeInflected.clear();
@@ -213,11 +203,7 @@ final class ParserOptions {
                 optionsUsedToInvoke.add(ParserOptions.INCLUDE_LEMMAS_WITHOUT_WORD);
             } else if (ParserOptions.IGNORE_SURFACE_FORM.equals(arg)) {
                 String ignoreEntriesWithGrammemesStr = args[++i];
-                TreeSet<String> ignoreEntriesWithGrammemes = new TreeSet<>(Arrays.asList(ignoreEntriesWithGrammemesStr.split(",")));
-                for (String grammeme : ignoreEntriesWithGrammemes) {
-                    EnumSet<Ignorable> enumSet = EnumSet.of(Ignorable.IGNORABLE_INFLECTION);
-                    TYPEMAP.put(Grammar.asSet(grammeme), enumSet);
-                }
+                setIgnoreProperty(ignoreEntriesWithGrammemesStr.split(","), Ignorable.IGNORABLE_INFLECTION);
                 optionsUsedToInvoke.add(ParserOptions.IGNORE_SURFACE_FORM);
                 optionsUsedToInvoke.add(ignoreEntriesWithGrammemesStr);
             } else if (ParserOptions.IGNORE_UNANNOTATED_SURFACE_FORM.equals(arg)) {
@@ -299,6 +285,34 @@ final class ParserOptions {
         if (sourceFilenames.isEmpty()) {
             printUsage();
             throw new IllegalArgumentException();
+        }
+    }
+
+    void setIgnoreProperty(String[] grammemes, Ignorable ignorable) {
+        var ignorableSet = EnumSet.of(ignorable);
+        for (String grammeme : grammemes) {
+            if (grammeme.matches("Q\\d*")) {
+                TYPEMAP.put(grammeme, ignorableSet);
+            }
+            else {
+                for (Map.Entry<String, Set<? extends Enum<?>>> entry : TYPEMAP.entrySet()) {
+                    for (var grammemeEnum : entry.getValue()) {
+                        String name = grammemeEnum.name();
+                        if (name.equalsIgnoreCase(grammeme)) {
+                            if (entry.getValue().size() == 1) {
+                                entry.setValue(ignorableSet);
+                            }
+                            else {
+                                entry.getValue().remove(grammemeEnum);
+                                ArrayList<Enum<?>> clone = new ArrayList<>(entry.getValue());
+                                clone.add(ignorable);
+                                entry.setValue(new HashSet<>(clone));
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
         }
     }
 }
@@ -414,10 +428,10 @@ final class DocumentState {
                 }
                 lexicalDictionaryStream.printf("%n");
             }
-            lexicalDictionaryStream.println("License: Creative Commons CC0 License (https://creativecommons.org/publicdomain/zero/1.0/)");
             long endTime = System.currentTimeMillis();
             long elapsedTime = (endTime-startTime);
             lexicalDictionaryStream.println("processed in " + (elapsedTime / 1000) + '.' + (elapsedTime % 1000) + " seconds");
+            lexicalDictionaryStream.println("License: Creative Commons CC0 License (https://creativecommons.org/publicdomain/zero/1.0/)");
             lexicalDictionaryStream.println("generated with options: " + String.join(" ", parserOptions.optionsUsedToInvoke));
         }
     }
@@ -460,7 +474,7 @@ public final class ParseWikidata {
 
     private void addGrammeme(TreeSet<Enum<?>> grammemes, @Nullable String grammeme) {
         if (grammeme != null && !grammeme.isEmpty()) {
-            Set<? extends Enum<?>> values = Grammar.getMappedGrammemes(grammeme.split(","));
+            Set<? extends Enum<?>> values = Grammar.getMappedGrammemes(grammeme);
             if (values == null) {
                 throw new RuntimeException(grammeme + " is not a known grammeme");
             }
@@ -470,7 +484,9 @@ public final class ParseWikidata {
         }
     }
 
-    private void analyzeLexeme(Lexeme lexeme) {
+    static final String VARIANT_SEPARATOR = "-x-";
+
+    private void analyzeLexeme(int lineNumber, Lexeme lexeme) {
         Lemma lemma = new Lemma();
         var desiredLanguage = parserOptions.locale;
         Set<? extends Enum<?>> partOfSpeechSet = null;
@@ -488,6 +504,21 @@ public final class ParseWikidata {
                 if (partOfSpeechSet == null) {
                     throw new IllegalArgumentException(lexeme.lexicalCategory + " is not a known part of speech grammeme for " + lexeme.id + "(" + lemma.value + ")");
                 }
+            }
+            int qVariantIdx = currentLemmaLanguage.indexOf(VARIANT_SEPARATOR);
+            if (qVariantIdx >= 0) {
+                // The languages can have wierd Q entry after the desired language.
+                // A spelling variant is informative. Most of the rest are irrelevant.
+                var additionalCategory = currentLemmaLanguage.substring(qVariantIdx + VARIANT_SEPARATOR.length());
+                currentLemmaLanguage = currentLemmaLanguage.substring(0, qVariantIdx);
+                var variant = Grammar.getMappedGrammemes(additionalCategory);
+                if (variant == null) {
+                    if (parserOptions.debug) {
+                        System.err.println("Line " + lineNumber + ": " + additionalCategory + " is not a known grammeme for the language variant " + lexeme.id + "(" + lemma.value + ")");
+                    }
+                    continue;
+                }
+                lemma.grammemes.addAll(variant);
             }
             lemma.grammemes.addAll(partOfSpeechSet);
             if (partOfSpeechSet.contains(Ignorable.IGNORABLE_LEMMA)) {
@@ -824,7 +855,7 @@ public final class ParseWikidata {
                         do {
                             Lexeme lexeme = objectMapper.readValue(parser, Lexeme.class);
                             try {
-                                lexParser.analyzeLexeme(lexeme);
+                                lexParser.analyzeLexeme(parser.currentLocation().getLineNr(), lexeme);
                             } catch (IllegalArgumentException e) {
                                 lexParser.documentState.unusableLemmaCount++;
                                 System.err.println("Line " + parser.currentLocation().getLineNr() + ": " + e.getMessage());

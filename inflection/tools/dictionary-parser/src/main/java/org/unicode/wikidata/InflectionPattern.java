@@ -119,6 +119,7 @@ public class InflectionPattern {
         result.put(Grammar.Sound.class, ""); // sound, like vowel-start or consonant-start
         result.put(Grammar.DerivationType.class, "derivation-type");
         result.put(Grammar.AdjectiveType.class, "adjective-type");
+        result.put(Grammar.PronounType.class, "pronoun-type");
         result.put(Grammar.DeclensionClass.class, "declension");
         result.put(Grammar.Register.class, "register");
         result.put(Grammar.FormType.class, "form-type");

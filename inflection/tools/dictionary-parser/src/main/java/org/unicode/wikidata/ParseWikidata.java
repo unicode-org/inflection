@@ -4,6 +4,7 @@
  */
 package org.unicode.wikidata;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -27,7 +28,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ibm.icu.util.ULocale;
 
-import org.apache.commons.compress.compressors.CompressorStreamFactory;
+import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
 import org.apache.commons.lang3.StringUtils;
 
 import java.nio.charset.StandardCharsets;
@@ -836,7 +837,7 @@ public final class ParseWikidata {
      * en-us, en-us true
      * ko, kok false
      */
-    public boolean isContained(String baseLanguage, String variantLanguage) {
+    public static boolean isContained(String baseLanguage, String variantLanguage) {
         if (baseLanguage.indexOf('-') < 0) {
             int dash = variantLanguage.indexOf('-');
             if (dash >= 0) {
@@ -873,9 +874,10 @@ public final class ParseWikidata {
             try (InputStream fileInputStream = new FileInputStream(sourceFilename)) {
                 InputStream inputStream = fileInputStream;
                 if (sourceFilename.endsWith(".bz2")) {
-                    inputStream = new CompressorStreamFactory().createCompressorInputStream(CompressorStreamFactory.BZIP2, inputStream);
+                    System.err.println("Warning: Consider providing the decompressed file for faster parsing.");
+                    inputStream = new BZip2CompressorInputStream(new BufferedInputStream(inputStream, 32768));
                 }
-                try (JsonParser parser = objectMapper.createParser(new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8), 1048576))) {
+                try (JsonParser parser = objectMapper.createParser(inputStream)) {
                     JsonToken currToken;
                     while ((currToken = parser.nextToken()) != JsonToken.START_OBJECT && currToken != null) {
                         // Find the first object in the array.

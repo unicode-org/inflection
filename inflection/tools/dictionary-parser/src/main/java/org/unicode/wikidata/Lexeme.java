@@ -14,7 +14,6 @@ import java.util.Map;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Lexeme {
-    public String type;
     public String id;
     public Map<String, LexemeRepresentation> lemmas;
     public String lexicalCategory;

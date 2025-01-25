@@ -8,6 +8,7 @@
 #include <inflection/util/DelimitedStringIterator.hpp>
 #include <unicode/ustring.h>
 #include <string>
+#include <iostream>
 #include <fstream>
 #include <istream>
 #include <set>
@@ -93,6 +94,10 @@ int64_t Dictionary::createGrammemeTypeIfNonExistant(::std::u16string_view type)
     if (existingTypeValue == typeToValue.end()) {
         typeValue = int64_t(1LL) << typeToValue.size();
         if (typeValue <= 0) {
+            std::cerr << "Existing grammemes:" << std::endl;
+            for (const auto& [key, value] : typeToValue) {
+                std::cerr << inflection::util::StringViewUtils::to_string(key) << std::endl;
+            }
             throw ::inflection::exception::IllegalStateException(u"Too many properties requested for " + locale.toString() + u" type=" + std::u16string(type));
         }
         auto savedString(getStringSingleton(type));

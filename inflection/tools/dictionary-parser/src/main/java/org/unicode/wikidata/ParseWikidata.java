@@ -444,7 +444,18 @@ final class DocumentState {
  * @see <a href="https://dumps.wikimedia.org/wikidatawiki/entities/">https://dumps.wikimedia.org/wikidatawiki/entities/</a>
  */
 public final class ParseWikidata {
-    static final Set<String> PROPERTIES_WITH_PRONUNCIATION = new TreeSet<>(List.of("P898"));
+    static final Set<String> PROPERTIES_WITH_PRONUNCIATION = new TreeSet<>(List.of(
+            "P898" // IPA transcription
+    ));
+    static final Set<String> PROPERTIES_WITH_GRAMMEMES = new TreeSet<>(List.of(
+            "P31", // instance of. Sometimes phrase information is here.
+            "P5185" // grammatical gender
+    ));
+    static final Set<String> IMPORTANT_PROPERTIES = new TreeSet<>(PROPERTIES_WITH_GRAMMEMES);
+
+    static {
+        IMPORTANT_PROPERTIES.addAll(PROPERTIES_WITH_PRONUNCIATION);
+    }
 
     static class Lemma {
         String value;
@@ -505,6 +516,7 @@ public final class ParseWikidata {
                     throw new IllegalArgumentException(lexeme.lexicalCategory + " is not a known part of speech grammeme for " + lexeme.id + "(" + lemma.value + ")");
                 }
             }
+            lemma.grammemes.addAll(partOfSpeechSet);
             int qVariantIdx = currentLemmaLanguage.indexOf(VARIANT_SEPARATOR);
             if (qVariantIdx >= 0) {
                 // The languages can have wierd Q entry after the desired language.
@@ -520,8 +532,25 @@ public final class ParseWikidata {
                 }
                 lemma.grammemes.addAll(variant);
             }
-            lemma.grammemes.addAll(partOfSpeechSet);
-            if (partOfSpeechSet.contains(Ignorable.IGNORABLE_LEMMA)) {
+            if (lexeme.claims != null && !lexeme.claims.isEmpty()) {
+                for (String property : IMPORTANT_PROPERTIES) {
+                    var claim = lexeme.claims.get(property);
+                    if (claim != null) {
+                        for (var grammemeStr : claim) {
+                            var grammemeEnum = Grammar.getMappedGrammemes(grammemeStr);
+                            if (grammemeEnum != null) {
+                                lemma.grammemes.addAll(grammemeEnum);
+                            }
+                            else if (parserOptions.debug) {
+                                // Most of this is irrelevant non-grammatical information, like that it's a trademark, or a study of something,
+                                // but sometimes it contains grammemes that apply to all words, like grammatical gender.
+                                System.err.println(grammemeStr + " is not a known grammeme for " + lexeme.id + "(" + lemma.value + ")");
+                            }
+                        }
+                    }
+                }
+            }
+            if (lemma.grammemes.contains(Ignorable.IGNORABLE_LEMMA)) {
                 documentState.unusableLemmaCount++;
                 return;
             }

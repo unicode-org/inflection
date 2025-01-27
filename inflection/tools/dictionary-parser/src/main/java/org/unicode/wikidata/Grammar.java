@@ -568,6 +568,7 @@ public final class Grammar {
         TYPEMAP.put("Q12262560", EnumSet.of(PartOfSpeech.CONJUNCTION)); // adversative linker
         TYPEMAP.put("Q12564489", EnumSet.of(PartOfSpeech.CONJUNCTION)); // disjunctive conjunction, which we don't need to differentiate.
         TYPEMAP.put("Q55965516", EnumSet.of(PartOfSpeech.CONJUNCTION)); // alias of disjunctive conjunction, which we don't need to differentiate.
+        TYPEMAP.put("Q11655558", EnumSet.of(PartOfSpeech.CONJUNCTION)); // subordinating conjunction
         TYPEMAP.put("Q576271", EnumSet.of(PartOfSpeech.DETERMINER));
         TYPEMAP.put("Q5051", new HashSet<>(Arrays.asList(Case.GENITIVE, PartOfSpeech.DETERMINER))); // possessive determiner
         TYPEMAP.put("Q83034", EnumSet.of(PartOfSpeech.INTERJECTION));
@@ -931,7 +932,7 @@ public final class Grammar {
         TYPEMAP.put("Q1122269", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // collocation, frequent occurrence of words next to each other
         TYPEMAP.put("Q18915698", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // established collocation
         TYPEMAP.put("Q1428334", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // paradigm, an inflection table instead of actual words
-        TYPEMAP.put("Q102500", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // chemical symbol
+        TYPEMAP.put("Q102500", EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // chemical symbol
         TYPEMAP.put("Q80071", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // symbol
         TYPEMAP.put("Q308229", EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // currency sign
         TYPEMAP.put("Q31963", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // emoticon

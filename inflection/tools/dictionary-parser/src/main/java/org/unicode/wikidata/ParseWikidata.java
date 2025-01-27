@@ -81,7 +81,7 @@ final class ParserOptions {
     static final String IGNORE_SURFACE_FORM = "--ignore-entries-with-grammemes";
     static final String IGNORE_UNANNOTATED_SURFACE_FORM = "--ignore-unannotated-entries";
     static final String ADD_NORMALIZED_ENTRY = "--add-normalized-entry";
-    static final String LOCALE_OPT = "--locale";
+    static final String LANGUAGE_OPT = "--language";
     static final String TIMESTAMP = "--timestamp";
     static final String ADD_DEFAULT_GRAMMEME_FOR_CATEGORY = "--add-default-grammeme-for-category";
     static final String IGNORE_UNSTRUCTURED_ENTRIES = "--ignore-unstructured-entries";
@@ -105,7 +105,7 @@ final class ParserOptions {
     ArrayList<String> sourceFilenames;
     String inflectionalFilename = ParserDefaults.DEFAULT_INFLECTION_FILE_NAME;
     String lexicalDictionaryFilename = ParserDefaults.DEFAULT_DICTIONARY_FILE_NAME;
-    String locale = null;
+    ArrayList<String> locales = new ArrayList<>(List.of(Locale.ENGLISH.getLanguage()));
     List<String> optionsUsedToInvoke = new ArrayList<>();
 
     private static void printUsage() {
@@ -123,7 +123,7 @@ final class ParserOptions {
         System.err.println(IGNORE_UNANNOTATED_SURFACE_FORM + " \tignore entries without any grammeme annotation. Default: do not ignore");
         System.err.println(INCLUDE_LEMMAS_WITHOUT_WORD + "\tinclude lemma entries which do not have corresponding word-entry. Default: do not include");
         System.err.println(TIMESTAMP + "\ttimestamp of the latest lexicon used. Default: NONE");
-        System.err.println(LOCALE_OPT + "\tlocale of the lexicon used. Default: " + ULocale.ENGLISH.getName());
+        System.err.println(LANGUAGE_OPT + "\tComma separated list of languages to extract to the lexical dictionary. Default: " + ULocale.ENGLISH.getName());
         System.err.println(ADD_NORMALIZED_ENTRY + "\tAdds the normalized entry of a dictionary as an additional dictionary entry, only applies for non lowercase entries. Default: false");
         System.err.println(ADD_DEFAULT_GRAMMEME_FOR_CATEGORY + "\t[pos=partofSpeech1]category1=grammeme1[,category2=grammeme2.....]\t For each of the provided categories if no grammeme is present then add the default grammeme provided for that category to the word. Only applies for the provided parts of speech if pos= is supplied Default: (NONE)");
         System.err.println(IGNORE_UNSTRUCTURED_ENTRIES + " \tIgnore unstructured entries from the lexicon. Default: false");
@@ -214,10 +214,11 @@ final class ParserOptions {
                 String timestamp = args[++i];
                 optionsUsedToInvoke.add(ParserOptions.TIMESTAMP);
                 optionsUsedToInvoke.add(timestamp);
-            } else if (ParserOptions.LOCALE_OPT.equals(arg)) {
+            } else if (ParserOptions.LANGUAGE_OPT.equals(arg)) {
                 String localeStr = args[++i];
-                locale = localeStr;
-                optionsUsedToInvoke.add(ParserOptions.LOCALE_OPT);
+                locales.clear();
+                locales.addAll(List.of(localeStr.split(",")));
+                optionsUsedToInvoke.add(ParserOptions.LANGUAGE_OPT);
                 optionsUsedToInvoke.add(localeStr);
             } else if (ParserOptions.ADD_NORMALIZED_ENTRY.equals(arg)) {
                 addNormalizedEntry = true;
@@ -500,13 +501,9 @@ public final class ParseWikidata {
 
     private void analyzeLexeme(int lineNumber, Lexeme lexeme) {
         Lemma lemma = new Lemma();
-        var desiredLanguage = parserOptions.locale;
         Set<? extends Enum<?>> partOfSpeechSet = null;
         for (var lemmaEntry : lexeme.lemmas.entrySet()) {
             var currentLemmaLanguage = lemmaEntry.getKey();
-            if (!isContained(desiredLanguage, currentLemmaLanguage)) {
-                continue;
-            }
             lemma.reset();
             documentState.lemmaCount++;
             LexemeRepresentation lemmaRepresentation = lemmaEntry.getValue();
@@ -523,7 +520,6 @@ public final class ParseWikidata {
                 // The languages can have wierd Q entry after the desired language.
                 // A spelling variant is informative. Most of the rest are irrelevant.
                 var additionalCategory = currentLemmaLanguage.substring(qVariantIdx + VARIANT_SEPARATOR.length());
-                currentLemmaLanguage = currentLemmaLanguage.substring(0, qVariantIdx);
                 var variant = Grammar.getMappedGrammemes(additionalCategory);
                 if (variant == null) {
                     if (parserOptions.debug) {
@@ -533,50 +529,31 @@ public final class ParseWikidata {
                 }
                 lemma.grammemes.addAll(variant);
             }
-            if (lexeme.claims != null && !lexeme.claims.isEmpty()) {
-                for (String property : IMPORTANT_PROPERTIES) {
-                    var claim = lexeme.claims.get(property);
-                    if (claim != null) {
-                        for (var grammemeStr : claim) {
-                            var grammemeEnum = Grammar.getMappedGrammemes(grammemeStr);
-                            if (grammemeEnum != null) {
-                                lemma.grammemes.addAll(grammemeEnum);
-                            }
-                            else if (parserOptions.debug) {
-                                // Most of this is irrelevant non-grammatical information, like that it's a trademark, or a study of something,
-                                // but sometimes it contains grammemes that apply to all words, like grammatical gender.
-                                System.err.println(grammemeStr + " is not a known grammeme for " + lexeme.id + "(" + lemma.value + ")");
-                            }
-                        }
-                    }
-                }
-            }
-            if (lemma.grammemes.contains(Ignorable.IGNORABLE_LEMMA)) {
+            extractImportantProperties(lexeme.claims, lemma.grammemes, lexeme.id, lemma.value);
+            if (lemma.grammemes.contains(Ignorable.IGNORABLE_LEMMA) || lemma.grammemes.contains(Ignorable.IGNORABLE_INFLECTION)) {
                 documentState.unusableLemmaCount++;
-                return;
+                continue;
             }
             for (var form : lexeme.forms) {
                 Inflection currentInflection = null;
-                for (var representation : form.representations.entrySet()) {
-                    if (!isContained(currentLemmaLanguage, lemmaEntry.getKey())) {
-                        continue;
-                    }
-                    currentInflection = new Inflection(representation.getValue().value);
-                    break;
+                var representation = form.representations.get(currentLemmaLanguage);
+                if (representation != null) {
+                    currentInflection = new Inflection(representation.value);
                 }
-                if (currentInflection == null) {
-                    // Perhaps this is an incompatible variant with the lemma. Move on.
-                    break;
-                }
-                for (var feature : form.grammaticalFeatures) {
-                    Set<? extends Enum<?>> values = Grammar.getMappedGrammemes(feature);
-                    if (values == null) {
-                        throw new IllegalArgumentException(feature + " is not a known grammeme for " + lexeme.id + "(" + lemma.value + ")");
+                else {
+                    // Couldn't find an exact match. Go to a generic match.
+                    for (var rep : form.representations.entrySet()) {
+                        if (isContained(currentLemmaLanguage, lemmaEntry.getKey())) {
+                            currentInflection = new Inflection(rep.getValue().value);
+                            break;
+                        }
                     }
-                    if (!values.contains(Ignorable.IGNORABLE_PROPERTY)) {
-                        currentInflection.grammemeSet.addAll(values);
+                    if (currentInflection == null) {
+                        // Perhaps this is an incompatible variant with the lemma. Move on.
+                        break;
                     }
                 }
+                convertGrammemes(form, currentInflection, lexeme.id, lemma.value);
                 currentInflection.grammemeSet.addAll(lemma.grammemes);
                 if (currentInflection.grammemeSet.contains(Ignorable.IGNORABLE_LEMMA)) {
                     documentState.unusableLemmaCount++;
@@ -590,30 +567,73 @@ public final class ParseWikidata {
                 if (currentInflection.rareUsage) {
                     currentInflection.grammemeSet.remove(Grammar.Usage.RARE);
                 }
+                currentInflection.grammemeSet.remove(Ignorable.IGNORABLE_PROPERTY);
                 lemma.inflections.add(currentInflection);
                 if (parserOptions.addSound && form.claims != null && !form.claims.isEmpty() && currentInflection.inflection.charAt(0) == lemma.value.charAt(0)) {
                     // We have potential data, and the words aren't mixed together. So this is probably accurate.
-                    boolean foundMatch = false;
-                    for (var claimRegex : parserOptions.claimsToSound.entrySet()) {
-                        var dataForClaim = form.claims.get(claimRegex.getKey());
-                        if (dataForClaim != null && !dataForClaim.isEmpty()) {
-                            for (var soundMatcher : claimRegex.getValue().entrySet()) {
-                                for (var claimEntry : dataForClaim) {
-                                    if (soundMatcher.getValue().matcher(claimEntry).find()) {
-                                        currentInflection.grammemeSet.add(soundMatcher.getKey());
-                                        foundMatch = true;
-                                    }
-                                }
-                            }
-                            if (!foundMatch) {
-                                System.err.println("Unmatched property: " + lexeme.id + "(" + lemma.value + "): \"" + dataForClaim + "\"");
-                            }
-                        }
-                    }
+                    addSound(form.claims, currentInflection.grammemeSet, lexeme.id, lemma.value);
                 }
             }
             documentState.incomingSurfaceForm += lemma.inflections.size();
+            lemma.isRare = lemma.grammemes.contains(Grammar.Usage.RARE);
+            if (lemma.isRare) {
+                lemma.grammemes.remove(Grammar.Usage.RARE);
+            }
+            lemma.grammemes.remove(Ignorable.IGNORABLE_PROPERTY);
             analyzeLemma(lemma);
+        }
+    }
+
+    private void convertGrammemes(LexemeForm form, Inflection currentInflection, String id, String lemma) {
+        for (var feature : form.grammaticalFeatures) {
+            Set<? extends Enum<?>> values = Grammar.getMappedGrammemes(feature);
+            if (values == null) {
+                throw new IllegalArgumentException(feature + " is not a known grammeme for " + id + "(" + lemma + ")");
+            }
+            currentInflection.grammemeSet.addAll(values);
+        }
+        extractImportantProperties(form.claims, currentInflection.grammemeSet, id, lemma);
+    }
+
+    private void extractImportantProperties(Map<String, List<String>> claims, TreeSet<Enum<?>> grammemes, String id, String lemma) {
+        if (claims == null || claims.isEmpty()) {
+            return;
+        }
+        for (String property : IMPORTANT_PROPERTIES) {
+            var claim = claims.get(property);
+            if (claim != null) {
+                for (var grammemeStr : claim) {
+                    var grammemeEnum = Grammar.getMappedGrammemes(grammemeStr);
+                    if (grammemeEnum != null) {
+                        grammemes.addAll(grammemeEnum);
+                    }
+                    else if (parserOptions.debug) {
+                        // Most of this is irrelevant non-grammatical information, like that it's a trademark, or a study of something,
+                        // but sometimes it contains grammemes that apply to all words, like grammatical gender.
+                        System.err.println(grammemeStr + " is not a known grammeme for " + id + "(" + lemma + ")");
+                    }
+                }
+            }
+        }
+    }
+
+    private void addSound(Map<String, List<String>> claims, TreeSet<Enum<?>> grammemeSet, String id, String lemma) {
+        boolean foundMatch = false;
+        for (var claimRegex : parserOptions.claimsToSound.entrySet()) {
+            var dataForClaim = claims.get(claimRegex.getKey());
+            if (dataForClaim != null && !dataForClaim.isEmpty()) {
+                for (var soundMatcher : claimRegex.getValue().entrySet()) {
+                    for (var claimEntry : dataForClaim) {
+                        if (soundMatcher.getValue().matcher(claimEntry).find()) {
+                            grammemeSet.add(soundMatcher.getKey());
+                            foundMatch = true;
+                        }
+                    }
+                }
+                if (!foundMatch) {
+                    System.err.println("Unmatched property: " + id + "(" + lemma + "): \"" + dataForClaim + "\"");
+                }
+            }
         }
     }
 
@@ -757,7 +777,7 @@ public final class ParseWikidata {
             // else ignore this unimportant inflection pattern. This is usually trimmed for size.
         }
         boolean addLemmasForPhrase = !Collections.disjoint(lemma.grammemes, parserOptions.posToBeLemmatised);
-        Locale currLocale = parserOptions.locale == null ? Locale.ENGLISH : Locale.of(parserOptions.locale);
+        Locale currLocale = Locale.forLanguageTag(parserOptions.locales.get(0));
         for (int i = 0; i < inflections.size() ; i++) {
             var inflection = inflections.get(i);
             String phrase = inflection.getInflection();
@@ -851,8 +871,8 @@ public final class ParseWikidata {
         analyzeInflections(lemma, lemma.inflections);
 
         if (parserOptions.includeLemmasWithoutWords) {
-            DictionaryEntry newDictionaryEntry = new DictionaryEntry(lemma.value, lemma.isRare, lemma.grammemes, null);
-            documentState.dictionary.putIfAbsent(lemma.value, newDictionaryEntry);
+            documentState.dictionary.computeIfAbsent(lemma.value,
+                    d -> new DictionaryEntry(lemma.value, lemma.isRare, lemma.grammemes, null));
         }
     }
 
@@ -867,6 +887,7 @@ public final class ParseWikidata {
                 .configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true)
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         var lexParser = new ParseWikidata(parserOptions);
+        LexemesJsonDeserializer.setLanguage(parserOptions.locales);
 
         // We create InputSource directly due to an occasional bugs with UTF-8 files being interpreted as malformed UTF-8.
         // We use a large buffer because we're reading a large file, and we're frequently reading file data.

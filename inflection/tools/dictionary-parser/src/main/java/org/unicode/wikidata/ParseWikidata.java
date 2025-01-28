@@ -4,6 +4,7 @@
  */
 package org.unicode.wikidata;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -27,7 +28,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ibm.icu.util.ULocale;
 
-import org.apache.commons.compress.compressors.CompressorStreamFactory;
+import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
 import org.apache.commons.lang3.StringUtils;
 
 import java.nio.charset.StandardCharsets;
@@ -444,7 +445,18 @@ final class DocumentState {
  * @see <a href="https://dumps.wikimedia.org/wikidatawiki/entities/">https://dumps.wikimedia.org/wikidatawiki/entities/</a>
  */
 public final class ParseWikidata {
-    static final Set<String> PROPERTIES_WITH_PRONUNCIATION = new TreeSet<>(List.of("P898"));
+    static final Set<String> PROPERTIES_WITH_PRONUNCIATION = new TreeSet<>(List.of(
+            "P898" // IPA transcription
+    ));
+    static final Set<String> PROPERTIES_WITH_GRAMMEMES = new TreeSet<>(List.of(
+            "P31", // instance of. Sometimes phrase information is here.
+            "P5185" // grammatical gender
+    ));
+    static final Set<String> IMPORTANT_PROPERTIES = new TreeSet<>(PROPERTIES_WITH_GRAMMEMES);
+
+    static {
+        IMPORTANT_PROPERTIES.addAll(PROPERTIES_WITH_PRONUNCIATION);
+    }
 
     static class Lemma {
         String value;
@@ -505,6 +517,7 @@ public final class ParseWikidata {
                     throw new IllegalArgumentException(lexeme.lexicalCategory + " is not a known part of speech grammeme for " + lexeme.id + "(" + lemma.value + ")");
                 }
             }
+            lemma.grammemes.addAll(partOfSpeechSet);
             int qVariantIdx = currentLemmaLanguage.indexOf(VARIANT_SEPARATOR);
             if (qVariantIdx >= 0) {
                 // The languages can have wierd Q entry after the desired language.
@@ -520,8 +533,25 @@ public final class ParseWikidata {
                 }
                 lemma.grammemes.addAll(variant);
             }
-            lemma.grammemes.addAll(partOfSpeechSet);
-            if (partOfSpeechSet.contains(Ignorable.IGNORABLE_LEMMA)) {
+            if (lexeme.claims != null && !lexeme.claims.isEmpty()) {
+                for (String property : IMPORTANT_PROPERTIES) {
+                    var claim = lexeme.claims.get(property);
+                    if (claim != null) {
+                        for (var grammemeStr : claim) {
+                            var grammemeEnum = Grammar.getMappedGrammemes(grammemeStr);
+                            if (grammemeEnum != null) {
+                                lemma.grammemes.addAll(grammemeEnum);
+                            }
+                            else if (parserOptions.debug) {
+                                // Most of this is irrelevant non-grammatical information, like that it's a trademark, or a study of something,
+                                // but sometimes it contains grammemes that apply to all words, like grammatical gender.
+                                System.err.println(grammemeStr + " is not a known grammeme for " + lexeme.id + "(" + lemma.value + ")");
+                            }
+                        }
+                    }
+                }
+            }
+            if (lemma.grammemes.contains(Ignorable.IGNORABLE_LEMMA)) {
                 documentState.unusableLemmaCount++;
                 return;
             }
@@ -807,7 +837,7 @@ public final class ParseWikidata {
      * en-us, en-us true
      * ko, kok false
      */
-    public boolean isContained(String baseLanguage, String variantLanguage) {
+    public static boolean isContained(String baseLanguage, String variantLanguage) {
         if (baseLanguage.indexOf('-') < 0) {
             int dash = variantLanguage.indexOf('-');
             if (dash >= 0) {
@@ -844,9 +874,10 @@ public final class ParseWikidata {
             try (InputStream fileInputStream = new FileInputStream(sourceFilename)) {
                 InputStream inputStream = fileInputStream;
                 if (sourceFilename.endsWith(".bz2")) {
-                    inputStream = new CompressorStreamFactory().createCompressorInputStream(CompressorStreamFactory.BZIP2, inputStream);
+                    System.err.println("Warning: Consider providing the decompressed file for faster parsing.");
+                    inputStream = new BZip2CompressorInputStream(new BufferedInputStream(inputStream, 32768));
                 }
-                try (JsonParser parser = objectMapper.createParser(new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8), 1048576))) {
+                try (JsonParser parser = objectMapper.createParser(inputStream)) {
                     JsonToken currToken;
                     while ((currToken = parser.nextToken()) != JsonToken.START_OBJECT && currToken != null) {
                         // Find the first object in the array.

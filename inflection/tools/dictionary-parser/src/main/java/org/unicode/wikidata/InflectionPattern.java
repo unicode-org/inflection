@@ -180,6 +180,32 @@ public class InflectionPattern {
         return false;
     }
 
+    /**
+     * This allows us to split up inflection lines. This is only needed when the grammatical property has more than one valid value for a suffix.
+     * TODO Revisit this choice in case space needs to be saved. It could become comma separated, but then the reading code would have to add both grammemes.
+     */
+    private void toAttributes(List<StringBuilder> attributes, Map<Class<?>, List<Enum<?>>> grammemeMap) {
+        for (var entry : grammemeMap.entrySet()) {
+            var list = entry.getValue();
+
+            // duplicate the current attributes multiplied by the number of conflicting attributes.
+            int currentAttributeSize = attributes.size();
+            for (int duplicateCount = list.size() - 1; duplicateCount > 0; duplicateCount--) {
+                for (int idx = 0; idx < currentAttributeSize; idx++) {
+                    attributes.add(new StringBuilder(attributes.get(idx)));
+                }
+            }
+            // fill up the string builder objects
+            int attributeOffset = 0;
+            for (var grammemeEnum : list) {
+                for (int sbOffset = 0; sbOffset < currentAttributeSize; sbOffset++) {
+                    toAttribute(attributes.get((attributeOffset * currentAttributeSize) + sbOffset), grammemeEnum);
+                }
+                attributeOffset++;
+            }
+        }
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(2000);
@@ -204,7 +230,9 @@ public class InflectionPattern {
                 if (!grammemeOnly.isEmpty()) {
                     posBuilder.append("<!--");
                     for (Enum<?> grammeme : grammemeOnly) {
-                        toAttribute(posBuilder, grammeme);
+                        if (!Inflection.excludedGrammemeType(grammeme.getClass()) && isUsefulGrammeme(grammeme)) {
+                            toAttribute(posBuilder, grammeme);
+                        }
                     }
                     posBuilder.append(" -->");
                 }
@@ -232,25 +260,22 @@ public class InflectionPattern {
                     // We don't care about this inflection.
                     continue;
                 }
-                sb.append("            <inflection");
 
                 Map<Class<?>, List<Enum<?>>> grammemeMap = new HashMap<>();
                 for (Enum<?> grammeme : inflection.getGrammemeSet()) {
                     Class<?> declaringClass = grammeme.getDeclaringClass();
-                    if (Inflection.excludedGrammemeType(declaringClass)) {
+                    if (Inflection.excludedGrammemeType(declaringClass) || !isUsefulGrammeme(grammeme)) {
                         continue;
                     }
-                    grammemeMap.computeIfAbsent(declaringClass, k -> new ArrayList<>());
-                    grammemeMap.get(declaringClass).add(grammeme);
-
-                    if (isUsefulGrammeme(grammeme)) {
-                        toAttribute(sb, grammeme);
-                    }
+                    grammemeMap.computeIfAbsent(declaringClass, k -> new ArrayList<>()).add(grammeme);
                 }
+                List<StringBuilder> attributeList = new ArrayList<>();
+                attributeList.add(new StringBuilder());
+                toAttributes(attributeList, grammemeMap);
 
-                grammemeMap.values().stream().filter(v -> v.size() > 1).forEach(v -> {throw new RuntimeException(String.format("Multiple values for %s: %s. Resulting xml would NOT have been well-formed.", v.get(0).getDeclaringClass(), v));});
-
-                sb.append("><t><stem/>").append(inflection.getInflection().replace("& ", "&amp; ")).append("</t></inflection>\n");
+                for (var attributesStr : attributeList) {
+                    sb.append("            <inflection").append(attributesStr).append("><t><stem/>").append(inflection.getInflection().replace("& ", "&amp; ")).append("</t></inflection>\n");
+                }
             }
             sb.append("        </inflections>\n");
         }

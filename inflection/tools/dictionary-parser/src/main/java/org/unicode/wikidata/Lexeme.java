@@ -15,6 +15,7 @@ import java.util.Map;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Lexeme {
     public String id;
+    @JsonDeserialize(using = LexemesJsonDeserializer.class)
     public Map<String, LexemeRepresentation> lemmas;
     public String lexicalCategory;
     @JsonDeserialize(using = ClaimsJsonDeserializer.class)

@@ -33,7 +33,7 @@ RussianExposableMorphology::RussianExposableMorphology()
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryAdjective,{u"adjective"}));
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryAdverb,{u"adverb"}));
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryVerb,{u"verb"}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryNumber,{u"number"}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryNumber,{u"numeral"}));
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryProperNoun,{u"proper-noun"}));
     dictionaryPOSMask = dictionaryNoun | dictionaryAdjective | dictionaryNumber | dictionaryProperNoun | dictionaryVerb | dictionaryAdverb;
 

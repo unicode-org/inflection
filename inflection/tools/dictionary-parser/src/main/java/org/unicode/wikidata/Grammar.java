@@ -335,6 +335,7 @@ public final class Grammar {
     enum Aspect {
         HABITUAL,
         IMPERFECTIVE,
+        IMPERFECT,
         PERFECT, // Not to be confused with Perfective aspect. See https://en.wikipedia.org/wiki/Perfect_(grammar)
         PERFECTIVE,
         PLUPERFECT,
@@ -713,6 +714,7 @@ public final class Grammar {
         TYPEMAP.put("Q1230649", new HashSet<>(Arrays.asList(Tense.PAST, VerbType.PARTICIPLE)));
         TYPEMAP.put("Q72249355", new HashSet<>(Arrays.asList(Voice.ACTIVE, VerbType.PARTICIPLE)));
         TYPEMAP.put("Q72249544", new HashSet<>(Arrays.asList(Voice.PASSIVE, VerbType.PARTICIPLE)));
+        TYPEMAP.put("Q113133303", EnumSet.of(VerbType.PARTICIPLE)); // conjunctive participle
         TYPEMAP.put("Q192613", EnumSet.of(Tense.PRESENT)); // present tense
         TYPEMAP.put("Q3910936", new HashSet<>(Arrays.asList(Aspect.SIMPLE, Tense.PRESENT))); // simple present and usually future
         TYPEMAP.put("Q1994301", EnumSet.of(Tense.PAST)); // past tense
@@ -798,7 +800,7 @@ public final class Grammar {
         TYPEMAP.put("Q371427", EnumSet.of(Aspect.IMPERFECTIVE));
         TYPEMAP.put("Q54556033", EnumSet.of(Aspect.IMPERFECTIVE)); // imperfective verb
         TYPEMAP.put("Q2898727", EnumSet.of(Aspect.IMPERFECTIVE)); // imperfective form for Japanese verb
-//        TYPEMAP.put("Q108524486", EnumSet.of(Aspect.IMPERFECT));
+        TYPEMAP.put("Q108524486", EnumSet.of(Aspect.IMPERFECT));
         TYPEMAP.put("Q7240943", new HashSet<>(Arrays.asList(Tense.PRESENT, Aspect.IMPERFECTIVE))); // present continuous/present imperfect
         TYPEMAP.put("Q56650537", new HashSet<>(Arrays.asList(Tense.PAST, Aspect.IMPERFECTIVE))); // past continuous/present imperfect
         TYPEMAP.put("Q623742", EnumSet.of(Aspect.PLUPERFECT));
@@ -832,6 +834,9 @@ public final class Grammar {
         TYPEMAP.put("rieul-end", EnumSet.of(Sound.RIEUL_END));
         TYPEMAP.put("vowel-end", EnumSet.of(Sound.VOWEL_END));
         TYPEMAP.put("vowel-start", EnumSet.of(Sound.VOWEL_START));
+//         TYPEMAP.put("Q650250", EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // elision, omission of one or more sounds in a word or phrase
+//         TYPEMAP.put("Q114092330", EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // prevocalic form, linguistic feature marking a linguistic unit as appearing only before vowels
+//         TYPEMAP.put("Q112154", EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // apocope, loss of word-final sounds
         TYPEMAP.put("Q101252532", EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // where consonant is unmutated
         TYPEMAP.put("Q56648699", EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // soft mutation, where consonant becomes more sonorous
         TYPEMAP.put("Q117262361", EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // pausal form, form of a word realised in hiatus between prosodic units

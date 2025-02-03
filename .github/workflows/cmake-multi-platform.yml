@@ -26,16 +26,13 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         build_type: [Release]
-        c_compiler: [gcc, clang]
+        c_compiler: [clang]
         # All [OS x compiler] items should be covered in include/exclude sections.
         include:
           - os: ubuntu-latest
             c_compiler: clang
             cpp_compiler: clang++
-        exclude:
-          - os: ubuntu-latest
-            c_compiler: gcc
-            cpp_compiler: g++
+
     steps:
     - uses: actions/checkout@v4
 

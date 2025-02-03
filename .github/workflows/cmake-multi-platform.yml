@@ -41,7 +41,7 @@ jobs:
       id: strings
       shell: bash
       run: |
-        echo "project-root-dir=${{ github.workspace }}/inflection" >>
+        echo "project-root-dir=${{ github.workspace }}/inflection"
         echo "build-output-dir=${{ github.workspace }}/inflection/build" >> "$GITHUB_OUTPUT"
         
     - name: Configure CMake

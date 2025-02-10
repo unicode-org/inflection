@@ -2330,7 +2330,7 @@
                 <grammeme name="locative"/>
                 <grammeme name="instrumental"/>
             </category>
-            <category name="count">
+            <category name="number">
                 <grammeme name="singular"/>
                 <grammeme name="plural"/>
             </category>

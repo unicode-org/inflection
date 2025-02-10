@@ -14,10 +14,6 @@ public:
     typedef CommonConceptFactoryImpl super;
 
 private:
-    const SemanticFeature &semanticFeatureCase;
-    const SemanticFeature &semanticFeatureGender;
-    const SemanticFeature &semanticFeatureNumber;
-    const SemanticFeature &semanticFeatureAnimacy;
 
 public:
     explicit SrCommonConceptFactory(const ::inflection::util::ULocale& language);

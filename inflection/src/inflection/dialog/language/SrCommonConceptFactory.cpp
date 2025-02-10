@@ -12,13 +12,12 @@ using inflection::grammar::synthesis::GrammemeConstants;
 
 namespace inflection::dialog::language {
 
-    SrCommonConceptFactory::SrCommonConceptFactory(const ::inflection::util::ULocale &language)
-        : super(language),
-        semanticFeatureCase(*npc(semanticFeatureModel.getFeature(GrammemeConstants::CASE))),
-        semanticFeatureGender(*npc(semanticFeatureModel.getFeature(GrammemeConstants::GENDER))),
-        semanticFeatureNumber(*npc(semanticFeatureModel.getFeature(GrammemeConstants::NUMBER))),
-        semanticFeatureAnimacy(*npc(semanticFeatureModel.getFeature(GrammemeConstants::ANIMACY)))
-    {
+SrCommonConceptFactory::SrCommonConceptFactory(const ::inflection::util::ULocale &language)
+    : super(language, ::inflection::grammar::synthesis::GrammemeConstants::GENDER, {
+        {::inflection::grammar::synthesis::GrammemeConstants::GENDER_MASCULINE(), u"cardinal-masculine"},
+        {::inflection::grammar::synthesis::GrammemeConstants::GENDER_FEMININE(), u"cardinal-feminine"},
+        {::inflection::grammar::synthesis::GrammemeConstants::GENDER_NEUTER(), u"cardinal-neuter"}})
+{
 }
 
 SrCommonConceptFactory::~SrCommonConceptFactory()

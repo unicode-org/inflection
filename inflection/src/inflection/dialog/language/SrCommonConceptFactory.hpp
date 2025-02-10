@@ -12,8 +12,14 @@ class inflection::dialog::language::SrCommonConceptFactory
 {
 public:
     typedef CommonConceptFactoryImpl super;
-public:
 
+private:
+    const SemanticFeature &semanticFeatureCase;
+    const SemanticFeature &semanticFeatureGender;
+    const SemanticFeature &semanticFeatureNumber;
+    const SemanticFeature &semanticFeatureAnimacy;
+
+public:
     explicit SrCommonConceptFactory(const ::inflection::util::ULocale& language);
     ~SrCommonConceptFactory() override;
 };

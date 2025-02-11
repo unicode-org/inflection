@@ -39,7 +39,7 @@ TODO: We need to expand what each of these do.
 * UPDATE: inflection/src/inflection/dialog/language/fwd.hpp
 
 ## Define and create lexion
-TODO: We need to describe how to get Wikidata lexicon and generate the files.
+There are a couple of ways of adding data, please follow [this](./add_lexicon_data.md) guide.
 
 ### Add data to test lexicon
 Use our data driven testing approach to test your logic. You'll need to define a small lexicon that covers all test cases for inflection and pronouns (if applicable for the language).

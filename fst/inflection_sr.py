@@ -19,6 +19,19 @@ from pynini.lib import rewrite
 from utils import parse_lexicon_entry
 from utils import priority_union
 
+# Keep stats on how many nouns per class.
+stats = {
+'Group1m': 0,
+'Group1n': 0,
+'Group1mi': 0,
+'Group1mp': 0,
+'Group2n': 0,
+'Group2t': 0,
+'Group3': 0,
+'Group4': 0,
+'Exception': 0
+}
+
 _v = p.union('а', 'е', 'и', 'о', 'у')
 _v_up = p.union('А', 'Е', 'И', 'О', 'У')
 _c = p.union('б', 'в', 'г', 'д', 'ђ', 'ж', 'з', 'ј', 'к', 'л', 'љ', 'м',
@@ -34,10 +47,12 @@ _sigma = p.union(_v, _v_up, _c, _c_up).closure().optimize()
 #  - Masculine with nominative sg that ends with consonant, -о и -е.
 #  - Masculine forms are affected by animate/inanimate forms
 #  - Neuter with nominative sg that ends with -о и -е
+#  - Masculine names ending in consonant usually have -e in vocative (vs -o)
 #  - Base form doesn't change in all cases
 _masc_coe = 'masculine:' + _sigma + p.union(_c, 'о', 'е') + pynutil.insert('|Group1m')
 _neut_coe = 'neuter:' + _sigma + p.union('о', 'е') + pynutil.insert('|Group1n')
 _masc_coe_inan = 'masculine:inanimate:' + _sigma + p.union(_c, 'о', 'е') + pynutil.insert('|Group1mi')
+_masc_c_personal = 'masculine:person:' + p.union(_v_up, _c_up) + _sigma + _c + pynutil.insert('|Group1mp')
 
 # Group 2(n,t):
 #  - Neuter with nominative sg that ends with -е
@@ -47,13 +62,13 @@ _neut_et = 'neuter:srinsertt:' + _sigma + p.union('е') + pynutil.insert('|Group
 
 # Group 3:
 #  - All nouns with nominative sg that ends with -а.
-_all_a = p.union('masculine:', 'feminine:', 'neuter:') + _sigma + p.union('а') + pynutil.insert('|Group3')
+_all_a = p.union('masculine:', 'feminine:', 'neuter:', 'masculine:person:', 'feminine:person:', 'neuter:person:') + _sigma + p.union('а') + pynutil.insert('|Group3')
 
 # Group 4:
 #  - Feminine with nominative sg that ends with consonant.
-_fem_c = 'feminine:' + _sigma + _c + pynutil.insert('|Group4')
+_fem_c = p.union('feminine:', 'feminine:personal:') + _sigma + _c + pynutil.insert('|Group4')
 
-_classify = p.union(_masc_coe, _neut_coe, _masc_coe_inan, _neut_en, _neut_et, _all_a, _fem_c).optimize()
+_classify = p.union(_masc_coe, _neut_coe, _masc_coe_inan, _masc_c_personal, _neut_en, _neut_et, _all_a, _fem_c).optimize()
 
 # Load exceptions from the file.
 _exceptions = p.string_file(os.path.normpath('data/sr/exceptions.tsv'))
@@ -151,6 +166,30 @@ _neut_oe_para = paradigms.Paradigm(
   category=noun,
   name='Group 1 neuter',
   slots=_slot_oe,
+  lemma_feature_vector=nomsg,
+  stems=[_sigma])
+
+# Group 1mp rules (personal names)
+_slot_cp = [
+  (stem, nomsg),
+  (paradigms.suffix('+а', stem), gensg),
+  (paradigms.suffix('+у', stem), datsg),
+  (paradigms.suffix('+а', stem), accsg),
+  (paradigms.suffix('+е', stem), vocsg),
+  (paradigms.suffix('+ом', stem), inssg),
+  (paradigms.suffix('+у', stem), locsg),
+  (paradigms.suffix('+и', stem), nompl),
+  (paradigms.suffix('+а', stem), genpl),
+  (paradigms.suffix('+има', stem), datpl),
+  (paradigms.suffix('+е', stem), accpl),
+  (paradigms.suffix('+и', stem), vocpl),
+  (paradigms.suffix('+има', stem), inspl),
+  (paradigms.suffix('+има', stem), locpl),
+]
+_masc_cp_para = paradigms.Paradigm(
+  category=noun,
+  name='Group 1mp masculine',
+  slots=_slot_cp,
   lemma_feature_vector=nomsg,
   stems=[_sigma])
 
@@ -285,7 +324,7 @@ def classify(singular: str, attributes: list[str]):
   We expect attributes for gender, anim/inanimate and n/t insertion.
   Attributes will be inserted before the noun, : delimited to aid classification.
   """
-  reduced_attributes = [attrib for attrib in attributes if attrib in ['masculine', 'feminine', 'neuter', 'srinsertt', 'srinsertn', 'inanimate']]
+  reduced_attributes = [attrib for attrib in attributes if attrib in ['masculine', 'feminine', 'neuter', 'srinsertt', 'srinsertn', 'inanimate', 'person']]
   prefix = ':'.join(reduced_attributes) + ':'
   result = rewrite.one_top_rewrite(prefix + singular, _classify)
   return result.split('|')[1]
@@ -302,8 +341,10 @@ def inflect(lexicon_entry: str, noun_case: str, number: str) -> str:
 
   # Check exceptions before doing heavy work.
   try:
+    stats['Exception'] += 1
     return(rewrite.one_top_rewrite(':'.join([noun, noun_case, number]), _exceptions))
   except rewrite.Error:
+    stats['Exception'] -= 1
     pass
 
   # See which rule applies to the noun.
@@ -320,66 +361,213 @@ def inflect(lexicon_entry: str, noun_case: str, number: str) -> str:
   # But it's ok for the first iteration.
   match group:
     case 'Group1m':
+      stats['Group1m'] += 1
       return(_masc_coe_para.inflect(noun, feature_vector)[0])
     case 'Group1n':
+      stats['Group1n'] += 1
       return(_neut_oe_para.inflect(noun, feature_vector)[0])
     case 'Group1mi':
+      stats['Group1mi'] += 1
       return(_masc_coei_para.inflect(noun, feature_vector)[0])
+    case 'Group1mp':
+      stats['Group1mp'] += 1
+      return(_masc_cp_para.inflect(noun, feature_vector)[0])
     case 'Group2n':
+      stats['Group2n'] += 1
       return(_neut_en_para.inflect(noun, feature_vector)[0])
     case 'Group2t':
+      stats['Group2t'] += 1
       return(_neut_et_para.inflect(noun, feature_vector)[0])
     case 'Group3':
+      stats['Group3'] += 1
       return(_a_para.inflect(noun, feature_vector)[0])
     case 'Group4':
+      stats['Group4'] += 1
       return(_fem_c_para.inflect(noun, feature_vector)[0])
 
 # Remove after generation.
+import json
 import sys
 def main() -> int:
     """ Output data for training """
     word_list = [
-      ('име: noun neuter srinsertn', 'n'),
-      ('дугме: noun neuter srinsertt', 'n'),
-      ('ствар: noun feminine', 'f'),
-      ('пећ: noun feminine', 'f'),
-      ('љубав: noun feminine', 'f'),
-      ('младост: noun feminine', 'f'),
-      ('чађ: noun feminine', 'f'),
-      ('памет: noun feminine', 'f'),
-      ('кћи: noun feminine', 'f'),
-      ('мати: noun feminine', 'f'),
-      ('судија: noun masculine', 'm'),
-      ('владика: noun masculine', 'm'),
-      ('бурегџија: noun masculine', 'm'),
-      ('жена: noun feminine', 'f'),
-      ('учитељица: noun feminine', 'f'),
-      ('Небојша: noun masculine', 'm'),
-      ('Француска: noun feminine', 'f'),
-      ('Италија: noun feminine', 'f'),
-      ('Кина: noun feminine', 'f'),
-      ('претња: noun feminine', 'f'),
-      ('девојка: noun feminine', 'f'),
-      ('земља: noun feminine', 'f'),
-      ('овца: noun feminine', 'f'),
-      ('боца: noun feminine', 'f'),
-      ('коза: noun feminine', 'f'),
-      ('ташта: noun feminine', 'f'),
-      ('недеља: noun feminine', 'f'),
-      ('Ана: noun feminine', 'f'),
-      ('Италија: noun feminine', 'f'),
-      ('мама: noun feminine', 'f'),
-      ('рука: noun feminine', 'f'),
-      ('слуга: noun masculine', 'm'),
-      ('нога: noun feminine', 'f'),
+      ('август: noun masculine inanimate', 'm', 'August'),
+      ('авенија: noun feminine', 'f', 'Avenue'),
+      ('авион: noun masculine inanimate', 'm', 'aeroplane'),
+      ('Ана: noun feminine person', 'f', ''),
+      ('Ангелина: noun feminine person', 'f', ''),
+      ('април: noun masculine inanimate', 'm', 'April'),
+      ('ауто: noun masculine inanimate', 'm', 'car'),
+      ('аутобус: noun masculine inanimate', 'm', 'bus'),
+      ('бара: noun feminine', 'f', 'pond'),
+      ('бик: noun masculine', 'm', 'bull'),
+      ('Биљана: noun feminine', 'f', ''),
+      ('Бојана: noun feminine person', 'f', ''),
+      ('боца: noun feminine', 'f', 'bottle'),
+      ('Бранимир: noun masculine person', 'm', ''),
+      ('брдо: noun neuter', 'n', 'hill'),
+      ('брод: noun masculine inanimate', 'm', 'ship'),
+      ('булевар: noun masculine', 'm', 'boulevard'),
+      ('бурегџија: noun masculine', 'm', ''),
+      ('ваздух: noun masculine inanimate', 'm', 'air'),
+      ('ватра: noun feminine', 'f', 'fire'),
+      ('виме: noun neuter srinsertn', 'n', 'udder'),
+      ('владика: noun masculine', 'm', 'bishop'),
+      ('Владимир: noun masculine person', 'm', ''),
+      ('време: noun neuter srinsertn', 'n', 'time'),
+      ('гадост: noun feminine', 'f', 'nastiness'),
+      ('Горан: noun masculine person', 'm', ''),
+      ('Гордана: noun feminine person', 'f', ''),
+      ('дворац: noun masculine inanimate', 'm', 'castle'),
+      ('дебло: noun neuter', 'n', 'tree trunk'),
+      ('девојка: noun feminine', 'f', 'girl'),
+      ('дете: noun neuter srinsertt', 'n', 'child'),
+      ('децембар: noun masculine inanimate', 'm', 'December'),
+      ('Драган: noun masculine person', 'm', ''),
+      ('Драгана: noun feminine person', 'f', ''),
+      ('Драгиша: noun masculine person', 'm', ''),
+      ('дугме: noun neuter srinsertt', 'n', 'button'),
+      ('дупе: noun neuter srinsertt', 'n', 'butt'),
+      ('Душан: noun masculine person', 'm', ''),
+      ('жена: noun feminine', 'f', 'woman'),
+      ('Загорка: noun feminine person', 'f', ''),
+      ('запрега: noun feminine', 'f', 'ox cart'),
+      ('зграда: noun feminine', 'f', 'building'),
+      ('земља: noun feminine', 'f', 'soil'),
+      ('знак: noun masculine inanimate', 'm', 'sign'),
+      ('Зоран: noun masculine person', 'm', ''),
+      ('Зорана: noun feminine person', 'f', ''),
+      ('Ивана: noun feminine person', 'f', ''),
+      ('име: noun neuter srinsertn', 'n', 'name'),
+      ('Италија: noun feminine', 'f', 'Italy'),
+      ('јануар: noun masculine inanimate', 'm', 'January'),
+      ('јарац: noun masculine', 'm', 'billy goat'),
+      ('једрилица: noun feminine', 'f', 'sailboat'),
+      ('једро: noun neuter', 'n', 'sail'),
+      ('језеро: noun neuter', 'n', 'lake'),
+      ('Јелена: noun feminine', 'f', ''),
+      ('јул: noun masculine inanimate', 'm', 'July'),
+      ('јун: noun masculine inanimate', 'm', 'June'),
+      ('јунак: noun masculine', 'm', 'heroe'),
+      ('камен: noun masculine inanimate', 'm', 'rock'),
+      ('камион: noun masculine inanimate', 'm', 'truck'),
+      ('кафана: noun feminine', 'f', 'restaurant'),
+      ('Кина: noun feminine', 'f', 'China'),
+      ('киша: noun feminine', 'f', 'rain'),
+      ('коза: noun feminine', 'f', 'goat'),
+      ('коноба: noun feminine', 'f', 'inn'),
+      ('крчма: noun feminine', 'f', 'pub'),
+      ('кћи: noun feminine', 'f', 'doughter'),
+      ('кућа: noun feminine', 'f', 'house'),
+      ('љубав: noun feminine', 'f', 'love'),
+      ('Љубица: noun feminine person', 'f', ''),
+      ('Љубиша: noun masculine person', 'm', ''),
+      ('мај: noun masculine inanimate', 'm', 'May'),
+      ('Маја: noun feminine person', 'f', ''),
+      ('мама: noun feminine', 'f', 'mom'),
+      ('март: noun masculine inanimate', 'm', 'March'),
+      ('мати: noun feminine', 'f', 'mommy'),
+      ('Милена: noun feminine person', 'f', ''),
+      ('Милица: noun feminine person', 'f', ''),
+      ('Милка: noun feminine person', 'f', ''),
+      ('Милош: noun masculine person', 'm', ''),
+      ('Миљан: noun masculine person', 'm', ''),
+      ('младост: noun feminine', 'f', 'youth'),
+      ('море: noun neuter', 'n', 'sea'),
+      ('мост: noun masculine inanimate', 'm', 'bridge'),
+      ('Нада: noun feminine person', 'f', ''),
+      ('надвожњак: noun masculine inanimate', 'm', 'overpass'),
+      ('Небојша: noun masculine person', 'm', ''),
+      ('недеља: noun feminine', 'f', 'Sunday'),
+      ('новембар: noun masculine inanimate', 'm', 'November'),
+      ('нога: noun feminine', 'f', 'leg'),
+      ('обала: noun feminine', 'f', 'shore'),
+      ('облак: noun masculine inanimate', 'm', 'cloud'),
+      ('ован: noun masculine', 'm', 'ram'),
+      ('овца: noun feminine', 'f', 'sheet'),
+      ('октобар: noun masculine inanimate', 'm', 'October'),
+      ('памет: noun feminine', 'f', 'intelligence'),
+      ('парк: noun masculine inanimate', 'm', 'park'),
+      ('петак: noun masculine inanimate', 'm', 'Friday'),
+      ('пећ: noun feminine', 'f', 'furnace'),
+      ('планина: noun feminine', 'f', 'mountain'),
+      ('племе: noun neuter srinsertn', 'n', 'tribe'),
+      ('пожар: noun masculine inanimate', 'm', 'wildfire'),
+      ('понедељак: noun masculine inanimate', 'm', 'Monday'),
+      ('поплава: noun feminine', 'f', 'flood'),
+      ('поток: noun masculine inanimate', 'm', 'creek'),
+      ('правац: noun masculine inanimate', 'm', 'direction'),
+      ('превоз: noun masculine inanimate', 'm', 'transport'),
+      ('претња: noun feminine', 'f', 'threat'),
+      ('пропланак: noun masculine inanimate', 'm', 'glade'),
+      ('пумпа: noun feminine', 'f', 'pump'),
+      ('путоказ: noun masculine inanimate', 'm', 'signpost'),
+      ('радост: noun feminine', 'f', 'happiness'),
+      ('раме: noun neuter srinsertn', 'n', 'shoulder'),
+      ('река: noun feminine', 'f', 'river'),
+      ('ресторан: noun masculine inanimate', 'm', 'restaurant'),
+      ('рука: noun feminine', 'f', 'hand'),
+      ('салаш: noun feminine', 'f', 'farm'),
+      ('септембар: noun masculine inanimate', 'm', 'September'),
+      ('Синиша: noun masculine person', 'm', ''),
+      ('скретање: noun neuter', 'n', 'turn'),
+      ('слуга: noun masculine', 'm', 'servant'),
+      ('смер: noun masculine inanimate', 'm', 'direction'),
+      ('Соња: noun feminine person', 'f', ''),
+      ('среда: noun feminine', 'f', 'Wednesday'),
+      ('старост: noun feminine', 'f', 'old age'),
+      ('ствар: noun feminine', 'f', 'thing'),
+      ('Стева: noun masculine person', 'm', ''),
+      ('Стеван: noun masculine person', 'm', ''),
+      ('стена: noun feminine', 'f', 'boulder'),
+      ('Стојан: noun masculine person', 'm', ''),
+      ('субота: noun feminine', 'f', 'Saturday'),
+      ('судија: noun masculine', 'm', 'judge'),
+      ('Тамара: noun feminine person', 'f', ''),
+      ('Тања: noun feminine person', 'f', ''),
+      ('ташта: noun feminine', 'f', 'mother in law'),
+      ('теме: noun neuter srinsertn', 'n', 'back of the head'),
+      ('Тијана: noun feminine person', 'f', ''),
+      ('Угљеша: noun masculine person', 'm', ''),
+      ('уже: noun neuter srinsertt', 'n', 'rope'),
+      ('улица: noun feminine', 'f', 'street'),
+      ('уторак: noun masculine inanimate', 'm', 'Tuesday'),
+      ('учитељица: noun feminine', 'f', 'teacher'),
+      ('фебруар: noun masculine inanimate', 'm', 'February'),
+      ('Француска: noun feminine', 'f', 'France'),
+      ('херој: noun masculine', 'm', 'heroe'),
+      ('хотел: noun masculine inanimate', 'm', 'hotel'),
+      ('храм: noun masculine inanimate', 'm', 'temple'),
+      ('црква: noun feminine', 'f', 'church'),
+      ('чађ: noun feminine', 'f', 'tar'),
+      ('чамац: noun masculine inanimate', 'm', 'boat'),
+      ('четвртак: noun masculine inanimate', 'm', 'Thursday'),
+      ('шума: noun feminine', 'f', 'forest'),
     ]
-    with open("training_data.tsv", "w") as file: 
-      for word, gender in word_list:
-        for case, num, enc in [('nom', 'sg', '11'), ('gen', 'sg', '21'), ('dat', 'sg', '31'), ('acc', 'sg', '41'), ('voc', 'sg', '51'), ('ins', 'sg', '61'), ('loc', 'sg', '71'),
-                               ('nom', 'pl', '12'), ('gen', 'pl', '22'), ('dat', 'pl', '32'), ('acc', 'pl', '42'), ('voc', 'pl', '52'), ('ins', 'pl', '62'), ('loc', 'pl', '72')]:
-          stem = inflect(word, 'nom', 'sg')
+    with open("lexicon_data.json", "w", encoding='utf8') as file: 
+      print("Processing total # words:", len(word_list))
+      for word, gender, english in word_list:
+        # Build JSON representation for all forms
+        noun = {}
+        noun['lemma'] = word.split(':')[0]
+        noun['category'] = 'noun'
+        noun['language'] = 'sr'
+        noun['gender'] = gender
+        noun['English'] = english
+        if 'person' in word:
+          noun['person'] = True
+        if 'inanimate' in word:
+          noun['inanimate'] = True
+        for case, num in [('nom', 'sg'), ('gen', 'sg'), ('dat', 'sg'), ('acc', 'sg'), ('voc', 'sg'), ('ins', 'sg'), ('loc', 'sg'),
+                          ('nom', 'pl'), ('gen', 'pl'), ('dat', 'pl'), ('acc', 'pl'), ('voc', 'pl'), ('ins', 'pl'), ('loc', 'pl')]:
           result = inflect(word, case, num)
-          file.write(stem + gender + enc + '\t' + result + '\n')
+          noun[case + ':' + num] = { 'noun': result, 'case': case, 'number': num}
+        file.write(json.dumps(noun, ensure_ascii=False) + '\n')
+      
+      for key, value in stats.items():
+        # 14 cases per class, reduce to 1.
+        stats[key] = int(value / 14)
+      print(stats)
 
     return 0
 

@@ -441,6 +441,14 @@ public:
      */
     static const ::inflection::util::ULocale& SLOVAKIA();
     /**
+     * sr: Serbian
+     */
+    static const ::inflection::util::ULocale& SERBIAN();
+    /**
+     * sr_RS: Serbian (Serbia)
+     */
+    static const ::inflection::util::ULocale& SERBIA();
+    /**
      * sv: Swedish
      */
     static const ::inflection::util::ULocale& SWEDISH();

@@ -20,6 +20,7 @@
 #include <inflection/dialog/language/NlCommonConceptFactory.hpp>
 #include <inflection/dialog/language/PtCommonConceptFactory.hpp>
 #include <inflection/dialog/language/RuCommonConceptFactory.hpp>
+#include <inflection/dialog/language/SrCommonConceptFactory.hpp>
 #include <inflection/dialog/language/SvCommonConceptFactory.hpp>
 #include <inflection/dialog/language/ThCommonConceptFactory.hpp>
 #include <inflection/dialog/language/TrCommonConceptFactory.hpp>
@@ -81,6 +82,7 @@ static CommonConceptFactory* constructCommonConceptFactory(const ::inflection::u
         {"nl", &constructor<language::NlCommonConceptFactory>},
         {"pt", &constructor<language::PtCommonConceptFactory>},
         {"ru", &constructor<language::RuCommonConceptFactory>},
+        {"sr", &constructor<language::SrCommonConceptFactory>},
         {"sv", &constructor<language::SvCommonConceptFactory>},
         {"th", &constructor<language::ThCommonConceptFactory>},
         {"tr", &constructor<language::TrCommonConceptFactory>},

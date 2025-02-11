@@ -33,6 +33,7 @@ namespace inflection
             class NlCommonConceptFactory;
             class PtCommonConceptFactory;
             class RuCommonConceptFactory;
+            class SrCommonConceptFactory;
             class SvCommonConceptFactory;
             class ThCommonConceptFactory;
             class TrCommonConceptFactory;

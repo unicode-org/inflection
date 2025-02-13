@@ -293,7 +293,8 @@ def load_wikidata(lang, wiki_file):
                 cat = data['lexicalCategory']
                 result.add(make_search_key(lemma, cat, lang))
             except json.JSONDecodeError:
-                print(f"Warning: Invalid JSON line: {line}")
+                # We can't do much except to skip.
+                continue
     except FileNotFoundError:
         print(f"Error: File '{wiki_file}' not found.")
     except PermissionError:

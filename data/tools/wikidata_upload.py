@@ -9,15 +9,9 @@ git clone https://phabricator.wikimedia.org/source/tool-twofivesixlex tfsl
 Code expects tfsl checkout location next to inflection repository.
 """
 
-#import qnames
-#import requests
 import argparse
-import csv
-import functools
 import json
-import operator
 import os
-import readline
 import sys
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', '..', 'tfsl'))
@@ -56,103 +50,17 @@ WIKI_TYPES = {
 'pronouns': 'Q36224',
 'possesive pronouns': 'Q1502460',
 'adjective': 'Q34698',
+'personal pronoun': 'Q468801',
+# Word or form that substitutes for another word, broader scope than pronoun.
+'pro-form': 'Q2006180',
 }
+# Make it a bidirectional dictionary.
 WIKI_TYPES.update(dict([reversed(i) for i in WIKI_TYPES.items()]))
 
 def hr(s): return s @ tfsl.langs.hr_
 def en(s): return s @ tfsl.langs.en_
 
 """
-def countvalues(d):
-	if len(d) == 0: return 0
-	return functools.reduce(operator.add, map(len, d.values()))
-
-def editable_input(prompt, default=""):
-    # Set the default value for the input
-    def hook():
-        readline.insert_text(default)
-        readline.redisplay()
-    readline.set_pre_input_hook(hook)
-    try:
-        # Display the prompt and get user input
-        result = input(prompt)
-    finally:
-        readline.set_pre_input_hook(None)  # Reset the hook
-    return result
-
-def readWordGraph(wikidata):
-	senses = {}
-	forms = {}
-	lemmas = set()
-	with open('wordgraph/hr_wikidata.tsv', 'r') as wordgraph_file:
-		wordgraph = csv.reader(wordgraph_file, delimiter="\t")
-		next(wordgraph)
-		for line in wordgraph:
-			(topic, relation, language, pos, lemma, form, features) = line
-			if lemma in wikidata: continue
-			if lemma in already_done: continue
-			lemmas.add(lemma)
-			if relation != 'Human denoting sense' and relation != 'Demonym adjective':
-				print(relation)
-			if pos != 'adjectival' and pos != 'nominal':
-				print(pos)
-			if relation == 'Human denoting sense' and pos != 'nominal':
-				print(lemma)
-			if relation == 'Demonym adjective' and pos != 'adjectival':
-				print(lemma)
-			if pos == 'adjectival': continue ### change this to adjectival once nominals are done
-			
-			if lemma not in senses: senses[lemma] = []
-			if topic not in senses[lemma]: senses[lemma].append(topic)
-			if lemma not in forms: forms[lemma] = {}
-			if form not in forms[lemma]: forms[lemma][form] = []
-			forms[lemma][form].append(features.split(','))
-	print(len(lemmas), 'unique lemmas in WordGraph')
-	print(countvalues(senses), 'senses in WordGraph')
-	return senses, forms
-
-def readWikidata():
-	linecount = 0
-	lexemecount = 0
-	langcount = 0
-	formcount = 0
-	endline = 1000000000
-	lemmas = set()
-	senses = {}
-	topics = set()
-	for line in open('data/hr-lexemes.json'):
-		linecount += 1
-		if linecount > endline: break
-		line = line.strip()
-		if not line.startswith('{'): continue
-		if line.endswith(','): line = line[:-1]
-		lexeme = json.loads(line)
-		if lexeme['type'] != 'lexeme': continue
-		lexemecount += 1
-		if lexeme['language'] != Croatian: continue
-		langcount += 1
-		if not 'hr' in lexeme['lemmas']:
-			print('***')
-			continue
-		lemma = lexeme['lemmas']['hr']['value']
-		lemmas.add(lemma)
-		for sense in lexeme['senses']:
-			# print(sense['claims'])
-			for prop in sense['claims']:
-				for claim in sense['claims'][prop]:
-					snak = claim['mainsnak']
-					if snak['snaktype'] != 'value': continue
-					if snak['datatype'] != 'wikibase-item': continue
-					topic = snak['datavalue']['value']['id']
-					topics.add(topic)
-					if not lemma in senses: senses[lemma] = []
-					if not topic in senses[lemma]: senses[lemma].append(topic)
-	# print(lexemecount, 'lexemes in Wikidata')
-	# print(len(lemmas), 'unique lemmas in Wikidata')
-	# print(len(topics), 'unique topics in Wikidata')
-	# print(countvalues(senses), 'senses in Wikidata (possibly overcount)')
-	return lemmas
-
 def getform(forms, cas, numbr, gendr):
 	for form in forms:
 		for features in forms[form]:
@@ -165,29 +73,6 @@ def getform(forms, cas, numbr, gendr):
 	print('*** something is off ***')
 	print(forms)
 	exit(-1)
-
-def getgloss(default):
-	return editable_input('> ', default)
-
-def getwikidata(qid):
-	url = 'https://www.wikidata.org/wiki/Special:EntityData/' + qid + '.json'
-	response = requests.get(url)
-	response.raise_for_status()
-	result = response.json()
-	item = result['entities'][qid]
-	label_en = None
-	if 'en' in item['labels']:
-		label_en = item['labels']['en']['value']
-	label_hr = None
-	if 'hr' in item['labels']:
-		label_hr = item['labels']['hr']['value']
-	description_en = None
-	if 'en' in item['descriptions']:
-		description_en = item['descriptions']['en']['value']
-	description_hr = None
-	if 'hr' in item['descriptions']:
-		description_en = item['descriptions']['hr']['value']
-	return label_en, description_en, label_hr, description_hr
 
 def makesense(lemma, topic, gendr):
 	label_en, description_en, label_hr, description_hr = getwikidata(topic)
@@ -339,17 +224,57 @@ senses, forms = readWordGraph(wikidata)
 done = createLexemes(wikidata, senses, forms)
 print(len(done), 'done')
 """
+def make_search_key(lemma, cat, lang):
+    """Makes a key for searching through wikidata for duplicates.
+
+    Args:
+        lemma (str): Lemma
+        cat (str): gramatical category
+        lang (str): language
+    """
+    return '-'.join([lemma, cat, lang])
+
+def load_lexemes(lang, input_file):
+    """
+    Loads lexemes from the input_file.
+
+    Args:
+        lang (str): Requested language.
+        input_file (str): Path to JSON file with new lexemes.
+    """
+    print("Processing lexemes...")
+    try:
+     with open(input_file, 'r', encoding='utf-8') as file:
+        data = json.load(file)
+        for lexeme in data:
+            # Validate before further processing.
+            if (lexeme['language'] != lang or
+                lexeme['grammaticalCategory'] not in WIKI_TYPES):
+                print(f'Invalid entry {lang}, {lexeme["grammaticalCategory"]} in\n{lexeme}')
+                exit(-1)
+            for form in lexeme['forms']:
+                for feature in form['grammaticalFeatures']:
+                    if feature not in WIKI_TYPES:
+                        print(f'Invalid feature: {feature} in\n{lexeme}, ')
+                        exit(-1)
+    except FileNotFoundError:
+        print(f"Error: File '{input_file}' not found.")
+    except json.JSONDecodeError:
+        print(f"Error: Invalid JSON in file '{input}'.")
+    print(f'Collected {len(data)} items.')
+    return data
+
 def load_wikidata(lang, wiki_file):
     """
     Loads lemma, language and grammatical category for easy lookup.
 
     Args:
         lang (str): Language to filter by.
-        wiki_data (str): Path to wikidata JSON file.
+        wiki_file (str): Path to wikidata JSON file.
     """
+    print("Processing wikidata, it may take a while...")
     # Lemma-language-grammatical category set to allow for duplication of
     # different types.
-    print("Processing wikidata, it may take a while...")
     result = set()
     wiki_lang = tfsl.languages.get_first_lang(lang).item
     count = 0
@@ -366,7 +291,7 @@ def load_wikidata(lang, wiki_file):
                 count += 1
                 lemma = data['lemmas'][lang]['value']
                 cat = data['lexicalCategory']
-                result.add('-'.join([lemma, cat, lang]))
+                result.add(make_search_key(lemma, cat, lang))
             except json.JSONDecodeError:
                 print(f"Warning: Invalid JSON line: {line}")
     except FileNotFoundError:
@@ -375,7 +300,34 @@ def load_wikidata(lang, wiki_file):
         print(f"Error: Permission denied to read file '{wiki_file}'.")
     print(f'Collected {count} items for {lang}.')
     return result
-		
+
+def filter_duplicates(lexemes, wikidata):
+    """Filters out lexemes already in wikidata.
+
+    Args:
+        lexemes (list): List of loaded lexemes.
+        wikidata (list): Wikidata dump.
+    """
+    count = 0
+    new_lexemes = []
+    for lexeme in lexemes:
+        key = make_search_key(lexeme['lemma'],
+                              WIKI_TYPES[lexeme['grammaticalCategory']],
+                              lexeme['language'])
+        if key not in wikidata:
+            count +=1
+            new_lexemes.append(lexeme)
+    print(f'New lexemes: {count}, duplicates: {len(lexemes)-count}.')
+    return new_lexemes
+
+def build_tfsl_lexemes(new_lexemes):
+    """For each new_lexeme builds a corresponding tfsl one.
+
+    Args:
+        new_lexemes (list): New lexemes from the input_file.
+    """
+    tfsl_lexemes = []
+    return tfsl_lexemes
 
 def upload_data(username, password, lang, input_file, wiki_file, test_only, delay_ms):
     """
@@ -390,11 +342,11 @@ def upload_data(username, password, lang, input_file, wiki_file, test_only, dela
         test_only (bool): Upload if false, print out if true.
         delay_ms (int): Upload delay in ms, for rate limiting.
     """
-    # Load and validate input_file
+    lexemes = load_lexemes(lang, input_file)
     wikidata = load_wikidata(lang, wiki_file)
-	# Skip entities that already exist in Wikifile
-	# From the reminder build tfsl Lexemes
-	# Upload or print depending on test flag
+    new_lexemes = filter_duplicates(lexemes, wikidata)
+    tfsl_lexemes = build_tfsl_lexemes(new_lexemes)
+    # Upload or print depending on test flag
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Upload data to Wikidata requiring authentication.')

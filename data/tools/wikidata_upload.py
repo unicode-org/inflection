@@ -123,7 +123,6 @@ def load_wikidata(lang, wiki_file):
                 line = line.strip("[],\n")
                 try:
                     data = json.loads(line)
-                    print(data)
                     if data["language"] != wiki_lang or lang not in data["lemmas"]:
                         continue
                     count += 1
@@ -228,8 +227,8 @@ def upload_data(username, password, lang, input_file, wiki_file, test_only, dela
     new_lexemes = filter_duplicates(lexemes, wikidata)
     tfsl_lexemes = build_tfsl_lexemes(new_lexemes)
     if test_only:
-        # Dry run.
-        print(tfsl_lexemes)
+        # Dry run, doesn't print details like forms or statements.
+        print(f'Lexeme:\n {tfsl_lexemes}')
     else:
         # Actual upload.
         upload_to_wikidata(tfsl_lexemes, username, password, delay_ms)

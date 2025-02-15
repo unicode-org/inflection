@@ -177,10 +177,12 @@ def build_tfsl_lexemes(new_lexemes):
             WIKI_TYPES[new_lexeme["grammaticalCategory"]],
         )
 
-        lexeme += tfsl.Statement(
-            WIKI_TYPES["gender"],
-            tfsl.ItemValue(WIKI_TYPES[new_lexeme["grammaticalGender"]]),
-        )
+        # Adjectives don't have this, they may carry gender in the form.
+        if new_lexeme["grammaticalGender"]:
+            lexeme += tfsl.Statement(
+                WIKI_TYPES["gender"],
+                tfsl.ItemValue(WIKI_TYPES[new_lexeme["grammaticalGender"]]),
+            )
 
         for form in new_lexeme["forms"]:
             features = []
@@ -228,7 +230,7 @@ def upload_data(username, password, lang, input_file, wiki_file, test_only, dela
     tfsl_lexemes = build_tfsl_lexemes(new_lexemes)
     if test_only:
         # Dry run, doesn't print details like forms or statements.
-        print(f'Lexeme:\n {tfsl_lexemes}')
+        print(f"Lexeme:\n {tfsl_lexemes}")
     else:
         # Actual upload.
         upload_to_wikidata(tfsl_lexemes, username, password, delay_ms)

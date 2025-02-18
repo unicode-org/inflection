@@ -177,8 +177,8 @@ def build_tfsl_lexemes(new_lexemes):
             WIKI_TYPES[new_lexeme["grammaticalCategory"]],
         )
 
-        # Adjectives don't have this, they may carry gender in the form.
-        if new_lexeme["grammaticalGender"]:
+        # Adjectives don't have this, they carry gender in the form.
+        if "grammaticalGender" in new_lexeme:
             lexeme += tfsl.Statement(
                 WIKI_TYPES["gender"],
                 tfsl.ItemValue(WIKI_TYPES[new_lexeme["grammaticalGender"]]),
@@ -206,7 +206,9 @@ def upload_to_wikidata(lexemes, username, password, delay):
     """
     session = tfsl.WikibaseSession(username, password)
 
+    print("Pushing new lexemes to Wikidata:")
     for lexeme in lexemes:
+        print(f"{lexeme}")
         session.push(lexeme)
         time.sleep(delay / 1000)
 

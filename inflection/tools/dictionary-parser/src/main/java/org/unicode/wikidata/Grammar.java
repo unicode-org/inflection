@@ -570,6 +570,7 @@ public final class Grammar {
         TYPEMAP.put("Q12564489", EnumSet.of(PartOfSpeech.CONJUNCTION)); // disjunctive conjunction, which we don't need to differentiate.
         TYPEMAP.put("Q55965516", EnumSet.of(PartOfSpeech.CONJUNCTION)); // alias of disjunctive conjunction, which we don't need to differentiate.
         TYPEMAP.put("Q11655558", EnumSet.of(PartOfSpeech.CONJUNCTION)); // subordinating conjunction
+        TYPEMAP.put("Q28833099", EnumSet.of(PartOfSpeech.CONJUNCTION)); // coordinating conjunction
         TYPEMAP.put("Q576271", EnumSet.of(PartOfSpeech.DETERMINER));
         TYPEMAP.put("Q5051", new HashSet<>(Arrays.asList(Case.GENITIVE, PartOfSpeech.DETERMINER))); // possessive determiner
         TYPEMAP.put("Q83034", EnumSet.of(PartOfSpeech.INTERJECTION));
@@ -589,11 +590,14 @@ public final class Grammar {
         TYPEMAP.put("Q25098893", EnumSet.of(PartOfSpeech.NUMERAL)); // distributive numeral
         TYPEMAP.put("Q115526488", EnumSet.of(PartOfSpeech.NUMERAL)); // singulative numeral
         TYPEMAP.put("Q38918", EnumSet.of(PartOfSpeech.NUMERAL)); // Roman numerals
+        TYPEMAP.put("Q55093533", EnumSet.of(PartOfSpeech.NUMERAL)); // collective numeral
         TYPEMAP.put("Q184943", EnumSet.of(PartOfSpeech.PARTICLE));
         TYPEMAP.put("Q1480213", EnumSet.of(PartOfSpeech.PARTICLE)); // Japanese particle
         TYPEMAP.put("Q10535365", EnumSet.of(PartOfSpeech.PARTICLE)); // infinitive marker, infinitive participle, infinitive particle
         TYPEMAP.put("Q113198319", new HashSet<>(Arrays.asList(PartOfSpeech.ADVERB, PartOfSpeech.PARTICLE))); // adverbial particle
+        TYPEMAP.put("Q115762248", EnumSet.of(PartOfSpeech.PARTICLE)); // vocative particle
         TYPEMAP.put("Q113076880", EnumSet.of(PartOfSpeech.ADVERB)); // postpositive adverb
+        TYPEMAP.put("Q65807752", EnumSet.of(PartOfSpeech.ADVERB)); // demonstrative adverb
         TYPEMAP.put("Q161873", EnumSet.of(PartOfSpeech.ADPOSITION)); // postposition
         TYPEMAP.put("Q4833830", EnumSet.of(PartOfSpeech.ADPOSITION)); // preposition
         TYPEMAP.put("Q36224", EnumSet.of(PartOfSpeech.PRONOUN));
@@ -604,7 +608,7 @@ public final class Grammar {
         TYPEMAP.put("Q81058955", EnumSet.of(PartOfSpeech.PROPER_NOUN)); // national demonym
         TYPEMAP.put("Q125546349", EnumSet.of(PartOfSpeech.PROPER_NOUN)); // some sort of name
         TYPEMAP.put("Q24905", EnumSet.of(PartOfSpeech.VERB));
-        TYPEMAP.put("Q1350145", EnumSet.of(PartOfSpeech.VERB, PartOfSpeech.NOUN)); // verbal noun
+//         TYPEMAP.put("Q1350145", EnumSet.of(PartOfSpeech.VERB, PartOfSpeech.NOUN)); // verbal noun, like boxing
         TYPEMAP.put("Q11399805", EnumSet.of(PartOfSpeech.VERB)); // auxiliary verb
         TYPEMAP.put("Q131431824", EnumSet.of(PartOfSpeech.VERB)); // proper verb where you use a proper noun as a verb
 
@@ -714,6 +718,7 @@ public final class Grammar {
         TYPEMAP.put("Q1230649", new HashSet<>(Arrays.asList(Tense.PAST, VerbType.PARTICIPLE)));
         TYPEMAP.put("Q72249355", new HashSet<>(Arrays.asList(Voice.ACTIVE, VerbType.PARTICIPLE)));
         TYPEMAP.put("Q72249544", new HashSet<>(Arrays.asList(Voice.PASSIVE, VerbType.PARTICIPLE)));
+        TYPEMAP.put("Q112785242", new HashSet<>(Arrays.asList(Aspect.IMPERFECT, VerbType.PARTICIPLE))); // imperfect participle
         TYPEMAP.put("Q113133303", EnumSet.of(VerbType.PARTICIPLE)); // conjunctive participle
         TYPEMAP.put("Q192613", EnumSet.of(Tense.PRESENT)); // present tense
         TYPEMAP.put("Q3910936", new HashSet<>(Arrays.asList(Aspect.SIMPLE, Tense.PRESENT))); // simple present and usually future
@@ -782,8 +787,8 @@ public final class Grammar {
         TYPEMAP.put("Q55685962", new HashSet<>(Arrays.asList(Tense.PRESENT, Mood.SUBJUNCTIVE))); // subjunctive I, present subjunctive
         TYPEMAP.put("Q54671845", new HashSet<>(Arrays.asList(Tense.PAST, Mood.SUBJUNCTIVE))); // subjunctive II, past subjunctive
         TYPEMAP.put("Q3502544", new HashSet<>(Arrays.asList(Tense.PAST, Mood.SUBJUNCTIVE))); // past subjunctive
-        TYPEMAP.put("Q3502541", new HashSet<>(Arrays.asList(Aspect.IMPERFECTIVE, Tense.PAST, Mood.SUBJUNCTIVE))); // imperfect subjunctive
-        TYPEMAP.put("emphatic", EnumSet.of(Mood.EMPHATIC));
+        TYPEMAP.put("Q3502541", new HashSet<>(Arrays.asList(Aspect.IMPERFECT, Tense.PAST, Mood.SUBJUNCTIVE))); // imperfect subjunctive
+        TYPEMAP.put("Q113289507", EnumSet.of(Mood.EMPHATIC));
         TYPEMAP.put("Q2532941", EnumSet.of(Mood.VOLITIVE));
 
         TYPEMAP.put("Q5636904", EnumSet.of(Aspect.HABITUAL));
@@ -792,7 +797,7 @@ public final class Grammar {
         TYPEMAP.put("Q1424306", EnumSet.of(Aspect.PERFECTIVE));
         TYPEMAP.put("Q442485", new HashSet<>(Arrays.asList(Aspect.PERFECTIVE, Tense.PAST))); // Preterite or perfective with past tense
         TYPEMAP.put("Q216497", new HashSet<>(Arrays.asList(Aspect.PERFECTIVE, Tense.PAST))); // aorist, verb forms usually express perfective aspect and refer to past events
-        TYPEMAP.put("Q12547192", new HashSet<>(Arrays.asList(Aspect.IMPERFECTIVE, Tense.PAST, Mood.INDICATIVE))); // past imperfect, verb form in several languages indicating past tense, imperfective aspect, and indicative mood
+        TYPEMAP.put("Q12547192", new HashSet<>(Arrays.asList(Aspect.IMPERFECT, Tense.PAST, Mood.INDICATIVE))); // past imperfect, verb form in several languages indicating past tense, imperfective aspect, and indicative mood
         TYPEMAP.put("Q625420", EnumSet.of(Aspect.PERFECT));
         TYPEMAP.put("Q1240211", new HashSet<>(Arrays.asList(Tense.PRESENT, Aspect.PERFECT)));
         TYPEMAP.put("Q64005357", new HashSet<>(Arrays.asList(Tense.PAST, Aspect.PERFECT)));
@@ -801,8 +806,10 @@ public final class Grammar {
         TYPEMAP.put("Q54556033", EnumSet.of(Aspect.IMPERFECTIVE)); // imperfective verb
         TYPEMAP.put("Q2898727", EnumSet.of(Aspect.IMPERFECTIVE)); // imperfective form for Japanese verb
         TYPEMAP.put("Q108524486", EnumSet.of(Aspect.IMPERFECT));
-        TYPEMAP.put("Q7240943", new HashSet<>(Arrays.asList(Tense.PRESENT, Aspect.IMPERFECTIVE))); // present continuous/present imperfect
-        TYPEMAP.put("Q56650537", new HashSet<>(Arrays.asList(Tense.PAST, Aspect.IMPERFECTIVE))); // past continuous/present imperfect
+        TYPEMAP.put("Q7240943", new HashSet<>(Arrays.asList(Tense.PRESENT, Aspect.IMPERFECT))); // present continuous/present imperfect
+        TYPEMAP.put("Q56650537", new HashSet<>(Arrays.asList(Tense.PAST, Aspect.IMPERFECT))); // past continuous/present imperfect
+        TYPEMAP.put("Q56650537", new HashSet<>(Arrays.asList(Aspect.IMPERFECT, VerbType.PARTICIPLE))); // imperfect participle
+        TYPEMAP.put("Q113115936", new HashSet<>(Arrays.asList(Aspect.PERFECT, VerbType.PARTICIPLE))); // perfect participle
         TYPEMAP.put("Q623742", EnumSet.of(Aspect.PLUPERFECT));
 
         TYPEMAP.put("patronymic", EnumSet.of(DerivationType.PATRONYMIC));
@@ -882,11 +889,14 @@ public final class Grammar {
         TYPEMAP.put("Q5978305", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // conjunctive locution, a multiword expression working as a conjunct
         TYPEMAP.put("Q5978303", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // adverbial locution, a combination of words that acts as an adverb
         TYPEMAP.put("Q1167104", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // adverb that connects two independent clauses
+        TYPEMAP.put("Q2034977", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // prepositional adverb
         TYPEMAP.put("Q29888377", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // nominal locution, combination of words that acts as a noun
         TYPEMAP.put("Q10319522", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // prepositional locution, a multiword expression working as a preposition
         TYPEMAP.put("Q20430476", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // pronominal locution
         TYPEMAP.put("Q10319520", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // interjectional locution
         TYPEMAP.put("Q10976085", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // verbal locution, combination of words that acts as a verb
+        TYPEMAP.put("Q55964976", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // postpositive locution
+        TYPEMAP.put("Q118533806", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // copulative locution
         TYPEMAP.put("Q778379", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // expression
         TYPEMAP.put("Q6935164", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // multiword expression
         TYPEMAP.put("Q130270424", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // interrogative expression
@@ -907,6 +917,7 @@ public final class Grammar {
         TYPEMAP.put("Q1964223", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // name suffix
         TYPEMAP.put("Q56681944", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // even suffix form
         TYPEMAP.put("Q109528443", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // inflectional suffix
+        TYPEMAP.put("Q66614499", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // verbal suffix
         TYPEMAP.put("Q985836", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // bound morpheme
         TYPEMAP.put("Q43249", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // morpheme
         TYPEMAP.put("Q126728876", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // nominal modifier, suffix deriving a noun from a preceding noun

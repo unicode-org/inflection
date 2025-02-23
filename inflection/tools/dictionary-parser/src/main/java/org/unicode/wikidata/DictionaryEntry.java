@@ -72,10 +72,10 @@ public class DictionaryEntry implements Comparable<DictionaryEntry> {
 
     @Override
     public String toString() {
-        return this.toString(true, false);
+        return this.toString(true);
     }
 
-    public String toString(boolean isInflectional, boolean withLemmaForm) {
+    public String toString(boolean isInflectional) {
         StringBuilder sb = new StringBuilder(256);
         sb.append(phrase).append(':');
         for (Enum<?> enumVal : grammemes) {
@@ -95,13 +95,6 @@ public class DictionaryEntry implements Comparable<DictionaryEntry> {
             }
             for (InflectionPattern inflectionPattern : rareInflectionalPatterns) {
                 sb.append(" inflection=").append(inflectionPattern.getID());
-            }
-        }
-        if (withLemmaForm) {
-            for (String lemmaForm : lemmas) {
-                if (!lemmaForm.equals(this.phrase)) {
-                    sb.append(" lemma=").append(lemmaForm);
-                }
             }
         }
         return sb.toString();

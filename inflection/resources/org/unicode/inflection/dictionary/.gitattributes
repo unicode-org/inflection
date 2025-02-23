@@ -1,0 +1,2 @@
+dictionary_da.lst filter=lfs diff=lfs merge=lfs -text
+inflectional_da.xml filter=lfs diff=lfs merge=lfs -text

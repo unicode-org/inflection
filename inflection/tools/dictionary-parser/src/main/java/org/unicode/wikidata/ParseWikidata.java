@@ -74,7 +74,6 @@ final class ParserOptions {
     static final String MAP_GRAMMEME = "--map-grammeme";
     static final String ADD_EXTRA_GRAMMEMES = "--add-extra-grammemes";
     static final String INFLECTION_TYPES = "--inflection-types";
-    static final String ADD_LEMMAS_FOR_TYPES = "--add-lemma-forms-for-types";
     static final String IGNORE_GRAMMEMES_FOR_TYPES = "--ignore-grammemes-for-types";
     static final String IGNORE_PROPERTY = "--ignore-property";
     static final String INCLUDE_LEMMAS_WITHOUT_WORD = "--include-lemmas-without-words";
@@ -89,14 +88,12 @@ final class ParserOptions {
 
     boolean includeLemmasWithoutWords = false;
     boolean ignoreUnannotated = false;
-    boolean includeLemmaForms = false;
     boolean addNormalizedEntry = false;
     boolean ignoreUnstructuredEntries = false;
     boolean debug = false;
     final boolean addSound;
 
     EnumSet<PartOfSpeech> posToBeInflected;
-    EnumSet<PartOfSpeech> posToBeLemmatised;
     TreeSet<String> posWithoutGrammemes;
     TreeMap<String, TreeSet<String>> additionalGrammemesDict;
     TreeMap<String, TreeMap<String, String>> defaultGrammemeForCategory;
@@ -115,7 +112,6 @@ final class ParserOptions {
         System.err.println(DICTIONARY_FILE + " <file.lst>\tthe file for the lexical dictionary to be generated, default: dictionary.lst");
         System.err.println(ADD_EXTRA_GRAMMEMES + " <file.lst>\tFile containing words with the extra grammemes to be added, provide path relative to tools/dictionary-parser/src/main/resources/org/unicode/wikidata/ (only to be used for a temporary grammeme addition)");
         System.err.println(INFLECTION_TYPES + " pos1[,pos2,...]\tthe pos's to be inflected, default: noun");
-        System.err.println(ADD_LEMMAS_FOR_TYPES + " pos1[,pos2,...]\tthe part of speeches for which the known lemma form should be added to dict, default: (NONE)");
         System.err.println(IGNORE_GRAMMEMES_FOR_TYPES + " pos1[,pos2,...]\tthe part of speeches for which we don't want to include any grammeme info other than vowel/consonant start, default: (NONE)");
         System.err.println(MAP_GRAMMEME + " grammeme1,grammeme2\twhen grammeme1 is seen in the source dictionary, use grammeme2 instead of it");
         System.err.println(IGNORE_PROPERTY + " grammeme1[,grammeme2,...]\teach property is considered to be an ignorable property.");
@@ -132,7 +128,6 @@ final class ParserOptions {
 
     ParserOptions(String[] args) throws Exception{
         posToBeInflected = EnumSet.of(PartOfSpeech.NOUN);
-        posToBeLemmatised = EnumSet.noneOf(PartOfSpeech.class);
         posWithoutGrammemes = new TreeSet<>();
         additionalGrammemesDict = new TreeMap<>();
         sourceFilenames = new ArrayList<>();
@@ -181,16 +176,6 @@ final class ParserOptions {
 
                 optionsUsedToInvoke.add(ParserOptions.INFLECTION_TYPES);
                 optionsUsedToInvoke.add(inflectionTypes);
-            } else if (ParserOptions.ADD_LEMMAS_FOR_TYPES.equals(arg)) {
-                includeLemmaForms = true;
-                String lemmatisationTypes = args[++i];
-                posToBeLemmatised.clear();
-
-                for (String pos : lemmatisationTypes.split(",")) {
-                    posToBeLemmatised.add(PartOfSpeech.valueOf(pos.toUpperCase()));
-                }
-                optionsUsedToInvoke.add(ParserOptions.ADD_LEMMAS_FOR_TYPES);
-                optionsUsedToInvoke.add(lemmatisationTypes);
             } else if (ParserOptions.IGNORE_GRAMMEMES_FOR_TYPES.equals(arg)) {
                 String ignoredGrammemeTypes = args[++i];
 
@@ -383,8 +368,8 @@ final class DocumentState {
                     unclassifiedTerms++;
                     continue;
                 }
-                // Add lemmas if so requested, but only to the pos that are to be inflected (i.e. no verb-lemmas unless we ask for it)
-                lexicalDictionaryStream.println(dictionaryEntry.toString(isInflectional(), parserOptions.includeLemmaForms && !Collections.disjoint(dictionaryEntry.getGrammemes(), parserOptions.posToBeLemmatised)));
+                // Print the dictionary entry to the .lst file.
+                lexicalDictionaryStream.println(dictionaryEntry.toString(isInflectional()));
                 for (Enum<?> grammeme : dictionaryEntry.getGrammemes()) {
                     grammemeCounts.merge(grammeme, 1, Integer::sum);
                 }
@@ -776,21 +761,16 @@ public final class ParseWikidata {
             }
             // else ignore this unimportant inflection pattern. This is usually trimmed for size.
         }
-        boolean addLemmasForPhrase = !Collections.disjoint(lemma.grammemes, parserOptions.posToBeLemmatised);
         Locale currLocale = Locale.forLanguageTag(parserOptions.locales.get(0));
         for (int i = 0; i < inflections.size() ; i++) {
             var inflection = inflections.get(i);
             String phrase = inflection.getInflection();
-            if (!inflection.getGrammemeSet().isEmpty() && addLemmasForPhrase && (phrase.compareTo(lemma.value) == 0)) {
-                addGrammeme(inflection.getGrammemeSet(), "lemma_word");
-            }
-            String lemmaForEntry = !addLemmasForPhrase ? phrase : lemma.value.replace(' ', '\u2002');
             InflectionPattern inflectionPatternForDict = nonEmptyInflectionIndices.contains(i) ? inflectionPattern : null;
-            documentState.addDictionaryEntry(new DictionaryEntry(phrase, lemmaForEntry, lemma.isRare, inflection.getGrammemeSet(), inflectionPatternForDict));
+            documentState.addDictionaryEntry(new DictionaryEntry(phrase, phrase, lemma.isRare, inflection.getGrammemeSet(), inflectionPatternForDict));
             if (parserOptions.addNormalizedEntry) {
                 String normalizedPhrase = phrase.toLowerCase(currLocale); // locale is specified in the options, by default we use en_US
                 if (!normalizedPhrase.equals(phrase) && !lemma.isRare) {
-                    documentState.addDictionaryEntry(new DictionaryEntry(normalizedPhrase, lemmaForEntry, false, inflection.getGrammemeSet(), inflectionPatternForDict));
+                    documentState.addDictionaryEntry(new DictionaryEntry(normalizedPhrase, phrase, false, inflection.getGrammemeSet(), inflectionPatternForDict));
                 }
             }
         }

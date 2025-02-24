@@ -20,7 +20,12 @@ public class LexemesJsonDeserializer extends JsonDeserializer<Map<String, Lexeme
     private static String[] languages;
 
     public static void setLanguage(List<String> languagesArray) {
-        languages = languagesArray.toArray(new String[0]);
+        if (languagesArray != null && !languagesArray.isEmpty()) {
+            languages = languagesArray.toArray(new String[0]);
+        }
+        else {
+            languages = null;
+        }
     }
 
     /**
@@ -31,6 +36,9 @@ public class LexemesJsonDeserializer extends JsonDeserializer<Map<String, Lexeme
      * ko, kok false
      */
     public static boolean isContained(String currentLanguage) {
+        if (languages == null) {
+            return true;
+        }
         var dashIdx = currentLanguage.indexOf('-');
         if (dashIdx < 0) {
             dashIdx = currentLanguage.length();

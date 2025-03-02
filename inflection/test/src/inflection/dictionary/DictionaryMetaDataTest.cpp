@@ -1,4 +1,5 @@
 /*
+ * Copyright 2025 Unicode Incorporated and others. All rights reserved.
  * Copyright 2016-2024 Apple Inc. All rights reserved.
  */
 #include "catch2/catch_test_macros.hpp"
@@ -33,7 +34,6 @@ TEST_CASE("DictionaryMetaDataTest#testEnglish")
     REQUIRE_FALSE(npc(dictionary)->getPropertyValues(u"man", u"inflection").empty());
     REQUIRE_FALSE(npc(dictionary)->getPropertyValues(u"theories", u"inflection").empty());
     REQUIRE_FALSE(npc(dictionary)->getPropertyValues(u"theory", u"inflection").empty());
-    REQUIRE_FALSE(npc(dictionary)->getPropertyValues(u"United States", u"inflection").empty());
     REQUIRE(npc(dictionary)->hasProperty(u"Paris", u"proper-noun"));
     REQUIRE(npc(dictionary)->hasProperty(u"paris", u"proper-noun"));
     int64_t properties = 0;

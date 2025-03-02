@@ -1,4 +1,5 @@
 /*
+ * Copyright 2025 Unicode Incorporated and others. All rights reserved.
  * Copyright 2017-2024 Apple Inc. All rights reserved.
  */
 #include <inflection/grammar/synthesis/EnGrammarSynthesizer_EnDisplayFunction.hpp>
@@ -86,7 +87,8 @@ const ::std::map<::std::u16string_view, ::std::u16string_view>& EnGrammarSynthes
     }
     auto displayValueConstraints(constraints);
     ::std::u16string countString = GrammarSynthesizerUtil::getFeatureValue(constraints, countFeature);
-    if (countString == GrammemeConstants::NUMBER_PLURAL() || countString == GrammemeConstants::NUMBER_SINGULAR()) {
+    bool isRequestingPlural = countString == GrammemeConstants::NUMBER_PLURAL();
+    if (isRequestingPlural || countString == GrammemeConstants::NUMBER_SINGULAR()) {
         auto result = inflectPhrase(displayString, constraints, enableInflectionGuess);
         if (!result && !enableInflectionGuess) {
             return nullptr;
@@ -102,7 +104,7 @@ const ::std::map<::std::u16string_view, ::std::u16string_view>& EnGrammarSynthes
 
     ::std::u16string caseString = GrammarSynthesizerUtil::getFeatureValue(constraints, caseFeature);
     if (caseString == GrammemeConstants::CASE_GENITIVE()) {
-        displayString = inflectPossessive(displayString, displayValueConstraints);
+        displayString = inflectPossessive(displayString, displayValueConstraints, isRequestingPlural);
     }
 
     return definitenessDisplayFunction.addDefiniteness(new ::inflection::dialog::DisplayValue(displayString, displayValueConstraints), constraints);
@@ -200,7 +202,7 @@ const ::std::map<::std::u16string_view, ::std::u16string_view>& EnGrammarSynthes
     return displayString;
 }
 
-::std::u16string EnGrammarSynthesizer_EnDisplayFunction::inflectPossessive(const ::std::u16string& displayString, ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& valueConstraints) const
+::std::u16string EnGrammarSynthesizer_EnDisplayFunction::inflectPossessive(const ::std::u16string& displayString, ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& valueConstraints, bool isRequestingPlural) const
 {
     ::std::u16string lowercase;
     ::inflection::util::StringViewUtils::lowercase(&lowercase, displayString, ::inflection::util::LocaleUtils::ENGLISH());
@@ -218,7 +220,7 @@ const ::std::map<::std::u16string_view, ::std::u16string_view>& EnGrammarSynthes
             else {
                 if (::inflection::util::StringViewUtils::endsWith(suffix, u"s")) {
                     ::std::unique_ptr<::inflection::tokenizer::TokenChain> tokenChain(npc(npc(tokenizer.get())->createTokenChain(displayString)));
-                    if (dictionary.hasAllProperties(npc(npc(tokenChain->getTail())->getPrevious())->getValue(), pluralProperty)) {
+                    if (isRequestingPlural || dictionary.hasAllProperties(npc(npc(tokenChain->getTail())->getPrevious())->getValue(), pluralProperty)) {
                         suffixStr = u"’";
                     }
                 }

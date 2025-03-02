@@ -5,20 +5,13 @@
 package org.unicode.wikidata;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
+import java.io.IOException;
 import java.nio.file.Paths;
-import java.text.NumberFormat;
-import java.util.EnumMap;
-import java.util.Locale;
 import java.util.Properties;
-import java.util.regex.Pattern;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -26,16 +19,13 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ibm.icu.util.ULocale;
 
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
 import org.apache.commons.lang3.StringUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
@@ -44,388 +34,9 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import static org.unicode.wikidata.Grammar.TYPEMAP;
-import static org.unicode.wikidata.Grammar.REMAP;
 import static org.unicode.wikidata.Grammar.Ignorable;
 import static org.unicode.wikidata.Grammar.PartOfSpeech;
 import static org.unicode.wikidata.Grammar.Sound;
-
-/**
- * Default parser option values.
- */
-final class ParserDefaults {
-    static final String RESOURCES_DIR = "src/main/resources/org/unicode/wikidata/";
-    static final String DEFAULT_INFLECTION_FILE_NAME = "inflectional.xml";
-    static final String DEFAULT_DICTIONARY_FILE_NAME = "dictionary.lst";
-    // Put the rare inflections at the end.
-    static final Comparator<Inflection> RARITY_AWARE_COMPARATOR = Comparator
-            .comparing(Inflection::isRareUsage)
-            .thenComparing(Inflection::compareTo);
-    private ParserDefaults() {}
-}
-
-/**
- * The options to extract the data from the data source.
- */
-final class ParserOptions {
-    private static final char COLON_SEPARATOR = ':';
-    static final String INFLECTIONS_FILE = "--inflections";
-    static final String DICTIONARY_FILE = "--dictionary";
-    static final String MAP_GRAMMEME = "--map-grammeme";
-    static final String ADD_EXTRA_GRAMMEMES = "--add-extra-grammemes";
-    static final String INFLECTION_TYPES = "--inflection-types";
-    static final String IGNORE_GRAMMEMES_FOR_TYPES = "--ignore-grammemes-for-types";
-    static final String IGNORE_PROPERTY = "--ignore-property";
-    static final String INCLUDE_LEMMAS_WITHOUT_WORD = "--include-lemmas-without-words";
-    static final String IGNORE_SURFACE_FORM = "--ignore-entries-with-grammemes";
-    static final String IGNORE_UNANNOTATED_SURFACE_FORM = "--ignore-unannotated-entries";
-    static final String ADD_NORMALIZED_ENTRY = "--add-normalized-entry";
-    static final String LANGUAGE_OPT = "--language";
-    static final String TIMESTAMP = "--timestamp";
-    static final String ADD_DEFAULT_GRAMMEME_FOR_CATEGORY = "--add-default-grammeme-for-category";
-    static final String IGNORE_UNSTRUCTURED_ENTRIES = "--ignore-unstructured-entries";
-    static final String ADD_SOUND = "--add-sound";
-
-    boolean includeLemmasWithoutWords = false;
-    boolean ignoreUnannotated = false;
-    boolean addNormalizedEntry = false;
-    boolean ignoreUnstructuredEntries = false;
-    boolean debug = false;
-    final boolean addSound;
-
-    EnumSet<PartOfSpeech> posToBeInflected;
-    TreeSet<String> posWithoutGrammemes;
-    TreeMap<String, TreeSet<String>> additionalGrammemesDict;
-    TreeMap<String, TreeMap<String, String>> defaultGrammemeForCategory;
-    TreeMap<String, EnumMap<Sound, Pattern>> claimsToSound;
-
-    ArrayList<String> sourceFilenames;
-    String inflectionalFilename = ParserDefaults.DEFAULT_INFLECTION_FILE_NAME;
-    String lexicalDictionaryFilename = ParserDefaults.DEFAULT_DICTIONARY_FILE_NAME;
-    ArrayList<String> locales = new ArrayList<>(List.of(Locale.ENGLISH.getLanguage()));
-    List<String> optionsUsedToInvoke = new ArrayList<>();
-
-    private static void printUsage() {
-        System.err.println("Usage: ParseLexicon [OPTIONS] <file1.xml or file1.lexicon>[ <file2.xml or file2.lexicon> ...]");
-        System.err.println("\nOPTIONS");
-        System.err.println(INFLECTIONS_FILE + " <file.xml>\tthe file for the inflectional patterns to be generated, default: inflectional.xml");
-        System.err.println(DICTIONARY_FILE + " <file.lst>\tthe file for the lexical dictionary to be generated, default: dictionary.lst");
-        System.err.println(ADD_EXTRA_GRAMMEMES + " <file.lst>\tFile containing words with the extra grammemes to be added, provide path relative to tools/dictionary-parser/src/main/resources/org/unicode/wikidata/ (only to be used for a temporary grammeme addition)");
-        System.err.println(INFLECTION_TYPES + " pos1[,pos2,...]\tthe pos's to be inflected, default: noun");
-        System.err.println(IGNORE_GRAMMEMES_FOR_TYPES + " pos1[,pos2,...]\tthe part of speeches for which we don't want to include any grammeme info other than vowel/consonant start, default: (NONE)");
-        System.err.println(MAP_GRAMMEME + " grammeme1,grammeme2\twhen grammeme1 is seen in the source dictionary, use grammeme2 instead of it");
-        System.err.println(IGNORE_PROPERTY + " grammeme1[,grammeme2,...]\teach property is considered to be an ignorable property.");
-        System.err.println(IGNORE_SURFACE_FORM + " type1[,type2,...]\tignore entries with specified grammemes. Default: do not ignore");
-        System.err.println(IGNORE_UNANNOTATED_SURFACE_FORM + " \tignore entries without any grammeme annotation. Default: do not ignore");
-        System.err.println(INCLUDE_LEMMAS_WITHOUT_WORD + "\tinclude lemma entries which do not have corresponding word-entry. Default: do not include");
-        System.err.println(TIMESTAMP + "\ttimestamp of the latest lexicon used. Default: NONE");
-        System.err.println(LANGUAGE_OPT + "\tComma separated list of languages to extract to the lexical dictionary. Default: " + ULocale.ENGLISH.getName());
-        System.err.println(ADD_NORMALIZED_ENTRY + "\tAdds the normalized entry of a dictionary as an additional dictionary entry, only applies for non lowercase entries. Default: false");
-        System.err.println(ADD_DEFAULT_GRAMMEME_FOR_CATEGORY + "\t[pos=partofSpeech1]category1=grammeme1[,category2=grammeme2.....]\t For each of the provided categories if no grammeme is present then add the default grammeme provided for that category to the word. Only applies for the provided parts of speech if pos= is supplied Default: (NONE)");
-        System.err.println(IGNORE_UNSTRUCTURED_ENTRIES + " \tIgnore unstructured entries from the lexicon. Default: false");
-        System.err.println(ADD_SOUND + " grammeme1[,grammeme2,...]\tSound properties to check for.");
-    }
-
-    ParserOptions(String[] args) throws Exception{
-        posToBeInflected = EnumSet.of(PartOfSpeech.NOUN);
-        posWithoutGrammemes = new TreeSet<>();
-        additionalGrammemesDict = new TreeMap<>();
-        sourceFilenames = new ArrayList<>();
-        defaultGrammemeForCategory = new TreeMap<>();
-        claimsToSound = new TreeMap<>();
-
-        for (int i = 0; i < args.length; i++) {
-            String arg = args[i];
-            if (ParserOptions.INFLECTIONS_FILE.equals(arg)) {
-                inflectionalFilename = args[++i];
-            } else if (ParserOptions.DICTIONARY_FILE.equals(arg)) {
-                lexicalDictionaryFilename = args[++i];
-            } else if (ParserOptions.ADD_EXTRA_GRAMMEMES.equals(arg)) {
-                String additionalGrammemeFilename = args[++i];
-                String filePath = Paths.get(ParserDefaults.RESOURCES_DIR  + additionalGrammemeFilename).toAbsolutePath().toString();
-                try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(filePath), StandardCharsets.UTF_8))) {
-                    String line;
-                    while ((line = br.readLine()) != null) {
-                        int colonIdx = line.indexOf(COLON_SEPARATOR);
-                        String phrase = line.substring(0, colonIdx);
-                        String grammemes = line.substring(colonIdx + 1).trim();
-                        additionalGrammemesDict.put(phrase, new TreeSet<>(Arrays.asList(grammemes.split(" "))));
-                    }
-                    optionsUsedToInvoke.add(ParserOptions.ADD_EXTRA_GRAMMEMES);
-                    optionsUsedToInvoke.add(additionalGrammemeFilename);
-                }
-            } else if (ParserOptions.MAP_GRAMMEME.equals(arg)) {
-                String mapGrammeme = args[++i];
-                String[] split = mapGrammeme.split(",", 2);
-                REMAP.put(split[0], split[1]);
-
-                optionsUsedToInvoke.add(ParserOptions.MAP_GRAMMEME);
-                optionsUsedToInvoke.add(mapGrammeme);
-            } else if (ParserOptions.IGNORE_PROPERTY.equals(arg)) {
-                String propertySetToIgnore = args[++i];
-                setIgnoreProperty(propertySetToIgnore.split(","), Ignorable.IGNORABLE_PROPERTY);
-                optionsUsedToInvoke.add(ParserOptions.IGNORE_PROPERTY);
-                optionsUsedToInvoke.add(propertySetToIgnore);
-            } else if (ParserOptions.INFLECTION_TYPES.equals(arg)) {
-                String inflectionTypes = args[++i];
-                posToBeInflected.clear();
-
-                for (String pos : inflectionTypes.split(",")) {
-                    posToBeInflected.add(PartOfSpeech.valueOf(pos.toUpperCase()));
-                }
-
-                optionsUsedToInvoke.add(ParserOptions.INFLECTION_TYPES);
-                optionsUsedToInvoke.add(inflectionTypes);
-            } else if (ParserOptions.IGNORE_GRAMMEMES_FOR_TYPES.equals(arg)) {
-                String ignoredGrammemeTypes = args[++i];
-
-                posWithoutGrammemes.clear();
-                posWithoutGrammemes.addAll(Arrays.asList(ignoredGrammemeTypes.split(",")));
-
-                optionsUsedToInvoke.add(ParserOptions.IGNORE_GRAMMEMES_FOR_TYPES);
-                optionsUsedToInvoke.add(ignoredGrammemeTypes);
-            } else if (ParserOptions.INCLUDE_LEMMAS_WITHOUT_WORD.equals(arg)) {
-                includeLemmasWithoutWords = true;
-                optionsUsedToInvoke.add(ParserOptions.INCLUDE_LEMMAS_WITHOUT_WORD);
-            } else if (ParserOptions.IGNORE_SURFACE_FORM.equals(arg)) {
-                String ignoreEntriesWithGrammemesStr = args[++i];
-                setIgnoreProperty(ignoreEntriesWithGrammemesStr.split(","), Ignorable.IGNORABLE_INFLECTION);
-                optionsUsedToInvoke.add(ParserOptions.IGNORE_SURFACE_FORM);
-                optionsUsedToInvoke.add(ignoreEntriesWithGrammemesStr);
-            } else if (ParserOptions.IGNORE_UNANNOTATED_SURFACE_FORM.equals(arg)) {
-                ignoreUnannotated = true;
-                optionsUsedToInvoke.add(ParserOptions.IGNORE_UNANNOTATED_SURFACE_FORM);
-            } else if (ParserOptions.TIMESTAMP.equals(arg)) {
-                String timestamp = args[++i];
-                optionsUsedToInvoke.add(ParserOptions.TIMESTAMP);
-                optionsUsedToInvoke.add(timestamp);
-            } else if (ParserOptions.LANGUAGE_OPT.equals(arg)) {
-                String localeStr = args[++i];
-                locales.clear();
-                locales.addAll(List.of(localeStr.split(",")));
-                optionsUsedToInvoke.add(ParserOptions.LANGUAGE_OPT);
-                optionsUsedToInvoke.add(localeStr);
-            } else if (ParserOptions.ADD_NORMALIZED_ENTRY.equals(arg)) {
-                addNormalizedEntry = true;
-                optionsUsedToInvoke.add(ParserOptions.ADD_NORMALIZED_ENTRY);
-            } else if (ParserOptions.ADD_DEFAULT_GRAMMEME_FOR_CATEGORY.equals(arg))  {
-                String categoryDefaultGrammemeString = args[++i];
-                String[] tokens = categoryDefaultGrammemeString.split(",");
-                String posValue = "";
-                for (int idx = 0; idx < tokens.length; idx += 1) {
-                    String token = tokens[idx];
-                    String[] tokenArgs = token.split("=");
-                    if (tokenArgs.length != 2) {
-                        throw new IllegalArgumentException("Default Grammeme for category string does not have entry in the format a=b " + token);
-                    }
-                    String key = tokenArgs[0].toLowerCase();
-                    String value = tokenArgs[1].toLowerCase();
-                    if (key.compareTo("pos") == 0) {
-                        if (idx != 0) {
-                            throw new IllegalArgumentException("pos key is not the first argument for default Grammeme for category string " + categoryDefaultGrammemeString);
-                        }
-                        posValue = value;
-                        continue;
-                    }
-                    defaultGrammemeForCategory.putIfAbsent(posValue, new TreeMap<>());
-                    defaultGrammemeForCategory.get(posValue).put(key, value);
-                }
-
-                optionsUsedToInvoke.add(ParserOptions.ADD_DEFAULT_GRAMMEME_FOR_CATEGORY);
-                optionsUsedToInvoke.add(categoryDefaultGrammemeString);
-            } else if (ParserOptions.IGNORE_UNSTRUCTURED_ENTRIES.equals(arg))  {
-                ignoreUnstructuredEntries = true;
-                optionsUsedToInvoke.add(ParserOptions.IGNORE_UNSTRUCTURED_ENTRIES);
-            } else if (ParserOptions.ADD_SOUND.equals(arg))  {
-                String soundGrammemeTypes = args[++i];
-
-                List<String> additionalSoundProperties = Arrays.asList(soundGrammemeTypes.split(","));
-
-                for (String claimID : ParseWikidata.PROPERTIES_WITH_PRONUNCIATION) {
-                    Properties soundRegexes = new Properties();
-                    String filePath = Paths.get(ParserDefaults.RESOURCES_DIR + claimID + ".properties").toAbsolutePath().toString();
-                    try (var propertiesStream = new InputStreamReader(new FileInputStream(filePath), StandardCharsets.UTF_8)) {
-                        soundRegexes.load(propertiesStream);
-                        var enumMap = new EnumMap<Sound, Pattern>(Sound.class);
-                        for (var entry : soundRegexes.entrySet()) {
-                            var key = (String) entry.getKey();
-                            if (additionalSoundProperties.contains(key)) {
-                                enumMap.put(Sound.valueOf(key.toUpperCase(Locale.ROOT).replace('-', '_')), Pattern.compile((String)entry.getValue()));
-                            }
-                        }
-                        if (enumMap.size() != additionalSoundProperties.size()) {
-                            throw new IllegalArgumentException("Not all sound properties were found");
-                        }
-                        claimsToSound.put(claimID, enumMap);
-                    }
-                }
-
-                optionsUsedToInvoke.add(ParserOptions.ADD_SOUND);
-                optionsUsedToInvoke.add(soundGrammemeTypes);
-            } else {
-                sourceFilenames.add(arg);
-            }
-        }
-
-        addSound = !claimsToSound.isEmpty();
-
-        if (sourceFilenames.isEmpty()) {
-            printUsage();
-            throw new IllegalArgumentException();
-        }
-    }
-
-    void setIgnoreProperty(String[] grammemes, Ignorable ignorable) {
-        var ignorableSet = EnumSet.of(ignorable);
-        for (String grammeme : grammemes) {
-            if (grammeme.matches("Q\\d*")) {
-                TYPEMAP.put(grammeme, ignorableSet);
-            }
-            else {
-                for (Map.Entry<String, Set<? extends Enum<?>>> entry : TYPEMAP.entrySet()) {
-                    for (var grammemeEnum : entry.getValue()) {
-                        String name = grammemeEnum.name();
-                        if (name.equalsIgnoreCase(grammeme)) {
-                            if (entry.getValue().size() == 1) {
-                                entry.setValue(ignorableSet);
-                            }
-                            else {
-                                entry.getValue().remove(grammemeEnum);
-                                ArrayList<Enum<?>> clone = new ArrayList<>(entry.getValue());
-                                clone.add(ignorable);
-                                entry.setValue(new HashSet<>(clone));
-                            }
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-/**
- * Contains statistical information on what has been analyzed.
- */
-final class DocumentState {
-    int lemmaCount = 0;
-    int unusableLemmaCount = 0;
-    int unusableSurfaceFormCount = 0;
-    int mergedCount = 0;
-    int incomingSurfaceForm = 0;
-    TreeMap<String, DictionaryEntry> dictionary = new TreeMap<>();
-    ArrayList<InflectionPattern> inflectionPatterns = new ArrayList<>(1024);
-
-    boolean isInflectional() {
-        return inflectionPatterns.size() > 1 || (inflectionPatterns.size() == 1 && inflectionPatterns.get(0).getCount() > 1);
-    }
-
-    private void sortInflectionPatterns(ArrayList<InflectionPattern> inflectionPatterns) {
-        // We are sorting for the common ones first and then compare the identifier for lack of a better
-        inflectionPatterns.sort(Comparator
-                .comparing(InflectionPattern::getCount)
-                .reversed()
-                .thenComparing(InflectionPattern::getID));
-        int identifierEnumeration = 1;
-        for (InflectionPattern inflectionPattern : inflectionPatterns) {
-            inflectionPattern.setID(identifierEnumeration++); // This is where we are reassigning identifiers to their new values.
-        }
-    }
-
-    public void addDictionaryEntry(DictionaryEntry dictionaryEntry){
-        String phrase = dictionaryEntry.phrase;
-        DictionaryEntry existingDictionaryEntry = dictionary.get(phrase);
-        if (existingDictionaryEntry == null) {
-            dictionary.put(phrase, dictionaryEntry);
-        }else{
-            mergedCount++;
-            existingDictionaryEntry.merge(dictionaryEntry);
-        }
-    }
-
-    public void printDocument(ParserOptions parserOptions, long startTime) throws FileNotFoundException {
-        TreeMap<Enum<?>, Integer> grammemeCounts = new TreeMap<>(EnumComparator.ENUM_COMPARATOR);
-        int unclassifiedTerms = 0;
-        if (isInflectional()) {
-            try (PrintWriter inflectionalStream = new PrintWriter(new OutputStreamWriter(
-                    new FileOutputStream(parserOptions.inflectionalFilename), StandardCharsets.UTF_8))) {
-                inflectionalStream.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                        "<patterns>");
-
-                sortInflectionPatterns(inflectionPatterns);
-                for (InflectionPattern inflectionPattern : inflectionPatterns) {
-                    inflectionalStream.print(inflectionPattern);
-                }
-                inflectionalStream.println("</patterns>");
-            }
-        }
-        try (PrintWriter lexicalDictionaryStream = new PrintWriter(new OutputStreamWriter(
-                new FileOutputStream(parserOptions.lexicalDictionaryFilename), StandardCharsets.UTF_8))) {
-            for (Map.Entry<String, DictionaryEntry> entry : dictionary.entrySet()) {
-                DictionaryEntry dictionaryEntry = entry.getValue();
-                if (dictionaryEntry.getGrammemes().isEmpty()) {
-                    // We don't care about only known words. We need grammeme data
-                    unclassifiedTerms++;
-                    continue;
-                }
-                // Print the dictionary entry to the .lst file.
-                lexicalDictionaryStream.println(dictionaryEntry.toString(isInflectional()));
-                for (Enum<?> grammeme : dictionaryEntry.getGrammemes()) {
-                    grammemeCounts.merge(grammeme, 1, Integer::sum);
-                }
-            }
-
-            NumberFormat percentFormat = NumberFormat.getPercentInstance(Locale.US);
-            percentFormat.setMaximumFractionDigits(1);
-            int dictionarySize = dictionary.size();
-            StringBuilder source = new StringBuilder();
-            Pattern anythingSlash = Pattern.compile(".*/");
-            for (String sourceFilename : parserOptions.sourceFilenames) {
-                source.append(anythingSlash.matcher(sourceFilename).replaceAll("")).append(" ");
-            }
-            lexicalDictionaryStream.println("==============================================");
-            lexicalDictionaryStream.printf("%30s %7s%n", "Source:", source);
-            lexicalDictionaryStream.printf("%30s %7d%n", "Lemma terms:", lemmaCount);
-            lexicalDictionaryStream.printf("%30s %7d%n", "Unusable lemma terms:", unusableLemmaCount);
-            lexicalDictionaryStream.printf("%30s %7d%n", "Incoming surface forms:", incomingSurfaceForm);
-            lexicalDictionaryStream.printf("%30s %7d%n", "Surface forms:", dictionarySize);
-            lexicalDictionaryStream.printf("%30s %7d %7s%n", "Collapsed surface forms:", mergedCount, '(' + percentFormat.format((mergedCount) / (double) incomingSurfaceForm) + ')');
-            lexicalDictionaryStream.printf("%30s %7d%n", "Unusable surface forms:", unusableSurfaceFormCount);
-            lexicalDictionaryStream.printf("%30s %7d %7s%n", "Usable terms:", dictionarySize - unclassifiedTerms, '(' + percentFormat.format((dictionarySize - unclassifiedTerms) / (double) dictionarySize) + ')');
-            lexicalDictionaryStream.printf("%30s %7d %7s%n", "Unclassified terms:", unclassifiedTerms, '(' + percentFormat.format(unclassifiedTerms / (double) dictionarySize) + ')');
-            lexicalDictionaryStream.println("==============================================");
-            TreeMap<String, List<Enum<?>>> categories = new TreeMap<>();
-            for (var entry : grammemeCounts.entrySet()) {
-                var entryCategory = entry.getKey().getClass().getSimpleName();
-                if (!categories.containsKey(entryCategory)) {
-                    categories.put(entryCategory, new ArrayList<>());
-                }
-                var categoryValues = categories.get(entryCategory);
-                categoryValues.add(entry.getKey());
-            }
-
-            for (var categoryEntry : categories.entrySet()) {
-                var categoryName = categoryEntry.getKey();
-                lexicalDictionaryStream.printf("%s:%n", categoryName);
-                var categoryValues = categoryEntry.getValue();
-                categoryValues.sort(Comparator.comparing(grammemeCounts::get));
-                Collections.reverse(categoryValues);
-                for (var categoryValue : categoryValues) {
-                    lexicalDictionaryStream.printf("    %-20s %7d %7s%n", categoryValue.toString() + ':', grammemeCounts.get(categoryValue), '(' + percentFormat.format(grammemeCounts.get(categoryValue) / (double) dictionarySize) + ')');
-                }
-                lexicalDictionaryStream.printf("%n");
-            }
-            long endTime = System.currentTimeMillis();
-            long elapsedTime = (endTime-startTime);
-            lexicalDictionaryStream.println("processed in " + (elapsedTime / 1000) + '.' + (elapsedTime % 1000) + " seconds");
-            lexicalDictionaryStream.println("License: Creative Commons CC0 License (https://creativecommons.org/publicdomain/zero/1.0/)");
-            lexicalDictionaryStream.println("generated with options: " + String.join(" ", parserOptions.optionsUsedToInvoke));
-        }
-    }
-
-    DocumentState() {
-    }
-}
 
 /**
  * @see <a href="https://dumps.wikimedia.org/wikidatawiki/entities/">https://dumps.wikimedia.org/wikidatawiki/entities/</a>
@@ -436,6 +47,7 @@ public final class ParseWikidata {
     ));
     static final Set<String> PROPERTIES_WITH_GRAMMEMES = new TreeSet<>(List.of(
             "P31", // instance of. Sometimes phrase information is here.
+            "P1552", // has characteristic for animacy
             "P5185" // grammatical gender
     ));
     static final Set<String> IMPORTANT_PROPERTIES = new TreeSet<>(PROPERTIES_WITH_GRAMMEMES);
@@ -462,22 +74,30 @@ public final class ParseWikidata {
     }
 
     private final ParserOptions parserOptions;
-    private final DocumentState documentState;
+    private final DocumentState documentState = new DocumentState();
+    private final TreeSet<String> rareLemmas = new TreeSet<>();
+    private final TreeSet<String> omitLemmas = new TreeSet<>();
 
     ParseWikidata(ParserOptions parserOptions)
     {
         this.parserOptions = parserOptions;
-        this.documentState = new DocumentState();
-    }
-
-    private void addGrammeme(TreeSet<Enum<?>> grammemes, @Nullable String grammeme) {
-        if (grammeme != null && !grammeme.isEmpty()) {
-            Set<? extends Enum<?>> values = Grammar.getMappedGrammemes(grammeme);
-            if (values == null) {
-                throw new RuntimeException(grammeme + " is not a known grammeme");
+        for (var language : parserOptions.locales) {
+            Properties rareLemmasProperties = new Properties();
+            String filePath = Paths.get(ParserDefaults.RESOURCES_DIR + "filter_" + language + ".properties").toAbsolutePath().toString();
+            try (var propertiesStream = new InputStreamReader(new FileInputStream(filePath), StandardCharsets.UTF_8)) {
+                rareLemmasProperties.load(propertiesStream);
+                for (var entry : rareLemmasProperties.entrySet()) {
+                    String key = entry.getKey().toString();
+                    String value = entry.getValue().toString();
+                    switch (value) {
+                        case "rare" : rareLemmas.add(key); break;
+                        case "omit" : omitLemmas.add(key); break;
+                        default: throw new IllegalArgumentException(key + ": Unknown key value " + value);
+                    }
+                }
             }
-            else if (!values.contains(Ignorable.IGNORABLE_PROPERTY)) {
-                grammemes.addAll(values);
+            catch (IOException e) {
+                // else oh well. It doesn't matter.
             }
         }
     }
@@ -485,6 +105,10 @@ public final class ParseWikidata {
     static final String VARIANT_SEPARATOR = "-x-";
 
     private void analyzeLexeme(int lineNumber, Lexeme lexeme) {
+        if (omitLemmas.contains(lexeme.id)) {
+            // We really don't want this junk.
+            return;
+        }
         Lemma lemma = new Lemma();
         Set<? extends Enum<?>> partOfSpeechSet = null;
         for (var lemmaEntry : lexeme.lemmas.entrySet()) {
@@ -514,11 +138,15 @@ public final class ParseWikidata {
                 }
                 lemma.grammemes.addAll(variant);
             }
+            if (rareLemmas.contains(lexeme.id)) {
+                lemma.grammemes.add(Grammar.Usage.RARE);
+            }
             extractImportantProperties(lexeme.claims, lemma.grammemes, lexeme.id, lemma.value);
             if (lemma.grammemes.contains(Ignorable.IGNORABLE_LEMMA) || lemma.grammemes.contains(Ignorable.IGNORABLE_INFLECTION)) {
                 documentState.unusableLemmaCount++;
                 continue;
             }
+            lemma.grammemes.remove(Ignorable.IGNORABLE_PROPERTY);
             for (var form : lexeme.forms) {
                 Inflection currentInflection = null;
                 var representation = form.representations.get(currentLemmaLanguage);
@@ -553,10 +181,21 @@ public final class ParseWikidata {
                     currentInflection.grammemeSet.remove(Grammar.Usage.RARE);
                 }
                 currentInflection.grammemeSet.remove(Ignorable.IGNORABLE_PROPERTY);
-                lemma.inflections.add(currentInflection);
+                var grammemeExpansion = parserOptions.expandGramemes != null ? parserOptions.expandGramemes.get(currentInflection.grammemeSet) : null;
                 if (parserOptions.addSound && form.claims != null && !form.claims.isEmpty() && currentInflection.inflection.charAt(0) == lemma.value.charAt(0)) {
                     // We have potential data, and the words aren't mixed together. So this is probably accurate.
                     addSound(form.claims, currentInflection.grammemeSet, lexeme.id, lemma.value);
+                }
+                if (grammemeExpansion == null) {
+                    lemma.inflections.add(currentInflection);
+                }
+                else {
+                    for (var grammemeSet : grammemeExpansion) {
+                        var expandedInflection = new Inflection(currentInflection.inflection, currentInflection.rareUsage);
+                        expandedInflection.grammemeSet.addAll(currentInflection.grammemeSet);
+                        expandedInflection.grammemeSet.addAll(grammemeSet);
+                        lemma.inflections.add(expandedInflection);
+                    }
                 }
             }
             documentState.incomingSurfaceForm += lemma.inflections.size();
@@ -564,7 +203,10 @@ public final class ParseWikidata {
             if (lemma.isRare) {
                 lemma.grammemes.remove(Grammar.Usage.RARE);
             }
-            lemma.grammemes.remove(Ignorable.IGNORABLE_PROPERTY);
+            if (lemma.inflections.isEmpty()) {
+                documentState.unusableLemmaCount++;
+                return;
+            }
             analyzeLemma(lemma);
         }
     }
@@ -761,18 +403,11 @@ public final class ParseWikidata {
             }
             // else ignore this unimportant inflection pattern. This is usually trimmed for size.
         }
-        Locale currLocale = Locale.forLanguageTag(parserOptions.locales.get(0));
         for (int i = 0; i < inflections.size() ; i++) {
             var inflection = inflections.get(i);
             String phrase = inflection.getInflection();
             InflectionPattern inflectionPatternForDict = nonEmptyInflectionIndices.contains(i) ? inflectionPattern : null;
             documentState.addDictionaryEntry(new DictionaryEntry(phrase, phrase, lemma.isRare, inflection.getGrammemeSet(), inflectionPatternForDict));
-            if (parserOptions.addNormalizedEntry) {
-                String normalizedPhrase = phrase.toLowerCase(currLocale); // locale is specified in the options, by default we use en_US
-                if (!normalizedPhrase.equals(phrase) && !lemma.isRare) {
-                    documentState.addDictionaryEntry(new DictionaryEntry(normalizedPhrase, phrase, false, inflection.getGrammemeSet(), inflectionPatternForDict));
-                }
-            }
         }
     }
 
@@ -810,6 +445,18 @@ public final class ParseWikidata {
             resultInflections.add(resultInflection);
         }
         return resultInflections;
+    }
+
+    private void addGrammeme(TreeSet<Enum<?>> grammemes, @Nullable String grammeme) {
+        if (grammeme != null && !grammeme.isEmpty()) {
+            Enum<?> value = Grammar.DEFAULTMAP.get(grammeme);
+            if (value == null) {
+                throw new NullPointerException(grammeme + " is not a known grammeme");
+            }
+            else if (!value.equals(Ignorable.IGNORABLE_PROPERTY)) {
+                grammemes.add(value);
+            }
+        }
     }
 
     private void mergeAdditionalGrammemes() {

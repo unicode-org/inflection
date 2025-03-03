@@ -1,4 +1,5 @@
 /*
+ * Copyright 2025 Unicode Incorporated and others. All rights reserved.
  * Copyright 2017-2024 Apple Inc. All rights reserved.
  */
 #pragma once
@@ -42,7 +43,7 @@ private:
 private:
     ::std::u16string guessPluralInflection(const ::std::u16string& displayString) const;
     ::std::u16string guessSingularInflection(const ::std::u16string& displayString) const;
-    ::std::u16string inflectPossessive(const std::u16string &displayString, std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &valueConstraints) const;
+    ::std::u16string inflectPossessive(const std::u16string &displayString, std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &valueConstraints, bool isRequestingPlural) const;
     ::std::optional<::std::u16string> inflectPhrase(const std::u16string &originalString, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const;
 
 public:

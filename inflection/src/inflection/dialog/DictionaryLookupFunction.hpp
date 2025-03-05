@@ -37,7 +37,6 @@ protected: /* protected */
 
 private:
     ::std::u16string determineWithDisambiguation(std::u16string_view word) const;
-    int8_t countMaskedEnabledBits(int64_t bitField) const;
 public:
     ::std::u16string getFirstWord(const ::std::u16string& word) const;
 

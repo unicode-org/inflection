@@ -4,10 +4,6 @@
 #include <inflection/grammar/synthesis/EsGrammarSynthesizer_CountGenderLookupFunction.hpp>
 
 #include <inflection/grammar/synthesis/GrammemeConstants.hpp>
-#include <inflection/tokenizer/Token_Head.hpp>
-#include <inflection/tokenizer/Token_Word.hpp>
-#include <inflection/tokenizer/TokenChain.hpp>
-#include <inflection/tokenizer/TokenizerFactory.hpp>
 #include <inflection/util/Validate.hpp>
 #include <inflection/util/LocaleUtils.hpp>
 #include <inflection/util/StringViewUtils.hpp>
@@ -19,13 +15,12 @@ EsGrammarSynthesizer_CountGenderLookupFunction::EsGrammarSynthesizer_CountGender
     , dictionary(getDictionary())
     , grammarCategoryType(categoryType)
 {
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&nounProperty, {u"noun"}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&nounProperty, {GrammemeConstants::POS_NOUN()}));
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&propertiesMask, properties));
 }
 
 EsGrammarSynthesizer_CountGenderLookupFunction::~EsGrammarSynthesizer_CountGenderLookupFunction()
 {
-
 }
 
 ::std::u16string guessGender(::std::u16string_view word, bool knownWord) {

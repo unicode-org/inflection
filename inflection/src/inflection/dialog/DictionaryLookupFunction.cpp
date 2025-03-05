@@ -49,7 +49,7 @@ DictionaryLookupFunction::DictionaryLookupFunction(const util::ULocale &locale, 
 {
     int64_t properties = 0;
     getDictionary().getCombinedBinaryType(&properties, word);
-    if (enableDisambiguation && countMaskedEnabledBits(properties) != 1) {
+    if (enableDisambiguation && std::popcount(static_cast<uint64_t>(properties)) != 1) {
         // OK so now it's either ambiguous or not in the dictionary.
         return determineWithDisambiguation(word);
     }
@@ -60,7 +60,7 @@ DictionaryLookupFunction::DictionaryLookupFunction(const util::ULocale &locale, 
 {
     int64_t properties = 0;
     getDictionary().getCombinedBinaryType(&properties, word);
-    if (countMaskedEnabledBits(properties) != 1) {
+    if (std::popcount(static_cast<uint64_t>(properties)) != 1) {
         // OK so now it's either ambiguous or not in the dictionary.
         ::std::u16string result;
         if (properties == 0) {
@@ -85,7 +85,10 @@ DictionaryLookupFunction::DictionaryLookupFunction(const util::ULocale &locale, 
             }
             // else it's an unknown single word or not a word.
         }
-        // else it's a known single word. We're not going to guess it.
+        else {
+            // It's a known single word. Try to disambiuate it.
+            result = determineWithDisambiguation(word);
+        }
 
         return result;
     }
@@ -136,7 +139,7 @@ const dictionary::DictionaryMetaData& DictionaryLookupFunction::getDictionary() 
     if (propertySets.empty()) {
         return {};
     }
-    ::std::vector<int64_t> disambiguatedPropertySets(disambiguationPartsOfSpeech.size()+1, 0);
+    ::std::vector<int64_t> disambiguatedPropertySets(disambiguationPartsOfSpeech.size() + 1, 0);
     for (const auto properties : propertySets) {
         int64_t i = 0;
         for (const auto partOfSpeech : disambiguationPartsOfSpeech) {
@@ -146,7 +149,7 @@ const dictionary::DictionaryMetaData& DictionaryLookupFunction::getDictionary() 
             }
             i += 1;
         }
-        if (i == ((int64_t) disambiguationPartsOfSpeech.size())) {
+        if (i == static_cast<int64_t>(disambiguationPartsOfSpeech.size())) {
             disambiguatedPropertySets[i] |= properties;
         }
     }
@@ -156,17 +159,6 @@ const dictionary::DictionaryMetaData& DictionaryLookupFunction::getDictionary() 
         }
     }
     return {};
-}
-
-int8_t DictionaryLookupFunction::countMaskedEnabledBits(int64_t bitField) const
-{
-    int8_t result = 0;
-    uint64_t uBitField = (uint64_t)(bitField & mask);
-    while (uBitField != 0) {
-        uBitField &= uBitField - 1; // e.g. 1100 & 1011 --> 1000
-        result++;
-    }
-    return result;
 }
 
 ::std::u16string DictionaryLookupFunction::getFirstWord(const ::std::u16string& word) const

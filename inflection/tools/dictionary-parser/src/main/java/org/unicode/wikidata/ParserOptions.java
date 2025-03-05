@@ -140,7 +140,7 @@ final class ParserOptions {
                 posToBeInflected.clear();
 
                 for (String pos : inflectionTypes.split(",")) {
-                    posToBeInflected.add(Grammar.PartOfSpeech.valueOf(pos.toUpperCase()));
+                    posToBeInflected.add(Grammar.PartOfSpeech.valueOf(pos.toUpperCase().replace('-', '_')));
                 }
 
                 optionsUsedToInvoke.add(ParserOptions.INFLECTION_TYPES);

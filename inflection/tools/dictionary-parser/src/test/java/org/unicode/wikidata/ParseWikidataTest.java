@@ -4,8 +4,6 @@
  */
 package org.unicode.wikidata;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.lang.invoke.MethodHandles;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -16,36 +14,33 @@ import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 
 class ParseWikidataTest {
-    private final static String lexiconSource = Objects
+    private static final String lexiconSource = Objects
             .requireNonNull(MethodHandles.lookup().lookupClass().getClassLoader().getResource("sourceLexicon.json")).getFile();
-    private final static String baseDir = lexiconSource.substring(0, lexiconSource.lastIndexOf("/"));
-    private final static String inflectionalFile = baseDir+"/LexiconInflectOut.xml";
-    private final static String expectedOutputFile = baseDir+ "/lexiconCorrectOut.txt";
-    private final static String fatalErrorFile = baseDir+ "/lexiconFatalError.json";
-    private final static String missingGrammemeErrorFile = baseDir+ "/lexiconMissingGrammemeError.json";
-    private final static String caseInsensitiveGrammemeFile = baseDir+ "/lexiconcaseInsenstiveGrammeme.json";
-    private final static String LINE_END = "==============================================";
+    private static final String baseDir = lexiconSource.substring(0, lexiconSource.lastIndexOf("/"));
+    private static final String inflectionalFile = baseDir+"/LexiconInflectOut.xml";
+    private static final String dictionaryFile = baseDir+"/LexiconInflectOut.lst";
+    private static final String expectedOutputFile = baseDir+ "/lexiconCorrectOut.txt";
+    private static final String fatalErrorFile = baseDir+ "/lexiconFatalError.json";
+    private static final String missingGrammemeErrorFile = baseDir+ "/lexiconMissingGrammemeError.json";
+    private static final String caseInsensitiveGrammemeFile = baseDir+ "/lexiconcaseInsenstiveGrammeme.json";
+    private static final String LINE_END = "==============================================";
 
     private void compareOutputs(String actual, String expected) {
-        String[] actual_lines = actual.split("\n");
-        String[] expected_lines = expected.split("\n");
-        for(int i=0 ; (i<actual_lines.length && i<expected_lines.length) ; i++) {
-            String actual_line = actual_lines[i];
-            String expected_line = expected_lines[i];
-            if(actual_line.equals(LINE_END)){
+        String[] actualLines = actual.split("\n");
+        String[] expectedLines = expected.split("\n");
+        for (int i = 0; i < actualLines.length && i < expectedLines.length; i++) {
+            String actualLine = actualLines[i];
+            String expectedLine = expectedLines[i];
+            if (actualLine.equals(LINE_END)) {
                 break;
             }
-            Assertions.assertEquals(expected_line, actual_line);
+            Assertions.assertEquals(expectedLine, actualLine);
         }
     }
 
     private String getParserOutput(String[] args) throws Exception {
-        ByteArrayOutputStream pipeOut = new ByteArrayOutputStream();
-        PrintStream old_out = System.out;
-        System.setOut(new PrintStream(pipeOut, false, StandardCharsets.UTF_8));
         ParseWikidata.main(args);
-        System.setOut(old_out);
-        return pipeOut.toString(StandardCharsets.UTF_8);
+        return Files.readString(Paths.get(dictionaryFile), StandardCharsets.UTF_8);
     }
 
     @Test
@@ -56,31 +51,31 @@ class ParseWikidataTest {
     @Test
     public void enumTest() {
         String fieldValue = Grammar.Alternate.SPELLING.toString();
-        Assertions.assertEquals(fieldValue, "spelling");
+        Assertions.assertEquals("spelling", fieldValue);
     }
 
     @Test
     public void fatalErrorHandlerTest() {
-        String[] args = {"--inflections", inflectionalFile, fatalErrorFile};
+        String[] args = {"--inflections", inflectionalFile, "--dictionary", dictionaryFile, fatalErrorFile};
         Assertions.assertThrows(SAXException.class,() -> ParseWikidata.main(args));
     }
 
     @Test
     public void missingGrammemeTest() {
-        String[] args = {"--inflections", inflectionalFile, missingGrammemeErrorFile};
+        String[] args = {"--inflections", inflectionalFile, "--dictionary", dictionaryFile, missingGrammemeErrorFile};
         Assertions.assertThrows(SAXException.class,() -> ParseWikidata.main(args));
     }
 
     @Test
     public void caseInsensitiveGrammemeTest() {
-        String[] args = {"--inflections", inflectionalFile, caseInsensitiveGrammemeFile};
+        String[] args = {"--inflections", inflectionalFile, "--dictionary", dictionaryFile, caseInsensitiveGrammemeFile};
         Assertions.assertDoesNotThrow(() -> ParseWikidata.main(args));
     }
 
     @Test
     public void lexiconParserTest() throws Exception {
-        String[] args = {"--ignore-entries-with-affixes", "--inflection-types", "noun,adjective", "--ignore-grammemes-for-types", "verb", "--inflections",
-                inflectionalFile, lexiconSource};
+        String[] args = {"--inflection-types", "noun,adjective,proper-noun", "--inflections", inflectionalFile,
+                "--dictionary", dictionaryFile, lexiconSource};
         String actual = getParserOutput(args);
         String expected = Files.readString(Paths.get(expectedOutputFile), StandardCharsets.UTF_8);
         compareOutputs(actual, expected);

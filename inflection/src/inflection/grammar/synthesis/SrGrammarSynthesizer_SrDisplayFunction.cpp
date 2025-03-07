@@ -18,6 +18,12 @@
 #include <inflection/util/UnicodeSetUtils.hpp>
 #include <inflection/npc.hpp>
 #include <iterator>
+// Delete later.
+#include <iostream>
+#include <string>
+#include <locale>
+#include <codecvt>
+//
 #include <memory>
 
 namespace inflection::grammar::synthesis {
@@ -25,9 +31,10 @@ namespace inflection::grammar::synthesis {
 SrGrammarSynthesizer_SrDisplayFunction::SrGrammarSynthesizer_SrDisplayFunction(const ::inflection::dialog::SemanticFeatureModel& model)
     : super()
     , dictionary(*npc(::inflection::dictionary::DictionaryMetaData::createDictionary(::inflection::util::LocaleUtils::SERBIAN())))
-    , countFeature(model.getFeature(GrammemeConstants::NUMBER))
-    , genderFeature(model.getFeature(GrammemeConstants::GENDER))
-    , partOfSpeechFeature(model.getFeature(GrammemeConstants::POS))
+    , caseFeature(*npc(model.getFeature(GrammemeConstants::CASE)))
+    , countFeature(*npc(model.getFeature(GrammemeConstants::NUMBER)))
+    , genderFeature(*npc(model.getFeature(GrammemeConstants::GENDER)))
+    , partOfSpeechFeature(*npc(model.getFeature(GrammemeConstants::POS)))
     , tokenizer(::inflection::tokenizer::TokenizerFactory::createTokenizer(::inflection::util::LocaleUtils::SERBIAN()))
     , dictionaryInflector(::inflection::util::LocaleUtils::SERBIAN(),{
             {GrammemeConstants::POS_NOUN(), GrammemeConstants::POS_ADJECTIVE(), GrammemeConstants::POS_VERB()},
@@ -42,23 +49,49 @@ SrGrammarSynthesizer_SrDisplayFunction::~SrGrammarSynthesizer_SrDisplayFunction(
 {
 }
 
+static ::std::u16string getFeatureValue(const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, const ::inflection::dialog::SemanticFeature semanticFeature)
+{
+    auto result = constraints.find(semanticFeature);
+    if (result != constraints.end()) {
+        return result->second;
+    }
+    return {};
+}
+
+void printString16(std::u16string& input)
+{
+    // Convert std::u16string to std::string
+    std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> convert;
+    std::string utf8_str = convert.to_bytes(input);
+
+    // Output the converted string
+    std::cout << "<<<< Display string: " << utf8_str << " >>>>>>" << std::endl;
+}
+
 ::inflection::dialog::DisplayValue * SrGrammarSynthesizer_SrDisplayFunction::getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const
 {
     const auto displayValue = GrammarSynthesizerUtil::getTheBestDisplayValue(displayData, constraints);
     if (displayValue == nullptr) {
+        std::cout << "################## 1";
         return nullptr;
     }
     ::std::u16string displayString = displayValue->getDisplayString();
+    printString16(displayString);
     if (displayString.empty()) {
+        std::cout << "################## 2";
         return nullptr;
     }
 
+    // Start: CONSTRAINT RETRIEVAL
+    auto caseString(getFeatureValue(constraints, caseFeature));
+
     // To make compiler quiet about unused variable.
     if (enableInflectionGuess)
-        return nullptr;
+        return new ::inflection::dialog::DisplayValue(*displayValue);
 
     // TODO Implement the rest
-    return nullptr;
+    std::cout << "################## 3";
+    return new ::inflection::dialog::DisplayValue(*displayValue);
 }
 
 } // namespace inflection::grammar::synthesis

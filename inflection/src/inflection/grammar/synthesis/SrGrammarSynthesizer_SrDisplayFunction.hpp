@@ -23,9 +23,10 @@ public:
 
 private:
     const ::inflection::dictionary::DictionaryMetaData& dictionary;
-    const ::inflection::dialog::SemanticFeature* countFeature {  };
-    const ::inflection::dialog::SemanticFeature* genderFeature {  };
-    const ::inflection::dialog::SemanticFeature* partOfSpeechFeature {  };
+    const ::inflection::dialog::SemanticFeature& caseFeature;
+    const ::inflection::dialog::SemanticFeature& countFeature;
+    const ::inflection::dialog::SemanticFeature& genderFeature;
+    const ::inflection::dialog::SemanticFeature& partOfSpeechFeature;
     const ::std::unique_ptr<::inflection::tokenizer::Tokenizer> tokenizer;
     const ::inflection::dialog::DictionaryLookupInflector dictionaryInflector;
 

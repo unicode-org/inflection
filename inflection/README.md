@@ -80,6 +80,19 @@ The following are the dependencies to use this code.
 
 ### Building
 
+#### Working with LFS
+
+Additional checkout steps are necessary when working with the repository as it utilizes Git LFS files.
+
+##### Get LFS client and install it, e.g. on Ubuntu
+
+```bash
+sudo apt install git-lfs
+git lfs install
+```
+
+For more details and troubleshooting refer to this [answer](https://stackoverflow.com/questions/72610494/what-is-the-difference-between-git-lfs-fetch-git-lfs-fetch-all-and-git).
+
 #### Resolving ICU4C dependancy
 
 Before building this project, you must have a distribution of ICU4C available. The path to the ICU distribution must be

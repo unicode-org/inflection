@@ -91,7 +91,7 @@ sudo apt install git-lfs
 git lfs install
 ```
 
-For more details and troubleshooting refer to this [answer](https://stackoverflow.com/questions/72610494/what-is-the-difference-between-git-lfs-fetch-git-lfs-fetch-all-and-git).
+For more details and troubleshooting refer to this [guide](https://git-lfs.com/).
 
 #### Resolving ICU4C dependancy
 

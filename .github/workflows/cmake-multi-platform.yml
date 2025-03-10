@@ -26,12 +26,16 @@ jobs:
       #
       # To add more build types (Release, Debug, RelWithDebInfo, etc.) customize the build_type list.
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, macos-latest]
         build_type: [Release]
         c_compiler: [clang]
         # All [OS x compiler] items should be covered in include/exclude sections.
         include:
           - os: ubuntu-latest
+            c_compiler: clang
+            cpp_compiler: clang++
+
+          - os: macos-latest
             c_compiler: clang
             cpp_compiler: clang++
 
@@ -47,6 +51,17 @@ jobs:
       run: |
         echo "project-root-dir=${{ github.workspace }}/inflection" >> "$GITHUB_OUTPUT"
         echo "build-output-dir=${{ github.workspace }}/inflection/build" >> "$GITHUB_OUTPUT"
+  
+      # Install all the required dependencies for the macos
+    - name: Install ICU (Ubuntu/macos)
+      run: |
+        if [[ "${{ matrix.os }}" == "ubuntu-latest" ]]; then
+          sudo apt-get update && sudo apt-get install -y libicu-dev icu-devtools
+          echo "ICU_ROOT=/usr" >> $GITHUB_ENV
+        elif [[ "${{ matrix.os }}" == "macos-latest" ]]; then
+            brew list icu4c || brew install icu4c
+            echo "ICU_ROOT=$(brew --prefix icu4c)" >> $GITHUB_ENV
+        fi
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.

@@ -34,6 +34,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import static org.unicode.wikidata.Grammar.Gender;
 import static org.unicode.wikidata.Grammar.Ignorable;
 import static org.unicode.wikidata.Grammar.PartOfSpeech;
 import static org.unicode.wikidata.Grammar.Sound;
@@ -48,7 +49,8 @@ public final class ParseWikidata {
     static final Set<String> PROPERTIES_WITH_GRAMMEMES = new TreeSet<>(List.of(
             "P31", // instance of. Sometimes phrase information is here.
             "P1552", // has characteristic for animacy
-            "P5185" // grammatical gender
+            "P5185", // grammatical gender
+            "P11054" // grammatical number
     ));
     static final Set<String> IMPORTANT_PROPERTIES = new TreeSet<>(PROPERTIES_WITH_GRAMMEMES);
 
@@ -147,6 +149,7 @@ public final class ParseWikidata {
                 continue;
             }
             lemma.grammemes.remove(Ignorable.IGNORABLE_PROPERTY);
+            removeConflicts(lemma.grammemes, Gender.class);
             for (var form : lexeme.forms) {
                 Inflection currentInflection = null;
                 var representation = form.representations.get(currentLemmaLanguage);
@@ -208,6 +211,33 @@ public final class ParseWikidata {
                 return;
             }
             analyzeLemma(lemma);
+        }
+    }
+
+    /**
+     * When there are multiple genders at the lemma level, it's a ranking system instead of applying to all forms.
+     * Such data is useless. So we should ignore it.
+     * When there are multiple genders at the form level, the same form is valid for all specified genders.
+     */
+    private void removeConflicts(TreeSet<Enum<?>> grammemes, Class<?> grammemeType) {
+        if (grammemes.size() > 1) {
+            var iter = grammemes.iterator();
+            int count = 0;
+            while (iter.hasNext()) {
+                var grammeme = iter.next();
+                if (grammemeType.isInstance(grammeme)) {
+                    count++;
+                }
+            }
+            if (count > 1) {
+                iter = grammemes.iterator();
+                while (iter.hasNext()) {
+                    var grammeme = iter.next();
+                    if (grammemeType.isInstance(grammeme)) {
+                        iter.remove();
+                    }
+                }
+            }
         }
     }
 

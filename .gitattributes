@@ -1,2 +1,0 @@
-inflection/resources/org/unicode/inflection/dictionary/dictionary_sv.lst filter=lfs diff=lfs merge=lfs -text
-inflection/resources/org/unicode/inflection/dictionary/inflectional_sv.xml filter=lfs diff=lfs merge=lfs -text

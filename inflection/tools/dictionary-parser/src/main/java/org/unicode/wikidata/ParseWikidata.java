@@ -34,8 +34,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.HashMap;
 import java.util.TreeSet;
-// import javafx.util.Pair;
-
+import java.util.AbstractMap.SimpleEntry;
 import static org.unicode.wikidata.Grammar.Gender;
 import static org.unicode.wikidata.Grammar.Ignorable;
 import static org.unicode.wikidata.Grammar.PartOfSpeech;
@@ -47,24 +46,6 @@ import static org.unicode.wikidata.Grammar.Sound;
  */
 
 public final class ParseWikidata {
-    static final class Pair<K, V> {
-        private final K key;
-        private final V value;
-
-        public Pair(K key, V value) {
-            this.key = key;
-            this.value = value;
-        }
-
-        public K getKey() {
-            return key;
-        }
-
-        public V getValue() {
-            return value;
-        }
-    }
-
     static final Set<String> PROPERTIES_WITH_PRONUNCIATION = new TreeSet<>(List.of(
             "P898" // IPA transcription
     ));
@@ -104,8 +85,8 @@ public final class ParseWikidata {
     private final TreeSet<String> rareLemmas = new TreeSet<>();
     private final TreeSet<String> omitLemmas = new TreeSet<>();
     private final Map<String, List<String>> mergeMap = new HashMap<>();
-    private final TreeSet<String> differ = new TreeSet<>();
-    private final Map<String, Pair<Lexeme, Integer>> lexemeMap = new HashMap<>();
+    private final TreeSet<String> defferedLexemes = new TreeSet<>();
+    private final Map<String, SimpleEntry<Lexeme, Integer>> lexemeMap = new HashMap<>();
 
     ParseWikidata(ParserOptions parserOptions) {
         this.parserOptions = parserOptions;
@@ -118,24 +99,24 @@ public final class ParseWikidata {
                 for (var entry : rareLemmasProperties.entrySet()) {
                     String key = entry.getKey().toString();
                     String value = entry.getValue().toString();
-                    if ("rare".equals(value)) {
-                        rareLemmas.add(key);
-                    } else if ("omit".equals(value)) {
-                        omitLemmas.add(key);
-                    } else if (value.startsWith("L")) {
-                        if (mergeMap.containsKey(key)) {
-                            mergeMap.get(key).add(value);
-                        } else {
-                            List<String> list = new ArrayList<>();
-                            list.add(value);
-                            mergeMap.put(key, list);
-                        }
-                        differ.add(key);
-                        differ.add(value);
+                    if (value.matches("L[0-9]+")) {
+                        mergeMap.computeIfAbsent(key, v -> new ArrayList<>()).add(value);
+                        defferedLexemes.add(key);
+                        defferedLexemes.add(value);
                     } else {
-                        throw new IllegalArgumentException(key + ": Unknown key value " + value);
+                        switch (value) {
+                            case "rare": { 
+                                rareLemmas.add(key);
+                                break;
+                            }
+                            case "omit": {
+                                 omitLemmas.add(key); break;
+                            }
+                            default: {
+                                throw new IllegalArgumentException(key + ": Unknown key value " + value);
+                            }
+                        }
                     }
-
                 }
             } catch (IOException e) {
                 // else oh well. It doesn't matter.
@@ -150,9 +131,9 @@ public final class ParseWikidata {
             // We really don't want this junk.
             return;
         }
-        if (differ.contains(lexeme.id)) {
-            differ.remove(lexeme.id);
-            lexemeMap.put(lexeme.id, new Pair<>(lexeme, lineNumber));
+        if (defferedLexemes.contains(lexeme.id)) {
+            defferedLexemes.remove(lexeme.id);
+            lexemeMap.put(lexeme.id, new SimpleEntry<>(lexeme, lineNumber));
             return;
         }
         Lemma lemma = new Lemma();
@@ -264,36 +245,39 @@ public final class ParseWikidata {
             analyzeLemma(lemma);
         }
     }
-
+    private void moveLexemeClaimsToForms(Lexeme lexeme) {
+         for(LexemeForm form : lexeme.forms){
+            for (Map.Entry<String, List<String>> entry : lexeme.claims.entrySet()) {
+                String key = entry.getKey();
+                if (!key.equals("PartOfSpeech")) {
+                    if (form.claims == null) {
+                        form.claims = new HashMap<>();
+                    }
+                    form.claims.computeIfAbsent(key, k -> new ArrayList<>()).addAll(entry.getValue());
+                }
+            }
+         }
+    }
     private Lexeme mergeLexemes(Lexeme lexeme1, Lexeme lexeme2) {
+        moveLexemeClaimsToForms(lexeme2);
         // Combine forms
-
         lexeme1.forms.addAll(lexeme2.forms);
-
-        for (Map.Entry<String, List<String>> entry : lexeme2.claims.entrySet()) {
-            lexeme1.claims.merge(entry.getKey(), entry.getValue(), (v1, v2) -> {
-                v1.addAll(v2);
-                return v1;
-            });
-        }
         return lexeme1;
     }
-
     // Method to process and merge lexemes
     private void processAndMergeLexemes() {
         for (Map.Entry<String, List<String>> entry : mergeMap.entrySet()) {
-            String key = entry.getKey();
-            List<String> value = entry.getValue();
-            value.add(0, key);
-            if (value.isEmpty())
-                return;
-            Lexeme mergedLexeme = lexemeMap.get(value.get(0)).getKey();
-            for (int i = 1; i < value.size(); i++) {
-                mergedLexeme = mergeLexemes(mergedLexeme, lexemeMap.get(value.get(i)).getKey());
+            SimpleEntry<Lexeme, Integer> pair = lexemeMap.computeIfAbsent(entry.getKey(), key -> {
+                throw new IllegalArgumentException(key + ": id not found");
+            });
+            Lexeme mergedLexeme = pair.getKey();
+            int lineNumber = pair.getValue();
+            for (var value : entry.getValue()) {
+                mergeLexemes(mergedLexeme, lexemeMap.computeIfAbsent(value, key -> {
+                    throw new IllegalArgumentException(key + ": id not found");
+                }).getKey());
             }
-            analyzeLexeme(lexemeMap.get(mergedLexeme.id).getValue(), mergedLexeme);
-            System.out.println(lexemeMap.get(mergedLexeme.id).getValue());
-            System.out.println(mergedLexeme.id);
+            analyzeLexeme(lineNumber, mergedLexeme);
         }
     }
 

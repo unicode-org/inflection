@@ -32,16 +32,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.HashMap;
 import java.util.TreeSet;
-
+import java.util.Arrays;
+import java.util.AbstractMap.SimpleEntry;
 import static org.unicode.wikidata.Grammar.Gender;
 import static org.unicode.wikidata.Grammar.Ignorable;
 import static org.unicode.wikidata.Grammar.PartOfSpeech;
 import static org.unicode.wikidata.Grammar.Sound;
 
 /**
- * @see <a href="https://dumps.wikimedia.org/wikidatawiki/entities/">https://dumps.wikimedia.org/wikidatawiki/entities/</a>
+ * @see <a href=
+ *      "https://dumps.wikimedia.org/wikidatawiki/entities/">https://dumps.wikimedia.org/wikidatawiki/entities/</a>
  */
+
 public final class ParseWikidata {
     static final Set<String> PROPERTIES_WITH_PRONUNCIATION = new TreeSet<>(List.of(
             "P898" // IPA transcription
@@ -72,33 +76,51 @@ public final class ParseWikidata {
             grammemes.clear();
             inflections.clear();
         }
-        private Lemma() {}
+
+        private Lemma() {
+        }
     }
 
     private final ParserOptions parserOptions;
     private final DocumentState documentState = new DocumentState();
     private final TreeSet<String> rareLemmas = new TreeSet<>();
     private final TreeSet<String> omitLemmas = new TreeSet<>();
+    private final Map<String, List<String>> mergeMap = new HashMap<>();
+    private final TreeSet<String> deferredLexemes = new TreeSet<>();
+    private final Map<String, SimpleEntry<Lexeme, Integer>> lexemeMap = new HashMap<>();
 
-    ParseWikidata(ParserOptions parserOptions)
-    {
+    ParseWikidata(ParserOptions parserOptions) {
         this.parserOptions = parserOptions;
         for (var language : parserOptions.locales) {
             Properties rareLemmasProperties = new Properties();
-            String filePath = Paths.get(ParserDefaults.RESOURCES_DIR + "filter_" + language + ".properties").toAbsolutePath().toString();
+            String filePath = Paths.get(ParserDefaults.RESOURCES_DIR + "filter_" + language + ".properties")
+                    .toAbsolutePath().toString();
             try (var propertiesStream = new InputStreamReader(new FileInputStream(filePath), StandardCharsets.UTF_8)) {
                 rareLemmasProperties.load(propertiesStream);
                 for (var entry : rareLemmasProperties.entrySet()) {
                     String key = entry.getKey().toString();
                     String value = entry.getValue().toString();
-                    switch (value) {
-                        case "rare" : rareLemmas.add(key); break;
-                        case "omit" : omitLemmas.add(key); break;
-                        default: throw new IllegalArgumentException(key + ": Unknown key value " + value);
+                    if (value.matches("L[0-9]+")) {
+                        var values = Arrays.asList(value.split(","));
+                        mergeMap.computeIfAbsent(key, v -> new ArrayList<>()).addAll(values);
+                        deferredLexemes.add(key);
+                        deferredLexemes.addAll(values);
+                    } else {
+                        switch (value) {
+                            case "rare": {
+                                rareLemmas.add(key);
+                                break;
+                            }
+                            case "omit": {
+                                 omitLemmas.add(key); break;
+                            }
+                            default: {
+                                throw new IllegalArgumentException(key + ": Unknown key value " + value);
+                            }
+                        }
                     }
                 }
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 // else oh well. It doesn't matter.
             }
         }
@@ -109,6 +131,11 @@ public final class ParseWikidata {
     private void analyzeLexeme(int lineNumber, Lexeme lexeme) {
         if (omitLemmas.contains(lexeme.id)) {
             // We really don't want this junk.
+            return;
+        }
+        if (deferredLexemes.contains(lexeme.id)) {
+            deferredLexemes.remove(lexeme.id);
+            lexemeMap.put(lexeme.id, new SimpleEntry<>(lexeme, lineNumber));
             return;
         }
         Lemma lemma = new Lemma();
@@ -122,7 +149,8 @@ public final class ParseWikidata {
             if (partOfSpeechSet == null) {
                 partOfSpeechSet = Grammar.getMappedGrammemes(lexeme.lexicalCategory);
                 if (partOfSpeechSet == null) {
-                    throw new IllegalArgumentException(lexeme.lexicalCategory + " is not a known part of speech grammeme for " + lexeme.id + "(" + lemma.value + ")");
+                    throw new IllegalArgumentException(lexeme.lexicalCategory
+                            + " is not a known part of speech grammeme for " + lexeme.id + "(" + lemma.value + ")");
                 }
             }
             lemma.grammemes.addAll(partOfSpeechSet);
@@ -134,7 +162,9 @@ public final class ParseWikidata {
                 var variant = Grammar.getMappedGrammemes(additionalCategory);
                 if (variant == null) {
                     if (parserOptions.debug) {
-                        System.err.println("Line " + lineNumber + ": " + additionalCategory + " is not a known grammeme for the language variant " + lexeme.id + "(" + lemma.value + ")");
+                        System.err.println("Line " + lineNumber + ": " + additionalCategory
+                                + " is not a known grammeme for the language variant " + lexeme.id + "(" + lemma.value
+                                + ")");
                     }
                     continue;
                 }
@@ -144,7 +174,8 @@ public final class ParseWikidata {
                 lemma.grammemes.add(Grammar.Usage.RARE);
             }
             extractImportantProperties(lexeme.claims, lemma.grammemes, lexeme.id, lemma.value);
-            if (lemma.grammemes.contains(Ignorable.IGNORABLE_LEMMA) || lemma.grammemes.contains(Ignorable.IGNORABLE_INFLECTION)) {
+            if (lemma.grammemes.contains(Ignorable.IGNORABLE_LEMMA)
+                    || lemma.grammemes.contains(Ignorable.IGNORABLE_INFLECTION)) {
                 documentState.unusableLemmaCount++;
                 continue;
             }
@@ -155,8 +186,7 @@ public final class ParseWikidata {
                 var representation = form.representations.get(currentLemmaLanguage);
                 if (representation != null) {
                     currentInflection = new Inflection(representation.value);
-                }
-                else {
+                } else {
                     // Couldn't find an exact match. Go to a generic match.
                     for (var rep : form.representations.entrySet()) {
                         if (isContained(currentLemmaLanguage, lemmaEntry.getKey())) {
@@ -184,17 +214,21 @@ public final class ParseWikidata {
                     currentInflection.grammemeSet.remove(Grammar.Usage.RARE);
                 }
                 currentInflection.grammemeSet.remove(Ignorable.IGNORABLE_PROPERTY);
-                var grammemeExpansion = parserOptions.expandGramemes != null ? parserOptions.expandGramemes.get(currentInflection.grammemeSet) : null;
-                if (parserOptions.addSound && form.claims != null && !form.claims.isEmpty() && currentInflection.inflection.charAt(0) == lemma.value.charAt(0)) {
-                    // We have potential data, and the words aren't mixed together. So this is probably accurate.
+                var grammemeExpansion = parserOptions.expandGramemes != null
+                        ? parserOptions.expandGramemes.get(currentInflection.grammemeSet)
+                        : null;
+                if (parserOptions.addSound && form.claims != null && !form.claims.isEmpty()
+                        && currentInflection.inflection.charAt(0) == lemma.value.charAt(0)) {
+                    // We have potential data, and the words aren't mixed together. So this is
+                    // probably accurate.
                     addSound(form.claims, currentInflection.grammemeSet, lexeme.id, lemma.value);
                 }
                 if (grammemeExpansion == null) {
                     lemma.inflections.add(currentInflection);
-                }
-                else {
+                } else {
                     for (var grammemeSet : grammemeExpansion) {
-                        var expandedInflection = new Inflection(currentInflection.inflection, currentInflection.rareUsage);
+                        var expandedInflection = new Inflection(currentInflection.inflection,
+                                currentInflection.rareUsage);
                         expandedInflection.grammemeSet.addAll(currentInflection.grammemeSet);
                         expandedInflection.grammemeSet.addAll(grammemeSet);
                         lemma.inflections.add(expandedInflection);
@@ -213,11 +247,46 @@ public final class ParseWikidata {
             analyzeLemma(lemma);
         }
     }
+    private void moveLexemeClaimsToForms(Lexeme lexeme) {
+         for (LexemeForm form : lexeme.forms) {
+            for (Map.Entry<String, List<String>> entry : lexeme.claims.entrySet()) {
+                String key = entry.getKey();
+                if (form.claims == null) {
+                        form.claims = new HashMap<>();
+                }
+                form.claims.computeIfAbsent(key, k -> new ArrayList<>()).addAll(entry.getValue());
+            }
+         }
+         lexeme.claims.clear();
+    }
+    private Lexeme mergeLexemes(Lexeme lexeme1, Lexeme lexeme2) {
+        moveLexemeClaimsToForms(lexeme2);
+        lexeme1.forms.addAll(lexeme2.forms); // Combine forms
+        return lexeme1;
+    }
+    // Method to process and merge lexemes
+    private void processAndMergeLexemes() {
+        for (Map.Entry<String, List<String>> entry : mergeMap.entrySet()) {
+            SimpleEntry<Lexeme, Integer> pair = lexemeMap.computeIfAbsent(entry.getKey(), key -> {
+                throw new IllegalArgumentException(key + ": id not found");
+            });
+            Lexeme mergedLexeme = pair.getKey();
+            int lineNumber = pair.getValue();
+            for (var value : entry.getValue()) {
+                mergeLexemes(mergedLexeme, lexemeMap.computeIfAbsent(value, key -> {
+                    throw new IllegalArgumentException(key + ": id not found");
+                }).getKey());
+            }
+            analyzeLexeme(lineNumber, mergedLexeme);
+        }
+    }
 
     /**
-     * When there are multiple genders at the lemma level, it's a ranking system instead of applying to all forms.
+     * When there are multiple genders at the lemma level, it's a ranking system
+     * instead of applying to all forms.
      * Such data is useless. So we should ignore it.
-     * When there are multiple genders at the form level, the same form is valid for all specified genders.
+     * When there are multiple genders at the form level, the same form is valid for
+     * all specified genders.
      */
     private void removeConflicts(TreeSet<Enum<?>> grammemes, Class<?> grammemeType) {
         if (grammemes.size() > 1) {
@@ -252,7 +321,8 @@ public final class ParseWikidata {
         extractImportantProperties(form.claims, currentInflection.grammemeSet, id, lemma);
     }
 
-    private void extractImportantProperties(Map<String, List<String>> claims, TreeSet<Enum<?>> grammemes, String id, String lemma) {
+    private void extractImportantProperties(Map<String, List<String>> claims, TreeSet<Enum<?>> grammemes, String id,
+            String lemma) {
         if (claims == null || claims.isEmpty()) {
             return;
         }
@@ -263,10 +333,11 @@ public final class ParseWikidata {
                     var grammemeEnum = Grammar.getMappedGrammemes(grammemeStr);
                     if (grammemeEnum != null) {
                         grammemes.addAll(grammemeEnum);
-                    }
-                    else if (parserOptions.debug) {
-                        // Most of this is irrelevant non-grammatical information, like that it's a trademark, or a study of something,
-                        // but sometimes it contains grammemes that apply to all words, like grammatical gender.
+                    } else if (parserOptions.debug) {
+                        // Most of this is irrelevant non-grammatical information, like that it's a
+                        // trademark, or a study of something,
+                        // but sometimes it contains grammemes that apply to all words, like grammatical
+                        // gender.
                         System.err.println(grammemeStr + " is not a known grammeme for " + id + "(" + lemma + ")");
                     }
                 }
@@ -300,7 +371,8 @@ public final class ParseWikidata {
             boolean invalid = false;
             for (var inflection_inner : inflections) {
                 var inflectionInnerStr = inflection_inner.getInflection();
-                if (inflectionInnerStr.endsWith(suffix) && ((inflectionInnerStr.length() - suffix.length()) < stemLength)) {
+                if (inflectionInnerStr.endsWith(suffix)
+                        && ((inflectionInnerStr.length() - suffix.length()) < stemLength)) {
                     invalid = true;
                     break;
                 }
@@ -312,8 +384,9 @@ public final class ParseWikidata {
         return true;
     }
 
-    //Provided lemma and all it's surface forms, return the length of the longest common prefix among them
-    private static int getStemLength(String lemma, @Nonnull List<Inflection> inflections){
+    // Provided lemma and all it's surface forms, return the length of the longest
+    // common prefix among them
+    private static int getStemLength(String lemma, @Nonnull List<Inflection> inflections) {
         String[] stringList = new String[inflections.size() + 1];
         for (int i = 0; i < inflections.size(); i++) {
             stringList[i] = inflections.get(i).getInflection();
@@ -342,11 +415,13 @@ public final class ParseWikidata {
             suffix.addGrammemes(inflection.getGrammemeSet());
             // This check prevents us from including functionally redundant data.
             if (!inflection.rareUsage || !suffixes.containsKey(suffix)) {
-                // Either it's new, or we're replacing a rare inflection with a non-rare inflection.
+                // Either it's new, or we're replacing a rare inflection with a non-rare
+                // inflection.
                 suffixes.put(suffix, suffix);
             }
             // else it's a rare usage, and it's already included.
-            // If it's already not rare, then there is no need to add the same inflection as rare.
+            // If it's already not rare, then there is no need to add the same inflection as
+            // rare.
             // This hints at bad data not being consistent on the rarity.
         }
         // Now we resort them with the rare ones last.
@@ -357,8 +432,9 @@ public final class ParseWikidata {
         return result;
     }
 
-    //Check whether the surface forms to be inflected or not
-    private static boolean containsImportant(@Nonnull List<Inflection> inflections, EnumSet<PartOfSpeech> posToBeInflected) {
+    // Check whether the surface forms to be inflected or not
+    private static boolean containsImportant(@Nonnull List<Inflection> inflections,
+            EnumSet<PartOfSpeech> posToBeInflected) {
         for (Inflection inflection : inflections) {
             if (!Collections.disjoint(posToBeInflected, inflection.getGrammemeSet())) {
                 return true;
@@ -367,17 +443,18 @@ public final class ParseWikidata {
         return false;
     }
 
-    //Given lemma suffix and surface form suffixes, return either an existing inflection pattern or return a new one while adding to the existing inflection patterns
+    // Given lemma suffix and surface form suffixes, return either an existing
+    // inflection pattern or return a new one while adding to the existing
+    // inflection patterns
     private InflectionPattern getInflectionPattern(Lemma lemma, String lemmaSuffix,
-                                                   List<Inflection> suffixes) {
+            List<Inflection> suffixes) {
         TreeSet<Enum<?>> newGrammemeList = new TreeSet<>(lemma.grammemes);
 
         InflectionPattern inflectionPattern = new InflectionPattern(
                 documentState.inflectionPatterns.size() + 1,
                 lemmaSuffix,
                 newGrammemeList,
-                suffixes
-        );
+                suffixes);
 
         int idx = documentState.inflectionPatterns.indexOf(inflectionPattern);
 
@@ -403,7 +480,7 @@ public final class ParseWikidata {
         if (!inflections.isEmpty()) {
             ArrayList<Inflection> nonEmptyInflections = new ArrayList<>();
             // Adding lemma grammemes to all inflections
-            for (int i = 0; i < inflections.size() ; i++) {
+            for (int i = 0; i < inflections.size(); i++) {
                 var inflection = inflections.get(i);
                 var inflectionGrammemes = inflection.getGrammemeSet();
                 if (!inflectionGrammemes.isEmpty() && !InflectionPattern.isIgnorableGrammemeSet(inflectionGrammemes)) {
@@ -412,9 +489,10 @@ public final class ParseWikidata {
                 }
                 inflectionGrammemes.addAll(lemma.grammemes);
             }
-            // If all inflections are empty then add all significant inflections to the pattern
+            // If all inflections are empty then add all significant inflections to the
+            // pattern
             if (nonEmptyInflectionIndices.isEmpty()) {
-                for (int i = 0; i < inflections.size() ; i++) {
+                for (int i = 0; i < inflections.size(); i++) {
                     var inflection = inflections.get(i);
                     if (!InflectionPattern.isIgnorableGrammemeSet(inflection.getGrammemeSet())) {
                         nonEmptyInflections.add(inflection);
@@ -428,16 +506,18 @@ public final class ParseWikidata {
                 List<Inflection> suffixes = generateSuffixes(stemLength, nonEmptyInflections);
                 inflectionPattern = getInflectionPattern(lemma,
                         lemma.value.substring(stemLength),
-                        suffixes
-                );
+                        suffixes);
             }
-            // else ignore this unimportant inflection pattern. This is usually trimmed for size.
+            // else ignore this unimportant inflection pattern. This is usually trimmed for
+            // size.
         }
-        for (int i = 0; i < inflections.size() ; i++) {
+        for (int i = 0; i < inflections.size(); i++) {
             var inflection = inflections.get(i);
             String phrase = inflection.getInflection();
-            InflectionPattern inflectionPatternForDict = nonEmptyInflectionIndices.contains(i) ? inflectionPattern : null;
-            documentState.addDictionaryEntry(new DictionaryEntry(phrase, phrase, lemma.isRare, inflection.getGrammemeSet(), inflectionPatternForDict));
+            InflectionPattern inflectionPatternForDict = nonEmptyInflectionIndices.contains(i) ? inflectionPattern
+                    : null;
+            documentState.addDictionaryEntry(new DictionaryEntry(phrase, phrase, lemma.isRare,
+                    inflection.getGrammemeSet(), inflectionPatternForDict));
         }
     }
 
@@ -457,7 +537,7 @@ public final class ParseWikidata {
                 for (List<Enum<?>> list : results) {
                     list.add(grammeme);
                 }
-            }else {
+            } else {
                 newResults.clear();
                 for (List<Enum<?>> list : results) {
                     ArrayList<Enum<?>> newList = new ArrayList<>(grammemeSet.size());
@@ -482,15 +562,15 @@ public final class ParseWikidata {
             Enum<?> value = Grammar.DEFAULTMAP.get(grammeme);
             if (value == null) {
                 throw new NullPointerException(grammeme + " is not a known grammeme");
-            }
-            else if (!value.equals(Ignorable.IGNORABLE_PROPERTY)) {
+            } else if (!value.equals(Ignorable.IGNORABLE_PROPERTY)) {
                 grammemes.add(value);
             }
         }
     }
 
     private void mergeAdditionalGrammemes() {
-        // Add any entries that are missing. The actual properties will be added elsewhere.
+        // Add any entries that are missing. The actual properties will be added
+        // elsewhere.
         TreeSet<Enum<?>> grammemes = new TreeSet<>(EnumComparator.ENUM_COMPARATOR);
         for (var entry : parserOptions.additionalGrammemesDict.entrySet()) {
             grammemes.clear();
@@ -546,8 +626,10 @@ public final class ParseWikidata {
         var lexParser = new ParseWikidata(parserOptions);
         LexemesJsonDeserializer.setLanguage(parserOptions.locales);
 
-        // We create InputSource directly due to an occasional bugs with UTF-8 files being interpreted as malformed UTF-8.
-        // We use a large buffer because we're reading a large file, and we're frequently reading file data.
+        // We create InputSource directly due to an occasional bugs with UTF-8 files
+        // being interpreted as malformed UTF-8.
+        // We use a large buffer because we're reading a large file, and we're
+        // frequently reading file data.
         for (String sourceFilename : parserOptions.sourceFilenames) {
             try (InputStream fileInputStream = new FileInputStream(sourceFilename)) {
                 InputStream inputStream = fileInputStream;
@@ -567,10 +649,11 @@ public final class ParseWikidata {
                                 lexParser.analyzeLexeme(parser.currentLocation().getLineNr(), lexeme);
                             } catch (IllegalArgumentException e) {
                                 lexParser.documentState.unusableLemmaCount++;
-                                System.err.println("Line " + parser.currentLocation().getLineNr() + ": " + e.getMessage());
+                                System.err.println(
+                                        "Line " + parser.currentLocation().getLineNr() + ": " + e.getMessage());
                             }
-                        }
-                        while (parser.nextToken() != JsonToken.END_ARRAY);
+                        } while (parser.nextToken() != JsonToken.END_ARRAY);
+                        lexParser.processAndMergeLexemes();
                     }
                 }
             }
@@ -586,4 +669,3 @@ public final class ParseWikidata {
         }
     }
 }
-

@@ -257,9 +257,7 @@ public final class ParseWikidata {
                 form.claims.computeIfAbsent(key, k -> new ArrayList<>()).addAll(entry.getValue());
             }
          }
-         if (lexeme.claims != null) {
-            lexeme.claims.clear();
-         }
+         lexeme.claims.clear();
     }
     private Lexeme mergeLexemes(Lexeme lexeme1, Lexeme lexeme2) {
         moveLexemeClaimsToForms(lexeme2);

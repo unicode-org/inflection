@@ -34,6 +34,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.HashMap;
 import java.util.TreeSet;
+import java.util.Arrays;
 import java.util.AbstractMap.SimpleEntry;
 import static org.unicode.wikidata.Grammar.Gender;
 import static org.unicode.wikidata.Grammar.Ignorable;
@@ -100,12 +101,13 @@ public final class ParseWikidata {
                     String key = entry.getKey().toString();
                     String value = entry.getValue().toString();
                     if (value.matches("L[0-9]+")) {
-                        mergeMap.computeIfAbsent(key, v -> new ArrayList<>()).add(value);
+                        var values = Arrays.asList(value.split(","));
+                        mergeMap.computeIfAbsent(key, v -> new ArrayList<>()).addAll(values);
                         deferredLexemes.add(key);
-                        deferredLexemes.add(value);
+                        deferredLexemes.addAll(values);
                     } else {
                         switch (value) {
-                            case "rare": { 
+                            case "rare": {
                                 rareLemmas.add(key);
                                 break;
                             }
@@ -261,8 +263,7 @@ public final class ParseWikidata {
     }
     private Lexeme mergeLexemes(Lexeme lexeme1, Lexeme lexeme2) {
         moveLexemeClaimsToForms(lexeme2);
-        // Combine forms
-        lexeme1.forms.addAll(lexeme2.forms);
+        lexeme1.forms.addAll(lexeme2.forms); // Combine forms
         return lexeme1;
     }
     // Method to process and merge lexemes

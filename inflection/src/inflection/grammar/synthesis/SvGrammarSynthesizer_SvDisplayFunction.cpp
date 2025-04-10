@@ -134,7 +134,7 @@ SvGrammarSynthesizer_SvDisplayFunction::~SvGrammarSynthesizer_SvDisplayFunction(
     ::std::u16string definitenessString(GrammarSynthesizerUtil::getFeatureValue(constraints, &definitenessFeature));
     ::std::u16string caseString(GrammarSynthesizerUtil::getFeatureValue(constraints, &caseFeature));
     auto genderString = GrammarSynthesizerUtil::getFeatureValue(constraints, &genderFeature);
-    if (genderString.empty()) {
+    if (genderString.empty() && GrammemeConstants::NUMBER_SINGULAR() == countString) {
         genderString = genderLookupFunction.determine(headDisplayString);
     }
     auto inflectionType = dictionary.getPropertyValues(attributeDisplayString, u"inflection");

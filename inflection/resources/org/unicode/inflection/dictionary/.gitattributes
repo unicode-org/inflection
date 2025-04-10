@@ -4,3 +4,5 @@ dictionary_es.lst filter=lfs diff=lfs merge=lfs -text
 inflectional_da.xml filter=lfs diff=lfs merge=lfs -text
 inflectional_en.xml filter=lfs diff=lfs merge=lfs -text
 inflectional_es.xml filter=lfs diff=lfs merge=lfs -text
+inflectional_sv.xml filter=lfs diff=lfs merge=lfs -text
+dictionary_sv.lst filter=lfs diff=lfs merge=lfs -text

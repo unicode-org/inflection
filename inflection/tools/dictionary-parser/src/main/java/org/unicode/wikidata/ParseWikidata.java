@@ -85,7 +85,7 @@ public final class ParseWikidata {
     private final TreeSet<String> rareLemmas = new TreeSet<>();
     private final TreeSet<String> omitLemmas = new TreeSet<>();
     private final Map<String, List<String>> mergeMap = new HashMap<>();
-    private final TreeSet<String> defferedLexemes = new TreeSet<>();
+    private final TreeSet<String> deferredLexemes = new TreeSet<>();
     private final Map<String, SimpleEntry<Lexeme, Integer>> lexemeMap = new HashMap<>();
 
     ParseWikidata(ParserOptions parserOptions) {
@@ -101,8 +101,8 @@ public final class ParseWikidata {
                     String value = entry.getValue().toString();
                     if (value.matches("L[0-9]+")) {
                         mergeMap.computeIfAbsent(key, v -> new ArrayList<>()).add(value);
-                        defferedLexemes.add(key);
-                        defferedLexemes.add(value);
+                        deferredLexemes.add(key);
+                        deferredLexemes.add(value);
                     } else {
                         switch (value) {
                             case "rare": { 
@@ -131,8 +131,8 @@ public final class ParseWikidata {
             // We really don't want this junk.
             return;
         }
-        if (defferedLexemes.contains(lexeme.id)) {
-            defferedLexemes.remove(lexeme.id);
+        if (deferredLexemes.contains(lexeme.id)) {
+            deferredLexemes.remove(lexeme.id);
             lexemeMap.put(lexeme.id, new SimpleEntry<>(lexeme, lineNumber));
             return;
         }
@@ -246,16 +246,17 @@ public final class ParseWikidata {
         }
     }
     private void moveLexemeClaimsToForms(Lexeme lexeme) {
-         for(LexemeForm form : lexeme.forms){
+         for (LexemeForm form : lexeme.forms) {
             for (Map.Entry<String, List<String>> entry : lexeme.claims.entrySet()) {
                 String key = entry.getKey();
-                if (!key.equals("PartOfSpeech")) {
-                    if (form.claims == null) {
+                if (form.claims == null) {
                         form.claims = new HashMap<>();
-                    }
-                    form.claims.computeIfAbsent(key, k -> new ArrayList<>()).addAll(entry.getValue());
                 }
+                form.claims.computeIfAbsent(key, k -> new ArrayList<>()).addAll(entry.getValue());
             }
+         }
+         if (lexeme.claims != null) {
+            lexeme.claims.clear();
          }
     }
     private Lexeme mergeLexemes(Lexeme lexeme1, Lexeme lexeme2) {

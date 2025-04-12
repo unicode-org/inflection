@@ -17,7 +17,6 @@
 #include <inflection/tokenizer/TokenizerFactory.hpp>
 #include <inflection/util/Validate.hpp>
 #include <inflection/util/LocaleUtils.hpp>
-#include <inflection/util/StringViewUtils.hpp>
 #include <inflection/npc.hpp>
 #include <memory>
 
@@ -35,6 +34,9 @@ namespace inflection::grammar::synthesis {
 FrGrammarSynthesizer_FrDisplayFunction::FrGrammarSynthesizer_FrDisplayFunction(const ::inflection::dialog::SemanticFeatureModel& model)
     : super()
     , dictionary(*npc(::inflection::dictionary::DictionaryMetaData::createDictionary(::inflection::util::LocaleUtils::FRENCH())))
+    , numberFeature(*npc(model.getFeature(GrammemeConstants::NUMBER)))
+    , genderFeature(*npc(model.getFeature(GrammemeConstants::GENDER)))
+    , partOfSpeechFeature(*npc(model.getFeature(GrammemeConstants::POS)))
     , definiteArticleLookupFunction(model, false, FrGrammarSynthesizer::ARTICLE_DEFINITE, *npc(java_cast<const FrGrammarSynthesizer_ArticleLookupFunction*>(model.getDefaultFeatureFunction(*npc(model.getFeature(FrGrammarSynthesizer::ARTICLE_DEFINITE))))))
     , indefiniteArticleLookupFunction(model, true, FrGrammarSynthesizer::ARTICLE_INDEFINITE, *npc(java_cast<const FrGrammarSynthesizer_ArticleLookupFunction*>(model.getDefaultFeatureFunction(*npc(model.getFeature(FrGrammarSynthesizer::ARTICLE_INDEFINITE))))))
     , definitenessDisplayFunction(model, &definiteArticleLookupFunction, FrGrammarSynthesizer::ARTICLE_DEFINITE, &indefiniteArticleLookupFunction, FrGrammarSynthesizer::ARTICLE_INDEFINITE)
@@ -51,9 +53,6 @@ FrGrammarSynthesizer_FrDisplayFunction::FrGrammarSynthesizer_FrDisplayFunction(c
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&articlePronounProperNounPrepositionProperties, {u"article", u"pronoun", u"proper-noun", u"preposition", u"adposition"}));
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&adverbProperty, {u"adverb"}));
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&verbProperty, {u"verb"}));
-    this->countFeature = model.getFeature(GrammemeConstants::NUMBER);
-    this->genderFeature = model.getFeature(GrammemeConstants::GENDER);
-    this->partOfSpeechFeature = model.getFeature(GrammemeConstants::POS);
 }
 
 FrGrammarSynthesizer_FrDisplayFunction::~FrGrammarSynthesizer_FrDisplayFunction()
@@ -78,7 +77,7 @@ bool FrGrammarSynthesizer_FrDisplayFunction::canBeInflectedToPlural(::std::u16st
             return false;
         }
         if ((wordProperties & verbProperty) != 0) {
-            return ::inflection::util::StringViewUtils::endsWith(word, u"é") || ::inflection::util::StringViewUtils::endsWith(word, u"ée");
+            return word.ends_with(u"é") || word.ends_with(u"ée");
         }
     }
     return true;
@@ -89,26 +88,26 @@ bool FrGrammarSynthesizer_FrDisplayFunction::canBeInflectedToPlural(::std::u16st
     if (!canBeInflectedToPlural(word)) {
         return word;
     }
-    if (::inflection::util::StringViewUtils::endsWith(word, u"s") || ::inflection::util::StringViewUtils::endsWith(word, u"x") || ::inflection::util::StringViewUtils::endsWith(word, u"z")) {
+    if (word.ends_with(u"s") || word.ends_with(u"x") || word.ends_with(u"z")) {
         return word;
     }
-    if (::inflection::util::StringViewUtils::endsWith(word, u"eau") || ::inflection::util::StringViewUtils::endsWith(word, u"eu")) {
+    if (word.ends_with(u"eau") || word.ends_with(u"eu")) {
         return word + u'x';
     }
-    if (::inflection::util::StringViewUtils::endsWith(word, u"al")) {
+    if (word.ends_with(u"al")) {
         return word.substr(0, word.length() - 2) + u"aux";
     }
-    if (::inflection::util::StringViewUtils::endsWith(word, u"ail")) {
+    if (word.ends_with(u"ail")) {
         return word.substr(0, word.length() - 3) + u"aux";
     }
     return word + u's';
 }
 
-::std::optional<::std::u16string> FrGrammarSynthesizer_FrDisplayFunction::inflectWord(::std::u16string_view word, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const
+::std::optional<::std::u16string> FrGrammarSynthesizer_FrDisplayFunction::inflectWord(::std::u16string_view word, int64_t wordGrammemes, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const
 {
-    const auto constraintsVec(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {countFeature, genderFeature}));
-    const auto dismbiguationGrammemeValues(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {partOfSpeechFeature}));
-    auto inflectionResult = dictionaryInflector.inflect(word, constraintsVec, dismbiguationGrammemeValues);
+    const auto constraintsVec(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {&numberFeature, &genderFeature}));
+    const auto dismbiguationGrammemeValues(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {&partOfSpeechFeature}));
+    auto inflectionResult = dictionaryInflector.inflect(word, wordGrammemes, constraintsVec, dismbiguationGrammemeValues);
     if (inflectionResult) {
         return *inflectionResult;
     }
@@ -118,7 +117,7 @@ bool FrGrammarSynthesizer_FrDisplayFunction::canBeInflectedToPlural(::std::u16st
 
     // Well, dictionary was not able to inflect it. So let's make a guess.
     ::std::u16string inflectedWord(word);
-    if (GrammarSynthesizerUtil::getFeatureValue(constraints, countFeature) == GrammemeConstants::NUMBER_PLURAL()) {
+    if (GrammarSynthesizerUtil::getFeatureValue(constraints, numberFeature) == GrammemeConstants::NUMBER_PLURAL()) {
         inflectedWord = guessPluralInflection(::std::u16string(word));
     }
     return inflectedWord;
@@ -134,7 +133,7 @@ bool FrGrammarSynthesizer_FrDisplayFunction::canBeInflectedToPlural(::std::u16st
             inflectedString += word;
             continue;
         }
-        if (WORDS_PREVENTING_INFLECTION.find(word) != WORDS_PREVENTING_INFLECTION.end()) {
+        if (WORDS_PREVENTING_INFLECTION.contains(word)) {
             preventNextWordFromInflecting = true;
             inflectedString += word;
             continue;
@@ -143,7 +142,10 @@ bool FrGrammarSynthesizer_FrDisplayFunction::canBeInflectedToPlural(::std::u16st
             preventNextWordFromInflecting = false;
             inflectedString += word;
         } else {
-            const auto &inflectionResult = inflectWord(word, constraints, enableInflectionGuess);
+            int64_t wordGrammemes = 0;
+            dictionary.getCombinedBinaryType(&wordGrammemes, word);
+
+            const auto &inflectionResult = inflectWord(word, wordGrammemes, constraints, enableInflectionGuess);
             auto inflectionValue = word;
             if (inflectionResult) {
                 inflectionValue = *inflectionResult;
@@ -154,6 +156,13 @@ bool FrGrammarSynthesizer_FrDisplayFunction::canBeInflectedToPlural(::std::u16st
         }
     }
     return inflectedString;
+}
+
+::inflection::tokenizer::TokenChain&
+FrGrammarSynthesizer_FrDisplayFunction::tokenize(::std::unique_ptr<::inflection::tokenizer::TokenChain>& tokenChain, const std::u16string& string) const
+{
+    tokenChain.reset(npc(npc(tokenizer.get())->createTokenChain(string)));
+    return *tokenChain;
 }
 
 ::inflection::dialog::DisplayValue * FrGrammarSynthesizer_FrDisplayFunction::getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const
@@ -168,12 +177,23 @@ bool FrGrammarSynthesizer_FrDisplayFunction::canBeInflectedToPlural(::std::u16st
     }
     auto displayValueConstraints(GrammarSynthesizerUtil::mergeConstraintsWithDisplayValue(*displayValue, constraints));
 
-    if (GrammarSynthesizerUtil::hasAnyFeatures(constraints, {countFeature, genderFeature})) {
-        ::std::unique_ptr<::inflection::tokenizer::TokenChain> tokenChain(npc(npc(tokenizer.get())->createTokenChain(displayString)));
-        const auto &inflectionResult = inflectCompoundWord(*npc(tokenChain.get()), constraints, enableInflectionGuess);
+    if (GrammarSynthesizerUtil::hasAnyFeatures(constraints, {&numberFeature, &genderFeature})) {
+        ::std::optional<::std::u16string> inflectionResult;
+        ::std::unique_ptr<::inflection::tokenizer::TokenChain> tokenChain;
+        int64_t wordGrammemes = 0;
+        if (dictionary.getCombinedBinaryType(&wordGrammemes, displayString) != nullptr
+            || tokenize(tokenChain, displayString).getWordCount() == 1)
+        {
+            // Either a known word, or a word to guess.
+            inflectionResult = inflectWord(displayString, wordGrammemes, constraints, enableInflectionGuess);
+        }
+        else {
+            inflectionResult = inflectCompoundWord(*npc(tokenChain.get()), constraints, enableInflectionGuess);
+        }
+
         if (inflectionResult) {
             displayString = *inflectionResult;
-        } else if (!enableInflectionGuess){
+        } else if (!enableInflectionGuess) {
             return nullptr;
         }
     }

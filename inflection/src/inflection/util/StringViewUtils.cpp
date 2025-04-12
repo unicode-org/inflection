@@ -201,18 +201,6 @@ StringViewUtils::to_u16string(std::string_view src) {
     return *convert(&dest, src);
 }
 
-bool
-StringViewUtils::endsWith(std::u16string_view fullString, std::u16string_view ending)
-{
-    return fullString.ends_with(ending);
-}
-
-bool
-StringViewUtils::startsWith(std::u16string_view fullString, std::u16string_view prefix)
-{
-    return fullString.starts_with(prefix);
-}
-
 char32_t
 StringViewUtils::codePointAt(std::u16string_view str, int32_t idx)
 {

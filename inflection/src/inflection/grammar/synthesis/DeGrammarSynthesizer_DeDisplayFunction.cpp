@@ -15,10 +15,11 @@
 #include <inflection/util/LocaleUtils.hpp>
 #include <inflection/util/Logger.hpp>
 #include <inflection/util/LoggerConfig.hpp>
+#include <inflection/util/StringViewUtils.hpp>
 #include <inflection/util/Validate.hpp>
-#include "inflection/tokenizer/TokenChain.hpp"
-#include "inflection/tokenizer/Tokenizer.hpp"
-#include "inflection/tokenizer/TokenizerFactory.hpp"
+#include <inflection/tokenizer/TokenChain.hpp>
+#include <inflection/tokenizer/Tokenizer.hpp>
+#include <inflection/tokenizer/TokenizerFactory.hpp>
 #include <inflection/npc.hpp>
 #include <unicode/uchar.h>
 #include <algorithm>
@@ -37,12 +38,12 @@ namespace inflection::grammar::synthesis {
 
 DeGrammarSynthesizer_DeDisplayFunction::DeGrammarSynthesizer_DeDisplayFunction(const ::inflection::dialog::SemanticFeatureModel& model, const ::std::map<int32_t, ::std::u16string_view>& strongSuffixes, const ::std::map<int32_t, ::std::u16string_view>& weakSuffixes, const ::std::map<int32_t, ::std::u16string_view>& mixedSuffixes)
     : super()
-    , stemFeature(model.getFeature(u"stem"))
-    , caseFeature(model.getFeature(GrammemeConstants::CASE))
-    , countFeature(model.getFeature(GrammemeConstants::NUMBER))
-    , genderFeature(model.getFeature(GrammemeConstants::GENDER))
-    , declensionFeature(model.getFeature(DeGrammarSynthesizer::DECLENSION()))
-    , partOfSpeechFeature(model.getFeature(GrammemeConstants::POS))
+    , stemFeature(*npc(model.getFeature(u"stem")))
+    , caseFeature(*npc(model.getFeature(GrammemeConstants::CASE)))
+    , numberFeature(*npc(model.getFeature(GrammemeConstants::NUMBER)))
+    , genderFeature(*npc(model.getFeature(GrammemeConstants::GENDER)))
+    , declensionFeature(*npc(model.getFeature(DeGrammarSynthesizer::DECLENSION())))
+    , partOfSpeechFeature(*npc(model.getFeature(GrammemeConstants::POS)))
     , strongSuffixes(strongSuffixes)
     , weakSuffixes(weakSuffixes)
     , mixedSuffixes(mixedSuffixes)
@@ -108,7 +109,7 @@ inflection::dialog::DisplayValue* DeGrammarSynthesizer_DeDisplayFunction::inflec
         return nullptr;
     }
     ::std::u16string caseString(GrammarSynthesizerUtil::getFeatureValue(constraints, caseFeature));
-    ::std::u16string countString(GrammarSynthesizerUtil::getFeatureValue(constraints, countFeature));
+    ::std::u16string countString(GrammarSynthesizerUtil::getFeatureValue(constraints, numberFeature));
     ::std::u16string genderString(GrammarSynthesizerUtil::getFeatureValue(constraints, genderFeature));
     const ::inflection::dialog::DisplayValue* stemmedValue = nullptr;
 
@@ -116,14 +117,14 @@ inflection::dialog::DisplayValue* DeGrammarSynthesizer_DeDisplayFunction::inflec
         auto valueConstraintMap = value.getConstraintMap();
         // Exact match is preferred over stem
         if ((caseString.empty() || caseString == GrammarSynthesizerUtil::getFeatureValue(valueConstraintMap, caseFeature))
-            && (countString.empty() || countString == GrammarSynthesizerUtil::getFeatureValue(valueConstraintMap, countFeature))
+            && (countString.empty() || countString == GrammarSynthesizerUtil::getFeatureValue(valueConstraintMap, numberFeature))
             && (genderString.empty() || genderString == GrammarSynthesizerUtil::getFeatureValue(valueConstraintMap, genderFeature))
-            && valueConstraintMap.find(*npc(declensionFeature)) == valueConstraintMap.end())
+            && valueConstraintMap.find(declensionFeature) == valueConstraintMap.end())
         {
             return new ::inflection::dialog::DisplayValue(value.getDisplayString(), value.getConstraintMap());
         }
 
-        if (valueConstraintMap.find(*npc(stemFeature)) != valueConstraintMap.end() && stemmedValue == nullptr) {
+        if (valueConstraintMap.find(stemFeature) != valueConstraintMap.end() && stemmedValue == nullptr) {
             stemmedValue = &value;
         }
     }
@@ -132,7 +133,7 @@ inflection::dialog::DisplayValue* DeGrammarSynthesizer_DeDisplayFunction::inflec
         return nullptr;
     }
 
-    auto stem = *npc(stemmedValue)->getFeatureValue(*npc(stemFeature));
+    auto stem = *npc(stemmedValue)->getFeatureValue(stemFeature);
     if (stem.empty()) {
         stem = npc(stemmedValue)->getDisplayString();
     }
@@ -148,29 +149,26 @@ inflection::dialog::DisplayValue* DeGrammarSynthesizer_DeDisplayFunction::inflec
     return new ::inflection::dialog::DisplayValue(result, formConstraints);
 }
 
-::std::optional<::std::u16string> DeGrammarSynthesizer_DeDisplayFunction::inflectWord(const ::std::u16string &displayString, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, const ::std::vector<::std::u16string> &deducedConstraints, bool enableInflectionGuess) const
+::std::optional<::std::u16string> DeGrammarSynthesizer_DeDisplayFunction::inflectWord(const ::std::u16string &displayString, int64_t wordGrammemes, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, const ::std::vector<::std::u16string> &deducedConstraints, bool enableInflectionGuess) const
 {
     // The deduced constraints should take precedence over what's in the constraints, as it has incorporated them already and is more accurate.
     // In case there are none, we convert the constraints to a vector of strings ourselves:
     auto constraintsVec = deducedConstraints;
     if (deducedConstraints.empty()) {
-        int64_t binaryType = 0;
-        dictionary.getCombinedBinaryType(&binaryType, displayString);
-
         // Declension feature must not be set for nouns, even if it's included in the constraints.
         // Otherwise the inflection logic would never be able to find a matching inflection patterns as this grammeme can't be applied to nouns:
         ::std::vector<const ::inflection::dialog::SemanticFeature*> expectedFeatures;
-        if ((binaryType & dictionaryAdjective) != 0) {
-            expectedFeatures = {countFeature, genderFeature, caseFeature, declensionFeature};
+        if ((wordGrammemes & dictionaryAdjective) != 0) {
+            expectedFeatures = {&numberFeature, &genderFeature, &caseFeature, &declensionFeature};
         } else {
-            expectedFeatures = {countFeature, genderFeature, caseFeature};
+            expectedFeatures = {&numberFeature, &genderFeature, &caseFeature};
         }
 
         constraintsVec = GrammarSynthesizerUtil::convertToStringConstraints(constraints, expectedFeatures);
     }
 
-    const auto dismbiguationGrammemeValues(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {partOfSpeechFeature}));
-    auto inflectionResult = dictionaryInflector.inflect(displayString, constraintsVec, dismbiguationGrammemeValues);
+    const auto dismbiguationGrammemeValues(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {&partOfSpeechFeature}));
+    auto inflectionResult = dictionaryInflector.inflect(displayString, wordGrammemes, constraintsVec, dismbiguationGrammemeValues);
     if (inflectionResult) {
         return inflectionResult;
     }
@@ -190,7 +188,7 @@ static void filterGrammemesFromSetThatDontContainGrammeme(std::vector<int64_t> &
     }), grammemes.end());
 }
 
-std::optional<::std::pair<::std::u16string, ::std::u16string>> DeGrammarSynthesizer_DeDisplayFunction::inflectDeterminerAndNoun(const ::std::u16string &determiner, const ::std::u16string &noun, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, bool enableInflectionGuess) const
+std::optional<::std::pair<::std::u16string, ::std::u16string>> DeGrammarSynthesizer_DeDisplayFunction::inflectDeterminerAndNoun(const ::std::u16string &determiner, int64_t determinerGrammemes, const ::std::u16string &noun, int64_t nounGrammemes, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, bool enableInflectionGuess) const
 {
     /*
      The idea here is to extract the most likely case that the determiner is in and
@@ -198,8 +196,8 @@ std::optional<::std::pair<::std::u16string, ::std::u16string>> DeGrammarSynthesi
      The resulting constraints (deducedConstraints) are then used to inflect the entire phrase.
      */
 
-    auto propertiesDependentWord = dictionaryInflector.getwordGrammemesets(determiner);
-    auto propertiesHeadWord = dictionaryInflector.getwordGrammemesets(noun);
+    auto propertiesDependentWord = dictionaryInflector.getWordGrammemeSets(determiner);
+    auto propertiesHeadWord = dictionaryInflector.getWordGrammemeSets(noun);
 
     // Keep only the grammemes for "POS determiner" around (noun respectively)
     filterGrammemesFromSetThatDontContainGrammeme(propertiesDependentWord, dictionaryDeterminer);
@@ -236,16 +234,16 @@ std::optional<::std::pair<::std::u16string, ::std::u16string>> DeGrammarSynthesi
         if (bestGender) {
             deducedConstraints.emplace_back(*bestGender);
         }
-        const auto bestCount = getFeatureNameFromConstraintsOrBinaryType(constraints, *bestHeadWord, dictionaryCountMask, countFeature);
+        const auto bestCount = getFeatureNameFromConstraintsOrBinaryType(constraints, *bestHeadWord, dictionaryCountMask, numberFeature);
         if (bestCount) {
             deducedConstraints.emplace_back(*bestCount);
         }
     }
 
     // Apply the deduced constraints to the entire phrase:
-    const auto inflectedHeadWord = inflectWord(noun, constraints, deducedConstraints, enableInflectionGuess);
+    const auto inflectedHeadWord = inflectWord(noun, nounGrammemes, constraints, deducedConstraints, enableInflectionGuess);
 
-    const auto inflectedDependentWord = inflectWord(determiner, constraints, deducedConstraints, enableInflectionGuess);
+    const auto inflectedDependentWord = inflectWord(determiner, determinerGrammemes, constraints, deducedConstraints, enableInflectionGuess);
 
     if (!inflectedHeadWord || !inflectedDependentWord) {
         return {};
@@ -254,10 +252,10 @@ std::optional<::std::pair<::std::u16string, ::std::u16string>> DeGrammarSynthesi
     return ::std::pair<::std::u16string, ::std::u16string>(*inflectedHeadWord, *inflectedDependentWord);
 }
 
-::std::optional<::std::u16string> DeGrammarSynthesizer_DeDisplayFunction::inflectAdjectiveNextToNoun(const ::std::u16string &adjective, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, const ::std::u16string &nounAfterInflection) const
+::std::optional<::std::u16string> DeGrammarSynthesizer_DeDisplayFunction::inflectAdjectiveNextToNoun(const ::std::u16string &adjective, int64_t adjectiveType, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, const ::std::u16string &nounAfterInflection) const
 {
     const ::std::u16string caseString(GrammarSynthesizerUtil::getFeatureValue(constraints, caseFeature));
-    ::std::u16string countString(GrammarSynthesizerUtil::getFeatureValue(constraints, countFeature));
+    ::std::u16string countString(GrammarSynthesizerUtil::getFeatureValue(constraints, numberFeature));
     ::std::u16string genderString;
     ::std::u16string declensionString(GrammarSynthesizerUtil::getFeatureValue(constraints, declensionFeature));
 
@@ -279,9 +277,9 @@ std::optional<::std::pair<::std::u16string, ::std::u16string>> DeGrammarSynthesi
     // With that, the constraints are all set:
     const auto constraintsVec = { caseString, countString, genderString, declensionString };
 
-    const auto dismbiguationGrammemeValues(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {partOfSpeechFeature}));
+    const auto dismbiguationGrammemeValues(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {&partOfSpeechFeature}));
 
-    auto inflectionResult = dictionaryInflector.inflect(adjective, constraintsVec, dismbiguationGrammemeValues);
+    auto inflectionResult = dictionaryInflector.inflect(adjective, adjectiveType, constraintsVec, dismbiguationGrammemeValues);
     if (inflectionResult) {
         return inflectionResult;
     }
@@ -307,7 +305,7 @@ std::optional<::std::pair<::std::u16string, ::std::u16string>> DeGrammarSynthesi
     return genderString;
 }
 
-std::optional<::std::u16string> DeGrammarSynthesizer_DeDisplayFunction::getFeatureNameFromConstraintsOrBinaryType(const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, int64_t binaryType, int64_t mask, const ::inflection::dialog::SemanticFeature* semanticFeature) const
+std::optional<::std::u16string> DeGrammarSynthesizer_DeDisplayFunction::getFeatureNameFromConstraintsOrBinaryType(const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, int64_t binaryType, int64_t mask, const ::inflection::dialog::SemanticFeature& semanticFeature) const
 {
     // Constraints take priority
     const auto featureString = GrammarSynthesizerUtil::getFeatureValue(constraints, semanticFeature);
@@ -331,7 +329,7 @@ std::optional<::std::u16string> DeGrammarSynthesizer_DeDisplayFunction::getFeatu
     if (!targetDeclension.empty()) {
         auto const suffixMap = getSuffixMap(targetDeclension);
         if (suffixMap != nullptr) {
-            ::std::u16string targetCount(GrammarSynthesizerUtil::getFeatureValue(constraints, countFeature));
+            ::std::u16string targetCount(GrammarSynthesizerUtil::getFeatureValue(constraints, numberFeature));
             ::std::u16string targetCase(GrammarSynthesizerUtil::getFeatureValue(constraints, caseFeature));
             auto caseValue = DeGrammarSynthesizer::getCase(&targetCase);
             auto countValue = DeGrammarSynthesizer::getCount(&targetCount);
@@ -383,20 +381,15 @@ std::optional<::std::u16string> DeGrammarSynthesizer_DeDisplayFunction::getFeatu
         ::std::u16string posString(GrammarSynthesizerUtil::getFeatureValue(constraints, partOfSpeechFeature));
         ::std::u16string caseString(GrammarSynthesizerUtil::getFeatureValue(constraints, caseFeature));
         auto length = displayString.length();
+        int64_t wordGrammemes = 0;
         ::std::optional<::std::u16string> inflectionResult;
         if (GrammemeConstants::CASE_GENITIVE() == caseString && posString == GrammemeConstants::POS_PROPER_NOUN() && length > 1) {
             inflectionResult = inflectGenitiveProperNoun(displayString);
-        } else if (dictionary.isKnownWord(displayString)) {
-            const auto inflectedString = inflectWord(displayString, constraints, {}, enableInflectionGuess);
-            if (inflectedString) {
-                inflectionResult = *inflectedString;
-            }
+        } else if (dictionary.getCombinedBinaryType(&wordGrammemes, displayString) != nullptr) {
+            inflectionResult = inflectWord(displayString, wordGrammemes, constraints, {}, enableInflectionGuess);
         } else {
             ::std::unique_ptr<::inflection::tokenizer::TokenChain> tokenChain(npc(npc(tokenizer.get())->createTokenChain(displayString)));
-            const auto tokenChainInflectionResult = inflectTokenChain(*tokenChain, constraints, enableInflectionGuess);
-            if (tokenChainInflectionResult) {
-                inflectionResult = *tokenChainInflectionResult;
-            }
+            inflectionResult = inflectTokenChain(*tokenChain, constraints, enableInflectionGuess);
         }
         if (inflectionResult) {
             displayString = *inflectionResult;
@@ -419,19 +412,18 @@ std::optional<::std::pair<::std::u16string, ::std::u16string>> DeGrammarSynthesi
 
     // Find out what POS we are looking at.
     if (((dependentBinaryType & dictionaryDeterminer) != 0) && ((headBinaryType & dictionaryNoun) != 0)) {
-
-        return inflectDeterminerAndNoun(dependentWord, headWord, constraints, enableInflectionGuess);
+        return inflectDeterminerAndNoun(dependentWord, dependentBinaryType, headWord, headBinaryType, constraints, enableInflectionGuess);
     }
 
     // From this point on, we need the inflected head word in all cases:
-    const auto inflectedHeadWord = inflectWord(headWord, constraints, {}, enableInflectionGuess);
+    const auto inflectedHeadWord = inflectWord(headWord, headBinaryType, constraints, {}, enableInflectionGuess);
     if (!inflectedHeadWord) {
         return {};
     }
 
     if (((dependentBinaryType & dictionaryAdjective) != 0) && (dependentBinaryType & dictionaryNoun) == 0 && (headBinaryType & dictionaryNoun) != 0) {
 
-        const auto inflectedDependentWord = inflectAdjectiveNextToNoun(dependentWord, constraints, *inflectedHeadWord);
+        const auto inflectedDependentWord = inflectAdjectiveNextToNoun(dependentWord, dependentBinaryType, constraints, *inflectedHeadWord);
 
         // Return nothing to indicate that inflection failed:
         if (!inflectedDependentWord) {
@@ -493,7 +485,9 @@ std::optional<::std::pair<::std::u16string, ::std::u16string>> DeGrammarSynthesi
         inflectedHeadWord = (*inflectionResult).first;
         inflectedDependentWord = (*inflectionResult).second;
     } else {
-        inflectedHeadWord = inflectWord(headWord, constraints, {}, enableInflectionGuess);
+        int64_t wordGrammemes = 0;
+        dictionary.getCombinedBinaryType(&wordGrammemes, headWord);
+        inflectedHeadWord = inflectWord(headWord, wordGrammemes, constraints, {}, enableInflectionGuess);
 
         if (!inflectedHeadWord) {
             return { };

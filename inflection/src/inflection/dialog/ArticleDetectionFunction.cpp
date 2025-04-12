@@ -74,13 +74,13 @@ SpeakableString* ArticleDetectionFunction::getFeatureValue(const DisplayValue& d
     bool isDefinite = false;
     bool isIndefinite = false;
     for (const auto& definiteArticle : definiteArticles) {
-        if (inflection::util::StringViewUtils::startsWith(lowercaseString, definiteArticle)) {
+        if (lowercaseString.starts_with(definiteArticle)) {
             isDefinite = true;
             break;
         }
     }
     for (const auto& indefiniteArticle : indefiniteArticles) {
-        if (inflection::util::StringViewUtils::startsWith(lowercaseString, indefiniteArticle)) {
+        if (lowercaseString.starts_with(indefiniteArticle)) {
             isIndefinite = true;
             break;
         }

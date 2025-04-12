@@ -10,9 +10,6 @@
 #include <inflection/grammar/synthesis/GrammemeConstants.hpp>
 #include <inflection/grammar/synthesis/GrammarSynthesizerUtil.hpp>
 #include <inflection/grammar/synthesis/KoGrammarSynthesizer.hpp>
-#include <inflection/dictionary/PhraseProperties.hpp>
-#include <inflection/util/LocaleUtils.hpp>
-#include <inflection/util/UnicodeSetUtils.hpp>
 #include <inflection/npc.hpp>
 #include <memory>
 
@@ -23,9 +20,9 @@ static constexpr auto PREDICATIVE = u"predicative";
 
 KoGrammarSynthesizer_KoDisplayFunction::KoGrammarSynthesizer_KoDisplayFunction(const ::inflection::dialog::SemanticFeatureModel& model)
     : super()
-    , caseFeature(npc(model.getFeature(GrammemeConstants::CASE)))
-    , clusivityFeature(npc(model.getFeature(GrammemeConstants::CLUSIVITY)))
-    , adjectivalFeature(npc(model.getFeature(ADJECTIVAL)))
+    , caseFeature(*npc(model.getFeature(GrammemeConstants::CASE)))
+    , clusivityFeature(*npc(model.getFeature(GrammemeConstants::CLUSIVITY)))
+    , adjectivalFeature(*npc(model.getFeature(ADJECTIVAL)))
     , particleMap({
             {GrammemeConstants::CASE_ABLATIVE(), {KoGrammarSynthesizer::VOWELS_WITH_RIEUL(), u"로부터", u"으로부터"}}, // something "from" source or origin
             {GrammemeConstants::CASE_ACCUSATIVE(), {KoGrammarSynthesizer::NONLATIN_VOWELS(), u"를", u"을"}}, // object is accusative

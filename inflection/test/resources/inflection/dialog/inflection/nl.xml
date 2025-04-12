@@ -3,10 +3,7 @@
  Copyright 2021-2024 Apple Inc. All rights reserved.
 -->
 <inflectionTest locale="nb">
-    <test><source>doorbakken</source><result definiteness="indefinite"/></test>
     <test><source>een huis</source><result definiteness="indefinite"/></test>
-    <test><source>lichtst</source><result definiteness="definite"/></test>
-    <test><source>lamst</source><result definiteness="definite"/></test>
     <test><source>de man</source><result definiteness="definite"/></test>
     <test><source>de vrouw</source><result definiteness="definite"/></test>
     <test><source>het huis</source><result definiteness="definite"/></test>
@@ -25,25 +22,27 @@
     <test><source definiteness="definite">boekenkast</source><result>de boekenkast</result></test>
     <test><source definiteness="definite">huizen</source><result>de huizen</result></test>
     <test><source definiteness="definite">tuinhuizen</source><result>de tuinhuizen</result></test>
+    <test><source definiteness="definite">boekenkastje</source><result>het boekenkastje</result></test>
     <test><source definiteness="definite">boekenkastjes</source><result>de boekenkastjes</result></test>
+    <test><source definiteness="definite">bureaulampje</source><result>het bureaulampje</result></test>
     <test><source definiteness="definite">bureaulampjes</source><result>de bureaulampjes</result></test>
     <test><source definiteness="definite">stadscentrum</source><result>het stadscentrum</result></test>
     <test><source definiteness="definite">stadscentra</source><result>de stadscentra</result></test>
     <test><source definiteness="definite">appelblauwzeegroene huis</source><result>het appelblauwzeegroene huis</result></test>
     <test><source definiteness="definite">vervallen huis</source><result>het vervallen huis</result></test>
-    <test><source definiteness="definite">grote tuinhuis</source><result>het grote tuinhuis</result></test>
     <test><source definiteness="definite">dikke boek</source><result>het dikke boek</result></test>
     <test><source definiteness="definite">bruine tafel</source><result>de bruine tafel</result></test>
     <test><source definiteness="definite">nieuwe keukentafel</source><result>de nieuwe keukentafel</result></test>
     <test><source definiteness="definite">lege boekenkast</source><result>de lege boekenkast</result></test>
     <test><source definiteness="definite">vervallen huizen</source><result>de vervallen huizen</result></test>
     <test><source definiteness="definite">grote tuinhuizen</source><result>de grote tuinhuizen</result></test>
+    <test><source definiteness="definite">lege boekenkastje</source><result>het lege boekenkastje</result></test>
     <test><source definiteness="definite">lege boekenkastjes</source><result>de lege boekenkastjes</result></test>
+    <test><source definiteness="definite">kleine bureaulampje</source><result>het kleine bureaulampje</result></test>
     <test><source definiteness="definite">kleine bureaulampjes</source><result>de kleine bureaulampjes</result></test>
     <test><source definiteness="definite">oude stadscentrum</source><result>het oude stadscentrum</result></test>
     <test><source definiteness="definite">moderne stadscentra</source><result>de moderne stadscentra</result></test>
     <test><source definiteness="definite">vervallen huis dat gebouwd is in 1977</source><result>het vervallen huis dat gebouwd is in 1977</result></test>
-    <test><source definiteness="definite">grote tuinhuis van de buren</source><result>het grote tuinhuis van de buren</result></test>
     <test><source definiteness="definite">dikke boek over Steve Jobs</source><result>het dikke boek over Steve Jobs</result></test>
     <test><source definiteness="definite">bruine tafel waaop het boek ligt</source><result>de bruine tafel waaop het boek ligt</result></test>
     <test><source definiteness="definite">nieuwe keukentafel in de living</source><result>de nieuwe keukentafel in de living</result></test>
@@ -76,9 +75,9 @@
     <test><source case="genitive">ik</source><result>mijn</result></test>
     <test><source case="genitive" number="singular">zij</source><result>haar</result></test>
     <test><source case="genitive" number="plural">zij</source><result>hun</result></test>
-    <test><source case="genitive">Tom</source><result>Tom's</result></test>
-    <test><source case="genitive">Yasser</source><result>Yasser's</result></test>
-    <test><source case="genitive">Alex</source><result>Alex'</result></test>
+    <test><source case="genitive">Tom</source><result>Tom’s</result></test>
+    <test><source case="genitive">Yasser</source><result>Yasser’s</result></test>
+    <test><source case="genitive">Alex</source><result>Alex’</result></test>
     <test><source case="genitive">ik</source><result>mijn</result></test>
     <test><source case="genitive">me</source><result>mijn</result></test>
     <test><source case="genitive">mij</source><result>mijn</result></test>
@@ -98,18 +97,18 @@
     <test><source case="genitive" declension="undeclined">wij</source><result>ons</result></test>
     <test><source case="genitive" declension="declined">we</source><result>onze</result></test>
     <test><source case="genitive" declension="declined">wij</source><result>onze</result></test>
-    <test><source case="genitive">Tom</source><result>Tom's</result></test>
-    <test><source case="genitive">Eric</source><result>Eric's</result></test>
-    <test><source case="genitive">Ellen</source><result>Ellen's</result></test>
+    <test><source case="genitive">Tom</source><result>Tom’s</result></test>
+    <test><source case="genitive">Eric</source><result>Eric’s</result></test>
+    <test><source case="genitive">Ellen</source><result>Ellen’s</result></test>
     <test><source case="genitive">Tom's</source><result>Tom's</result></test>
     <test><source case="genitive">Eric's</source><result>Eric's</result></test>
     <test><source case="genitive">Ellen's</source><result>Ellen's</result></test>
-    <test><source case="genitive">Jezus</source><result>Jezus'</result></test>
-    <test><source case="genitive">Inez</source><result>Inez'</result></test>
-    <test><source case="genitive">Chris</source><result>Chris'</result></test>
-    <test><source case="genitive">Bush</source><result>Bush'</result></test>
-    <test><source case="genitive">Alex</source><result>Alex'</result></test>
-    <test><source case="genitive">Vermeesch</source><result>Vermeesch'</result></test>
+    <test><source case="genitive">Jezus</source><result>Jezus’</result></test>
+    <test><source case="genitive">Inez</source><result>Inez’</result></test>
+    <test><source case="genitive">Chris</source><result>Chris’</result></test>
+    <test><source case="genitive">Bush</source><result>Bush’</result></test>
+    <test><source case="genitive">Alex</source><result>Alex’</result></test>
+    <test><source case="genitive">Vermeesch</source><result>Vermeesch’</result></test>
     <test><source case="genitive">Jezus'</source><result>Jezus'</result></test>
     <test><source case="genitive">Inez'</source><result>Inez'</result></test>
     <test><source case="genitive">Chris'</source><result>Chris'</result></test>
@@ -132,9 +131,9 @@
     <test><source number="singular">lang saai programma</source><result>lang saai programma</result></test>
     <test><source number="singular" declension="declined">lang saai programma</source><result>lang saai programma</result></test>
     <test><source number="singular" declension="undeclined">lang saai programma</source><result>lang saai programma</result></test>
-    <test><source number="plural">lang saai programma</source><result>lange saaie programma's</result></test>
-    <test><source number="plural" declension="declined">lang saai programma</source><result>lange saaie programma's</result></test>
-    <test><source number="plural" declension="undeclined">lang saai programma</source><result>lange saaie programma's</result></test>
+    <test><source number="plural">lang saai programma</source><result>lange saaie programma’s</result></test>
+    <test><source number="plural" declension="declined">lang saai programma</source><result>lange saaie programma’s</result></test>
+    <test><source number="plural" declension="undeclined">lang saai programma</source><result>lange saaie programma’s</result></test>
 
     <test><source pos="adjective">groot boos wolf</source><result>groot boos wolf</result></test>
     <test><source declension="declined">groot boos wolf</source><result>groot boos wolf</result></test>
@@ -185,4 +184,17 @@
     <test><source number="plural">auto oud jong beschonken</source><result>auto oud jong beschonken</result></test>
     <test><source declension="declined" number="singular">auto oud jong beschonken</source><result>auto oud jong beschonken</result></test>
     <test><source declension="undeclined" number="plural">auto oud jong beschonken</source><result>auto oud jong beschonken</result></test>
+
+    <test><source number="singular">bewillig</source><result>bewillig</result></test>
+    <test><source number="singular">bewilligen</source><result>bewillig</result></test>
+    <test><source number="plural">bewillig</source><result>bewilligen</result></test>
+    <test><source number="plural">bewilligt</source><result>bewilligen</result></test>
+    <test><source number="plural">bewilligen</source><result>bewilligen</result></test>
+
+    <test><source number="singular">zat</source><result>zat</result></test>
+    <test><source number="singular">zaten</source><result>zate</result></test>
+    <test><source number="singular" pos="noun">zaten</source><result>zate</result></test>
+    <test><source number="singular" pos="verb">zaten</source><result>zat</result></test>
+    <test><source number="plural">zat</source><result>zaten</result></test>
+    <test><source number="plural">zaten</source><result>zaten</result></test>
 </inflectionTest>

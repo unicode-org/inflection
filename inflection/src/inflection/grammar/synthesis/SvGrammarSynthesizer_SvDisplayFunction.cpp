@@ -15,7 +15,6 @@
 #include <inflection/grammar/synthesis/GrammemeConstants.hpp>
 #include <inflection/util/LocaleUtils.hpp>
 #include <inflection/util/Logger.hpp>
-#include <inflection/util/StringViewUtils.hpp>
 #include <inflection/util/Validate.hpp>
 #include <inflection/npc.hpp>
 #include <memory>
@@ -25,12 +24,17 @@ namespace inflection::grammar::synthesis {
 SvGrammarSynthesizer_SvDisplayFunction::SvGrammarSynthesizer_SvDisplayFunction(const ::inflection::dialog::SemanticFeatureModel& model)
     : super()
     , definitenessFeature(*npc(model.getFeature(GrammemeConstants::DEFINITENESS)))
-    , countFeature(*npc(model.getFeature(GrammemeConstants::NUMBER)))
+    , numberFeature(*npc(model.getFeature(GrammemeConstants::NUMBER)))
     , caseFeature(*npc(model.getFeature(GrammemeConstants::CASE)))
     , genderFeature(*npc(model.getFeature(GrammemeConstants::GENDER)))
+    , posFeature(*npc(model.getFeature(GrammemeConstants::POS)))
     , dictionary(*npc(::inflection::dictionary::DictionaryMetaData::createDictionary(::inflection::util::LocaleUtils::SWEDISH())))
     , inflector(::inflection::dictionary::Inflector::getInflector(::inflection::util::LocaleUtils::SWEDISH()))
     , tokenizer(::inflection::tokenizer::TokenizerFactory::createTokenizer(::inflection::util::LocaleUtils::SWEDISH()))
+    , dictionaryInflector(::inflection::util::LocaleUtils::SWEDISH(), {
+        {GrammemeConstants::POS_NOUN(), GrammemeConstants::POS_ADJECTIVE()},
+        {GrammemeConstants::NUMBER_SINGULAR(), GrammemeConstants::NUMBER_PLURAL()}
+        }, {}, true)
 {
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryAdjective, {u"adjective"}));
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryNoun, {u"noun"}));
@@ -40,37 +44,33 @@ SvGrammarSynthesizer_SvDisplayFunction::~SvGrammarSynthesizer_SvDisplayFunction(
 {
 }
 
-::std::u16string SvGrammarSynthesizer_SvDisplayFunction::inflectString(const ::std::u16string& lemma, const ::std::vector<::std::u16string>& inflectionType, const ::std::u16string& targetCount, const ::std::u16string& targetDefiniteness, const ::std::u16string& targetCase, const ::std::u16string& targetGender, bool targetIsANoun) const
+::std::u16string SvGrammarSynthesizer_SvDisplayFunction::inflectString(const ::std::u16string& lemma, const ::std::u16string& targetCount, const ::std::u16string& targetDefiniteness, const ::std::u16string& targetCase, const ::std::u16string& targetGender, bool targetIsANoun) const
 {
     ::std::u16string inflection;
-    for (const auto& patternName : inflectionType) {
-        auto inflectionPattern = inflector.getInflectionPatternByName(patternName);
-        if (!inflectionPattern) {
-            ::inflection::util::Logger::warn(u"Lemma " + lemma + u" has inflection=" + patternName + u" but that pattern was not found");
-        } else {
-            if (targetIsANoun != inflectionPattern->containsPartsOfSpeech(GrammemeConstants::POS_NOUN())) {
-                continue;
-            }
-            // The nominative/caseless is unmarked in the patterns so we need to do something like this
-            ::std::vector<::std::u16string> constraints;
-            constraints.emplace_back(targetCount);
-            if (!targetDefiniteness.empty() && (targetIsANoun || targetCount == GrammemeConstants::NUMBER_SINGULAR())) {
-                constraints.emplace_back(targetDefiniteness);
-            }
-            if (!targetCase.empty() && targetCase != GrammemeConstants::CASE_NOMINATIVE()) {
-                constraints.emplace_back(targetCase);
-            }
-            if (!targetGender.empty()) {
-                constraints.emplace_back(targetGender);
-            }
-            // The nominative/caseless is unmarked in the patterns, so we need to do something like this
-            int64_t wordGrammemes = 0;
-            dictionary.getCombinedBinaryType(&wordGrammemes, lemma);
-            int64_t toConstraintGrammemes = 0;
-            dictionary.getBinaryProperties(&toConstraintGrammemes, constraints);
-            inflection = inflectionPattern->reinflect(wordGrammemes, toConstraintGrammemes, lemma);
-        }
+
+    // The nominative/caseless is unmarked in the patterns so we need to do something like this
+    ::std::vector<::std::u16string> constraints;
+    constraints.emplace_back(targetCount);
+    if (!targetDefiniteness.empty() && (targetIsANoun || targetCount == GrammemeConstants::NUMBER_SINGULAR())) {
+        constraints.emplace_back(targetDefiniteness);
     }
+    if (!targetCase.empty() && targetCase != GrammemeConstants::CASE_NOMINATIVE()) {
+        constraints.emplace_back(targetCase);
+    }
+    if (!targetGender.empty()) {
+        constraints.emplace_back(targetGender);
+    }
+    // The nominative/caseless is unmarked in the patterns, so we need to do something like this
+    int64_t wordGrammemes = 0;
+    dictionary.getCombinedBinaryType(&wordGrammemes, lemma);
+
+    const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> disambiguationConstraints;
+    const auto dismbiguationGrammemeValues(GrammarSynthesizerUtil::convertToStringConstraints(disambiguationConstraints, {&posFeature}));
+    auto inflectionResult = dictionaryInflector.inflect(lemma, wordGrammemes, constraints, dismbiguationGrammemeValues);
+    if (inflectionResult) {
+        inflection = *inflectionResult;
+    }
+
     if (inflection.empty()) {
         return lemma;
     }
@@ -130,15 +130,14 @@ SvGrammarSynthesizer_SvDisplayFunction::~SvGrammarSynthesizer_SvDisplayFunction(
 
 ::std::u16string SvGrammarSynthesizer_SvDisplayFunction::inflectWord(const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, const ::std::u16string& attributeDisplayString, const ::std::u16string& headDisplayString, bool targetIsNoun) const
 {
-    ::std::u16string countString(GrammarSynthesizerUtil::getFeatureValue(constraints, &countFeature));
-    ::std::u16string definitenessString(GrammarSynthesizerUtil::getFeatureValue(constraints, &definitenessFeature));
-    ::std::u16string caseString(GrammarSynthesizerUtil::getFeatureValue(constraints, &caseFeature));
-    auto genderString = GrammarSynthesizerUtil::getFeatureValue(constraints, &genderFeature);
-    if (genderString.empty()) {
+    ::std::u16string countString(GrammarSynthesizerUtil::getFeatureValue(constraints, numberFeature));
+    ::std::u16string definitenessString(GrammarSynthesizerUtil::getFeatureValue(constraints, definitenessFeature));
+    ::std::u16string caseString(GrammarSynthesizerUtil::getFeatureValue(constraints, caseFeature));
+    auto genderString = GrammarSynthesizerUtil::getFeatureValue(constraints, genderFeature);
+    if (genderString.empty() && GrammemeConstants::NUMBER_SINGULAR() == countString) {
         genderString = genderLookupFunction.determine(headDisplayString);
     }
-    auto inflectionType = dictionary.getPropertyValues(attributeDisplayString, u"inflection");
-    auto inflectedString = inflectString(attributeDisplayString, inflectionType, countString, definitenessString, caseString, genderString, targetIsNoun);
+    auto inflectedString = inflectString(attributeDisplayString, countString, definitenessString, caseString, genderString, targetIsNoun);
     if (GrammemeConstants::CASE_GENITIVE() == caseString && inflectedString.length() > 1) {
         auto suffix = inflectedString.back();
         if (!(suffix == u's' || suffix == u'z' || suffix == u'x')) {

@@ -60,10 +60,10 @@ inflection::dialog::SpeakableString* FrGrammarSynthesizer_ArticleLookupFunction:
         auto firstToken = npc(tokenChain->getHead())->getNext();
         const auto& firstWord = npc(firstToken)->getCleanValue();
         if (firstWord == u"le") {
-            return new inflection::dialog::SpeakableString(std::u16string(inflection::util::StringViewUtils::trim(singularMasculineString + (displayString.length() > firstWord.length() ? displayString.substr(npc(firstToken)->getEndChar() + 1) : u""))));
+            return new inflection::dialog::SpeakableString(inflection::util::StringViewUtils::trim(singularMasculineString + (displayString.length() > firstWord.length() ? displayString.substr(npc(firstToken)->getEndChar() + 1) : u"")));
         }
         else if (firstWord == u"les") {
-            return new inflection::dialog::SpeakableString(std::u16string(inflection::util::StringViewUtils::trim(pluralString + (displayString.length() > firstWord.length() ? displayString.substr(npc(firstToken)->getEndChar() + 1) : u""))));
+            return new inflection::dialog::SpeakableString(inflection::util::StringViewUtils::trim(pluralString + (displayString.length() > firstWord.length() ? displayString.substr(npc(firstToken)->getEndChar() + 1) : u"")));
         }
     }
     auto countValue = FrGrammarSynthesizer::getCount(displayValue.getFeatureValue(*npc(countFeature)));

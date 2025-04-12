@@ -1,63 +1,40 @@
-Ås: noun proper-noun inflection=6
 absurd: singular indefinite adjective
-administrasjon: singular indefinite masculine noun inflection=2
-administrasjonen: singular definite masculine noun inflection=2
-administrasjonene: plural definite masculine noun inflection=2
-administrasjoner: plural indefinite masculine noun inflection=2
-ås: singular genitive indefinite masculine feminine noun inflection=314
-avtale: singular indefinite masculine noun verb inflection=7
-belta: plural definite neuter noun inflection=16
-beltas: plural genitive definite neuter noun inflection=16
-belte: singular indefinite neuter noun inflection=16
-belter: plural indefinite neuter noun inflection=1 inflection=16
-belters: plural genitive indefinite neuter noun inflection=16
-beltes: singular genitive indefinite neuter noun inflection=16
-beltet: singular definite neuter noun inflection=1 inflection=16
-beltets: singular genitive definite neuter noun inflection=16
-bokmerke: singular indefinite neuter noun inflection=f
-fast: singular indefinite adjective verb
+administrasjon: singular indefinite masculine noun inflection=1
+all: determiner
+Apple: singular masculine noun proper-noun inflection=7
+ås: singular genitive indefinite masculine feminine noun inflection=17e
+avtale: singular indefinite masculine noun verb inflection=4
+belta: plural definite neuter noun inflection=d
+belte: singular indefinite neuter noun inflection=d
+beltene: plural definite neuter noun inflection=d
+bildøra: singular definite feminine noun inflection=64
+bokmerke: singular indefinite neuter noun inflection=d
+budskap: singular plural indefinite neuter noun inflection=6
+ekte: singular plural definite indefinite adjective
+fast: singular indefinite adjective
 gammel: singular indefinite adjective
+god: singular indefinite adjective
 høyest: singular plural indefinite adjective
-høyeste: singular plural definite adjective
-jazz: singular indefinite masculine noun verb inflection=12
-lampa: singular definite feminine noun inflection=78
-lampe: singular indefinite masculine feminine noun inflection=78
-lunken: singular indefinite masculine adjective noun inflection=1
-møte: singular indefinite neuter noun verb inflection=16
-møter: plural indefinite neuter noun verb inflection=16
-øvinga: singular definite feminine noun inflection=3
-vogntoga: plural definite neuter noun inflection=4
-budskap: singular plural indefinite neuter noun inflection=9
-budskapa: plural definite neuter noun inflection=9
-budskapas: plural genitive definite neuter noun inflection=9
-budskapene: plural definite neuter noun inflection=9
-budskapenes: plural genitive definite neuter noun inflection=9
-budskaper: plural indefinite neuter noun inflection=9
-budskapers: plural genitive indefinite neuter noun inflection=9
-budskapet: singular definite neuter noun inflection=9
-budskapets: singular genitive definite neuter noun inflection=9
-budskaps: singular plural genitive indefinite neuter noun inflection=9
-mann: singular indefinite masculine noun verb inflection=87
-menn: plural indefinite masculine noun inflection=87
-bildør: singular indefinite masculine feminine noun inflection=d2
-bildøra: singular definite feminine noun inflection=d2
-bildøras: singular genitive definite feminine noun inflection=d2
-bildøren: singular definite masculine noun inflection=d2
-bildørene: plural definite masculine feminine noun inflection=d2
-bildørenes: plural genitive definite masculine feminine noun inflection=d2
-bildørens: singular genitive definite masculine noun inflection=d2
-bildører: plural indefinite masculine feminine noun inflection=d2
-bildørers: plural genitive indefinite masculine feminine noun inflection=d2
-bildørs: singular genitive indefinite masculine feminine noun inflection=d2
+jazz: singular indefinite masculine noun verb inflection=b
+kjør: verb
+lampa: singular definite feminine noun inflection=43
+lampe: singular indefinite masculine feminine noun inflection=43
+lunken: singular indefinite adjective
 makaber: singular indefinite adjective
-mor: singular indefinite masculine feminine noun verb inflection=30 inflection=3b
-moren: singular definite masculine noun inflection=30
+mann: singular indefinite masculine noun verb inflection=4c
+mor: singular indefinite masculine feminine noun verb inflection=31 inflection=3b
+moren: singular definite masculine noun inflection=31
+møte: singular indefinite neuter noun verb inflection=d
+møter: plural indefinite neuter noun verb inflection=d
+norsk: singular indefinite masculine adjective noun verb inflection=1f
+opp: adverb
+øvinga: singular definite feminine noun inflection=2
+praktisk: singular indefinite adjective
+rosa: singular plural definite indefinite adjective
+tet: singular indefinite masculine noun inflection=1
 tykk: singular indefinite adjective
 vennlig: singular indefinite adjective
-praktisk: singular indefinite adjective
-norsk: singular indefinite masculine adjective noun verb
-god: singular indefinite adjective
-skjørtet: noun inflection=1
+vogntoga: plural definite neuter noun inflection=3
 ==============================================
 Manually curated for tests to pass
 Copyright 2024-2024 Apple Inc. All rights reserved.

@@ -11,6 +11,7 @@
 #include <inflection/dictionary/DictionaryMetaData.hpp>
 #include <inflection/dictionary/PhraseProperties.hpp>
 #include <inflection/exception/ClassCastException.hpp>
+#include <inflection/grammar/synthesis/EsGrammarSynthesizer.hpp>
 #include <inflection/grammar/synthesis/GrammemeConstants.hpp>
 #include <inflection/grammar/synthesis/GrammarSynthesizerUtil.hpp>
 #include <inflection/tokenizer/TokenChain.hpp>
@@ -18,7 +19,6 @@
 #include <inflection/tokenizer/TokenizerFactory.hpp>
 #include <inflection/util/Validate.hpp>
 #include <inflection/util/LocaleUtils.hpp>
-#include <inflection/util/StringViewUtils.hpp>
 #include <inflection/npc.hpp>
 #include <memory>
 #include <string>
@@ -36,6 +36,9 @@ namespace inflection::grammar::synthesis {
 
 EsGrammarSynthesizer_EsDisplayFunction::EsGrammarSynthesizer_EsDisplayFunction(const ::inflection::dialog::SemanticFeatureModel& model)
     : super()
+    , numberFeature(*npc(model.getFeature(GrammemeConstants::NUMBER)))
+    , genderFeature(*npc(model.getFeature(GrammemeConstants::GENDER)))
+    , partOfSpeechFeature(*npc(model.getFeature(GrammemeConstants::POS)))
     , definiteArticleLookupFunction(model, EsGrammarSynthesizer::ARTICLE_DEFINITE, *npc(java_cast<const EsGrammarSynthesizer_ArticleLookupFunction*>(model.getDefaultFeatureFunction(*npc(model.getFeature(EsGrammarSynthesizer::ARTICLE_DEFINITE))))))
     , indefiniteArticleLookupFunction(model, EsGrammarSynthesizer::ARTICLE_INDEFINITE, *npc(java_cast<const EsGrammarSynthesizer_ArticleLookupFunction*>(model.getDefaultFeatureFunction(*npc(model.getFeature(EsGrammarSynthesizer::ARTICLE_INDEFINITE))))))
     , definitenessDisplayFunction(model, &definiteArticleLookupFunction, EsGrammarSynthesizer::ARTICLE_DEFINITE, &indefiniteArticleLookupFunction, EsGrammarSynthesizer::ARTICLE_INDEFINITE)
@@ -52,14 +55,11 @@ EsGrammarSynthesizer_EsDisplayFunction::EsGrammarSynthesizer_EsDisplayFunction(c
     }, {}, true)
     , tokenizer(::inflection::tokenizer::TokenizerFactory::createTokenizer(::inflection::util::LocaleUtils::SPANISH()))
 {
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionarySingular, {u"singular"}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryPlural, {u"plural"}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryMasculine, {u"masculine"}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryFeminine, {u"feminine"}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryPreposition, {u"adposition"}));
-    this->countFeature = model.getFeature(GrammemeConstants::NUMBER);
-    this->genderFeature = model.getFeature(GrammemeConstants::GENDER);
-    this->partOfSpeechFeature = model.getFeature(GrammemeConstants::POS);
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionarySingular, {GrammemeConstants::NUMBER_SINGULAR()}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryPlural, {GrammemeConstants::NUMBER_PLURAL()}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryMasculine, {GrammemeConstants::GENDER_MASCULINE()}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryFeminine, {GrammemeConstants::GENDER_FEMININE()}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryPreposition, {GrammemeConstants::POS_ADPOSITION()}));
 }
 
 EsGrammarSynthesizer_EsDisplayFunction::~EsGrammarSynthesizer_EsDisplayFunction()
@@ -69,19 +69,19 @@ EsGrammarSynthesizer_EsDisplayFunction::~EsGrammarSynthesizer_EsDisplayFunction(
 
 ::std::u16string EsGrammarSynthesizer_EsDisplayFunction::guessGenderedInflection(const ::std::u16string& word, ::std::u16string_view gender) const
 {
-    if (gender == GrammemeConstants::GENDER_MASCULINE() && !(::inflection::util::StringViewUtils::endsWith(word, u"o") || ::inflection::util::StringViewUtils::endsWith(word, u"os"))) {
-        if (::inflection::util::StringViewUtils::endsWith(word, u"a")) {
+    if (gender == GrammemeConstants::GENDER_MASCULINE() && !(word.ends_with(u"o") || word.ends_with(u"os"))) {
+        if (word.ends_with(u"a")) {
             return word.substr(0, word.length() - 1) + u"o";
         }
-        else if (::inflection::util::StringViewUtils::endsWith(word, u"as")) {
+        else if (word.ends_with(u"as")) {
             return word.substr(0, word.length() - 2) + u"os";
         }
     }
-    if (gender == GrammemeConstants::GENDER_FEMININE() && !(::inflection::util::StringViewUtils::endsWith(word, u"a") || ::inflection::util::StringViewUtils::endsWith(word, u"as"))) {
-        if (::inflection::util::StringViewUtils::endsWith(word, u"o")) {
+    if (gender == GrammemeConstants::GENDER_FEMININE() && !(word.ends_with(u"a") || word.ends_with(u"as"))) {
+        if (word.ends_with(u"o")) {
             return word.substr(0, word.length() - 1) + u"a";
         }
-        else if (::inflection::util::StringViewUtils::endsWith(word, u"os")) {
+        else if (word.ends_with(u"os")) {
             return word.substr(0, word.length() - 2) + u"as";
         }
     }
@@ -90,22 +90,22 @@ EsGrammarSynthesizer_EsDisplayFunction::~EsGrammarSynthesizer_EsDisplayFunction(
 
 ::std::u16string EsGrammarSynthesizer_EsDisplayFunction::guessPluralInflection(const ::std::u16string& word) const
 {
-    if (::inflection::util::StringViewUtils::endsWith(word, u"s") || ::inflection::util::StringViewUtils::endsWith(word, u"x")) {
+    if (word.ends_with(u"s") || word.ends_with(u"x")) {
         return word;
     }
     else if (::inflection::dictionary::PhraseProperties::isEndsWithVowel(::inflection::util::LocaleUtils::SPANISH(), word)) {
         return word + u"s";
     }
-    else if (::inflection::util::StringViewUtils::endsWith(word, u"z")) {
+    else if (word.ends_with(u"z")) {
         return word.substr(0, word.length() - 1) + u"ces";
     }
-    else if (::inflection::util::StringViewUtils::endsWith(word, u"ión")) {
+    else if (word.ends_with(u"ión")) {
         return word.substr(0, word.length() - 2) + u"ones";
     }
-    else if (::inflection::util::StringViewUtils::endsWith(word, u"c")) {
+    else if (word.ends_with(u"c")) {
         return word.substr(0, word.length() - 1) + u"ques";
     }
-    else if (::inflection::util::StringViewUtils::endsWith(word, u"g")) {
+    else if (word.ends_with(u"g")) {
         return word.substr(0, word.length() - 1) + u"gues";
     }
     return word + u"es";
@@ -113,9 +113,9 @@ EsGrammarSynthesizer_EsDisplayFunction::~EsGrammarSynthesizer_EsDisplayFunction(
 
 ::std::optional<::std::u16string> EsGrammarSynthesizer_EsDisplayFunction::inflectWord(std::u16string_view displayString, int64_t wordType, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const
 {
-    const auto constraintsVec(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {countFeature, genderFeature}));
-    const auto dismbiguationGrammemeValues(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {partOfSpeechFeature}));
-    const auto inflectionResult = dictionaryInflector.inflect(displayString, constraintsVec, dismbiguationGrammemeValues);
+    const auto constraintsVec(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {&numberFeature, &genderFeature}));
+    const auto dismbiguationGrammemeValues(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {&partOfSpeechFeature}));
+    const auto inflectionResult = dictionaryInflector.inflect(displayString, wordType, constraintsVec, dismbiguationGrammemeValues);
     if (inflectionResult) {
         return *inflectionResult;
     }
@@ -129,11 +129,11 @@ EsGrammarSynthesizer_EsDisplayFunction::~EsGrammarSynthesizer_EsDisplayFunction(
     if (wordType != 0) {
         return inflectedWord;
     }
-    if (GrammarSynthesizerUtil::hasFeature(constraints, genderFeature)) {
+    if (GrammarSynthesizerUtil::hasFeature(constraints, &genderFeature)) {
         // We requested a gender, but it's not a known word. Make a guess.
         inflectedWord = guessGenderedInflection(inflectedWord, GrammarSynthesizerUtil::getFeatureValue(constraints, genderFeature));
     }
-    if (GrammarSynthesizerUtil::getFeatureValue(constraints, countFeature) == GrammemeConstants::NUMBER_PLURAL()) {
+    if (GrammarSynthesizerUtil::getFeatureValue(constraints, numberFeature) == GrammemeConstants::NUMBER_PLURAL()) {
         inflectedWord = guessPluralInflection(inflectedWord);
     }
     return inflectedWord;
@@ -157,15 +157,22 @@ EsGrammarSynthesizer_EsDisplayFunction::~EsGrammarSynthesizer_EsDisplayFunction(
             continue;
         }
         const auto inflectionResult = inflectWord(word, wordType, constraints, enableInflectionGuess);
-        auto inflectionValue = word;
         if (inflectionResult) {
-            inflectionValue = *inflectionResult;
-        } else if(!enableInflectionGuess) {
+            inflectedString += *inflectionResult;
+        } else if (!enableInflectionGuess) {
             return {};
+        } else {
+            inflectedString += word;
         }
-        inflectedString += inflectionValue;
     }
     return inflectedString;
+}
+
+::inflection::tokenizer::TokenChain&
+EsGrammarSynthesizer_EsDisplayFunction::tokenize(::std::unique_ptr<::inflection::tokenizer::TokenChain>& tokenChain, const std::u16string& string) const
+{
+    tokenChain.reset(npc(npc(tokenizer.get())->createTokenChain(string)));
+    return *tokenChain;
 }
 
 ::inflection::dialog::DisplayValue * EsGrammarSynthesizer_EsDisplayFunction::getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const
@@ -183,19 +190,21 @@ EsGrammarSynthesizer_EsDisplayFunction::~EsGrammarSynthesizer_EsDisplayFunction(
     const auto &articleData = determinerAdpositionDetectionFunction.detectAndStripArticlePrefix(displayString);
 
     ::std::optional<::std::u16string> inflectionResult;
-    if (GrammarSynthesizerUtil::hasAnyFeatures(constraints, {countFeature, genderFeature})) {
-        ::std::unique_ptr<::inflection::tokenizer::TokenChain> tokenChain(npc(npc(tokenizer.get())->createTokenChain(displayString)));
-        if (tokenChain->getWordCount() == 1) {
-            int64_t wordType = 0;
-            dictionary.getCombinedBinaryType(&wordType, displayString);
-            inflectionResult = inflectWord(displayString, wordType, constraints, enableInflectionGuess);
+    if (GrammarSynthesizerUtil::hasAnyFeatures(constraints, {&numberFeature, &genderFeature})) {
+        ::std::unique_ptr<::inflection::tokenizer::TokenChain> tokenChain;
+        int64_t wordGrammemes = 0;
+        if (dictionary.getCombinedBinaryType(&wordGrammemes, displayString) != nullptr
+            || tokenize(tokenChain, displayString).getWordCount() == 1)
+        {
+            // Either a known word, or a word to guess.
+            inflectionResult = inflectWord(displayString, wordGrammemes, constraints, enableInflectionGuess);
         }
         else {
             inflectionResult = inflectCompoundWord(*npc(tokenChain.get()), constraints, enableInflectionGuess);
         }
         if (inflectionResult) {
             displayString = *inflectionResult;
-        } else if (!enableInflectionGuess){
+        } else if (!enableInflectionGuess) {
             return nullptr;
         }
     }

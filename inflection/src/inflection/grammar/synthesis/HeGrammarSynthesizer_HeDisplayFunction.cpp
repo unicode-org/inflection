@@ -3,11 +3,9 @@
  */
 #include <inflection/grammar/synthesis/HeGrammarSynthesizer_HeDisplayFunction.hpp>
 
-#include <inflection/tokenizer/TokenChain.hpp>
 #include <inflection/dictionary/DictionaryMetaData.hpp>
 #include <inflection/util/Validate.hpp>
 #include <inflection/util/DelimitedStringIterator.hpp>
-#include <inflection/util/StringViewUtils.hpp>
 #include <inflection/util/LocaleUtils.hpp>
 #include <inflection/util/UnicodeSetUtils.hpp>
 #include <inflection/dialog/SemanticFeature.hpp>
@@ -34,9 +32,11 @@ HeGrammarSynthesizer_HeDisplayFunction::HeGrammarSynthesizer_HeDisplayFunction(c
             {GrammemeConstants::NUMBER_SINGULAR(),  GrammemeConstants::NUMBER_PLURAL()},
             {GrammemeConstants::GENDER_MASCULINE(), GrammemeConstants::GENDER_FEMININE()}
     }, {}, true)
-    , countFeature(npc(model.getFeature(GrammemeConstants::NUMBER)))
-    , genderFeature(npc(model.getFeature(GrammemeConstants::GENDER)))
-    , definitenessFeature(npc(model.getFeature(GrammemeConstants::DEFINITENESS)))
+    , countFeature(*npc(model.getFeature(GrammemeConstants::NUMBER)))
+    , personFeature(*npc(model.getFeature(GrammemeConstants::PERSON)))
+    , genderFeature(*npc(model.getFeature(GrammemeConstants::GENDER)))
+    , partOfSpeechFeature(*npc(model.getFeature(GrammemeConstants::POS)))
+    , definitenessFeature(*npc(model.getFeature(GrammemeConstants::DEFINITENESS)))
 {
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&nounProperty, {u"noun"}));
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&adjectiveProperty,{u"adjective"}));
@@ -48,13 +48,15 @@ HeGrammarSynthesizer_HeDisplayFunction::HeGrammarSynthesizer_HeDisplayFunction(c
 
 std::optional<::std::u16string> HeGrammarSynthesizer_HeDisplayFunction::pluralizeFirstWordOfCompoundWithInflector(const ::std::u16string& firstWord) const
 {
-    return dictionaryInflector.inflectWithOptionalConstraints(firstWord, {GrammemeConstants::NUMBER_PLURAL()}, {GrammemeConstants::DEFINITENESS_CONSTRUCT()});
+    int64_t wordGrammemes = 0;
+    dictionary.getCombinedBinaryType(&wordGrammemes, firstWord);
+    return dictionaryInflector.inflectWithOptionalConstraints(firstWord, wordGrammemes, {GrammemeConstants::NUMBER_PLURAL()}, {GrammemeConstants::DEFINITENESS_CONSTRUCT()});
 }
 
 ::std::u16string HeGrammarSynthesizer_HeDisplayFunction::pluralizeFirstWordOfCompoundWithHeuristics(const ::std::u16string& firstWord) const
 {
     auto pluralizedFirstWord(singleWordStemToPlural(firstWord));
-    if (::inflection::util::StringViewUtils::endsWith(pluralizedFirstWord, u"ם")) {
+    if (pluralizedFirstWord.ends_with(u"ם")) {
         pluralizedFirstWord.resize(pluralizedFirstWord.length() - 1);
     }
     return pluralizedFirstWord;
@@ -72,7 +74,9 @@ std::optional<::std::u16string> HeGrammarSynthesizer_HeDisplayFunction::pluraliz
         }
         rest.push_back(*word);
 
-        if (!dictionary.hasAllProperties(*word, nounProperty) || dictionary.hasAllProperties(*word, adjectiveProperty)) {
+        int64_t wordGrammemes = 0;
+        dictionary.getCombinedBinaryType(&wordGrammemes, *word);
+        if ((wordGrammemes & nounProperty) == 0 || (wordGrammemes & adjectiveProperty) != 0) {
             allNouns = false;
         }
     }
@@ -110,7 +114,7 @@ static const char16_t FINAL_TO_MEDIAL_SUBSTITUTION[][2] = {
     ::std::u16string pluralStem(stemmedSingular);
     for (auto finalToMedial : FINAL_TO_MEDIAL_SUBSTITUTION) {
         ::std::u16string_view finalToMedialStr(finalToMedial, 1);
-        if (::inflection::util::StringViewUtils::endsWith(pluralStem, finalToMedialStr)) {
+        if (pluralStem.ends_with(finalToMedialStr)) {
             pluralStem[pluralStem.length() - 1] = finalToMedial[1];
         }
     }
@@ -164,17 +168,17 @@ static const char16_t FINAL_TO_MEDIAL_SUBSTITUTION[][2] = {
         pluralStem = pluralStem + u"ות";
     }
     else {
-        if (::inflection::util::StringViewUtils::endsWith(pluralStem, u"וה")) {
+        if (pluralStem.ends_with(u"וה")) {
             pluralStem = pluralStem.substr(0, pluralStem.length() - 2) + u"ות";
-        } else if (::inflection::util::StringViewUtils::endsWith(pluralStem, u"ה")) {
+        } else if (pluralStem.ends_with(u"ה")) {
             pluralStem = pluralStem.substr(0, pluralStem.length() - 1) + u"ות";
-        } else if (::inflection::util::StringViewUtils::endsWith(pluralStem, u"אי")) {
+        } else if (pluralStem.ends_with(u"אי")) {
             pluralStem += u"ם";
-        } else if (::inflection::util::StringViewUtils::endsWith(pluralStem, u"ית")) {
+        } else if (pluralStem.ends_with(u"ית")) {
             pluralStem = pluralStem.substr(0, pluralStem.length() - 2) + u"יות";
-        } else if (::inflection::util::StringViewUtils::endsWith(pluralStem, u"ות")) {
+        } else if (pluralStem.ends_with(u"ות")) {
             pluralStem = pluralStem.substr(0, pluralStem.length() - 2) + u"ויות";
-        } else if (::inflection::util::StringViewUtils::endsWith(pluralStem, u"ת")) {
+        } else if (pluralStem.ends_with(u"ת")) {
             pluralStem = pluralStem.substr(0, pluralStem.length() - 1) + u"ות";
         } else if (!pluralStem.empty()) {
             pluralStem += u"ים";
@@ -184,16 +188,52 @@ static const char16_t FINAL_TO_MEDIAL_SUBSTITUTION[][2] = {
     return pluralStem;
 }
 
-::std::u16string HeGrammarSynthesizer_HeDisplayFunction::inflectDisplayString(const ::std::u16string& displayString, const std::u16string &count, const std::u16string &gender) const
+::std::u16string HeGrammarSynthesizer_HeDisplayFunction::inflectDisplayString(const ::std::u16string& displayString, const std::u16string &count, const std::u16string &gender, const std::u16string &person, const ::std::vector<::std::u16string>& disambiguationGrammemes) const
 {
-    const auto inflectedWord = dictionaryInflector.inflect(displayString, {count, gender});
-    if (inflectedWord.has_value()) {
-        return *inflectedWord;
+    int64_t wordGrammemes = 0;
+
+    if (dictionary.getCombinedBinaryType(&wordGrammemes, displayString) != nullptr) {
+        const auto inflectedWord = dictionaryInflector.inflect(displayString, wordGrammemes, {count, gender, person}, disambiguationGrammemes);
+        if (inflectedWord.has_value()) {
+            return *inflectedWord;
+        }
     }
+
     // Well, dictionary was not able to inflect it. So let's make a guess.
-    if (count == GrammemeConstants::NUMBER_DUAL() || count == GrammemeConstants::NUMBER_PLURAL()) {
+    if (gender.empty() && (count == GrammemeConstants::NUMBER_DUAL() || count == GrammemeConstants::NUMBER_PLURAL())) {
         return inflectCompoundToPlural(displayString);
     }
+
+    bool successfullyInflectedChain = true;
+    ::std::u16string inflectedChain;
+
+    for (inflection::util::DelimitedStringIterator word(displayString, u" "); word.hasNext(); ++word) {
+        if (!inflectedChain.empty()) {
+            inflectedChain += u" ";
+        }
+        // TODO To be removed once it's added into dictionary
+        if (*word == u"הם") {
+             inflectedChain += u"הן";
+             continue;
+        }
+
+        const auto isPresentInDictionary = dictionary.getCombinedBinaryType(&wordGrammemes, *word);
+        const auto inflectedWord = dictionaryInflector.inflect(*word, wordGrammemes, {count, gender, person}, disambiguationGrammemes);
+
+        if (inflectedWord.has_value()) {
+            inflectedChain += *inflectedWord;
+        } else if (isPresentInDictionary != nullptr) {
+            inflectedChain += *word;
+        } else {
+            successfullyInflectedChain = false;
+            break;
+        }
+    }
+
+    if (successfullyInflectedChain && !inflectedChain.empty()) {
+        return inflectedChain;
+    }
+
     return displayString;
 }
 
@@ -208,9 +248,13 @@ static const char16_t FINAL_TO_MEDIAL_SUBSTITUTION[][2] = {
     }
 
     const auto countValue(inflection::grammar::synthesis::GrammarSynthesizerUtil::getFeatureValue(constraints, countFeature));
+    const auto personValue(inflection::grammar::synthesis::GrammarSynthesizerUtil::getFeatureValue(constraints, personFeature));
     const auto genderValue(inflection::grammar::synthesis::GrammarSynthesizerUtil::getFeatureValue(constraints, genderFeature));
+    const auto partOfSpeechValue(inflection::grammar::synthesis::GrammarSynthesizerUtil::getFeatureValue(constraints, partOfSpeechFeature));
+    const auto disambiguationGrammemeValues = GrammarSynthesizerUtil::convertToStringConstraints(constraints, {&personFeature, &partOfSpeechFeature});
+
     if (!countValue.empty() || !genderValue.empty()) {
-        displayString = inflectDisplayString(displayString, countValue, genderValue);
+        displayString = inflectDisplayString(displayString, countValue, genderValue, personValue, disambiguationGrammemeValues);
     }
     auto definitenessValue(inflection::grammar::synthesis::GrammarSynthesizerUtil::getFeatureValue(constraints, definitenessFeature));
     if (!definitenessValue.empty()) {
@@ -219,7 +263,7 @@ static const char16_t FINAL_TO_MEDIAL_SUBSTITUTION[][2] = {
     return new ::inflection::dialog::DisplayValue(displayString, constraints);
 }
 
-::std::u16string HeGrammarSynthesizer_HeDisplayFunction::applyDefiniteness(const ::std::u16string& input, ::std::u16string_view definiteness) const
+::std::u16string HeGrammarSynthesizer_HeDisplayFunction::applyDefiniteness(const ::std::u16string& input, ::std::u16string_view definiteness)
 {
     if (!input.empty() && GrammemeConstants::DEFINITENESS_DEFINITE() == definiteness) {
         ::std::u16string output;
@@ -232,7 +276,7 @@ static const char16_t FINAL_TO_MEDIAL_SUBSTITUTION[][2] = {
         else {
             tail = input;
         }
-        if (!::inflection::util::StringViewUtils::startsWith(tail, u"ה")) {
+        if (!tail.starts_with(u"ה")) {
             output += u"ה";
         }
         output += tail;

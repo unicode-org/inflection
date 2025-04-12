@@ -16,18 +16,21 @@
 #include <inflection/dialog/SemanticFeatureModel_DisplayData.hpp>
 #include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
-#include <inflection/dialog/SpeakableString.hpp>
 #include <inflection/grammar/synthesis/EnGrammarSynthesizer.hpp>
 #include <inflection/grammar/synthesis/GrammemeConstants.hpp>
 #include <inflection/grammar/synthesis/GrammarSynthesizerUtil.hpp>
-#include <inflection/npc.hpp>
 #include <icu4cxx/UnicodeSet.hpp>
+#include <inflection/npc.hpp>
 #include <memory>
 
 namespace inflection::grammar::synthesis {
 
 EnGrammarSynthesizer_EnDisplayFunction::EnGrammarSynthesizer_EnDisplayFunction(const ::inflection::dialog::SemanticFeatureModel& model)
     : super()
+    , numberFeature(*npc(model.getFeature(GrammemeConstants::NUMBER)))
+    , caseFeature(*npc(model.getFeature(GrammemeConstants::CASE)))
+    , speakFeature(*npc(model.getFeature(::inflection::dialog::SemanticFeatureModel::SPEAK)))
+    , partOfSpeechFeature(*npc(model.getFeature(GrammemeConstants::POS)))
     , dictionaryInflector(::inflection::util::LocaleUtils::ENGLISH(), {
             {GrammemeConstants::POS_NOUN(),  GrammemeConstants::POS_ADJECTIVE(), GrammemeConstants::POS_VERB()},
             {GrammemeConstants::PERSON_THIRD(), GrammemeConstants::PERSON_FIRST(), GrammemeConstants::PERSON_SECOND()},
@@ -47,10 +50,6 @@ EnGrammarSynthesizer_EnDisplayFunction::EnGrammarSynthesizer_EnDisplayFunction(c
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&singularProperty, {GrammemeConstants::NUMBER_SINGULAR()}));
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&prepositionProperty, {u"adposition"}));
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&abbreviationProperty, {u"abbreviation"}));
-    this->countFeature = model.getFeature(GrammemeConstants::NUMBER);
-    this->caseFeature = model.getFeature(GrammemeConstants::CASE);
-    this->speakFeature = model.getFeature(::inflection::dialog::SemanticFeatureModel::SPEAK);
-    this->partOfSpeechFeature = model.getFeature(GrammemeConstants::POS);
 }
 
 EnGrammarSynthesizer_EnDisplayFunction::~EnGrammarSynthesizer_EnDisplayFunction()
@@ -86,7 +85,7 @@ const ::std::map<::std::u16string_view, ::std::u16string_view>& EnGrammarSynthes
         return nullptr;
     }
     auto displayValueConstraints(constraints);
-    ::std::u16string countString = GrammarSynthesizerUtil::getFeatureValue(constraints, countFeature);
+    ::std::u16string countString = GrammarSynthesizerUtil::getFeatureValue(constraints, numberFeature);
     bool isRequestingPlural = countString == GrammemeConstants::NUMBER_PLURAL();
     if (isRequestingPlural || countString == GrammemeConstants::NUMBER_SINGULAR()) {
         auto result = inflectPhrase(displayString, constraints, enableInflectionGuess);
@@ -96,9 +95,9 @@ const ::std::map<::std::u16string_view, ::std::u16string_view>& EnGrammarSynthes
         displayString = *result;
     } else {
         // We only add this speak value if it's not morphologically changing.
-        auto speakValue = inflection::dialog::DefaultArticleLookupFunction::getFeatureValue(displayValue->getConstraintMap(), *npc(speakFeature));
+        auto speakValue = inflection::dialog::DefaultArticleLookupFunction::getFeatureValue(displayValue->getConstraintMap(), speakFeature);
         if (speakValue != nullptr) {
-            displayValueConstraints.emplace(*npc(speakFeature), *npc(speakValue));
+            displayValueConstraints.emplace(speakFeature, *npc(speakValue));
         }
     }
 
@@ -112,18 +111,16 @@ const ::std::map<::std::u16string_view, ::std::u16string_view>& EnGrammarSynthes
 
 ::std::optional<::std::u16string> EnGrammarSynthesizer_EnDisplayFunction::inflectPhrase(const std::u16string &originalString, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const
 {
+    const auto constraintsVec(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {&numberFeature}));
+    const auto dismbiguationGrammemeValues(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {&partOfSpeechFeature}));
+
     int64_t significantTokenProperties = 0;
-    bool isKnown = dictionary.getCombinedBinaryType(&significantTokenProperties, originalString) != nullptr;
-    const auto constraintsVec(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {countFeature}));
-    const auto dismbiguationGrammemeValues(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {partOfSpeechFeature}));
-
-    const auto inflectResult = dictionaryInflector.inflect(originalString, constraintsVec, dismbiguationGrammemeValues);
-
-    if (inflectResult) {
-        // It's a known word or phrase
-        return *inflectResult;
-    }
-    else if (isKnown) {
+    if (dictionary.getCombinedBinaryType(&significantTokenProperties, originalString) != nullptr) {
+        const auto inflectResult = dictionaryInflector.inflect(originalString, significantTokenProperties, constraintsVec, dismbiguationGrammemeValues);
+        if (inflectResult) {
+            // It's a known word or phrase
+            return *inflectResult;
+        }
         // It's a known word or phrase, but there isn't a way to inflect it the desired way.
         if (enableInflectionGuess) {
             return originalString;
@@ -151,12 +148,12 @@ const ::std::map<::std::u16string_view, ::std::u16string_view>& EnGrammarSynthes
     }
     if (significantToken != nullptr && (enableInflectionGuess || significantTokenProperties != 0)) {
         const auto significantWord(npc(significantToken)->getValue());
-        auto inflectionResult(dictionaryInflector.inflect(significantWord, constraintsVec, dismbiguationGrammemeValues));
+        auto inflectionResult(dictionaryInflector.inflect(significantWord, significantTokenProperties, constraintsVec, dismbiguationGrammemeValues));
         if (!inflectionResult) {
             if (!enableInflectionGuess) {
                 return {};
             }
-            if (GrammarSynthesizerUtil::getFeatureValue(constraints, countFeature) == GrammemeConstants::NUMBER_PLURAL()) {
+            if (GrammarSynthesizerUtil::getFeatureValue(constraints, numberFeature) == GrammemeConstants::NUMBER_PLURAL()) {
                 inflectionResult = guessPluralInflection(significantWord);
             } else {
                 inflectionResult = guessSingularInflection(significantWord);
@@ -168,34 +165,34 @@ const ::std::map<::std::u16string_view, ::std::u16string_view>& EnGrammarSynthes
 }
 
 ::std::u16string EnGrammarSynthesizer_EnDisplayFunction::guessPluralInflection(const ::std::u16string& displayString) const {
-    if (::inflection::util::StringViewUtils::endsWith(displayString, u"s")
-        || ::inflection::util::StringViewUtils::endsWith(displayString, u"ch")
-        || ::inflection::util::StringViewUtils::endsWith(displayString, u"sh")
-        || ::inflection::util::StringViewUtils::endsWith(displayString, u"x")
-        || ::inflection::util::StringViewUtils::endsWith(displayString, u"z"))
+    if (displayString.ends_with(u"s")
+        || displayString.ends_with(u"ch")
+        || displayString.ends_with(u"sh")
+        || displayString.ends_with(u"x")
+        || displayString.ends_with(u"z"))
     {
         return displayString + u"es";
     }
-    else if (displayString.length() > 2 && ::inflection::util::StringViewUtils::endsWith(displayString, u"y") && !::inflection::dictionary::PhraseProperties::DEFAULT_VOWELS_START().contains(displayString[displayString.length() - 2])) {
+    else if (displayString.length() > 2 && displayString.ends_with(u"y") && !::inflection::dictionary::PhraseProperties::DEFAULT_VOWELS_START().contains(displayString[displayString.length() - 2])) {
         return displayString.substr(0, displayString.length() - 1) + u"ies";
     }
     return displayString + u"s";
 }
 
 ::std::u16string EnGrammarSynthesizer_EnDisplayFunction::guessSingularInflection(const std::u16string &displayString) const {
-    if (::inflection::util::StringViewUtils::endsWith(displayString, u"ses")
-        || ::inflection::util::StringViewUtils::endsWith(displayString, u"ches")
-        || ::inflection::util::StringViewUtils::endsWith(displayString, u"shes")
-        || ::inflection::util::StringViewUtils::endsWith(displayString, u"xes")
-        || ::inflection::util::StringViewUtils::endsWith(displayString, u"zes"))
+    if (displayString.ends_with(u"ses")
+        || displayString.ends_with(u"ches")
+        || displayString.ends_with(u"shes")
+        || displayString.ends_with(u"xes")
+        || displayString.ends_with(u"zes"))
     {
         return displayString.substr(0, displayString.length() - 2);
     }
-    if (::inflection::util::StringViewUtils::endsWith(displayString, u"ies"))
+    if (displayString.ends_with(u"ies"))
     {
         return displayString.substr(0, displayString.length() - 3) + u"y";
     }
-    if (::inflection::util::StringViewUtils::endsWith(displayString, u"s"))
+    if (displayString.ends_with(u"s"))
     {
         return displayString.substr(0, displayString.length() - 1);
     }
@@ -218,7 +215,7 @@ const ::std::map<::std::u16string_view, ::std::u16string_view>& EnGrammarSynthes
                 suffixStr.clear();
             }
             else {
-                if (::inflection::util::StringViewUtils::endsWith(suffix, u"s")) {
+                if (suffix.ends_with(u"s")) {
                     ::std::unique_ptr<::inflection::tokenizer::TokenChain> tokenChain(npc(npc(tokenizer.get())->createTokenChain(displayString)));
                     if (isRequestingPlural || dictionary.hasAllProperties(npc(npc(tokenChain->getTail())->getPrevious())->getValue(), pluralProperty)) {
                         suffixStr = u"’";
@@ -226,9 +223,9 @@ const ::std::map<::std::u16string_view, ::std::u16string_view>& EnGrammarSynthes
                 }
             }
         }
-        auto speakValue = inflection::dialog::DefaultArticleLookupFunction::getFeatureValue(valueConstraints, *npc(speakFeature));
+        auto speakValue = inflection::dialog::DefaultArticleLookupFunction::getFeatureValue(valueConstraints, speakFeature);
         if (speakValue != nullptr) {
-            valueConstraints[*npc(speakFeature)] = *npc(speakValue) + suffixStr;
+            valueConstraints[speakFeature] = *npc(speakValue) + suffixStr;
         }
         return displayString + suffixStr;
     }

@@ -8,7 +8,6 @@
 #include <inflection/tokenizer/TokenizerFactory.hpp>
 #include <inflection/dialog/SemanticFeature.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
-#include <inflection/dialog/SemanticFeatureModel_DisplayData.hpp>
 #include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dictionary/DictionaryMetaData.hpp>
 #include <inflection/exception/ClassCastException.hpp>
@@ -16,7 +15,6 @@
 #include <inflection/grammar/synthesis/PtGrammarSynthesizer.hpp>
 #include <inflection/grammar/synthesis/GrammarSynthesizerUtil.hpp>
 #include <inflection/util/LocaleUtils.hpp>
-#include <inflection/util/StringViewUtils.hpp>
 #include <inflection/util/Validate.hpp>
 #include <inflection/npc.hpp>
 #include <memory>
@@ -35,6 +33,9 @@ namespace inflection::grammar::synthesis {
 
 PtGrammarSynthesizer_PtDisplayFunction::PtGrammarSynthesizer_PtDisplayFunction(const ::inflection::dialog::SemanticFeatureModel& model)
     : super()
+    , numberFeature(*npc(model.getFeature(GrammemeConstants::NUMBER)))
+    , genderFeature(*npc(model.getFeature(GrammemeConstants::GENDER)))
+    , partOfSpeechFeature(*npc(model.getFeature(GrammemeConstants::POS)))
     , dictionary(*npc(::inflection::dictionary::DictionaryMetaData::createDictionary(::inflection::util::LocaleUtils::PORTUGUESE())))
     , definiteArticleLookupFunction(model, PtGrammarSynthesizer::ARTICLE_DEFINITE, *npc(java_cast<const PtGrammarSynthesizer_ArticleLookupFunction*>(model.getDefaultFeatureFunction(*npc(model.getFeature(PtGrammarSynthesizer::ARTICLE_DEFINITE))))))
     , indefiniteArticleLookupFunction(model, PtGrammarSynthesizer::ARTICLE_INDEFINITE, *npc(java_cast<const PtGrammarSynthesizer_ArticleLookupFunction*>(model.getDefaultFeatureFunction(*npc(model.getFeature(PtGrammarSynthesizer::ARTICLE_INDEFINITE))))))
@@ -56,9 +57,6 @@ PtGrammarSynthesizer_PtDisplayFunction::PtGrammarSynthesizer_PtDisplayFunction(c
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryFeminine, {u"feminine"}));
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryAdposition, {u"adposition"}));
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryInflectablePOS, {u"noun", u"adjective", u"verb", u"adverb"}));
-    this->countFeature = model.getFeature(GrammemeConstants::NUMBER);
-    this->genderFeature = model.getFeature(GrammemeConstants::GENDER);
-    this->partOfSpeechFeature = model.getFeature(GrammemeConstants::POS);
 }
 
 PtGrammarSynthesizer_PtDisplayFunction::~PtGrammarSynthesizer_PtDisplayFunction()
@@ -73,35 +71,35 @@ PtGrammarSynthesizer_PtDisplayFunction::~PtGrammarSynthesizer_PtDisplayFunction(
         return word;
     }
     ::std::u16string resultString;
-    if (::inflection::util::StringViewUtils::endsWith(word, u"ês")) {
+    if (word.ends_with(u"ês")) {
         return word.substr(0, word.length() - 2) + u"eses";
     }
-    else if (::inflection::util::StringViewUtils::endsWith(word, u"r") || ::inflection::util::StringViewUtils::endsWith(word, u"z") || ::inflection::util::StringViewUtils::endsWith(word, u"s")) {
+    else if (word.ends_with(u"r") || word.ends_with(u"z") || word.ends_with(u"s")) {
         return word + u"es";
     }
-    else if (::inflection::util::StringViewUtils::endsWith(word, u"m")) {
+    else if (word.ends_with(u"m")) {
         return word.substr(0, word.length() - 1) + u"ns";
     }
-    else if (::inflection::util::StringViewUtils::endsWith(word, u"al") || ::inflection::util::StringViewUtils::endsWith(word, u"el") || ::inflection::util::StringViewUtils::endsWith(word, u"ol")|| ::inflection::util::StringViewUtils::endsWith(word, u"ul")) {
+    else if (word.ends_with(u"al") || word.ends_with(u"el") || word.ends_with(u"ol")|| word.ends_with(u"ul")) {
         return word.substr(0, word.length() - 1) + u"is";
     }
-    else if (::inflection::util::StringViewUtils::endsWith(word, u"ão")) {
+    else if (word.ends_with(u"ão")) {
         return word.substr(0, word.length() - 2) + u"ões";
     }
-    else if (::inflection::util::StringViewUtils::endsWith(word, u"il")) {
+    else if (word.ends_with(u"il")) {
         return word.substr(0, word.length() - 1) + u"s";
     }
-    else if (!::inflection::util::StringViewUtils::endsWith(word, u"x")) {
+    else if (!word.ends_with(u"x")) {
         return word + u"s";
     }
     return word;
 }
 
-::std::optional<::std::u16string> PtGrammarSynthesizer_PtDisplayFunction::inflectWord(::std::u16string_view word, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const
+::std::optional<::std::u16string> PtGrammarSynthesizer_PtDisplayFunction::inflectWord(::std::u16string_view word, int64_t wordType, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const
 {
-    const auto constraintsVec(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {countFeature, genderFeature}));
-    const auto dismbiguationGrammemeValues(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {partOfSpeechFeature}));
-    const auto inflectedWord = dictionaryInflector.inflect(word, constraintsVec, dismbiguationGrammemeValues);
+    const auto constraintsVec(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {&numberFeature, &genderFeature}));
+    const auto dismbiguationGrammemeValues(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {&partOfSpeechFeature}));
+    const auto inflectedWord = dictionaryInflector.inflect(word, wordType, constraintsVec, dismbiguationGrammemeValues);
     if (inflectedWord) {
         return *inflectedWord;
     }
@@ -109,7 +107,7 @@ PtGrammarSynthesizer_PtDisplayFunction::~PtGrammarSynthesizer_PtDisplayFunction(
         return {};
     }
 
-    if (GrammarSynthesizerUtil::getFeatureValue(constraints, countFeature) == GrammemeConstants::NUMBER_PLURAL()) {
+    if (GrammarSynthesizerUtil::getFeatureValue(constraints, numberFeature) == GrammemeConstants::NUMBER_PLURAL()) {
         return guessPluralInflection(::std::u16string(word));
     }
     return ::std::u16string(word);
@@ -117,33 +115,34 @@ PtGrammarSynthesizer_PtDisplayFunction::~PtGrammarSynthesizer_PtDisplayFunction(
 
 ::std::optional<::std::vector<::std::u16string>> PtGrammarSynthesizer_PtDisplayFunction::inflect2compoundWord(const std::vector<::std::u16string> &words, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const
 {
-    int64_t wordType[2] = { };
-    ::std::u16string_view word0(words.at(0));
-    ::std::u16string_view word1(words.at(1));
-    dictionary.getCombinedBinaryType(&wordType[0], word0);
-    dictionary.getCombinedBinaryType(&wordType[1], word1);
+    int64_t wordTypeFirst = 0;
+    int64_t wordTypeLast = 0;
+    const auto& wordFirst(words.front());
+    const auto& wordLast(words.back());
+    dictionary.getCombinedBinaryType(&wordTypeFirst, wordFirst);
+    dictionary.getCombinedBinaryType(&wordTypeLast, wordLast);
     //Some word is missing from the dictionary
-    if (wordType[0] == 0 || wordType[1] == 0) {
+    if (wordTypeFirst == 0 || wordTypeLast == 0) {
         if (enableInflectionGuess) {
             return {words};
         }
-    } else if ((wordType[0] & dictionaryAdjective) != 0 && (wordType[0] & dictionaryNoun) == 0 && (wordType[1] & dictionaryNoun) != 0) {
+    } else if ((wordTypeFirst & dictionaryAdjective) != 0 && (wordTypeFirst & dictionaryNoun) == 0 && (wordTypeLast & dictionaryNoun) != 0) {
         return {words};
-    } else if ((wordType[0] & dictionaryAdverb) != 0 && (wordType[1] & dictionaryAdjective) != 0) {
-        const auto &inflectionResult1 = inflectWord(word1, constraints, enableInflectionGuess);
+    } else if ((wordTypeFirst & dictionaryAdverb) != 0 && (wordTypeLast & dictionaryAdjective) != 0) {
+        const auto &inflectionResult1 = inflectWord(wordLast, wordTypeLast, constraints, enableInflectionGuess);
         if (inflectionResult1) {
-            return {{::std::u16string(word0), *inflectionResult1}};
+            return {{wordFirst, *inflectionResult1}};
         }
-    } else if ((wordType[0] & dictionaryNoun) != 0 && (wordType[0] & dictionaryVerb) == 0 && ((wordType[1] & dictionaryNoun) != 0 || (wordType[1] & dictionaryAdjective) != 0)) {
-        const auto &inflectionResult0 = inflectWord(word0, constraints, enableInflectionGuess);
-        const auto &inflectionResult1 = inflectWord(word1, constraints, enableInflectionGuess);
+    } else if ((wordTypeFirst & dictionaryNoun) != 0 && (wordTypeFirst & dictionaryVerb) == 0 && ((wordTypeLast & dictionaryNoun) != 0 || (wordTypeLast & dictionaryAdjective) != 0)) {
+        const auto &inflectionResult0 = inflectWord(wordFirst, wordTypeFirst, constraints, enableInflectionGuess);
+        const auto &inflectionResult1 = inflectWord(wordLast, wordTypeLast, constraints, enableInflectionGuess);
         if (inflectionResult0 && inflectionResult1) {
             return {{*inflectionResult0, *inflectionResult1}};
         }
-    } else if (((wordType[0] & dictionaryVerb) != 0 && (wordType[1] & dictionaryNoun) != 0) || ((wordType[0] & dictionaryAdjective) != 0 && (wordType[1] & dictionaryAdjective) != 0)) {
-        const auto &inflectionResult1 = inflectWord(word1, constraints, enableInflectionGuess);
+    } else if (((wordTypeFirst & dictionaryVerb) != 0 && (wordTypeLast & dictionaryNoun) != 0) || ((wordTypeFirst & dictionaryAdjective) != 0 && (wordTypeLast & dictionaryAdjective) != 0)) {
+        const auto &inflectionResult1 = inflectWord(wordLast, wordTypeLast, constraints, enableInflectionGuess);
         if (inflectionResult1) {
-            return {{::std::u16string(word0), *inflectionResult1}};
+            return {{::std::u16string(wordFirst), *inflectionResult1}};
         }
     }
     if (enableInflectionGuess) {
@@ -158,7 +157,7 @@ PtGrammarSynthesizer_PtDisplayFunction::~PtGrammarSynthesizer_PtDisplayFunction(
     if (dictionary.getCombinedBinaryType(&middle, words[1]) != nullptr && (middle & dictionaryAdposition) != 0) {
         int64_t wordType = 0;
         dictionary.getCombinedBinaryType(&wordType, words[0]);
-        const auto& inflectionResult0 = inflectWord(words[0], constraints, enableInflectionGuess);
+        const auto& inflectionResult0 = inflectWord(words[0], wordType, constraints, enableInflectionGuess);
         if (inflectionResult0) {
             return {{*inflectionResult0, words[1], words[2]}};
         } else {
@@ -182,7 +181,7 @@ PtGrammarSynthesizer_PtDisplayFunction::~PtGrammarSynthesizer_PtDisplayFunction(
             inflectionResults.push_back(word);
             continue;
         }
-        const auto &inflectionResult = inflectWord(word, constraints, enableInflectionGuess);
+        const auto &inflectionResult = inflectWord(word, wordType, constraints, enableInflectionGuess);
         if (inflectionResult) {
             inflectionResults.push_back(*inflectionResult);
         } else if(enableInflectionGuess){
@@ -198,7 +197,9 @@ PtGrammarSynthesizer_PtDisplayFunction::~PtGrammarSynthesizer_PtDisplayFunction(
     switch (words.size()) {
         case 0: return {{}};
         case 1: {
-            const auto inflectionResult = inflectWord(words[0], constraints, enableInflectionGuess);
+            int64_t wordType = 0;
+            dictionary.getCombinedBinaryType(&wordType, words[0]);
+            const auto inflectionResult = inflectWord(words[0], wordType, constraints, enableInflectionGuess);
             if (inflectionResult) {
                 return {{*inflectionResult}};
             }
@@ -230,11 +231,11 @@ PtGrammarSynthesizer_PtDisplayFunction::~PtGrammarSynthesizer_PtDisplayFunction(
     }
     auto displayValueConstraints(GrammarSynthesizerUtil::mergeConstraintsWithDisplayValue(*displayValue, constraints));
 
-    if (GrammarSynthesizerUtil::hasAnyFeatures(constraints, {countFeature, genderFeature})) {
+    if (GrammarSynthesizerUtil::hasAnyFeatures(constraints, {&numberFeature, &genderFeature})) {
         int64_t wordType = 0;
         bool needTokenizedInflection = true;
         if (dictionary.getCombinedBinaryType(&wordType, displayString) != nullptr) {
-            auto inflectionResult(inflectWord(displayString, constraints, false));
+            auto inflectionResult(inflectWord(displayString, wordType, constraints, false));
             if (inflectionResult) {
                 displayString = *inflectionResult;
                 needTokenizedInflection = false;

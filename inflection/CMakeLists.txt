@@ -26,7 +26,6 @@ inflection_debug_vars(NUM_PROCESSORS_VAL)
 # Unicode Inflection cache variables
 set(NUM_PROCESSORS             ${NUM_PROCESSORS_VAL} CACHE STRING   "Number of cores to be used in make")
 
-# Morphun options
 option(PROFILING "Turn on code profiling" OFF)
 
 add_compile_options(${CXX_STD_LIB_FLAG})

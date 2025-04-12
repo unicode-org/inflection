@@ -4,7 +4,6 @@
 #pragma once
 
 #include <inflection/dialog/fwd.hpp>
-#include <inflection/grammar/synthesis/ArGrammarSynthesizer.hpp>
 #include <inflection/grammar/synthesis/fwd.hpp>
 #include <inflection/dialog/DefaultDisplayFunction.hpp>
 #include <inflection/dialog/DictionaryLookupInflector.hpp>
@@ -20,7 +19,10 @@ public:
 private:
     struct InflectionConstraints {
         ::std::u16string caseString {  };
+        ::std::u16string moodString {  };
         ::std::u16string countString {  };
+        ::std::u16string tenseString {  };
+        ::std::u16string personString {  };
         ::std::u16string genderString {  };
         ::std::u16string definitenessString {  };
         ::std::u16string pronounCountString {  };
@@ -31,7 +33,10 @@ private:
 
     ::inflection::dialog::DictionaryLookupInflector dictionaryInflector;
     const ::inflection::dialog::SemanticFeature& caseFeature;
+    const ::inflection::dialog::SemanticFeature& moodFeature;
     const ::inflection::dialog::SemanticFeature& countFeature;
+    const ::inflection::dialog::SemanticFeature& tenseFeature;
+    const ::inflection::dialog::SemanticFeature& personFeature;
     const ::inflection::dialog::SemanticFeature& genderFeature;
     const ::inflection::dialog::SemanticFeature& partOfSpeechFeature;
     const ::inflection::dialog::SemanticFeature& definitenessFeature;
@@ -52,7 +57,7 @@ public:
 
 private:
     static ::std::u16string lookupDefiniteArticle(const ::std::u16string& displayString);
-    ::std::u16string performInflection(const ::std::u16string &word, const InflectionConstraints &inflectionContraints) const;
+    ::std::u16string performInflection(const ::std::u16string &word, int64_t wordGrammemes, const InflectionConstraints &inflectionContraints) const;
     ::std::u16string performPronounInflection(const ::std::u16string &word, const InflectionConstraints &inflectionContraints) const;
 
 public: /* package */

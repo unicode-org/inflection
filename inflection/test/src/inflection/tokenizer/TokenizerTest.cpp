@@ -113,7 +113,7 @@ TEST_CASE("TokenizerTest#testDefault")
     if (stringLogger.logLines.size() == 2) {
         // You might get this when running the test in isolation.
         INFO(inflection::util::StringUtils::to_string(stringLogger.logLines[1]));
-        CHECK(inflection::util::StringViewUtils::startsWith(stringLogger.logLines[1], u"[INFO] [Tokenizer] The tokenizer for zz is being constructed for the first time. Platform="));
+        CHECK(stringLogger.logLines[1].starts_with(u"[INFO] [Tokenizer] The tokenizer for zz is being constructed for the first time. Platform="));
     }
     compareValueTokens(tokenizer->createTokenChain(u"Hello world!"), {u"", u"Hello", u" ", u"world", u"!", u""});
 }
@@ -122,7 +122,7 @@ TEST_CASE("TokenizerTest#testToString")
 {
     ::std::unique_ptr<::inflection::tokenizer::Tokenizer> tokenizer(::inflection::tokenizer::TokenizerFactory::createTokenizer(inflection::util::LocaleUtils::ENGLISH()));
     auto result(tokenizer->toString());
-    // This is the default C++ object toString behavior. It can appear as N7morphun9TokenizerE on macOS with clang and libc++.
+    // This is the default C++ object toString behavior. It can appear as N7inflection9TokenizerE on macOS with clang and libc++.
     CHECK(result.find(u"Tokenizer") != std::u16string::npos);
     CHECK(result.find(u"inflection") != std::u16string::npos);
 }
@@ -391,6 +391,22 @@ TEST_CASE("TokenizerTest#testLanguageSpecificSplits")
     REQUIRE(dynamic_cast< ::inflection::tokenizer::Token_Word* >(tokenChain->getToken(8)) != nullptr);
     tokenChain.reset(germanTok->createTokenChain(u"What is 1 - 1"));
     REQUIRE(dynamic_cast< ::inflection::tokenizer::Token_Word* >(tokenChain->getToken(10)) != nullptr);
+}
+
+TEST_CASE("TokenizerTest#testSwedishDictionary")
+{
+    ::std::unique_ptr<::inflection::tokenizer::Tokenizer> tokenizer(::inflection::tokenizer::TokenizerFactory::createTokenizer(::inflection::util::LocaleUtils::SWEDEN()));
+    compareValueTokens(tokenizer->createTokenChain(u"kärnvapennedrustningsorganisationen"), {u"", u"kärnvapen", u"nedrustning", u"s", u"organisationen", u""});
+    compareValueTokens(tokenizer->createTokenChain(u"Näringslivsminister"), {u"", u"Näring", u"s", u"liv", u"s", u"minister", u""});
+    compareValueTokens(tokenizer->createTokenChain(u"Nordkalottstaden"), {u"", u"Nord", u"kalott", u"staden", u""});
+    compareValueTokens(tokenizer->createTokenChain(u"Klara Norra Kyrkogata"), {u"", u"Klara", u" ", u"Norra", u" ", u"Kyrk", u"o", u"gata", u""});
+}
+
+TEST_CASE("TokenizerTest#testDutchDictionary")
+{
+    ::std::unique_ptr<::inflection::tokenizer::Tokenizer> tokenizer(::inflection::tokenizer::TokenizerFactory::createTokenizer(::inflection::util::LocaleUtils::NETHERLANDS()));
+    compareValueTokens(tokenizer->createTokenChain(u"wifiinstellingsknop"), {u"", u"wifi", u"instelling", u"s", u"knop", u""});
+    compareValueTokens(tokenizer->createTokenChain(u"bluetoothinstelling"), {u"", u"bluetooth", u"instelling", u""});
 }
 
 TEST_CASE("TokenizerTest#testItalianTokenizer")

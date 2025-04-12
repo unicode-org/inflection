@@ -103,7 +103,7 @@ bool PhraseProperties::isStartsWithVowel(const ::inflection::util::ULocale& loc,
     }
     const auto& lang = loc.getLanguage();
     if (::inflection::util::LocaleUtils::FRENCH() == lang) {
-        if (wordTypes != 0 && inflection::util::StringViewUtils::startsWith(str, u"H")) {
+        if (wordTypes != 0 && str.starts_with(u"H")) {
             // A known word starting with the capital H that doesn't contains vowel-start, which may be a proper noun.
             return false;
         }

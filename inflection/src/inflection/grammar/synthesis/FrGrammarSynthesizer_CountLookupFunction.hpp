@@ -21,14 +21,11 @@ private:
     const ::inflection::dictionary::DictionaryMetaData& dictionary;
     int64_t nounProperty {  };
     int64_t properNounProperty {  };
-    int64_t appleProductProperty {  };
     int64_t pluralizeInvProperty {  };
     const ::inflection::dictionary::Inflector &inflector;
 
 private:
-    bool checkProperNoun(::std::u16string_view word) const;
-    bool checkInvariantNouns(::std::u16string_view word) const;
-    bool checkAppleProduct(::std::u16string_view word) const;
+    bool checkInvariantNouns(::std::u16string_view word, int64_t wordGrammemes) const;
     ::std::optional<::std::u16string> determineWord(const std::u16string &word) const;
 
 public:

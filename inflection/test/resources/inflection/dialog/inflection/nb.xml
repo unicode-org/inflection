@@ -140,18 +140,18 @@
     <test><source pos="adjective" definiteness="definite" gender="feminine" number="plural">tykk</source><result>tykke</result></test>
     <test><source pos="adjective" definiteness="definite" gender="neuter" number="plural">tykk</source><result>tykke</result></test>
 
-    <test><source pos="adjective" definiteness="indefinite" gender="masculine" number="singular">skjørtet</source><result>skjørtet</result></test>
-    <test><source pos="adjective" definiteness="indefinite" gender="feminine" number="singular">skjørtet</source><result>skjørtet</result></test>
-    <test><source pos="adjective" definiteness="indefinite" gender="neuter" number="singular">skjørtet</source><result>skjørtet</result></test>
-    <test><source pos="adjective" definiteness="definite" gender="masculine" number="singular">skjørtet</source><result>skjørtete</result></test>
-    <test><source pos="adjective" definiteness="definite" gender="feminine" number="singular">skjørtet</source><result>skjørtete</result></test>
-    <test><source pos="adjective" definiteness="definite" gender="neuter" number="singular">skjørtet</source><result>skjørtete</result></test>
-    <test><source pos="adjective" definiteness="indefinite" gender="masculine" number="plural">skjørtet</source><result>skjørtete</result></test>
-    <test><source pos="adjective" definiteness="indefinite" gender="feminine" number="plural">skjørtet</source><result>skjørtete</result></test>
-    <test><source pos="adjective" definiteness="indefinite" gender="neuter" number="plural">skjørtet</source><result>skjørtete</result></test>
-    <test><source pos="adjective" definiteness="definite" gender="masculine" number="plural">skjørtet</source><result>skjørtete</result></test>
-    <test><source pos="adjective" definiteness="definite" gender="feminine" number="plural">skjørtet</source><result>skjørtete</result></test>
-    <test><source pos="adjective" definiteness="definite" gender="neuter" number="plural">skjørtet</source><result>skjørtete</result></test>
+    <test><source pos="adjective" definiteness="indefinite" gender="masculine" number="singular">oppskjørtet</source><result>oppskjørtet</result></test>
+    <test><source pos="adjective" definiteness="indefinite" gender="feminine" number="singular">oppskjørtet</source><result>oppskjørtet</result></test>
+    <test><source pos="adjective" definiteness="indefinite" gender="neuter" number="singular">oppskjørtet</source><result>oppskjørtet</result></test>
+    <test><source pos="adjective" definiteness="definite" gender="masculine" number="singular">oppskjørtet</source><result>oppskjørtete</result></test>
+    <test><source pos="adjective" definiteness="definite" gender="feminine" number="singular">oppskjørtet</source><result>oppskjørtete</result></test>
+    <test><source pos="adjective" definiteness="definite" gender="neuter" number="singular">oppskjørtet</source><result>oppskjørtete</result></test>
+    <test><source pos="adjective" definiteness="indefinite" gender="masculine" number="plural">oppskjørtet</source><result>oppskjørtete</result></test>
+    <test><source pos="adjective" definiteness="indefinite" gender="feminine" number="plural">oppskjørtet</source><result>oppskjørtete</result></test>
+    <test><source pos="adjective" definiteness="indefinite" gender="neuter" number="plural">oppskjørtet</source><result>oppskjørtete</result></test>
+    <test><source pos="adjective" definiteness="definite" gender="masculine" number="plural">oppskjørtet</source><result>oppskjørtete</result></test>
+    <test><source pos="adjective" definiteness="definite" gender="feminine" number="plural">oppskjørtet</source><result>oppskjørtete</result></test>
+    <test><source pos="adjective" definiteness="definite" gender="neuter" number="plural">oppskjørtet</source><result>oppskjørtete</result></test>
 
     <test><source pos="adjective" definiteness="indefinite" gender="masculine" number="singular">makaber</source><result>makaber</result></test>
     <test><source pos="adjective" definiteness="indefinite" gender="feminine" number="singular">makaber</source><result>makaber</result></test>

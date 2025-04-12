@@ -8,7 +8,7 @@
 #include <inflection/grammar/synthesis/fwd.hpp>
 #include <inflection/dialog/DefaultDisplayFunction.hpp>
 #include <inflection/grammar/synthesis/TrGrammarSynthesizer.hpp>
-#include "inflection/tokenizer/Tokenizer.hpp"
+#include <inflection/tokenizer/Tokenizer.hpp>
 #include <memory>
 #include <string_view>
 
@@ -28,6 +28,8 @@ private:
     const ::inflection::dialog::SemanticFeature& pronounNumberFeature;
     const ::inflection::dialog::SemanticFeature& copulaFeature;
     const ::inflection::dialog::SemanticFeature& tenseFeature;
+    ::std::u16string_view endingSingleQuote { u"'’" };
+    ::std::u16string_view endingDoubleQuote { u"\"”" };
 
 public:
     ::inflection::dialog::DisplayValue *getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const override;
@@ -80,7 +82,6 @@ public: /* package */
     ~TrGrammarSynthesizer_TrDisplayFunction() override;
     TrGrammarSynthesizer_TrDisplayFunction(const TrGrammarSynthesizer_TrDisplayFunction&) = delete;
     TrGrammarSynthesizer_TrDisplayFunction& operator=(const TrGrammarSynthesizer_TrDisplayFunction&) = delete;
-
 
 private:
     static const ::icu4cxx::UnicodeSet& DEFAULT_DISCONT_HARD_CONSONANTS_END();

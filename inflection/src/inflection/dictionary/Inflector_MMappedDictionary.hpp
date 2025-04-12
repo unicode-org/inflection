@@ -46,7 +46,7 @@ private:
     const int64_t *grammemePatterns {  };
 
     // inflectionPatterns - originally a std::map<std::u16string, Inflector_InflectionPattern>
-    inflection::dictionary::metadata::StringContainer inflection_Suffixes;
+    inflection::dictionary::metadata::StringContainer inflectionSuffixes;
     // Reference from DictionaryMetaData
     const ::inflection::dictionary::DictionaryMetaData_MMappedDictionary &dictionary;
     inflection::dictionary::metadata::CompressedArray<int64_t> inflectionsArray;

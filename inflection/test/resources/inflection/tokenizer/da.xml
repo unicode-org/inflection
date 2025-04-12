@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!--
+ Copyright 2020-2024 Apple Inc. All rights reserved.
+-->
+<tokenizerTest locale="da">
+    <test>
+        <annotatedTokens>Facebook|status</annotatedTokens>
+    </test>
+    <test>
+        <annotatedTokens>facebook</annotatedTokens>
+    </test>
+    <test>
+        <annotatedTokens>Facebook</annotatedTokens>
+    </test>
+    <test>
+        <annotatedTokens>nanoteknologi</annotatedTokens>
+    </test>
+    <test>
+        <annotatedTokens>Nanoteknologi</annotatedTokens>
+    </test>
+    <test>
+        <annotatedTokens>her|fra</annotatedTokens>
+    </test>
+    <test>
+        <annotatedTokens>her|til</annotatedTokens>
+    </test>
+    <test>
+        <annotatedTokens>der|fra</annotatedTokens>
+    </test>
+    <test>
+        <annotatedTokens>der|til</annotatedTokens>
+    </test>
+</tokenizerTest>

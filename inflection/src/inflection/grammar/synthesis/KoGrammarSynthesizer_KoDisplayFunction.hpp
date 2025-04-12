@@ -18,9 +18,9 @@ public:
     typedef ::inflection::dialog::DefaultDisplayFunction super;
 
 private:
-    const ::inflection::dialog::SemanticFeature* caseFeature {  };
-    const ::inflection::dialog::SemanticFeature* clusivityFeature {  };
-    const ::inflection::dialog::SemanticFeature* adjectivalFeature {  };
+    const ::inflection::dialog::SemanticFeature& caseFeature;
+    const ::inflection::dialog::SemanticFeature& clusivityFeature;
+    const ::inflection::dialog::SemanticFeature& adjectivalFeature;
     std::map<std::u16string, KoGrammarSynthesizer_ParticleResolver> particleMap {  };
 
 public:

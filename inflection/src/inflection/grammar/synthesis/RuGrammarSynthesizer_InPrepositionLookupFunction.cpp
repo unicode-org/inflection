@@ -7,7 +7,6 @@
 #include <icu4cxx/UnicodeSet.hpp>
 #include <inflection/dialog/SpeakableString.hpp>
 #include <inflection/dialog/DisplayValue.hpp>
-#include <inflection/util/StringViewUtils.hpp>
 #include <inflection/util/UnicodeSetUtils.hpp>
 #include <inflection/npc.hpp>
 
@@ -36,7 +35,7 @@ const ::icu4cxx::UnicodeSet& RuGrammarSynthesizer_InPrepositionLookupFunction::I
 inflection::dialog::SpeakableString* RuGrammarSynthesizer_InPrepositionLookupFunction::getArticle(const ::inflection::dialog::DisplayValue& displayValue) const
 {
     const auto& displayString = displayValue.getDisplayString();
-    if (IN_WORDS().count(displayString) != 0 || ::inflection::util::StringViewUtils::startsWith(displayString, u"мног") || ::inflection::util::StringViewUtils::startsWith(displayString, u"множ") || RuGrammarSynthesizer::startsWith2Consonant(displayString, IN_FIRST_CHAR())) {
+    if (IN_WORDS().count(displayString) != 0 || displayString.starts_with(u"мног") || displayString.starts_with(u"множ") || RuGrammarSynthesizer::startsWith2Consonant(displayString, IN_FIRST_CHAR())) {
         return createPreposition(displayValue, u"во");
     }
     return createPreposition(displayValue, u"в");

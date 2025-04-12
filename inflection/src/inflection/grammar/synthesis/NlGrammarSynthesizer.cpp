@@ -43,6 +43,13 @@ const ::std::u16string& NlGrammarSynthesizer::SIZENESS_DIMINUTIVE()
     static auto SIZENESS_DIMINUTIVE_ = new ::std::u16string(u"diminutive");
     return *npc(SIZENESS_DIMINUTIVE_);
 }
+
+const ::std::u16string& NlGrammarSynthesizer::SIZENESS_UNSIZED()
+{
+    static auto SIZENESS_UNSIZED_ = new ::std::u16string(u"unsized");
+    return *npc(SIZENESS_UNSIZED_);
+}
+
 void NlGrammarSynthesizer::addSemanticFeatures(::inflection::dialog::SemanticFeatureModel& featureModel)
 {
     featureModel.putDefaultFeatureFunctionByName(ARTICLE_DEFINITE, new NlGrammarSynthesizer_ArticleLookupFunction(featureModel, false, u"de", u"het"));
@@ -77,11 +84,11 @@ bool NlGrammarSynthesizer::isVowelAtIndex(std::u16string_view str, int32_t index
 
 void NlGrammarSynthesizer::guessDiminutive(::std::u16string* result, std::u16string_view word) {
     auto guess(word);
-    if (::inflection::util::StringViewUtils::endsWith(guess, u"jes")) {
+    if (guess.ends_with(u"jes")) {
         guess.remove_suffix(1);
     }
     int32_t len = int32_t(guess.length());
-    if (len > 2 && ::inflection::util::StringViewUtils::endsWith(guess, u"je")) {
+    if (len > 2 && guess.ends_with(u"je")) {
         if (len > 3 && guess[len - 3] == u'p' && guess[len - 4] == u'm') {
             npc(result)->assign(guess, 0, len - 3);
         } else if (len > 4 && guess[len - 3] == u'k' && guess[len - 4] == u'n' && guess[len - 5] == u'i') {
@@ -114,58 +121,52 @@ void NlGrammarSynthesizer::guessDiminutive(::std::u16string* result, std::u16str
 }
 
 
-NlGrammarSynthesizer::Count NlGrammarSynthesizer::getCount(const ::std::u16string* value) {
-    static auto valueMap = new ::std::map<::std::u16string, NlGrammarSynthesizer::Count>({
-        {GrammemeConstants::NUMBER_SINGULAR(), Count::singular},
-        {GrammemeConstants::NUMBER_PLURAL(), Count::plural}
-    });
-    if (value != nullptr) {
-        auto result = npc(valueMap)->find(*npc(value));
-        if (result != npc(valueMap)->end()) {
-            return result->second;
+NlGrammarSynthesizer::Number NlGrammarSynthesizer::getNumber(const ::std::u16string& value) {
+    if (!value.empty()) {
+        if (value == GrammemeConstants::NUMBER_SINGULAR()) {
+            return Number::singular;
+        }
+        if (value == GrammemeConstants::NUMBER_PLURAL()) {
+            return Number::plural;
         }
     }
-    return Count::undefined;
+    return Number::undefined;
 }
 
-NlGrammarSynthesizer::Gender NlGrammarSynthesizer::getGender(const ::std::u16string* value) {
-    static auto valueMap = new ::std::map<::std::u16string, NlGrammarSynthesizer::Gender>({
-        {GrammemeConstants::GENDER_MASCULINE(), Gender::masculine},
-        {GrammemeConstants::GENDER_FEMININE(), Gender::feminine},
-        {GrammemeConstants::GENDER_NEUTER(), Gender::neuter}
-    });
-    if (value != nullptr) {
-        auto result = npc(valueMap)->find(*npc(value));
-        if (result != npc(valueMap)->end()) {
-            return result->second;
+NlGrammarSynthesizer::Gender NlGrammarSynthesizer::getGender(const ::std::u16string& value) {
+    if (!value.empty()) {
+        if (value == GrammemeConstants::GENDER_MASCULINE()) {
+            return Gender::masculine;
+        }
+        if (value == GrammemeConstants::GENDER_FEMININE()) {
+            return Gender::feminine;
+        }
+        if (value == GrammemeConstants::GENDER_NEUTER()) {
+            return Gender::neuter;
         }
     }
     return Gender::undefined;
 }
 
-NlGrammarSynthesizer::Declension NlGrammarSynthesizer::getDeclension(const ::std::u16string* value) {
-    static auto valueMap = new ::std::map<::std::u16string, NlGrammarSynthesizer::Declension>({
-        {DECLENSION_DECLINED(), Declension::declined},
-        {DECLENSION_UNDECLINED(), Declension::undeclined},
-    });
-    if (value != nullptr) {
-        auto result = npc(valueMap)->find(*npc(value));
-        if (result != npc(valueMap)->end()) {
-            return result->second;
+NlGrammarSynthesizer::Declension NlGrammarSynthesizer::getDeclension(const ::std::u16string& value) {
+    if (!value.empty()) {
+        if (value == DECLENSION_DECLINED()) {
+            return Declension::declined;
+        }
+        if (value == DECLENSION_UNDECLINED()) {
+            return Declension::undeclined;
         }
     }
     return Declension::undefined;
 }
 
-NlGrammarSynthesizer::Case NlGrammarSynthesizer::getCase(const ::std::u16string* value) {
-    static auto valueMap = new ::std::map<::std::u16string, NlGrammarSynthesizer::Case>({
-        {GrammemeConstants::CASE_GENITIVE(), Case::genitive},
-        {GrammemeConstants::CASE_NOMINATIVE(), Case::nominative},
-    });
-    if (value != nullptr) {
-        auto result = npc(valueMap)->find(*npc(value));
-        if (result != npc(valueMap)->end()) {
-            return result->second;
+NlGrammarSynthesizer::Case NlGrammarSynthesizer::getCase(const ::std::u16string& value) {
+    if (!value.empty()) {
+        if (value == GrammemeConstants::CASE_GENITIVE()) {
+            return Case::genitive;
+        }
+        if (value == GrammemeConstants::CASE_NOMINATIVE()) {
+            return Case::nominative;
         }
     }
     return Case::undefined;

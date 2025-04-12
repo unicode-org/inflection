@@ -45,5 +45,5 @@ public:
     DeGrammarSynthesizer_ArticleLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model, bool includeSemanticValue, const DeGrammarSynthesizer_ArticleLookupFunction& other);
     ~DeGrammarSynthesizer_ArticleLookupFunction() override;
     DeGrammarSynthesizer_ArticleLookupFunction(const DeGrammarSynthesizer_ArticleLookupFunction&) = delete;
-    DeGrammarSynthesizer_ArticleLookupFunction& operator=(const DeGrammarSynthesizer_ArticleLookupFunction&) = delete;
+    DeGrammarSynthesizer_ArticleLookupFunction& operator=(const DeGrammarSynthesizer_ArticleLookupFunction &) = delete;
 };

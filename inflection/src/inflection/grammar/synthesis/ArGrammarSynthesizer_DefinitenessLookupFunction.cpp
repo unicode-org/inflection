@@ -65,13 +65,13 @@ SpeakableString* ArGrammarSynthesizer_DefinitenessLookupFunction::getFeatureValu
         ::std::u16string lowercaseStr;
         StringViewUtils::lowercase(&lowercaseStr, displayString, inflection::util::LocaleUtils::ARABIC());
         // Start with "al" then definite
-        if (StringViewUtils::startsWith(lowercaseStr, u"ال")) {
+        if (lowercaseStr.starts_with(u"ال")) {
             return new SpeakableString(GrammemeConstants::DEFINITENESS_DEFINITE());
         }
 
         // Ends with a possessive pronoun with prefix being a noun or adjective implies definite
         for (const auto &[key, possessivePronoun]: pronounMap) {
-            if (StringViewUtils::endsWith(lowercaseStr, possessivePronoun)) {
+            if (lowercaseStr.ends_with(possessivePronoun)) {
                 const auto &prefix = lowercaseStr.substr(0, lowercaseStr.size() - possessivePronoun.size());
                 int64_t prefixGrammemes = 0;
                 dictionary.getCombinedBinaryType(&prefixGrammemes, prefix);

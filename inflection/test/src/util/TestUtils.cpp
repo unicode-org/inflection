@@ -22,7 +22,7 @@ using inflection::util::StringViewUtils;
 using inflection::util::LocaleUtils;
 
 namespace {
-    inline void setMorphunLogLevel(std::string_view logLevelString) {
+    inline void setInflectionLogLevel(std::string_view logLevelString) {
         const auto u16LogLevelString = StringViewUtils::to_u16string(logLevelString);
         std::u16string lowerLogString;
         StringViewUtils::lowercase(&lowerLogString, u16LogLevelString, LocaleUtils::ENGLISH());
@@ -69,19 +69,19 @@ std::tuple<std::unique_ptr<Catch::Session>, int, int> TestUtils::createSession(i
     // Custom CLI args
     std::string testLangs;
 
-    std::string morphunLogLevel;
+    std::string logLevel;
 
     auto cli = session->cli()
         | Opt(testLangs, "Test languages")
              ["-l"]["--langs"]
              ("Comma-separated set of languages to test. Leave empty to test all supported languages.")
-        | Opt(morphunLogLevel, "Log level")
+        | Opt(logLevel, "Log level")
             ["--log-level"]
             ("Sets the log level for running inflection tests(case-insensitive input), permitted values: trace, debug, info, warning, error");
 
     session->cli(cli);
     auto ret = session->applyCommandLine(argc, argv);
-    setMorphunLogLevel(morphunLogLevel);
+    setInflectionLogLevel(logLevel);
 
     auto originalLogLevel = ilogc_getLogLevel();
     if (ret) {

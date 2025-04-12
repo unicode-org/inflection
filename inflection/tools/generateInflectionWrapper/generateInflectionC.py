@@ -13,9 +13,9 @@ HEADER_TEMPLATE = """#include <inflection/{dir_}{class_}.h>
 #include <inflection/npc.hpp>
 """
 
-FUNC_PATTERN = r"((?://)?MORPHUN_CAPI (?P<modifier>const |enum )?(?P<return_type>\S+) (?P<func_name_h>[^\(]+)\((?P<args_h>[^)]+)?\);)"
+FUNC_PATTERN = r"((?://)?INFLECTION_CAPI (?P<modifier>const |enum )?(?P<return_type>\S+) (?P<func_name_h>[^\(]+)\((?P<args_h>[^)]+)?\);)"
 
-TRY_CATCH_PATTERN = """MORPHUN_CAPI {modifier}{return_type} {func_name_h}({args_h}) {{
+TRY_CATCH_PATTERN = """INFLECTION_CAPI {modifier}{return_type} {func_name_h}({args_h}) {{
     try {{
         {return_}{cast}(npc(({const}{class}*)thisObject)->{func_name}({args}));
     }}
@@ -25,12 +25,12 @@ TRY_CATCH_PATTERN = """MORPHUN_CAPI {modifier}{return_type} {func_name_h}({args_
 }}
 """
 
-DELETE_PATTERN = """MORPHUN_CAPI {return_type} {func_name_h}({args_h}) {{
+DELETE_PATTERN = """INFLECTION_CAPI {return_type} {func_name_h}({args_h}) {{
     delete ({class}*)thisObject;
 }}
 """
 
-CREATE_PATTERN = """MORPHUN_CAPI {return_type} {func_name_h}({args_h}) {{
+CREATE_PATTERN = """INFLECTION_CAPI {return_type} {func_name_h}({args_h}) {{
     try {{
         return ({return_type})new {class}({args});
     }}

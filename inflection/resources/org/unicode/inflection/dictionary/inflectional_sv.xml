@@ -3,6 +3,20 @@
  Copyright 2024-2024 Apple Inc. All rights reserved.
 -->
 <patterns>
+    <pattern name="1" words="8318">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular" case="genitive" definiteness="definite" gender="common"><t><stem/>ens</t></inflection>
+            <inflection number="singular" case="genitive" definiteness="indefinite" gender="common"><t><stem/>s</t></inflection>
+            <inflection number="plural" case="genitive" definiteness="definite" gender="common"><t><stem/>arnas</t></inflection>
+            <inflection number="plural" case="genitive" definiteness="indefinite" gender="common"><t><stem/>ars</t></inflection>
+            <inflection number="singular" definiteness="definite" gender="common"><t><stem/>en</t></inflection>
+            <inflection number="singular" definiteness="indefinite" gender="common"><t><stem/></t></inflection>
+            <inflection number="plural" definiteness="definite" gender="common"><t><stem/>arna</t></inflection>
+            <inflection number="plural" definiteness="indefinite" gender="common"><t><stem/>ar</t></inflection>
+        </inflections>
+    </pattern>
     <pattern name="2" words="8313">
         <pos>noun</pos>
         <suffix/>

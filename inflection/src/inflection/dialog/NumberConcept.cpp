@@ -443,7 +443,7 @@ std::u16string NumberConcept::format(const ::icu4cxx::NumberFormat& rbnf) const
 
 ::std::u16string NumberConcept::postProcess(const ::std::u16string& formattedValue)
 {
-    if (::inflection::util::StringViewUtils::startsWith(formattedValue, u".") && formattedValue.length() > 1) {
+    if (formattedValue.starts_with(u".") && formattedValue.length() > 1) {
         return u"\u200B.\u2060" + formattedValue.substr(1);
     }
     return formattedValue;

@@ -39,9 +39,9 @@ namespace inflection::util {
                 do {
                     libraryDirectory.resize(libraryDirectoryIdx--);
                 }
-                while (StringViewUtils::endsWith(libraryDirectory, u"/"));
+                while (libraryDirectory.ends_with(u"/"));
                 for (::std::u16string dirSuffix : {u"/usr/local/lib", u"/usr/lib"}) {
-                    if (StringViewUtils::endsWith(libraryDirectory, dirSuffix)) {
+                    if (libraryDirectory.ends_with(dirSuffix)) {
                         // Assume that we're sharing one big happy root.
                         retVal.assign(libraryDirectory, 0, libraryDirectory.length() - dirSuffix.length());
                         break;

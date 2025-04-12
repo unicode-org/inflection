@@ -13,26 +13,26 @@ using inflection::util::LocaleUtils;
 using inflection::util::ULocale;
 
 static std::pair<char*const*, int32_t> createLocaleList() {
-    auto morphunLocales(LocaleUtils::getSupportedLocaleList());
-    char** array = new char*[morphunLocales.size()];
+    auto inflectionLocales(LocaleUtils::getSupportedLocaleList());
+    char** array = new char*[inflectionLocales.size()];
     int32_t idx = 0;
     int32_t fullSize = 0;
     // Calculate the size.
-    for (const auto& iter : morphunLocales)
+    for (const auto& iter : inflectionLocales)
     {
         fullSize += int32_t(iter.getName().length() + 1); // +1 for null
     }
     // allocate 1 block for all strings. This can reduce the overall size and reduce heap fragmentation.
     char* buffPtr = new char[fullSize];
     // Populate the array with strings for the locales.
-    for (const auto& iter : morphunLocales)
+    for (const auto& iter : inflectionLocales)
     {
         const auto& locale(iter.getName());
         array[idx++] = buffPtr;
         strcpy(buffPtr, locale.c_str());
         buffPtr += locale.length() + 1; // +1 for null
     }
-    return {array, morphunLocales.size()};
+    return {array, inflectionLocales.size()};
 }
 
 static std::pair<char*const*, int32_t> LOCALE_LIST() {

@@ -11,6 +11,8 @@ namespace inflection
         namespace locale
         {
             class DefaultTokenizer;
+            class GermanicTokenExtractorIterator;
+            class GermanicWordAndDelimiterTokenExtractor;
             class SemiticTokenExtractorIterator;
             class SemiticWordAndDelimiterTokenExtractor;
             class SemiticWordAndDelimiterTokenExtractor_AffixRecord;

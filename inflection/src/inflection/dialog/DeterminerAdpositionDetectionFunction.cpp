@@ -31,7 +31,7 @@ DeterminerAdpositionDetectionFunction::DeterminerAdpositionDetectionFunction(con
     for (const auto& [articleLookupFunction, articleDisplayData] : articlesForLookupFunctions) {
         for (const auto &articleDisplayValue : articleDisplayData) {
             const auto &articleDisplayString = articleDisplayValue.first;
-            if (articleDisplayString.length() > 0 && ::inflection::util::StringViewUtils::startsWith(displayString, articleDisplayString)) {
+            if (articleDisplayString.length() > 0 && displayString.starts_with(articleDisplayString)) {
                 if (articleLookupFunction->insertsSpace() && displayString.length() > articleDisplayString.length() && displayString.at(articleDisplayString.length()) != u' ') {
                     continue;
                 }

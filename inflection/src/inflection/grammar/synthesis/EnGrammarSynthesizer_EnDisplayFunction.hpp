@@ -22,10 +22,10 @@ public:
     typedef ::inflection::dialog::DefaultDisplayFunction super;
 
 private:
-    const ::inflection::dialog::SemanticFeature* countFeature {  };
-    const ::inflection::dialog::SemanticFeature* caseFeature {  };
-    const ::inflection::dialog::SemanticFeature* speakFeature {  };
-    const ::inflection::dialog::SemanticFeature* partOfSpeechFeature {  };
+    const ::inflection::dialog::SemanticFeature& numberFeature;
+    const ::inflection::dialog::SemanticFeature& caseFeature;
+    const ::inflection::dialog::SemanticFeature& speakFeature;
+    const ::inflection::dialog::SemanticFeature& partOfSpeechFeature;
     const ::inflection::dialog::DictionaryLookupInflector dictionaryInflector;
     const ::inflection::dictionary::DictionaryMetaData& dictionary;
     int64_t pluralProperty {  };

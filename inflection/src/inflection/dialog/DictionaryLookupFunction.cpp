@@ -135,7 +135,7 @@ const dictionary::DictionaryMetaData& DictionaryLookupFunction::getDictionary() 
 }
 
 ::std::u16string DictionaryLookupFunction::determineWithDisambiguation(std::u16string_view word) const {
-    ::std::vector<int64_t> propertySets = dictionaryMorphology.getwordGrammemesets(word);
+    ::std::vector<int64_t> propertySets = dictionaryMorphology.getWordGrammemeSets(word);
     if (propertySets.empty()) {
         return {};
     }

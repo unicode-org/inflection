@@ -81,6 +81,4 @@ public:
     static constexpr auto INTERROGATIVE_ARTICLE = u"interrogativeArticle";
     static constexpr auto DE_CONJUNCTION = u"deConjunction";
     static const ::icu4cxx::UnicodeSet& SEPARATOR_SPLITTER();
-    static const ::icu4cxx::UnicodeSet& ENDING_SINGLE_QUOTE();
-    static const ::icu4cxx::UnicodeSet& ENDING_DOUBLE_QUOTE();
 };

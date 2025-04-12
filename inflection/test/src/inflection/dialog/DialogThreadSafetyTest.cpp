@@ -61,8 +61,8 @@ TEST_CASE("DialogThreadSafetyTest#testInflect", "[multithreaded]")
     ::std::vector<::std::u16string> phrases;
     ::std::vector<::inflection::dialog::SpeakableString*>* results = new ::std::vector<::inflection::dialog::SpeakableString*>[processorCount];
     int32_t minimumNumberOfWords = 10;
-    if (getenv("MORPHUN_TEST_EXHAUSTIVE") != nullptr) {
-        // We do a quick test for development and Rio, but we can test more exhaustively if we have plenty of time to test.
+    if (getenv("INFLECTION_TEST_EXHAUSTIVE") != nullptr) {
+        // We do a quick test for development, but we can test more exhaustively if we have plenty of time to test.
         minimumNumberOfWords *= 100;
     }
 

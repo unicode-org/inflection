@@ -7,7 +7,6 @@
 #include <inflection/grammar/synthesis/GrammemeConstants.hpp>
 #include <inflection/util/LocaleUtils.hpp>
 #include <inflection/dictionary/DictionaryMetaData.hpp>
-#include <inflection/dictionary/Inflector_InflectionPattern.hpp>
 #include <inflection/tokenizer/TokenChain.hpp>
 #include <inflection/tokenizer/Tokenizer.hpp>
 #include <inflection/tokenizer/TokenizerFactory.hpp>
@@ -23,18 +22,22 @@ namespace inflection::grammar::synthesis {
 
 NbGrammarSynthesizer_NbDisplayFunction::NbGrammarSynthesizer_NbDisplayFunction(const ::inflection::dialog::SemanticFeatureModel& model)
     : super()
+    , definitenessFeature(*npc(model.getFeature(GrammemeConstants::DEFINITENESS)))
+    , numberFeature(*npc(model.getFeature(GrammemeConstants::NUMBER)))
+    , genderFeature(*npc(model.getFeature(GrammemeConstants::GENDER)))
+    , caseFeature(*npc(model.getFeature(GrammemeConstants::CASE)))
+    , posFeature(*npc(model.getFeature(GrammemeConstants::POS)))
     , dictionary(*npc(::inflection::dictionary::DictionaryMetaData::createDictionary(::inflection::util::LocaleUtils::NORWEGIAN())))
     , inflector(::inflection::dictionary::Inflector::getInflector(::inflection::util::LocaleUtils::NORWEGIAN()))
     , tokenizer(::inflection::tokenizer::TokenizerFactory::createTokenizer(::inflection::util::LocaleUtils::NORWEGIAN()))
     , genderLookupFunction(::inflection::util::LocaleUtils::NORWEGIAN(), {GrammemeConstants::GENDER_MASCULINE(), GrammemeConstants::GENDER_FEMININE(), GrammemeConstants::GENDER_NEUTER()})
+    , dictionaryInflector(::inflection::util::LocaleUtils::NORWEGIAN(), {
+        {GrammemeConstants::POS_NOUN(), GrammemeConstants::POS_ADJECTIVE()},
+        {GrammemeConstants::NUMBER_SINGULAR(), GrammemeConstants::NUMBER_PLURAL()}
+        }, {}, true)
 {
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryAdjective, {u"adjective"}));
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryNoun, {u"noun"}));
-    this->countFeature = model.getFeature(GrammemeConstants::NUMBER);
-    this->genderFeature = model.getFeature(GrammemeConstants::GENDER);
-    this->caseFeature = model.getFeature(GrammemeConstants::CASE);
-    this->definitenessFeature = model.getFeature(GrammemeConstants::DEFINITENESS);
-    this->posFeature = model.getFeature(GrammemeConstants::POS);
 }
 
 NbGrammarSynthesizer_NbDisplayFunction::~NbGrammarSynthesizer_NbDisplayFunction()
@@ -46,22 +49,23 @@ NbGrammarSynthesizer_NbDisplayFunction::~NbGrammarSynthesizer_NbDisplayFunction(
     if (!targetIsANoun) {
         return inflectAdjective(word, definiteness, targetGender, count);
     }
-    std::vector<inflection::dictionary::Inflector_InflectionPattern> inflectionPatterns;
-    inflector.getInflectionPatternsForWord(word, inflectionPatterns);
-    if (!inflectionPatterns.empty()) {
-        ::std::vector<::std::u16string> grammemes;
-        for (const auto& grammeme : {count, definiteness, targetGender}) {
-            if (!grammeme.empty()) {
-                grammemes.emplace_back(grammeme);
-            }
-        }
-        int64_t targetGrammemes = dictionary.getBinaryProperties(grammemes);
-        for (const auto& inflectionPattern : inflectionPatterns) {
-            auto result(inflectionPattern.reinflect(existingWordGrammemes, targetGrammemes, word));
-            if (!result.empty()) {
-                return result;
-            }
-        }
+
+    ::std::vector<::std::u16string> constraints;
+    if (!count.empty()) {
+        constraints.emplace_back(count);
+    }
+    if (!definiteness.empty()) {
+        constraints.emplace_back(definiteness);
+    }
+    if (!targetGender.empty()) {
+        constraints.emplace_back(targetGender);
+    }
+
+    const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> disambiguationConstraints;
+    const auto dismbiguationGrammemeValues(GrammarSynthesizerUtil::convertToStringConstraints(disambiguationConstraints, {&posFeature}));
+    auto inflectionResult = dictionaryInflector.inflect(word, existingWordGrammemes, constraints, dismbiguationGrammemeValues);
+    if (inflectionResult) {
+        return *inflectionResult;
     }
     return word;
 }
@@ -131,7 +135,7 @@ NbGrammarSynthesizer_NbDisplayFunction::~NbGrammarSynthesizer_NbDisplayFunction(
 
 ::std::u16string NbGrammarSynthesizer_NbDisplayFunction::inflectWord(const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, const ::std::u16string& attributeDisplayString, int64_t attributeDisplayStringGrammemes, const ::std::u16string& headDisplayString, bool isSuspectedToBeANoun) const
 {
-    ::std::u16string countString(GrammarSynthesizerUtil::getFeatureValue(constraints, countFeature));
+    ::std::u16string countString(GrammarSynthesizerUtil::getFeatureValue(constraints, numberFeature));
     ::std::u16string definitenessString(GrammarSynthesizerUtil::getFeatureValue(constraints, definitenessFeature));
     ::std::u16string caseString(GrammarSynthesizerUtil::getFeatureValue(constraints, caseFeature));
     int64_t headBinaryType = 0;

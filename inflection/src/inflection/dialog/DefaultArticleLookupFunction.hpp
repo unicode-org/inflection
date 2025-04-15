@@ -5,7 +5,6 @@
 
 #include <inflection/dialog/fwd.hpp>
 #include <inflection/dialog/DefaultFeatureFunction.hpp>
-#include <inflection/util/fwd.hpp>
 #include <string>
 #include <vector>
 
@@ -30,6 +29,7 @@ public: /* protected */
     virtual ArticleDisplayData getPossibleArticles(const SemanticFeatureModel& model) const;
     virtual const char16_t* getDerivedSemanticName() const;
     static const ::std::u16string* getFeatureValue(const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, const ::inflection::dialog::SemanticFeature& semanticFeature);
+    static ::std::u16string getDisplayFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::inflection::dialog::SemanticFeature& semanticFeature);
     bool insertsSpace() const;
 
 public:

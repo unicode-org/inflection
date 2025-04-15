@@ -17,8 +17,8 @@ public:
     static bool checkSignificantTokenForInflection(const ::inflection::tokenizer::Token &token);
     static ::std::vector<::std::u16string> getSignificantWords(const ::inflection::tokenizer::TokenChain& tokenChain);
     static std::u16string getStringFromInflectedSignificantWords(const inflection::tokenizer::TokenChain& tokenChain, ::std::vector<::std::u16string> inflectedSignificantWords);
-    static ::std::u16string inflectSignificantWords(const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, const ::inflection::tokenizer::TokenChain& tokenChain, const ::inflection::grammar::synthesis::GrammarSynthesizerUtil_SignificantTokenInflector& inflector);
-    static ::std::u16string getFeatureValue(const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, const ::inflection::dialog::SemanticFeature* semanticFeature);
+    static ::std::u16string inflectSignificantWords(const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, const ::inflection::tokenizer::TokenChain& tokenChain, const ::inflection::grammar::synthesis::SignificantTokenInflector& inflector);
+    static ::std::u16string getFeatureValue(const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, const ::inflection::dialog::SemanticFeature& semanticFeature);
     static bool hasFeature(const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, const ::inflection::dialog::SemanticFeature* semanticFeature);
     static bool hasAnyFeatures(const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, const ::std::vector<const ::inflection::dialog::SemanticFeature*> &semanticFeatures);
     static ::std::vector<::std::u16string> convertToStringConstraints(const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, const ::std::vector<const ::inflection::dialog::SemanticFeature*> &semanticFeatures);

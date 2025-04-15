@@ -3,7 +3,6 @@
  */
 #include <inflection/dictionary/Inflector_Inflection.hpp>
 #include <inflection/dictionary/Inflector_InflectionPattern.hpp>
-#include <inflection/util/StringViewUtils.hpp>
 #include <string>
 
 namespace inflection::dictionary {
@@ -11,7 +10,7 @@ namespace inflection::dictionary {
 Inflector_Inflection::Inflector_Inflection(
         const Inflector_InflectionPattern& inflectionPattern, int32_t suffixId,
         int64_t grammemes)
-    : inflectionPattern(inflectionPattern)
+    : inflectionPattern(&inflectionPattern)
     , suffixId(suffixId)
     , grammemes(grammemes)
 {
@@ -20,11 +19,12 @@ Inflector_Inflection::Inflector_Inflection(
 ::std::u16string Inflector_Inflection::inflect(const ::std::u16string& lemma) const
 {
     std::u16string suffix = getSuffix();
+    const auto& parent = *npc(inflectionPattern);
 
-    for(int16_t i = 0; i < inflectionPattern.lemmaSuffixesLen; ++i) {
-        std::u16string lemmaSuffix(inflectionPattern.suffixes.getString(
-                inflectionPattern.inflectorDictionary.inflectionsArray.read(inflectionPattern.lemmaSuffixesOffset + i)));
-        if (::inflection::util::StringViewUtils::endsWith(lemma, lemmaSuffix)) {
+    for (int16_t i = 0; i < parent.lemmaSuffixesLen; ++i) {
+        std::u16string lemmaSuffix(parent.inflectorDictionary.inflectionSuffixes.getString(
+                parent.inflectorDictionary.inflectionsArray.read(parent.lemmaSuffixesOffset + i)));
+        if (lemma.ends_with(lemmaSuffix)) {
             return lemma.substr(0, lemma.size() - lemmaSuffix.size()) + suffix;
         }
     }
@@ -35,10 +35,12 @@ Inflector_Inflection::Inflector_Inflection(
 ::std::u16string Inflector_Inflection::lemmatize(const ::std::u16string& noun) const
 {
     std::u16string suffix = getSuffix();
+    const auto& parent = *npc(inflectionPattern);
 
-    if (inflectionPattern.lemmaSuffixesLen != 0 && ::inflection::util::StringViewUtils::endsWith(noun, suffix)) {
+    if (parent.lemmaSuffixesLen != 0 && noun.ends_with(suffix)) {
         return noun.substr(0, noun.size() - suffix.size())
-                + inflectionPattern.suffixes.getString(inflectionPattern.inflectorDictionary.inflectionsArray.read(inflectionPattern.lemmaSuffixesOffset));
+                + parent.inflectorDictionary.inflectionSuffixes.getString(
+                    parent.inflectorDictionary.inflectionsArray.read(parent.lemmaSuffixesOffset));
     }
 
     return noun;
@@ -46,15 +48,15 @@ Inflector_Inflection::Inflector_Inflection(
 
 ::std::u16string Inflector_Inflection::getSuffix() const
 {
-    return inflectionPattern.suffixes.getString(suffixId);
+    return npc(inflectionPattern)->inflectorDictionary.inflectionSuffixes.getString(suffixId);
 }
 
 int64_t Inflector_Inflection::getGrammemes() const {
     return grammemes;
 }
 
-const inflection::dictionary::Inflector_InflectionPattern * Inflector_Inflection::getInflectionPattern() const {
-    return &inflectionPattern;
+const inflection::dictionary::Inflector_InflectionPattern& Inflector_Inflection::getInflectionPattern() const {
+    return *npc(inflectionPattern);
 }
 
 } // namespace inflection::dictionary

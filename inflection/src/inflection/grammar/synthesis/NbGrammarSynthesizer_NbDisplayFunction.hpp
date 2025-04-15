@@ -6,33 +6,34 @@
 #include <inflection/grammar/synthesis/fwd.hpp>
 #include <inflection/dictionary/fwd.hpp>
 #include <inflection/dictionary/Inflector.hpp>
-#include <inflection/fwd.hpp>
 #include <inflection/dialog/fwd.hpp>
 #include <inflection/dialog/DefaultDisplayFunction.hpp>
-#include <inflection/grammar/synthesis/GrammarSynthesizerUtil_SignificantTokenInflector.hpp>
+#include <inflection/dialog/DictionaryLookupInflector.hpp>
+#include <inflection/grammar/synthesis/SignificantTokenInflector.hpp>
 #include <string>
 #include <vector>
 #include <inflection/dialog/DictionaryLookupFunction.hpp>
 
 class inflection::grammar::synthesis::NbGrammarSynthesizer_NbDisplayFunction
     : public virtual ::inflection::dialog::DefaultDisplayFunction
-    , public virtual ::inflection::grammar::synthesis::GrammarSynthesizerUtil_SignificantTokenInflector
+    , public virtual ::inflection::grammar::synthesis::SignificantTokenInflector
 {
 public:
     typedef ::inflection::dialog::DefaultDisplayFunction super;
 
 private:
-    const ::inflection::dialog::SemanticFeature* definitenessFeature {  };
-    const ::inflection::dialog::SemanticFeature* countFeature {  };
-    const ::inflection::dialog::SemanticFeature* genderFeature {  };
-    const ::inflection::dialog::SemanticFeature* caseFeature {  };
-    const ::inflection::dialog::SemanticFeature* posFeature {  };
+    const ::inflection::dialog::SemanticFeature& definitenessFeature;
+    const ::inflection::dialog::SemanticFeature& numberFeature;
+    const ::inflection::dialog::SemanticFeature& genderFeature;
+    const ::inflection::dialog::SemanticFeature& caseFeature;
+    const ::inflection::dialog::SemanticFeature& posFeature;
     const ::inflection::dictionary::DictionaryMetaData& dictionary;
     const ::inflection::dictionary::Inflector &inflector;
     const ::std::unique_ptr<::inflection::tokenizer::Tokenizer> tokenizer;
     int64_t dictionaryAdjective {  };
     int64_t dictionaryNoun {  };
     ::inflection::dialog::DictionaryLookupFunction genderLookupFunction;
+    ::inflection::dialog::DictionaryLookupInflector dictionaryInflector;
 
 private:
     ::std::u16string inflectString(const ::std::u16string& word, int64_t existingWordGrammemes, const ::std::u16string& count, const ::std::u16string& definiteness, const ::std::u16string& targetGender, bool targetIsANoun) const;

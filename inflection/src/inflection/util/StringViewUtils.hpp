@@ -108,23 +108,6 @@ public:
      * @return The converted copy of the input string.
      */
     static ::std::u16string to_u16string(::std::string_view i);
-
-    /**
-     * Returns True if the input string ends with _ending_.
-     *
-     * @param fullString The string to test.
-     * @param ending The ending to test for.
-     * @return True if the input string ends with _ending_.
-     */
-    static bool endsWith(std::u16string_view fullString, std::u16string_view ending);
-    /**
-     * Returns True if the input string begins with _prefix_.
-     *
-     * @param fullString The string to test.
-     * @param prefix The prefix to test for.
-     * @return True if the input string begins with _prefix_.
-     */
-    static bool startsWith(std::u16string_view fullString, std::u16string_view prefix);
     /**
      * Returns the codepoint at the specified index in the input string.
      *

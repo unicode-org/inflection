@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="copyright" content="2013-2024 Apple Inc. All rights reserved.">
+  <meta name="author" content="David Kaumanns, Apple Inc." />
+  <title>GermanicDecompounder</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">GermanicDecompounder</h1>
+<h2 class="author">David Kaumanns, Apple Inc.</h2>
+<h3 class="date">August, 2012</h3>
+</div>
+
+<div class="section level1" id="germanicdecompounder">
+<h1>GermanicDecompounder</h1>
+<blockquote>
+<p>David Kaumanns<br/> Core Localization Technologies<br /> Apple Inc.<br />
+<p>Manager: Sameer Badaskar</p>
+<p>February 2013 (v1.0)</p>
+</blockquote>
+<div class="section level2" id="abstract">
+<h2>Abstract</h2>
+<p>Instructions to set up a new language for the GermanicDecompounder.</p>
+</div>
+<div class="section level2" id="the-dictionary-integer">
+<h2>The Dictionary Integer</h2>
+<p>The corpus trie maps strings to 32-bit integers that contain all the word information: features (as booleans) and the word frequency. The integer is made up of eight nibbles á four bits.</p>
+<table>
+<caption>Layout of the Dictionary Integer</caption>
+<tr><th>Bit Index</th><th>Purpose</th></tr>
+<tr><td>32</td><td><code>sign bit (unused)</code></td></tr>
+<tr><td>30-31</td><td><code>reserved (unused)</code></td></tr>
+<tr><td>29</td><td><code>isNoAtomic</code></td></tr>
+<tr><td>28</td><td><code>isNoHead</code></td></tr>
+<tr><td>27</td><td><code>isNoCompound</code></td></tr>
+<tr><td>26</td><td><code>isSegment</code></td></tr>
+<tr><td>25</td><td><code>isEnglish</code></td></tr>
+<tr><td>0-24</td><td><code>frequency</code></td></tr>
+</table>
+<p>The leftmost bit is reserved for the signedness. Keep that in mind if you do any changes in there.</p>
+<p>Note that there are three bytes reserved for the frequency which sets a natural limit of 16.777.215. This maximum frequency should be high enough for any purpose, especially since the current Swedish configuration suggests a maximum frequency of 7000 to prevent the higher word occurrences from getting out of hand. If more than 7 features are needed in the future, the two leftmost nibbles of the frequency can be chopped off.</p>
+<p>The underlying information is extracted via bitshifting in the <em>Segment</em> class:</p>
+<pre><code>freq = data &amp; 0x00FFFFFF;
+
+int bools = data &gt;&gt; 24;
+
+isNoAtomic = (bools &gt;&gt; 4) == 1;
+isNoHead = ((bools &gt;&gt; 3) &amp; 1) == 1;
+isNoCompound = ((bools &gt;&gt; 2) &amp; 1) == 1;
+isSegment = ((bools &gt;&gt; 1) &amp; 1) == 1;
+isEnglish = (bools &amp; 1) == 1;</code></pre>
+<p>The <em>SegmentFuger</em> class uses syntactic shortcuts for fast access to single features. For example:</p>
+<pre><code>Integer _data = corpus.lookup(_root);
+int _freq = _data == null ? 0 : _data &amp; 0x00FFFFFF;</code></pre>
+<pre><code>Integer __data = corpus.lookup(__root);
+[...]
+__data != null &amp;&amp; ((__data &gt;&gt; 25) &amp; 1) == 1</code></pre>
+</div>
+<div class="section level2" id="implementing-a-new-language">
+<h2>Concepts</h2>
+<p>This section contains an overview of concepts in the <em>GermanicDecompounder</em>.</p>
+<div class="section level3" id="non-atomics-disallow-list">
+<h5>Non-Atomics Disallow List</h5>
+<p>Some strings look like healthy words, either because they are valid morphemes and/or occur very frequent in a noisy training corpus. These strings spoil any decompounding score and must be excluded. Fortunately, they number is usually very limited (stopwords), which is why they can be listed easily. Candidates for this list type are:</p>
+<ul>
+<li>Suffixes</li>
+<li>Prefixes</li>
+<li>Prepositions</li>
+<li>Postpositions</li>
+<li>Pronouns</li>
+<li>Conjunctions</li>
+<li>Determiners</li>
+<li>Contractions</li>
+<li>Dedicated strings</li>
+</ul>
+<p>Dedicated strings may be actually healthy segments that notoriously destroy other decompoundings. They must be collected by extensive testing of the decompounder. If they are in this list, they won’t show up as compound segments anymore. Putting them into the disallow list means choosing the lesser evil.</p>
+</div>
+<div class="section level3" id="non-compounds-disallow-list">
+<h5>Non-Compounds disallow list</h5>
+<p>Certain words must not be decompounded, although they look like they consist of more than one word. Examples are proper nouns or archaic compounds that are highly lexicalized in modern speech and cannot sensibly be split up into their sub-words. This disallow list may contain:</p>
+<ul>
+<li>First names</li>
+<li>Surnames</li>
+<li>Geo names</li>
+<li>Numerals</li>
+</ul>
+</div>
+<div class="section level3" id="segments-allow-list">
+<h5>Segments allow list</h5>
+<p>This list contains words that can safely be assumed to be atomic segments. If you have a list of verified atomics for the language, put them in here. This list should at least contain the short words (&lt; 4 characters) for a language, since it plays together with the <em>minimum segment length</em> in the decompounder config file.</p>
+<p><strong>Words below the minimum segment length will only be recognized as valid segments if they are in this allow list!</strong></p>
+<p>This is especially important for the Scandinavian languages since they have a tremendous amount of short words.</p>
+</div>
+<div class="section level3" id="the-configuration">
+<h4>The Configuration</h4>
+<p>This section explains the adjustments to be made in the <em>NlDictionaryTokenizerConfig</em> subclass.</p>
+</div>
+<div class="section level3" id="fugenelements">
+<h5>Fugenelements</h5>
+<p>Fugenelements are language-specific “glue phonemes” between compound segments. The Germanic languages provide a wide range of fugenelements that can be classified as follows, with respect to the language’s compounding behaviour:</p>
+<ul>
+<li><strong>Positive</strong> Phonemes that are added to the original modifier.</li>
+</ul>
+<blockquote>
+<p>stad + delen → stad<strong>s</strong>delen</p>
+</blockquote>
+<ul>
+<li><strong>Replacable</strong> Phonemes that replace the modifier’s trailing phoneme(s).</li>
+</ul>
+<blockquote>
+<p>rik<strong>e</strong> + dagen → rik<strong>s</strong>dagen kyrk<strong>a</strong> + byggnad → kyrk<strong>o</strong>byggnad</p>
+</blockquote>
+<ul>
+<li><strong>Negative</strong> Phonemes that are subtracted from the modifier’s tail.</li>
+</ul>
+<blockquote>
+<p>forskar<strong>e</strong> + utbildning → forskarutbildning</p>
+</blockquote>
+<p>The replaceable fugenelements are accompanied by a set of replacement phonemes, usually vowels.</p>
+<p>All fugenelements and the replacements are specified in the <em>NlConfig</em> subclass.</p>
+<p>Note that the negative fugenelements should <strong>not</strong> contain common inflections or declensions within the language. For example, for Swedish, the vowel “a” is not listed as a negative fugenelement because it is the infinitive marker. If it was added to every segment, the resulting new frequencies would shoot through the roof and incorrectly beat most of the original segments, resulting in bad decompoundings.</p>
+</div>
+<div class="section level3" id="settings">
+<h5>Settings</h5>
+<p>Setting up the min values, max values and thresholds may be a little cumbersome. In theory, most settings from the Swedish decompounder should work OK for Dutch and other Germanic languages (except for the fugenelements which are highly language-specific). However, tweaking the settings (more or less by trial and error) will almost certainly improve the performance significantly.</p>
+<p>Basically, increasing/decreasing certain values makes the decompounder stricter or less strict. A stricter decompounder is less likely to split up a given term.</p>
+</div>
+</div>
+<div class="section level2" id="evaluation-and-configuration">
+<h2>Evaluation and Configuration</h2>
+<div class="section level3" id="scan-for-errors-and-tweak-the-configuration">
+<h3>Scan for errors and tweak the configuration</h3>
+<p>This is the largest step that requires careful considerations with the help of a native speaker. The false parsings have to be inspected to find common errors and change the configuration and/or the dictionary accordingly. The core questions are:</p>
+<ol style="list-style-type: decimal">
+<li>Should the decompounder be stricter (fewer splits) or more lenient (more splits)?</li>
+<li>What false segments are commonly split off too often?</li>
+<li>What segments are commonly missed?</li>
+</ol>
+</div>
+<div class="section level3" id="dangerous-negative-fugenelements">
+<h4>Dangerous negative fugenelements</h4>
+<p>Negative fugenelements that equal to common inflection suffixes should not used, for obvious reasons.</p>
+</div>
+<div class="section level3" id="adjusting-the-segments-allow-list">
+<h4>Adjusting the Segments Allow List</h4>
+<p>The allow list of segments will need some modification. It is prone to contain dangerous short words, meaning words that are likely to be substrings of other words. Take for example:</p>
+<blockquote>
+<p>hämma | ren</p>
+</blockquote>
+<p>‘ren’ (pure) is a perfect Swedish word, but it also happens to be a very frequent substring of larger words, like ‘hämmaren’ (the hammer). Words that look like actual inflection morphemes fall into this class of dangerous short words. If the y turn out to cause more harm than good to the overall decompoundings, they should be removed from the allow list by marking them with a ‘#’ instead of a ‘@’ in the short words file. That way, you can keep track of segments that have already been tried out.</p>
+</div>
+<div class="section level3" id="adjusting-the-non-atomics-disallow-list">
+<h4>Adjusting the Non-Atomics Disallow List</h4>
+<p>The same applies for the disallow list of non-atomics. Remember that is has partially been filled with typical geo suffixes. However, some highly typical geo suffixes are actually perfect segments, like ‘sjö’ (lake) and ‘fjäll’ (mountain). It should be considered to remove them from the disallow list and instead let the respective geo names be added to the non-compounds disallow list.</p>
+</div>
+</div>
+</div>
+</body>
+</html>

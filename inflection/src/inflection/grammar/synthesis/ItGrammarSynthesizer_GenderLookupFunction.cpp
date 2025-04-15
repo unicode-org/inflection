@@ -11,7 +11,6 @@
 #include <inflection/tokenizer/TokenizerFactory.hpp>
 #include <inflection/util/Validate.hpp>
 #include <inflection/util/LocaleUtils.hpp>
-#include <inflection/util/StringViewUtils.hpp>
 #include <inflection/npc.hpp>
 #include <memory>
 
@@ -52,13 +51,13 @@ ItGrammarSynthesizer_GenderLookupFunction::~ItGrammarSynthesizer_GenderLookupFun
         if (out.empty()) {
             auto token = npc(tokenChain->getHead())->getNext();
             auto stringToken = npc(token)->getCleanValue();
-            if (::inflection::util::StringViewUtils::endsWith(stringToken, u"zione") || ::inflection::util::StringViewUtils::endsWith(stringToken, u"sione") || ::inflection::util::StringViewUtils::endsWith(stringToken, u"gione")|| ::inflection::util::StringViewUtils::endsWith(stringToken, u"si")|| ::inflection::util::StringViewUtils::endsWith(stringToken, u"à")|| ::inflection::util::StringViewUtils::endsWith(stringToken, u"ù")|| ::inflection::util::StringViewUtils::endsWith(stringToken, u"trice")|| ::inflection::util::StringViewUtils::endsWith(stringToken, u"tudine")) {
+            if (stringToken.ends_with(u"zione") || stringToken.ends_with(u"sione") || stringToken.ends_with(u"gione")|| stringToken.ends_with(u"si")|| stringToken.ends_with(u"à")|| stringToken.ends_with(u"ù")|| stringToken.ends_with(u"trice")|| stringToken.ends_with(u"tudine")) {
                 out = GrammemeConstants::GENDER_FEMININE();
             }
-            else if (::inflection::util::StringViewUtils::endsWith(stringToken, u"amma") || ::inflection::util::StringViewUtils::endsWith(stringToken, u"ema") || ::inflection::util::StringViewUtils::endsWith(stringToken, u"ore")|| ::inflection::util::StringViewUtils::endsWith(stringToken, u"è")|| ::inflection::util::StringViewUtils::endsWith(stringToken, u"ì")|| ::inflection::util::StringViewUtils::endsWith(stringToken, u"ò")|| ::inflection::util::StringViewUtils::endsWith(stringToken, u"i")|| ::inflection::util::StringViewUtils::endsWith(stringToken, u"o")) {
+            else if (stringToken.ends_with(u"amma") || stringToken.ends_with(u"ema") || stringToken.ends_with(u"ore")|| stringToken.ends_with(u"è")|| stringToken.ends_with(u"ì")|| stringToken.ends_with(u"ò")|| stringToken.ends_with(u"i")|| stringToken.ends_with(u"o")) {
                 out = GrammemeConstants::GENDER_MASCULINE();
             }
-            else if (::inflection::util::StringViewUtils::endsWith(stringToken, u"a") || ::inflection::util::StringViewUtils::endsWith(stringToken, u"e")) {
+            else if (stringToken.ends_with(u"a") || stringToken.ends_with(u"e")) {
                 out = GrammemeConstants::GENDER_FEMININE();
             }
         }

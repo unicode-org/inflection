@@ -45,7 +45,6 @@ namespace inflection
             class FrGrammarSynthesizer_GenderLookupFunction;
             class GrammarSynthesizerFactory;
             class GrammarSynthesizerUtil;
-            class GrammarSynthesizerUtil_SignificantTokenInflector;
             class GrammemeConstants;
             class HeGrammarSynthesizer;
             class HeGrammarSynthesizer_DefinitenessLookupFunction;
@@ -73,14 +72,10 @@ namespace inflection
             class NlGrammarSynthesizer;
             class NlGrammarSynthesizer_ArticleLookupFunction;
             class NlGrammarSynthesizer_DefinitenessLookupFunction;
-            class NlGrammarSynthesizer_InflectorPattern;
             class NlGrammarSynthesizer_NlAdjectiveInflectionPattern;
-            class NlGrammarSynthesizer_NlAdjectiveListInflectionPattern;
-            class NlGrammarSynthesizer_NlAdjectiveNounInflectionPattern;
             class NlGrammarSynthesizer_NlDisplayFunction;
-            class NlGrammarSynthesizer_NlInflectionPattern;
             class NlGrammarSynthesizer_NlNounInflectionPattern;
-            class NlGrammarSynthesizer_PossessivePattern;
+            class NlGrammarSynthesizer_NlVerbInflectionPattern;
             class PtGrammarSynthesizer;
             class PtGrammarSynthesizer_ArticleLookupFunction;
             class PtGrammarSynthesizer_GenericLookupFunction;
@@ -92,6 +87,7 @@ namespace inflection
             class RuGrammarSynthesizer_RuDisplayFunction;
             class RuGrammarSynthesizer_ToPrepositionLookupFunction;
             class RuGrammarSynthesizer_WithPrepositionLookupFunction;
+            class SignificantTokenInflector;
             class SrGrammarSynthesizer;
             class SrGrammarSynthesizer_SrDisplayFunction;
             class SvGrammarSynthesizer;

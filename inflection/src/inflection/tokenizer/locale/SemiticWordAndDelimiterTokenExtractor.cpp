@@ -127,7 +127,7 @@ SemiticWordAndDelimiterTokenExtractor::decompoundWord(std::vector<int32_t>* boun
 
 ::std::u16string* SemiticWordAndDelimiterTokenExtractor::normalize(::std::u16string* dest, std::u16string_view src, std::u16string_view fullCharSequence, int32_t start) const
 {
-    if (!toNormalize.empty() && ::inflection::util::StringViewUtils::endsWith(src, toNormalize)
+    if (!toNormalize.empty() && src.ends_with(toNormalize)
         && (start + src.length()) < fullCharSequence.length() && nativeSet.contains(fullCharSequence[start + src.length()]))
     {
         npc(dest)->assign(src.substr(0, src.length() - toNormalize.length()));

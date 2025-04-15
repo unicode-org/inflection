@@ -1,0 +1,14 @@
+người đó,third,singular,gender
+anh ấy,third,singular,masculine
+cô ấy,third,singular,feminine
+nó,third,singular,neuter
+họ,third,plural
+chúng,third,plural,formal
+chúng nó,third,plural,intimate
+bạn,second,singular
+các bạn,second,plural
+tôi,first,singular,formal
+mình,first,singular,intimate
+chúng tôi,first,plural,formal,exclusive
+chúng ta,first,plural,formal,inclusive
+chúng mình,first,plural,intimate,inclusive

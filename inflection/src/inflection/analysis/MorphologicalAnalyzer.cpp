@@ -44,14 +44,18 @@ static ::std::vector<int64_t> convertIgnoreGrammemes(const ::inflection::diction
 }
 
 MorphologicalAnalyzer::MorphologicalAnalyzer(const inflection::util::ULocale &locale, const ::std::vector<::std::u16string_view> &lemmaAttributes, const std::vector<::std::vector<std::u16string_view>> &grammemePriorityStringTables, const ::std::vector<::std::vector<::std::u16string>> &ignoreGrammemeSets)
-    : DictionaryExposableMorphology(locale)
+    : super(locale)
     , lemmaAttributes(convertLemmaAttributes(getDictionary(), lemmaAttributes))
     , grammemePriorityTables(convertGrammemePriorities(getDictionary(), grammemePriorityStringTables))
     , ignoreGrammemeSets(convertIgnoreGrammemes(getDictionary(), ignoreGrammemeSets))
 {
 }
 
-int64_t MorphologicalAnalyzer::compareGrammemes(int64_t grammemes1, int64_t grammemes2) const {
+::std::optional<::inflection::dictionary::Inflector_Inflection> MorphologicalAnalyzer::selectLemmaInflection(const dictionary::Inflector_InflectionPattern &inflectionPattern, int64_t inflectionGrammemes, int64_t /*wordGrammemes*/) const {
+    return inflectionPattern.selectLemmaInflection(inflectionGrammemes, lemmaAttributes);
+}
+
+int8_t MorphologicalAnalyzer::compareGrammemes(int64_t grammemes1, int64_t grammemes2) const {
     for (const auto &priorityValues : grammemePriorityTables) {
         const auto idx1 = ::std::find_if(priorityValues.begin(), priorityValues.end(), [&](const auto &priorityValue) { return (grammemes1 & priorityValue) == priorityValue;});
         const auto idx2 = ::std::find_if(priorityValues.begin(), priorityValues.end(), [&](const auto &priorityValue) { return (grammemes2 & priorityValue) == priorityValue;});
@@ -62,18 +66,30 @@ int64_t MorphologicalAnalyzer::compareGrammemes(int64_t grammemes1, int64_t gram
     return 0;
 }
 
-void MorphologicalAnalyzer::filterInflectionGrammemes(::std::vector<DictionaryExposableMorphology::InflectionGrammemes> &inflectionGrammemes) const{
-    ::std::vector<DictionaryExposableMorphology::InflectionGrammemes> filteredInflectionGrammemes;
-    for (const auto &item : inflectionGrammemes) {
-        const auto grammemes = item.grammemes;
-        const auto containsGrammemeSet = [grammemes](const int64_t grammemeSet){ return (grammemes & grammemeSet) == grammemeSet;};
-        if (::std::find_if(ignoreGrammemeSets.begin(), ignoreGrammemeSets.end(), containsGrammemeSet) == ignoreGrammemeSets.end()) {
-            filteredInflectionGrammemes.emplace_back(item);
+static bool isImportant(const int64_t grammemes, const ::std::vector<int64_t>& ignoreGrammemeSets) {
+    const auto containsGrammemeSet = [grammemes](const int64_t grammemeSet){ return (grammemes & grammemeSet) == grammemeSet;};
+    return std::ranges::none_of(ignoreGrammemeSets, containsGrammemeSet);
+}
+
+void MorphologicalAnalyzer::filterInflectionGrammemes(::std::u16string_view word,
+                                                      int64_t wordGrammemes,
+                                                      const ::std::vector<::inflection::dictionary::Inflector_InflectionPattern>& inflectionPatterns,
+                                                      ::std::vector<InflectionGrammemes> &inflectionGrammemes) const
+{
+    for (const auto& inflectionPattern : inflectionPatterns) {
+        auto pos = inflectionPattern.getPartsOfSpeech();
+        if (inflectionPattern.numInflections() == 0) {
+            if (isImportant(pos, ignoreGrammemeSets)) {
+                inflectionGrammemes.emplace_back(pos, std::nullopt);
+            }
+            continue;
         }
-    }
-    inflectionGrammemes.clear();
-    for (const auto &inflection : filteredInflectionGrammemes) {
-        inflectionGrammemes.emplace_back(inflection);
+        for (const auto& inflection : inflectionPattern.inflectionsForSurfaceForm(word, wordGrammemes)) {
+            auto currGrammemes =  inflection.getGrammemes() | pos;
+            if (isImportant(currGrammemes, ignoreGrammemeSets)) {
+                inflectionGrammemes.emplace_back(currGrammemes, inflection);
+            }
+        }
     }
 }
 

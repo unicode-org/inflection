@@ -6,8 +6,6 @@
 #include <inflection/dictionary/fwd.hpp>
 #include <inflection/dictionary/Inflector_Inflection.hpp>
 #include <inflection/dictionary/Inflector_MMappedDictionary.hpp>
-#include <inflection/dictionary/metadata/StringArrayContainer.hpp>
-#include <inflection/Object.hpp>
 #include <string>
 #include <vector>
 
@@ -22,7 +20,6 @@ private: /* package */
     const int32_t lemmaSuffixesOffset {  };
     const int32_t inflectionsArrayStart {  };
     const ::inflection::dictionary::Inflector_MMappedDictionary& inflectorDictionary;
-    const ::inflection::dictionary::metadata::StringContainer& suffixes {  };
 
 private:
     Inflector_Inflection getInflectionAtPosition(int32_t idx) const;
@@ -31,6 +28,9 @@ private:
 public:
     ::std::vector<Inflector_Inflection> constrain(const ::std::vector<::std::u16string>& constraints) const;
     ::std::vector<Inflector_Inflection> constrain(const ::std::vector<::std::u16string>& constraints, bool isSuperset) const;
+private:
+    ::std::optional<Inflector_Inflection> getMatchingLemmaInflection(const ::std::vector<Inflector_Inflection>& inflections) const;
+public:
     ::std::optional<Inflector_Inflection> selectLemmaInflection(int64_t fromGrammemes, const ::std::vector<int64_t> &lemmaAttributes) const;
     ::std::vector<::inflection::dictionary::Inflector_Inflection> inflectionsForSurfaceForm(::std::u16string_view surfaceForm, int64_t fromGrammemes) const;
     ::std::u16string reinflect(int64_t fromGrammemes, int64_t toConstraints, std::u16string_view surfaceForm) const;

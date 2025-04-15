@@ -28,9 +28,9 @@ private:
     int64_t dictionaryNoun {  };
     int64_t dictionaryAdjective {  };
     ::std::set<::std::u16string> fugenElements { u"s" };
-    const ::inflection::dialog::SemanticFeature* countFeature {  };
-    const ::inflection::dialog::SemanticFeature* genderFeature {  };
-    const ::inflection::dialog::SemanticFeature* sizeFeature {  };
+    const ::inflection::dialog::SemanticFeature& countFeature;
+    const ::inflection::dialog::SemanticFeature& genderFeature;
+    const ::inflection::dialog::SemanticFeature& sizeFeature;
     ::std::u16string defaultString {  };
     ::std::u16string singularNeuterString {  };
 

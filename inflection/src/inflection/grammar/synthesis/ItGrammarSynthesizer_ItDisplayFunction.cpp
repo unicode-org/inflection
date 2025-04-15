@@ -18,6 +18,7 @@
 #include <inflection/util/Validate.hpp>
 #include <inflection/util/LocaleUtils.hpp>
 #include <inflection/npc.hpp>
+#include <unicode/uchar.h>
 #include <memory>
 
 template<typename T, typename U>
@@ -58,10 +59,10 @@ ItGrammarSynthesizer_ItDisplayFunction::~ItGrammarSynthesizer_ItDisplayFunction(
 {
 }
 
-::std::optional<::std::u16string> ItGrammarSynthesizer_ItDisplayFunction::inflectWord(::std::u16string_view word, const std::map<dialog::SemanticFeature, std::u16string> &constraints, bool enableInflectionGuess) const {
+::std::optional<::std::u16string> ItGrammarSynthesizer_ItDisplayFunction::inflectWord(::std::u16string_view word, int64_t wordGrammemes, const std::map<dialog::SemanticFeature, std::u16string> &constraints, bool enableInflectionGuess) const {
     ::std::vector<::std::u16string> constraintsVec(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {countFeature, genderFeature}));
-    ::std::vector<::std::u16string> disambiguationGrammemeValues(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {partOfSpeechFeature}));
-    const auto inflectedWord(dictionaryInflector.inflect(word, constraintsVec, disambiguationGrammemeValues));
+    ::std::vector<::std::u16string> dismbiguationGrammemeValues(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {partOfSpeechFeature}));
+    const auto inflectedWord(dictionaryInflector.inflect(word, wordGrammemes, constraintsVec, dismbiguationGrammemeValues));
     if (inflectedWord) {
         return *inflectedWord;
     } else if (enableInflectionGuess) {
@@ -76,7 +77,7 @@ ItGrammarSynthesizer_ItDisplayFunction::~ItGrammarSynthesizer_ItDisplayFunction(
     inflectedString.reserve(npc(tokenChain.getEnd())->getEndChar());
     for (const auto& tNext : tokenChain) {
         const auto& word = tNext.getValue();
-        if (!tNext.isSignificant() || word == u"-" || containsPrep) {
+        if (!tNext.isSignificant() || word == u"-" || containsPrep || (inflectedString.empty() && word.length() == 1 && u_tolower(word[0]) == u'l')) {
             inflectedString += word;
             continue;
         }
@@ -87,16 +88,23 @@ ItGrammarSynthesizer_ItDisplayFunction::~ItGrammarSynthesizer_ItDisplayFunction(
             inflectedString += word;
             continue;
         }
-        const auto inflectionResult = inflectWord(word, constraints, enableInflectionGuess);
-        auto inflectionValue = word;
+        const auto inflectionResult = inflectWord(word, wordType, constraints, enableInflectionGuess);
         if (inflectionResult) {
-            inflectionValue = *inflectionResult;
-        } else if(!enableInflectionGuess) {
+            inflectedString += *inflectionResult;
+        } else if (!enableInflectionGuess) {
             return {};
+        } else {
+            inflectedString += word;
         }
-        inflectedString += inflectionValue;
     }
     return inflectedString;
+}
+
+::inflection::tokenizer::TokenChain&
+ItGrammarSynthesizer_ItDisplayFunction::tokenize(::std::unique_ptr<::inflection::tokenizer::TokenChain>& tokenChain, const std::u16string& string) const
+{
+    tokenChain.reset(npc(npc(tokenizer.get())->createTokenChain(string)));
+    return *tokenChain;
 }
 
 ::inflection::dialog::DisplayValue * ItGrammarSynthesizer_ItDisplayFunction::getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const
@@ -112,20 +120,23 @@ ItGrammarSynthesizer_ItDisplayFunction::~ItGrammarSynthesizer_ItDisplayFunction(
     auto displayValueConstraints(GrammarSynthesizerUtil::mergeConstraintsWithDisplayValue(*displayValue, constraints));
 
     if (GrammarSynthesizerUtil::hasAnyFeatures(constraints, {countFeature, genderFeature})) {
-        ::std::unique_ptr<::inflection::tokenizer::TokenChain> tokenChain(npc(npc(tokenizer.get())->createTokenChain(displayString)));
+        ::std::unique_ptr<::inflection::tokenizer::TokenChain> tokenChain;
         ::std::optional<::std::u16string> inflectionResult;
-        if (tokenChain->getWordCount() == 1) {
-            inflectionResult = inflectWord(displayString, constraints, enableInflectionGuess);
+        int64_t wordType = 0;
+        if (dictionary.getCombinedBinaryType(&wordType, displayString) != nullptr
+            || tokenize(tokenChain, displayString).getWordCount() == 1)
+        {
+            inflectionResult = inflectWord(displayString, wordType, constraints, enableInflectionGuess);
         } else {
-            inflectionResult = inflectCompoundWord(*npc(tokenChain.get()), constraints, enableInflectionGuess);
+            inflectionResult = inflectCompoundWord(*npc(tokenChain.get()), displayValueConstraints, enableInflectionGuess);
         }
         if (inflectionResult) {
             displayString = *inflectionResult;
-        } else if (!enableInflectionGuess){
+        } else if (!enableInflectionGuess) {
             return nullptr;
         }
     }
-    return definitenessDisplayFunction.addDefiniteness(new ::inflection::dialog::DisplayValue(displayString, displayValueConstraints), constraints);
+    return definitenessDisplayFunction.updateDefiniteness(new ::inflection::dialog::DisplayValue(displayString, displayValueConstraints), displayValueConstraints);
 }
 
 } // namespace inflection::grammar::synthesis

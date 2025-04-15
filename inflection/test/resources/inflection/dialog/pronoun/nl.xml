@@ -41,22 +41,7 @@
     <test><source person="first" number="singular" emphasis="stressed" case="accusative"/><result>mij</result></test>
     <test><source person="first" number="singular" emphasis="unstressed" case="accusative"/><result>me</result></test>
     <test><source person="first" number="plural" case="accusative"/><result>ons</result></test>
-    <test><source person="third" number="singular" case="dative"/><result>ze</result></test>
-    <test><source person="third" number="singular" emphasis="stressed" case="dative" gender="masculine"/><result>hem</result></test>
-    <test><source person="third" number="singular" emphasis="unstressed" case="dative" gender="masculine"/><result>'m</result></test>
-    <test><source person="third" number="singular" emphasis="stressed" case="dative" gender="feminine"/><result>haar</result></test>
-    <test><source person="third" number="singular" emphasis="unstressed" case="dative" gender="feminine"/><result>h'r</result></test>
-    <test><source person="third" number="singular" emphasis="stressed" case="dative" gender="neuter"/><result>het</result></test>
-    <test><source person="third" number="singular" emphasis="unstressed" case="dative" gender="neuter"/><result>'t</result></test>
     <test><source person="third" number="plural" emphasis="stressed" case="dative"/><result>hun</result></test>
-    <test><source person="third" number="plural" emphasis="unstressed" case="dative"/><result>ze</result></test>
-    <test><source person="second" number="singular" emphasis="stressed" case="dative"/><result>jou</result></test>
-    <test><source person="second" number="singular" emphasis="unstressed" case="dative"/><result>je</result></test>
-    <test><source person="second" number="plural" emphasis="stressed" case="dative"/><result>jullie</result></test>
-    <test><source person="second" number="plural" emphasis="unstressed" case="dative"/><result>je</result></test>
-    <test><source person="first" number="singular" emphasis="stressed" case="dative"/><result>mij</result></test>
-    <test><source person="first" number="singular" emphasis="unstressed" case="dative"/><result>me</result></test>
-    <test><source person="first" number="plural" case="dative"/><result>ons</result></test>
     <test><source person="third" number="singular" determination="dependent" case="genitive"/><result>ze</result></test>
     <test><source person="third" number="singular" emphasis="stressed" determination="dependent" case="genitive" gender="masculine"/><result>zijn</result></test>
     <test><source person="third" number="singular" emphasis="unstressed" determination="dependent" case="genitive" gender="masculine"/><result>z'n</result></test>
@@ -102,4 +87,7 @@
     <test><source gender="neuter" case="genitive">z'n</source><result>z'n</result></test>
     <test><source person="third" pronounType="reflexive">ik</source><result gender="">zich</result></test>
     <test><source person="third" number="plural" pronounType="reflexive">ik</source><result gender="">zich</result></test>
+    <test><source gender="feminine">hem</source><result>haar</result></test>
+    <test><source gender="masculine">haar</source><result>zijn</result></test> <!-- This is ambiguous. This is defaulting to the possessive form. -->
+    <test><source gender="masculine" case="accusative">haar</source><result>hem</result></test>
 </inflectionTest>

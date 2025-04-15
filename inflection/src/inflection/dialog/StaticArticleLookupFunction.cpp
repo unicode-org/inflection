@@ -9,7 +9,6 @@
 #include <inflection/dialog/SpeakableString.hpp>
 #include <inflection/util/LocaleUtils.hpp>
 #include <inflection/util/StringViewUtils.hpp>
-#include <inflection/util/ULocale.hpp>
 #include <inflection/npc.hpp>
 
 namespace inflection::dialog {
@@ -34,7 +33,7 @@ SpeakableString* StaticArticleLookupFunction::getFeatureValue(const DisplayValue
     if (!displayString.empty()) {
         ::std::u16string lowercaseStr;
         ::inflection::util::StringViewUtils::lowercase(&lowercaseStr, displayString, inflection::util::LocaleUtils::ENGLISH());
-        if (!::inflection::util::StringViewUtils::startsWith(lowercaseStr, articleSpacedPrefix)) {
+        if (!lowercaseStr.starts_with(articleSpacedPrefix)) {
             return createPreposition(displayValue, articlePrefix);
         }
     }

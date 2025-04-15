@@ -8,10 +8,10 @@
 #include <inflection/tokenizer/Token_Head.hpp>
 #include <inflection/tokenizer/Token_Word.hpp>
 #include <inflection/tokenizer/TokenChain.hpp>
+#include <inflection/tokenizer/Tokenizer.hpp>
 #include <inflection/tokenizer/TokenizerFactory.hpp>
 #include <inflection/util/Validate.hpp>
 #include <inflection/util/LocaleUtils.hpp>
-#include <inflection/util/StringViewUtils.hpp>
 #include <inflection/npc.hpp>
 #include <memory>
 
@@ -96,14 +96,14 @@ static const ::std::set<::std::u16string_view>& MASCULINE_SUFFIXES()
             auto token = npc(tokenChain->getHead())->getNext();
             const auto& stringToken = npc(token)->getCleanValue();
             for (const auto& suffix : MASCULINE_SUFFIXES()) {
-                if (::inflection::util::StringViewUtils::endsWith(stringToken, suffix)) {
+                if (stringToken.ends_with(suffix)) {
                     out = GrammemeConstants::GENDER_MASCULINE();
                     break;
                 }
             }
             if (out.empty()) {
                 for (const auto& suffix : FEMININE_SUFFIXES()) {
-                    if (::inflection::util::StringViewUtils::endsWith(stringToken, suffix)) {
+                    if (stringToken.ends_with(suffix)) {
                         out = GrammemeConstants::GENDER_FEMININE();
                         break;
                     }

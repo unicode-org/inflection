@@ -335,9 +335,9 @@ inflection::dialog::DisplayValue* TrGrammarSynthesizer_TrDisplayFunction::genera
         }
     }
     if (!npc(suffixString)->empty()
-        && ((isForeign || endsWithNumber) && !displayString.empty() && !(TrGrammarSynthesizer::ENDING_DOUBLE_QUOTE().contains(displayString.back()))))
+        && ((isForeign || endsWithNumber) && !displayString.empty() && endingDoubleQuote.find(displayString.back()) == ::std::u16string_view::npos))
     {
-        if (TrGrammarSynthesizer::ENDING_SINGLE_QUOTE().contains(displayString.back())) {
+        if (endingSingleQuote.find(displayString.back()) != ::std::u16string_view::npos) {
             displayString = displayString.substr(0, displayString.length() - 1);
         }
         return new inflection::dialog::DisplayValue(displayString + u"’" + *npc(suffixString), formConstraints);
@@ -460,7 +460,7 @@ static const char16_t POSSESSIVE_COMPOUND_SUFFIXES[][5] = {
     if (isDisplayMultiWord) {
         for (const auto possessiveSuffixItem : POSSESSIVE_COMPOUND_SUFFIXES) {
             ::std::u16string possessiveSuffix(possessiveSuffixItem);
-            if (::inflection::util::StringViewUtils::endsWith(word, possessiveSuffix)) {
+            if (word.ends_with(possessiveSuffix)) {
                 ::std::u16string lastWordTrimmed(word, 0, word.length() - possessiveSuffix.length());
                 if (endsWithNumber(lastWordTrimmed)) {
                     break;

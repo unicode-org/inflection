@@ -4,15 +4,14 @@
 #include <inflection/grammar/synthesis/DeGrammarSynthesizer_ArticleLookupFunction.hpp>
 
 #include <inflection/dictionary/DictionaryMetaData.hpp>
-#include "inflection/tokenizer/TokenChain.hpp"
-#include "inflection/tokenizer/Tokenizer.hpp"
-#include "inflection/tokenizer/TokenizerFactory.hpp"
+#include <inflection/tokenizer/TokenChain.hpp>
+#include <inflection/tokenizer/Tokenizer.hpp>
+#include <inflection/tokenizer/TokenizerFactory.hpp>
 #include <inflection/util/LocaleUtils.hpp>
 #include <inflection/util/Validate.hpp>
 #include <inflection/dialog/SemanticFeature.hpp>
 #include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
-#include <inflection/dialog/SpeakableString.hpp>
 #include <inflection/grammar/synthesis/DeGrammarSynthesizer.hpp>
 #include <inflection/grammar/synthesis/GrammemeConstants.hpp>
 #include <inflection/npc.hpp>

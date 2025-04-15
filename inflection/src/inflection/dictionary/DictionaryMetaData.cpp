@@ -40,8 +40,8 @@ static constexpr char16_t BASE_NAME[] = { u"mmappable" };
 
 static ::std::u16string getResourcePath(const ::inflection::util::ULocale& locale) {
     auto localeLookup = (locale == inflection::util::LocaleUtils::ARABIC()) ? inflection::util::LocaleUtils::ROOT() : locale;
-    const auto morphunRoot = ::inflection::util::ResourceLocator::getRootForLocale(localeLookup);
-    auto dictionaryPath = morphunRoot + ::std::u16string(BASE_PATH) + ::std::u16string(BASE_NAME)
+    const auto inflectionRoot = ::inflection::util::ResourceLocator::getRootForLocale(localeLookup);
+    auto dictionaryPath = inflectionRoot + ::std::u16string(BASE_PATH) + ::std::u16string(BASE_NAME)
                 + ::std::u16string(u"_")
                 + ::inflection::util::StringViewUtils::to_u16string(locale.getLanguage())
                 + ::std::u16string(FILE_EXTENSION);

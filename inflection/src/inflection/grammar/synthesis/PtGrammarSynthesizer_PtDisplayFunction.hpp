@@ -21,9 +21,9 @@ public:
     typedef ::inflection::dialog::DefaultDisplayFunction super;
 
 private:
-    const ::inflection::dialog::SemanticFeature* countFeature {  };
-    const ::inflection::dialog::SemanticFeature* genderFeature {  };
-    const dialog::SemanticFeature *partOfSpeechFeature {  };
+    const ::inflection::dialog::SemanticFeature& numberFeature;
+    const ::inflection::dialog::SemanticFeature& genderFeature;
+    const ::inflection::dialog::SemanticFeature& partOfSpeechFeature;
     const ::inflection::dictionary::DictionaryMetaData& dictionary;
     PtGrammarSynthesizer_ArticleLookupFunction definiteArticleLookupFunction;
     PtGrammarSynthesizer_ArticleLookupFunction indefiniteArticleLookupFunction;
@@ -43,7 +43,7 @@ private:
 
 private:
     ::std::u16string guessPluralInflection(const std::u16string &word) const;
-    ::std::optional<::std::u16string> inflectWord(::std::u16string_view word, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const;
+    ::std::optional<::std::u16string> inflectWord(::std::u16string_view word, int64_t wordType, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const;
     ::std::optional<::std::vector<::std::u16string>> inflect2compoundWord(const std::vector<::std::u16string> &words, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const;
     ::std::optional<::std::vector<::std::u16string>> inflect3compoundWord(const std::vector<::std::u16string> &words, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const;
     ::std::optional<::std::vector<::std::u16string>> inflectCompoundWord(const std::vector<::std::u16string> &words, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const;

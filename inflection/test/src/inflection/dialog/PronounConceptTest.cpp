@@ -390,7 +390,7 @@ TEST_CASE("PronounConceptTest#testFullAccess")
                 else {
                     constraint = *cell;
                     const inflection::dialog::SemanticFeature* semanticFeature = nullptr;
-                    if (inflection::util::StringViewUtils::startsWith(constraint, dependencyPrefix)) {
+                    if (constraint.starts_with(dependencyPrefix)) {
                         auto constraintValue(constraint.substr(dependencyPrefix.length()));
                         if (constraintValue != u"sound") {
                             auto featureAlias = model.getFeatureAlias(constraintValue);

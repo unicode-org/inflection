@@ -96,6 +96,7 @@
     <test><source case="instrumental">홈런</source><result exists="true">홈런으로</result></test>
     <test><source case="instrumental">Eric</source><result exists="true">Eric으로</result></test>
     <test><source case="instrumental">George</source><result exists="true">George로</result></test>
+    <test><source case="instrumental">ChatGPT</source><result exists="true">ChatGPT로</result></test>
     <test><source case="instrumental">23</source><result exists="false">23으로</result></test>
     <test><source case="instrumental">23로</source><result exists="false">23으로</result></test>
     <test><source case="instrumental">word 23로</source><result exists="false">word 23으로</result></test>

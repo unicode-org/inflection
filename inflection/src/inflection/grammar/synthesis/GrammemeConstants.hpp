@@ -71,9 +71,23 @@ public:
     static const ::std::u16string& ANIMACY_ANIMATE();
     static const ::std::u16string& ANIMACY_INANIMATE();
 
+    static constexpr auto MOOD = u"mood";
+    static const ::std::u16string& MOOD_IMPERATIVE();
+    static const ::std::u16string& MOOD_INDICATIVE();
+
+    static constexpr auto TENSE = u"tense";
+    static const ::std::u16string& TENSE_PAST();
+    static const ::std::u16string& TENSE_PRESENT();
+    static const ::std::u16string& TENSE_FUTURE();
+
     static constexpr auto CLUSIVITY = u"clusivity";
     static const ::std::u16string& CLUSIVITY_INCLUSIVE();
     static const ::std::u16string& CLUSIVITY_EXCLUSIVE();
+
+    static constexpr auto COMPARISON = u"comparison";
+    static const ::std::u16string& COMPARISON_PLAIN();
+    static const ::std::u16string& COMPARISON_COMPARATIVE();
+    static const ::std::u16string& COMPARISON_SUPERLATIVE();
 
     static const ::std::u16string& VERBTYPE_INFINITIVE();
     static const ::std::u16string& REGISTER_INFORMAL();

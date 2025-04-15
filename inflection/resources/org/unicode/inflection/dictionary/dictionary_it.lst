@@ -1,237 +1,82 @@
-abilitandone: neuter vowel-start gerund verb inflection=ab
-abilitane: neuter imperative vowel-start verb inflection=ab
-abilitarne: neuter vowel-start infinitive verb inflection=ab
-abilitatene: neuter imperative vowel-start verb inflection=ab
-abilitiamone: neuter imperative vowel-start verb inflection=ab
-allenata: singular feminine vowel-start past participle adjective verb inflection=24
-allenate: plural feminine indicative imperative second vowel-start past present participle adjective verb inflection=24
-allenati: singular plural masculine imperative second vowel-start past participle adjective verb inflection=24
-allenato: singular masculine vowel-start past participle adjective verb inflection=24
-aperta: singular feminine vowel-start past participle adjective noun verb inflection=1
-aperte: plural feminine vowel-start past participle adjective noun verb inflection=1
-aperti: plural masculine vowel-start past participle adjective noun verb inflection=1
-aperto: singular masculine vowel-start past participle adjective noun verb inflection=1
-armadi: plural masculine vowel-start noun inflection=3f
-armadio: singular masculine vowel-start noun inflection=3f
-attore: singular masculine vowel-start noun inflection=2e
-attore: singular masculine vowel-start noun inflection=2e
-attori: plural masculine vowel-start adjective noun inflection=2e
-attori: plural masculine vowel-start adjective noun inflection=2e
-automobile: singular masculine feminine vowel-start adjective noun inflection=5
-automobili: plural masculine feminine vowel-start adjective noun inflection=5
-banca: singular feminine noun inflection=1d
-banche: plural feminine noun inflection=1d
-benvenuta: singular feminine adjective noun inflection=1
-benvenute: plural feminine adjective noun inflection=1
-benvenuti: plural masculine adjective noun inflection=1
-benvenuto: singular masculine adjective noun inflection=1
+a: adposition
+abilitane: neuter imperative vowel-start verb inflection=69
+allenato: singular masculine vowel-start past participle adjective verb inflection=1 inflection=8a
+aperto: singular masculine vowel-start past participle adjective noun verb inflection=1 inflection=2 inflection=3e2
+Apple: singular noun proper-noun inflection=3e
+armadio: singular masculine vowel-start noun inflection=b
+assideramento: singular masculine noun inflection=2
+attore: singular masculine vowel-start noun inflection=10
+automobile: singular masculine feminine vowel-start adjective noun inflection=5 inflection=6
+automobili: plural masculine feminine vowel-start adjective noun inflection=5 inflection=6
+banca: singular feminine noun inflection=1b
+Barcellona: singular feminine noun proper-noun inflection=18
+benvenuta: singular feminine adjective noun inflection=1 inflection=c
+benvenuto: singular masculine adjective noun inflection=1 inflection=c
+caffè: singular plural masculine noun inflection=7
+capi: singular plural masculine indicative imperative subjunctive first second third present noun verb inflection=2 inflection=4
+capo: singular masculine indicative first present noun verb inflection=2 inflection=4
 casa: singular feminine noun inflection=3
 case: plural feminine noun inflection=3
-cassiera: singular feminine noun inflection=4c
-cassiere: singular plural masculine feminine noun inflection=4c
-cassieri: plural masculine noun inflection=4c
-cinematografica: singular feminine adjective inflection=9
-cinematografiche: plural feminine adjective inflection=9
-cinematografici: plural masculine adjective inflection=9
-cinematografico: singular masculine adjective inflection=9
-connessa: singular feminine past participle adjective verb inflection=1
-connesse: singular plural feminine indicative third past participle adjective verb inflection=1
-connessi: singular plural masculine indicative first past participle adjective noun verb inflection=1
-connesso: singular masculine past participle adjective verb inflection=1
-de: adposition
-delegata: singular feminine adjective noun inflection=1
-delegate: plural feminine indicative imperative second present adjective noun verb inflection=1
-delegati: plural masculine adjective noun inflection=1
-delegato: singular masculine past participle adjective noun verb inflection=1
-di: singular plural masculine feminine indicative imperative subjunctive first second third present noun adposition verb
-era: singular feminine indicative third vowel-start past noun verb inflection=1e inflection=261
-erano: plural indicative third vowel-start past verb inflection=261
-eravamo: plural indicative first vowel-start past verb inflection=261
-eravate: plural indicative second vowel-start past verb inflection=261
-eri: singular indicative second vowel-start past verb inflection=261
-ero: singular indicative first vowel-start past verb inflection=261
-essendo: vowel-start gerund verb inflection=261
-essendocela: vowel-start gerund verb inflection=261
-essendocele: vowel-start gerund verb inflection=261
-essendoceli: vowel-start gerund verb inflection=261
-essendocelo: vowel-start gerund verb inflection=261
-essendoci: vowel-start gerund verb inflection=261
-essendogli: vowel-start gerund verb inflection=261
-essendogliela: vowel-start gerund verb inflection=261
-essendogliele: vowel-start gerund verb inflection=261
-essendoglieli: vowel-start gerund verb inflection=261
-essendoglielo: vowel-start gerund verb inflection=261
-essendola: vowel-start gerund verb inflection=261
-essendole: vowel-start gerund verb inflection=261
-essendoli: vowel-start gerund verb inflection=261
-essendolo: vowel-start gerund verb inflection=261
-essendomela: vowel-start gerund verb inflection=261
-essendomele: vowel-start gerund verb inflection=261
-essendomeli: vowel-start gerund verb inflection=261
-essendomelo: vowel-start gerund verb inflection=261
-essendomi: vowel-start gerund verb inflection=261
-essendone: vowel-start gerund verb inflection=261
-essendotela: vowel-start gerund verb inflection=261
-essendotele: vowel-start gerund verb inflection=261
-essendoteli: vowel-start gerund verb inflection=261
-essendotelo: vowel-start gerund verb inflection=261
-essendoti: vowel-start gerund verb inflection=261
-essendovela: vowel-start gerund verb inflection=261
-essendovele: vowel-start gerund verb inflection=261
-essendoveli: vowel-start gerund verb inflection=261
-essendovelo: vowel-start gerund verb inflection=261
-essendovi: vowel-start gerund verb inflection=261
-essente: vowel-start present participle verb inflection=261
-essercela: vowel-start infinitive verb inflection=261
-essercele: vowel-start infinitive verb inflection=261
-esserceli: vowel-start infinitive verb inflection=261
-essercelo: vowel-start infinitive verb inflection=261
-esserci: vowel-start infinitive verb inflection=261
-essere: singular masculine vowel-start infinitive noun verb inflection=3a inflection=261
-essergli: vowel-start infinitive verb inflection=261
-essergliela: vowel-start infinitive verb inflection=261
-essergliele: vowel-start infinitive verb inflection=261
-esserglieli: vowel-start infinitive verb inflection=261
-esserglielo: vowel-start infinitive verb inflection=261
-esserla: vowel-start infinitive verb inflection=261
-esserle: vowel-start infinitive verb inflection=261
-esserli: vowel-start infinitive verb inflection=261
-esserlo: vowel-start infinitive verb inflection=261
-essermela: vowel-start infinitive verb inflection=261
-essermele: vowel-start infinitive verb inflection=261
-essermeli: vowel-start infinitive verb inflection=261
-essermelo: vowel-start infinitive verb inflection=261
-essermi: vowel-start infinitive verb inflection=261
-esserne: vowel-start infinitive verb inflection=261
-essertela: vowel-start infinitive verb inflection=261
-essertele: vowel-start infinitive verb inflection=261
-esserteli: vowel-start infinitive verb inflection=261
-essertelo: vowel-start infinitive verb inflection=261
-esserti: vowel-start infinitive verb inflection=261
-esservela: vowel-start infinitive verb inflection=261
-esservele: vowel-start infinitive verb inflection=261
-esserveli: vowel-start infinitive verb inflection=261
-esservelo: vowel-start infinitive verb inflection=261
-esservi: vowel-start infinitive verb inflection=261
-fosse: singular plural feminine subjunctive third past noun verb inflection=3 inflection=261
-fossero: plural subjunctive third past verb inflection=261
-fossi: singular plural masculine subjunctive first second past noun verb inflection=2 inflection=261
-fossimo: plural subjunctive first past verb inflection=261
-foste: plural indicative subjunctive second past verb inflection=261
-fosti: singular indicative second past verb inflection=261
-fu: singular plural masculine feminine indicative third past adjective verb inflection=261
-fui: singular plural masculine indicative first past noun verb inflection=261
-fummo: plural indicative first past verb inflection=261
-furono: plural indicative third past verb inflection=261
-gatta: singular feminine noun inflection=3
-gatte: plural feminine noun inflection=3
-gli: plural definite masculine determiner pronoun inflection=28c
-i: singular plural definite masculine feminine determiner noun inflection=28c
-il: singular definite masculine determiner inflection=28c
+cassiere: singular plural masculine feminine noun inflection=3a
+cinema: singular plural masculine noun inflection=7
+cinematografico: singular masculine adjective inflection=a
+connesso: singular masculine past participle adjective verb inflection=1 inflection=1d2
+copyright: singular plural masculine noun inflection=7
+cui: pronoun
+delegato: singular masculine past participle adjective noun verb inflection=1 inflection=c inflection=11
+di: singular plural masculine feminine indicative imperative subjunctive first second third present noun adposition verb inflection=e inflection=2a
+donna: singular feminine noun inflection=3
+dottore: singular masculine noun inflection=1fe
+è: singular indicative third present verb inflection=210 inflection=211
+Edoardo: singular masculine noun proper-noun inflection=2f
+essere: singular masculine vowel-start infinitive noun verb inflection=8 inflection=210
+gatta: singular feminine noun inflection=3 inflection=c
+gatte: plural feminine noun inflection=3 inflection=c
+Gatti: singular plural noun proper-noun inflection=1f
+gatti: plural masculine noun inflection=c
+gatto: singular plural masculine feminine adjective noun inflection=c inflection=1c
+gnocchi: plural masculine noun inflection=1a
+gnomo: singular masculine noun inflection=2
+hotel: singular plural masculine vowel-start noun inflection=7
+I: number
+i: singular plural definite masculine feminine determiner noun inflection=9 inflection=239
+il: singular definite masculine determiner inflection=239
 in: adposition
-invitati: singular plural masculine imperative second vowel-start past participle adjective noun verb inflection=1 inflection=ab
-invitato: singular masculine vowel-start past participle adjective noun verb inflection=1 inflection=ab
-iscritta: singular feminine vowel-start adjective noun inflection=1
-iscritte: plural feminine vowel-start adjective noun inflection=1
-iscritti: plural masculine vowel-start adjective noun inflection=1
-iscritto: singular masculine vowel-start past participle adjective noun verb inflection=1
-italiana: singular feminine indicative imperative second third vowel-start present adjective noun verb inflection=1e
-italiane: plural feminine vowel-start adjective noun inflection=1e
-la: singular plural definite masculine feminine determiner noun pronoun inflection=28c
+Internet: singular plural masculine noun inflection=7
+internet: singular plural masculine noun inflection=7
+invitato: singular masculine vowel-start past participle adjective noun verb inflection=1 inflection=c inflection=69
+iscritta: singular feminine vowel-start adjective noun inflection=1 inflection=c
+iscritto: singular masculine vowel-start past participle adjective noun verb inflection=1 inflection=c inflection=6f
+italiana: singular feminine indicative imperative second third vowel-start present adjective noun verb inflection=1 inflection=3 inflection=c inflection=20
+italiane: plural feminine vowel-start adjective noun inflection=1 inflection=3 inflection=c
+italiani: singular plural masculine indicative imperative subjunctive first second third vowel-start present adjective noun verb inflection=1 inflection=c inflection=20
+italiano: singular masculine indicative first vowel-start present adjective noun verb inflection=1 inflection=c inflection=20
 lavora: singular indicative imperative second third present verb inflection=4
-lavora: singular indicative imperative second third present verb inflection=4
-lavorai: singular indicative first past verb inflection=4
-lavorammo: plural indicative first past verb inflection=4
-lavorando: gerund verb inflection=4
-lavorano: plural indicative third present verb inflection=4
-lavorante: singular masculine feminine present participle adjective noun verb inflection=4 inflection=5
-lavorare: infinitive verb inflection=4
-lavorarono: plural indicative third past verb inflection=4
-lavorasse: singular subjunctive third past verb inflection=4
-lavorassero: plural subjunctive third past verb inflection=4
-lavorassi: singular subjunctive first second past verb inflection=4
-lavorassimo: plural subjunctive first past verb inflection=4
-lavoraste: plural indicative subjunctive second past verb inflection=4
-lavorasti: singular indicative second past verb inflection=4
-lavorate: plural feminine indicative imperative second present adjective noun verb inflection=1 inflection=3 inflection=4
-lavorato: singular masculine past participle adjective noun verb inflection=1 inflection=2 inflection=4
-lavorava: singular indicative third past verb inflection=4
-lavoravamo: plural indicative first past verb inflection=4
-lavoravano: plural indicative third past verb inflection=4
-lavoravate: plural indicative second past verb inflection=4
-lavoravi: singular indicative second past verb inflection=4
-lavoravo: singular indicative first past verb inflection=4
-lavorerai: singular indicative second future verb inflection=4
-lavoreranno: plural indicative third future verb inflection=4
-lavorerebbe: singular conditional third present verb inflection=4
-lavorerebbero: plural conditional third present verb inflection=4
-lavorerei: singular conditional first present verb inflection=4
-lavoreremmo: plural conditional first present verb inflection=4
-lavoreremo: plural indicative first future verb inflection=4
-lavorereste: plural conditional second present verb inflection=4
-lavoreresti: singular conditional second present verb inflection=4
-lavorerete: plural indicative second future verb inflection=4
-lavorerà: singular indicative third future verb inflection=4
-lavorerò: singular indicative first future verb inflection=4
-lavori: singular plural masculine indicative imperative subjunctive first second third present noun verb inflection=2 inflection=4
-lavoriamo: plural indicative imperative subjunctive first present verb inflection=4
-lavoriate: plural subjunctive second present verb inflection=4
-lavorino: singular plural masculine subjunctive third present noun verb inflection=2 inflection=4
-lavoro: singular masculine indicative first present noun verb inflection=2 inflection=4
-lavorò: singular indicative third past verb inflection=4
-le: plural definite feminine determiner pronoun inflection=28c
-lo: singular definite masculine determiner inflection=28c
-metri: plural masculine noun inflection=2
+letto: singular masculine past participle adjective noun verb inflection=1 inflection=2 inflection=5c
+lunedì: singular plural masculine noun inflection=7
+manager: singular plural masculine feminine noun inflection=2a
 metro: singular masculine noun inflection=2
-nota: singular feminine indicative imperative second third present adjective noun verb inflection=1 inflection=3 inflection=4
 note: plural feminine adjective noun inflection=1 inflection=3
-noti: singular plural masculine indicative imperative subjunctive first second third present adjective noun verb inflection=1 inflection=2 inflection=4
-noto: singular masculine indicative first present adjective noun verb inflection=1 inflection=2 inflection=4
-ombrellone: singular masculine vowel-start noun inflection=3a
-ombrelloni: plural masculine vowel-start noun inflection=3a
-ora: singular feminine indicative imperative second third vowel-start present noun verb inflection=1e
-ore: plural feminine vowel-start noun inflection=1e
-produttore: singular masculine adjective noun inflection=12
-produttori: plural masculine adjective noun inflection=12
-produttrice: singular feminine adjective noun inflection=12
-produttrici: plural feminine adjective noun inflection=12
-regista: singular masculine feminine noun inflection=29
-registe: plural feminine noun inflection=29
-registi: plural masculine noun inflection=29
-sarai: singular indicative second future verb inflection=261
-saranno: plural indicative third future verb inflection=261
-sarebbe: singular conditional third present verb inflection=261
-sarebbero: plural conditional third present verb inflection=261
-sarei: singular conditional first present verb inflection=261
-saremmo: plural conditional first present verb inflection=261
-saremo: plural indicative first future verb inflection=261
-sareste: plural conditional second present verb inflection=261
-saresti: singular conditional second present verb inflection=261
-sarete: plural indicative second future verb inflection=261
-sarà: singular indicative third future verb inflection=261
-sarò: singular indicative first future verb inflection=261
-sei: singular plural masculine feminine indicative second present noun verb inflection=32 inflection=261
+ombrellone: singular masculine vowel-start noun inflection=8
+ora: singular feminine indicative imperative second third vowel-start present noun verb inflection=3 inflection=4
+pastello: singular masculine adjective noun inflection=2 inflection=40
+prima: singular feminine adjective noun number inflection=1 inflection=c
+produttore: singular masculine adjective noun inflection=10 inflection=15
+redattore: singular masculine noun inflection=10
+regista: singular masculine feminine noun inflection=1e
+salotti: plural masculine noun inflection=2
+salotto: singular masculine noun inflection=2
+sei: singular plural masculine feminine indicative second present noun verb inflection=2a inflection=210 inflection=211
 settimana: singular feminine noun inflection=3
-settimane: plural feminine noun inflection=3
-sia: singular imperative subjunctive first second third present verb inflection=261
-siamo: plural indicative imperative subjunctive first present verb inflection=261
-siano: plural subjunctive third present verb inflection=261
-siate: plural subjunctive second present verb inflection=261
-siete: plural indicative imperative second present verb inflection=261
-sii: singular imperative second verb inflection=261
-sono: singular plural masculine indicative first third present noun verb inflection=4 inflection=261
-stato: singular masculine past participle adjective noun verb inflection=1 inflection=2 inflection=261
-teatrabile: singular masculine feminine adjective inflection=5
-teatrabili: plural masculine feminine adjective inflection=5
+stanza: singular feminine noun inflection=3
+Stato: singular masculine noun inflection=2
+stato: singular masculine past participle adjective noun verb inflection=1 inflection=2 inflection=210 inflection=366
 teatrale: singular masculine feminine adjective inflection=5
-teatrali: plural masculine feminine adjective inflection=5
-televisiva: singular feminine adjective inflection=1
-televisive: plural feminine adjective inflection=1
-televisivi: plural masculine adjective inflection=1
 televisivo: singular masculine adjective inflection=1
-un: singular indefinite masculine determiner inflection=405
-una: singular indefinite feminine imperative second vowel-start adjective determiner number pronoun verb inflection=405
-è: singular indicative third present verb inflection=261
+un: singular indefinite masculine determiner inflection=3a2
+una: singular indefinite feminine imperative second vowel-start adjective determiner number pronoun verb inflection=29 inflection=3a1 inflection=3a2
+uno: singular indefinite masculine vowel-start adjective determiner number pronoun inflection=3a1 inflection=3a2
+zio: singular masculine noun inflection=2
 ==============================================
 Manually curated for tests to pass
 Copyright 2024-2024 Apple Inc. All rights reserved.

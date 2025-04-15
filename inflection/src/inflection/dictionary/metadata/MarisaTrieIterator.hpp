@@ -6,7 +6,6 @@
 #include <inflection/dictionary/fwd.hpp>
 #include <inflection/dictionary/metadata/fwd.hpp>
 #include <inflection/dictionary/metadata/MarisaTrie.hpp>
-#include <inflection/util/StringViewUtils.hpp>
 #include <marisa/trie.h>
 #include <tuple>
 #include <string_view>

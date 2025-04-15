@@ -3,10 +3,7 @@
  Copyright 2024-2024 Apple Inc. All rights reserved.
 -->
 <patterns>
-    <pattern name="1" words="13627">
-        <pos>noun</pos>
-    </pattern>
-    <pattern name="2" words="10463">
+    <pattern name="1" words="10461">
         <pos>noun</pos>
         <suffix/>
         <inflections>
@@ -20,7 +17,7 @@
             <inflection number="plural" definiteness="indefinite" gender="masculine"><t><stem/>er</t></inflection>
         </inflections>
     </pattern>
-    <pattern name="3" words="5948">
+    <pattern name="2" words="5947">
         <pos>noun</pos>
         <suffix/>
         <inflections>
@@ -34,7 +31,7 @@
             <inflection number="plural" definiteness="indefinite" gender="feminine"><t><stem/>er</t></inflection>
         </inflections>
     </pattern>
-    <pattern name="4" words="2605">
+    <pattern name="3" words="2600">
         <pos>noun</pos>
         <suffix/>
         <inflections>
@@ -50,11 +47,7 @@
             <inflection number="plural" case="genitive" definiteness="definite" gender="neuter"><t><stem/>enes</t></inflection>
         </inflections>
     </pattern>
-    <pattern name="6" words="1406">
-        <pos>noun</pos>
-        <pos>proper-noun</pos>
-    </pattern>
-    <pattern name="7" words="1259">
+    <pattern name="4" words="1262">
         <pos>noun</pos>
         <suffix/>
         <inflections>
@@ -68,7 +61,7 @@
             <inflection number="plural" definiteness="indefinite" gender="masculine"><t><stem/>r</t></inflection>
         </inflections>
     </pattern>
-    <pattern name="9" words="1050">
+    <pattern name="6" words="994">
         <pos>noun</pos>
         <suffix/>
         <inflections>
@@ -86,23 +79,16 @@
             <inflection number="plural" definiteness="definite" gender="neuter"><t><stem/>a</t></inflection>
         </inflections>
     </pattern>
-    <pattern name="f" words="180">
+    <pattern name="7" words="824">
         <pos>noun</pos>
-        <suffix>e</suffix>
+        <pos>proper-noun</pos>
+        <suffix/>
         <inflections>
-            <inflection number="singular" case="genitive" definiteness="definite" gender="neuter"><t><stem/>ets</t></inflection>
-            <inflection number="singular" case="genitive" definiteness="indefinite" gender="neuter"><t><stem/>es</t></inflection>
-            <inflection number="plural" case="genitive" definiteness="definite" gender="neuter"><t><stem/>as</t></inflection>
-            <inflection number="plural" case="genitive" definiteness="definite" gender="neuter"><t><stem/>enes</t></inflection>
-            <inflection number="plural" case="genitive" definiteness="indefinite" gender="neuter"><t><stem/>ers</t></inflection>
-            <inflection number="singular" definiteness="definite" gender="neuter"><t><stem/>et</t></inflection>
-            <inflection number="singular" definiteness="indefinite" gender="neuter"><t><stem/>e</t></inflection>
-            <inflection number="plural" definiteness="definite" gender="neuter"><t><stem/>ene</t></inflection>
-            <inflection number="plural" definiteness="indefinite" gender="neuter"><t><stem/>er</t></inflection>
-            <inflection number="plural" definiteness="definite" gender="neuter"><t><stem/>a</t></inflection>
+            <inflection number="singular" case="genitive" gender="masculine"><t><stem/>s</t></inflection>
+            <inflection number="singular" gender="masculine"><t><stem/></t></inflection>
         </inflections>
     </pattern>
-    <pattern name="12" words="246">
+    <pattern name="b" words="247">
         <pos>noun</pos>
         <suffix/>
         <inflections>
@@ -116,7 +102,7 @@
             <inflection number="plural" definiteness="indefinite" gender="masculine"><t><stem/>er</t></inflection>
         </inflections>
     </pattern>
-    <pattern name="16" words="180">
+    <pattern name="d" words="178">
         <pos>noun</pos>
         <suffix>e</suffix>
         <inflections>
@@ -132,7 +118,17 @@
             <inflection number="plural" definiteness="definite" gender="neuter"><t><stem/>a</t></inflection>
         </inflections>
     </pattern>
-    <pattern name="30" words="25">
+    <pattern name="1f" words="56">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular" case="genitive" definiteness="definite" gender="masculine"><t><stem/>ens</t></inflection>
+            <inflection number="singular" case="genitive" definiteness="indefinite" gender="masculine"><t><stem/>s</t></inflection>
+            <inflection number="singular" definiteness="definite" gender="masculine"><t><stem/>en</t></inflection>
+            <inflection number="singular" definiteness="indefinite" gender="masculine"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="31" words="25">
         <pos>noun</pos>
         <suffix>or</suffix>
         <inflections>
@@ -164,7 +160,7 @@
             <inflection number="plural" definiteness="indefinite" gender="feminine"><t><stem/>ødre</t></inflection>
         </inflections>
     </pattern>
-    <pattern name="78" words="16">
+    <pattern name="43" words="17">
         <pos>noun</pos>
         <suffix>e</suffix>
         <inflections>
@@ -186,7 +182,7 @@
             <inflection number="plural" definiteness="indefinite" gender="feminine"><t><stem/>er</t></inflection>
         </inflections>
     </pattern>
-    <pattern name="87" words="13">
+    <pattern name="4c" words="13">
         <pos>noun</pos>
         <suffix>ann</suffix>
         <inflections>
@@ -200,7 +196,7 @@
             <inflection number="plural" definiteness="indefinite" gender="masculine"><t><stem/>enn</t></inflection>
         </inflections>
     </pattern>
-    <pattern name="d2" words="6">
+    <pattern name="64" words="9">
         <pos>noun</pos>
         <suffix/>
         <inflections>
@@ -222,7 +218,7 @@
             <inflection number="plural" definiteness="indefinite" gender="feminine"><t><stem/>er</t></inflection>
         </inflections>
     </pattern>
-    <pattern name="314" words="1">
+    <pattern name="17e" words="1">
         <pos>noun</pos>
         <suffix/>
         <inflections>

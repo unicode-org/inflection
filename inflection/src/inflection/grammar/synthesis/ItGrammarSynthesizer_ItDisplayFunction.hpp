@@ -12,7 +12,6 @@
 #include <inflection/grammar/synthesis/ItGrammarSynthesizer_DefiniteArticleLookupFunction.hpp>
 #include <inflection/grammar/synthesis/ItGrammarSynthesizer_IndefiniteArticleLookupFunction.hpp>
 #include <string>
-#include <vector>
 
 class inflection::grammar::synthesis::ItGrammarSynthesizer_ItDisplayFunction
     : public virtual ::inflection::dialog::DefaultDisplayFunction
@@ -36,8 +35,9 @@ private:
     int64_t dictionaryPreposition {  };
 
 public:
-    ::std::optional<::std::u16string> inflectWord(::std::u16string_view word, const std::map<dialog::SemanticFeature, std::u16string> &constraints, bool enableInflectionGuess) const;
+    ::std::optional<::std::u16string> inflectWord(::std::u16string_view word, int64_t wordGrammemes, const std::map<dialog::SemanticFeature, std::u16string> &constraints, bool enableInflectionGuess) const;
     ::std::optional<::std::u16string> inflectCompoundWord(const ::inflection::tokenizer::TokenChain &tokenChain, const std::map<dialog::SemanticFeature, std::u16string> &constraints, bool enableInflectionGuess) const;
+    ::inflection::tokenizer::TokenChain& tokenize(::std::unique_ptr<::inflection::tokenizer::TokenChain>& tokenChain, const std::u16string& string) const;
     ::inflection::dialog::DisplayValue *getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const override;
 
 public: /* package */

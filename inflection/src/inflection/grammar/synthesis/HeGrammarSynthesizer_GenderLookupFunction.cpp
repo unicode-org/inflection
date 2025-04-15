@@ -4,7 +4,6 @@
 #include <inflection/grammar/synthesis/HeGrammarSynthesizer_GenderLookupFunction.hpp>
 
 #include <inflection/util/LocaleUtils.hpp>
-#include <inflection/util/StringViewUtils.hpp>
 #include <inflection/grammar/synthesis/GrammemeConstants.hpp>
 
 namespace inflection::grammar::synthesis {
@@ -21,7 +20,7 @@ HeGrammarSynthesizer_GenderLookupFunction::HeGrammarSynthesizer_GenderLookupFunc
         return out;
     }
 
-    if (::inflection::util::StringViewUtils::endsWith(word, u"ת") || ::inflection::util::StringViewUtils::endsWith(word, u"ה")) {
+    if (word.ends_with(u"ת") || word.ends_with(u"ה")) {
         return GrammemeConstants::GENDER_FEMININE();
     }
     return GrammemeConstants::GENDER_MASCULINE();

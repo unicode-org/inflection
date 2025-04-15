@@ -4,12 +4,13 @@
 #include <inflection/grammar/synthesis/FrGrammarSynthesizer_CountLookupFunction.hpp>
 
 #include <inflection/dictionary/Inflector.hpp>
+#include <inflection/dictionary/Inflector_InflectionPattern.hpp>
 #include <inflection/tokenizer/TokenChain.hpp>
 #include <inflection/tokenizer/Token_Head.hpp>
+#include <inflection/tokenizer/Tokenizer.hpp>
 #include <inflection/tokenizer/TokenizerFactory.hpp>
 #include <inflection/grammar/synthesis/GrammemeConstants.hpp>
 #include <inflection/util/LocaleUtils.hpp>
-#include <inflection/util/StringViewUtils.hpp>
 #include <inflection/util/Validate.hpp>
 #include <inflection/npc.hpp>
 #include <string>
@@ -26,34 +27,23 @@ FrGrammarSynthesizer_CountLookupFunction::FrGrammarSynthesizer_CountLookupFuncti
 {
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&nounProperty, {u"noun"}));
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&properNounProperty, {u"proper-noun"}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&appleProductProperty, {u"appleproduct"}));
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&pluralizeInvProperty, {u"plural", u"singular"}));
 }
 
 FrGrammarSynthesizer_CountLookupFunction::~FrGrammarSynthesizer_CountLookupFunction()
 {
-
 }
 
-bool FrGrammarSynthesizer_CountLookupFunction::checkProperNoun(::std::u16string_view word) const
+bool FrGrammarSynthesizer_CountLookupFunction::checkInvariantNouns(::std::u16string_view word, int64_t wordGrammemes) const
 {
-    return dictionary.hasAllProperties(word, properNounProperty);
-}
-
-bool FrGrammarSynthesizer_CountLookupFunction::checkInvariantNouns(::std::u16string_view word) const
-{
-    if (!dictionary.hasAllProperties(word, nounProperty)) {
-        return false;
-    }
-    const auto inflectionPatterns = dictionary.getPropertyValues(word, u"inflection");
-    if (inflectionPatterns.size() <= 1) {
-        return dictionary.hasAllProperties(word, pluralizeInvProperty);
+    if ((wordGrammemes & nounProperty) == nounProperty) {
+        std::vector<dictionary::Inflector_InflectionPattern> inflectionPatterns;
+        inflector.getInflectionPatternsForWord(word, inflectionPatterns);
+        if (inflectionPatterns.size() <= 1) {
+            return (wordGrammemes & pluralizeInvProperty) == pluralizeInvProperty;
+        }
     }
     return false;
-}
-
-bool FrGrammarSynthesizer_CountLookupFunction::checkAppleProduct(::std::u16string_view word) const {
-    return dictionary.hasAllProperties(word, appleProductProperty);
 }
 
 ::std::optional<::std::u16string> FrGrammarSynthesizer_CountLookupFunction::determineWord(const std::u16string &word) const {
@@ -61,13 +51,12 @@ bool FrGrammarSynthesizer_CountLookupFunction::checkAppleProduct(::std::u16strin
     if (!out.empty()) {
         return out;
     }
-    if (checkAppleProduct(word)) {
-        return GrammemeConstants::NUMBER_SINGULAR();
-    }
-    if (checkProperNoun(word)) {
+    int64_t wordGrammemes = 0;
+    dictionary.getCombinedBinaryType(&wordGrammemes, word);
+    if ((wordGrammemes & properNounProperty) == properNounProperty) {
         return {{}};
     }
-    if (checkInvariantNouns(word)) {
+    if (checkInvariantNouns(word, wordGrammemes)) {
         return GrammemeConstants::NUMBER_SINGULAR();
     }
     return {};
@@ -92,7 +81,7 @@ bool FrGrammarSynthesizer_CountLookupFunction::checkAppleProduct(::std::u16strin
     }
 
     if (dictionary.hasAllProperties(firstWord, nounProperty)) {
-        if (::inflection::util::StringViewUtils::endsWith(firstWord, u"s") || ::inflection::util::StringViewUtils::endsWith(firstWord, u"x")) {
+        if (firstWord.ends_with(u"s") || firstWord.ends_with(u"x")) {
             return GrammemeConstants::NUMBER_PLURAL();
         } else {
             return GrammemeConstants::NUMBER_SINGULAR();

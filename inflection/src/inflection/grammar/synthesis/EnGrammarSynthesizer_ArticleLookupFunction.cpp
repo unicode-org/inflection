@@ -6,7 +6,6 @@
 #include <inflection/dictionary/PhraseProperties.hpp>
 #include <inflection/grammar/synthesis/GrammemeConstants.hpp>
 #include <inflection/util/LocaleUtils.hpp>
-#include <inflection/util/StringViewUtils.hpp>
 #include <inflection/dialog/SemanticFeature.hpp>
 #include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
@@ -33,7 +32,7 @@ inflection::dialog::SpeakableString* EnGrammarSynthesizer_ArticleLookupFunction:
     if (!displayString.empty()) {
         auto countValue(countLookupFunction.determine(displayString));
         if (countValue != GrammemeConstants::NUMBER_PLURAL()) {
-            if (displayString.length() > 3 && (::inflection::util::StringViewUtils::endsWith(displayString, u"’s") || ::inflection::util::StringViewUtils::endsWith(displayString, u"'s"))) {
+            if (displayString.length() > 3 && (displayString.ends_with(u"’s") || displayString.ends_with(u"'s"))) {
                 displayString.resize(displayString.length() - 2);
             }
             if (::inflection::dictionary::PhraseProperties::isStartsWithVowel(::inflection::util::LocaleUtils::ENGLISH(), displayString)

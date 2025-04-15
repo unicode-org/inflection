@@ -27,7 +27,6 @@ Inflector_InflectionPattern::Inflector_InflectionPattern(int32_t identifierID, i
     , lemmaSuffixesOffset(lemmaSuffixesOffset)
     , inflectionsArrayStart(inflectionsArrayStart)
     , inflectorDictionary(containingDictionary)
-    , suffixes(inflectorDictionary.inflection_Suffixes)
 {
 }
 
@@ -84,14 +83,14 @@ bool Inflector_InflectionPattern::containsSuffix(std::u16string_view suffix) con
     ::std::vector<Inflector_Inflection> results;
     int64_t maxLen = -1;
     for (int16_t i = 0; i < numOfInflections; ++i) {
-        const auto& inflection = getInflectionAtPosition(i);
+        const auto inflection(getInflectionAtPosition(i));
         int64_t inflectionGrammemes = inflection.getGrammemes();
         if (!containsAll(fromGrammemes, inflectionGrammemes)) {
             continue;
         }
-        const auto& suffix = inflection.getSuffix();
+        const auto suffix(inflection.getSuffix());
         auto sufLen = (int64_t) suffix.size();
-        if (sufLen < maxLen || !::inflection::util::StringViewUtils::endsWith(surfaceForm, suffix)) {
+        if (sufLen < maxLen || !surfaceForm.ends_with(suffix)) {
             continue;
         }
         if (sufLen > maxLen) {
@@ -103,24 +102,81 @@ bool Inflector_InflectionPattern::containsSuffix(std::u16string_view suffix) con
     return results;
 }
 
+::std::optional<Inflector_Inflection> Inflector_InflectionPattern::getMatchingLemmaInflection(const ::std::vector<Inflector_Inflection>& inflections) const
+{
+    if (inflections.size() > 1) {
+        std::u16string lemmaSuffix;
+        int32_t shortestLen = INT32_MAX;
+        int32_t shortestIndex = 0;
+        int32_t index = 0;
+        /* In this scenario we have a list of inflections that are scored equally.
+         * We have to choose one.
+         * The first inflection should be the most preferred because the rare forms are sorted last,
+         * but perhaps there are alternate spellings that has no sorting order.
+         * Bias the result towards one that matches the main lemma suffix.
+         */
+        if (lemmaSuffixesLen <= 1) {
+            if (lemmaSuffixesLen == 1) {
+                lemmaSuffix = inflectorDictionary.inflectionSuffixes.getString(static_cast<int32_t>(
+                    inflectorDictionary.inflectionsArray.read(lemmaSuffixesOffset)));
+            }
+            // else lemmaSuffix is an empty string.
+            for (const auto &inflection : inflections) {
+                const std::u16string suffix(inflection.getSuffix());
+                if (static_cast<int32_t>(suffix.length()) < shortestLen) {
+                    shortestLen = static_cast<int32_t>(suffix.length());
+                    shortestIndex = index;
+                }
+                if (lemmaSuffix == suffix) {
+                    // We matched a lemma suffix after the first attempt to match, we can't get better.
+                    return inflection;
+                }
+                index++;
+            }
+        }
+        else {
+            // This is the slow loop that calls getSuffix many times. Most languages, except Finnish, only have a single lemma suffix to consider.
+            for (const auto &inflection : inflections) {
+                const std::u16string suffix(inflection.getSuffix());
+                if (static_cast<int32_t>(suffix.length()) < shortestLen) {
+                    shortestLen = static_cast<int32_t>(suffix.length());
+                    shortestIndex = index;
+                }
+                for (int16_t i = 0; i < lemmaSuffixesLen; ++i) {
+                    lemmaSuffix = inflectorDictionary.inflectionSuffixes.getString(static_cast<int32_t>(
+                        inflectorDictionary.inflectionsArray.read(lemmaSuffixesOffset + i)));
+                    if (lemmaSuffix == suffix) {
+                        // We matched a lemma suffix, and we can't get better.
+                        return inflection;
+                    }
+                }
+                index++;
+            }
+        }
+        return inflections[shortestIndex];
+    }
+    // We have a single match.
+    return inflections.front();
+}
+
 ::std::optional<Inflector_Inflection> Inflector_InflectionPattern::selectLemmaInflection(int64_t fromGrammemes, const ::std::vector<int64_t> &lemmaAttributes) const {
     if (numOfInflections == 0) {
         return {};
     }
     ::std::vector<Inflector_Inflection> selectedInflections;
-    std::tuple<int64_t, int16_t, int16_t> selectedTuple = std::make_tuple(-1, 0, -UINT8_MAX);
+    std::tuple<int64_t, int16_t, int16_t> selectedTuple(-1, 0, -UINT8_MAX);
     //Represents the tuple score, max inflection grammemes matched with word grammemes, min number of inflection grammemes, minimum suffix length
     for (int16_t i = 0; i < numOfInflections; ++i) {
         const auto inflection = getInflectionAtPosition(i);
         int64_t inflectionGrammemes = inflection.getGrammemes();
         int64_t score = 0;
-        for(const auto lemmaAttribute : lemmaAttributes){
-            score = 2*score + (((inflectionGrammemes & lemmaAttribute) != 0) ? 1 : 0);
+        for (const auto lemmaAttribute : lemmaAttributes) {
+            score = (2 * score) + (((inflectionGrammemes & lemmaAttribute) != 0) ? 1 : 0);
         }
         const auto numberOfMatches = std::popcount(uint64_t(inflectionGrammemes & fromGrammemes));
         const auto grammemesLen = std::popcount(uint64_t(inflectionGrammemes));
 
-        const auto candidateTuple = std::make_tuple(score, numberOfMatches, -grammemesLen);
+        const std::tuple<int64_t, int16_t, int16_t> candidateTuple(score, numberOfMatches, -grammemesLen);
         if (candidateTuple < selectedTuple) {
             continue;
         }
@@ -130,13 +186,8 @@ bool Inflector_InflectionPattern::containsSuffix(std::u16string_view suffix) con
         }
         selectedInflections.emplace_back(inflection);
     }
-    const auto result = ::std::min_element(selectedInflections.begin(), selectedInflections.end(),
-    [](const Inflector_Inflection &infl1, const Inflector_Inflection &infl2) -> bool {
-            return infl1.getSuffix().size() < infl2.getSuffix().size();
-        }
-    );
-    if (result != selectedInflections.end()) {
-        return *result;
+    if (!selectedInflections.empty()) {
+        return getMatchingLemmaInflection(selectedInflections);
     }
     return {};
 }
@@ -181,7 +232,7 @@ std::u16string Inflector_InflectionPattern::reinflectImplementation(int64_t from
         const std::u16string surfaceFormSuffix(inflection.getSuffix());
         if ((fromGrammemes == 0) || containsAll(fromGrammemes, inflectionGrammemes)) {
             auto surfaceFormSuffixSize = (int16_t) surfaceFormSuffix.size();
-            if (longestLemmaSuffixLen < surfaceFormSuffixSize && ::inflection::util::StringViewUtils::endsWith(surfaceForm, surfaceFormSuffix)) {
+            if (longestLemmaSuffixLen < surfaceFormSuffixSize && surfaceForm.ends_with(surfaceFormSuffix)) {
                 longestLemmaSuffixLen = surfaceFormSuffixSize;
             }
         }
@@ -192,7 +243,7 @@ std::u16string Inflector_InflectionPattern::reinflectImplementation(int64_t from
             // Try to find one where the fewest unreferenced grammemes are changing.
             const auto numberOfMatches = std::popcount(uint64_t(inflectionGrammemes & fromGrammemes));
             int64_t optionalConstraintsMatchScore = 0;
-            for(const auto constraintGrammeme : toOptionalConstraints){
+            for (const auto constraintGrammeme : toOptionalConstraints) {
                 optionalConstraintsMatchScore = 2 * optionalConstraintsMatchScore + (((inflectionGrammemes & constraintGrammeme) != 0) ? 1 : 0);
             }
             

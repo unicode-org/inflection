@@ -261,6 +261,36 @@ const ::std::u16string& GrammemeConstants::ANIMACY_INANIMATE()
     return *npc(ANIMACY_INANIMATE_);
 }
 
+const ::std::u16string& GrammemeConstants::MOOD_IMPERATIVE()
+{
+    static auto MOOD_IMPERATIVE_ = new ::std::u16string(u"imperative");
+    return *npc(MOOD_IMPERATIVE_);
+}
+
+const ::std::u16string& GrammemeConstants::MOOD_INDICATIVE()
+{
+    static auto MOOD_INDICATIVE_ = new ::std::u16string(u"indicative");
+    return *npc(MOOD_INDICATIVE_);
+}
+
+const ::std::u16string& GrammemeConstants::TENSE_PAST()
+{
+    static auto TENSE_PAST_ = new ::std::u16string(u"past");
+    return *npc(TENSE_PAST_);
+}
+
+const ::std::u16string& GrammemeConstants::TENSE_PRESENT()
+{
+    static auto TENSE_PRESENT_ = new ::std::u16string(u"present");
+    return *npc(TENSE_PRESENT_);
+}
+
+const ::std::u16string& GrammemeConstants::TENSE_FUTURE()
+{
+    static auto TENSE_FUTURE_ = new ::std::u16string(u"future");
+    return *npc(TENSE_FUTURE_);
+}
+
 const ::std::u16string& GrammemeConstants::CLUSIVITY_INCLUSIVE()
 {
     static auto CLUSIVITY_INCLUSIVE_ = new ::std::u16string(u"inclusive");
@@ -271,6 +301,24 @@ const ::std::u16string& GrammemeConstants::CLUSIVITY_EXCLUSIVE()
 {
     static auto CLUSIVITY_EXCLUSIVE_ = new ::std::u16string(u"exclusive");
     return *npc(CLUSIVITY_EXCLUSIVE_);
+}
+
+const ::std::u16string& GrammemeConstants::COMPARISON_PLAIN()
+{
+    static auto COMPARISON_PLAIN_ = new ::std::u16string(u"plain");
+    return *npc(COMPARISON_PLAIN_);
+}
+
+const ::std::u16string& GrammemeConstants::COMPARISON_COMPARATIVE()
+{
+    static auto COMPARISON_COMPARATIVE_ = new ::std::u16string(u"comparative");
+    return *npc(COMPARISON_COMPARATIVE_);
+}
+
+const ::std::u16string& GrammemeConstants::COMPARISON_SUPERLATIVE()
+{
+    static auto COMPARISON_SUPERLATIVE_ = new ::std::u16string(u"superlative");
+    return *npc(COMPARISON_SUPERLATIVE_);
 }
 
 const ::std::u16string &GrammemeConstants::VERBTYPE_INFINITIVE() {

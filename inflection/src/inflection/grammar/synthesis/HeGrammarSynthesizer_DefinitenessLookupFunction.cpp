@@ -4,7 +4,6 @@
 #include <inflection/grammar/synthesis/HeGrammarSynthesizer_DefinitenessLookupFunction.hpp>
 
 #include <inflection/util/LocaleUtils.hpp>
-#include <inflection/util/StringViewUtils.hpp>
 #include <inflection/grammar/synthesis/GrammemeConstants.hpp>
 
 namespace inflection::grammar::synthesis {
@@ -13,7 +12,7 @@ HeGrammarSynthesizer_DefinitenessLookupFunction::HeGrammarSynthesizer_Definitene
     : super(::inflection::util::LocaleUtils::HEBREW(), {GrammemeConstants::DEFINITENESS_DEFINITE(), GrammemeConstants::DEFINITENESS_INDEFINITE(), GrammemeConstants::DEFINITENESS_CONSTRUCT()})
     , dictionary(getDictionary())
 {
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&nounProperty, {u"noun"}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&nounProperty, {GrammemeConstants::POS_NOUN(), GrammemeConstants::POS_PROPER_NOUN()}));
 }
 
 ::std::u16string HeGrammarSynthesizer_DefinitenessLookupFunction::determine(const ::std::u16string& word) const
@@ -33,7 +32,7 @@ HeGrammarSynthesizer_DefinitenessLookupFunction::HeGrammarSynthesizer_Definitene
         return ::std::u16string();
     }
     // Unknown word
-    if (::inflection::util::StringViewUtils::startsWith(word, u"ת") || ::inflection::util::StringViewUtils::startsWith(word, u"ה")) {
+    if (word.starts_with(u"ת") || word.starts_with(u"ה")) {
         // Definite unknown word.
         return GrammemeConstants::DEFINITENESS_DEFINITE();
     }

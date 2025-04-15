@@ -24,10 +24,10 @@ inflection::dialog::SpeakableString* NlGrammarSynthesizer_DefinitenessLookupFunc
     if (!displayString.empty()) {
         ::std::u16string lowercaseStr;
         ::inflection::util::StringViewUtils::lowercase(&lowercaseStr, displayString, inflection::util::LocaleUtils::ENGLISH());
-        if (::inflection::util::StringViewUtils::startsWith(lowercaseStr, u"de ") || ::inflection::util::StringViewUtils::startsWith(lowercaseStr, u"het ")) {
+        if (lowercaseStr.starts_with(u"de ") || lowercaseStr.starts_with(u"het ")) {
             return new inflection::dialog::SpeakableString(GrammemeConstants::DEFINITENESS_DEFINITE());
         }
-        if (::inflection::util::StringViewUtils::startsWith(lowercaseStr, u"een ")) {
+        if (lowercaseStr.starts_with(u"een ")) {
             return new inflection::dialog::SpeakableString(GrammemeConstants::DEFINITENESS_INDEFINITE());
         }
     }

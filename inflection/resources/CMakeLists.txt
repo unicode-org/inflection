@@ -147,6 +147,26 @@ foreach (LOCALE IN LISTS BINARY_DICT_LOCALES)
 endforeach ()
 # -------- End Dictionary files section
 
+# ======== Start tok dictionary files section
+set(BINARY_TOK_DICT_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/org/unicode/inflection/tokenizer)
+set(BINARY_TOK_DICT_DIR_ROOT ${INFLECTION_DATA_ROOT}/inflection/tokenizer)
+file(MAKE_DIRECTORY ${BINARY_TOK_DICT_DIR_ROOT})
+
+file(GLOB_RECURSE BINARY_TOK_DICT_SRCS CONFIGURE_DEPENDS ${BINARY_TOK_DICT_SRC_DIR}/*/tokenizer.dictionary)
+foreach (BINARY_TOK_DICT_SRC IN LISTS BINARY_TOK_DICT_SRCS)
+    string(REGEX REPLACE "^${BINARY_TOK_DICT_SRC_DIR}/(.*)\\.dictionary" "${BINARY_TOK_DICT_DIR_ROOT}/\\1.tokd" BINARY_TOK_DICT ${BINARY_TOK_DICT_SRC})
+    get_filename_component(BINARY_TOK_DICT_DIR ${BINARY_TOK_DICT} DIRECTORY)
+    list(APPEND RESOURCE_DIRS ${BINARY_TOK_DICT_DIR})
+    list(APPEND BINARY_TOK_DICTS ${BINARY_TOK_DICT})
+
+    add_custom_command(
+        OUTPUT ${BINARY_TOK_DICT}
+        COMMAND ${LIBRARY_PATH_NAME}=${ICU_LIB_DIRECTORY} ${CMAKE_CURRENT_BINARY_DIR}/../tools/buildTokDictionary/buildTokDictionary ${BINARY_TOK_DICT_SRC} ${BINARY_TOK_DICT}
+        DEPENDS buildTokDictionary ${BINARY_TOK_DICT_SRC}
+    )
+endforeach()
+# -------- End tok dictionary section
+
 file(GLOB_RECURSE RESOURCE_BINARIES ${CMAKE_CURRENT_SOURCE_DIR}/share/*)
 install_build_resources(
         RESOURCE_BINARIES
@@ -155,7 +175,7 @@ install_build_resources(
         RESOURCE_BINARIES_DIST
 )
 
-add_custom_target(inflection-data ALL DEPENDS ${BINARY_DICTS} ${RESOURCE_BINARIES_DIST})
+add_custom_target(inflection-data ALL DEPENDS ${BINARY_DICTS} ${BINARY_TOK_DICTS} ${RESOURCE_BINARIES_DIST})
 
 #Make directories for all generated resource files
 list(REMOVE_DUPLICATES RESOURCE_DIRS)

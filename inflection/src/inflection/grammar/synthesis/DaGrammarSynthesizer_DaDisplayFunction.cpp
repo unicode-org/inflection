@@ -9,7 +9,6 @@
 #include <inflection/dialog/SemanticFeatureModel_DisplayData.hpp>
 #include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
-#include <inflection/grammar/synthesis/DaGrammarSynthesizer.hpp>
 #include <inflection/grammar/synthesis/GrammemeConstants.hpp>
 #include <inflection/util/StringViewUtils.hpp>
 #include <inflection/util/LocaleUtils.hpp>
@@ -27,26 +26,30 @@ namespace inflection::grammar::synthesis {
 
 DaGrammarSynthesizer_DaDisplayFunction::DaGrammarSynthesizer_DaDisplayFunction(const ::inflection::dialog::SemanticFeatureModel& model)
     : super()
+    , numberFeature(*npc(model.getFeature(GrammemeConstants::NUMBER)))
+    , caseFeature(*npc(model.getFeature(GrammemeConstants::CASE)))
+    , definitenessFeature(*npc(model.getFeature(GrammemeConstants::DEFINITENESS)))
+    , genderFeature(*npc(model.getFeature(GrammemeConstants::GENDER)))
+    , posFeature(*npc(model.getFeature(GrammemeConstants::POS)))
     , dictionary(*npc(::inflection::dictionary::DictionaryMetaData::createDictionary(::inflection::util::LocaleUtils::DANISH())))
     , inflector(::inflection::dictionary::Inflector::getInflector(::inflection::util::LocaleUtils::DANISH()))
     , tokenizer(::inflection::tokenizer::TokenizerFactory::createTokenizer(::inflection::util::LocaleUtils::DANISH()))
-    , genderLookupFunction(::inflection::util::LocaleUtils::DANISH(), {GrammemeConstants::GENDER_COMMON(), GrammemeConstants::GENDER_NEUTER()})
+    , genderLookupFunction(::inflection::util::LocaleUtils::DANISH(), {GrammemeConstants::GENDER_COMMON(), GrammemeConstants::GENDER_NEUTER()}),
+    dictionaryInflector(::inflection::util::LocaleUtils::DANISH(), {
+        {GrammemeConstants::POS_NOUN(), GrammemeConstants::POS_ADJECTIVE(), GrammemeConstants::POS_VERB()},
+        {GrammemeConstants::NUMBER_SINGULAR(), GrammemeConstants::NUMBER_PLURAL()},
+        {GrammemeConstants::CASE_NOMINATIVE(), GrammemeConstants::CASE_GENITIVE()}
+        }, {}, true)
 {
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryAdjective, {u"adjective"}));
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryNoun, {u"noun"}));
-    this->countFeature = model.getFeature(GrammemeConstants::NUMBER);
-    this->caseFeature = model.getFeature(GrammemeConstants::CASE);
-    this->definitenessFeature = model.getFeature(GrammemeConstants::DEFINITENESS);
-    this->genderFeature = model.getFeature(GrammemeConstants::GENDER);
-    this->posFeature = model.getFeature(GrammemeConstants::POS);
 }
 
 DaGrammarSynthesizer_DaDisplayFunction::~DaGrammarSynthesizer_DaDisplayFunction()
 {
-
 }
 
-::std::u16string DaGrammarSynthesizer_DaDisplayFunction::inflectString(const ::std::u16string& lemma, const ::std::vector<::std::u16string>& inflectionType, const ::std::u16string& targetCount, const ::std::u16string& targetDefiniteness, const ::std::u16string& targetCase, const ::std::u16string& targetGender, bool targetIsANoun) const
+::std::u16string DaGrammarSynthesizer_DaDisplayFunction::inflectString(const ::std::u16string& lemma, int64_t wordGrammemes, const ::std::u16string& targetCount, const ::std::u16string& targetDefiniteness, const ::std::u16string& targetCase, const ::std::u16string& targetGender, bool targetIsANoun) const
 {
     ::std::u16string inflection;
     ::std::u16string count(targetCount);
@@ -61,32 +64,31 @@ DaGrammarSynthesizer_DaDisplayFunction::~DaGrammarSynthesizer_DaDisplayFunction(
     if (!targetIsANoun) {
         return inflectAdjective(lemma, definiteness, targetGender, count);
     }
-    for (const auto& patternName : inflectionType) {
-        auto inflectionPattern = inflector.getInflectionPatternByName(patternName);
-        if (!inflectionPattern) {
-            ::inflection::util::Logger::warn(u"Lemma " + lemma + u" has inflection=" + patternName + u" but that pattern was not found");
-        } else {
-            if (targetIsANoun != inflectionPattern->containsPartsOfSpeech(GrammemeConstants::POS_NOUN())) {
-                continue;
-            }
-            ::std::vector<::std::u16string> constraints;
-            constraints.emplace_back(targetCount);
-            if (!targetDefiniteness.empty()) {
-                constraints.emplace_back(targetDefiniteness);
-            }
-            if (!targetCase.empty() && targetCase != GrammemeConstants::CASE_NOMINATIVE()) {
-                constraints.emplace_back(targetCase);
-            }
-            if (!targetGender.empty()) {
-                constraints.emplace_back(targetGender);
-            }
-            int64_t wordGrammemes = 0;
-            dictionary.getCombinedBinaryType(&wordGrammemes, lemma);
-            int64_t toConstraintGrammemes = 0;
-            dictionary.getBinaryProperties(&toConstraintGrammemes, constraints);
-            inflection = inflectionPattern->reinflect(wordGrammemes, toConstraintGrammemes, lemma);
+
+    ::std::vector<::std::u16string> constraints;
+    constraints.emplace_back(targetCount);
+    if (!targetDefiniteness.empty()) {
+        constraints.emplace_back(targetDefiniteness);
+    }
+    if (!targetCase.empty() && targetCase != GrammemeConstants::CASE_NOMINATIVE()) {
+        constraints.emplace_back(targetCase);
+    }
+    if (!targetGender.empty()) {
+        constraints.emplace_back(targetGender);
+    }
+
+    const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> disambiguationConstraints;
+    const auto dismbiguationGrammemeValues(GrammarSynthesizerUtil::convertToStringConstraints(disambiguationConstraints, {&posFeature}));
+    auto inflectionResult = dictionaryInflector.inflect(lemma, wordGrammemes, constraints, dismbiguationGrammemeValues);
+    if (inflectionResult) {
+        inflection = *inflectionResult;
+        // when inflections is made genitive, the `'s` should be lowercased even if the rest
+        // of the word was uppercase. See unit test: `NATO [case="genitive"] -> NATO's`
+        if (inflection.ends_with(u"'S")) {
+            inflection.replace(inflection.length()-2, 2, u"'s");
         }
     }
+
     return inflection;
 }
 
@@ -100,12 +102,13 @@ DaGrammarSynthesizer_DaDisplayFunction::~DaGrammarSynthesizer_DaDisplayFunction(
         return nullptr;
     }
     if (!constraints.empty()) {
-        if (inflection::util::StringViewUtils::endsWith(displayString, u".")) {
+        int64_t wordGrammemes = 0;
+        if (displayString.ends_with(u".")) {
             // These abbreviations don't change definiteness nor change grammatical number.
             displayString = makeGenitiveWhenRequested(constraints, displayString);
         }
-        else if (dictionary.isKnownWord(displayString)) {
-            displayString = inflectWord(constraints, displayString);
+        else if (dictionary.getCombinedBinaryType(&wordGrammemes, displayString) != nullptr) {
+            displayString = inflectWord(constraints, displayString, wordGrammemes);
         }
         else {
             ::std::unique_ptr<::inflection::tokenizer::TokenChain> tokenChain(npc(npc(tokenizer.get())->createTokenChain(displayString)));
@@ -123,7 +126,10 @@ DaGrammarSynthesizer_DaDisplayFunction::~DaGrammarSynthesizer_DaDisplayFunction(
 ::std::vector<::std::u16string> DaGrammarSynthesizer_DaDisplayFunction::inflectSignificantTokens(const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, ::std::vector<::std::u16string>* tokens, const ::std::vector<int32_t>& indexesOfSignificant) const
 {
     auto indexOfLastSignificant = indexesOfSignificant.back();
-    if (!dictionary.isKnownWord(npc(tokens)->at(indexOfLastSignificant))) {
+    const auto& wordLast = npc(tokens)->at(indexOfLastSignificant);
+    int64_t wordTypeLast = 0;
+    if (dictionary.getCombinedBinaryType(&wordTypeLast, wordLast) == nullptr) {
+        // Unknown word
         auto lastSignificantToken(npc(tokens)->at(indexOfLastSignificant));
         auto result(makeGenitiveWhenRequested(constraints, lastSignificantToken));
         if (result != lastSignificantToken) {
@@ -132,35 +138,37 @@ DaGrammarSynthesizer_DaDisplayFunction::~DaGrammarSynthesizer_DaDisplayFunction(
         }
         return {};
     }
-    if (indexesOfSignificant.size() == 2) {
-        const auto& word0 = npc(tokens)->at(indexesOfSignificant[0]);
-        const auto& word1 = npc(tokens)->at(indexesOfSignificant[1]);
-        int64_t wordType0 = 0;
-        int64_t wordType1 = 0;
-        auto res0 = dictionary.getCombinedBinaryType(&wordType0, word0);
-        auto res1 = dictionary.getCombinedBinaryType(&wordType1, word1);
-
-        if (res0 == nullptr || res1 == nullptr || ((wordType0 & dictionaryAdjective) != 0 && (wordType0 & dictionaryNoun) == 0 && (wordType1 & dictionaryNoun) != 0)) {
-            npc(tokens)->at(indexesOfSignificant[0]) = inflectWord(constraints, word0, word1, false, false);
-            npc(tokens)->at(indexesOfSignificant[1]) = inflectWord(constraints, word1, word1, true, true);
-
-        } else {
-            npc(tokens)->at(indexOfLastSignificant) = inflectWord(constraints, npc(tokens)->at(indexesOfSignificant[1]));
-        }
+    const auto& wordFirst = npc(tokens)->at(indexesOfSignificant.front());
+    int64_t wordTypeFirst = 0;
+    if (indexesOfSignificant.size() == 2 && (dictionary.getCombinedBinaryType(&wordTypeFirst, wordFirst) == nullptr
+        || ((wordTypeFirst & dictionaryAdjective) != 0 && (wordTypeFirst & dictionaryNoun) == 0 && (wordTypeLast & dictionaryNoun) != 0)))
+    {
+        npc(tokens)->at(indexesOfSignificant[0]) = inflectWord(constraints, wordFirst, wordTypeFirst, wordLast, wordTypeLast, false, false);
+        npc(tokens)->at(indexesOfSignificant[1]) = inflectWord(constraints, wordLast, wordTypeLast, wordLast, wordTypeLast, true, true);
     } else {
-        npc(tokens)->at(indexOfLastSignificant) = inflectWord(constraints, npc(tokens)->at(indexOfLastSignificant));
+        npc(tokens)->at(indexOfLastSignificant) = inflectWord(constraints, wordLast, wordTypeLast);
     }
     return *npc(tokens);
 }
 
-::std::u16string DaGrammarSynthesizer_DaDisplayFunction::inflectWord(const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, const ::std::u16string& displayString) const
+::std::u16string
+DaGrammarSynthesizer_DaDisplayFunction::inflectWord(const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints,
+                                                    const ::std::u16string& displayString,
+                                                    int64_t wordGrammemes) const
 {
-    return inflectWord(constraints, displayString, displayString, true, false);
+    return inflectWord(constraints, displayString, wordGrammemes, displayString, wordGrammemes, true, false);
 }
 
-::std::u16string DaGrammarSynthesizer_DaDisplayFunction::inflectWord(const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, const ::std::u16string& attributeDisplayString, const ::std::u16string& headDisplayString, bool isSuspectedToBeANoun, bool isHeadWordWithAttribute) const
+::std::u16string
+DaGrammarSynthesizer_DaDisplayFunction::inflectWord(const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints,
+                                                    const ::std::u16string& attributeDisplayString,
+                                                    int64_t attributeGrammemes,
+                                                    const ::std::u16string& headDisplayString,
+                                                    int64_t headGrammemes,
+                                                    bool isSuspectedToBeANoun,
+                                                    bool isHeadWordWithAttribute) const
 {
-    ::std::u16string countString(GrammarSynthesizerUtil::getFeatureValue(constraints, countFeature));
+    ::std::u16string countString(GrammarSynthesizerUtil::getFeatureValue(constraints, numberFeature));
     ::std::u16string definitenessString;
     if (isHeadWordWithAttribute) {
         definitenessString = GrammemeConstants::DEFINITENESS_INDEFINITE();
@@ -168,23 +176,20 @@ DaGrammarSynthesizer_DaDisplayFunction::~DaGrammarSynthesizer_DaDisplayFunction(
         definitenessString = GrammarSynthesizerUtil::getFeatureValue(constraints, definitenessFeature);
     }
     ::std::u16string caseString(GrammarSynthesizerUtil::getFeatureValue(constraints, caseFeature));
-    int64_t binaryType = 0;
-    dictionary.getCombinedBinaryType(&binaryType, headDisplayString);
     auto genderString = GrammarSynthesizerUtil::getFeatureValue(constraints, genderFeature);
     if (genderString.empty()) {
         genderString = genderLookupFunction.determine(headDisplayString);
     }
     ::std::u16string posString(GrammarSynthesizerUtil::getFeatureValue(constraints, posFeature));
-    auto isAdjective = GrammemeConstants::POS_ADJECTIVE() == posString || (((binaryType & dictionaryAdjective) != 0) && ((binaryType & dictionaryNoun) == 0));
-    auto inflectionType = dictionary.getPropertyValues(attributeDisplayString, u"inflection");
-    auto inflectedString = inflectString(attributeDisplayString, inflectionType, countString, definitenessString, caseString, genderString, !isAdjective && isSuspectedToBeANoun);
+    auto isAdjective = GrammemeConstants::POS_ADJECTIVE() == posString || (((headGrammemes & dictionaryAdjective) != 0) && ((headGrammemes & dictionaryNoun) == 0));
+    auto inflectedString = inflectString(attributeDisplayString, attributeGrammemes, countString, definitenessString, caseString, genderString, !isAdjective && isSuspectedToBeANoun);
     if (isSuspectedToBeANoun && inflectedString.empty()) {
         return makeGenitiveWhenRequested(constraints, attributeDisplayString);
     }
     if (inflectedString.empty()) {
         return attributeDisplayString;
     }
-    std::replace( inflectedString.begin(), inflectedString.end(), u'\'', u'’');
+    std::ranges::replace(inflectedString, u'\'', u'’');
     return inflectedString;
 }
 
@@ -199,7 +204,7 @@ DaGrammarSynthesizer_DaDisplayFunction::~DaGrammarSynthesizer_DaDisplayFunction(
         }
         if ((inflection::util::StringViewUtils::isAllUpperCase(displayString) && !(bool)u_ispunct(suffix))
             || (bool)u_isdigit(suffix)
-            || inflection::util::StringViewUtils::endsWith(displayString, u".dk"))
+            || displayString.ends_with(u".dk"))
         {
             return displayString + u"’s";
         }

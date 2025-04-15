@@ -22,7 +22,7 @@ inflection::dialog::SpeakableString* RuGrammarSynthesizer_AboutPrepositionLookup
     const auto& displayString = displayValue.getDisplayString();
     ::std::u16string displayStringLowerCase;
     ::inflection::util::StringViewUtils::lowercase(&displayStringLowerCase, displayString, ::inflection::util::LocaleUtils::RUSSIAN());
-    if (::inflection::util::StringViewUtils::startsWith(displayStringLowerCase, u"вс") || ::inflection::util::StringViewUtils::startsWith(displayStringLowerCase, u"рт") || ::inflection::util::StringViewUtils::startsWith(displayStringLowerCase, u"мн")) {
+    if (displayStringLowerCase.starts_with(u"вс") || displayStringLowerCase.starts_with(u"рт") || displayStringLowerCase.starts_with(u"мн")) {
         return createPreposition(displayValue, u"обо");
     }
     if (::inflection::dictionary::PhraseProperties::isStartsWithVowel(::inflection::util::LocaleUtils::RUSSIAN(), displayString)) {

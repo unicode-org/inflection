@@ -47,10 +47,10 @@ KoGrammarSynthesizer_ParticleResolver::~KoGrammarSynthesizer_ParticleResolver()
 std::optional<std::u16string> KoGrammarSynthesizer_ParticleResolver::switchParticleValue(const ::std::u16string& str, bool enableInflectionGuess) const
 {
     std::u16string result(str);
-    if (inflection::util::StringViewUtils::endsWith(result, consonantParticle)) {
+    if (result.ends_with(consonantParticle)) {
         result.resize(result.length() - consonantParticle.size());
     }
-    else if (!vowelParticle.empty() && inflection::util::StringViewUtils::endsWith(result, vowelParticle)) {
+    else if (!vowelParticle.empty() && result.ends_with(vowelParticle)) {
         result.resize(result.length() - vowelParticle.size());
     }
 

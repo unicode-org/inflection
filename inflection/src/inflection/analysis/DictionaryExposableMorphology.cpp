@@ -5,41 +5,26 @@
 // Created by Ronak Agarwal on 4/14/22.
 //
 #include <inflection/analysis/DictionaryExposableMorphology.hpp>
+#include <inflection/util/StringViewUtils.hpp>
 #include <inflection/util/Logger.hpp>
 
 namespace inflection::analysis {
 
 DictionaryExposableMorphology::InflectionGrammemes::InflectionGrammemes(int64_t grammemes, std::optional<::inflection::dictionary::Inflector_Inflection> inflection)
-: grammemes(grammemes), inflection(std::move(inflection))
+    : grammemes(grammemes)
+    , inflection(inflection)
 {
 }
 
 std::u16string DictionaryExposableMorphology::InflectionGrammemes::getDescription(const ::inflection::dictionary::DictionaryMetaData &dictionary) const {
     return std::u16string(u"Inflection[")
         + (inflection.has_value()
-            ? std::u16string(u"pattern-id=").append(inflection->getInflectionPattern()->getIdentifier())
-                .append(u", suffix=\"").append(inflection->getSuffix()).append(u"\"")
+            ? std::u16string(u"pattern-name = ").append(inflection->getInflectionPattern().getIdentifier())
+                .append(u", suffix = \"").append(inflection->getSuffix()).append(u"\"")
             : std::u16string())
         + u"], grammemes["
-        + inflection::util::StringViewUtils::join(dictionary.getPropertyNames(grammemes), u",")
+        + inflection::util::StringViewUtils::join(dictionary.getPropertyNames(grammemes), u", ")
         + u"]";
-}
-
-static int64_t inflectionGrammemesWithPartsOfSpeech(const inflection::dictionary::Inflector_Inflection &inflection) {
-    return (inflection.getGrammemes() | inflection.getInflectionPattern()->getPartsOfSpeech());
-}
-
-void DictionaryExposableMorphology::getInflectionGrammemes(::std::u16string_view word, int64_t wordGrammemes, const ::std::vector<::inflection::dictionary::Inflector_InflectionPattern> &inflectionPatterns, ::std::vector<InflectionGrammemes> &inflectionGrammemes) const {
-    for (const auto& inflectionPattern : inflectionPatterns){
-        if (inflectionPattern.numInflections() == 0) {
-            inflectionGrammemes.emplace_back(inflectionPattern.getPartsOfSpeech(), std::nullopt);
-            continue;
-        }
-        const auto& inflections = inflectionPattern.inflectionsForSurfaceForm(word, wordGrammemes);
-        for (const auto& inflection : inflections) {
-            inflectionGrammemes.emplace_back(inflectionGrammemesWithPartsOfSpeech(inflection), inflection);
-        }
-    }
 }
 
 const dictionary::DictionaryMetaData& DictionaryExposableMorphology::getDictionary() const {
@@ -54,7 +39,7 @@ const ::inflection::dictionary::Inflector& DictionaryExposableMorphology::getInf
     return locale;
 }
 
-::std::vector<int64_t> DictionaryExposableMorphology::getwordGrammemesets(::std::u16string_view word) const {
+::std::vector<int64_t> DictionaryExposableMorphology::getWordGrammemeSets(::std::u16string_view word) const {
     int64_t wordGrammemes = 0;
     // Word not in dictionary
     if (dictionary.getCombinedBinaryType(&wordGrammemes, word) == nullptr) {
@@ -65,11 +50,17 @@ const ::inflection::dictionary::Inflector& DictionaryExposableMorphology::getInf
     if (inflectionPatterns.empty()) {
         return {wordGrammemes};
     }
-    ::std::vector<InflectionGrammemes> inflectionGrammemes;
-    getInflectionGrammemes(word, wordGrammemes, inflectionPatterns, inflectionGrammemes);
+
     ::std::vector<int64_t> wordGrammemesets;
-    for (const auto &[grammemes, inflection] : inflectionGrammemes) {
-        wordGrammemesets.push_back(grammemes);
+    for (const auto& inflectionPattern : inflectionPatterns) {
+        auto pos = inflectionPattern.getPartsOfSpeech();
+        if (inflectionPattern.numInflections() == 0) {
+            wordGrammemesets.push_back(pos);
+            continue;
+        }
+        for (const auto& inflection : inflectionPattern.inflectionsForSurfaceForm(word, wordGrammemes)) {
+            wordGrammemesets.push_back(inflection.getGrammemes() | pos);
+        }
     }
     if (wordGrammemesets.empty()) {
         return {wordGrammemes};
@@ -83,11 +74,10 @@ DictionaryExposableMorphology::DictionaryExposableMorphology(const ::inflection:
     , inflector(::inflection::dictionary::Inflector::getInflector(locale))
     , locale(locale)
 {
-
 }
 
-DictionaryExposableMorphology::~DictionaryExposableMorphology() {
-
+DictionaryExposableMorphology::~DictionaryExposableMorphology()
+{
 }
 
 } // namespace inflection::analysis

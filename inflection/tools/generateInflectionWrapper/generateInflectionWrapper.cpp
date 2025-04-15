@@ -85,7 +85,7 @@ static void RunOnFile(const std::string& filePath, std::stringstream &dest) {
         RegexToMatch(".*typedef.*super;\n", ""),
         RegexToMatch("(virtual|explicit|inline) ", ""),
         RegexToMatch(" override;", ";"),
-        RegexToMatch("class MORPHUN_CLASS_API ([^{]|\n)*\\{", ""),
+        RegexToMatch("class INFLECTION_CLASS_API ([^{]|\n)*\\{", ""),
         RegexToMatch("  +", " "),
         RegexToMatch("\\s*\n", "\n"),
         RegexToMatch("\n\\s*", "\n"),
@@ -100,10 +100,10 @@ static void RunOnFile(const std::string& filePath, std::stringstream &dest) {
         RegexToMatch("\\( +", "("),
         RegexToMatch("static (.*)\\((const )?" + typeName + "\\* thisObject(, )?", "$1("),
         RegexToMatch("\\b" + bareTypeName + "\\b", typeName),
-        RegexToMatch("^", "MORPHUN_CTYPE(" + typeName + ")\n"),
+        RegexToMatch("^", "INFLECTION_CTYPE(" + typeName + ")\n"),
         RegexToMatch("([^\\(])\\);", "$1, UErrorCode* status);"),
         RegexToMatch("\\(\\);", "(UErrorCode* status);"),
-        RegexToMatch("\n(.*\\()", "\nMORPHUN_CAPI $1"),
+        RegexToMatch("\n(.*\\()", "\nINFLECTION_CAPI $1"),
         RegexToMatch("\n[^\n]*operator!=[^\n]*\n", "\n"),
     };
 

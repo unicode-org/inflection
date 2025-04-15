@@ -147,6 +147,13 @@
     <test><source gender="feminine">il</source><result exists="true">la</result></test>
     <test><source gender="masculine">il</source><result exists="true">il</result></test>
 
+    <test><source number="plural">il dottore</source><result exists="true">i dottori</result></test>
+    <test><source gender="feminine">il dottore</source><result exists="true">la dottoressa</result></test>
+    <test><source number="plural">l’italiano</source><result exists="true">gli italiani</result></test>
+    <test><source gender="feminine">l’italiano</source><result exists="true">l’italiana</result></test>
+    <test><source definiteness="definite">italiano</source><result exists="true">l’italiano</result></test>
+    <test><source definiteness="definite">italiana</source><result exists="true">l’italiana</result></test>
+
     <test><source definiteness="indefinite">ombrellone</source><result>un ombrellone</result></test>
     <test><source definiteness="definite">ombrellone</source><result>l’ombrellone</result></test>
     <test><source definiteness="indefinite" number="plural">ombrellone</source><result>degli ombrelloni</result></test>

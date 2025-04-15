@@ -116,4 +116,10 @@
     <test><source pos="adjective" definiteness="definite" gender="neuter" number="plural">parcel</source><result>parcele</result></test>
 
     <test><source pos="adjective" definiteness="definite" gender="neuter" number="plural">michael</source><result>michaele</result></test>
+    
+    <!-- inflection of .definiteness('definite') sometimes unexpectedly returns definite+genitiv/possessive (lys -> lysets, gods -> godsets)) -->
+    <test><source definiteness="definite" case="genitive">lyset</source><result>lysets</result></test>
+    <test><source definiteness="definite">gods</source><result>godset</result></test>
+    <test><source definiteness="definite" case="genitive">godset</source><result>godsets</result></test>
+    
 </inflectionTest>

@@ -3,16 +3,13 @@
  */
 #pragma once
 
-#include <inflection/util/fwd.hpp>
 #include <inflection/dictionary/metadata/fwd.hpp>
 #include <inflection/dictionary/metadata/CharsetConverter.hpp>
 #include <inflection/dictionary/metadata/CompressedArray.hpp>
 #include <inflection/dictionary/metadata/MarisaTrieIterator.hpp>
 #include <inflection/exception/IllegalStateException.hpp>
-#include <inflection/exception/IndexOutOfBoundsException.hpp>
 #include <inflection/util/MemoryMappedFile.hpp>
 #include <inflection/util/StringViewUtils.hpp>
-#include <inflection/util/StringUtils.hpp>
 #include <inflection/util/Validate.hpp>
 #include <marisa/trie.h>
 #include <marisa/iostream.h>
@@ -21,7 +18,6 @@
 #include <map>
 #include <memory>
 #include <optional>
-#include <set>
 #include <sstream>
 #include <string_view>
 
@@ -65,7 +61,7 @@ public:
 
     explicit MarisaTrie(const ::std::map<::std::u16string_view, T>& input);
     explicit MarisaTrie(::inflection::util::MemoryMappedFile* mappedFile);
-    ~MarisaTrie() {}
+    ~MarisaTrie();
 
 private:
     ::marisa::Trie trie {  };
@@ -152,13 +148,17 @@ inflection::dictionary::metadata::MarisaTrie<T>::MarisaTrie(::inflection::util::
 {
 }
 
+template <typename T>
+inflection::dictionary::metadata::MarisaTrie<T>::~MarisaTrie()
+{
+}
+
 template<typename T>
 typename inflection::dictionary::metadata::MarisaTrie<T>::FieldMetrics
 inflection::dictionary::metadata::MarisaTrie<T>::getFieldMetrics(const std::map<::std::u16string_view, T> &input) {
     // Find the most efficient encoding
     inflection::dictionary::metadata::CharsetConverter encodeBOCU1(getEncodingName(BOCU1));
     ::std::string encoded;
-    ::std::u16string keyString;
     size_t lengthBOCU1 = 0;
     size_t lengthUTF8 = 0;
     size_t lengthUTF16 = 0;
@@ -173,11 +173,10 @@ inflection::dictionary::metadata::MarisaTrie<T>::getFieldMetrics(const std::map<
             }
             entryCount = 0;
         }
-        keyString.assign(key);
-        lengthUTF16 += keyString.length();
-        encodeBOCU1.encode(&encoded, keyString);
+        lengthUTF16 += key.length();
+        encodeBOCU1.encode(&encoded, key);
         lengthBOCU1 += encoded.length();
-        ::inflection::util::StringViewUtils::convert(&encoded, keyString);
+        ::inflection::util::StringViewUtils::convert(&encoded, key);
         lengthUTF8 += encoded.length();
     }
     lengthUTF16 *= sizeof(char16_t);

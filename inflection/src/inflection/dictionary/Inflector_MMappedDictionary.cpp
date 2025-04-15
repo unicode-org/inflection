@@ -2,11 +2,13 @@
  * Copyright 2019-2024 Apple Inc. All rights reserved.
  */
 #include <inflection/dictionary/Inflector_MMappedDictionary.hpp>
-#include <inflection/dictionary/DictionaryMetaData_MMappedDictionary.hpp>
+
 #include <inflection/dictionary/DictionaryMetaData.hpp>
-#include <inflection/util/ResourceLocator.hpp>
+#include <inflection/dictionary/DictionaryMetaData_MMappedDictionary.hpp>
+#include <inflection/dictionary/metadata/CompressedArray.hpp>
 #include <inflection/exception/IncompatibleVersionException.hpp>
 #include <inflection/util/StringUtils.hpp>
+#include <inflection/util/StringViewUtils.hpp>
 
 namespace inflection::dictionary {
 
@@ -34,7 +36,7 @@ Inflector_MMappedDictionary::Inflector_MMappedDictionary(inflection::util::Memor
     : locale(verifyMemoryMappedFileHeader(memoryMappedFile, sourcePath, dictionary).getLocale())
     , grammemePatternsSize(memoryMappedFile.read<int32_t>())
     , grammemePatterns(memoryMappedFile.readArray<int64_t>(grammemePatternsSize))
-    , inflection_Suffixes(&memoryMappedFile)
+    , inflectionSuffixes(&memoryMappedFile)
     , dictionary(dictionary)
     , inflectionsArray(&memoryMappedFile)
     , numBitsForGrammemesIdx(memoryMappedFile.read<int8_t>())
@@ -94,7 +96,7 @@ Inflector_InflectionPattern Inflector_MMappedDictionary::getInflectionPattern(in
 
 bool Inflector_MMappedDictionary::getInflectionPatternIdentifiers(std::vector<int32_t>& inflectionIdentifiers, std::u16string_view word) const {
     auto exists = dictionary.getWordPropertyInternalIdentifiers(inflectionIdentifiers, word, dictionary.inflectionKeyIdentifier);
-    if (!exists && !inflection::util::StringViewUtils::isAllLowerCase(word) && !dictionary.getWordType(word)) {
+    if (!exists && !inflection::util::StringViewUtils::isAllLowerCase(word)) {
         ::std::u16string normalized;
         DictionaryMetaData::transform(&normalized, word, locale);
         if (normalized != word) {

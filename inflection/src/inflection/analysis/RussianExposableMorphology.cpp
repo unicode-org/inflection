@@ -26,12 +26,6 @@ RussianExposableMorphology::RussianExposableMorphology()
     }, {{GrammemeConstants::POS_PROPER_NOUN(), GrammemeConstants::NUMBER_PLURAL()}}, true)
 {
     const auto &dictionary = getDictionary();
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryFamilyName, {u"familyname"}));
-
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryAnimate, {GrammemeConstants::ANIMACY_ANIMATE()}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryInanimate, {GrammemeConstants::ANIMACY_INANIMATE()}));
-    dictionaryAnimacyMask = dictionaryAnimate | dictionaryInanimate;
-
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryNoun, {GrammemeConstants::POS_NOUN()}));
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryAdjective, {GrammemeConstants::POS_ADJECTIVE()}));
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryAdverb, {u"adverb"}));
@@ -40,19 +34,8 @@ RussianExposableMorphology::RussianExposableMorphology()
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryProperNoun, {GrammemeConstants::POS_PROPER_NOUN()}));
     dictionaryPOSMask = dictionaryNoun | dictionaryAdjective | dictionaryNumber | dictionaryProperNoun | dictionaryVerb | dictionaryAdverb;
 
-    defaultLemmaAttributes = MorphologicalAnalyzer::convertLemmaAttributes(dictionary, {GrammemeConstants::VERBTYPE_INFINITIVE(), GrammemeConstants::CASE_NOMINATIVE(), GrammemeConstants::NUMBER_SINGULAR(), GrammemeConstants::GENDER_MASCULINE(), GrammemeConstants::ANIMACY_INANIMATE()});
-    lemmaAttributesWithoutGender = MorphologicalAnalyzer::convertLemmaAttributes(dictionary, {GrammemeConstants::VERBTYPE_INFINITIVE(), GrammemeConstants::CASE_NOMINATIVE(), GrammemeConstants::NUMBER_SINGULAR(), GrammemeConstants::ANIMACY_INANIMATE()});
     inflectableChars.addAll(inflection::lang::StringFilterUtil::getExemplarCharacters(::inflection::util::LocaleUtils::RUSSIAN()));
     inflectableChars.freeze();
-
-    int64_t verbPrefix = 0;
-    ::inflection::util::Validate::notNull(dictionary.getCombinedBinaryType(&verbPrefix, u"не"), u"verb prefix is missing");
-    int64_t dictionaryPronoun = 0;
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryPronoun, {GrammemeConstants::POS_PRONOUN()}));
-    prefixesWithPOS.emplace_back(u"н", dictionaryPronoun, 0);
-    prefixesWithPOS.emplace_back(u"по", dictionaryAdverb | dictionaryAdjective, 0);
-    prefixesWithPOS.emplace_back(u"не", dictionaryVerb, verbPrefix);
-    prefixesWithPOS.emplace_back(u"наи", dictionaryAdjective, 0);
 }
 
 RussianExposableMorphology::~RussianExposableMorphology() = default;
@@ -126,13 +109,4 @@ bool RussianExposableMorphology::isInflectable(std::u16string_view word) const {
     return {inflectedWord};
 }
 
-bool RussianExposableMorphology::preserveGender(int64_t phraseType) const {
-    // Is this an animate noun that is not a family name?
-    return ((phraseType & (dictionaryAnimacyMask | dictionaryFamilyName | dictionaryNoun)) == (dictionaryAnimate | dictionaryNoun));
-}
-
-::std::optional<::inflection::dictionary::Inflector_Inflection> RussianExposableMorphology::selectLemmaInflection(const dictionary::Inflector_InflectionPattern &inflectionPattern, int64_t inflectionGrammemes, int64_t wordGrammemes) const {
-    return inflectionPattern.selectLemmaInflection(inflectionGrammemes, preserveGender(wordGrammemes) ? lemmaAttributesWithoutGender : defaultLemmaAttributes);
-}
-
-} // namespace inflection::analysis::stemmer
+} // namespace inflection::analysis

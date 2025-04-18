@@ -84,8 +84,8 @@
     <test><source number="plural" definiteness="indefinite">XYXYXY</source><result>XYXYXY</result></test>
     <test><source number="plural" definiteness="definite">XYXYXY</source><result>XYXYXY</result></test>
 
-    <test><source number="singular">grundbemanningar</source><result>grundbemanning</result></test>
-    <test><source number="singular" definiteness="definite">grundbemanningar</source><result>grundbemanningen</result></test>
-    <test><source case="genitive">grundbemanningar</source><result>grundbemanningars</result></test>
-    <test><source number="singular" definiteness="definite" case="genitive">grundbemanningar</source><result>grundbemanningens</result></test>
+    <test><source number="singular">katter</source><result>katt</result></test>
+    <test><source number="singular" definiteness="definite">katter</source><result>katten</result></test>
+    <test><source case="genitive">katter</source><result>katters</result></test>
+    <test><source number="singular" definiteness="definite" case="genitive">katter</source><result>kattens</result></test>
 </inflectionTest>

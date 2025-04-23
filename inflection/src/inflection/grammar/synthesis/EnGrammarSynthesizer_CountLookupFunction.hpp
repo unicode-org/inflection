@@ -25,5 +25,5 @@ public:
     EnGrammarSynthesizer_CountLookupFunction();
     ~EnGrammarSynthesizer_CountLookupFunction() override;
     EnGrammarSynthesizer_CountLookupFunction(const EnGrammarSynthesizer_CountLookupFunction&) = delete;
-    EnGrammarSynthesizer_CountLookupFunction& operator=(const EnGrammarSynthesizer_CountLookupFunction&) = delete;
+    EnGrammarSynthesizer_CountLookupFunction& operator=(const EnGrammarSynthesizer_CountLookupFunction &) = delete;
 };

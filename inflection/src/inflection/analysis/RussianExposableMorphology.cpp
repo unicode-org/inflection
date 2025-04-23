@@ -23,18 +23,15 @@ RussianExposableMorphology::RussianExposableMorphology()
         {GrammemeConstants::GENDER_MASCULINE(), GrammemeConstants::GENDER_FEMININE(), GrammemeConstants::GENDER_NEUTER()},
         {GrammemeConstants::NUMBER_SINGULAR(), GrammemeConstants::NUMBER_PLURAL()},
         {GrammemeConstants::ANIMACY_INANIMATE(), GrammemeConstants::ANIMACY_ANIMATE()},
-        {GrammemeConstants::DERIVATIONTYPE_PATRONYMIC()},
-        {GrammemeConstants::REGISTER_INFORMAL()}
     }, {{GrammemeConstants::POS_PROPER_NOUN(), GrammemeConstants::NUMBER_PLURAL()}}, true)
 {
-
     const auto &dictionary = getDictionary();
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryNoun,{u"noun"}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryAdjective,{u"adjective"}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryAdverb,{u"adverb"}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryVerb,{u"verb"}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryNumber,{u"numeral"}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryProperNoun,{u"proper-noun"}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryNoun, {GrammemeConstants::POS_NOUN()}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryAdjective, {GrammemeConstants::POS_ADJECTIVE()}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryAdverb, {u"adverb"}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryVerb, {GrammemeConstants::POS_VERB()}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryNumber, {u"numeral"}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryProperNoun, {GrammemeConstants::POS_PROPER_NOUN()}));
     dictionaryPOSMask = dictionaryNoun | dictionaryAdjective | dictionaryNumber | dictionaryProperNoun | dictionaryVerb | dictionaryAdverb;
 
     inflectableChars.addAll(inflection::lang::StringFilterUtil::getExemplarCharacters(::inflection::util::LocaleUtils::RUSSIAN()));
@@ -52,18 +49,16 @@ bool RussianExposableMorphology::isProperNoun(int64_t phraseType) const {
     return (phraseType & dictionaryProperNoun) == dictionaryProperNoun;
 }
 
-bool RussianExposableMorphology::isAdjective(int64_t phraseType) const {
-    return (phraseType & dictionaryPOSMask) == dictionaryAdjective;
-}
-
-bool RussianExposableMorphology::isNumber(int64_t phraseType) const {
-    return (phraseType & dictionaryPOSMask) == dictionaryNumber;
+bool RussianExposableMorphology::isInflectableByMachineLearning(int64_t phraseType) const {
+    return (phraseType & dictionaryNoun) == dictionaryNoun
+        || (phraseType & dictionaryPOSMask) == dictionaryNumber
+        || (phraseType & dictionaryPOSMask) == dictionaryAdjective;
 }
 
 bool RussianExposableMorphology::isInflectable(std::u16string_view word) const {
     return (word.length() > 2
         && inflectableChars.containsAllCodePoints(word)
-        && doNotInflect.count(word) == 0);
+        && !doNotInflect.contains(word));
 }
 
 ::std::optional<::std::u16string> RussianExposableMorphology::inflectUsingDictionary(const ::std::u16string &word, const ::std::u16string &caseString, const ::std::u16string &countString, const ::std::u16string &genderString, const ::std::u16string &animacyString, const ::std::u16string &posString) const{
@@ -82,20 +77,20 @@ bool RussianExposableMorphology::isInflectable(std::u16string_view word) const {
 
     //Word with first letter uppercase but not found in dictionary as noun/proper-noun
     auto firstCodePoint = inflection::util::StringViewUtils::codePointAt(word, 0);
-    bool isInitCaps = firstCodePoint == (char32_t)u_toupper(firstCodePoint);
+    bool isInitCaps = firstCodePoint == (char32_t)u_toupper((UChar32)firstCodePoint);
     if (isInitCaps && !isProperNoun(phraseType) && !isNoun(phraseType)) {
         return {};
     }
 
-    bool mlCanInflect = isNoun(phraseType) || isNumber(phraseType) || isAdjective(phraseType) || (posString == u"proper-noun");
+    bool mlCanInflect = isInflectableByMachineLearning(phraseType) || (posString == u"proper-noun");
 
     ::std::u16string lowerCasedWord;
     inflection::util::StringViewUtils::lowercase(&lowerCasedWord, word, ::inflection::util::LocaleUtils::RUSSIAN());
-    auto inflectionResult = inflectWord(lowerCasedWord, {caseString, countString, genderString, animacyString});
+    auto inflectionResult = inflectWord(lowerCasedWord, phraseType, {caseString, countString, genderString, animacyString});
     ::std::u16string inflectedWord;
 
     if (!inflectionResult.has_value()) {
-        //Dictionary can't inflect but ML can
+        // Dictionary can't inflect but ML can
         if (mlCanInflect) {
             return {};
         }

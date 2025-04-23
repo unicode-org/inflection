@@ -13,7 +13,6 @@
 #include <inflection/tokenizer/Tokenizer.hpp>
 #include <inflection/tokenizer/TokenizerFactory.hpp>
 #include <inflection/util/LocaleUtils.hpp>
-#include <inflection/util/StringViewUtils.hpp>
 #include <inflection/npc.hpp>
 #include <algorithm>
 #include <vector>
@@ -25,15 +24,14 @@ using inflection::dialog::SemanticFeatureModel;
 using inflection::dialog::DisplayValue;
 using inflection::tokenizer::TokenChain;
 using inflection::util::LocaleUtils;
-using inflection::util::StringViewUtils;
 using inflection::util::Validate;
 using inflection::tokenizer::TokenizerFactory;
 
 HiGrammarSynthesizer_HiDisplayFunction::HiGrammarSynthesizer_HiDisplayFunction(const SemanticFeatureModel& model)
     : super()
-    , countFeature(npc(model.getFeature(GrammemeConstants::NUMBER)))
-    , genderFeature(npc(model.getFeature(GrammemeConstants::GENDER)))
-    , partOfSpeechFeature(npc(model.getFeature(GrammemeConstants::POS)))
+    , numberFeature(*npc(model.getFeature(GrammemeConstants::NUMBER)))
+    , genderFeature(*npc(model.getFeature(GrammemeConstants::GENDER)))
+    , partOfSpeechFeature(*npc(model.getFeature(GrammemeConstants::POS)))
     , tokenizer(TokenizerFactory::createTokenizer(::inflection::util::LocaleUtils::HINDI()))
     , dictionaryInflector(LocaleUtils::HINDI(),{
             {GrammemeConstants::POS_NOUN(), GrammemeConstants::POS_ADPOSITION(), GrammemeConstants::POS_ADJECTIVE(), GrammemeConstants::POS_VERB()},
@@ -55,17 +53,17 @@ HiGrammarSynthesizer_HiDisplayFunction::~HiGrammarSynthesizer_HiDisplayFunction(
 namespace {
     ::std::u16string guessSingularInflection(const ::std::u16string& word) {
         // बटुए -> बटुआ
-        if (StringViewUtils::endsWith(word, u"ए")) {
+        if (word.ends_with(u"ए")) {
             return word.substr(0, word.length() - 1) + u"आ";
         }
 
         // लड़के -> लड़का
-        if (StringViewUtils::endsWith(word, u"े")) {
+        if (word.ends_with(u"े")) {
             return word.substr(0, word.length() - 1) + u"ा";
         }
 
         // किताबें -> किताब
-        if (StringViewUtils::endsWith(word, u"ें")) {
+        if (word.ends_with(u"ें")) {
             return word.substr(0, word.length() - 1);
         }
         return word;
@@ -74,31 +72,31 @@ namespace {
     ::std::u16string guessPluralInflection(const ::std::u16string& word) {
         // Case 1
         // लड़की -> लड़कियाँ, नीति -> नीतियाँ
-        if (StringViewUtils::endsWith(word, u"ी") || StringViewUtils::endsWith(word, u"ि")) {
+        if (word.ends_with(u"ी") || word.ends_with(u"ि")) {
             return word.substr(0, word.length() - 1) + u"ियाँ";
         }
 
         // Case 2
         // वस्तु -> वस्तुएँ
-        if (StringViewUtils::endsWith(word, u"ू") || StringViewUtils::endsWith(word, u"ु")) {
+        if (word.ends_with(u"ू") || word.ends_with(u"ु")) {
             return word.substr(0, word.length() - 1) + u"ुएँ";
         }
 
         // Case 3: This should always come before Case 5
         // चिड़िया -> चिड़ियाँ
-        if (StringViewUtils::endsWith(word, u"या")) {
+        if (word.ends_with(u"या")) {
             return word.substr(0, word.length() - 1) + u"ाँ";
         }
 
         // Case 4
         // बटुआ -> बटुए
-        if (StringViewUtils::endsWith(word, u"आ")) {
+        if (word.ends_with(u"आ")) {
             return word.substr(0, word.length() - 1) + u"ए";
         }
 
         // Case 5: Comes after Case 3
         // लड़का -> लड़के
-        if (StringViewUtils::endsWith(word, u"ा")) {
+        if (word.ends_with(u"ा")) {
             return word.substr(0, word.length() - 1) + u"े";
         }
         return word;
@@ -106,7 +104,7 @@ namespace {
 
     ::std::u16string guessMasculineInflection(const ::std::u16string& word) {
         // लड़की -> लड़का
-        if (StringViewUtils::endsWith(word, u"ी")) {
+        if (word.ends_with(u"ी")) {
             return word.substr(0, word.length() - 1) + u"ा";
         }
         return word;
@@ -114,7 +112,7 @@ namespace {
 
     ::std::u16string guessFeminineInflection(const ::std::u16string& word) {
         // लड़का -> लड़की
-        if (StringViewUtils::endsWith(word, u"ा")) {
+        if (word.ends_with(u"ा")) {
             return word.substr(0, word.length() - 1) + u"ी";
         }
         return word;
@@ -143,14 +141,14 @@ namespace {
     dictionaryInflector.getDictionary().getCombinedBinaryType(&wordProperties, word);
     auto constraintsVec(
         ((wordProperties & genderMask) == 0 || makeOblique)
-        ? GrammarSynthesizerUtil::convertToStringConstraints(constraints, {countFeature})
-        : GrammarSynthesizerUtil::convertToStringConstraints(constraints, {countFeature, genderFeature})
+        ? GrammarSynthesizerUtil::convertToStringConstraints(constraints, {&numberFeature})
+        : GrammarSynthesizerUtil::convertToStringConstraints(constraints, {&numberFeature, &genderFeature})
     );
     if (makeOblique) {
         constraintsVec.emplace_back(GrammemeConstants::CASE_OBLIQUE());
     }
-    const auto dismbiguationGrammemeValues(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {partOfSpeechFeature}));
-    if (const auto &inflectionResult = dictionaryInflector.inflect(word, constraintsVec, dismbiguationGrammemeValues)) {
+    const auto dismbiguationGrammemeValues(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {&partOfSpeechFeature}));
+    if (const auto &inflectionResult = dictionaryInflector.inflect(word, wordProperties, constraintsVec, dismbiguationGrammemeValues)) {
         return *inflectionResult;
     }
 
@@ -167,7 +165,7 @@ namespace {
     else if (gender == GrammemeConstants::GENDER_MASCULINE()) {
         inflectedWord = guessMasculineInflection(inflectedWord);
     }
-    const auto count(GrammarSynthesizerUtil::getFeatureValue(constraints, countFeature));
+    const auto count(GrammarSynthesizerUtil::getFeatureValue(constraints, numberFeature));
     if (count == GrammemeConstants::NUMBER_PLURAL()) {
         inflectedWord = guessPluralInflection(inflectedWord);
     }
@@ -239,7 +237,7 @@ namespace {
                 continue;
             }
 
-            if (const auto& singularInflectedWord = dictionaryInflector.inflect(inflectedWord, {GrammemeConstants::NUMBER_SINGULAR()})) {
+            if (const auto& singularInflectedWord = dictionaryInflector.inflect(inflectedWord, inflectedWordProperties, {GrammemeConstants::NUMBER_SINGULAR()})) {
                 inflectedWords.at(i) = *singularInflectedWord;
             } else if (enableInflectionGuess) {
                 inflectedWords.at(i) = guessSingularInflection(inflectedWords.at(i));
@@ -271,7 +269,7 @@ DisplayValue* HiGrammarSynthesizer_HiDisplayFunction::getDisplayValue(const dial
     }
     const auto displayValueConstraints(GrammarSynthesizerUtil::mergeConstraintsWithDisplayValue(*displayValue, constraints));
 
-    if (GrammarSynthesizerUtil::hasAnyFeatures(constraints, {countFeature, genderFeature})) {
+    if (GrammarSynthesizerUtil::hasAnyFeatures(constraints, {&numberFeature, &genderFeature})) {
         const ::std::unique_ptr<TokenChain> tokenChain(npc(npc(tokenizer.get())->createTokenChain(displayString)));
         if (const auto &inflectionResult = inflectTokenChain(*npc(tokenChain.get()), constraints, enableInflectionGuess)) {
             displayString = *inflectionResult;

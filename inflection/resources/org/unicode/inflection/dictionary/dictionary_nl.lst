@@ -1,160 +1,142 @@
-Alex: singular masculine lemma-word noun proper-noun inflection=521
-Buren: singular neuter lemma-word noun proper-noun inflection=25
-Bush: singular lemma-word noun proper-noun inflection=200
-Chris: singular lemma-word noun proper-noun inflection=8a
-Ellen: singular feminine lemma-word noun proper-noun inflection=1f
-Eric: singular masculine lemma-word noun proper-noun inflection=14 inflection=ad
-Europa: singular neuter lemma-word noun proper-noun inflection=29
-Gent: singular neuter lemma-word noun proper-noun inflection=12
-Huizen: singular neuter lemma-word noun proper-noun inflection=12
-IKEA: singular neuter lemma-word noun proper-noun inflection=29
-Ikea: singular neuter lemma-word noun proper-noun inflection=29
-Jezus: singular masculine lemma-word noun proper-noun inflection=23c
-Jobs: singular plural genitive masculine noun proper-noun inflection=ad
-ME: singular feminine lemma-word abbreviation noun proper-noun
-Steve: singular masculine lemma-word noun proper-noun inflection=14
-Tom: singular masculine lemma-word noun proper-noun inflection=2f2
-auto: singular masculine lemma-word noun inflection=2b
-baby: singular masculine lemma-word noun inflection=308
-bacterie: singular feminine lemma-word noun inflection=20f
-bacteriën: plural feminine noun inflection=20f
-beer: singular masculine lemma-word noun verb inflection=97
-beren: singular plural masculine noun verb inflection=97
-blij: singular lemma-word adjective
-blije: singular plural adjective
-boek: singular neuter lemma-word noun verb inflection=6e
-boeken: plural neuter noun verb inflection=6e
-boekenkast: lemma-word noun inflection=1
-boos: singular genitive lemma-word adjective
-broer: singular masculine lemma-word noun inflection=3b
-bruine: singular plural lemma-word adjective noun inflection=17
-buren: plural masculine noun verb inflection=c5
-bush: singular masculine lemma-word noun inflection=e4
-contact: singular neuter lemma-word noun verb inflection=9
-contacten: plural neuter noun verb inflection=9
-contactpersonen: plural masculine noun inflection=72
-contactpersoon: singular masculine lemma-word noun inflection=72
-dag: singular masculine lemma-word noun inflection=6 inflection=63
-dagen: plural masculine noun verb inflection=6
+Alex: singular masculine unsized noun proper-noun inflection=13b8
+Apple: singular masculine neuter unsized noun proper-noun inflection=e2 inflection=1152
+auto: singular masculine unsized noun inflection=28
+baby: singular masculine unsized noun inflection=2fb
+bacterie: singular feminine unsized noun inflection=271
+beer: singular masculine indicative imperative unsized present noun verb inflection=a2 inflection=1491
+beschonken: singular plural plain definite indefinite neuter indicative past participle adjective verb inflection=43 inflection=14a2
+bewillig: singular imperative first present verb inflection=101
+bewilligen: plural present infinitive verb inflection=101
+bewilligt: singular second present verb inflection=101
+blij: singular plain definite indefinite neuter adjective inflection=427
+boek: singular neuter indicative imperative unsized present noun verb inflection=74 inflection=155d
+boeken: plural neuter indicative unsized present infinitive noun verb inflection=74 inflection=155d
+boos: singular genitive plain definite indefinite neuter adjective inflection=67
+broer: singular masculine unsized noun inflection=39
+bruine: singular plural plain definite indefinite neuter unsized adjective noun inflection=8 inflection=15
+bureau: singular neuter unsized noun inflection=94
+Buren: singular neuter unsized noun proper-noun inflection=22
+buren: plural masculine indicative unsized present infinitive noun verb inflection=e0 inflection=15cd
+Bush: singular unsized noun proper-noun inflection=23f
+bush: singular masculine unsized noun inflection=f9
+centra: plural neuter unsized noun inflection=fb
+centrum: singular neuter unsized noun inflection=fb
+Chris: singular unsized noun proper-noun inflection=99
+contact: singular neuter indicative imperative unsized present noun verb inflection=7 inflection=164b
+contactpersoon: singular masculine unsized noun inflection=7c
+copyright: singular neuter unsized noun inflection=3
+dag: singular masculine unsized noun inflection=4 inflection=6a
 dat: conjunction determiner
 de: determiner
-dikke: singular plural adjective
-doorbakken: singular plural indefinite neuter lemma-word adjective
-een: singular lemma-word determiner noun number inflection=1e2
-egel: singular masculine lemma-word noun inflection=3
-feestdag: singular masculine lemma-word noun inflection=6
-feestdagen: plural masculine noun inflection=6
-gebouwd: singular lemma-word adjective verb
-gent: singular masculine lemma-word noun inflection=6
-groot: singular neuter lemma-word adjective noun inflection=524
-groot: singular neuter lemma-word adjective noun inflection=524
-grote: singular plural lemma-word adjective noun inflection=17
-gure: singular plural adjective
-guur: singular lemma-word adjective
-haar: singular neuter lemma-word noun pronoun inflection=52
-hem: singular pronoun verb
-hen: singular feminine lemma-word noun inflection=7e
+dikke: singular plural plain definite indefinite neuter adjective inflection=134
+doorbakken: singular plural plain indefinite neuter adjective inflection=172a
+een: singular unsized determiner noun number inflection=22b
+egel: singular masculine unsized noun inflection=2
+Ellen: singular feminine unsized noun proper-noun inflection=1f
+Ellens: plural genitive feminine unsized noun proper-noun inflection=1f
+Eric: singular masculine unsized noun proper-noun inflection=11 inflection=bf
+Erics: singular plural genitive masculine unsized noun proper-noun inflection=11 inflection=bf
+Europa: singular neuter unsized noun proper-noun inflection=13
+feestdag: singular masculine unsized noun inflection=4
+gebouwd: singular plain definite indefinite neuter past participle adjective verb inflection=8 inflection=158d
+Gent: singular neuter unsized noun proper-noun inflection=f
+gent: singular masculine unsized noun inflection=4
+groot: singular plain definite indefinite neuter unsized adjective noun inflection=22a inflection=197b
+grote: singular plural plain definite indefinite neuter unsized adjective noun inflection=15 inflection=22a
+guur: singular plain definite indefinite neuter adjective inflection=29e
+haar: singular neuter unsized noun pronoun inflection=53
+hem: singular indicative imperative present pronoun verb inflection=19dd
+hen: singular feminine unsized noun inflection=87
 het: determiner
 hij: pronoun
-huis: singular neuter lemma-word noun verb inflection=1b
-huizen: plural neuter noun verb inflection=1b
+huis: singular neuter indicative imperative unsized present noun verb inflection=1b inflection=1a47
+huizen: plural neuter indicative unsized present infinitive noun verb inflection=1b inflection=1a47
 hun: pronoun
-idee: singular lemma-word noun inflection=82
-ideeën: plural noun inflection=82
+idee: singular unsized noun inflection=90
 ik: pronoun
-in: singular adposition verb
-industrie: singular feminine lemma-word noun inflection=15
-industrieën: plural feminine noun inflection=15
-is: singular verb
+IKEA: singular neuter unsized noun proper-noun inflection=13
+Ikea: singular neuter unsized noun proper-noun inflection=13
+in: singular indicative imperative present adposition verb inflection=1ac0
+inch: singular masculine unsized noun inflection=f9
+industrie: singular feminine unsized noun inflection=12
+is: singular indicative present verb inflection=f34
+Jan: singular masculine unsized noun proper-noun inflection=1b1
+jan: singular masculine unsized abbreviation noun inflection=10
 je: pronoun
-jij: singular verb
-jobs: plural masculine noun inflection=3
+Jezus: singular masculine unsized noun proper-noun inflection=227
+jij: singular indicative imperative present verb inflection=1b2d
+Jobs: singular plural genitive masculine unsized noun proper-noun inflection=bf
+jobs: plural masculine unsized noun inflection=2
+jong: singular plain definite indefinite neuter indicative imperative unsized present adjective noun verb inflection=7 inflection=8 inflection=1b39
 jou: pronoun
-jouw: singular pronoun verb
-kaal: singular lemma-word adjective verb
-kale: singular plural adjective
-kamer: singular lemma-word noun inflection=f
-keukentafel: singular lemma-word noun inflection=f
-klef: singular lemma-word adjective
-kleffe: singular plural adjective
-kleffer: singular definite indefinite adjective
-kleffere: singular plural definite indefinite adjective
-kleine: singular plural lemma-word adjective noun inflection=17
-knie: singular lemma-word noun inflection=82
-knieën: plural noun inflection=82
-koelkast: singular lemma-word noun inflection=2d
-koelkasten: plural noun inflection=2d
-koelkastje: singular neuter diminutive noun inflection=2d
-koelkastjes: plural neuter diminutive noun inflection=2d
-lamst: singular definite adjective
-lang: singular lemma-word adjective verb
-lege: singular plural adjective
-lichtst: singular definite adjective
-ligt: singular verb
-living: singular lemma-word noun inflection=f
-lui: singular lemma-word adjective verb
-luie: singular plural adjective
-man: singular masculine lemma-word noun verb inflection=87
+kaal: singular plain definite indefinite neuter indicative imperative present adjective verb inflection=5f inflection=1b5c
+kamer: singular unsized noun inflection=c
+kastje: singular neuter unsized noun inflection=3
+keukentafel: singular unsized noun inflection=c
+klef: singular plain definite indefinite neuter adjective inflection=1cc
+kleine: singular plural plain definite indefinite neuter unsized adjective noun inflection=8 inflection=15
+knie: singular unsized noun inflection=90
+koelkast: singular unsized noun inflection=2a
+lampje: singular neuter unsized noun inflection=3
+lampjes: plural neuter unsized noun inflection=3
+lamst: singular superlative definite neuter adjective inflection=190
+lang: singular plain definite indefinite neuter indicative imperative present adjective verb inflection=8 inflection=1cc6
+lege: singular plural plain definite indefinite neuter adjective inflection=357
+lelijk: singular plain definite indefinite neuter adjective inflection=8
+lichtst: singular superlative definite neuter adjective inflection=8
+ligt: singular indicative present verb inflection=1d14
+living: singular unsized noun inflection=c
+lui: singular plain definite indefinite neuter indicative imperative present adjective verb inflection=8 inflection=4aa
+man: singular masculine indicative imperative unsized present noun verb inflection=92 inflection=4d5
+ME: singular feminine unsized abbreviation noun proper-noun inflection=88
 me: pronoun
 met: adposition
 mij: pronoun
-mijn: singular lemma-word noun pronoun verb inflection=8
-moderne: singular plural adjective
-mooi: singular lemma-word adjective
-mooidoenerij: feminine lemma-word noun inflection=a
-mooie: singular plural adjective
-nieuwe: singular plural adjective
-nummer: singular neuter lemma-word noun verb inflection=5
-nummers: plural neuter noun inflection=5
-ons: singular neuter lemma-word noun pronoun inflection=5b6
-onze: pronoun
-oud: singular lemma-word adjective
-oude: singular plural lemma-word adjective noun inflection=17
-ouder: singular definite indefinite masculine lemma-word adjective noun inflection=3
-ouders: plural genitive masculine adjective noun inflection=3
+mijn: singular indicative imperative unsized present noun pronoun verb inflection=6 inflection=535
+moderne: singular plural plain definite indefinite neuter adjective inflection=8
+mooi: singular plain definite indefinite neuter adjective inflection=8
+nieuwe: singular plural plain definite indefinite neuter adjective inflection=8
+nummer: singular neuter indicative imperative unsized present noun verb inflection=3 inflection=5f8
+oud: singular plain definite indefinite neuter adjective inflection=8
+oude: singular plural plain definite indefinite neuter unsized adjective noun inflection=8 inflection=15
+ouder: singular comparative definite indefinite masculine neuter unsized adjective noun inflection=2 inflection=8
 over: adverb adposition
-personen: plural masculine noun inflection=72
-persoon: singular masculine lemma-word noun inflection=72
-porie: singular feminine lemma-word noun inflection=20f
-poriën: plural feminine noun inflection=20f
-programma: singular neuter lemma-word noun inflection=5d
-reis: singular lemma-word noun verb inflection=1d
-reizen: plural noun verb inflection=1d
-rode: singular plural definite indefinite lemma-word adjective noun inflection=17
-rood: singular definite indefinite neuter lemma-word adjective noun verb inflection=9b
-saai: singular lemma-word adjective adverb
-schepen: singular plural masculine neuter lemma-word noun verb inflection=68 inflection=c4
-schip: singular neuter lemma-word noun inflection=68
-stadscentra: plural neuter noun inflection=28
-stadscentrum: singular neuter lemma-word noun inflection=28
-tafel: singular lemma-word noun verb inflection=f
-traag: singular lemma-word adjective
-tuinhuis: singular neuter lemma-word noun inflection=bd
-tuinhuizen: plural neuter noun inflection=bd
-uit: singular adverb adposition verb
-uitstapje: singular neuter lemma-word noun inflection=5
-uitstapjes: plural neuter noun inflection=5
+persoon: singular masculine unsized noun inflection=7c
+porie: singular feminine unsized noun inflection=271
+programma: singular neuter unsized noun inflection=5b
+reis: singular indicative imperative unsized present noun verb inflection=1d inflection=8ee
+rood: singular plain definite indefinite neuter indicative imperative unsized present adjective noun verb inflection=a7 inflection=932 inflection=955
+saai: singular plain definite indefinite neuter adjective adverb inflection=8
+schip: singular neuter unsized noun inflection=6e
+stad: singular unsized noun inflection=b9
+stadscentra: plural neuter unsized noun inflection=26
+stadscentrum: singular neuter unsized noun inflection=26
+Steve: singular masculine unsized noun proper-noun inflection=11
+tafel: singular indicative imperative unsized present noun verb inflection=c inflection=b9e
+Tom: singular masculine unsized noun proper-noun inflection=3de
+Toms: genitive masculine unsized noun proper-noun inflection=3de
+traag: singular plain definite indefinite neuter adjective inflection=29c
+tuinhuis: singular neuter unsized noun inflection=d1
+tuinhuizen: plural neuter unsized noun inflection=d1
+uit: singular indicative imperative present adverb adposition verb inflection=cba
+uitstapje: singular neuter unsized noun inflection=3
 van: adposition
-veel: singular lemma-word adjective adverb number verb
-vegetarisch: singular lemma-word adjective
-vegetarische: singular plural adjective
-vele: singular adjective
-velen: plural adjective verb
-vergadering: singular feminine lemma-word noun inflection=2
-vergaderingen: plural feminine noun inflection=2
-vervallen: singular plural neuter lemma-word adjective noun verb inflection=56
-vrouw: singular feminine lemma-word noun inflection=2
+veel: singular plain definite indefinite neuter indicative imperative present adjective adverb number verb inflection=d56 inflection=d5d
+vegetarisch: singular plain definite indefinite neuter adjective inflection=d59
+vergadering: singular feminine unsized noun inflection=1
+vervallen: singular plural plain definite indefinite neuter indicative unsized past present infinitive participle adjective noun verb inflection=43 inflection=57 inflection=41d
+vrouw: singular feminine unsized noun inflection=1
 we: pronoun
 wij: pronoun
-wolf: singular masculine lemma-word noun verb inflection=8c
-zakelijk: singular lemma-word adjective
-zakelijke: singular plural adjective
-zakenkrant: singular lemma-word noun inflection=8
-zat: singular lemma-word adjective verb
-zatte: singular plural adjective
+winkel: singular masculine indicative imperative unsized present noun verb inflection=2 inflection=ee4
+wolf: singular masculine indicative imperative unsized present noun verb inflection=96 inflection=ef4
+zakelijk: singular plain definite indefinite neuter adjective inflection=8
+zakenkrant: singular unsized noun inflection=6
+zat: singular plain definite indefinite neuter indicative past adjective verb inflection=bd inflection=f3f
+zaten: plural indicative unsized past noun verb inflection=15 inflection=f3f
 ze: pronoun
-zij: singular lemma-word noun pronoun inflection=209
-zijn: singular plural neuter lemma-word noun pronoun verb inflection=c
+zij: singular unsized noun pronoun inflection=268
+zus: singular feminine unsized noun inflection=25
 ==============================================
 Manually curated for tests to pass
 Copyright 2024-2024 Apple Inc. All rights reserved.

@@ -20,6 +20,10 @@
 
 #include <inflection/tokenizer/locale/DefaultTokenizer.hpp>
 #include <inflection/tokenizer/locale/ar/ArTokenizer.hpp>
+#include <inflection/tokenizer/locale/da/DaTokenizer.hpp>
+#include <inflection/tokenizer/locale/nb/NbTokenizer.hpp>
+#include <inflection/tokenizer/locale/nl/NlTokenizer.hpp>
+#include <inflection/tokenizer/locale/sv/SvTokenizer.hpp>
 
 namespace inflection::tokenizer {
 
@@ -118,6 +122,10 @@ Tokenizer* TokenizerFactory::createTokenizerObject(const util::ULocale& locale, 
             // It's very important to keep this in sorted order for the binary search
             {u"DefaultTokenizer", &tokenizer::locale::DefaultTokenizer::createTokenExtractor},
             {u"locale.ar.ArTokenizer", &tokenizer::locale::ar::ArTokenizer::createTokenExtractor},
+            {u"locale.da.DaTokenizer", &tokenizer::locale::da::DaTokenizer::createTokenExtractor},
+            {u"locale.nb.NbTokenizer", &tokenizer::locale::nb::NbTokenizer::createTokenExtractor},
+            {u"locale.nl.NlTokenizer", &tokenizer::locale::nl::NlTokenizer::createTokenExtractor},
+            {u"locale.sv.SvTokenizer", &tokenizer::locale::sv::SvTokenizer::createTokenExtractor},
         };
 
         int32_t start = 0;

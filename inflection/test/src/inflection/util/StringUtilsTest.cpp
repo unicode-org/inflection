@@ -20,24 +20,6 @@ TEST_CASE("StringUtilsTest#codePointAt")
     REQUIRE_THROWS_AS(inflection::util::StringViewUtils::codePointAt(u"\U00010000", 2), ::inflection::exception::IndexOutOfBoundsException);
 }
 
-TEST_CASE("StringUtilsTest#startsWith")
-{
-    REQUIRE(inflection::util::StringViewUtils::startsWith(u"123", u""));
-    REQUIRE(!inflection::util::StringViewUtils::startsWith(u"123", u"a"));
-    REQUIRE(inflection::util::StringViewUtils::startsWith(u"123", u"1"));
-    REQUIRE(inflection::util::StringViewUtils::startsWith(u"123", u"123"));
-    REQUIRE(!inflection::util::StringViewUtils::startsWith(u"123", u"1234"));
-}
-
-TEST_CASE("StringUtilsTest#endsWith")
-{
-    REQUIRE(inflection::util::StringViewUtils::endsWith(u"123", u""));
-    REQUIRE(!inflection::util::StringViewUtils::endsWith(u"123", u"a"));
-    REQUIRE(inflection::util::StringViewUtils::endsWith(u"123", u"3"));
-    REQUIRE(inflection::util::StringViewUtils::endsWith(u"123", u"123"));
-    REQUIRE(!inflection::util::StringViewUtils::endsWith(u"123", u"0123"));
-}
-
 TEST_CASE("StringUtilsTest#convert")
 {
     REQUIRE(inflection::util::StringUtils::to_string(u"123") == "123");

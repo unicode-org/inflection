@@ -28,7 +28,7 @@ inflection::dialog::SpeakableString* ArGrammarSynthesizer_PronounLookupFunction:
     if (lastIndexDisplayString > 1 && displayString[lastIndexDisplayString] == TEH_MARBUTA) {
         displayString = displayString.substr(0, lastIndexDisplayString) + TEH;
     }
-    if (value != articleMap.end() && !displayString.empty() && ::inflection::util::StringViewUtils::trim(displayString).find(u' ') == ::std::u16string::npos && !::inflection::lang::StringFilterUtil::LATIN_SCRIPT().contains(displayString[0]) && !::inflection::util::StringViewUtils::startsWith(displayString, u"ال") && (!::inflection::util::StringViewUtils::endsWith(displayString, u"ي") || u"أخي" == displayString || u"أبي" == displayString)) {
+    if (value != articleMap.end() && !displayString.empty() && ::inflection::util::StringViewUtils::trim(displayString).find(u' ') == ::std::u16string::npos && !::inflection::lang::StringFilterUtil::LATIN_SCRIPT().contains(displayString[0]) && !displayString.starts_with(u"ال") && (!displayString.ends_with(u"ي") || u"أخي" == displayString || u"أبي" == displayString)) {
         displayString += value->second;
     }
     return new ::inflection::dialog::SpeakableString(displayString);

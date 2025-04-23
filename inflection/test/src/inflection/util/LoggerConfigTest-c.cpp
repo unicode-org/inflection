@@ -4,11 +4,8 @@
 #include "catch2/catch_test_macros.hpp"
 
 #include <inflection/dialog/LocalizedCommonConceptFactoryProvider.h>
-#include <inflection/util/AutoCRelease.hpp>
 #include <inflection/util/StringUtils.hpp>
-#include <inflection/util/StringViewUtils.hpp>
 #include <inflection/util/LoggerConfig.h>
-#include <inflection/util/ULocale.hpp>
 #include <inflection/npc.hpp>
 
 INFLECTION_CBEGIN
@@ -50,11 +47,11 @@ TEST_CASE("LoggerConfigTest-c#testAPI", "[.]")
 
     INFO(logLines.size());
     REQUIRE((logLines.size() == 1 || logLines.size() == 2));
-    CHECK(inflection::util::StringViewUtils::startsWith(logLines[0], u"[INFO] [LocalizedCommonConceptFactoryProvider] The CommonConceptFactory for he is being constructed for the first time. Platform="));
+    CHECK(logLines[0].starts_with(u"[INFO] [LocalizedCommonConceptFactoryProvider] The CommonConceptFactory for he is being constructed for the first time. Platform="));
     if (logLines.size() == 2) {
         // You might get this when running the test in isolation.
         INFO(inflection::util::StringUtils::to_string(logLines[1]));
-        CHECK(inflection::util::StringViewUtils::startsWith(logLines[1], u"[INFO] [Tokenizer] The tokenizer for he is being constructed for the first time. Platform="));
+        CHECK(logLines[1].starts_with(u"[INFO] [Tokenizer] The tokenizer for he is being constructed for the first time. Platform="));
     }
 
     logLines.clear();

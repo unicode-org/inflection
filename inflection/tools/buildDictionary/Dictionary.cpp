@@ -147,7 +147,7 @@ Dictionary::extractPartsOfSpeech(::std::ifstream& in)
         ::inflection::util::StringViewUtils::convert(&line, cline);
 
         std::u16string_view lineView(line);
-        if (::inflection::util::StringViewUtils::startsWith(lineView, endline)) {
+        if (lineView.starts_with(endline)) {
             break;
         }
         auto colonIdx = lineView.find(COLON_SEPARATOR);

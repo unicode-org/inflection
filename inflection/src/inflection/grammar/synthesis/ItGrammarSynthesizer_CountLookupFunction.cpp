@@ -11,7 +11,6 @@
 #include <inflection/tokenizer/TokenizerFactory.hpp>
 #include <inflection/util/Validate.hpp>
 #include <inflection/util/LocaleUtils.hpp>
-#include <inflection/util/StringViewUtils.hpp>
 #include <inflection/npc.hpp>
 #include <memory>
 
@@ -52,10 +51,10 @@ ItGrammarSynthesizer_CountLookupFunction::~ItGrammarSynthesizer_CountLookupFunct
         if (out.empty()) {
             auto token = npc(tokenChain->getHead())->getNext();
             auto stringToken = npc(token)->getCleanValue();
-            if (::inflection::util::StringViewUtils::endsWith(stringToken, u"a") || ::inflection::util::StringViewUtils::endsWith(stringToken, u"o")) {
+            if (stringToken.ends_with(u"a") || stringToken.ends_with(u"o")) {
                 out = GrammemeConstants::NUMBER_SINGULAR();
             }
-            else if (::inflection::util::StringViewUtils::endsWith(stringToken, u"i")) {
+            else if (stringToken.ends_with(u"i")) {
                 out = GrammemeConstants::NUMBER_PLURAL();
             }
         }

@@ -6,14 +6,12 @@
 #include <inflection/dialog/SemanticFeature.hpp>
 #include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
-#include <inflection/dialog/SpeakableString.hpp>
 #include <inflection/dictionary/DictionaryMetaData.hpp>
 #include <inflection/grammar/synthesis/GrammarSynthesizerUtil.hpp>
 #include <inflection/grammar/synthesis/GrammemeConstants.hpp>
 #include <inflection/grammar/synthesis/NlGrammarSynthesizer.hpp>
 #include <inflection/util/Validate.hpp>
 #include <inflection/util/LocaleUtils.hpp>
-#include <inflection/tokenizer/Token_Delim.hpp>
 #include <inflection/tokenizer/TokenChain.hpp>
 #include <inflection/tokenizer/Tokenizer.hpp>
 #include <inflection/tokenizer/TokenizerFactory.hpp>
@@ -26,9 +24,9 @@ NlGrammarSynthesizer_ArticleLookupFunction::NlGrammarSynthesizer_ArticleLookupFu
     : super(model, includeSemanticValue, true)
     , dictionary(*npc(::inflection::dictionary::DictionaryMetaData::createDictionary(::inflection::util::LocaleUtils::DUTCH())))
     , tokenizer(npc(::inflection::tokenizer::TokenizerFactory::createTokenizer(::inflection::util::LocaleUtils::DUTCH())))
-    , countFeature(npc(model.getFeature(GrammemeConstants::NUMBER)))
-    , genderFeature(npc(model.getFeature(GrammemeConstants::GENDER)))
-    , sizeFeature(npc(model.getFeature(NlGrammarSynthesizer::SIZENESS())))
+    , countFeature(*npc(model.getFeature(GrammemeConstants::NUMBER)))
+    , genderFeature(*npc(model.getFeature(GrammemeConstants::GENDER)))
+    , sizeFeature(*npc(model.getFeature(NlGrammarSynthesizer::SIZENESS())))
     , defaultString(defaultString)
     , singularNeuterString(singularNeuterString)
 {
@@ -48,11 +46,11 @@ NlGrammarSynthesizer_ArticleLookupFunction::~NlGrammarSynthesizer_ArticleLookupF
 
 inflection::dialog::SpeakableString* NlGrammarSynthesizer_ArticleLookupFunction::getFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& /*constraints*/) const
 {
-    auto countValue = NlGrammarSynthesizer::getCount(displayValue.getFeatureValue(*npc(countFeature)));
-    auto genderValue = NlGrammarSynthesizer::getGender(displayValue.getFeatureValue(*npc(genderFeature)));
-    auto diminutiveValue = displayValue.getFeatureValue(*npc(sizeFeature));
+    auto countValue = NlGrammarSynthesizer::getNumber(getDisplayFeatureValue(displayValue, countFeature));
+    auto genderValue = NlGrammarSynthesizer::getGender(getDisplayFeatureValue(displayValue, genderFeature));
+    auto diminutiveValue = displayValue.getFeatureValue(sizeFeature);
     auto isDiminutive = diminutiveValue != nullptr && NlGrammarSynthesizer::SIZENESS_DIMINUTIVE() == *npc(diminutiveValue);
-    if (countValue == NlGrammarSynthesizer::Count::undefined || genderValue == NlGrammarSynthesizer::Gender::undefined) {
+    if (countValue == NlGrammarSynthesizer::Number::undefined || genderValue == NlGrammarSynthesizer::Gender::undefined) {
         const auto& displayString = displayValue.getDisplayString();
         int64_t phraseType = 0;
         if (dictionary.getCombinedBinaryType(&phraseType, displayString) == nullptr) {
@@ -62,11 +60,11 @@ inflection::dialog::SpeakableString* NlGrammarSynthesizer_ArticleLookupFunction:
             }
         }
         if (phraseType != 0) {
-            if (countValue == NlGrammarSynthesizer::Count::undefined) {
+            if (countValue == NlGrammarSynthesizer::Number::undefined) {
                 if ((phraseType & dictionaryPlural) != 0) {
-                    countValue = NlGrammarSynthesizer::Count::plural;
+                    countValue = NlGrammarSynthesizer::Number::plural;
                 } else {
-                    countValue = NlGrammarSynthesizer::Count::singular;
+                    countValue = NlGrammarSynthesizer::Number::singular;
                 }
             }
             if (genderValue == NlGrammarSynthesizer::Gender::undefined) {
@@ -83,7 +81,7 @@ inflection::dialog::SpeakableString* NlGrammarSynthesizer_ArticleLookupFunction:
             }
         }
     }
-    if (NlGrammarSynthesizer::Count::singular == countValue && (NlGrammarSynthesizer::Gender::neuter == genderValue || isDiminutive)) {
+    if (NlGrammarSynthesizer::Number::singular == countValue && (NlGrammarSynthesizer::Gender::neuter == genderValue || isDiminutive)) {
         return createPreposition(displayValue, singularNeuterString);
     }
     return createPreposition(displayValue, defaultString);

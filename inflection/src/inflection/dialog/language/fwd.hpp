@@ -37,6 +37,7 @@ namespace inflection
             class SvCommonConceptFactory;
             class ThCommonConceptFactory;
             class TrCommonConceptFactory;
+            class ViCommonConceptFactory;
             class YueCommonConceptFactory;
             class ZhCommonConceptFactory;
         } // language

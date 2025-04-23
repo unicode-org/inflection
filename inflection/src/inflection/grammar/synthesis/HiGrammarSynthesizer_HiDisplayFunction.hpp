@@ -19,9 +19,9 @@ public:
     typedef ::inflection::dialog::DefaultDisplayFunction super;
 
 private:
-    const ::inflection::dialog::SemanticFeature* countFeature {  };
-    const ::inflection::dialog::SemanticFeature* genderFeature {  };
-    const ::inflection::dialog::SemanticFeature* partOfSpeechFeature {  };
+    const ::inflection::dialog::SemanticFeature& numberFeature;
+    const ::inflection::dialog::SemanticFeature& genderFeature;
+    const ::inflection::dialog::SemanticFeature& partOfSpeechFeature;
     const ::std::unique_ptr<::inflection::tokenizer::Tokenizer> tokenizer;
     const ::inflection::dialog::DictionaryLookupInflector dictionaryInflector;
     int64_t pluralVerbMask = 0;

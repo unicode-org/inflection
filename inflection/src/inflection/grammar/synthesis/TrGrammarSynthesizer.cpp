@@ -76,17 +76,6 @@ const ::icu4cxx::UnicodeSet& TrGrammarSynthesizer::SEPARATOR_SPLITTER()
     return *npc(SEPARATOR_SPLITTER_);
 }
 
-const ::icu4cxx::UnicodeSet& TrGrammarSynthesizer::ENDING_SINGLE_QUOTE()
-{
-    static auto ENDING_SINGLE_QUOTE_ = ::inflection::util::UnicodeSetUtils::freeze(new ::icu4cxx::UnicodeSet(u"['’]"));
-    return *npc(ENDING_SINGLE_QUOTE_);
-}
-
-const ::icu4cxx::UnicodeSet& TrGrammarSynthesizer::ENDING_DOUBLE_QUOTE()
-{
-    static auto ENDING_DOUBLE_QUOTE_ = ::inflection::util::UnicodeSetUtils::freeze(new ::icu4cxx::UnicodeSet(u"[\"”]"));
-    return *npc(ENDING_DOUBLE_QUOTE_);
-}
 void TrGrammarSynthesizer::addSemanticFeatures(::inflection::dialog::SemanticFeatureModel& featureModel)
 {
     auto displayFunction = new TrGrammarSynthesizer_TrDisplayFunction(featureModel);

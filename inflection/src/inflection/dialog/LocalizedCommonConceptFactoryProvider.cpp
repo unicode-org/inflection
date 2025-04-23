@@ -24,6 +24,7 @@
 #include <inflection/dialog/language/SvCommonConceptFactory.hpp>
 #include <inflection/dialog/language/ThCommonConceptFactory.hpp>
 #include <inflection/dialog/language/TrCommonConceptFactory.hpp>
+#include <inflection/dialog/language/ViCommonConceptFactory.hpp>
 #include <inflection/dialog/language/YueCommonConceptFactory.hpp>
 #include <inflection/dialog/language/ZhCommonConceptFactory.hpp>
 #include <inflection/util/LocaleUtils.hpp>
@@ -86,6 +87,7 @@ static CommonConceptFactory* constructCommonConceptFactory(const ::inflection::u
         {"sv", &constructor<language::SvCommonConceptFactory>},
         {"th", &constructor<language::ThCommonConceptFactory>},
         {"tr", &constructor<language::TrCommonConceptFactory>},
+        {"vi", &constructor<language::ViCommonConceptFactory>},
         {"wuu", &constructor<language::ZhCommonConceptFactory>},
         {"yue", &constructor<language::YueCommonConceptFactory>},
         {"zh", &constructor<language::ZhCommonConceptFactory>},

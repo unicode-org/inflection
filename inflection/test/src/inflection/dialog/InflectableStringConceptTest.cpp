@@ -17,7 +17,6 @@
 #include <inflection/dialog/SemanticFeatureModel.hpp>
 #include <inflection/npc.hpp>
 #include <memory>
-#include <tuple>
 
 static inflection::dialog::InflectableStringConcept* createConcept(const ::inflection::dialog::SemanticFeatureModel* model, const ::inflection::dialog::SpeakableString& string, const ::std::vector<::std::u16string>& namedValues)
 {
@@ -75,7 +74,7 @@ TEST_CASE("InflectableStringConceptTest#testDutch")
         compareInflection(model, adjective, adjective, {u"pos=adjective"});
         compareInflection(model, adjective, adjective, {u"declension=undeclined"});
         compareInflection(model, adjective, adjective, {u"number=singular"});
-        compareInflection(model, adjective, adjective, {u"number=plural"});
+        compareInflection(model, adjective, adjective, {u"pos=adjective", u"number=plural"});
     }
     int32_t adjectivesSize = (int32_t) adjectives.size();
     for (int32_t i = 0; i < adjectivesSize; i++) {
@@ -86,7 +85,7 @@ TEST_CASE("InflectableStringConceptTest#testDutch")
         compareInflection(model, expected, adjective, {u"declension=declined", u"number=plural"});
     }
     ::std::vector<::std::u16string> nouns({u"koelkast", u"vergadering", u"contact", u"industrie", u"knie", u"idee", u"porie", u"bacterie", u"beer", u"contactpersoon", u"persoon", u"egel", u"auto", u"programma", u"baby"});
-    ::std::vector<::std::u16string> nounsPlural({u"koelkasten", u"vergaderingen", u"contacten", u"industrieën", u"knieën", u"ideeën", u"poriën", u"bacteriën", u"beren", u"contactpersonen", u"personen", u"egels", u"auto's", u"programma's", u"baby's"});
+    ::std::vector<::std::u16string> nounsPlural({u"koelkasten", u"vergaderingen", u"contacten", u"industrieën", u"knieën", u"ideeën", u"poriën", u"bacteriën", u"beren", u"contactpersonen", u"personen", u"egels", u"auto’s", u"programma’s", u"baby’s"});
     for (const auto& noun : nouns) {
         compareInflection(model, noun, noun, {});
         compareInflection(model, noun, noun, {u"pos=adjective"});
@@ -104,11 +103,11 @@ TEST_CASE("InflectableStringConceptTest#testDutch")
     }
 }
 
-static ::std::map<inflection::dialog::SemanticFeature, ::std::u16string> createArabicConstraintMap(const ::inflection::dialog::SemanticFeatureModel* featureModel, const ::std::u16string& personStr, const ::std::u16string& countStr, const ::std::u16string& genderStr, const ::std::u16string& caseStr, const ::std::u16string& definiteness)
+static ::std::map<inflection::dialog::SemanticFeature, ::std::u16string> createArabicConstraintMap(const ::inflection::dialog::SemanticFeatureModel* featureModel, const ::std::u16string& personStr, const ::std::u16string& numberStr, const ::std::u16string& genderStr, const ::std::u16string& caseStr, const ::std::u16string& definiteness)
 {
     ::std::map<inflection::dialog::SemanticFeature, ::std::u16string> constraintMap;
-    if (!countStr.empty()) {
-        constraintMap.emplace(*npc(npc(featureModel)->getFeature(u"number")), countStr);
+    if (!numberStr.empty()) {
+        constraintMap.emplace(*npc(npc(featureModel)->getFeature(u"number")), numberStr);
     }
     if (!genderStr.empty()) {
         constraintMap.emplace(*npc(npc(featureModel)->getFeature(u"gender")), genderStr);
@@ -127,9 +126,9 @@ static ::std::map<inflection::dialog::SemanticFeature, ::std::u16string> createA
     return constraintMap;
 }
 
-static void appendDisplayValue(::std::vector<::inflection::dialog::DisplayValue>* displayValues, const ::std::u16string& inflection, const ::inflection::dialog::SemanticFeatureModel* model, const ::std::u16string& countValue, const ::std::u16string& genderValue, const ::std::u16string& caseValue, const ::std::u16string& definitenessValue)
+static void appendDisplayValue(::std::vector<::inflection::dialog::DisplayValue>* displayValues, const ::std::u16string& inflection, const ::inflection::dialog::SemanticFeatureModel* model, const ::std::u16string& numberValue, const ::std::u16string& genderValue, const ::std::u16string& caseValue, const ::std::u16string& definitenessValue)
 {
-    auto constraintMap = createArabicConstraintMap(model, u"second", countValue, genderValue, caseValue, definitenessValue);
+    auto constraintMap = createArabicConstraintMap(model, u"second", numberValue, genderValue, caseValue, definitenessValue);
     npc(displayValues)->emplace_back(inflection, constraintMap);
 }
 

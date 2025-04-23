@@ -16,12 +16,12 @@ public:
     static void guessDiminutive(::std::u16string* result, std::u16string_view guess);
 public:
 
-    enum class Count {
+    enum class Number {
         undefined,
         singular,
         plural
     };
-    static Count getCount(const ::std::u16string* value);
+    static Number getNumber(const ::std::u16string& value);
 
     enum class Gender {
         undefined,
@@ -29,21 +29,21 @@ public:
         feminine,
         neuter
     };
-    static Gender getGender(const ::std::u16string* value);
+    static Gender getGender(const ::std::u16string& value);
 
     enum class Declension {
         undefined,
         declined,
         undeclined
     };
-    static Declension getDeclension(const ::std::u16string* value);
+    static Declension getDeclension(const ::std::u16string& value);
 
     enum class Case {
         undefined,
         genitive,
         nominative
     };
-    static Case getCase(const ::std::u16string* value);
+    static Case getCase(const ::std::u16string& value);
 
 private:
     NlGrammarSynthesizer() = delete;
@@ -54,6 +54,7 @@ public:
     static const ::std::u16string& DECLENSION_UNDECLINED();
     static const ::std::u16string& DECLENSION_DECLINED();
     static const ::std::u16string& SIZENESS_DIMINUTIVE();
+    static const ::std::u16string& SIZENESS_UNSIZED();
     static constexpr auto DE = u"de";
     static constexpr auto DEZE = u"deze";
     static constexpr auto DIE = u"die";

@@ -24,8 +24,7 @@ public:
     };
 
 public:
-    void getInflectionGrammemes(::std::u16string_view word, int64_t wordGrammemes, const ::std::vector<::inflection::dictionary::Inflector_InflectionPattern> &inflectionPatterns, ::std::vector<InflectionGrammemes> &inflectionGrammemes) const;
-    ::std::vector<int64_t> getwordGrammemesets(::std::u16string_view word) const;
+    ::std::vector<int64_t> getWordGrammemeSets(::std::u16string_view word) const;
     const dictionary::DictionaryMetaData & getDictionary() const;
     const ::inflection::dictionary::Inflector& getInflector() const;
     ::inflection::util::ULocale getLocale() const;

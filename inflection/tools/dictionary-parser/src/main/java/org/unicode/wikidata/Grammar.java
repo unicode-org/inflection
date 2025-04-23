@@ -120,6 +120,7 @@ public final class Grammar {
 
     enum Tense {
         PAST,
+        DISTANT_PAST,
         PRESENT,
         FUTURE;
 
@@ -233,7 +234,8 @@ public final class Grammar {
     }
 
     enum FormType {
-        SHORT_FORM;
+        SHORT_FORM,
+        LONG_FORM;
 
         private final String printableValue;
         FormType() {
@@ -591,10 +593,12 @@ public final class Grammar {
         TYPEMAP.put("Q576271", EnumSet.of(PartOfSpeech.DETERMINER));
         TYPEMAP.put("Q5051", new HashSet<>(Arrays.asList(Case.GENITIVE, PartOfSpeech.DETERMINER))); // possessive determiner
         TYPEMAP.put("Q2824480", EnumSet.of(PartOfSpeech.DETERMINER)); // demonstrative adjective, but it's really a determiner.
+        TYPEMAP.put("Q2112896", EnumSet.of(PartOfSpeech.DETERMINER)); // pronominal adverb
         TYPEMAP.put("Q83034", EnumSet.of(PartOfSpeech.INTERJECTION));
         TYPEMAP.put("Q2304610", EnumSet.of(PartOfSpeech.INTERROGATIVE));
         TYPEMAP.put("Q12021746", EnumSet.of(PartOfSpeech.INTERROGATIVE));
         TYPEMAP.put("Q54310231", EnumSet.of(PartOfSpeech.INTERROGATIVE, PartOfSpeech.PRONOUN));
+        TYPEMAP.put("Q60798917", EnumSet.of(PartOfSpeech.INTERROGATIVE)); // question tag
         TYPEMAP.put("Q9788", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // letter
         TYPEMAP.put("Q3241972", EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // character
         TYPEMAP.put("Q1084", EnumSet.of(PartOfSpeech.NOUN));
@@ -614,13 +618,19 @@ public final class Grammar {
         TYPEMAP.put("Q10535365", EnumSet.of(PartOfSpeech.PARTICLE)); // infinitive marker, infinitive participle, infinitive particle
         TYPEMAP.put("Q113198319", new HashSet<>(Arrays.asList(PartOfSpeech.ADVERB, PartOfSpeech.PARTICLE))); // adverbial particle
         TYPEMAP.put("Q115762248", EnumSet.of(PartOfSpeech.PARTICLE)); // vocative particle
+        TYPEMAP.put("Q115475265", EnumSet.of(PartOfSpeech.PARTICLE)); // honorific particle
         TYPEMAP.put("Q113076880", EnumSet.of(PartOfSpeech.ADVERB)); // postpositive adverb
         TYPEMAP.put("Q65807752", EnumSet.of(PartOfSpeech.ADVERB)); // demonstrative adverb
+        TYPEMAP.put("Q117321826", EnumSet.of(PartOfSpeech.ADVERB)); // localiser, similar to an adverb
         TYPEMAP.put("Q134316", EnumSet.of(PartOfSpeech.ADPOSITION)); // adposition
         TYPEMAP.put("Q161873", EnumSet.of(PartOfSpeech.ADPOSITION)); // postposition
         TYPEMAP.put("Q4833830", EnumSet.of(PartOfSpeech.ADPOSITION)); // preposition
         TYPEMAP.put("Q36224", EnumSet.of(PartOfSpeech.PRONOUN));
         TYPEMAP.put("Q2006180", EnumSet.of(PartOfSpeech.PRONOUN)); // pro-form, word that substitutes for another word, broader scope than pronoun
+        TYPEMAP.put("Q115272253", EnumSet.of(PartOfSpeech.PRONOUN)); // possessive adjective, like "your"
+        TYPEMAP.put("Q2824485", EnumSet.of(PartOfSpeech.PRONOUN)); // pronominal adjective
+        TYPEMAP.put("Q115272205", EnumSet.of(PartOfSpeech.PRONOUN)); // reflexive adjective
+        TYPEMAP.put("Q79377411", EnumSet.of(PartOfSpeech.PRONOUN)); // demonstrative pronoun
         TYPEMAP.put("Q147276", EnumSet.of(PartOfSpeech.PROPER_NOUN)); // proper noun
         TYPEMAP.put("Q7884789", EnumSet.of(PartOfSpeech.PROPER_NOUN)); // toponym
         TYPEMAP.put("Q43229", EnumSet.of(PartOfSpeech.PROPER_NOUN)); // organization
@@ -634,9 +644,11 @@ public final class Grammar {
         TYPEMAP.put("Q3254028", EnumSet.of(PartOfSpeech.VERB)); // separable verb, verb with a prefix which separates from the core verb in certain positions in a sentence
 
         TYPEMAP.put("Q4239848", new HashSet<>(Arrays.asList(FormType.SHORT_FORM, PartOfSpeech.ADJECTIVE))); // short form of an adjective
+        TYPEMAP.put("Q96406487", EnumSet.of(FormType.SHORT_FORM)); // short form
         TYPEMAP.put("Q112154", EnumSet.of(FormType.SHORT_FORM)); // apocope, loss of word-final sounds
         TYPEMAP.put("Q650250", EnumSet.of(FormType.SHORT_FORM)); // elision, omission of one or more sounds in a word
         TYPEMAP.put("Q114092330", EnumSet.of(FormType.SHORT_FORM)); // prevocalic form, linguistic feature marking a linguistic unit as appearing only before vowels
+        TYPEMAP.put("Q96406455", EnumSet.of(FormType.LONG_FORM)); // long form
 
         TYPEMAP.put("Q109267112", EnumSet.of(Polarity.AFFIRMATIVE));
         TYPEMAP.put("Q1478451", EnumSet.of(Polarity.NEGATIVE));
@@ -745,11 +757,16 @@ public final class Grammar {
         TYPEMAP.put("Q1230649", new HashSet<>(Arrays.asList(Tense.PAST, VerbType.PARTICIPLE)));
         TYPEMAP.put("Q72249355", new HashSet<>(Arrays.asList(Voice.ACTIVE, VerbType.PARTICIPLE)));
         TYPEMAP.put("Q72249544", new HashSet<>(Arrays.asList(Voice.PASSIVE, VerbType.PARTICIPLE)));
+        TYPEMAP.put("Q430255", new HashSet<>(Arrays.asList(Tense.PRESENT, Voice.ACTIVE, VerbType.PARTICIPLE))); // present active participle
+        TYPEMAP.put("Q117824585", new HashSet<>(Arrays.asList(Tense.PRESENT, Voice.PASSIVE, VerbType.PARTICIPLE))); // present active participle
+        TYPEMAP.put("Q16086106", new HashSet<>(Arrays.asList(Tense.PAST, Voice.PASSIVE, VerbType.PARTICIPLE))); // past active participle
         TYPEMAP.put("Q113133303", EnumSet.of(VerbType.PARTICIPLE)); // conjunctive participle
         TYPEMAP.put("Q192613", EnumSet.of(Tense.PRESENT)); // present tense
         TYPEMAP.put("Q3910936", new HashSet<>(Arrays.asList(Aspect.SIMPLE, Tense.PRESENT))); // simple present and usually future
         TYPEMAP.put("Q1994301", EnumSet.of(Tense.PAST)); // past tense
         TYPEMAP.put("Q1392475", new HashSet<>(Arrays.asList(Aspect.SIMPLE, Tense.PAST))); // simple past
+        TYPEMAP.put("Q113326559", EnumSet.of(Tense.PAST)); // non-remote tense
+        TYPEMAP.put("Q113326099", EnumSet.of(Tense.DISTANT_PAST)); // remote tense
         TYPEMAP.put("Q501405", EnumSet.of(Tense.FUTURE)); // future tense
         TYPEMAP.put("Q344", EnumSet.of(Tense.FUTURE)); // future
         TYPEMAP.put("Q1475560", new HashSet<>(Arrays.asList(Aspect.SIMPLE, Tense.FUTURE))); // simple future
@@ -767,6 +784,8 @@ public final class Grammar {
         TYPEMAP.put("Q115223950", EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // infinitive form in Norwegian Nynorsk that ends in 'a'
         TYPEMAP.put("Q115223951", EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // infinitive form in Norwegian Nynorsk that ends in 'e'
         TYPEMAP.put("Q1923028", EnumSet.of(VerbType.GERUND));
+        TYPEMAP.put("Q380012", EnumSet.of(VerbType.GERUND)); // adverbial
+        TYPEMAP.put("Q904896", EnumSet.of(VerbType.GERUND)); // transgressive, adverbial participle
         TYPEMAP.put("Q52434511", new HashSet<>(Arrays.asList(Tense.PRESENT, VerbType.GERUND)));
         TYPEMAP.put("Q52434598", new HashSet<>(Arrays.asList(Tense.PAST, VerbType.GERUND)));
         TYPEMAP.put("Q1050494", EnumSet.of(VerbType.NONFINITE));
@@ -791,7 +810,7 @@ public final class Grammar {
 
         TYPEMAP.put("Q468801", EnumSet.of(PartOfSpeech.PRONOUN)); // personal pronoun
         TYPEMAP.put("Q1502460", EnumSet.of(PartOfSpeech.PRONOUN)); // possessive pronoun
-        TYPEMAP.put("Q34793275", new HashSet<>(Arrays.asList(Definiteness.DEMONSTRATIVE, PartOfSpeech.PRONOUN))); // demonstrative pronoun
+        TYPEMAP.put("Q34793275", EnumSet.of(PartOfSpeech.PRONOUN)); // demonstrative pronoun
         TYPEMAP.put("Q953129", EnumSet.of(PartOfSpeech.PRONOUN)); // reflexive pronoun
         TYPEMAP.put("Q130266209", EnumSet.of(PartOfSpeech.PRONOUN)); // reflexive personal pronoun
         TYPEMAP.put("Q1050744", EnumSet.of(PartOfSpeech.PRONOUN)); // relative pronoun
@@ -816,6 +835,7 @@ public final class Grammar {
         TYPEMAP.put("Q3502544", new HashSet<>(Arrays.asList(Tense.PAST, Mood.SUBJUNCTIVE))); // past subjunctive
         TYPEMAP.put("Q3502541", new HashSet<>(Arrays.asList(Aspect.IMPERFECT, Tense.PAST, Mood.SUBJUNCTIVE))); // imperfect subjunctive
         TYPEMAP.put("Q113289507", EnumSet.of(Mood.EMPHATIC));
+        TYPEMAP.put("Q113959607", EnumSet.of(Mood.EMPHATIC)); // emphatic particle
         TYPEMAP.put("Q2532941", EnumSet.of(Mood.VOLITIVE));
 
         TYPEMAP.put("Q5636904", EnumSet.of(Aspect.HABITUAL));
@@ -889,6 +909,9 @@ public final class Grammar {
         TYPEMAP.put("Q12237354", EnumSet.of(Usage.RARE)); // obsolete word
         TYPEMAP.put("Q54943392", EnumSet.of(Usage.RARE)); // obsolete form
         TYPEMAP.put("Q181970", EnumSet.of(Usage.RARE)); // archaism
+        TYPEMAP.put("Q1098772", EnumSet.of(Usage.RARE)); // broken plural
+        TYPEMAP.put("Q54944750", EnumSet.of(Usage.RARE)); // potential form
+        TYPEMAP.put("Q55074511", EnumSet.of(Usage.RARE)); // reconstructed word
 
         // Phrases and other things that don't inflect
         TYPEMAP.put("Q101352", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // family name. Lots of them conflict with common nouns, like "light"

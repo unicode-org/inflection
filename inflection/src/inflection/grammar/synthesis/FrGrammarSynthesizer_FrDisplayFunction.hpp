@@ -23,9 +23,9 @@ public:
 
 private:
     const ::inflection::dictionary::DictionaryMetaData& dictionary;
-    const ::inflection::dialog::SemanticFeature* countFeature {  };
-    const ::inflection::dialog::SemanticFeature* genderFeature {  };
-    const ::inflection::dialog::SemanticFeature* partOfSpeechFeature {  };
+    const ::inflection::dialog::SemanticFeature& numberFeature;
+    const ::inflection::dialog::SemanticFeature& genderFeature;
+    const ::inflection::dialog::SemanticFeature& partOfSpeechFeature;
     FrGrammarSynthesizer_ArticleLookupFunction definiteArticleLookupFunction;
     FrGrammarSynthesizer_ArticleLookupFunction indefiniteArticleLookupFunction;
     ::inflection::dialog::DefinitenessDisplayFunction definitenessDisplayFunction;
@@ -37,14 +37,15 @@ private:
     const ::std::unique_ptr<::inflection::tokenizer::Tokenizer> tokenizer;
     const ::inflection::dialog::DictionaryLookupInflector dictionaryInflector;
 
-public:
-    ::inflection::dialog::DisplayValue * getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const override;
-
 private:
     ::std::u16string guessPluralInflection(const ::std::u16string& word) const;
-    ::std::optional<::std::u16string> inflectWord(::std::u16string_view word, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const;
+    ::std::optional<::std::u16string> inflectWord(::std::u16string_view word, int64_t wordGrammemes, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const;
     ::std::optional<::std::u16string> inflectCompoundWord(const ::inflection::tokenizer::TokenChain& tokenChain, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const;
     bool canBeInflectedToPlural(::std::u16string_view word) const;
+    ::inflection::tokenizer::TokenChain& tokenize(::std::unique_ptr<::inflection::tokenizer::TokenChain>& tokenChain, const std::u16string& string) const;
+
+public:
+    ::inflection::dialog::DisplayValue * getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const override;
 
 public:
     explicit FrGrammarSynthesizer_FrDisplayFunction(const ::inflection::dialog::SemanticFeatureModel& model);

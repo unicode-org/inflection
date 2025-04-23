@@ -3,19 +3,16 @@
  */
 #pragma once
 
-#include <inflection/dictionary/Inflector_InflectionPattern.hpp>
-#include <inflection/dictionary/metadata/StringContainer.hpp>
+#include <inflection/dictionary/fwd.hpp>
 #include <string>
-#include <vector>
-#include <map>
 
 class inflection::dictionary::Inflector_Inflection final
 {
 private:
-    const Inflector_InflectionPattern& inflectionPattern;
+    const Inflector_InflectionPattern* inflectionPattern;
 
-    const int32_t suffixId {  };
-    const int64_t grammemes {  };
+    int32_t suffixId {  };
+    int64_t grammemes {  };
 
 public:
     ::std::u16string inflect(const ::std::u16string& lemma) const;
@@ -24,9 +21,9 @@ public:
     int64_t getGrammemes() const;
 
     ::std::u16string getSuffix() const;
-    const Inflector_InflectionPattern * getInflectionPattern() const;
+    const Inflector_InflectionPattern& getInflectionPattern() const;
 
-public: /* package */
+private: /* package */
     Inflector_Inflection(const Inflector_InflectionPattern& inflectionPattern, int32_t suffixId, int64_t grammemes);
 
 private:

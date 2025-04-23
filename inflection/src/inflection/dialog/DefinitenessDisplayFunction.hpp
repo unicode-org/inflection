@@ -30,6 +30,7 @@ private:
 
 public:
     virtual DisplayValue* addDefiniteness(DisplayValue* displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const;
+    virtual DisplayValue* updateDefiniteness(DisplayValue* displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const;
 
 public:
     DefinitenessDisplayFunction(const ::inflection::dialog::SemanticFeatureModel& model, const ::inflection::dialog::DefaultFeatureFunction* definiteFeatureFunction, std::u16string_view definiteFeatureArticlesName, const ::inflection::dialog::DefaultFeatureFunction* indefiniteFeatureFunction, std::u16string_view indefiniteFeatureArticlesName);

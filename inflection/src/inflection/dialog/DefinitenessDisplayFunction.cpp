@@ -125,4 +125,34 @@ DefinitenessDisplayFunction::addDefiniteness(DisplayValue* displayValue, const :
     return displayValue;
 }
 
+DisplayValue*
+DefinitenessDisplayFunction::updateDefiniteness(DisplayValue* displayValue, const ::std::map<SemanticFeature, ::std::u16string>& constraints) const
+{
+    if (displayValue != nullptr) {
+        auto definiteness = constraints.find(*npc(definiteFeature));
+        if (definiteness != constraints.end()) {
+            return addDefiniteness(displayValue, constraints);
+        }
+        std::u16string displayString;
+        int32_t prefixLength = 0;
+        if ((prefixLength = getArticlePrefixLength(displayValue, definiteArticles)) > 0) {
+            displayString = npc(displayValue)->getDisplayString().substr(prefixLength);
+            DisplayValue baseDisplayValue(displayString, npc(displayValue)->getConstraintMap());
+            ::std::unique_ptr<SpeakableString> newDisplayString(npc(definiteFeatureFunction)->getFeatureValue(baseDisplayValue, constraints));
+            if (newDisplayString) {
+                return replaceDisplayValue(displayValue, *newDisplayString);
+            }
+        }
+        else if ((prefixLength = getArticlePrefixLength(displayValue, indefiniteArticles)) > 0) {
+            displayString = npc(displayValue)->getDisplayString().substr(prefixLength);
+            DisplayValue baseDisplayValue(displayString, npc(displayValue)->getConstraintMap());
+            ::std::unique_ptr<SpeakableString> newDisplayString(npc(indefiniteFeatureFunction)->getFeatureValue(baseDisplayValue, constraints));
+            if (newDisplayString) {
+                return replaceDisplayValue(displayValue, *newDisplayString);
+            }
+        }
+    }
+    return displayValue;
+}
+
 } // namespace inflection::dialog

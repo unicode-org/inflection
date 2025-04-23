@@ -224,11 +224,11 @@ SpeakableString* SemanticConceptList::toSpeakableString(const SemanticFeature* f
             currentItemSuffix = itemSuffix;
         }
 
-        if (!avoidAffixRedundancy || !inflection::util::StringViewUtils::startsWith(conceptResult.getPrint(), currentItemPrefix.getPrint())) {
+        if (!avoidAffixRedundancy || !conceptResult.getPrint().starts_with(currentItemPrefix.getPrint())) {
             displayValue += currentItemPrefix;
         }
         displayValue += conceptResult;
-        if (!avoidAffixRedundancy || !inflection::util::StringViewUtils::endsWith(conceptResult.getPrint(), currentItemSuffix.getPrint())) {
+        if (!avoidAffixRedundancy || !conceptResult.getPrint().ends_with(currentItemSuffix.getPrint())) {
             displayValue += currentItemSuffix;
         }
 

@@ -86,7 +86,7 @@ std::shared_ptr<PronounConcept::DefaultPronounData> PronounConcept::createPronou
                 word = *cell;
             } else {
                 constraint = *cell;
-                auto isDependency = StringViewUtils::startsWith(constraint, dependencyPrefix);
+                auto isDependency = constraint.starts_with(dependencyPrefix);
                 if (isDependency) {
                     constraint = constraint.substr(dependencyPrefix.length());
                 }

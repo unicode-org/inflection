@@ -8,7 +8,6 @@
 #include <inflection/grammar/synthesis/GrammemeConstants.hpp>
 #include <inflection/util/LocaleUtils.hpp>
 #include <inflection/util/StringViewUtils.hpp>
-#include <inflection/util/Validate.hpp>
 #include <inflection/dialog/SemanticFeature.hpp>
 #include <inflection/dialog/SemanticFeatureModel_DisplayData.hpp>
 #include <inflection/dialog/DisplayValue.hpp>
@@ -32,7 +31,10 @@ ArGrammarSynthesizer_ArDisplayFunction::ArGrammarSynthesizer_ArDisplayFunction(c
             {GrammemeConstants::DEFINITENESS_INDEFINITE(), GrammemeConstants::DEFINITENESS_CONSTRUCT(), GrammemeConstants::DEFINITENESS_DEFINITE()}
     }, {}, false)
     , caseFeature(*npc(model.getFeature(GrammemeConstants::CASE)))
+    , moodFeature(*npc(model.getFeature(GrammemeConstants::MOOD)))
     , countFeature(*npc(model.getFeature(GrammemeConstants::NUMBER)))
+    , tenseFeature(*npc(model.getFeature(GrammemeConstants::TENSE)))
+    , personFeature(*npc(model.getFeature(GrammemeConstants::PERSON)))
     , genderFeature(*npc(model.getFeature(GrammemeConstants::GENDER)))
     , partOfSpeechFeature(*npc(model.getFeature(GrammemeConstants::POS)))
     , definitenessFeature(*npc(model.getFeature(GrammemeConstants::DEFINITENESS)))
@@ -103,13 +105,10 @@ namespace {
     return word;
 }
 
-::std::u16string ArGrammarSynthesizer_ArDisplayFunction::performInflection(const ::std::u16string &word, const InflectionConstraints &inflectionContraints) const
+::std::u16string ArGrammarSynthesizer_ArDisplayFunction::performInflection(const ::std::u16string &word, int64_t wordGrammemes, const InflectionConstraints &inflectionContraints) const
 {
-    const auto &dictionary = dictionaryInflector.getDictionary();
-    int64_t wordProperties;
-    dictionary.getCombinedBinaryType(&wordProperties, word);
-    bool isVerb = (wordProperties & posMask) == verbMask;
-    bool isDeterminer = (wordProperties & posMask) == determinerMask;
+    bool isVerb = (wordGrammemes & posMask) == verbMask;
+    bool isDeterminer = (wordGrammemes & posMask) == determinerMask;
 
     ::std::vector<::std::u16string> constraints;
     if (!inflectionContraints.countString.empty()) {
@@ -125,14 +124,14 @@ namespace {
     }
     if (!inflectionContraints.caseString.empty()) {
         constraints.emplace_back(inflectionContraints.caseString);
-    } else if(!isVerb && !isDeterminer) {
+    } else if(!isVerb && !isDeterminer && inflectionContraints.partOfSpeechString != u"verb") {
         // We don't add case constraint for verbs by default
         constraints.emplace_back(GrammemeConstants::CASE_NOMINATIVE());
     }
 
     const auto &caseConstraintFallback = CASE_CONSTRAINT_FALLBACK();
     while (true) {
-        const auto inflectedWord = dictionaryInflector.inflect(word, constraints, inflectionContraints.disambiguationGrammemeValues);
+        const auto inflectedWord = dictionaryInflector.inflect(word, wordGrammemes, constraints, inflectionContraints.disambiguationGrammemeValues);
         if (inflectedWord.has_value()) {
             return *inflectedWord;
         }
@@ -152,28 +151,25 @@ namespace {
 ::std::u16string ArGrammarSynthesizer_ArDisplayFunction::inflectString(const ::std::u16string &word, const InflectionConstraints &inflectionContraints) const
 {
     const auto &dictionary = dictionaryInflector.getDictionary();
+    int64_t wordGrammemes = 0;
 
-    if (!dictionary.isKnownWord(word)) {
-        ::std::unique_ptr<::inflection::tokenizer::TokenChain> tokenChain(npc(npc(tokenizer.get())->createTokenChain(word)));
-        ::std::u16string inflectedChain;
-
-        for (const auto& token : *tokenChain) {
-            if (token.isSignificant()) {
-                auto possessiveException = personalPronounsReverseMap.find(token.getValue());
-
-                if (possessiveException != personalPronounsReverseMap.end()) {
-                    inflectedChain += token.getValue();
-                } else {
-                    inflectedChain += performInflection(token.getValue(), inflectionContraints);
-                }
-            } else {
-                inflectedChain += token.getValue();
-            }
-        }
-        return inflectedChain;
+    if (dictionary.getCombinedBinaryType(&wordGrammemes, word) != nullptr) {
+        return performInflection(word, wordGrammemes, inflectionContraints);
     }
 
-    return performInflection(word, inflectionContraints);
+    ::std::unique_ptr<::inflection::tokenizer::TokenChain> tokenChain(npc(npc(tokenizer.get())->createTokenChain(word)));
+    ::std::u16string inflectedChain;
+
+    for (const auto& token : *tokenChain) {
+        const auto& tokenVal = token.getValue();
+        if (token.isSignificant() && !personalPronounsReverseMap.contains(tokenVal)) {
+            dictionary.getCombinedBinaryType(&wordGrammemes, tokenVal);
+            inflectedChain += performInflection(tokenVal, wordGrammemes, inflectionContraints);
+        } else {
+            inflectedChain += tokenVal;
+        }
+    }
+    return inflectedChain;
 }
 
 ::inflection::dialog::DisplayValue * ArGrammarSynthesizer_ArDisplayFunction::getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool /*enableInflectionGuess*/) const
@@ -181,16 +177,19 @@ namespace {
     if (displayData.getValues().empty()) {
         return nullptr;
     }
-    auto inflectionContraints = InflectionConstraints();
+    InflectionConstraints inflectionContraints;
 
     getFeatureValue(&inflectionContraints.caseString, constraints, caseFeature);
+    getFeatureValue(&inflectionContraints.moodString, constraints, moodFeature);
     getFeatureValue(&inflectionContraints.countString, constraints, countFeature);
+    getFeatureValue(&inflectionContraints.tenseString, constraints, tenseFeature);
+    getFeatureValue(&inflectionContraints.personString, constraints, personFeature);
     getFeatureValue(&inflectionContraints.genderString, constraints, genderFeature);
     getFeatureValue(&inflectionContraints.definitenessString, constraints, definitenessFeature);
     getFeatureValue(&inflectionContraints.pronounCountString, constraints, pronounCountFeature);
     getFeatureValue(&inflectionContraints.pronounGenderString, constraints, pronounGenderFeature);
     getFeatureValue(&inflectionContraints.partOfSpeechString, constraints, partOfSpeechFeature);
-    inflectionContraints.disambiguationGrammemeValues = GrammarSynthesizerUtil::convertToStringConstraints(constraints, {&partOfSpeechFeature});
+    inflectionContraints.disambiguationGrammemeValues = GrammarSynthesizerUtil::convertToStringConstraints(constraints, {&partOfSpeechFeature, &moodFeature, &personFeature, &tenseFeature});
 
     auto dialogWord = displayData.getValues()[0].getDisplayString();
     for (const auto& value : displayData.getValues()) {
@@ -238,7 +237,7 @@ namespace {
     if (trimmedDisplayString.empty()) {
         return displayString;
     }
-    if (inflection::util::StringViewUtils::startsWith(trimmedDisplayString, AL)) {
+    if (trimmedDisplayString.starts_with(AL)) {
         return trimmedDisplayString;
     }
     ::std::u16string article;

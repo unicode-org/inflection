@@ -3,7 +3,7 @@
  */
 #include <inflection/grammar/synthesis/GrammarSynthesizerUtil.hpp>
 
-#include <inflection/grammar/synthesis/GrammarSynthesizerUtil_SignificantTokenInflector.hpp>
+#include <inflection/grammar/synthesis/SignificantTokenInflector.hpp>
 #include <inflection/dialog/SemanticFeatureModel_DisplayData.hpp>
 #include <inflection/dialog/DefaultArticleLookupFunction.hpp>
 #include <inflection/dialog/SpeakableString.hpp>
@@ -48,7 +48,7 @@ std::u16string GrammarSynthesizerUtil::getStringFromInflectedSignificantWords(co
     return inflectionResult;
 }
 
-::std::u16string GrammarSynthesizerUtil::inflectSignificantWords(const ::std::map<SemanticFeature, ::std::u16string>& constraints, const TokenChain& tokenChain, const GrammarSynthesizerUtil_SignificantTokenInflector& inflector)
+::std::u16string GrammarSynthesizerUtil::inflectSignificantWords(const ::std::map<SemanticFeature, ::std::u16string>& constraints, const TokenChain& tokenChain, const SignificantTokenInflector& inflector)
 {
     int32_t countI = 0;
     ::std::vector<::std::u16string> tokens(tokenChain.getSize());
@@ -89,9 +89,9 @@ bool GrammarSynthesizerUtil::hasAnyFeatures(const std::map<SemanticFeature, ::st
     });
 }
 
-::std::u16string GrammarSynthesizerUtil::getFeatureValue(const ::std::map<SemanticFeature, ::std::u16string>& constraints, const SemanticFeature* semanticFeature)
+::std::u16string GrammarSynthesizerUtil::getFeatureValue(const ::std::map<SemanticFeature, ::std::u16string>& constraints, const SemanticFeature& semanticFeature)
 {
-    auto result = constraints.find(*npc(semanticFeature));
+    auto result = constraints.find(semanticFeature);
     if (result != constraints.end()) {
         return result->second;
     }
@@ -101,7 +101,7 @@ bool GrammarSynthesizerUtil::hasAnyFeatures(const std::map<SemanticFeature, ::st
 ::std::vector<::std::u16string> GrammarSynthesizerUtil::convertToStringConstraints(const ::std::map<SemanticFeature, ::std::u16string>& constraints, const ::std::vector<const SemanticFeature*>& semanticFeatures) {
     ::std::vector<::std::u16string> result;
     for (const auto semanticFeature : semanticFeatures) {
-        const auto &constraintString = GrammarSynthesizerUtil::getFeatureValue(constraints, semanticFeature);
+        const auto &constraintString = GrammarSynthesizerUtil::getFeatureValue(constraints, *npc(semanticFeature));
         if (constraintString.empty()) {
             continue;
         }

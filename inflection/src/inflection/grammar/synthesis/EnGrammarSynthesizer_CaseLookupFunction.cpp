@@ -26,7 +26,7 @@ EnGrammarSynthesizer_CaseLookupFunction::EnGrammarSynthesizer_CaseLookupFunction
         ::inflection::util::DelimitedStringIterator lineTokens(*iterator, u",");
         ::std::u16string currentCompoundToken;
         inflection::util::StringViewUtils::lowercase(&currentCompoundToken, *lineTokens, inflection::util::LocaleUtils::ROOT());
-        if (::inflection::util::StringViewUtils::endsWith(currentCompoundToken, u"'s")) {
+        if (currentCompoundToken.ends_with(u"'s")) {
             contractions.insert(currentCompoundToken);
         }
     }
@@ -40,7 +40,7 @@ inflection::dialog::SpeakableString* EnGrammarSynthesizer_CaseLookupFunction::ge
         std::u16string normalizedString;
         ::inflection::util::UnicodeSetUtils::replaceSetFromString(&normalizedString, inflection::dictionary::PhraseProperties::SINGLE_QUOTES(), displayString, u"'");
         // It's singular possessive, plural possessive or an edge case and not a known contraction.
-        if ((::inflection::util::StringViewUtils::endsWith(normalizedString, u"'s") || ::inflection::util::StringViewUtils::endsWith(normalizedString, u"s'") || normalizedString == u"its")
+        if ((normalizedString.ends_with(u"'s") || normalizedString.ends_with(u"s'") || normalizedString == u"its")
             && contractions.find(normalizedString) == contractions.end())
         {
             return new ::inflection::dialog::SpeakableString(GrammemeConstants::CASE_GENITIVE());

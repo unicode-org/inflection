@@ -4,7 +4,6 @@
 #include <inflection/dialog/DefaultArticleLookupFunction.hpp>
 
 #include <inflection/lang/features/LanguageGrammarFeatures.hpp>
-#include <inflection/util/ULocale.hpp>
 #include <inflection/dialog/SemanticFeature.hpp>
 #include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
@@ -79,6 +78,15 @@ const ::std::u16string* DefaultArticleLookupFunction::getFeatureValue(const ::st
         return &result->second;
     }
     return nullptr;
+}
+
+::std::u16string DefaultArticleLookupFunction::getDisplayFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::inflection::dialog::SemanticFeature& semanticFeature)
+{
+    auto result = displayValue.getFeatureValue(semanticFeature);
+    if (result != nullptr) {
+        return *result;
+    }
+    return {};
 }
 
 static DefaultArticleLookupFunction::ArticleDisplayData createArticleDisplayData(const SemanticFeatureModel& model, const ::inflection::lang::features::LanguageGrammarFeatures_GrammarFeatures& featureData) {

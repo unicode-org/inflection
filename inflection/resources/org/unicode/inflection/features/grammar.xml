@@ -2619,10 +2619,36 @@
     </language>
     <language id="vi">
         <grammar>
+            <category name="clusivity">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="inclusive"/>
+                <grammeme name="exclusive"/>
+            </category>
+            <category name="number">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="singular"/>
+                <grammeme name="plural"/>
+            </category>
+            <category name="gender">
+                <grammeme name="masculine"/>
+                <grammeme name="feminine"/>
+                <grammeme name="neuter"/> <!-- It's like "it" -->
+            </category>
             <category name="person">
                 <grammeme name="first"/>
                 <grammeme name="second"/>
                 <grammeme name="third"/>
+            </category>
+            <category name="register">
+                <restrictions>
+                    <restriction name="pos" value="pronoun"/>
+                </restrictions>
+                <grammeme name="intimate"/>
+                <grammeme name="formal"/>
             </category>
         </grammar>
         <features>

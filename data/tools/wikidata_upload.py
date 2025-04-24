@@ -190,6 +190,16 @@ def build_tfsl_lexemes(new_lexemes):
                 features.append(WIKI_TYPES[feature])
             lexeme += tfsl.LexemeForm(form["value"] @ wiki_lang, features)
 
+        if "descriptions" in new_lexeme:
+            glosses = []
+            for gloss in new_lexeme["descriptions"]:
+                glosses.append(
+                    gloss["value"] @ tfsl.languages.get_first_lang(gloss["language"])
+                )
+            lexeme += tfsl.LexemeSense(glosses)
+        else:
+            print(f'WARNING: Description missing for {new_lexeme["lemma"]}.')
+
         tfsl_lexemes.append(lexeme)
 
     return tfsl_lexemes

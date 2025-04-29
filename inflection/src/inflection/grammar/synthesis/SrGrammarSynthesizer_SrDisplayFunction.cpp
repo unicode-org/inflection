@@ -32,9 +32,10 @@ SrGrammarSynthesizer_SrDisplayFunction::SrGrammarSynthesizer_SrDisplayFunction(c
     : super()
     , dictionary(*npc(::inflection::dictionary::DictionaryMetaData::createDictionary(::inflection::util::LocaleUtils::SERBIAN())))
     , caseFeature(*npc(model.getFeature(GrammemeConstants::CASE)))
-    , countFeature(*npc(model.getFeature(GrammemeConstants::NUMBER)))
+    , numberFeature(*npc(model.getFeature(GrammemeConstants::NUMBER)))
     , genderFeature(*npc(model.getFeature(GrammemeConstants::GENDER)))
-    , partOfSpeechFeature(*npc(model.getFeature(GrammemeConstants::POS)))
+    , posFeature(*npc(model.getFeature(GrammemeConstants::POS)))
+    , inflector(::inflection::dictionary::Inflector::getInflector(::inflection::util::LocaleUtils::SERBIAN()))
     , tokenizer(::inflection::tokenizer::TokenizerFactory::createTokenizer(::inflection::util::LocaleUtils::SERBIAN()))
     , dictionaryInflector(::inflection::util::LocaleUtils::SERBIAN(),{
             {GrammemeConstants::POS_NOUN(), GrammemeConstants::POS_ADJECTIVE(), GrammemeConstants::POS_VERB()},
@@ -43,22 +44,15 @@ SrGrammarSynthesizer_SrDisplayFunction::SrGrammarSynthesizer_SrDisplayFunction(c
             {GrammemeConstants::GENDER_MASCULINE(), GrammemeConstants::GENDER_FEMININE(), GrammemeConstants::GENDER_NEUTER()}
     }, {}, true)
 {
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryAdjective, {u"adjective"}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryNoun, {u"noun"}));
 }
 
 SrGrammarSynthesizer_SrDisplayFunction::~SrGrammarSynthesizer_SrDisplayFunction()
 {
 }
 
-static ::std::u16string getFeatureValue(const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, const ::inflection::dialog::SemanticFeature semanticFeature)
-{
-    auto result = constraints.find(semanticFeature);
-    if (result != constraints.end()) {
-        return result->second;
-    }
-    return {};
-}
-
-void printString16(std::u16string& input)
+void printString16(const std::u16string& input)
 {
     // Convert std::u16string to std::string
     std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> convert;
@@ -68,30 +62,62 @@ void printString16(std::u16string& input)
     std::cout << "<<<< Display string: " << utf8_str << " >>>>>>" << std::endl;
 }
 
-::inflection::dialog::DisplayValue * SrGrammarSynthesizer_SrDisplayFunction::getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const
+::std::u16string SrGrammarSynthesizer_SrDisplayFunction::inflectString(const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, const ::std::u16string& lemma) const
 {
-    const auto displayValue = GrammarSynthesizerUtil::getTheBestDisplayValue(displayData, constraints);
-    if (displayValue == nullptr) {
-        std::cout << "################## 1";
-        return nullptr;
+    ::std::u16string countString(GrammarSynthesizerUtil::getFeatureValue(constraints, numberFeature));
+    ::std::u16string caseString(GrammarSynthesizerUtil::getFeatureValue(constraints, caseFeature));
+    auto genderString = GrammarSynthesizerUtil::getFeatureValue(constraints, genderFeature);
+
+    ::std::u16string inflection;
+
+    // The nominative/caseless is unmarked in the patterns so we need to do something like this
+    ::std::vector<::std::u16string> string_constraints;
+    if (!countString.empty()) {
+        string_constraints.emplace_back(countString);
     }
-    ::std::u16string displayString = displayValue->getDisplayString();
-    printString16(displayString);
+    if (!caseString.empty() && caseString != GrammemeConstants::CASE_NOMINATIVE()) {
+        string_constraints.emplace_back(caseString);
+    }
+    if (!genderString.empty()) {
+        string_constraints.emplace_back(genderString);
+    }
+    // The nominative/caseless is unmarked in the patterns, so we need to do something like this
+    int64_t wordGrammemes = 0;
+    dictionary.getCombinedBinaryType(&wordGrammemes, lemma);
+
+    const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> disambiguationConstraints;
+    const auto dismbiguationGrammemeValues(GrammarSynthesizerUtil::convertToStringConstraints(disambiguationConstraints, {&posFeature}));
+    auto inflectionResult = dictionaryInflector.inflect(lemma, wordGrammemes, string_constraints, dismbiguationGrammemeValues);
+    if (inflectionResult) {
+        inflection = *inflectionResult;
+    }
+
+    if (inflection.empty()) {
+        printString16(lemma);
+        return lemma;
+    }
+
+    printString16(inflection);
+    return inflection;
+}
+
+::inflection::dialog::DisplayValue * SrGrammarSynthesizer_SrDisplayFunction::getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool /* enableInflectionGuess */) const
+{
+    ::std::u16string displayString;
+    if (!displayData.getValues().empty()) {
+        std::cout << "######### 1 " << std::endl;
+        displayString = displayData.getValues()[0].getDisplayString();
+        printString16(displayString);
+    }
     if (displayString.empty()) {
-        std::cout << "################## 2";
+        std::cout << "######### 2 " << std::endl;
         return nullptr;
     }
-
-    // Start: CONSTRAINT RETRIEVAL
-    auto caseString(getFeatureValue(constraints, caseFeature));
-
-    // To make compiler quiet about unused variable.
-    if (enableInflectionGuess)
-        return new ::inflection::dialog::DisplayValue(*displayValue);
-
-    // TODO Implement the rest
-    std::cout << "################## 3";
-    return new ::inflection::dialog::DisplayValue(*displayValue);
+    if (dictionary.isKnownWord(displayString)) {
+        std::cout << "######### 3 isKnownWord" << std::endl;
+        displayString = inflectString(constraints, displayString);
+    }
+    return new ::inflection::dialog::DisplayValue(displayString, constraints);
 }
 
 } // namespace inflection::grammar::synthesis

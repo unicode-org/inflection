@@ -36,10 +36,7 @@ private:
     const ::inflection::dialog::SemanticFeature& caseFeature;
     const ::inflection::dialog::SemanticFeature& numberFeature;
     const ::inflection::dialog::SemanticFeature& genderFeature;
-    const ::inflection::dialog::SemanticFeature& posFeature;
     const ::inflection::dictionary::Inflector &inflector;
     const ::std::unique_ptr<::inflection::tokenizer::Tokenizer> tokenizer;
-    int64_t dictionaryAdjective {  };
-    int64_t dictionaryNoun {  };
     ::inflection::dialog::DictionaryLookupInflector dictionaryInflector;
 };

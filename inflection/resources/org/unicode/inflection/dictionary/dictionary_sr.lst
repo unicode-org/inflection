@@ -1,1068 +1,1127 @@
-voda: singular plural accusative genitive nominative noun inflection=23 inflection=24
-vodama: plural dative instrumental locative noun inflection=23 inflection=24
-vode: singular plural accusative genitive nominative vocative noun inflection=23 inflection=24
-vodi: singular dative noun inflection=23 inflection=24
-vodo: singular vocative noun inflection=23 inflection=24
-vodom: singular instrumental locative noun inflection=23 inflection=24
-Јелена: singular nominative vocative feminine proper-noun
-Јелене: singular genitive feminine proper-noun
-Јелени: singular dative locative feminine proper-noun
-Јеленом: singular instrumental feminine proper-noun
-Јелену: singular accusative feminine proper-noun
-Љубица: singular nominative feminine proper-noun
-Љубице: singular genitive vocative feminine proper-noun
-Љубици: singular dative locative feminine proper-noun
-Љубицом: singular instrumental feminine proper-noun
-Љубицу: singular accusative feminine proper-noun
-Љубиша: singular nominative vocative masculine proper-noun
-Љубише: singular genitive masculine proper-noun
-Љубиши: singular dative locative masculine proper-noun
-Љубишом: singular instrumental masculine proper-noun
-Љубишу: singular accusative masculine proper-noun
-Ана: singular nominative vocative feminine proper-noun
-Ангелина: singular nominative vocative feminine proper-noun
-Ангелине: singular genitive feminine proper-noun
-Ангелини: singular dative locative feminine proper-noun
-Ангелином: singular instrumental feminine proper-noun
-Ангелину: singular accusative feminine proper-noun
-Ане: singular genitive feminine proper-noun
-Ани: singular dative locative feminine proper-noun
-Аном: singular instrumental feminine proper-noun
-Ану: singular accusative feminine proper-noun
-Биљана: singular nominative vocative feminine proper-noun
-Биљане: singular genitive feminine proper-noun
-Биљани: singular dative locative feminine proper-noun
-Биљаном: singular instrumental feminine proper-noun
-Биљану: singular accusative feminine proper-noun
-Бојана: singular nominative vocative feminine proper-noun
-Бојане: singular genitive feminine proper-noun
-Бојани: singular dative locative feminine proper-noun
-Бојаном: singular instrumental feminine proper-noun
-Бојану: singular accusative feminine proper-noun
-Бранимир: singular nominative masculine proper-noun
-Бранимира: singular accusative genitive masculine proper-noun
-Бранимире: singular vocative masculine proper-noun
-Бранимиром: singular instrumental masculine proper-noun
-Бранимиру: singular dative locative masculine proper-noun
-Владимир: singular nominative masculine proper-noun
-Владимира: singular accusative genitive masculine proper-noun
-Владимире: singular vocative masculine proper-noun
-Владимиром: singular instrumental masculine proper-noun
-Владимиру: singular dative locative masculine proper-noun
-Горан: singular nominative masculine proper-noun
-Горана: singular accusative genitive masculine proper-noun
-Горане: singular vocative masculine proper-noun
-Гораном: singular instrumental masculine proper-noun
-Горану: singular dative locative masculine proper-noun
-Гордана: singular nominative vocative feminine proper-noun
-Гордане: singular genitive feminine proper-noun
-Гордани: singular dative locative feminine proper-noun
-Горданом: singular instrumental feminine proper-noun
-Гордану: singular accusative feminine proper-noun
-Драган: singular nominative masculine proper-noun
-Драгана: singular accusative genitive nominative vocative masculine feminine proper-noun
-Драгане: singular genitive vocative masculine feminine proper-noun
-Драгани: singular dative locative feminine proper-noun
-Драганом: singular instrumental masculine feminine proper-noun
-Драгану: singular accusative dative locative masculine feminine proper-noun
-Драгиша: singular nominative vocative masculine proper-noun
-Драгише: singular genitive masculine proper-noun
-Драгиши: singular dative locative masculine proper-noun
-Драгишом: singular instrumental masculine proper-noun
-Драгишу: singular accusative masculine proper-noun
-Душан: singular nominative masculine proper-noun
-Душана: singular accusative genitive masculine proper-noun
-Душане: singular vocative masculine proper-noun
-Душаном: singular instrumental masculine proper-noun
-Душану: singular dative locative masculine proper-noun
-Загорка: singular nominative vocative feminine proper-noun
-Загорке: singular genitive feminine proper-noun
-Загорки: singular dative locative feminine proper-noun
-Загорком: singular instrumental feminine proper-noun
-Загорку: singular accusative feminine proper-noun
-Зоран: singular nominative masculine proper-noun
-Зорана: singular accusative genitive nominative vocative masculine feminine proper-noun
-Зоране: singular genitive vocative masculine feminine proper-noun
-Зорани: singular dative locative feminine proper-noun
-Зораном: singular instrumental masculine feminine proper-noun
-Зорану: singular accusative dative locative masculine feminine proper-noun
-Ивана: singular nominative vocative feminine proper-noun
-Иване: singular genitive feminine proper-noun
-Ивани: singular dative locative feminine proper-noun
-Иваном: singular instrumental feminine proper-noun
-Ивану: singular accusative feminine proper-noun
-Италија: singular nominative feminine proper-noun
-Италије: singular genitive feminine proper-noun
-Италији: singular dative locative feminine proper-noun
-Италијо: singular vocative feminine proper-noun
-Италијом: singular instrumental feminine proper-noun
-Италију: singular accusative feminine proper-noun
-Кина: singular nominative feminine proper-noun
-Кине: singular genitive feminine proper-noun
-Кини: singular dative locative feminine proper-noun
-Кино: singular vocative feminine proper-noun
-Кином: singular instrumental feminine proper-noun
-Кину: singular accusative feminine proper-noun
-Маја: singular nominative feminine proper-noun
-Маје: singular genitive feminine proper-noun
-Маји: singular dative locative feminine proper-noun
-Мајо: singular vocative feminine proper-noun
-Мајом: singular instrumental feminine proper-noun
-Мају: singular accusative feminine proper-noun
-Милена: singular nominative vocative feminine proper-noun
-Милене: singular genitive feminine proper-noun
-Милени: singular dative locative feminine proper-noun
-Миленом: singular instrumental feminine proper-noun
-Милену: singular accusative feminine proper-noun
-Милица: singular nominative feminine proper-noun
-Милице: singular genitive vocative feminine proper-noun
-Милици: singular dative locative feminine proper-noun
-Милицом: singular instrumental feminine proper-noun
-Милицу: singular accusative feminine proper-noun
-Милка: singular nominative vocative feminine proper-noun
-Милке: singular genitive feminine proper-noun
-Милки: singular dative locative feminine proper-noun
-Милком: singular instrumental feminine proper-noun
-Милку: singular accusative feminine proper-noun
-Милош: singular nominative masculine proper-noun
-Милоша: singular accusative genitive masculine proper-noun
-Милоше: singular vocative masculine proper-noun
-Милошом: singular instrumental masculine proper-noun
-Милошу: singular dative locative masculine proper-noun
-Миљан: singular nominative masculine proper-noun
-Миљана: singular accusative genitive masculine proper-noun
-Миљане: singular vocative masculine proper-noun
-Миљаном: singular instrumental masculine proper-noun
-Миљану: singular dative locative masculine proper-noun
-Нада: singular nominative feminine proper-noun
-Наде: singular genitive feminine proper-noun
-Нади: singular dative locative feminine proper-noun
-Надо: singular vocative feminine proper-noun
-Надом: singular instrumental feminine proper-noun
-Наду: singular accusative feminine proper-noun
-Небојша: singular nominative vocative masculine proper-noun
-Небојше: singular genitive masculine proper-noun
-Небојши: singular dative locative masculine proper-noun
-Небојшом: singular instrumental masculine proper-noun
-Небојшу: singular accusative masculine proper-noun
-Синиша: singular nominative vocative masculine proper-noun
-Синише: singular genitive masculine proper-noun
-Синиши: singular dative locative masculine proper-noun
-Синишом: singular instrumental masculine proper-noun
-Синишу: singular accusative masculine proper-noun
-Соња: singular nominative vocative feminine proper-noun
-Соње: singular genitive feminine proper-noun
-Соњи: singular dative locative feminine proper-noun
-Соњом: singular instrumental feminine proper-noun
-Соњу: singular accusative feminine proper-noun
-Србија: singular nominative feminine noun inflection=37
-Србије: singular genitive feminine noun inflection=37
-Србији: singular dative locative feminine noun inflection=37
-Србијо: singular vocative feminine noun inflection=37
-Србијом: singular instrumental feminine noun inflection=37
-Србију: singular accusative feminine noun inflection=37
-Стева: singular nominative masculine proper-noun
-Стеван: singular nominative masculine proper-noun
-Стевана: singular accusative genitive masculine proper-noun
-Стеване: singular vocative masculine proper-noun
-Стеваном: singular instrumental masculine proper-noun
-Стевану: singular dative locative masculine proper-noun
-Стеве: singular genitive masculine proper-noun
-Стеви: singular dative locative masculine proper-noun
-Стево: singular vocative masculine proper-noun
-Стевом: singular instrumental masculine proper-noun
-Стеву: singular accusative masculine proper-noun
-Стојан: singular nominative masculine proper-noun
-Стојана: singular accusative genitive masculine proper-noun
-Стојане: singular vocative masculine proper-noun
-Стојаном: singular instrumental masculine proper-noun
-Стојану: singular dative locative masculine proper-noun
-Тамара: singular nominative vocative feminine proper-noun
-Тамаре: singular genitive feminine proper-noun
-Тамари: singular dative locative feminine proper-noun
-Тамаром: singular instrumental feminine proper-noun
-Тамару: singular accusative feminine proper-noun
-Тања: singular nominative vocative feminine proper-noun
-Тање: singular genitive feminine proper-noun
-Тањи: singular dative locative feminine proper-noun
-Тањом: singular instrumental feminine proper-noun
-Тању: singular accusative feminine proper-noun
-Тијана: singular nominative vocative feminine proper-noun
-Тијане: singular genitive feminine proper-noun
-Тијани: singular dative locative feminine proper-noun
-Тијаном: singular instrumental feminine proper-noun
-Тијану: singular accusative feminine proper-noun
-Угљеша: singular nominative vocative masculine proper-noun
-Угљеше: singular genitive masculine proper-noun
-Угљеши: singular dative locative masculine proper-noun
-Угљешом: singular instrumental masculine proper-noun
-Угљешу: singular accusative masculine proper-noun
-Француска: singular nominative vocative feminine proper-noun
-Француске: singular genitive feminine proper-noun
-Француском: singular instrumental feminine proper-noun
-Француској: singular dative locative feminine proper-noun
-Француску: singular accusative feminine proper-noun
-август: accusative nominative masculine noun inflection=4
-августа: genitive masculine noun inflection=4
-августе: vocative masculine noun inflection=4
-августом: instrumental masculine noun inflection=4
-августу: dative locative masculine noun inflection=4
-авенија: singular plural genitive nominative feminine noun inflection=1
-авенијама: plural dative instrumental locative feminine noun inflection=1
-авеније: singular plural accusative genitive nominative vocative feminine noun inflection=1
-авенији: singular dative locative feminine noun inflection=1
-авенијо: singular vocative feminine noun inflection=1
-авенијом: singular instrumental feminine noun inflection=1
-авенију: singular accusative feminine noun inflection=1
-авион: singular accusative nominative masculine noun inflection=b
-авиона: singular plural genitive masculine noun inflection=b
-авионе: plural accusative masculine noun inflection=b
-авиони: plural nominative vocative masculine noun inflection=b
-авионима: plural dative instrumental locative masculine noun inflection=b
-авионом: singular instrumental masculine noun inflection=b
-авиону: singular dative locative vocative masculine noun inflection=b
-април: accusative nominative masculine noun inflection=4
-априла: genitive masculine noun inflection=4
-априле: vocative masculine noun inflection=4
-априлом: instrumental masculine noun inflection=4
-априлу: dative locative masculine noun inflection=4
-аута: singular plural genitive masculine noun inflection=30
-ауте: plural accusative masculine noun inflection=30
-аути: plural nominative vocative masculine noun inflection=30
-аутима: plural dative instrumental locative masculine noun inflection=30
-ауто: singular accusative nominative vocative masculine noun inflection=30
-аутобус: singular accusative nominative masculine noun inflection=3
-аутобуса: singular plural genitive masculine noun inflection=3
-аутобусе: singular plural accusative vocative masculine noun inflection=3
-аутобуси: plural nominative vocative masculine noun inflection=3
-аутобусима: plural dative instrumental locative masculine noun inflection=3
-аутобусом: singular instrumental masculine noun inflection=3
-аутобусу: singular dative locative masculine noun inflection=3
-аутом: singular instrumental masculine noun inflection=30
-ауту: singular dative locative masculine noun inflection=30
-бара: singular plural genitive nominative feminine noun inflection=1
-барама: plural dative instrumental locative feminine noun inflection=1
-баре: singular plural accusative genitive nominative vocative feminine noun inflection=1
-бари: singular dative locative feminine noun inflection=1
-баро: singular vocative feminine noun inflection=1
-баром: singular instrumental feminine noun inflection=1
-бару: singular accusative feminine noun inflection=1
-бик: singular nominative masculine noun inflection=26
-бика: singular accusative genitive masculine noun inflection=26
-бикова: plural genitive masculine noun inflection=26
-бикове: plural accusative masculine noun inflection=26
-бикови: plural nominative vocative masculine noun inflection=26
-биковима: plural dative instrumental locative masculine noun inflection=26
-биком: singular instrumental masculine noun inflection=26
-бику: singular dative locative masculine noun inflection=26
-биче: singular vocative masculine noun inflection=26
-боца: singular plural genitive nominative feminine noun inflection=1
-боцама: plural dative instrumental locative feminine noun inflection=1
-боце: singular plural accusative genitive nominative vocative feminine noun inflection=1
-боци: singular dative locative feminine noun inflection=1
-боцо: singular vocative feminine noun inflection=1
-боцом: singular instrumental feminine noun inflection=1
-боцу: singular accusative feminine noun inflection=1
-брда: singular plural accusative genitive nominative vocative neuter noun inflection=a
-брдима: plural dative instrumental locative neuter noun inflection=a
-брдо: singular accusative nominative vocative neuter noun inflection=a
-брдом: singular instrumental neuter noun inflection=a
-брду: singular dative locative neuter noun inflection=a
-брод: singular accusative nominative masculine noun inflection=9
-брода: singular genitive masculine noun inflection=9
-броде: singular vocative masculine noun inflection=9
-бродова: plural genitive masculine noun inflection=9
-бродове: plural accusative masculine noun inflection=9
-бродови: plural nominative vocative masculine noun inflection=9
-бродовима: plural dative instrumental locative masculine noun inflection=9
-бродом: singular instrumental masculine noun inflection=9
-броду: singular dative locative masculine noun inflection=9
-булевар: singular accusative nominative masculine noun inflection=b
-булевара: singular plural genitive masculine noun inflection=b
-булеваре: plural accusative masculine noun inflection=b
-булевари: plural nominative vocative masculine noun inflection=b
-булеварима: plural dative instrumental locative masculine noun inflection=b
-булеваром: singular instrumental masculine noun inflection=b
-булевару: singular dative locative vocative masculine noun inflection=b
-бурегџија: singular plural genitive nominative masculine noun inflection=10
-бурегџијама: plural dative instrumental locative masculine noun inflection=10
-бурегџије: singular plural accusative genitive nominative vocative masculine noun inflection=10
-бурегџији: singular dative locative masculine noun inflection=10
-бурегџијо: singular vocative masculine noun inflection=10
-бурегџијом: singular instrumental masculine noun inflection=10
-бурегџију: singular accusative masculine noun inflection=10
-ваздуси: plural nominative vocative masculine noun inflection=2b
-ваздусима: plural dative instrumental locative masculine noun inflection=2b
-ваздух: singular accusative nominative masculine noun inflection=2b
-ваздуха: singular plural genitive masculine noun inflection=2b
-ваздухе: plural accusative masculine noun inflection=2b
-ваздухом: singular instrumental masculine noun inflection=2b
-ваздуху: singular dative locative masculine noun inflection=2b
-ваздуше: singular vocative masculine noun inflection=2b
-ватра: singular plural genitive nominative feminine noun inflection=1
-ватрама: plural dative instrumental locative feminine noun inflection=1
-ватре: singular plural accusative genitive nominative vocative feminine noun inflection=1
-ватри: singular dative locative feminine noun inflection=1
-ватро: singular vocative feminine noun inflection=1
-ватром: singular instrumental feminine noun inflection=1
-ватру: singular accusative feminine noun inflection=1
-ви: nominative pronoun
-виме: singular accusative nominative vocative neuter noun inflection=2
-вимена: singular plural accusative genitive nominative vocative neuter noun inflection=2
-вименима: plural dative instrumental locative neuter noun inflection=2
-вименом: singular instrumental neuter noun inflection=2
-вимену: singular dative locative neuter noun inflection=2
-владика: singular plural genitive nominative masculine noun inflection=10
-владикама: plural dative instrumental locative masculine noun inflection=10
-владике: singular plural accusative genitive nominative vocative masculine noun inflection=10
-владики: singular dative locative masculine noun inflection=10
-владико: singular vocative masculine noun inflection=10
-владиком: singular instrumental masculine noun inflection=10
-владику: singular accusative masculine noun inflection=10
-време: singular accusative nominative vocative neuter noun inflection=2
-времена: singular plural accusative genitive nominative vocative neuter noun inflection=2
-временима: plural dative instrumental locative neuter noun inflection=2
-временом: singular instrumental neuter noun inflection=2
-времену: singular dative locative neuter noun inflection=2
-гадост: singular accusative nominative feminine noun inflection=5
-гадости: singular plural accusative dative genitive locative nominative vocative feminine noun inflection=5
-гадостима: plural dative instrumental locative feminine noun inflection=5
-гадошћу: singular instrumental feminine noun inflection=5
-дворац: singular accusative nominative masculine noun inflection=1d
-двораца: plural genitive masculine noun inflection=1d
-дворца: singular genitive masculine noun inflection=1d
-дворце: plural accusative masculine noun inflection=1d
-дворцем: singular instrumental masculine noun inflection=1d
-дворци: plural nominative vocative masculine noun inflection=1d
-дворцима: plural dative instrumental locative masculine noun inflection=1d
-дворцу: singular dative locative masculine noun inflection=1d
-дворче: singular vocative masculine noun inflection=1d
-дебла: singular plural accusative genitive nominative vocative neuter noun inflection=a
-деблима: plural dative instrumental locative neuter noun inflection=a
-дебло: singular accusative nominative vocative neuter noun inflection=a
-деблом: singular instrumental neuter noun inflection=a
-деблу: singular dative locative neuter noun inflection=a
-девојака: plural genitive feminine noun inflection=2d
-девојка: singular nominative feminine noun inflection=2d
-девојкама: plural dative instrumental locative feminine noun inflection=2d
-девојке: singular plural accusative genitive nominative vocative feminine noun inflection=2d
-девојко: singular vocative feminine noun inflection=2d
-девојком: singular instrumental feminine noun inflection=2d
-девојку: singular accusative feminine noun inflection=2d
-девојци: singular dative locative feminine noun inflection=2d
-дете: singular accusative nominative vocative neuter noun inflection=27
-детета: singular genitive neuter noun inflection=27
-дететом: singular instrumental neuter noun inflection=27
-детету: singular dative locative neuter noun inflection=27
-деца: plural nominative neuter noun inflection=27
-деце: plural genitive neuter noun inflection=27
-децембар: accusative nominative noun inflection=e
-децембра: genitive noun inflection=e
-децембре: vocative noun inflection=e
-децембром: instrumental noun inflection=e
-децембру: dative locative noun inflection=e
-деци: plural dative locative neuter noun inflection=27
-децо: plural vocative neuter noun inflection=27
-децом: plural instrumental neuter noun inflection=27
-децу: plural accusative neuter noun inflection=27
-дугмад: plural accusative nominative neuter noun inflection=14
-дугмади: plural genitive vocative neuter noun inflection=14
-дугмадима: plural dative instrumental locative neuter noun inflection=14
-дугме: singular accusative nominative vocative neuter noun inflection=14
-дугмета: singular genitive neuter noun inflection=14
-дугметом: singular instrumental neuter noun inflection=14
-дугмету: singular dative locative neuter noun inflection=14
-жена: singular plural genitive nominative feminine noun inflection=1
-женама: plural dative instrumental locative feminine noun inflection=1
-жене: singular plural accusative genitive nominative vocative feminine noun inflection=1
-жени: singular dative locative feminine noun inflection=1
-жено: singular vocative feminine noun inflection=1
-женом: singular instrumental feminine noun inflection=1
-жену: singular accusative feminine noun inflection=1
-жута: singular plural accusative nominative vocative feminine neuter adjective
-жуте: singular plural accusative genitive nominative vocative masculine feminine adjective
-жути: singular plural nominative vocative masculine adjective
-жутим: singular plural dative instrumental locative masculine feminine neuter adjective
-жутих: plural genitive masculine feminine neuter adjective
-жуто: singular accusative nominative vocative neuter adjective
-жутог: singular accusative genitive masculine neuter adjective
-жутом: singular plural dative instrumental locative masculine feminine neuter adjective
-жутој: singular plural dative locative feminine neuter adjective
-жуту: singular accusative feminine adjective
-запрега: singular plural genitive nominative feminine noun inflection=28
-запрегама: plural dative instrumental locative feminine noun inflection=28
-запреге: singular plural accusative genitive nominative vocative feminine noun inflection=28
-запрего: singular vocative feminine noun inflection=28
-запрегом: singular instrumental feminine noun inflection=28
-запрегу: singular accusative feminine noun inflection=28
-запрези: singular dative locative feminine noun inflection=28
-зграда: singular plural genitive nominative feminine noun inflection=1
-зградама: plural dative instrumental locative feminine noun inflection=1
-зграде: singular plural accusative genitive nominative vocative feminine noun inflection=1
-згради: singular dative locative feminine noun inflection=1
-зградо: singular vocative feminine noun inflection=1
-зградом: singular instrumental feminine noun inflection=1
-зграду: singular accusative feminine noun inflection=1
-зелена: singular plural nominative vocative feminine neuter adjective
-зелене: singular plural accusative genitive nominative vocative masculine feminine neuter adjective
-зелени: singular plural nominative vocative masculine adjective
-зеленим: singular plural dative instrumental locative masculine feminine neuter adjective
-зелених: plural genitive masculine feminine adjective
-зелено: singular accusative nominative vocative neuter adjective
-зеленог: singular accusative genitive masculine neuter adjective
-зеленом: singular plural dative instrumental locative masculine feminine neuter adjective
-зеленој: singular plural dative locative feminine neuter adjective
-зелену: singular plural accusative feminine neuter adjective
-земаља: plural genitive feminine noun inflection=19
-земља: singular nominative feminine noun inflection=19
-земљама: plural dative instrumental locative feminine noun inflection=19
-земље: singular plural accusative genitive nominative vocative feminine noun inflection=19
-земљи: singular dative locative feminine noun inflection=19
-земљо: singular vocative feminine noun inflection=19
-земљом: singular instrumental feminine noun inflection=19
-земљу: singular accusative feminine noun inflection=19
-знак: singular accusative nominative masculine noun inflection=6
-знака: singular plural genitive masculine noun inflection=6
-знаке: plural accusative masculine noun inflection=6
-знаком: singular instrumental masculine noun inflection=6
-знаку: singular dative locative masculine noun inflection=6
-знаци: plural nominative vocative masculine noun inflection=6
-знацима: plural dative instrumental locative masculine noun inflection=6
-значе: singular vocative masculine noun inflection=6
-име: singular accusative nominative vocative neuter noun inflection=2
-имена: singular plural accusative genitive nominative vocative neuter noun inflection=2
-именима: plural dative instrumental locative neuter noun inflection=2
-именом: singular instrumental neuter noun inflection=2
-имену: singular dative locative neuter noun inflection=2
-камен: singular accusative nominative masculine noun inflection=3
-камена: singular plural genitive masculine noun inflection=3
-камене: singular plural accusative vocative masculine noun inflection=3
-камени: plural nominative vocative masculine noun inflection=3
-каменима: plural dative instrumental locative masculine noun inflection=3
-каменом: singular instrumental masculine noun inflection=3
-камену: singular dative locative masculine noun inflection=3
-камион: singular accusative nominative masculine noun inflection=b
-камиона: singular plural genitive masculine noun inflection=b
-камионе: plural accusative masculine noun inflection=b
-камиони: plural nominative vocative masculine noun inflection=b
-камионима: plural dative instrumental locative masculine noun inflection=b
-камионом: singular instrumental masculine noun inflection=b
-камиону: singular dative locative vocative masculine noun inflection=b
-кафана: singular plural genitive nominative feminine noun inflection=1
-кафанама: plural dative instrumental locative feminine noun inflection=1
-кафане: singular plural accusative genitive nominative vocative feminine noun inflection=1
-кафани: singular dative locative feminine noun inflection=1
-кафано: singular vocative feminine noun inflection=1
-кафаном: singular instrumental feminine noun inflection=1
-кафану: singular accusative feminine noun inflection=1
-киша: singular plural genitive nominative feminine noun inflection=1
-кишама: plural dative instrumental locative feminine noun inflection=1
-кише: singular plural accusative genitive nominative vocative feminine noun inflection=1
-киши: singular dative locative feminine noun inflection=1
-кишо: singular vocative feminine noun inflection=1
-кишом: singular instrumental feminine noun inflection=1
-кишу: singular accusative feminine noun inflection=1
-коза: singular plural genitive nominative feminine noun inflection=1
-козама: plural dative instrumental locative feminine noun inflection=1
-козе: singular plural accusative genitive nominative vocative feminine noun inflection=1
-кози: singular dative locative feminine noun inflection=1
-козо: singular vocative feminine noun inflection=1
-козом: singular instrumental feminine noun inflection=1
-козу: singular accusative feminine noun inflection=1
-коноба: singular plural genitive nominative feminine noun inflection=1
-конобама: plural dative instrumental locative feminine noun inflection=1
-конобе: singular plural accusative genitive nominative vocative feminine noun inflection=1
-коноби: singular dative locative feminine noun inflection=1
-конобо: singular vocative feminine noun inflection=1
-конобом: singular instrumental feminine noun inflection=1
-конобу: singular accusative feminine noun inflection=1
-коњ: masculine noun inflection=25
-крчма: singular plural genitive nominative feminine noun inflection=1
-крчмама: plural dative instrumental locative feminine noun inflection=1
-крчме: singular plural accusative genitive nominative vocative feminine noun inflection=1
-крчми: singular dative locative feminine noun inflection=1
-крчмо: singular vocative feminine noun inflection=1
-крчмом: singular instrumental feminine noun inflection=1
-крчму: singular accusative feminine noun inflection=1
-кућа: singular plural genitive nominative feminine noun inflection=1
-кућама: plural dative instrumental locative feminine noun inflection=1
-куће: singular plural accusative genitive nominative vocative feminine noun inflection=1
-кући: singular dative locative feminine noun inflection=1
-кућо: singular vocative feminine noun inflection=1
-кућом: singular instrumental feminine noun inflection=1
-кућу: singular accusative feminine noun inflection=1
-кћер: singular accusative feminine noun inflection=1e
-кћери: singular plural accusative dative genitive instrumental locative nominative vocative feminine noun inflection=1e
-кћерима: plural dative instrumental locative feminine noun inflection=1e
-кћи: singular nominative feminine noun inflection=1e
-мама: singular plural genitive nominative vocative feminine noun inflection=2a
-мамама: plural dative instrumental locative feminine noun inflection=2a
-маме: singular plural accusative genitive nominative vocative feminine noun inflection=2a
-мами: singular dative locative feminine noun inflection=2a
-мамом: singular instrumental feminine noun inflection=2a
-маму: singular accusative feminine noun inflection=2a
-март: accusative nominative masculine noun inflection=4
-марта: genitive masculine noun inflection=4
-марте: vocative masculine noun inflection=4
-мартом: instrumental masculine noun inflection=4
-марту: dative locative masculine noun inflection=4
-мај: accusative nominative masculine noun inflection=36
-маја: genitive masculine noun inflection=36
-мајом: instrumental masculine noun inflection=36
-мају: dative locative vocative masculine noun inflection=36
-ми: nominative pronoun
-младост: singular accusative nominative feminine noun inflection=5
-младости: singular plural accusative dative genitive locative nominative vocative feminine noun inflection=5
-младостима: plural dative instrumental locative feminine noun inflection=5
-младошћу: singular instrumental feminine noun inflection=5
-мора: singular plural accusative genitive nominative vocative neuter noun inflection=20
-море: singular accusative nominative vocative neuter noun inflection=20
-морима: plural dative instrumental locative neuter noun inflection=20
-мором: singular instrumental neuter noun inflection=20
-мору: singular dative locative neuter noun inflection=20
-мост: singular accusative nominative masculine noun inflection=9
-моста: singular genitive masculine noun inflection=9
-мосте: singular vocative masculine noun inflection=9
-мостова: plural genitive masculine noun inflection=9
-мостове: plural accusative masculine noun inflection=9
-мостови: plural nominative vocative masculine noun inflection=9
-мостовима: plural dative instrumental locative masculine noun inflection=9
-мостом: singular instrumental masculine noun inflection=9
-мосту: singular dative locative masculine noun inflection=9
-надвожњак: singular accusative nominative masculine noun inflection=6
-надвожњака: singular plural genitive masculine noun inflection=6
-надвожњаке: plural accusative masculine noun inflection=6
-надвожњаком: singular instrumental masculine noun inflection=6
-надвожњаку: singular dative locative masculine noun inflection=6
-надвожњаци: plural nominative vocative masculine noun inflection=6
-надвожњацима: plural dative instrumental locative masculine noun inflection=6
-надвожњаче: singular vocative masculine noun inflection=6
-недеља: singular plural genitive nominative feminine noun inflection=1
-недељама: plural dative instrumental locative feminine noun inflection=1
-недеље: singular plural accusative genitive nominative vocative feminine noun inflection=1
-недељи: singular dative locative feminine noun inflection=1
-недељо: singular vocative feminine noun inflection=1
-недељом: singular instrumental feminine noun inflection=1
-недељу: singular accusative feminine noun inflection=1
-новембар: accusative nominative masculine noun inflection=d
-новембра: genitive masculine noun inflection=d
-новембре: vocative masculine noun inflection=d
-новембром: instrumental masculine noun inflection=d
-новембру: dative locative masculine noun inflection=d
-нога: singular nominative feminine noun inflection=31
-ногама: plural dative instrumental locative feminine noun inflection=31
-ноге: singular plural accusative genitive nominative vocative feminine noun inflection=31
-ного: singular vocative feminine noun inflection=31
-ногом: singular instrumental feminine noun inflection=31
-ногу: singular plural accusative genitive feminine noun inflection=31
-нози: singular dative locative feminine noun inflection=31
-обала: singular plural genitive nominative feminine noun inflection=1
-обалама: plural dative instrumental locative feminine noun inflection=1
-обале: singular plural accusative genitive nominative vocative feminine noun inflection=1
-обали: singular dative locative feminine noun inflection=1
-обало: singular vocative feminine noun inflection=1
-обалом: singular instrumental feminine noun inflection=1
-обалу: singular accusative feminine noun inflection=1
-облак: singular accusative nominative masculine noun inflection=6
-облака: singular plural genitive masculine noun inflection=6
-облаке: plural accusative masculine noun inflection=6
-облаком: singular instrumental masculine noun inflection=6
-облаку: singular dative locative masculine noun inflection=6
-облаци: plural nominative vocative masculine noun inflection=6
-облацима: plural dative instrumental locative masculine noun inflection=6
-облаче: singular vocative masculine noun inflection=6
-ован: singular nominative masculine noun inflection=38
-оваца: plural genitive feminine noun inflection=32
-овна: singular accusative genitive masculine noun inflection=38
-овне: singular vocative masculine noun inflection=38
-овнова: plural genitive masculine noun inflection=38
-овнове: plural accusative masculine noun inflection=38
-овнови: plural nominative vocative masculine noun inflection=38
-овновима: plural dative instrumental locative masculine noun inflection=38
-овном: singular instrumental masculine noun inflection=38
-овну: singular dative locative masculine noun inflection=38
-овца: singular nominative feminine noun inflection=32
-овцама: plural dative instrumental locative feminine noun inflection=32
-овце: singular plural accusative genitive nominative vocative feminine noun inflection=32
-овци: singular dative locative feminine noun inflection=32
-овцо: singular vocative feminine noun inflection=32
-овцом: singular instrumental feminine noun inflection=32
-овцу: singular accusative feminine noun inflection=32
-октобар: accusative nominative noun inflection=e
-октобра: genitive noun inflection=e
-октобре: vocative noun inflection=e
-октобром: instrumental noun inflection=e
-октобру: dative locative noun inflection=e
-он: nominative pronoun
-онo: nominative pronoun
-оне: nominative pronoun
-они: nominative pronoun
-памет: singular accusative nominative feminine noun inflection=33
-памети: singular plural accusative dative genitive locative nominative vocative feminine noun inflection=33
-паметима: plural dative instrumental locative feminine noun inflection=33
-памећу: singular instrumental feminine noun inflection=33
-парк: singular accusative nominative masculine noun inflection=2c
-парка: singular genitive masculine noun inflection=2c
-паркова: plural genitive masculine noun inflection=2c
-паркове: plural accusative masculine noun inflection=2c
-паркови: plural nominative vocative masculine noun inflection=2c
-парковима: plural dative instrumental locative masculine noun inflection=2c
-парком: singular instrumental masculine noun inflection=2c
-парку: singular dative locative masculine noun inflection=2c
-парче: singular vocative masculine noun inflection=2c
-петак: singular accusative nominative masculine noun inflection=7
-петака: plural genitive masculine noun inflection=7
-петка: singular genitive masculine noun inflection=7
-петке: plural accusative masculine noun inflection=7
-петком: singular instrumental masculine noun inflection=7
-петку: singular dative locative masculine noun inflection=7
-петци: plural nominative vocative masculine noun inflection=7
-петцима: plural dative instrumental locative masculine noun inflection=7
-петче: singular vocative masculine noun inflection=7
-пећ: singular accusative nominative feminine noun inflection=11
-пећи: singular plural accusative dative genitive locative nominative vocative feminine noun inflection=11
-пећима: plural dative instrumental locative feminine noun inflection=11
-пећу: singular instrumental feminine noun inflection=11
-плавe: plural genitive neuter adjective
-плава: singular plural nominative vocative feminine neuter adjective
-плаве: singular plural accusative genitive nominative vocative masculine feminine adjective
-плави: singular plural nominative vocative masculine adjective
-плавим: singular plural instrumental locative masculine neuter adjective
-плавимa: plural dative instrumental locative masculine feminine neuter adjective
-плавих: plural genitive masculine feminine adjective
-плаво: singular accusative nominative vocative neuter adjective
-плавог: singular accusative genitive masculine neuter adjective
-плавом: singular plural dative instrumental locative masculine feminine neuter adjective
-плавој: singular plural dative locative feminine neuter adjective
-плаву: singular plural accusative feminine neuter adjective
-планина: singular plural genitive nominative feminine noun inflection=1
-планинама: plural dative instrumental locative feminine noun inflection=1
-планине: singular plural accusative genitive nominative vocative feminine noun inflection=1
-планини: singular dative locative feminine noun inflection=1
-планино: singular vocative feminine noun inflection=1
-планином: singular instrumental feminine noun inflection=1
-планину: singular accusative feminine noun inflection=1
-племе: singular accusative nominative vocative neuter noun inflection=2
-племена: singular plural accusative genitive nominative vocative neuter noun inflection=2
-племенима: plural dative instrumental locative neuter noun inflection=2
-племеном: singular instrumental neuter noun inflection=2
-племену: singular dative locative neuter noun inflection=2
-пожар: singular accusative nominative masculine noun inflection=3
-пожара: singular plural genitive masculine noun inflection=3
-пожаре: singular plural accusative vocative masculine noun inflection=3
-пожари: plural nominative vocative masculine noun inflection=3
-пожарима: plural dative instrumental locative masculine noun inflection=3
-пожаром: singular instrumental masculine noun inflection=3
-пожару: singular dative locative masculine noun inflection=3
-политика: feminine noun inflection=15
-понедељак: singular accusative nominative masculine noun inflection=7
-понедељака: plural genitive masculine noun inflection=7
-понедељка: singular genitive masculine noun inflection=7
-понедељке: plural accusative masculine noun inflection=7
-понедељком: singular instrumental masculine noun inflection=7
-понедељку: singular dative locative masculine noun inflection=7
-понедељци: plural nominative vocative masculine noun inflection=7
-понедељцима: plural dative instrumental locative masculine noun inflection=7
-понедељче: singular vocative masculine noun inflection=7
-поплава: singular plural genitive nominative feminine noun inflection=1
-поплавама: plural dative instrumental locative feminine noun inflection=1
-поплаве: singular plural accusative genitive nominative vocative feminine noun inflection=1
-поплави: singular dative locative feminine noun inflection=1
-поплаво: singular vocative feminine noun inflection=1
-поплавом: singular instrumental feminine noun inflection=1
-поплаву: singular accusative feminine noun inflection=1
-поток: singular accusative nominative masculine noun inflection=6
-потока: singular plural genitive masculine noun inflection=6
-потоке: plural accusative masculine noun inflection=6
-потоком: singular instrumental masculine noun inflection=6
-потоку: singular dative locative masculine noun inflection=6
-потоци: plural nominative vocative masculine noun inflection=6
-потоцима: plural dative instrumental locative masculine noun inflection=6
-поточе: singular vocative masculine noun inflection=6
-правац: singular accusative nominative masculine noun inflection=13
-праваца: plural genitive masculine noun inflection=13
-правца: singular genitive masculine noun inflection=13
-правце: plural accusative masculine noun inflection=13
-правци: plural nominative vocative masculine noun inflection=13
-правцима: plural dative instrumental locative masculine noun inflection=13
-правцом: singular instrumental masculine noun inflection=13
-правцу: singular dative locative masculine noun inflection=13
-правче: singular vocative masculine noun inflection=13
-превоз: singular accusative nominative masculine noun inflection=3
-превоза: singular plural genitive masculine noun inflection=3
-превозе: singular plural accusative vocative masculine noun inflection=3
-превози: plural nominative vocative masculine noun inflection=3
-превозима: plural dative instrumental locative masculine noun inflection=3
-превозом: singular instrumental masculine noun inflection=3
-превозу: singular dative locative masculine noun inflection=3
-претња: singular nominative feminine noun inflection=16
-претњама: plural dative instrumental locative feminine noun inflection=16
-претње: singular plural accusative genitive nominative vocative feminine noun inflection=16
-претњи: singular plural dative genitive locative feminine noun inflection=16
-претњо: singular vocative feminine noun inflection=16
-претњом: singular instrumental feminine noun inflection=16
-претњу: singular accusative feminine noun inflection=16
-пропланак: singular accusative nominative masculine noun inflection=7
-пропланака: plural genitive masculine noun inflection=7
-пропланка: singular genitive masculine noun inflection=7
-пропланке: plural accusative masculine noun inflection=7
-пропланком: singular instrumental masculine noun inflection=7
-пропланку: singular dative locative masculine noun inflection=7
-пропланци: plural nominative vocative masculine noun inflection=7
-пропланцима: plural dative instrumental locative masculine noun inflection=7
-пропланче: singular vocative masculine noun inflection=7
-пумпа: singular plural genitive nominative feminine noun inflection=1
-пумпама: plural dative instrumental locative feminine noun inflection=1
-пумпе: singular plural accusative genitive nominative vocative feminine noun inflection=1
-пумпи: singular dative locative feminine noun inflection=1
-пумпо: singular vocative feminine noun inflection=1
-пумпом: singular instrumental feminine noun inflection=1
-пумпу: singular accusative feminine noun inflection=1
-путокаже: singular vocative masculine noun inflection=1c
-путоказ: singular accusative nominative masculine noun inflection=1c
-путоказа: singular plural genitive masculine noun inflection=1c
-путоказе: plural accusative masculine noun inflection=1c
-путокази: plural nominative vocative masculine noun inflection=1c
-путоказима: plural dative instrumental locative masculine noun inflection=1c
-путоказом: singular instrumental masculine noun inflection=1c
-путоказу: singular dative locative masculine noun inflection=1c
-радост: singular accusative nominative feminine noun inflection=5
-радости: singular plural accusative dative genitive locative nominative vocative feminine noun inflection=5
-радостима: plural dative instrumental locative feminine noun inflection=5
-радошћу: singular instrumental feminine noun inflection=5
-раме: singular accusative nominative vocative neuter noun inflection=2
-рамена: singular plural accusative genitive nominative vocative neuter noun inflection=2
-раменима: plural dative instrumental locative neuter noun inflection=2
-раменом: singular instrumental neuter noun inflection=2
-рамену: singular dative locative neuter noun inflection=2
-река: singular plural genitive nominative feminine noun inflection=1a
-рекама: plural dative instrumental locative feminine noun inflection=1a
-реке: singular plural accusative genitive nominative vocative feminine noun inflection=1a
-реко: singular vocative feminine noun inflection=1a
-реком: singular instrumental feminine noun inflection=1a
-реку: singular accusative feminine noun inflection=1a
-ресторан: singular accusative nominative masculine noun inflection=3
-ресторана: singular plural genitive masculine noun inflection=3
-ресторане: singular plural accusative vocative masculine noun inflection=3
-ресторани: plural nominative vocative masculine noun inflection=3
-ресторанима: plural dative instrumental locative masculine noun inflection=3
-рестораном: singular instrumental masculine noun inflection=3
-ресторану: singular dative locative masculine noun inflection=3
-реци: singular dative locative feminine noun inflection=1a
-рука: singular nominative feminine noun inflection=17
-рукама: plural dative instrumental locative feminine noun inflection=17
-руке: singular plural accusative genitive nominative vocative feminine noun inflection=17
-руко: singular vocative feminine noun inflection=17
-руком: singular instrumental feminine noun inflection=17
-руку: singular plural accusative genitive feminine noun inflection=17
-руци: singular dative locative feminine noun inflection=17
-салаш: singular accusative nominative feminine noun inflection=21
-салаша: singular plural genitive feminine noun inflection=21
-салаше: plural accusative feminine noun inflection=21
-салаши: plural nominative vocative feminine noun inflection=21
-салашима: plural dative instrumental locative feminine noun inflection=21
-салашом: singular instrumental feminine noun inflection=21
-салашу: singular dative locative vocative feminine noun inflection=21
-септембар: accusative nominative masculine noun inflection=d
-септембра: genitive masculine noun inflection=d
-септембре: vocative masculine noun inflection=d
-септембром: instrumental masculine noun inflection=d
-септембру: dative locative masculine noun inflection=d
-сива: singular plural nominative vocative feminine neuter adjective
-сиве: singular plural accusative genitive nominative vocative masculine feminine neuter adjective
-сиви: singular plural nominative vocative masculine adjective
-сивим: singular plural dative instrumental locative masculine feminine neuter adjective
-сивих: plural genitive masculine feminine adjective
-сиво: singular accusative nominative vocative neuter adjective
-сивог: singular accusative genitive masculine neuter adjective
-сивом: singular plural dative instrumental locative masculine feminine neuter adjective
-сивој: singular plural dative locative feminine neuter adjective
-сиву: singular plural accusative feminine neuter adjective
-скретања: singular plural accusative genitive nominative vocative neuter noun inflection=2e
-скретање: singular accusative nominative vocative neuter noun inflection=2e
-скретањем: singular instrumental neuter noun inflection=2e
-скретањима: plural dative instrumental locative neuter noun inflection=2e
-скретању: singular dative locative neuter noun inflection=2e
-слуга: singular nominative masculine noun inflection=22
-слугама: plural dative instrumental locative masculine noun inflection=22
-слуге: singular plural accusative genitive nominative vocative masculine noun inflection=22
-слуги: singular dative locative masculine noun inflection=22
-слуго: singular vocative masculine noun inflection=22
-слугом: singular instrumental masculine noun inflection=22
-слугу: singular plural accusative genitive masculine noun inflection=22
-смер: singular accusative nominative masculine noun inflection=34
-смера: singular plural genitive masculine noun inflection=34
-смере: singular plural accusative vocative masculine noun inflection=34
-смери: plural vocative masculine noun inflection=34
-смерима: plural dative instrumental locative masculine noun inflection=34
-смерови: plural nominative masculine noun inflection=34
-смером: singular instrumental masculine noun inflection=34
-смеру: singular dative locative masculine noun inflection=34
-смеђа: singular plural nominative vocative feminine neuter adjective
-смеђе: singular plural accusative genitive nominative vocative masculine feminine neuter adjective
-смеђег: singular accusative genitive masculine neuter adjective
-смеђем: singular dative locative masculine neuter adjective
-смеђи: singular plural nominative vocative masculine adjective
-смеђим: singular plural dative instrumental locative masculine feminine neuter adjective
-смеђих: plural genitive masculine feminine adjective
-смеђом: singular plural instrumental feminine neuter adjective
-смеђој: singular plural dative locative feminine neuter adjective
-смеђу: singular plural accusative feminine neuter adjective
-среда: singular plural genitive nominative feminine noun inflection=1
-средама: plural dative instrumental locative feminine noun inflection=1
-среде: singular plural accusative genitive nominative vocative feminine noun inflection=1
-среди: singular dative locative feminine noun inflection=1
-средо: singular vocative feminine noun inflection=1
-средом: singular instrumental feminine noun inflection=1
-среду: singular accusative feminine noun inflection=1
-старост: singular accusative nominative feminine noun inflection=5
-старости: singular plural accusative dative genitive locative nominative vocative feminine noun inflection=5
-старостима: plural dative instrumental locative feminine noun inflection=5
-старошћу: singular instrumental feminine noun inflection=5
-ствар: singular accusative nominative feminine noun inflection=35
-ствари: singular plural accusative dative genitive locative nominative vocative feminine noun inflection=35
-стварима: plural dative instrumental locative feminine noun inflection=35
-стварју: singular instrumental feminine noun inflection=35
-стена: singular plural genitive nominative feminine noun inflection=1
-стенама: plural dative instrumental locative feminine noun inflection=1
-стене: singular plural accusative genitive nominative vocative feminine noun inflection=1
-стени: singular dative locative feminine noun inflection=1
-стено: singular vocative feminine noun inflection=1
-стеном: singular instrumental feminine noun inflection=1
-стену: singular accusative feminine noun inflection=1
-субота: singular plural genitive nominative feminine noun inflection=1
-суботама: plural dative instrumental locative feminine noun inflection=1
-суботе: singular plural accusative genitive nominative vocative feminine noun inflection=1
-суботи: singular dative locative feminine noun inflection=1
-субото: singular vocative feminine noun inflection=1
-суботом: singular instrumental feminine noun inflection=1
-суботу: singular accusative feminine noun inflection=1
-судија: singular plural genitive nominative vocative masculine noun inflection=2f
-судијама: plural dative instrumental locative masculine noun inflection=2f
-судије: singular plural accusative genitive nominative vocative masculine noun inflection=2f
-судији: singular dative locative masculine noun inflection=2f
-судијом: singular instrumental masculine noun inflection=2f
-судију: singular accusative masculine noun inflection=2f
-ташта: singular plural genitive nominative feminine noun inflection=1
-таштама: plural dative instrumental locative feminine noun inflection=1
-таште: singular plural accusative genitive nominative vocative feminine noun inflection=1
-ташти: singular dative locative feminine noun inflection=1
-ташто: singular vocative feminine noun inflection=1
-таштом: singular instrumental feminine noun inflection=1
-ташту: singular accusative feminine noun inflection=1
-теме: singular accusative nominative vocative neuter noun inflection=2
-темена: singular plural accusative genitive nominative vocative neuter noun inflection=2
-теменима: plural dative instrumental locative neuter noun inflection=2
-теменом: singular instrumental neuter noun inflection=2
-темену: singular dative locative neuter noun inflection=2
-ти: nominative pronoun
-тутумрак: singular nominative masculine noun inflection=f
-тутумрака: singular plural accusative genitive masculine noun inflection=f
-тутумраке: plural accusative masculine noun inflection=f
-тутумраком: singular instrumental masculine noun inflection=f
-тутумраку: singular dative locative masculine noun inflection=f
-тутумраци: plural nominative vocative masculine noun inflection=f
-тутумрацима: plural dative instrumental locative masculine noun inflection=f
-тутумраче: singular vocative masculine noun inflection=f
-ужад: plural accusative nominative neuter noun inflection=14
-ужади: plural genitive vocative neuter noun inflection=14
-ужадима: plural dative instrumental locative neuter noun inflection=14
-уже: singular accusative nominative vocative neuter noun inflection=14
-ужета: singular genitive neuter noun inflection=14
-ужетом: singular instrumental neuter noun inflection=14
-ужету: singular dative locative neuter noun inflection=14
-улица: singular plural genitive nominative feminine noun inflection=1
-улицама: plural dative instrumental locative feminine noun inflection=1
-улице: singular plural accusative genitive nominative vocative feminine noun inflection=1
-улици: singular dative locative feminine noun inflection=1
-улицо: singular vocative feminine noun inflection=1
-улицом: singular instrumental feminine noun inflection=1
-улицу: singular accusative feminine noun inflection=1
-уторак: singular accusative nominative masculine noun inflection=12
-уторака: singular plural genitive masculine noun inflection=12
-уторке: plural accusative masculine noun inflection=12
-уторком: singular instrumental masculine noun inflection=12
-уторку: singular dative locative masculine noun inflection=12
-уторци: plural nominative vocative masculine noun inflection=12
-уторцима: plural dative instrumental locative masculine noun inflection=12
-уторче: singular vocative masculine noun inflection=12
-учитељица: singular plural genitive nominative feminine noun inflection=c
-учитељицама: plural dative instrumental locative feminine noun inflection=c
-учитељице: singular plural accusative genitive nominative vocative feminine noun inflection=c
-учитељици: singular dative locative feminine noun inflection=c
-учитељицом: singular instrumental feminine noun inflection=c
-учитељицу: singular accusative feminine noun inflection=c
-фебруар: accusative nominative noun inflection=8
-фебруара: genitive noun inflection=8
-фебруаре: vocative noun inflection=8
-фебруаром: instrumental noun inflection=8
-фебруару: dative locative noun inflection=8
-херој: singular nominative masculine noun inflection=18
-хероја: singular plural accusative genitive masculine noun inflection=18
-хероје: plural accusative masculine noun inflection=18
-херојем: singular instrumental masculine noun inflection=18
-хероји: plural nominative vocative masculine noun inflection=18
-херојима: plural dative instrumental locative masculine noun inflection=18
-хероју: singular dative locative vocative masculine noun inflection=18
-хотел: singular accusative nominative masculine noun inflection=3
-хотела: singular plural genitive masculine noun inflection=3
-хотеле: singular plural accusative vocative masculine noun inflection=3
-хотели: plural nominative vocative masculine noun inflection=3
-хотелима: plural dative instrumental locative masculine noun inflection=3
-хотелом: singular instrumental masculine noun inflection=3
-хотелу: singular dative locative masculine noun inflection=3
-храм: singular accusative nominative masculine noun inflection=9
-храма: singular genitive masculine noun inflection=9
-храме: singular vocative masculine noun inflection=9
-храмова: plural genitive masculine noun inflection=9
-храмове: plural accusative masculine noun inflection=9
-храмови: plural nominative vocative masculine noun inflection=9
-храмовима: plural dative instrumental locative masculine noun inflection=9
-храмом: singular instrumental masculine noun inflection=9
-храму: singular dative locative masculine noun inflection=9
-црвена: singular plural nominative vocative feminine neuter adjective
-црвене: singular plural accusative genitive nominative vocative masculine feminine neuter adjective
-црвени: singular plural nominative vocative masculine adjective
-црвеним: singular plural dative instrumental locative masculine feminine neuter adjective
-црвених: plural genitive masculine feminine adjective
-црвено: singular accusative nominative vocative neuter adjective
-црвеног: singular accusative genitive masculine neuter adjective
-црвеном: singular plural dative instrumental locative masculine feminine neuter adjective
-црвеној: singular plural dative locative feminine neuter adjective
-црвену: singular plural accusative feminine neuter adjective
-црква: singular plural genitive nominative feminine noun inflection=1
-црквама: plural dative instrumental locative feminine noun inflection=1
-цркве: singular plural accusative genitive nominative vocative feminine noun inflection=1
-цркви: singular dative locative feminine noun inflection=1
-цркво: singular vocative feminine noun inflection=1
-црквом: singular instrumental feminine noun inflection=1
-цркву: singular accusative feminine noun inflection=1
-црна: singular plural nominative vocative feminine neuter adjective
-црне: singular plural accusative genitive nominative vocative masculine feminine neuter adjective
-црни: singular plural nominative vocative masculine adjective
-црним: singular plural dative instrumental locative masculine feminine neuter adjective
-црних: plural genitive masculine feminine adjective
-црно: singular accusative nominative vocative neuter adjective
-црног: singular accusative genitive masculine neuter adjective
-црном: singular plural dative instrumental locative masculine feminine neuter adjective
-црној: singular plural dative locative feminine neuter adjective
-црну: singular plural accusative feminine neuter adjective
-чамац: singular accusative nominative masculine noun inflection=1b
-чамаца: singular plural genitive masculine noun inflection=1b
-чамце: plural accusative masculine noun inflection=1b
-чамци: plural nominative vocative masculine noun inflection=1b
-чамцима: plural dative instrumental locative masculine noun inflection=1b
-чамцом: singular instrumental masculine noun inflection=1b
-чамцу: singular dative locative masculine noun inflection=1b
-чамче: singular vocative masculine noun inflection=1b
-чађ: singular accusative nominative feminine noun inflection=11
-чађи: singular plural accusative dative genitive locative nominative vocative feminine noun inflection=11
-чађима: plural dative instrumental locative feminine noun inflection=11
-чађу: singular instrumental feminine noun inflection=11
-четвртак: singular accusative nominative masculine noun inflection=12
-четвртака: singular plural genitive masculine noun inflection=12
-четвртке: plural accusative masculine noun inflection=12
-четвртком: singular instrumental masculine noun inflection=12
-четвртку: singular dative locative masculine noun inflection=12
-четвртци: plural nominative vocative masculine noun inflection=12
-четвртцима: plural dative instrumental locative masculine noun inflection=12
-четвртче: singular vocative masculine noun inflection=12
-шума: singular plural genitive nominative feminine noun inflection=1
-шумама: plural dative instrumental locative feminine noun inflection=1
-шуме: singular plural accusative genitive nominative vocative feminine noun inflection=1
-шуми: singular dative locative feminine noun inflection=1
-шумо: singular vocative feminine noun inflection=1
-шумом: singular instrumental feminine noun inflection=1
-шуму: singular accusative feminine noun inflection=1
-ја: nominative pronoun
-јануар: accusative nominative noun inflection=8
-јануара: genitive noun inflection=8
-јануаре: vocative noun inflection=8
-јануаром: instrumental noun inflection=8
-јануару: dative locative noun inflection=8
-јарац: singular accusative nominative masculine noun inflection=13
-јараца: plural genitive masculine noun inflection=13
-јарца: singular genitive masculine noun inflection=13
-јарце: plural accusative masculine noun inflection=13
-јарци: plural nominative vocative masculine noun inflection=13
-јарцима: plural dative instrumental locative masculine noun inflection=13
-јарцом: singular instrumental masculine noun inflection=13
-јарцу: singular dative locative masculine noun inflection=13
-јарче: singular vocative masculine noun inflection=13
-једара: plural genitive neuter noun inflection=29
-једра: singular plural accusative genitive nominative vocative neuter noun inflection=29
-једрилица: singular plural genitive nominative feminine noun inflection=c
-једрилицама: plural dative instrumental locative feminine noun inflection=c
-једрилице: singular plural accusative genitive nominative vocative feminine noun inflection=c
-једрилици: singular dative locative feminine noun inflection=c
-једрилицом: singular instrumental feminine noun inflection=c
-једрилицу: singular accusative feminine noun inflection=c
-једрима: plural dative instrumental locative neuter noun inflection=29
-једро: singular accusative nominative vocative neuter noun inflection=29
-једром: singular instrumental neuter noun inflection=29
-једру: singular dative locative neuter noun inflection=29
-језера: singular plural accusative genitive nominative vocative neuter noun inflection=a
-језерима: plural dative instrumental locative neuter noun inflection=a
-језеро: singular accusative nominative vocative neuter noun inflection=a
-језером: singular instrumental neuter noun inflection=a
-језеру: singular dative locative neuter noun inflection=a
-јул: accusative nominative masculine noun inflection=4
-јула: genitive masculine noun inflection=4
-јуле: vocative masculine noun inflection=4
-јулом: instrumental masculine noun inflection=4
-јулу: dative locative masculine noun inflection=4
-јун: accusative nominative noun inflection=8
-јуна: genitive noun inflection=8
-јунак: singular nominative masculine noun inflection=f
-јунака: singular plural accusative genitive masculine noun inflection=f
-јунаке: plural accusative masculine noun inflection=f
-јунаком: singular instrumental masculine noun inflection=f
-јунаку: singular dative locative masculine noun inflection=f
-јунаци: plural nominative vocative masculine noun inflection=f
-јунацима: plural dative instrumental locative masculine noun inflection=f
-јуначе: singular vocative masculine noun inflection=f
-јуне: vocative noun inflection=8
-јуном: instrumental noun inflection=8
-јуну: dative locative noun inflection=8
-љубав: singular accusative nominative feminine noun inflection=1f
-љубави: singular plural accusative dative genitive locative nominative vocative feminine noun inflection=1f
-љубавима: plural dative instrumental locative feminine noun inflection=1f
-љубављу: singular instrumental feminine noun inflection=1f
+voda: singular plural accusative genitive nominative noun inflection=33
+vodama: plural dative instrumental locative noun inflection=33
+vode: singular plural accusative genitive nominative vocative noun inflection=33
+vodi: singular dative noun inflection=33
+vodo: singular vocative noun inflection=33
+vodom: singular instrumental locative noun inflection=33
+Јелена: singular nominative vocative feminine proper-noun inflection=3
+Јелене: singular genitive feminine proper-noun inflection=3
+Јелени: singular dative locative feminine proper-noun inflection=3
+Јеленом: singular instrumental feminine proper-noun inflection=3
+Јелену: singular accusative feminine proper-noun inflection=3
+Љубица: singular nominative feminine proper-noun inflection=19
+Љубице: singular genitive vocative feminine proper-noun inflection=19
+Љубици: singular dative locative feminine proper-noun inflection=19
+Љубицом: singular instrumental feminine proper-noun inflection=19
+Љубицу: singular accusative feminine proper-noun inflection=19
+Љубиша: singular nominative vocative masculine proper-noun inflection=7
+Љубише: singular genitive masculine proper-noun inflection=7
+Љубиши: singular dative locative masculine proper-noun inflection=7
+Љубишом: singular instrumental masculine proper-noun inflection=7
+Љубишу: singular accusative masculine proper-noun inflection=7
+Ана: singular nominative vocative feminine proper-noun inflection=3
+Ангелина: singular nominative vocative feminine proper-noun inflection=3
+Ангелине: singular genitive feminine proper-noun inflection=3
+Ангелини: singular dative locative feminine proper-noun inflection=3
+Ангелином: singular instrumental feminine proper-noun inflection=3
+Ангелину: singular accusative feminine proper-noun inflection=3
+Ане: singular genitive feminine proper-noun inflection=3
+Ани: singular dative locative feminine proper-noun inflection=3
+Аном: singular instrumental feminine proper-noun inflection=3
+Ану: singular accusative feminine proper-noun inflection=3
+Биљана: singular nominative vocative feminine proper-noun inflection=3
+Биљане: singular genitive feminine proper-noun inflection=3
+Биљани: singular dative locative feminine proper-noun inflection=3
+Биљаном: singular instrumental feminine proper-noun inflection=3
+Биљану: singular accusative feminine proper-noun inflection=3
+Бојана: singular nominative vocative feminine proper-noun inflection=3
+Бојане: singular genitive feminine proper-noun inflection=3
+Бојани: singular dative locative feminine proper-noun inflection=3
+Бојаном: singular instrumental feminine proper-noun inflection=3
+Бојану: singular accusative feminine proper-noun inflection=3
+Бранимир: singular nominative masculine proper-noun inflection=4
+Бранимира: singular accusative genitive masculine proper-noun inflection=4
+Бранимире: singular vocative masculine proper-noun inflection=4
+Бранимиром: singular instrumental masculine proper-noun inflection=4
+Бранимиру: singular dative locative masculine proper-noun inflection=4
+Владимир: singular nominative masculine proper-noun inflection=4
+Владимира: singular accusative genitive masculine proper-noun inflection=4
+Владимире: singular vocative masculine proper-noun inflection=4
+Владимиром: singular instrumental masculine proper-noun inflection=4
+Владимиру: singular dative locative masculine proper-noun inflection=4
+Горан: singular nominative masculine proper-noun inflection=4
+Горана: singular accusative genitive masculine proper-noun inflection=4
+Горане: singular vocative masculine proper-noun inflection=4
+Гораном: singular instrumental masculine proper-noun inflection=4
+Горану: singular dative locative masculine proper-noun inflection=4
+Гордана: singular nominative vocative feminine proper-noun inflection=3
+Гордане: singular genitive feminine proper-noun inflection=3
+Гордани: singular dative locative feminine proper-noun inflection=3
+Горданом: singular instrumental feminine proper-noun inflection=3
+Гордану: singular accusative feminine proper-noun inflection=3
+Драган: singular nominative masculine proper-noun inflection=4
+Драгана: singular accusative genitive nominative vocative masculine feminine proper-noun inflection=3 inflection=4
+Драгане: singular genitive vocative masculine feminine proper-noun inflection=3 inflection=4
+Драгани: singular dative locative feminine proper-noun inflection=3
+Драганом: singular instrumental masculine feminine proper-noun inflection=3 inflection=4
+Драгану: singular accusative dative locative masculine feminine proper-noun inflection=3 inflection=4
+Драгиша: singular nominative vocative masculine proper-noun inflection=7
+Драгише: singular genitive masculine proper-noun inflection=7
+Драгиши: singular dative locative masculine proper-noun inflection=7
+Драгишом: singular instrumental masculine proper-noun inflection=7
+Драгишу: singular accusative masculine proper-noun inflection=7
+Душан: singular nominative masculine proper-noun inflection=4
+Душана: singular accusative genitive masculine proper-noun inflection=4
+Душане: singular vocative masculine proper-noun inflection=4
+Душаном: singular instrumental masculine proper-noun inflection=4
+Душану: singular dative locative masculine proper-noun inflection=4
+Загорка: singular nominative vocative feminine proper-noun inflection=3
+Загорке: singular genitive feminine proper-noun inflection=3
+Загорки: singular dative locative feminine proper-noun inflection=3
+Загорком: singular instrumental feminine proper-noun inflection=3
+Загорку: singular accusative feminine proper-noun inflection=3
+Зоран: singular nominative masculine proper-noun inflection=4
+Зорана: singular accusative genitive nominative vocative masculine feminine proper-noun inflection=3 inflection=4
+Зоране: singular genitive vocative masculine feminine proper-noun inflection=3 inflection=4
+Зорани: singular dative locative feminine proper-noun inflection=3
+Зораном: singular instrumental masculine feminine proper-noun inflection=3 inflection=4
+Зорану: singular accusative dative locative masculine feminine proper-noun inflection=3 inflection=4
+Ивана: singular nominative vocative feminine proper-noun inflection=3
+Иване: singular genitive feminine proper-noun inflection=3
+Ивани: singular dative locative feminine proper-noun inflection=3
+Иваном: singular instrumental feminine proper-noun inflection=3
+Ивану: singular accusative feminine proper-noun inflection=3
+Италија: singular nominative feminine proper-noun inflection=a
+Италије: singular genitive feminine proper-noun inflection=a
+Италији: singular dative locative feminine proper-noun inflection=a
+Италијо: singular vocative feminine proper-noun inflection=a
+Италијом: singular instrumental feminine proper-noun inflection=a
+Италију: singular accusative feminine proper-noun inflection=a
+Кина: singular nominative feminine proper-noun inflection=a
+Кине: singular genitive feminine proper-noun inflection=a
+Кини: singular dative locative feminine proper-noun inflection=a
+Кино: singular vocative feminine proper-noun inflection=a
+Кином: singular instrumental feminine proper-noun inflection=a
+Кину: singular accusative feminine proper-noun inflection=a
+Маја: singular nominative feminine proper-noun inflection=a
+Маје: singular genitive feminine proper-noun inflection=a
+Маји: singular dative locative feminine proper-noun inflection=a
+Мајо: singular vocative feminine proper-noun inflection=a
+Мајом: singular instrumental feminine proper-noun inflection=a
+Мају: singular accusative feminine proper-noun inflection=a
+Милена: singular nominative vocative feminine proper-noun inflection=3
+Милене: singular genitive feminine proper-noun inflection=3
+Милени: singular dative locative feminine proper-noun inflection=3
+Миленом: singular instrumental feminine proper-noun inflection=3
+Милену: singular accusative feminine proper-noun inflection=3
+Милица: singular nominative feminine proper-noun inflection=19
+Милице: singular genitive vocative feminine proper-noun inflection=19
+Милици: singular dative locative feminine proper-noun inflection=19
+Милицом: singular instrumental feminine proper-noun inflection=19
+Милицу: singular accusative feminine proper-noun inflection=19
+Милка: singular nominative vocative feminine proper-noun inflection=3
+Милке: singular genitive feminine proper-noun inflection=3
+Милки: singular dative locative feminine proper-noun inflection=3
+Милком: singular instrumental feminine proper-noun inflection=3
+Милку: singular accusative feminine proper-noun inflection=3
+Милош: singular nominative masculine proper-noun inflection=4
+Милоша: singular accusative genitive masculine proper-noun inflection=4
+Милоше: singular vocative masculine proper-noun inflection=4
+Милошом: singular instrumental masculine proper-noun inflection=4
+Милошу: singular dative locative masculine proper-noun inflection=4
+Миљан: singular nominative masculine proper-noun inflection=4
+Миљана: singular accusative genitive masculine proper-noun inflection=4
+Миљане: singular vocative masculine proper-noun inflection=4
+Миљаном: singular instrumental masculine proper-noun inflection=4
+Миљану: singular dative locative masculine proper-noun inflection=4
+Нада: singular nominative feminine proper-noun inflection=a
+Наде: singular genitive feminine proper-noun inflection=a
+Нади: singular dative locative feminine proper-noun inflection=a
+Надо: singular vocative feminine proper-noun inflection=a
+Надом: singular instrumental feminine proper-noun inflection=a
+Наду: singular accusative feminine proper-noun inflection=a
+Небојша: singular nominative vocative masculine proper-noun inflection=7
+Небојше: singular genitive masculine proper-noun inflection=7
+Небојши: singular dative locative masculine proper-noun inflection=7
+Небојшом: singular instrumental masculine proper-noun inflection=7
+Небојшу: singular accusative masculine proper-noun inflection=7
+Синиша: singular nominative vocative masculine proper-noun inflection=7
+Синише: singular genitive masculine proper-noun inflection=7
+Синиши: singular dative locative masculine proper-noun inflection=7
+Синишом: singular instrumental masculine proper-noun inflection=7
+Синишу: singular accusative masculine proper-noun inflection=7
+Соња: singular nominative vocative feminine proper-noun inflection=3
+Соње: singular genitive feminine proper-noun inflection=3
+Соњи: singular dative locative feminine proper-noun inflection=3
+Соњом: singular instrumental feminine proper-noun inflection=3
+Соњу: singular accusative feminine proper-noun inflection=3
+Србија: singular nominative feminine noun inflection=1e
+Србије: singular genitive feminine noun inflection=1e
+Србији: singular dative locative feminine noun inflection=1e
+Србијо: singular vocative feminine noun inflection=1e
+Србијом: singular instrumental feminine noun inflection=1e
+Србију: singular accusative feminine noun inflection=1e
+Стева: singular nominative masculine proper-noun inflection=22
+Стеван: singular nominative masculine proper-noun inflection=4
+Стевана: singular accusative genitive masculine proper-noun inflection=4
+Стеване: singular vocative masculine proper-noun inflection=4
+Стеваном: singular instrumental masculine proper-noun inflection=4
+Стевану: singular dative locative masculine proper-noun inflection=4
+Стеве: singular genitive masculine proper-noun inflection=22
+Стеви: singular dative locative masculine proper-noun inflection=22
+Стево: singular vocative masculine proper-noun inflection=22
+Стевом: singular instrumental masculine proper-noun inflection=22
+Стеву: singular accusative masculine proper-noun inflection=22
+Стојан: singular nominative masculine proper-noun inflection=4
+Стојана: singular accusative genitive masculine proper-noun inflection=4
+Стојане: singular vocative masculine proper-noun inflection=4
+Стојаном: singular instrumental masculine proper-noun inflection=4
+Стојану: singular dative locative masculine proper-noun inflection=4
+Тамара: singular nominative vocative feminine proper-noun inflection=3
+Тамаре: singular genitive feminine proper-noun inflection=3
+Тамари: singular dative locative feminine proper-noun inflection=3
+Тамаром: singular instrumental feminine proper-noun inflection=3
+Тамару: singular accusative feminine proper-noun inflection=3
+Тања: singular nominative vocative feminine proper-noun inflection=3
+Тање: singular genitive feminine proper-noun inflection=3
+Тањи: singular dative locative feminine proper-noun inflection=3
+Тањом: singular instrumental feminine proper-noun inflection=3
+Тању: singular accusative feminine proper-noun inflection=3
+Тијана: singular nominative vocative feminine proper-noun inflection=3
+Тијане: singular genitive feminine proper-noun inflection=3
+Тијани: singular dative locative feminine proper-noun inflection=3
+Тијаном: singular instrumental feminine proper-noun inflection=3
+Тијану: singular accusative feminine proper-noun inflection=3
+Угљеша: singular nominative vocative masculine proper-noun inflection=7
+Угљеше: singular genitive masculine proper-noun inflection=7
+Угљеши: singular dative locative masculine proper-noun inflection=7
+Угљешом: singular instrumental masculine proper-noun inflection=7
+Угљешу: singular accusative masculine proper-noun inflection=7
+Француска: singular nominative vocative feminine proper-noun inflection=3f
+Француске: singular genitive feminine proper-noun inflection=3f
+Француском: singular instrumental feminine proper-noun inflection=3f
+Француској: singular dative locative feminine proper-noun inflection=3f
+Француску: singular accusative feminine proper-noun inflection=3f
+август: accusative nominative masculine noun inflection=9
+августа: genitive masculine noun inflection=9
+августе: vocative masculine noun inflection=9
+августом: instrumental masculine noun inflection=9
+августу: dative locative masculine noun inflection=9
+авенија: singular plural genitive nominative feminine noun inflection=2
+авенијама: plural dative instrumental locative feminine noun inflection=2
+авеније: singular plural accusative genitive nominative vocative feminine noun inflection=2
+авенији: singular dative locative feminine noun inflection=2
+авенијо: singular vocative feminine noun inflection=2
+авенијом: singular instrumental feminine noun inflection=2
+авенију: singular accusative feminine noun inflection=2
+авион: singular accusative nominative masculine noun inflection=e
+авиона: singular plural genitive masculine noun inflection=e
+авионе: plural accusative masculine noun inflection=e
+авиони: plural nominative vocative masculine noun inflection=e
+авионима: plural dative instrumental locative masculine noun inflection=e
+авионом: singular instrumental masculine noun inflection=e
+авиону: singular dative locative vocative masculine noun inflection=e
+април: accusative nominative masculine noun inflection=9
+априла: genitive masculine noun inflection=9
+априле: vocative masculine noun inflection=9
+априлом: instrumental masculine noun inflection=9
+априлу: dative locative masculine noun inflection=9
+аута: singular plural genitive masculine noun inflection=40
+ауте: plural accusative masculine noun inflection=40
+аути: plural nominative vocative masculine noun inflection=40
+аутима: plural dative instrumental locative masculine noun inflection=40
+ауто: singular accusative nominative vocative masculine noun inflection=40
+аутобус: singular accusative nominative masculine noun inflection=6
+аутобуса: singular plural genitive masculine noun inflection=6
+аутобусе: singular plural accusative vocative masculine noun inflection=6
+аутобуси: plural nominative vocative masculine noun inflection=6
+аутобусима: plural dative instrumental locative masculine noun inflection=6
+аутобусом: singular instrumental masculine noun inflection=6
+аутобусу: singular dative locative masculine noun inflection=6
+аутом: singular instrumental masculine noun inflection=40
+ауту: singular dative locative masculine noun inflection=40
+бара: singular plural genitive nominative feminine noun inflection=2
+барама: plural dative instrumental locative feminine noun inflection=2
+баре: singular plural accusative genitive nominative vocative feminine noun inflection=2
+бари: singular dative locative feminine noun inflection=2
+баро: singular vocative feminine noun inflection=2
+баром: singular instrumental feminine noun inflection=2
+бару: singular accusative feminine noun inflection=2
+бик: singular nominative masculine noun inflection=35
+бика: singular accusative genitive masculine noun inflection=35
+бикова: plural genitive masculine noun inflection=35
+бикове: plural accusative masculine noun inflection=35
+бикови: plural nominative vocative masculine noun inflection=35
+биковима: plural dative instrumental locative masculine noun inflection=35
+биком: singular instrumental masculine noun inflection=35
+бику: singular dative locative masculine noun inflection=35
+биче: singular vocative masculine noun inflection=35
+боца: singular plural genitive nominative feminine noun inflection=2
+боцама: plural dative instrumental locative feminine noun inflection=2
+боце: singular plural accusative genitive nominative vocative feminine noun inflection=2
+боци: singular dative locative feminine noun inflection=2
+боцо: singular vocative feminine noun inflection=2
+боцом: singular instrumental feminine noun inflection=2
+боцу: singular accusative feminine noun inflection=2
+брда: singular plural accusative genitive nominative vocative neuter noun inflection=d
+брдима: plural dative instrumental locative neuter noun inflection=d
+брдо: singular accusative nominative vocative neuter noun inflection=d
+брдом: singular instrumental neuter noun inflection=d
+брду: singular dative locative neuter noun inflection=d
+брод: singular accusative nominative masculine noun inflection=11
+брода: singular genitive masculine noun inflection=11
+броде: singular vocative masculine noun inflection=11
+бродова: plural genitive masculine noun inflection=11
+бродове: plural accusative masculine noun inflection=11
+бродови: plural nominative vocative masculine noun inflection=11
+бродовима: plural dative instrumental locative masculine noun inflection=11
+бродом: singular instrumental masculine noun inflection=11
+броду: singular dative locative masculine noun inflection=11
+булевар: singular accusative nominative masculine noun inflection=e
+булевара: singular plural genitive masculine noun inflection=e
+булеваре: plural accusative masculine noun inflection=e
+булевари: plural nominative vocative masculine noun inflection=e
+булеварима: plural dative instrumental locative masculine noun inflection=e
+булеваром: singular instrumental masculine noun inflection=e
+булевару: singular dative locative vocative masculine noun inflection=e
+бурегџија: singular plural genitive nominative masculine noun inflection=16
+бурегџијама: plural dative instrumental locative masculine noun inflection=16
+бурегџије: singular plural accusative genitive nominative vocative masculine noun inflection=16
+бурегџији: singular dative locative masculine noun inflection=16
+бурегџијо: singular vocative masculine noun inflection=16
+бурегџијом: singular instrumental masculine noun inflection=16
+бурегџију: singular accusative masculine noun inflection=16
+ваздуси: plural nominative vocative masculine noun inflection=3d
+ваздусима: plural dative instrumental locative masculine noun inflection=3d
+ваздух: singular accusative nominative masculine noun inflection=3d
+ваздуха: singular plural genitive masculine noun inflection=3d
+ваздухе: plural accusative masculine noun inflection=3d
+ваздухом: singular instrumental masculine noun inflection=3d
+ваздуху: singular dative locative masculine noun inflection=3d
+ваздуше: singular vocative masculine noun inflection=3d
+ватра: singular plural genitive nominative feminine noun inflection=2
+ватрама: plural dative instrumental locative feminine noun inflection=2
+ватре: singular plural accusative genitive nominative vocative feminine noun inflection=2
+ватри: singular dative locative feminine noun inflection=2
+ватро: singular vocative feminine noun inflection=2
+ватром: singular instrumental feminine noun inflection=2
+ватру: singular accusative feminine noun inflection=2
+ви: plural nominative pronoun
+виме: singular accusative nominative vocative neuter noun inflection=5
+вимена: singular plural accusative genitive nominative vocative neuter noun inflection=5
+вименима: plural dative instrumental locative neuter noun inflection=5
+вименом: singular instrumental neuter noun inflection=5
+вимену: singular dative locative neuter noun inflection=5
+владика: singular plural genitive nominative masculine noun inflection=16
+владикама: plural dative instrumental locative masculine noun inflection=16
+владике: singular plural accusative genitive nominative vocative masculine noun inflection=16
+владики: singular dative locative masculine noun inflection=16
+владико: singular vocative masculine noun inflection=16
+владиком: singular instrumental masculine noun inflection=16
+владику: singular accusative masculine noun inflection=16
+вода: singular plural accusative genitive nominative noun inflection=32
+водама: plural dative instrumental locative noun inflection=32
+воде: singular plural accusative genitive nominative vocative noun inflection=32
+води: singular dative noun inflection=32
+водо: singular vocative noun inflection=32
+водом: singular instrumental locative noun inflection=32
+време: singular accusative nominative vocative neuter noun inflection=5
+времена: singular plural accusative genitive nominative vocative neuter noun inflection=5
+временима: plural dative instrumental locative neuter noun inflection=5
+временом: singular instrumental neuter noun inflection=5
+времену: singular dative locative neuter noun inflection=5
+гадост: singular accusative nominative feminine noun inflection=b
+гадости: singular plural accusative dative genitive locative nominative vocative feminine noun inflection=b
+гадостима: plural dative instrumental locative feminine noun inflection=b
+гадошћу: singular instrumental feminine noun inflection=b
+дворац: singular accusative nominative masculine noun inflection=2b
+двораца: plural genitive masculine noun inflection=2b
+дворца: singular genitive masculine noun inflection=2b
+дворце: plural accusative masculine noun inflection=2b
+дворцем: singular instrumental masculine noun inflection=2b
+дворци: plural nominative vocative masculine noun inflection=2b
+дворцима: plural dative instrumental locative masculine noun inflection=2b
+дворцу: singular dative locative masculine noun inflection=2b
+дворче: singular vocative masculine noun inflection=2b
+дебла: singular plural accusative genitive nominative vocative neuter noun inflection=d
+деблима: plural dative instrumental locative neuter noun inflection=d
+дебло: singular accusative nominative vocative neuter noun inflection=d
+деблом: singular instrumental neuter noun inflection=d
+деблу: singular dative locative neuter noun inflection=d
+девојака: plural genitive feminine noun inflection=3c
+девојка: singular nominative feminine noun inflection=3c
+девојкама: plural dative instrumental locative feminine noun inflection=3c
+девојке: singular plural accusative genitive nominative vocative feminine noun inflection=3c
+девојко: singular vocative feminine noun inflection=3c
+девојком: singular instrumental feminine noun inflection=3c
+девојку: singular accusative feminine noun inflection=3c
+девојци: singular dative locative feminine noun inflection=3c
+дете: singular accusative nominative vocative neuter noun inflection=36
+детета: singular genitive neuter noun inflection=36
+дететом: singular instrumental neuter noun inflection=36
+детету: singular dative locative neuter noun inflection=36
+деца: plural nominative neuter noun inflection=36
+деце: plural genitive neuter noun inflection=36
+децембар: accusative nominative noun inflection=14
+децембра: genitive noun inflection=14
+децембре: vocative noun inflection=14
+децембром: instrumental noun inflection=14
+децембру: dative locative noun inflection=14
+деци: plural dative locative neuter noun inflection=36
+децо: plural vocative neuter noun inflection=36
+децом: plural instrumental neuter noun inflection=36
+децу: plural accusative neuter noun inflection=36
+до: adposition inflection=1
+дугмад: plural accusative nominative neuter noun inflection=1c
+дугмади: plural genitive vocative neuter noun inflection=1c
+дугмадима: plural dative instrumental locative neuter noun inflection=1c
+дугме: singular accusative nominative vocative neuter noun inflection=1c
+дугмета: singular genitive neuter noun inflection=1c
+дугметом: singular instrumental neuter noun inflection=1c
+дугмету: singular dative locative neuter noun inflection=1c
+жена: singular plural genitive nominative feminine noun inflection=2
+женама: plural dative instrumental locative feminine noun inflection=2
+жене: singular plural accusative genitive nominative vocative feminine noun inflection=2
+жени: singular dative locative feminine noun inflection=2
+жено: singular vocative feminine noun inflection=2
+женом: singular instrumental feminine noun inflection=2
+жену: singular accusative feminine noun inflection=2
+жута: singular plural accusative nominative vocative feminine neuter adjective inflection=27
+жуте: singular plural accusative genitive nominative vocative masculine feminine adjective inflection=27
+жути: singular plural nominative vocative masculine adjective inflection=27
+жутим: singular plural dative instrumental locative masculine feminine neuter adjective inflection=27
+жутих: plural genitive masculine feminine neuter adjective inflection=27
+жуто: singular accusative nominative vocative neuter adjective inflection=27
+жутог: singular accusative genitive masculine neuter adjective inflection=27
+жутом: singular plural dative instrumental locative masculine feminine neuter adjective inflection=27
+жутој: singular plural dative locative feminine neuter adjective inflection=27
+жуту: singular accusative feminine adjective inflection=27
+за: adposition inflection=1
+за време: adposition inflection=1
+запрега: singular plural genitive nominative feminine noun inflection=37
+запрегама: plural dative instrumental locative feminine noun inflection=37
+запреге: singular plural accusative genitive nominative vocative feminine noun inflection=37
+запрего: singular vocative feminine noun inflection=37
+запрегом: singular instrumental feminine noun inflection=37
+запрегу: singular accusative feminine noun inflection=37
+запрези: singular dative locative feminine noun inflection=37
+због: adposition inflection=1
+зграда: singular plural genitive nominative feminine noun inflection=2
+зградама: plural dative instrumental locative feminine noun inflection=2
+зграде: singular plural accusative genitive nominative vocative feminine noun inflection=2
+згради: singular dative locative feminine noun inflection=2
+зградо: singular vocative feminine noun inflection=2
+зградом: singular instrumental feminine noun inflection=2
+зграду: singular accusative feminine noun inflection=2
+зелена: singular plural nominative vocative feminine neuter adjective inflection=8
+зелене: singular plural accusative genitive nominative vocative masculine feminine neuter adjective inflection=8
+зелени: singular plural nominative vocative masculine adjective inflection=8
+зеленим: singular plural dative instrumental locative masculine feminine neuter adjective inflection=8
+зелених: plural genitive masculine feminine adjective inflection=8
+зелено: singular accusative nominative vocative neuter adjective inflection=8
+зеленог: singular accusative genitive masculine neuter adjective inflection=8
+зеленом: singular plural dative instrumental locative masculine feminine neuter adjective inflection=8
+зеленој: singular plural dative locative feminine neuter adjective inflection=8
+зелену: singular plural accusative feminine neuter adjective inflection=8
+земаља: plural genitive feminine noun inflection=24
+земља: singular nominative feminine noun inflection=24
+земљама: plural dative instrumental locative feminine noun inflection=24
+земље: singular plural accusative genitive nominative vocative feminine noun inflection=24
+земљи: singular dative locative feminine noun inflection=24
+земљо: singular vocative feminine noun inflection=24
+земљом: singular instrumental feminine noun inflection=24
+земљу: singular accusative feminine noun inflection=24
+знак: singular accusative nominative masculine noun inflection=c
+знака: singular plural genitive masculine noun inflection=c
+знаке: plural accusative masculine noun inflection=c
+знаком: singular instrumental masculine noun inflection=c
+знаку: singular dative locative masculine noun inflection=c
+знаци: plural nominative vocative masculine noun inflection=c
+знацима: plural dative instrumental locative masculine noun inflection=c
+значе: singular vocative masculine noun inflection=c
+из: adposition inflection=1
+изван: adposition inflection=1
+између: adposition inflection=1
+изнад: adposition inflection=1
+име: singular accusative nominative vocative neuter noun inflection=5
+имена: singular plural accusative genitive nominative vocative neuter noun inflection=5
+именима: plural dative instrumental locative neuter noun inflection=5
+именом: singular instrumental neuter noun inflection=5
+имену: singular dative locative neuter noun inflection=5
+испод: adposition inflection=1
+камен: singular accusative nominative masculine noun inflection=6
+камена: singular plural genitive masculine noun inflection=6
+камене: singular plural accusative vocative masculine noun inflection=6
+камени: plural nominative vocative masculine noun inflection=6
+каменима: plural dative instrumental locative masculine noun inflection=6
+каменом: singular instrumental masculine noun inflection=6
+камену: singular dative locative masculine noun inflection=6
+камион: singular accusative nominative masculine noun inflection=e
+камиона: singular plural genitive masculine noun inflection=e
+камионе: plural accusative masculine noun inflection=e
+камиони: plural nominative vocative masculine noun inflection=e
+камионима: plural dative instrumental locative masculine noun inflection=e
+камионом: singular instrumental masculine noun inflection=e
+камиону: singular dative locative vocative masculine noun inflection=e
+кафана: singular plural genitive nominative feminine noun inflection=2
+кафанама: plural dative instrumental locative feminine noun inflection=2
+кафане: singular plural accusative genitive nominative vocative feminine noun inflection=2
+кафани: singular dative locative feminine noun inflection=2
+кафано: singular vocative feminine noun inflection=2
+кафаном: singular instrumental feminine noun inflection=2
+кафану: singular accusative feminine noun inflection=2
+киша: singular plural genitive nominative feminine noun inflection=2
+кишама: plural dative instrumental locative feminine noun inflection=2
+кише: singular plural accusative genitive nominative vocative feminine noun inflection=2
+киши: singular dative locative feminine noun inflection=2
+кишо: singular vocative feminine noun inflection=2
+кишом: singular instrumental feminine noun inflection=2
+кишу: singular accusative feminine noun inflection=2
+код: adposition inflection=1
+коза: singular plural genitive nominative feminine noun inflection=2
+козама: plural dative instrumental locative feminine noun inflection=2
+козе: singular plural accusative genitive nominative vocative feminine noun inflection=2
+кози: singular dative locative feminine noun inflection=2
+козо: singular vocative feminine noun inflection=2
+козом: singular instrumental feminine noun inflection=2
+козу: singular accusative feminine noun inflection=2
+коноба: singular plural genitive nominative feminine noun inflection=2
+конобама: plural dative instrumental locative feminine noun inflection=2
+конобе: singular plural accusative genitive nominative vocative feminine noun inflection=2
+коноби: singular dative locative feminine noun inflection=2
+конобо: singular vocative feminine noun inflection=2
+конобом: singular instrumental feminine noun inflection=2
+конобу: singular accusative feminine noun inflection=2
+коњ: masculine noun inflection=34
+кроз: adposition inflection=1
+крчма: singular plural genitive nominative feminine noun inflection=2
+крчмама: plural dative instrumental locative feminine noun inflection=2
+крчме: singular plural accusative genitive nominative vocative feminine noun inflection=2
+крчми: singular dative locative feminine noun inflection=2
+крчмо: singular vocative feminine noun inflection=2
+крчмом: singular instrumental feminine noun inflection=2
+крчму: singular accusative feminine noun inflection=2
+кућа: singular plural genitive nominative feminine noun inflection=2
+кућама: plural dative instrumental locative feminine noun inflection=2
+куће: singular plural accusative genitive nominative vocative feminine noun inflection=2
+кући: singular dative locative feminine noun inflection=2
+кућо: singular vocative feminine noun inflection=2
+кућом: singular instrumental feminine noun inflection=2
+кућу: singular accusative feminine noun inflection=2
+кћер: singular accusative feminine noun inflection=2c
+кћери: singular plural accusative dative genitive instrumental locative nominative vocative feminine noun inflection=2c
+кћерима: plural dative instrumental locative feminine noun inflection=2c
+кћи: singular nominative feminine noun inflection=2c
+мама: singular plural genitive nominative vocative feminine noun inflection=39
+мамама: plural dative instrumental locative feminine noun inflection=39
+маме: singular plural accusative genitive nominative vocative feminine noun inflection=39
+мами: singular dative locative feminine noun inflection=39
+мамом: singular instrumental feminine noun inflection=39
+маму: singular accusative feminine noun inflection=39
+март: accusative nominative masculine noun inflection=9
+марта: genitive masculine noun inflection=9
+марте: vocative masculine noun inflection=9
+мартом: instrumental masculine noun inflection=9
+марту: dative locative masculine noun inflection=9
+мај: accusative nominative masculine noun inflection=46
+маја: genitive masculine noun inflection=46
+мајом: instrumental masculine noun inflection=46
+мају: dative locative vocative masculine noun inflection=46
+међу: adposition inflection=1
+ми: plural nominative pronoun
+младост: singular accusative nominative feminine noun inflection=b
+младости: singular plural accusative dative genitive locative nominative vocative feminine noun inflection=b
+младостима: plural dative instrumental locative feminine noun inflection=b
+младошћу: singular instrumental feminine noun inflection=b
+мора: singular plural accusative genitive nominative vocative neuter noun inflection=2e
+море: singular accusative nominative vocative neuter noun inflection=2e
+морима: plural dative instrumental locative neuter noun inflection=2e
+мором: singular instrumental neuter noun inflection=2e
+мору: singular dative locative neuter noun inflection=2e
+мост: singular accusative nominative masculine noun inflection=11
+моста: singular genitive masculine noun inflection=11
+мосте: singular vocative masculine noun inflection=11
+мостова: plural genitive masculine noun inflection=11
+мостове: plural accusative masculine noun inflection=11
+мостови: plural nominative vocative masculine noun inflection=11
+мостовима: plural dative instrumental locative masculine noun inflection=11
+мостом: singular instrumental masculine noun inflection=11
+мосту: singular dative locative masculine noun inflection=11
+на: adposition inflection=1
+над: adposition inflection=1
+надвожњак: singular accusative nominative masculine noun inflection=c
+надвожњака: singular plural genitive masculine noun inflection=c
+надвожњаке: plural accusative masculine noun inflection=c
+надвожњаком: singular instrumental masculine noun inflection=c
+надвожњаку: singular dative locative masculine noun inflection=c
+надвожњаци: plural nominative vocative masculine noun inflection=c
+надвожњацима: plural dative instrumental locative masculine noun inflection=c
+надвожњаче: singular vocative masculine noun inflection=c
+насеља: singular plural accusative genitive nominative vocative neuter noun inflection=1b
+насеље: singular accusative nominative vocative neuter noun inflection=1b
+насељем: singular instrumental neuter noun inflection=1b
+насељима: plural dative instrumental locative neuter noun inflection=1b
+насељу: singular dative locative neuter noun inflection=1b
+насупрот: adposition inflection=1
+недеља: singular plural genitive nominative feminine noun inflection=2
+недељама: plural dative instrumental locative feminine noun inflection=2
+недеље: singular plural accusative genitive nominative vocative feminine noun inflection=2
+недељи: singular dative locative feminine noun inflection=2
+недељо: singular vocative feminine noun inflection=2
+недељом: singular instrumental feminine noun inflection=2
+недељу: singular accusative feminine noun inflection=2
+новембар: accusative nominative masculine noun inflection=13
+новембра: genitive masculine noun inflection=13
+новембре: vocative masculine noun inflection=13
+новембром: instrumental masculine noun inflection=13
+новембру: dative locative masculine noun inflection=13
+нога: singular nominative feminine noun inflection=41
+ногама: plural dative instrumental locative feminine noun inflection=41
+ноге: singular plural accusative genitive nominative vocative feminine noun inflection=41
+ного: singular vocative feminine noun inflection=41
+ногом: singular instrumental feminine noun inflection=41
+ногу: singular plural accusative genitive feminine noun inflection=41
+нози: singular dative locative feminine noun inflection=41
+о: adposition inflection=1
+обала: singular plural genitive nominative feminine noun inflection=2
+обалама: plural dative instrumental locative feminine noun inflection=2
+обале: singular plural accusative genitive nominative vocative feminine noun inflection=2
+обали: singular dative locative feminine noun inflection=2
+обало: singular vocative feminine noun inflection=2
+обалом: singular instrumental feminine noun inflection=2
+обалу: singular accusative feminine noun inflection=2
+облак: singular accusative nominative masculine noun inflection=c
+облака: singular plural genitive masculine noun inflection=c
+облаке: plural accusative masculine noun inflection=c
+облаком: singular instrumental masculine noun inflection=c
+облаку: singular dative locative masculine noun inflection=c
+облаци: plural nominative vocative masculine noun inflection=c
+облацима: plural dative instrumental locative masculine noun inflection=c
+облаче: singular vocative masculine noun inflection=c
+ован: singular nominative masculine noun inflection=1f
+оваца: plural genitive feminine noun inflection=42
+овна: singular accusative genitive masculine noun inflection=1f
+овне: singular vocative masculine noun inflection=1f
+овнова: plural genitive masculine noun inflection=1f
+овнове: plural accusative masculine noun inflection=1f
+овнови: plural nominative vocative masculine noun inflection=1f
+овновима: plural dative instrumental locative masculine noun inflection=1f
+овном: singular instrumental masculine noun inflection=1f
+овну: singular dative locative masculine noun inflection=1f
+овца: singular nominative feminine noun inflection=42
+овцама: plural dative instrumental locative feminine noun inflection=42
+овце: singular plural accusative genitive nominative vocative feminine noun inflection=42
+овци: singular dative locative feminine noun inflection=42
+овцо: singular vocative feminine noun inflection=42
+овцом: singular instrumental feminine noun inflection=42
+овцу: singular accusative feminine noun inflection=42
+од: adposition inflection=1
+око: adposition inflection=1
+октобар: accusative nominative noun inflection=14
+октобра: genitive noun inflection=14
+октобре: vocative noun inflection=14
+октобром: instrumental noun inflection=14
+октобру: dative locative noun inflection=14
+он: singular nominative pronoun
+онo: singular nominative pronoun
+оне: plural nominative pronoun
+они: plural nominative pronoun
+памет: singular accusative nominative feminine noun inflection=43
+памети: singular plural accusative dative genitive locative nominative vocative feminine noun inflection=43
+паметима: plural dative instrumental locative feminine noun inflection=43
+памећу: singular instrumental feminine noun inflection=43
+парк: singular accusative nominative masculine noun inflection=3a
+парка: singular genitive masculine noun inflection=3a
+паркова: plural genitive masculine noun inflection=3a
+паркове: plural accusative masculine noun inflection=3a
+паркови: plural nominative vocative masculine noun inflection=3a
+парковима: plural dative instrumental locative masculine noun inflection=3a
+парком: singular instrumental masculine noun inflection=3a
+парку: singular dative locative masculine noun inflection=3a
+парче: singular vocative masculine noun inflection=3a
+петак: singular accusative nominative masculine noun inflection=f
+петака: plural genitive masculine noun inflection=f
+петка: singular genitive masculine noun inflection=f
+петке: plural accusative masculine noun inflection=f
+петком: singular instrumental masculine noun inflection=f
+петку: singular dative locative masculine noun inflection=f
+петци: plural nominative vocative masculine noun inflection=f
+петцима: plural dative instrumental locative masculine noun inflection=f
+петче: singular vocative masculine noun inflection=f
+пећ: singular accusative nominative feminine noun inflection=17
+пећи: singular plural accusative dative genitive locative nominative vocative feminine noun inflection=17
+пећима: plural dative instrumental locative feminine noun inflection=17
+пећу: singular instrumental feminine noun inflection=17
+плавe: plural genitive neuter adjective inflection=2a
+плава: singular plural nominative vocative feminine neuter adjective inflection=2a
+плаве: singular plural accusative genitive nominative vocative masculine feminine adjective inflection=2a
+плави: singular plural nominative vocative masculine adjective inflection=2a
+плавим: singular plural instrumental locative masculine neuter adjective inflection=2a
+плавимa: plural dative instrumental locative masculine feminine neuter adjective inflection=2a
+плавих: plural genitive masculine feminine adjective inflection=2a
+плаво: singular accusative nominative vocative neuter adjective inflection=2a
+плавог: singular accusative genitive masculine neuter adjective inflection=2a
+плавом: singular plural dative instrumental locative masculine feminine neuter adjective inflection=2a
+плавој: singular plural dative locative feminine neuter adjective inflection=2a
+плаву: singular plural accusative feminine neuter adjective inflection=2a
+планина: singular plural genitive nominative feminine noun inflection=2
+планинама: plural dative instrumental locative feminine noun inflection=2
+планине: singular plural accusative genitive nominative vocative feminine noun inflection=2
+планини: singular dative locative feminine noun inflection=2
+планино: singular vocative feminine noun inflection=2
+планином: singular instrumental feminine noun inflection=2
+планину: singular accusative feminine noun inflection=2
+племе: singular accusative nominative vocative neuter noun inflection=5
+племена: singular plural accusative genitive nominative vocative neuter noun inflection=5
+племенима: plural dative instrumental locative neuter noun inflection=5
+племеном: singular instrumental neuter noun inflection=5
+племену: singular dative locative neuter noun inflection=5
+по: adposition inflection=1
+поврх: adposition inflection=1
+под: adposition inflection=1
+податак: singular accusative nominative masculine noun inflection=28
+података: plural genitive masculine noun inflection=28
+податка: singular genitive masculine noun inflection=28
+податке: plural accusative masculine noun inflection=28
+податком: singular instrumental masculine noun inflection=28
+податку: singular dative locative masculine noun inflection=28
+податче: singular vocative masculine noun inflection=28
+подаци: plural nominative vocative masculine noun inflection=28
+подацима: plural dative instrumental locative masculine noun inflection=28
+пожар: singular accusative nominative masculine noun inflection=6
+пожара: singular plural genitive masculine noun inflection=6
+пожаре: singular plural accusative vocative masculine noun inflection=6
+пожари: plural nominative vocative masculine noun inflection=6
+пожарима: plural dative instrumental locative masculine noun inflection=6
+пожаром: singular instrumental masculine noun inflection=6
+пожару: singular dative locative masculine noun inflection=6
+политика: feminine noun inflection=1d
+понедељак: singular accusative nominative masculine noun inflection=f
+понедељака: plural genitive masculine noun inflection=f
+понедељка: singular genitive masculine noun inflection=f
+понедељке: plural accusative masculine noun inflection=f
+понедељком: singular instrumental masculine noun inflection=f
+понедељку: singular dative locative masculine noun inflection=f
+понедељци: plural nominative vocative masculine noun inflection=f
+понедељцима: plural dative instrumental locative masculine noun inflection=f
+понедељче: singular vocative masculine noun inflection=f
+поплава: singular plural genitive nominative feminine noun inflection=2
+поплавама: plural dative instrumental locative feminine noun inflection=2
+поплаве: singular plural accusative genitive nominative vocative feminine noun inflection=2
+поплави: singular dative locative feminine noun inflection=2
+поплаво: singular vocative feminine noun inflection=2
+поплавом: singular instrumental feminine noun inflection=2
+поплаву: singular accusative feminine noun inflection=2
+после: adposition inflection=1
+поток: singular accusative nominative masculine noun inflection=c
+потока: singular plural genitive masculine noun inflection=c
+потоке: plural accusative masculine noun inflection=c
+потоком: singular instrumental masculine noun inflection=c
+потоку: singular dative locative masculine noun inflection=c
+потоци: plural nominative vocative masculine noun inflection=c
+потоцима: plural dative instrumental locative masculine noun inflection=c
+поточе: singular vocative masculine noun inflection=c
+правац: singular accusative nominative masculine noun inflection=1a
+праваца: plural genitive masculine noun inflection=1a
+правца: singular genitive masculine noun inflection=1a
+правце: plural accusative masculine noun inflection=1a
+правци: plural nominative vocative masculine noun inflection=1a
+правцима: plural dative instrumental locative masculine noun inflection=1a
+правцом: singular instrumental masculine noun inflection=1a
+правцу: singular dative locative masculine noun inflection=1a
+правче: singular vocative masculine noun inflection=1a
+пре: adposition inflection=1
+превоз: singular accusative nominative masculine noun inflection=6
+превоза: singular plural genitive masculine noun inflection=6
+превозе: singular plural accusative vocative masculine noun inflection=6
+превози: plural nominative vocative masculine noun inflection=6
+превозима: plural dative instrumental locative masculine noun inflection=6
+превозом: singular instrumental masculine noun inflection=6
+превозу: singular dative locative masculine noun inflection=6
+преко: adposition inflection=1
+према: adposition inflection=1
+претња: singular nominative feminine noun inflection=20
+претњама: plural dative instrumental locative feminine noun inflection=20
+претње: singular plural accusative genitive nominative vocative feminine noun inflection=20
+претњи: singular plural dative genitive locative feminine noun inflection=20
+претњо: singular vocative feminine noun inflection=20
+претњом: singular instrumental feminine noun inflection=20
+претњу: singular accusative feminine noun inflection=20
+пропланак: singular accusative nominative masculine noun inflection=f
+пропланака: plural genitive masculine noun inflection=f
+пропланка: singular genitive masculine noun inflection=f
+пропланке: plural accusative masculine noun inflection=f
+пропланком: singular instrumental masculine noun inflection=f
+пропланку: singular dative locative masculine noun inflection=f
+пропланци: plural nominative vocative masculine noun inflection=f
+пропланцима: plural dative instrumental locative masculine noun inflection=f
+пропланче: singular vocative masculine noun inflection=f
+пумпа: singular plural genitive nominative feminine noun inflection=2
+пумпама: plural dative instrumental locative feminine noun inflection=2
+пумпе: singular plural accusative genitive nominative vocative feminine noun inflection=2
+пумпи: singular dative locative feminine noun inflection=2
+пумпо: singular vocative feminine noun inflection=2
+пумпом: singular instrumental feminine noun inflection=2
+пумпу: singular accusative feminine noun inflection=2
+путокаже: singular vocative masculine noun inflection=29
+путоказ: singular accusative nominative masculine noun inflection=29
+путоказа: singular plural genitive masculine noun inflection=29
+путоказе: plural accusative masculine noun inflection=29
+путокази: plural nominative vocative masculine noun inflection=29
+путоказима: plural dative instrumental locative masculine noun inflection=29
+путоказом: singular instrumental masculine noun inflection=29
+путоказу: singular dative locative masculine noun inflection=29
+радост: singular accusative nominative feminine noun inflection=b
+радости: singular plural accusative dative genitive locative nominative vocative feminine noun inflection=b
+радостима: plural dative instrumental locative feminine noun inflection=b
+радошћу: singular instrumental feminine noun inflection=b
+раме: singular accusative nominative vocative neuter noun inflection=5
+рамена: singular plural accusative genitive nominative vocative neuter noun inflection=5
+раменима: plural dative instrumental locative neuter noun inflection=5
+раменом: singular instrumental neuter noun inflection=5
+рамену: singular dative locative neuter noun inflection=5
+река: singular plural genitive nominative feminine noun inflection=25
+рекама: plural dative instrumental locative feminine noun inflection=25
+реке: singular plural accusative genitive nominative vocative feminine noun inflection=25
+реко: singular vocative feminine noun inflection=25
+реком: singular instrumental feminine noun inflection=25
+реку: singular accusative feminine noun inflection=25
+ресторан: singular accusative nominative masculine noun inflection=6
+ресторана: singular plural genitive masculine noun inflection=6
+ресторане: singular plural accusative vocative masculine noun inflection=6
+ресторани: plural nominative vocative masculine noun inflection=6
+ресторанима: plural dative instrumental locative masculine noun inflection=6
+рестораном: singular instrumental masculine noun inflection=6
+ресторану: singular dative locative masculine noun inflection=6
+реци: singular dative locative feminine noun inflection=25
+рука: singular nominative feminine noun inflection=21
+рукама: plural dative instrumental locative feminine noun inflection=21
+руке: singular plural accusative genitive nominative vocative feminine noun inflection=21
+руко: singular vocative feminine noun inflection=21
+руком: singular instrumental feminine noun inflection=21
+руку: singular plural accusative genitive feminine noun inflection=21
+руци: singular dative locative feminine noun inflection=21
+с: adposition inflection=1
+са: adposition inflection=1
+салаш: singular accusative nominative feminine noun inflection=2f
+салаша: singular plural genitive feminine noun inflection=2f
+салаше: plural accusative feminine noun inflection=2f
+салаши: plural nominative vocative feminine noun inflection=2f
+салашима: plural dative instrumental locative feminine noun inflection=2f
+салашом: singular instrumental feminine noun inflection=2f
+салашу: singular dative locative vocative feminine noun inflection=2f
+септембар: accusative nominative masculine noun inflection=13
+септембра: genitive masculine noun inflection=13
+септембре: vocative masculine noun inflection=13
+септембром: instrumental masculine noun inflection=13
+септембру: dative locative masculine noun inflection=13
+сива: singular plural nominative vocative feminine neuter adjective inflection=8
+сиве: singular plural accusative genitive nominative vocative masculine feminine neuter adjective inflection=8
+сиви: singular plural nominative vocative masculine adjective inflection=8
+сивим: singular plural dative instrumental locative masculine feminine neuter adjective inflection=8
+сивих: plural genitive masculine feminine adjective inflection=8
+сиво: singular accusative nominative vocative neuter adjective inflection=8
+сивог: singular accusative genitive masculine neuter adjective inflection=8
+сивом: singular plural dative instrumental locative masculine feminine neuter adjective inflection=8
+сивој: singular plural dative locative feminine neuter adjective inflection=8
+сиву: singular plural accusative feminine neuter adjective inflection=8
+скретања: singular plural accusative genitive nominative vocative neuter noun inflection=1b
+скретање: singular accusative nominative vocative neuter noun inflection=1b
+скретањем: singular instrumental neuter noun inflection=1b
+скретањима: plural dative instrumental locative neuter noun inflection=1b
+скретању: singular dative locative neuter noun inflection=1b
+слуга: singular nominative masculine noun inflection=30
+слугама: plural dative instrumental locative masculine noun inflection=30
+слуге: singular plural accusative genitive nominative vocative masculine noun inflection=30
+слуги: singular dative locative masculine noun inflection=30
+слуго: singular vocative masculine noun inflection=30
+слугом: singular instrumental masculine noun inflection=30
+слугу: singular plural accusative genitive masculine noun inflection=30
+смер: singular accusative nominative masculine noun inflection=44
+смера: singular plural genitive masculine noun inflection=44
+смере: singular plural accusative vocative masculine noun inflection=44
+смери: plural vocative masculine noun inflection=44
+смерима: plural dative instrumental locative masculine noun inflection=44
+смерови: plural nominative masculine noun inflection=44
+смером: singular instrumental masculine noun inflection=44
+смеру: singular dative locative masculine noun inflection=44
+смеђа: singular plural nominative vocative feminine neuter adjective inflection=31
+смеђе: singular plural accusative genitive nominative vocative masculine feminine neuter adjective inflection=31
+смеђег: singular accusative genitive masculine neuter adjective inflection=31
+смеђем: singular dative locative masculine neuter adjective inflection=31
+смеђи: singular plural nominative vocative masculine adjective inflection=31
+смеђим: singular plural dative instrumental locative masculine feminine neuter adjective inflection=31
+смеђих: plural genitive masculine feminine adjective inflection=31
+смеђом: singular plural instrumental feminine neuter adjective inflection=31
+смеђој: singular plural dative locative feminine neuter adjective inflection=31
+смеђу: singular plural accusative feminine neuter adjective inflection=31
+среда: singular plural genitive nominative feminine noun inflection=2
+средама: plural dative instrumental locative feminine noun inflection=2
+среде: singular plural accusative genitive nominative vocative feminine noun inflection=2
+среди: singular dative locative feminine noun inflection=2
+средо: singular vocative feminine noun inflection=2
+средом: singular instrumental feminine noun inflection=2
+среду: singular accusative feminine noun inflection=2
+становник: singular nominative masculine noun inflection=3b
+становникe: plural accusative masculine noun inflection=3b
+становника: singular plural accusative genitive masculine noun inflection=3b
+становником: singular instrumental masculine noun inflection=3b
+становнику: singular dative locative masculine noun inflection=3b
+становници: plural nominative vocative masculine noun inflection=3b
+становницима: plural dative instrumental locative masculine noun inflection=3b
+становниче: singular vocative masculine noun inflection=3b
+старост: singular accusative nominative feminine noun inflection=b
+старости: singular plural accusative dative genitive locative nominative vocative feminine noun inflection=b
+старостима: plural dative instrumental locative feminine noun inflection=b
+старошћу: singular instrumental feminine noun inflection=b
+ствар: singular accusative nominative feminine noun inflection=45
+ствари: singular plural accusative dative genitive locative nominative vocative feminine noun inflection=45
+стварима: plural dative instrumental locative feminine noun inflection=45
+стварју: singular instrumental feminine noun inflection=45
+стена: singular plural genitive nominative feminine noun inflection=2
+стенама: plural dative instrumental locative feminine noun inflection=2
+стене: singular plural accusative genitive nominative vocative feminine noun inflection=2
+стени: singular dative locative feminine noun inflection=2
+стено: singular vocative feminine noun inflection=2
+стеном: singular instrumental feminine noun inflection=2
+стену: singular accusative feminine noun inflection=2
+субота: singular plural genitive nominative feminine noun inflection=2
+суботама: plural dative instrumental locative feminine noun inflection=2
+суботе: singular plural accusative genitive nominative vocative feminine noun inflection=2
+суботи: singular dative locative feminine noun inflection=2
+субото: singular vocative feminine noun inflection=2
+суботом: singular instrumental feminine noun inflection=2
+суботу: singular accusative feminine noun inflection=2
+судија: singular plural genitive nominative vocative masculine noun inflection=3e
+судијама: plural dative instrumental locative masculine noun inflection=3e
+судије: singular plural accusative genitive nominative vocative masculine noun inflection=3e
+судији: singular dative locative masculine noun inflection=3e
+судијом: singular instrumental masculine noun inflection=3e
+судију: singular accusative masculine noun inflection=3e
+ташта: singular plural genitive nominative feminine noun inflection=2
+таштама: plural dative instrumental locative feminine noun inflection=2
+таште: singular plural accusative genitive nominative vocative feminine noun inflection=2
+ташти: singular dative locative feminine noun inflection=2
+ташто: singular vocative feminine noun inflection=2
+таштом: singular instrumental feminine noun inflection=2
+ташту: singular accusative feminine noun inflection=2
+теме: singular accusative nominative vocative neuter noun inflection=5
+темена: singular plural accusative genitive nominative vocative neuter noun inflection=5
+теменима: plural dative instrumental locative neuter noun inflection=5
+теменом: singular instrumental neuter noun inflection=5
+темену: singular dative locative neuter noun inflection=5
+ти: singular nominative pronoun
+тутумрак: singular nominative masculine noun inflection=15
+тутумрака: singular plural accusative genitive masculine noun inflection=15
+тутумраке: plural accusative masculine noun inflection=15
+тутумраком: singular instrumental masculine noun inflection=15
+тутумраку: singular dative locative masculine noun inflection=15
+тутумраци: plural nominative vocative masculine noun inflection=15
+тутумрацима: plural dative instrumental locative masculine noun inflection=15
+тутумраче: singular vocative masculine noun inflection=15
+у: adposition inflection=1
+ужад: plural accusative nominative neuter noun inflection=1c
+ужади: plural genitive vocative neuter noun inflection=1c
+ужадима: plural dative instrumental locative neuter noun inflection=1c
+уже: singular accusative nominative vocative neuter noun inflection=1c
+ужета: singular genitive neuter noun inflection=1c
+ужетом: singular instrumental neuter noun inflection=1c
+ужету: singular dative locative neuter noun inflection=1c
+уз: adposition inflection=1
+улица: singular plural genitive nominative feminine noun inflection=2
+улицама: plural dative instrumental locative feminine noun inflection=2
+улице: singular plural accusative genitive nominative vocative feminine noun inflection=2
+улици: singular dative locative feminine noun inflection=2
+улицо: singular vocative feminine noun inflection=2
+улицом: singular instrumental feminine noun inflection=2
+улицу: singular accusative feminine noun inflection=2
+унутра: adposition inflection=1
+уторак: singular accusative nominative masculine noun inflection=18
+уторака: singular plural genitive masculine noun inflection=18
+уторке: plural accusative masculine noun inflection=18
+уторком: singular instrumental masculine noun inflection=18
+уторку: singular dative locative masculine noun inflection=18
+уторци: plural nominative vocative masculine noun inflection=18
+уторцима: plural dative instrumental locative masculine noun inflection=18
+уторче: singular vocative masculine noun inflection=18
+учитељица: singular plural genitive nominative feminine noun inflection=12
+учитељицама: plural dative instrumental locative feminine noun inflection=12
+учитељице: singular plural accusative genitive nominative vocative feminine noun inflection=12
+учитељици: singular dative locative feminine noun inflection=12
+учитељицом: singular instrumental feminine noun inflection=12
+учитељицу: singular accusative feminine noun inflection=12
+фебруар: accusative nominative noun inflection=10
+фебруара: genitive noun inflection=10
+фебруаре: vocative noun inflection=10
+фебруаром: instrumental noun inflection=10
+фебруару: dative locative noun inflection=10
+херој: singular nominative masculine noun inflection=23
+хероја: singular plural accusative genitive masculine noun inflection=23
+хероје: plural accusative masculine noun inflection=23
+херојем: singular instrumental masculine noun inflection=23
+хероји: plural nominative vocative masculine noun inflection=23
+херојима: plural dative instrumental locative masculine noun inflection=23
+хероју: singular dative locative vocative masculine noun inflection=23
+хотел: singular accusative nominative masculine noun inflection=6
+хотела: singular plural genitive masculine noun inflection=6
+хотеле: singular plural accusative vocative masculine noun inflection=6
+хотели: plural nominative vocative masculine noun inflection=6
+хотелима: plural dative instrumental locative masculine noun inflection=6
+хотелом: singular instrumental masculine noun inflection=6
+хотелу: singular dative locative masculine noun inflection=6
+храм: singular accusative nominative masculine noun inflection=11
+храма: singular genitive masculine noun inflection=11
+храме: singular vocative masculine noun inflection=11
+храмова: plural genitive masculine noun inflection=11
+храмове: plural accusative masculine noun inflection=11
+храмови: plural nominative vocative masculine noun inflection=11
+храмовима: plural dative instrumental locative masculine noun inflection=11
+храмом: singular instrumental masculine noun inflection=11
+храму: singular dative locative masculine noun inflection=11
+црвена: singular plural nominative vocative feminine neuter adjective inflection=8
+црвене: singular plural accusative genitive nominative vocative masculine feminine neuter adjective inflection=8
+црвени: singular plural nominative vocative masculine adjective inflection=8
+црвеним: singular plural dative instrumental locative masculine feminine neuter adjective inflection=8
+црвених: plural genitive masculine feminine adjective inflection=8
+црвено: singular accusative nominative vocative neuter adjective inflection=8
+црвеног: singular accusative genitive masculine neuter adjective inflection=8
+црвеном: singular plural dative instrumental locative masculine feminine neuter adjective inflection=8
+црвеној: singular plural dative locative feminine neuter adjective inflection=8
+црвену: singular plural accusative feminine neuter adjective inflection=8
+црква: singular plural genitive nominative feminine noun inflection=2
+црквама: plural dative instrumental locative feminine noun inflection=2
+цркве: singular plural accusative genitive nominative vocative feminine noun inflection=2
+цркви: singular dative locative feminine noun inflection=2
+цркво: singular vocative feminine noun inflection=2
+црквом: singular instrumental feminine noun inflection=2
+цркву: singular accusative feminine noun inflection=2
+црна: singular plural nominative vocative feminine neuter adjective inflection=8
+црне: singular plural accusative genitive nominative vocative masculine feminine neuter adjective inflection=8
+црни: singular plural nominative vocative masculine adjective inflection=8
+црним: singular plural dative instrumental locative masculine feminine neuter adjective inflection=8
+црних: plural genitive masculine feminine adjective inflection=8
+црно: singular accusative nominative vocative neuter adjective inflection=8
+црног: singular accusative genitive masculine neuter adjective inflection=8
+црном: singular plural dative instrumental locative masculine feminine neuter adjective inflection=8
+црној: singular plural dative locative feminine neuter adjective inflection=8
+црну: singular plural accusative feminine neuter adjective inflection=8
+чамац: singular accusative nominative masculine noun inflection=26
+чамаца: singular plural genitive masculine noun inflection=26
+чамце: plural accusative masculine noun inflection=26
+чамци: plural nominative vocative masculine noun inflection=26
+чамцима: plural dative instrumental locative masculine noun inflection=26
+чамцом: singular instrumental masculine noun inflection=26
+чамцу: singular dative locative masculine noun inflection=26
+чамче: singular vocative masculine noun inflection=26
+чађ: singular accusative nominative feminine noun inflection=17
+чађи: singular plural accusative dative genitive locative nominative vocative feminine noun inflection=17
+чађима: plural dative instrumental locative feminine noun inflection=17
+чађу: singular instrumental feminine noun inflection=17
+четвртак: singular accusative nominative masculine noun inflection=18
+четвртака: singular plural genitive masculine noun inflection=18
+четвртке: plural accusative masculine noun inflection=18
+четвртком: singular instrumental masculine noun inflection=18
+четвртку: singular dative locative masculine noun inflection=18
+четвртци: plural nominative vocative masculine noun inflection=18
+четвртцима: plural dative instrumental locative masculine noun inflection=18
+четвртче: singular vocative masculine noun inflection=18
+шума: singular plural genitive nominative feminine noun inflection=2
+шумама: plural dative instrumental locative feminine noun inflection=2
+шуме: singular plural accusative genitive nominative vocative feminine noun inflection=2
+шуми: singular dative locative feminine noun inflection=2
+шумо: singular vocative feminine noun inflection=2
+шумом: singular instrumental feminine noun inflection=2
+шуму: singular accusative feminine noun inflection=2
+ја: singular nominative pronoun
+јануар: accusative nominative noun inflection=10
+јануара: genitive noun inflection=10
+јануаре: vocative noun inflection=10
+јануаром: instrumental noun inflection=10
+јануару: dative locative noun inflection=10
+јарац: singular accusative nominative masculine noun inflection=1a
+јараца: plural genitive masculine noun inflection=1a
+јарца: singular genitive masculine noun inflection=1a
+јарце: plural accusative masculine noun inflection=1a
+јарци: plural nominative vocative masculine noun inflection=1a
+јарцима: plural dative instrumental locative masculine noun inflection=1a
+јарцом: singular instrumental masculine noun inflection=1a
+јарцу: singular dative locative masculine noun inflection=1a
+јарче: singular vocative masculine noun inflection=1a
+једара: plural genitive neuter noun inflection=38
+једра: singular plural accusative genitive nominative vocative neuter noun inflection=38
+једрилица: singular plural genitive nominative feminine noun inflection=12
+једрилицама: plural dative instrumental locative feminine noun inflection=12
+једрилице: singular plural accusative genitive nominative vocative feminine noun inflection=12
+једрилици: singular dative locative feminine noun inflection=12
+једрилицом: singular instrumental feminine noun inflection=12
+једрилицу: singular accusative feminine noun inflection=12
+једрима: plural dative instrumental locative neuter noun inflection=38
+једро: singular accusative nominative vocative neuter noun inflection=38
+једром: singular instrumental neuter noun inflection=38
+једру: singular dative locative neuter noun inflection=38
+језера: singular plural accusative genitive nominative vocative neuter noun inflection=d
+језерима: plural dative instrumental locative neuter noun inflection=d
+језеро: singular accusative nominative vocative neuter noun inflection=d
+језером: singular instrumental neuter noun inflection=d
+језеру: singular dative locative neuter noun inflection=d
+јул: accusative nominative masculine noun inflection=9
+јула: genitive masculine noun inflection=9
+јуле: vocative masculine noun inflection=9
+јулом: instrumental masculine noun inflection=9
+јулу: dative locative masculine noun inflection=9
+јун: accusative nominative noun inflection=10
+јуна: genitive noun inflection=10
+јунак: singular nominative masculine noun inflection=15
+јунака: singular plural accusative genitive masculine noun inflection=15
+јунаке: plural accusative masculine noun inflection=15
+јунаком: singular instrumental masculine noun inflection=15
+јунаку: singular dative locative masculine noun inflection=15
+јунаци: plural nominative vocative masculine noun inflection=15
+јунацима: plural dative instrumental locative masculine noun inflection=15
+јуначе: singular vocative masculine noun inflection=15
+јуне: vocative noun inflection=10
+јуном: instrumental noun inflection=10
+јуну: dative locative noun inflection=10
+љубав: singular accusative nominative feminine noun inflection=2d
+љубави: singular plural accusative dative genitive locative nominative vocative feminine noun inflection=2d
+љубавима: plural dative instrumental locative feminine noun inflection=2d
+љубављу: singular instrumental feminine noun inflection=2d
 ==============================================
                        Source: latest-lexemes.json 
-                  Lemma terms:     180
-         Unusable lemma terms:       0
-       Incoming surface forms:    2096
-                Surface forms:    1030
-      Collapsed surface forms:    1066 (50.9%)
+                  Lemma terms:     205
+         Unusable lemma terms:       5
+       Incoming surface forms:    2168
+                Surface forms:    1088
+      Collapsed surface forms:    1080 (49.8%)
        Unusable surface forms:       0
-                 Usable terms:    1030  (100%)
+                 Usable terms:    1088  (100%)
            Unclassified terms:       0    (0%)
 ==============================================
 Case:
-    nominative:              289 (28.1%)
-    accusative:              282 (27.4%)
-    locative:                276 (26.8%)
-    dative:                  275 (26.7%)
-    vocative:                269 (26.1%)
-    instrumental:            267 (25.9%)
-    genitive:                231 (22.4%)
+    nominative:              297 (27.3%)
+    accusative:              290 (26.7%)
+    locative:                284 (26.1%)
+    dative:                  283   (26%)
+    vocative:                277 (25.5%)
+    instrumental:            275 (25.3%)
+    genitive:                237 (21.8%)
 
 Gender:
-    masculine:               467 (45.3%)
-    feminine:                467 (45.3%)
-    neuter:                  141 (13.7%)
+    masculine:               484 (44.5%)
+    feminine:                467 (42.9%)
+    neuter:                  146 (13.4%)
 
 Number:
-    singular:                760 (73.8%)
-    plural:                  379 (36.8%)
+    singular:                783   (72%)
+    plural:                  396 (36.4%)
 
 PartOfSpeech:
-    noun:                    758 (73.6%)
-    proper-noun:             192 (18.6%)
-    adjective:                72    (7%)
-    pronoun:                   8  (0.8%)
+    noun:                    786 (72.2%)
+    proper-noun:             192 (17.6%)
+    adjective:                72  (6.6%)
+    adposition:               30  (2.8%)
+    pronoun:                   8  (0.7%)
 
-processed in 19.442 seconds
+processed in 18.368 seconds
 License: Creative Commons CC0 License (https://creativecommons.org/publicdomain/zero/1.0/)
-generated with options: --locale sr
+generated with options: --language sr --inflection-types noun,adposition,proper-noun,adjective

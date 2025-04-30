@@ -18,12 +18,6 @@
 #include <inflection/util/UnicodeSetUtils.hpp>
 #include <inflection/npc.hpp>
 #include <iterator>
-// Delete later.
-#include <iostream>
-#include <string>
-#include <locale>
-#include <codecvt>
-//
 #include <memory>
 
 namespace inflection::grammar::synthesis {
@@ -34,32 +28,18 @@ SrGrammarSynthesizer_SrDisplayFunction::SrGrammarSynthesizer_SrDisplayFunction(c
     , caseFeature(*npc(model.getFeature(GrammemeConstants::CASE)))
     , numberFeature(*npc(model.getFeature(GrammemeConstants::NUMBER)))
     , genderFeature(*npc(model.getFeature(GrammemeConstants::GENDER)))
-    , posFeature(*npc(model.getFeature(GrammemeConstants::POS)))
     , inflector(::inflection::dictionary::Inflector::getInflector(::inflection::util::LocaleUtils::SERBIAN()))
     , tokenizer(::inflection::tokenizer::TokenizerFactory::createTokenizer(::inflection::util::LocaleUtils::SERBIAN()))
     , dictionaryInflector(::inflection::util::LocaleUtils::SERBIAN(),{
-            {GrammemeConstants::POS_NOUN(), GrammemeConstants::POS_ADJECTIVE(), GrammemeConstants::POS_VERB()},
-            {GrammemeConstants::PERSON_THIRD(), GrammemeConstants::PERSON_FIRST(), GrammemeConstants::PERSON_SECOND()},
+            {GrammemeConstants::POS_NOUN(), GrammemeConstants::POS_ADJECTIVE()},
             {GrammemeConstants::NUMBER_SINGULAR(), GrammemeConstants::NUMBER_PLURAL()},
             {GrammemeConstants::GENDER_MASCULINE(), GrammemeConstants::GENDER_FEMININE(), GrammemeConstants::GENDER_NEUTER()}
     }, {}, true)
 {
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryAdjective, {u"adjective"}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryNoun, {u"noun"}));
 }
 
 SrGrammarSynthesizer_SrDisplayFunction::~SrGrammarSynthesizer_SrDisplayFunction()
 {
-}
-
-void printString16(const std::u16string& input)
-{
-    // Convert std::u16string to std::string
-    std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> convert;
-    std::string utf8_str = convert.to_bytes(input);
-
-    // Output the converted string
-    std::cout << "<<<< Display string: " << utf8_str << " >>>>>>" << std::endl;
 }
 
 ::std::u16string SrGrammarSynthesizer_SrDisplayFunction::inflectString(const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, const ::std::u16string& lemma) const
@@ -85,19 +65,15 @@ void printString16(const std::u16string& input)
     int64_t wordGrammemes = 0;
     dictionary.getCombinedBinaryType(&wordGrammemes, lemma);
 
-    const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> disambiguationConstraints;
-    const auto dismbiguationGrammemeValues(GrammarSynthesizerUtil::convertToStringConstraints(disambiguationConstraints, {&posFeature}));
-    auto inflectionResult = dictionaryInflector.inflect(lemma, wordGrammemes, string_constraints, dismbiguationGrammemeValues);
+    auto inflectionResult = dictionaryInflector.inflect(lemma, wordGrammemes, string_constraints, {});
     if (inflectionResult) {
         inflection = *inflectionResult;
     }
 
     if (inflection.empty()) {
-        printString16(lemma);
         return lemma;
     }
 
-    printString16(inflection);
     return inflection;
 }
 
@@ -105,16 +81,12 @@ void printString16(const std::u16string& input)
 {
     ::std::u16string displayString;
     if (!displayData.getValues().empty()) {
-        std::cout << "######### 1 " << std::endl;
         displayString = displayData.getValues()[0].getDisplayString();
-        printString16(displayString);
     }
     if (displayString.empty()) {
-        std::cout << "######### 2 " << std::endl;
         return nullptr;
     }
     if (dictionary.isKnownWord(displayString)) {
-        std::cout << "######### 3 isKnownWord" << std::endl;
         displayString = inflectString(constraints, displayString);
     }
     return new ::inflection::dialog::DisplayValue(displayString, constraints);

@@ -4,9 +4,18 @@
   License & terms of use: http://www.unicode.org/copyright.html
 -->
 <inflectionTest locale="sr">
-    <!-- Some nominative case tests where we don't expect changes -->
+    <!-- Tests of dictionary words -->
     <test><source case="nominative" number="singular">једро</source><result>једро</result></test>
+    <test><source case="nominative" number="plural">једро</source><result>једра</result></test>
     <test><source case="nominative" number="singular">жена</source><result>жена</result></test>
     <test><source case="nominative" number="singular">камен</source><result>камен</result></test>
     <test><source case="nominative" pos="proper-noun">Петар</source><result>Петар</result></test>
+    <test><source case="vocative" number="singular" gender="feminine" pos="proper-noun">Љубица</source><result>Љубице</result></test>
+    <test><source case="vocative" number="singular" gender="feminine" pos="noun">Србија</source><result>Србијо</result></test>
+    <test><source case="instrumental" number="plural" gender="masculine" pos="noun">становник</source><result>становницима</result></test>
+    <test><source case="genitive" number="plural" gender="neuter" pos="adjective">плава</source><result>плавe</result></test>
+    <!-- Words not in the dictionary but similar in shape -->
+    <!-- test><source case="vocative" number="singular" gender="masculine" pos="noun">уранак</source><result>уранче</result></test -->
+    <!-- test><source case="vocative" number="singular" gender="masculine" pos="noun">игроказ</source><result>игрокаже</result></test -->
+    <!-- test><source case="vocative" number="singular" gender="masculine" pos="noun">пашњак</source><result>пашњаче</result></test -->
 </inflectionTest>

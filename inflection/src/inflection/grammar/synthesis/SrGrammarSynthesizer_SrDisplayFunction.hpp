@@ -21,22 +21,22 @@ class inflection::grammar::synthesis::SrGrammarSynthesizer_SrDisplayFunction
 public:
     typedef ::inflection::dialog::DefaultDisplayFunction super;
 
-private:
-    const ::inflection::dictionary::DictionaryMetaData& dictionary;
-    const ::inflection::dialog::SemanticFeature* countFeature {  };
-    const ::inflection::dialog::SemanticFeature* genderFeature {  };
-    const ::inflection::dialog::SemanticFeature* partOfSpeechFeature {  };
-    const ::std::unique_ptr<::inflection::tokenizer::Tokenizer> tokenizer;
-    const ::inflection::dialog::DictionaryLookupInflector dictionaryInflector;
-
-public:
     ::inflection::dialog::DisplayValue * getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const override;
 
-public:
     explicit SrGrammarSynthesizer_SrDisplayFunction(const ::inflection::dialog::SemanticFeatureModel& model);
     ~SrGrammarSynthesizer_SrDisplayFunction() override;
 
-public:
     SrGrammarSynthesizer_SrDisplayFunction(SrGrammarSynthesizer_SrDisplayFunction&) = delete;
     SrGrammarSynthesizer_SrDisplayFunction& operator=(const SrGrammarSynthesizer_SrDisplayFunction&) = delete;
+
+private:
+    ::std::u16string inflectString(const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, const ::std::u16string& lemma) const;
+
+    const ::inflection::dictionary::DictionaryMetaData& dictionary;
+    const ::inflection::dialog::SemanticFeature& caseFeature;
+    const ::inflection::dialog::SemanticFeature& numberFeature;
+    const ::inflection::dialog::SemanticFeature& genderFeature;
+    const ::inflection::dictionary::Inflector &inflector;
+    const ::std::unique_ptr<::inflection::tokenizer::Tokenizer> tokenizer;
+    ::inflection::dialog::DictionaryLookupInflector dictionaryInflector;
 };

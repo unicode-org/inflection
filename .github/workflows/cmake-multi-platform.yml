@@ -6,12 +6,12 @@ on:
   # Keep it for manual runs.
   workflow_dispatch:
   # Run it on all branches but ignore some paths.
-  # pull_request:
-  #  paths:
-  #  - 'inflection/**'
-  #  - '!data/**'
-  #  - '!documents/**'
-  #  - '!fst/**'
+  pull_request:
+    paths:
+    - 'inflection/**'
+    - '!data/**'
+    - '!documents/**'
+    - '!fst/**'
 
 jobs:
   build:

@@ -10,6 +10,9 @@
 #include "inflection/lang/features/LanguageGrammarFeatures.hpp"
 #include "inflection/util/ULocale.hpp"
 
+#include <unicode/uversion.h>
+#if U_ICU_VERSION_MAJOR_NUM >= 77 // unicode/messageformat2.h is added after 77
+
 #include <unicode/locid.h>
 #include <unicode/messageformat2.h>
 #include <unicode/messageformat2_function_registry.h>
@@ -190,3 +193,4 @@ void InflectionSelector::selectKey(
 }
 
 }
+#endif  // U_ICU_VERSION_MAJOR_NUM >= 77

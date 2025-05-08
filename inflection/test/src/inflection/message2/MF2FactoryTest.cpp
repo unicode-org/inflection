@@ -1,6 +1,9 @@
 /*
  * Copyright 2025 Unicode Incorporated and others. All rights reserved.
  */
+#include <unicode/uversion.h>
+#if U_ICU_VERSION_MAJOR_NUM >= 77 // unicode/messageformat2.h is added after 77
+
 #include "catch2/catch_test_macros.hpp"
 
 #include <inflection/exception/XMLParseException.hpp>
@@ -301,3 +304,4 @@ TEST_CASE("MF2Factory#testFormaterFromDataDriven")
     REQUIRE(numFiles > 0);
     xmlCleanupParser();
 }
+#endif  //if U_ICU_VERSION_MAJOR_NUM >= 77

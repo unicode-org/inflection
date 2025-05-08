@@ -1,7 +1,6 @@
 /*
- * Copyright 2025 Google Inc. All rights reserved.
+ * Copyright 2025 Unicode Incorporated and others. All rights reserved.
  */
-#include <iostream>
 #include "inflection/message2/MF2Factory.hpp"
 
 #include "inflection/dialog/InflectableStringConcept.hpp"
@@ -43,11 +42,11 @@ class InflectionSelectorFactory : public SelectorFactory {
      Selector* createSelector(const Locale&, UErrorCode&) const override;
 };
 
-icu::message2::FormatterFactory* CreateFormatterFactory() {
+icu::message2::FormatterFactory* MF2Factory::CreateFormatterFactory() {
     return new InflectionFormatterFactory();
 }
 
-icu::message2::SelectorFactory* CreateSelectorFactory() {
+icu::message2::SelectorFactory* MF2Factory::CreateSelectorFactory() {
     return new InflectionSelectorFactory();
 }
 

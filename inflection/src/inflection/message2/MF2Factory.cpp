@@ -43,11 +43,11 @@ class InflectionSelectorFactory : public SelectorFactory {
      Selector* createSelector(const Locale&, UErrorCode&) const override;
 };
 
-icu::message2::FormatterFactory* createFormatterFactory() {
+icu::message2::FormatterFactory* CreateFormatterFactory() {
     return new InflectionFormatterFactory();
 }
 
-icu::message2::SelectorFactory* createSelectorFactory() {
+icu::message2::SelectorFactory* CreateSelectorFactory() {
     return new InflectionSelectorFactory();
 }
 

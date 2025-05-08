@@ -15,7 +15,7 @@ class SelectorFactory;
 
 namespace inflection::message2 {
 
-INFLECTION_CLASS_API icu::message2::FormatterFactory* createFormatterFactory();
-INFLECTION_CLASS_API icu::message2::SelectorFactory* createSelectorFactory();
+INFLECTION_CLASS_API icu::message2::FormatterFactory* CreateFormatterFactory();
+INFLECTION_CLASS_API icu::message2::SelectorFactory* CreateSelectorFactory();
 
 }

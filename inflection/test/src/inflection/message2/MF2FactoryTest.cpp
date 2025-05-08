@@ -36,8 +36,8 @@ TEST_CASE("MF2Factory#testBasic")
     UErrorCode errorCode = U_ZERO_ERROR;
     auto functionName = FunctionName("inflection");
     MFFunctionRegistry::Builder(errorCode)
-        .adoptFormatter(functionName, inflection::message2::createFormatterFactory(), errorCode)
-        .adoptSelector(functionName, inflection::message2::createSelectorFactory(), errorCode)
+        .adoptFormatter(functionName, inflection::message2::CreateFormatterFactory(), errorCode)
+        .adoptSelector(functionName, inflection::message2::CreateSelectorFactory(), errorCode)
         .build();
     REQUIRE(U_SUCCESS(errorCode));
 }
@@ -47,7 +47,7 @@ TEST_CASE("MF2Factory#testCreateFormatter")
     UErrorCode errorCode = U_ZERO_ERROR;
     auto functionName = FunctionName("inflection");
     auto customRegistry = MFFunctionRegistry::Builder(errorCode)
-        .adoptFormatter(functionName, inflection::message2::createFormatterFactory(), errorCode)
+        .adoptFormatter(functionName, inflection::message2::CreateFormatterFactory(), errorCode)
         .build();
     REQUIRE(U_SUCCESS(errorCode));
 
@@ -74,7 +74,7 @@ TEST_CASE("MF2Factory#testCreateSelector")
     UErrorCode errorCode = U_ZERO_ERROR;
     auto functionName = FunctionName("inflection");
     auto customRegistry = MFFunctionRegistry::Builder(errorCode)
-        .adoptSelector(functionName, inflection::message2::createSelectorFactory(), errorCode)
+        .adoptSelector(functionName, inflection::message2::CreateSelectorFactory(), errorCode)
         .build();
     REQUIRE(U_SUCCESS(errorCode));
 
@@ -111,7 +111,7 @@ TEST_CASE("MF2Factory#testSelectorWithoutQuote")
     UErrorCode errorCode = U_ZERO_ERROR;
     auto functionName = FunctionName("inflection");
     auto customRegistry = MFFunctionRegistry::Builder(errorCode)
-        .adoptSelector(functionName, inflection::message2::createSelectorFactory(), errorCode)
+        .adoptSelector(functionName, inflection::message2::CreateSelectorFactory(), errorCode)
         .build();
     REQUIRE(U_SUCCESS(errorCode));
 
@@ -143,7 +143,7 @@ TEST_CASE("MF2Factory#testSelectorWithQuote")
     UErrorCode errorCode = U_ZERO_ERROR;
     auto functionName = FunctionName("inflection");
     auto customRegistry = MFFunctionRegistry::Builder(errorCode)
-        .adoptSelector(functionName, inflection::message2::createSelectorFactory(), errorCode)
+        .adoptSelector(functionName, inflection::message2::CreateSelectorFactory(), errorCode)
         .build();
     REQUIRE(U_SUCCESS(errorCode));
 
@@ -218,8 +218,8 @@ TEST_CASE("MF2Factory#testFormaterFromDataDriven")
     UErrorCode errorCode = U_ZERO_ERROR;
     auto functionName = FunctionName("inflection");
     auto customRegistry = MFFunctionRegistry::Builder(errorCode)
-        .adoptFormatter(functionName, inflection::message2::createFormatterFactory(), errorCode)
-        .adoptSelector(functionName, inflection::message2::createSelectorFactory(), errorCode)
+        .adoptFormatter(functionName, inflection::message2::CreateFormatterFactory(), errorCode)
+        .adoptSelector(functionName, inflection::message2::CreateSelectorFactory(), errorCode)
         .build();
     REQUIRE(U_SUCCESS(errorCode));
 

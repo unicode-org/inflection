@@ -56,8 +56,22 @@ jobs:
     - name: Install ICU (Ubuntu/macos)
       run: |
         if [[ "${{ matrix.os }}" == "ubuntu-latest" ]]; then
-          sudo apt-get update && sudo apt-get install -y libicu-dev icu-devtools
-          echo "ICU_ROOT=/usr" >> $GITHUB_ENV
+          wget https://github.com/unicode-org/icu/releases/download/release-77-1/icu4c-77_1-Ubuntu22.04-x64.tgz
+          export TMP="/tmp/icu/"
+          # It may exist already - remove old stuff
+          mkdir -p $TMP
+          rm -rf $TMP/*
+
+          # Get the release and unpack.
+          cp icu4c-77_1-Ubuntu22.04-x64.tgz $TMP
+          pushd $TMP
+          tar xvfz *.tgz
+          rm *.tgz
+          ls -l icu/usr/local/lib
+          popd
+          export LD_LIBRARY_PATH=/tmp/icu/icu/usr/local/lib:$LD_LIBRARY_PATH
+          export PATH=/tmp/icu/icu/usr/local/bin:$PATH
+          echo "ICU_ROOT=/tmp/icu/icu/usr" >> $GITHUB_ENV
         elif [[ "${{ matrix.os }}" == "macos-latest" ]]; then
             brew list icu4c || brew install icu4c
             echo "ICU_ROOT=$(brew --prefix icu4c)" >> $GITHUB_ENV

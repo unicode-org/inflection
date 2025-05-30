@@ -69,9 +69,7 @@ jobs:
           rm *.tgz
           ls -l icu/usr/local/lib
           popd
-          echo "LD_LIBRARY_PATH=/tmp/icu/icu/usr/local/lib:$LD_LIBRARY_PATH" >> $GITHUB_ENV
-          echo "PATH=/tmp/icu/icu/usr/local/bin:$PATH" >> $GITHUB_ENV
-          echo "ICU_ROOT=/tmp/icu/icu/usr" >> $GITHUB_ENV
+          echo "ICU_ROOT=/tmp/icu/icu/usr/local" >> $GITHUB_ENV
         elif [[ "${{ matrix.os }}" == "macos-latest" ]]; then
             brew list icu4c || brew install icu4c
             echo "ICU_ROOT=$(brew --prefix icu4c)" >> $GITHUB_ENV

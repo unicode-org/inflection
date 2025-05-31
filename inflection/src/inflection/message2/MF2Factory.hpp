@@ -11,7 +11,7 @@
 namespace U_ICU_NAMESPACE::message2 {
 class FormatterFactory;
 class SelectorFactory;
-}
+}  // namespace U_ICU_NAMESPACE::message2
 
 namespace inflection::message2 {
 
@@ -38,18 +38,21 @@ namespace inflection::message2 {
  *              .setFunctionRegistry(customRegistry)
  *              .setLocale(Locale::forLanguageTag("es-MX", errorCode))
  *              .setPattern("Location is {$name :inflection hello=world \
- *                           definiteness=definite number=plural gender=feminine}",
+ *                           definiteness=definite number=plural \
+ *                           gender=feminine}",
  *                          pe, errorCode)
  *              .build(errorCode);
  *
  * auto mf2 = icu::message2::MessageFormatter::Builder(errorCode)
  *              .setFunctionRegistry(customRegistry)
  *              .setLocale(Locale::forLanguageTag("es-MX", errorCode))
- *              .setPattern(".local $gender = {$name :inflection feature=gender} \
- *                           .local $number = {$name :inflection feature=number} \
+ *              .setPattern(".local $gender = {$name :inflection \
+ *                                             feature=gender} \
+ *                           .local $number = {$name :inflection \
+ *                                             feature=number} \
  *                           .match $gender $number \
- *                           feminine singular {{Feminine Singular {$name}}} \
- *                           masculine singular {{Masculine Singular {$name}}} \
+ *                           feminine singular {{Feminine Singular {$name}}}\
+ *                           masculine singular {{Masculine Singular {$name}}}\
  *                           * * {{other {$name} }}\n",
  *                           pe, errorCode)
  *              .build(errorCode);
@@ -73,4 +76,4 @@ class INFLECTION_CLASS_API MF2Factory {
   static icu::message2::SelectorFactory* CreateSelectorFactory();
 };
 
-}
+}  // namespace inflection::message2

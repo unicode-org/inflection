@@ -60,13 +60,13 @@ const inflection::dialog::SemanticFeatureModel* GetSemanticFeatureModel(
 }
 
 class InflectionFormatter : public Formatter {
-    public:
-     FormattedPlaceholder format(FormattedPlaceholder&&, FunctionOptions&& opts,
-                                 UErrorCode& errorCode) const override;
-     InflectionFormatter(const inflection::dialog::SemanticFeatureModel* model)
-         : model(model) {
-         }
-    private:
+  public:
+    FormattedPlaceholder format(FormattedPlaceholder&&, FunctionOptions&& opts,
+                                UErrorCode& errorCode) const override;
+    InflectionFormatter(const inflection::dialog::SemanticFeatureModel* model)
+        : model(model) {
+    }
+  private:
      const ::inflection::dialog::SemanticFeatureModel* model;
 };
 
@@ -98,12 +98,15 @@ FormattedPlaceholder InflectionFormatter::format(
 
     switch (toFormat.getType()) {
         case UFMT_STRING: {
-            inflection::dialog::SpeakableString input(toFormat.getString(errorCode));
-            inflection::dialog::InflectableStringConcept stringConcept(model, input);
+            inflection::dialog::SpeakableString input(
+                toFormat.getString(errorCode));
+            inflection::dialog::InflectableStringConcept stringConcept(
+                model, input);
             for (const auto& [key, value] : options.getOptions()) {
                 auto constraint = model->getFeature(key);
                 if (constraint != nullptr) {
-                    stringConcept.putConstraint(*constraint, value.getString(errorCode));
+                    stringConcept.putConstraint(*constraint,
+                                                value.getString(errorCode));
                 }
             }
             result += stringConcept.toSpeakableString()->getPrint();
@@ -119,16 +122,17 @@ FormattedPlaceholder InflectionFormatter::format(
 }
 
 class InflectionSelector : public Selector {
-    public:
-     void selectKey(FormattedPlaceholder &&arg, FunctionOptions &&options,
+  public:
+    void selectKey(FormattedPlaceholder &&arg, FunctionOptions &&options,
                     const UnicodeString *keys, int32_t keysLen,
-                    UnicodeString *prefs, int32_t &prefsLen, UErrorCode &status) const override;
+                    UnicodeString *prefs, int32_t &prefsLen,
+                    UErrorCode &status) const override;
 
      InflectionSelector(const inflection::dialog::SemanticFeatureModel* model)
          : model(model) {
-         }
+     }
 
-    private:
+  private:
      const ::inflection::dialog::SemanticFeatureModel* model;
 };
 
@@ -159,34 +163,36 @@ void InflectionSelector::selectKey(
     prefsLen = 0;
     auto opt = options.getOptions();
     if (toFormat.getType() == UFMT_STRING) {
-       inflection::dialog::SpeakableString input(toFormat.getString(errorCode));
-       inflection::dialog::InflectableStringConcept stringConcept(model, input);
-       if (!opt.contains(u"select")) {
-          errorCode = U_MF_SELECTOR_ERROR;
-          return;
-       }
-       for (const auto& [key, value] : options.getOptions()) {
-           auto constraint = model->getFeature(key);
-           if (constraint != nullptr) {
-               stringConcept.putConstraint(*constraint, value.getString(errorCode));
-           }
-       }
-       auto value = model->getFeature(opt.at(u"select").getString(errorCode));
-       UnicodeString feature;
-       if (value != nullptr) {
-           auto result = stringConcept.getFeatureValue(*value);
-           if (result != nullptr) {
-               feature = result->getPrint();
-           }
-       }
-
-       for (int i = 0; i < keysLen; i++) {
-           if (feature == keys[i]) {
+        inflection::dialog::SpeakableString input(
+            toFormat.getString(errorCode));
+        inflection::dialog::InflectableStringConcept stringConcept(
+            model, input);
+        if (!opt.contains(u"select")) {
+            errorCode = U_MF_SELECTOR_ERROR;
+            return;
+        }
+        for (const auto& [key, value] : options.getOptions()) {
+            auto constraint = model->getFeature(key);
+            if (constraint != nullptr) {
+                stringConcept.putConstraint(*constraint,
+                                            value.getString(errorCode));
+            }
+        }
+        auto value = model->getFeature(opt.at(u"select").getString(errorCode));
+        UnicodeString feature;
+        if (value != nullptr) {
+            auto result = stringConcept.getFeatureValue(*value);
+            if (result != nullptr) {
+                feature = result->getPrint();
+            }
+        }
+        for (int i = 0; i < keysLen; i++) {
+            if (feature == keys[i]) {
                 prefs[prefsLen++] = keys[i];
-           }
-       }
+            }
+        }
     }
     return;
 }
 
-}
+}  // namespace inflection::message2

@@ -34,8 +34,14 @@ TEST_CASE("MF2Factory#testBasic")
     UErrorCode errorCode = U_ZERO_ERROR;
     auto functionName = FunctionName("inflection");
     MFFunctionRegistry::Builder(errorCode)
-        .adoptFormatter(functionName, inflection::message2::MF2Factory::CreateFormatterFactory(), errorCode)
-        .adoptSelector(functionName, inflection::message2::MF2Factory::CreateSelectorFactory(), errorCode)
+        .adoptFormatter(
+            functionName,
+            inflection::message2::MF2Factory::CreateFormatterFactory(),
+            errorCode)
+        .adoptSelector(
+            functionName,
+            inflection::message2::MF2Factory::CreateSelectorFactory(),
+            errorCode)
         .build();
     REQUIRE(U_SUCCESS(errorCode));
 }
@@ -45,7 +51,10 @@ TEST_CASE("MF2Factory#testCreateFormatter")
     UErrorCode errorCode = U_ZERO_ERROR;
     auto functionName = FunctionName("inflection");
     auto customRegistry = MFFunctionRegistry::Builder(errorCode)
-        .adoptFormatter(functionName, inflection::message2::MF2Factory::CreateFormatterFactory(), errorCode)
+        .adoptFormatter(
+            functionName,
+            inflection::message2::MF2Factory::CreateFormatterFactory(),
+            errorCode)
         .build();
     REQUIRE(U_SUCCESS(errorCode));
 
@@ -53,8 +62,9 @@ TEST_CASE("MF2Factory#testCreateFormatter")
     MessageFormatter mf = MessageFormatter::Builder(errorCode)
                 .setFunctionRegistry(customRegistry)
                 .setLocale(Locale::forLanguageTag("es-MX", errorCode))
-                .setPattern(
-                    "Foo {$name :inflection hello=world definiteness=definite number=plural gender=feminine} Bar",
+                .setPattern("\
+Foo {$name :inflection hello=world definiteness=definite \
+     number=plural gender=feminine} Bar",
                     pe, errorCode)
                 .build(errorCode);
     REQUIRE(U_SUCCESS(errorCode));
@@ -62,7 +72,8 @@ TEST_CASE("MF2Factory#testCreateFormatter")
     std::map<UnicodeString, Formattable> arguments;
     arguments["name"]= Formattable("gato");
 
-    UnicodeString ret = mf.formatToString(MessageArguments(arguments, errorCode), errorCode);
+    UnicodeString ret = mf.formatToString(
+        MessageArguments(arguments, errorCode), errorCode);
     REQUIRE(U_SUCCESS(errorCode));
     REQUIRE(ret == u"Foo las gatas Bar");
 }
@@ -72,7 +83,10 @@ TEST_CASE("MF2Factory#testCreateSelector")
     UErrorCode errorCode = U_ZERO_ERROR;
     auto functionName = FunctionName("inflection");
     auto customRegistry = MFFunctionRegistry::Builder(errorCode)
-        .adoptSelector(functionName, inflection::message2::MF2Factory::CreateSelectorFactory(), errorCode)
+        .adoptSelector(
+            functionName,
+            inflection::message2::MF2Factory::CreateSelectorFactory(),
+            errorCode)
         .build();
     REQUIRE(U_SUCCESS(errorCode));
 
@@ -80,16 +94,16 @@ TEST_CASE("MF2Factory#testCreateSelector")
     MessageFormatter mf = MessageFormatter::Builder(errorCode)
                 .setFunctionRegistry(customRegistry)
                 .setLocale(Locale::forLanguageTag("es-MX", errorCode))
-                .setPattern(
-                    ".local $var1 = {$name :inflection select=gender} \
-                     .local $var2 = {$name :inflection select=number} \
-                     .match $var1 $var2\
-                     masculine 2 {{{$name} is Masculine & 2}} \
-                     feminine singular {{{$name} is Feminine & Singular}} \
-                     foo 4 {{{$name} is Foo & 4}} \
-                     masculine singular {{{$name} is Masculine & Singular}} \
-                     hello singular {{{$name} is Hello & Singular}} \
-                     * * {{{$name} is other}}\n",
+                .setPattern("\
+.local $var1 = {$name :inflection select=gender} \
+.local $var2 = {$name :inflection select=number} \
+.match $var1 $var2\
+  masculine 2 {{{$name} is Masculine & 2}} \
+  feminine singular {{{$name} is Feminine & Singular}} \
+  foo 4 {{{$name} is Foo & 4}} \
+  masculine singular {{{$name} is Masculine & Singular}} \
+  hello singular {{{$name} is Hello & Singular}} \
+  * * {{{$name} is other}}\n",
                     pe, errorCode)
                 .build(errorCode);
     REQUIRE(U_SUCCESS(errorCode));
@@ -97,7 +111,8 @@ TEST_CASE("MF2Factory#testCreateSelector")
     std::map<UnicodeString, Formattable> arguments;
     arguments["name"]= Formattable("gato");
 
-    UnicodeString ret = mf.formatToString(MessageArguments(arguments, errorCode), errorCode);
+    UnicodeString ret = mf.formatToString(
+        MessageArguments(arguments, errorCode), errorCode);
     REQUIRE(U_SUCCESS(errorCode));
     REQUIRE(ret == u"gato is Masculine & Singular");
 }
@@ -109,7 +124,10 @@ TEST_CASE("MF2Factory#testSelectorWithoutQuote")
     UErrorCode errorCode = U_ZERO_ERROR;
     auto functionName = FunctionName("inflection");
     auto customRegistry = MFFunctionRegistry::Builder(errorCode)
-        .adoptSelector(functionName, inflection::message2::MF2Factory::CreateSelectorFactory(), errorCode)
+        .adoptSelector(
+            functionName,
+            inflection::message2::MF2Factory::CreateSelectorFactory(),
+            errorCode)
         .build();
     REQUIRE(U_SUCCESS(errorCode));
 
@@ -117,11 +135,12 @@ TEST_CASE("MF2Factory#testSelectorWithoutQuote")
     MessageFormatter mf = MessageFormatter::Builder(errorCode)
                 .setFunctionRegistry(customRegistry)
                 .setLocale(Locale::forLanguageTag("de", errorCode))
-                .setPattern(
-                    ".local $indefArticle = {$name :inflection number=singular case=accusative select=indefArticle} \
-                     .match $indefArticle \
-                     eine {{The indefArticle of '{$name}' is 'eine'.}} \
-                     * {{The indefArticle of '{$name}' is something else.}}\n",
+                .setPattern("\
+.local $indefArticle = {$name :inflection number=singular\
+                        case=accusative select=indefArticle} \
+.match $indefArticle \
+eine {{The indefArticle of '{$name}' is 'eine'.}} \
+* {{The indefArticle of '{$name}' is something else.}}\n",
                     pe, errorCode)
                 .build(errorCode);
     REQUIRE(U_SUCCESS(errorCode));
@@ -141,7 +160,10 @@ TEST_CASE("MF2Factory#testSelectorWithQuote")
     UErrorCode errorCode = U_ZERO_ERROR;
     auto functionName = FunctionName("inflection");
     auto customRegistry = MFFunctionRegistry::Builder(errorCode)
-        .adoptSelector(functionName, inflection::message2::MF2Factory::CreateSelectorFactory(), errorCode)
+        .adoptSelector(
+            functionName,
+            inflection::message2::MF2Factory::CreateSelectorFactory(),
+            errorCode)
         .build();
     REQUIRE(U_SUCCESS(errorCode));
 
@@ -149,11 +171,14 @@ TEST_CASE("MF2Factory#testSelectorWithQuote")
     MessageFormatter mf = MessageFormatter::Builder(errorCode)
                 .setFunctionRegistry(customRegistry)
                 .setLocale(Locale::forLanguageTag("de", errorCode))
-                .setPattern(
-                    ".local $withDefArticleInPreposition = {$name :inflection number=singular case=dative select=withDefArticleInPreposition} \
-                     .match $withDefArticleInPreposition \
-                     |im Fundort| {{The withDefArticleInPreposition of '{$name}' is 'im Fundort'.}} \
-                     * {{The withDefArticleInPreposition of '{$name}' is something else.}}\n",
+                .setPattern("\
+.local $withDefArticleInPreposition = {$name \
+:inflection number=singular case=dative \
+select=withDefArticleInPreposition} \
+.match $withDefArticleInPreposition \
+|im Fundort| {{The withDefArticleInPreposition of '{$name}' is 'im Fundort'.}} \
+* {{The withDefArticleInPreposition of '{$name}' is\
+* something else.}}\n",
                     pe, errorCode)
                 .build(errorCode);
     REQUIRE(U_SUCCESS(errorCode));
@@ -161,7 +186,9 @@ TEST_CASE("MF2Factory#testSelectorWithQuote")
     std::map<UnicodeString, Formattable> arguments;
     arguments["name"]= Formattable("Fundort");
 
-    UnicodeString ret = mf.formatToString(MessageArguments(arguments, errorCode), errorCode);
+    UnicodeString ret = mf.formatToString(
+        MessageArguments(arguments, errorCode), errorCode);
     REQUIRE(U_SUCCESS(errorCode));
-    REQUIRE(ret == u"The withDefArticleInPreposition of 'Fundort' is 'im Fundort'.");
+    REQUIRE(ret ==
+            u"The withDefArticleInPreposition of 'Fundort' is 'im Fundort'.");
 }

@@ -1,0 +1,685 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+ Copyright 2025 Unicode Incorporated and others. All rights reserved.
+-->
+<messagetest locale="hi">
+    <test>
+        <params>
+            <param name="source" type="String"><value>लड़का</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=number} .match $feature |singular| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>आशिया</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=number} .match $feature |singular| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>दुकान</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=number} .match $feature |singular| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>दुकानें</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=number} .match $feature |plural| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>लड़का</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=number} .match $feature |singular| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>दरवाज़ा</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=number} .match $feature |singular| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>छोटा कमरा</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=number} .match $feature |singular| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>लाल बत्ती</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=number} .match $feature |singular| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>लाल बत्तियाँ</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=number} .match $feature |plural| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>लम्बी लड़कियाँ</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=number} .match $feature |plural| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>कमरे की बत्ती</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=number} .match $feature |singular| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>कमरे की बत्तियाँ</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=number} .match $feature |plural| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>कमरों की बत्ती</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=number} .match $feature |singular| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>दुकान</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>दुकानें</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>तस्वीर</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>तस्वीरें</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>संदेश</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>संदेश</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>दरवाज़ा</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>दरवाज़े</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>कमरा</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>कमरे</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>पंखा</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>पंखे</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ऐपलए</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>ऐपलआ</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>अप्पलके</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>अप्पलका</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>मोरफ़ूनु</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>मोरफ़ूनुएँ</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>अप्पलेकी</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>अप्पलेकियाँ</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>अबकया</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>अबकयाँ</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>क्ष्यजआ</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>क्ष्यजए</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>क्ष्यजा</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>क्ष्यजे</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>कीबें</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>कीबे</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>FaceTime</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>FaceTime</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Apple</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>Apple</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>लड़का</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=gender} .match $feature |masculine| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>लड़की</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=gender} .match $feature |feminine| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>आपका</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=gender} .match $feature |masculine| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>आपकी</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=gender} .match $feature |feminine| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>रहा</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=gender} .match $feature |masculine| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>कुत्ता</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=gender} .match $feature |masculine| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>गाना</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=gender} .match $feature |masculine| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>गाड़ी</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=gender} .match $feature |feminine| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>चलाया</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=gender} .match $feature |masculine| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>चलायी</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=gender} .match $feature |feminine| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>चल</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=gender} .match $feature |masculine| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>लम्बी लड़कियाँ</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=gender} .match $feature |feminine| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ऊँचा पहाड़</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=gender} .match $feature |masculine| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>पहला</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>पहली</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>पहली</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine}</source>
+        <print>पहला</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>दूसरा</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>दूसरी</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>दूसरी</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine}</source>
+        <print>दूसरा</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>तीसरा</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>तीसरी</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>तीसरी</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine}</source>
+        <print>तीसरा</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>खुला</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>खुली</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>खुली</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine}</source>
+        <print>खुला</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>नया</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>नई</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>नई</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine}</source>
+        <print>नया</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>छिपा</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>छिपी</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>छिपी</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine}</source>
+        <print>छिपा</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>गया</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>गई</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>गई</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine}</source>
+        <print>गया</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>दबाया</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>दबाई</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>दबाई</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine}</source>
+        <print>दबाया</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Calculator</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine}</source>
+        <print>Calculator</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Clock</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>Clock</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>आबका</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=plural}</source>
+        <print>आबकियाँ</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>कबकी</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=plural}</source>
+        <print>कबके</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>का</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>की</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>के</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>का</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>का</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>के</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>की</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine}</source>
+        <print>का</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>की</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>की</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>की</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>की</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>सकता</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>सकती</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>सकते</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>सकतीं</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>सकते हैं</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>सकती हैं</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>करता</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>करती</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>करते</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>करतीं</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>करते हैं</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>करती हैं</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>चाहता</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>चाहती</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>चाहते</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>चाहतीं</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>चाहते हैं</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>चाहती हैं</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>रहा</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>रही</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>रहे</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>रहीं</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>रहे हैं</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>रही हैं</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>चलते</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>चलतीं</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>चलते रहते</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>चलती रहतीं</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>चलते रहते हैं</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>चलती रहती हैं</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>गलियारा में</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>गलियारे में</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>दरवाज़ा का</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>दरवाज़े का</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>दरवाज़ा का बात</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>दरवाज़े की बात</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>सकते थे</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>सकती थीं</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>करते थे</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>करती थीं</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>चाहते थे</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>चाहती थीं</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>आयोजक</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>आयोजिका</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>बच्चा</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>बच्ची</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>निर्माता</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>निर्मात्री</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>शिक्षक</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>शिक्षिका</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>गायक</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>गायिका</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>लेखक</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>लेखिका</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>सदस्य</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>सदस्या</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>अभिभावक</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>अभिभाविका</print>
+    </test>
+</messagetest>

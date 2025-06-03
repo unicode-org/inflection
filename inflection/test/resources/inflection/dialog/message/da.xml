@@ -1,0 +1,734 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+ Copyright 2025 Unicode Incorporated and others. All rights reserved.
+-->
+<messagetest locale="da">
+    <test>
+        <params>
+            <param name="source" type="String"><value>lampes</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=definiteness} .match $feature |indefinite| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>lampen</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=definiteness} .match $feature |definite| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ølbrikken</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=definiteness} .match $feature |definite| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>spinklere</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=definiteness} .match $feature || {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>QQQQQQ</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=definiteness} .match $feature || {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>value</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withPossArticle} .match $feature |din value| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>value</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withPossArticle gender=neuter number=singular} .match $feature |dit value| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>value</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withPossArticle number=plural} .match $feature |dine value| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>value</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withInterrogativeArticle} .match $feature |hvilken value| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>value</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withInterrogativeArticle gender=neuter number=singular} .match $feature |hvilket value| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>value</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withInterrogativeArticle number=plural} .match $feature |hvilke value| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>torsdag</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite number=singular}</source>
+        <print>torsdag</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>torsdag</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite number=singular}</source>
+        <print>torsdagen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>torsdag</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite number=plural}</source>
+        <print>torsdage</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>torsdag</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite number=plural}</source>
+        <print>torsdagene</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>torsdag</value></param>
+        </params>
+        <source>{$source :inflection case=genitive definiteness=indefinite number=singular}</source>
+        <print>torsdags</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>torsdag</value></param>
+        </params>
+        <source>{$source :inflection case=genitive definiteness=definite number=singular}</source>
+        <print>torsdagens</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>torsdag</value></param>
+        </params>
+        <source>{$source :inflection case=genitive definiteness=indefinite number=plural}</source>
+        <print>torsdages</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>torsdag</value></param>
+        </params>
+        <source>{$source :inflection case=genitive definiteness=definite number=plural}</source>
+        <print>torsdagenes</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>torsdag</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>torsdagen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>torsdag</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>torsdage</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>torsdag</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>torsdags</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>sarkom</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>sarkomet</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>sarkom</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>sarkomer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>sarkom</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>sarkoms</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>sarkom</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite number=singular}</source>
+        <print>sarkom</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>sarkom</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite number=singular}</source>
+        <print>sarkomet</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>sarkom</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite number=plural}</source>
+        <print>sarkomer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>sarkom</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite number=plural}</source>
+        <print>sarkomerne</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>sarkom</value></param>
+        </params>
+        <source>{$source :inflection case=genitive definiteness=indefinite number=singular}</source>
+        <print>sarkoms</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>sarkom</value></param>
+        </params>
+        <source>{$source :inflection case=genitive definiteness=definite number=singular}</source>
+        <print>sarkomets</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>sarkom</value></param>
+        </params>
+        <source>{$source :inflection case=genitive definiteness=indefinite number=plural}</source>
+        <print>sarkomers</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>sarkom</value></param>
+        </params>
+        <source>{$source :inflection case=genitive definiteness=definite number=plural}</source>
+        <print>sarkomernes</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>stor torsdag</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite number=singular}</source>
+        <print>stor torsdag</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>stor torsdag</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite number=singular}</source>
+        <print>store torsdag</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>stor torsdag</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite number=plural}</source>
+        <print>store torsdage</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>stor torsdag</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite number=plural}</source>
+        <print>store torsdage</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>stor torsdag</value></param>
+        </params>
+        <source>{$source :inflection case=genitive definiteness=indefinite number=singular}</source>
+        <print>stor torsdags</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>stor torsdag</value></param>
+        </params>
+        <source>{$source :inflection case=genitive definiteness=definite number=singular}</source>
+        <print>store torsdags</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>stor torsdag</value></param>
+        </params>
+        <source>{$source :inflection case=genitive definiteness=indefinite number=plural}</source>
+        <print>store torsdages</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>stor torsdag</value></param>
+        </params>
+        <source>{$source :inflection case=genitive definiteness=definite number=plural}</source>
+        <print>store torsdages</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>stor sarkom</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite number=singular}</source>
+        <print>stort sarkom</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>stor sarkom</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite number=singular}</source>
+        <print>store sarkom</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>stor sarkom</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite number=plural}</source>
+        <print>store sarkomer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>stor sarkom</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite number=plural}</source>
+        <print>store sarkomer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>stor sarkom</value></param>
+        </params>
+        <source>{$source :inflection case=genitive definiteness=indefinite number=singular}</source>
+        <print>stort sarkoms</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>stor sarkom</value></param>
+        </params>
+        <source>{$source :inflection case=genitive definiteness=definite number=singular}</source>
+        <print>store sarkoms</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>stor sarkom</value></param>
+        </params>
+        <source>{$source :inflection case=genitive definiteness=indefinite number=plural}</source>
+        <print>store sarkomers</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>stor sarkom</value></param>
+        </params>
+        <source>{$source :inflection case=genitive definiteness=definite number=plural}</source>
+        <print>store sarkomers</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>stor</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite gender=common number=singular}</source>
+        <print>stor</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>stor</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite gender=common number=singular}</source>
+        <print>store</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>stor</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite gender=common number=plural}</source>
+        <print>store</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>stor</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite gender=common number=plural}</source>
+        <print>store</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>stor</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite gender=neuter number=singular}</source>
+        <print>stort</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>stor</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite gender=neuter number=singular}</source>
+        <print>store</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>stor</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite gender=neuter number=plural}</source>
+        <print>store</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>stor</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite gender=neuter number=plural}</source>
+        <print>store</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Andrea</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>Andreas</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Andreas</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>Andreas’</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Julie Olsen</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>Julie Olsens</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Olga Kals</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>Olga Kals’</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Channel 10</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>Channel 10’s</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>NATO</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>NATO’s</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>SAS</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>SAS’</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Kbh.</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>Kbh.s</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Christian 4.</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>Christian 4.s</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>burger.dk</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>burger.dk’s</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>saxo.com</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>saxo.coms</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Ajax</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite gender=common number=singular pos=adjective}</source>
+        <print>Ajax</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Ajax</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite gender=neuter number=singular pos=adjective}</source>
+        <print>Ajaxt</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Ajax</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite gender=common number=plural pos=adjective}</source>
+        <print>Ajaxe</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Ajax</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite gender=neuter number=plural pos=adjective}</source>
+        <print>Ajaxe</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Ajax</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite gender=common number=singular pos=adjective}</source>
+        <print>Ajaxe</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Ajax</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite gender=neuter number=singular pos=adjective}</source>
+        <print>Ajaxe</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Ajax</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite gender=common number=plural pos=adjective}</source>
+        <print>Ajaxe</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Ajax</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite gender=neuter number=plural pos=adjective}</source>
+        <print>Ajaxe</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>taxa</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite gender=common number=singular pos=adjective}</source>
+        <print>taxa</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>taxa</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite gender=neuter number=singular pos=adjective}</source>
+        <print>taxa</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>taxa</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite gender=common number=plural pos=adjective}</source>
+        <print>taxa</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>taxa</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite gender=neuter number=plural pos=adjective}</source>
+        <print>taxa</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>taxa</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite gender=common number=singular pos=adjective}</source>
+        <print>taxa</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>taxa</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite gender=neuter number=singular pos=adjective}</source>
+        <print>taxa</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>taxa</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite gender=common number=plural pos=adjective}</source>
+        <print>taxa</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>taxa</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite gender=neuter number=plural pos=adjective}</source>
+        <print>taxa</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>abefest</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite gender=common number=singular pos=adjective}</source>
+        <print>abefest</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>abefest</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite gender=neuter number=singular pos=adjective}</source>
+        <print>abefest</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>abefest</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite gender=common number=plural pos=adjective}</source>
+        <print>abefeste</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>abefest</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite gender=neuter number=plural pos=adjective}</source>
+        <print>abefeste</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>abefest</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite gender=common number=singular pos=adjective}</source>
+        <print>abefeste</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>abefest</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite gender=neuter number=singular pos=adjective}</source>
+        <print>abefeste</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>abefest</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite gender=common number=plural pos=adjective}</source>
+        <print>abefeste</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>abefest</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite gender=neuter number=plural pos=adjective}</source>
+        <print>abefeste</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>parcel</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite gender=common number=singular pos=adjective}</source>
+        <print>parcel</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>parcel</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite gender=neuter number=singular pos=adjective}</source>
+        <print>parcelt</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>parcel</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite gender=common number=plural pos=adjective}</source>
+        <print>parcele</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>parcel</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite gender=neuter number=plural pos=adjective}</source>
+        <print>parcele</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>parcel</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite gender=common number=singular pos=adjective}</source>
+        <print>parcele</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>parcel</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite gender=neuter number=singular pos=adjective}</source>
+        <print>parcele</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>parcel</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite gender=common number=plural pos=adjective}</source>
+        <print>parcele</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>parcel</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite gender=neuter number=plural pos=adjective}</source>
+        <print>parcele</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>michael</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite gender=neuter number=plural pos=adjective}</source>
+        <print>michaele</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>lyset</value></param>
+        </params>
+        <source>{$source :inflection case=genitive definiteness=definite}</source>
+        <print>lysets</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>gods</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>godset</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>godset</value></param>
+        </params>
+        <source>{$source :inflection case=genitive definiteness=definite}</source>
+        <print>godsets</print>
+    </test>
+</messagetest>

@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!--
+ Copyright 2025 Apple Inc. All rights reserved.
+-->
+<inflectionTest locale="ml">
+<!-- Malayalam Pronoun Inflection Tests -->
+<test><source person="first" number="singular">ഞാൻ</source><result>ഞാൻ</result></test>
+<test><source person="first" number="plural">ഞങ്ങൾ</source><result>ഞങ്ങൾ</result></test>
+<test><source person="second" number="singular" gender="masculine">നീ</source><result>നീ</result></test>
+<test><source person="second" number="plural">നിങ്ങൾ</source><result>നിങ്ങൾ</result></test>
+<test><source person="third" gender="feminine">അവൾ</source><result gender="feminine">അവൾ</result></test>
+<test><source person="third" gender="masculine">അവൻ</source><result gender="masculine">അവൻ</result></test>
+<test><source person="third" gender="neuter">അത്</source><result gender="neuter">അത്</result></test>
+
+<!-- Malayalam Singular Plural Inflection Tests -->
+<test><source number="plural">കുട്ടി</source><result>കുട്ടികൾ</result></test>
+<test><source number="singular">പുസ്തകങ്ങൾ</source><result>പുസ്തകം</result></test>
+<test><source number="plural">മരം</source><result>മരങ്ങൾ</result></test>
+<test><source number="singular">കഥകൾ</source><result>കഥ</result></test>
+
+<!-- Malayalam Gender Inflection Tests (for adjectives) -->
+<test><source gender="feminine">നല്ല</source><result exists="true">നല്ല</result></test>
+<test><source gender="masculine">നല്ല</source><result exists="true">നല്ല</result></test>
+
+<!-- Malayalam Verb Inflection Tests -->
+<test><source tense="present" person="first" number="singular">ചോദിക്കുക</source><result>ചോദിക്കുന്നു</result></test>
+<test><source tense="past" person="first" number="singular">ചോദിക്കുക</source><result>ചോദിച്ചു</result></test>
+<test><source tense="future" person="first" number="singular">ചോദിക്കുക</source><result>ചോദിക്കും</result></test>
+<test><source tense="present" person="third" number="plural">വരിക</source><result>വരുന്നു</result></test>
+
+<!-- Malayalam Case Inflection Tests -->
+<test><source case="nominative">കുട്ടി</source><result>കുട്ടി</result></test>
+<test><source case="accusative">കുട്ടി</source><result>കുട്ടിയെ</result></test>
+<test><source case="dative">കുട്ടി</source><result>കുട്ടിക്ക്</result></test>
+<test><source case="genitive">കുട്ടി</source><result>കുട്ടിയുടെ</result></test>
+<test><source case="locative">കുട്ടി</source><result>കുട്ടിയില്</result></test>
+<test><source case="instrumental">കുട്ടി</source><result>കുട്ടിയാല്</result></test>
+
+<!-- Malayalam Reinflection Tests (no change if not modified) -->
+<test><source>അവൻ</source><result>അവൻ</result></test>
+<test><source>അവൾ</source><result>അവൾ</result></test>
+
+<!-- Malayalam Adjective Inflection Tests -->
+<test><source gender="feminine">പുതിയ</source><result>പുതിയ</result></test>
+<test><source gender="masculine">പുതിയ</source><result>പുതിയ</result></test>
+
+<!-- Singular Plural Lookup Tests (no result because it’s a lookup) -->
+<test><source>മരം</source><result number="singular"/></test>
+<test><source>മരങ്ങൾ</source><result number="plural"/></test>
+
+<!-- Gender Lookup Tests (no result because it’s a lookup) -->
+<test><source>അവൾ</source><result gender="feminine"/></test>
+<test><source>അവൻ</source><result gender="masculine"/></test>
+<test><source>അത്</source><result gender="neuter"/></test>
+
+<!-- Additional Madeup/Latin Words Reinflection Test -->
+<test><source number="singular">സൂപ്പർ</source><result>സൂപ്പർ</result></test>
+<test><source number="plural">ഫേസ്ബുക്ക്</source><result>ഫേസ്ബുക്കുകൾ</result></test>
+
+<!-- Malayalam Multi-word Noun Phrase Number Detection -->
+<test><source>വളപ്പുറത്തെ ലൈറ്റ്</source><result number="singular"/></test>
+<test><source>വളപ്പുറത്തെ ലൈറ്റുകൾ</source><result number="plural"/></test>
+<test><source>തോട്ടത്തിലെ ലൈറ്റുകൾ</source><result number="plural"/></test>
+
+<!-- Malayalam Verb Number Inflection Contrast -->
+<test><source tense="present" person="third" number="singular">വരിക</source><result>വരുന്നു</result></test>
+<test><source tense="past" person="third" number="plural">വരിക</source><result>വന്നു</result></test>
+<test><source tense="future" person="third" number="plural">ചോദിക്കുക</source><result>ചോദിക്കും</result></test>
+
+<!-- Malayalam Verb Inflection with pos="verb" -->
+<test><source number="singular" pos="verb">ചോദിക്കുന്നു</source><result>ചോദിക്കുന്നു</result></test>
+<test><source number="plural" pos="verb">ചോദിക്കുന്നു</source><result>ചോദിക്കുന്നു</result></test>
+<test><source number="singular" pos="verb">വരുന്നു</source><result>വരുന്നു</result></test>
+<test><source number="plural" pos="verb">വരുന്നു</source><result>വരുന്നു</result></test>
+<test><source number="singular" pos="verb">ആകുന്നു</source><result>ആകുന്നു</result></test>
+<test><source number="plural" pos="verb">ആകുന്നു</source><result>ആകുന്നു</result></test>
+
+<!-- Malayalam Noun Inflection for Units (as in "one kilometer to two kilometers") -->
+<test><source number="singular">കിലോമീറ്റർ</source><result>കിലോമീറ്റർ</result></test>
+<test><source number="plural">കിലോമീറ്റർ</source><result>കിലോമീറ്ററുകൾ</result></test>
+
+<!-- Additional common plural forms -->
+<test><source number="plural">കപ്പ്</source><result>കപ്പുകൾ</result></test>
+<test><source number="plural">പൂച്ച</source><result>പൂച്ചകൾ</result></test>
+
+<!-- Additional Malayalam Subject-Verb Agreement Examples -->
+<test><source>അവൻ ഓടുന്നു</source><result number="singular" gender="masculine"/></test>
+<test><source>അവൾ ഓടുന്നു</source><result number="singular" gender="feminine"/></test>
+
+<!-- Additional Malayalam Pronoun Case Inflections -->
+<test><source case="accusative">അവൻ</source><result>അവനെ</result></test>
+<test><source case="accusative">അവൾ</source><result>അവളെ</result></test>
+<test><source case="dative">അവൻ</source><result>അവന്</result></test>
+
+<!-- More Multi-word Noun Phrase Number Lookup -->
+<test><source>ക്യാമ്പസ് ലൈറ്റ്</source><result number="singular"/></test>
+<test><source>ക്യാമ്പസ് ലൈറ്റുകൾ</source><result number="plural"/></test>
+
+<!-- Additional Noun/Verb Inflection Tests -->
+<test><source>ക്യാമ്പസ് ലൈറ്റ്</source><result number="singular"/></test>
+<test><source>ക്യാമ്പസ് ലൈറ്റുകൾ</source><result number="plural"/></test>
+<test><source>തോട്ടത്തിലെ ലൈറ്റുകൾ</source><result number="plural"/></test>
+
+</inflectionTest>

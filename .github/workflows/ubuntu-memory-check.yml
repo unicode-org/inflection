@@ -1,6 +1,4 @@
-# This starter workflow is for a CMake project running on multiple platforms. There is a different starter workflow if you just want a single platform.
-# See: https://github.com/actions/starter-workflows/blob/main/ci/cmake-single-platform.yml
-name: CMake on multiple platforms
+name: Check memory leak by using valgrind
 
 on:
   # Keep it for manual runs.
@@ -43,31 +41,13 @@ jobs:
           tar xvfz *.tgz
           rm *.tgz
 
-  build:
+  checkleak:
     needs: cache-icu
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
     strategy:
       # Set fail-fast to false to ensure that feedback is delivered for all matrix combinations. Consider changing this to true when your workflow is stable.
       fail-fast: false
-
-      # Set up a matrix to run the following configurations:
-      # 1. <Linux, Release, latest Clang compiler toolchain on the default runner image, default generator>
-      #
-      # To add more build types (Release, Debug, RelWithDebInfo, etc.) customize the build_type list.
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-        build_type: [Release]
-        c_compiler: [clang]
-        # All [OS x compiler] items should be covered in include/exclude sections.
-        include:
-          - os: ubuntu-latest
-            c_compiler: clang
-            cpp_compiler: clang++
-
-          - os: macos-latest
-            c_compiler: clang
-            cpp_compiler: clang++
 
     steps:
     - uses: actions/checkout@v4
@@ -81,31 +61,31 @@ jobs:
       run: |
         echo "project-root-dir=${{ github.workspace }}/inflection" >> "$GITHUB_OUTPUT"
         echo "build-output-dir=${{ github.workspace }}/inflection/build" >> "$GITHUB_OUTPUT"
-  
+
+    - name: Install valgrind
+      run: |
+        set -ex;
+        sudo apt-get -y update;
+        sudo apt-get install -y valgrind;
+
     - uses: actions/cache/restore@v4
       id: cache
       with:
         path: ~/icu
         key: ${{ runner.os }}-icu-${ICU_MAJOR}-${ICU_MINOR}
 
-      # Install all the required dependencies for the macos
-    - name: Install ICU (Ubuntu/macos)
+    - name: Setup ICU_ROOT
       run: |
-        if [[ "${{ matrix.os }}" == "ubuntu-latest" ]]; then
-          echo "ICU_ROOT=~/icu/icu/usr/local" >> $GITHUB_ENV
-        elif [[ "${{ matrix.os }}" == "macos-latest" ]]; then
-            brew list icu4c || brew install icu4c
-            echo "ICU_ROOT=$(brew --prefix icu4c)" >> $GITHUB_ENV
-        fi
+        echo "ICU_ROOT=~/icu/icu/usr/local" >> $GITHUB_ENV
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
       run: >
         cmake -B ${{ steps.strings.outputs.build-output-dir }}
-        -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
-        -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
-        -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+        -DCMAKE_CXX_COMPILER=clang++
+        -DCMAKE_C_COMPILER=clang
+        -DCMAKE_BUILD_TYPE=Debug
         -S ${{ steps.strings.outputs.project-root-dir }}
 
     - name: Get number of CPU cores
@@ -114,8 +94,13 @@ jobs:
 
     - name: Build
       # Build your program with the given configuration. Note that --config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
-      run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }} -j ${{ steps.cpu-cores.outputs.count }}
+      run:
+        cmake --build ${{ steps.strings.outputs.build-output-dir }} --config Debug -j ${{ steps.cpu-cores.outputs.count }}
 
-    - name: Test
+    - name: Test with valgrind
+      env:
+        TEST_RUN_COMMAND: "valgrind --leak-check=full --show-leak-kinds=definite --errors-for-leak-kinds=definite --error-exitcode=1"
       working-directory: ${{ steps.strings.outputs.build-output-dir }}
-      run: cmake --build . -t check -j ${{ steps.cpu-cores.outputs.count }}
+      run:
+        cmake --build . -t check -j ${{ steps.cpu-cores.outputs.count }}
+

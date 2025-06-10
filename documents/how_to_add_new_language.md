@@ -11,6 +11,8 @@ NOTE: Take a look at [PR #40](https://github.com/unicode-org/inflection/pull/40)
 In general, to bootstrap your progress look for grammatically similar language that's already supported, e.g. if you are adding Serbian look for existing Russian implementation.
 This will help you find most of the files you need to add/change and will speed up implementation of the rules and lexicons.
 
+Before you add new language support, go to the README.md in the inflection subfolder (inflection/inflection/README.md), build the project, and make sure all the tests run on your computer.
+
 ## Mark your language as supported
 * UPDATE: inflection/src/inflection/util/LocaleUtils.hpp
 * UPDATE: inflection/src/inflection/util/LocaleUtils.cpp
@@ -29,13 +31,13 @@ TODO: We need to expand what each of these do.
 * ADD: inflection/src/inflection/grammar/synthesis/*Xx*GrammarSynthesizer.hpp
 * ADD: inflection/src/inflection/grammar/synthesis/*Xx*GrammarSynthesizer.cpp
 * ADD: inflection/src/inflection/grammar/synthesis/*Xx*GrammarSynthesizer_*Xx*DisplayFunction.hpp
-* ADD: inflection/src/inflection/grammar/synthesis/*Xx*GrammarSynthesizer_*Xx*DisplayFunction.hpp
+* ADD: inflection/src/inflection/grammar/synthesis/*Xx*GrammarSynthesizer_*Xx*DisplayFunction.cpp
 * UPDATE: inflection/src/inflection/grammar/synthesis/GrammarSynthesizerFactory.cpp
 * UPDATE: inflection/src/inflection/grammar/synthesis/fwd.hpp
 
 ## Add language specific properties for lists, quantities and related topics
 * ADD: inflection/src/inflection/dialog/language/*Xx*CommonConceptFactory.hpp
-* ADD: inflection/src/inflection/dialog/language/*Xx*CommonConceptFactory.hpp
+* ADD: inflection/src/inflection/dialog/language/*Xx*CommonConceptFactory.cpp
 * UPDATE: inflection/src/inflection/dialog/language/fwd.hpp
 
 ## Define and create lexion

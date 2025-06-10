@@ -76,8 +76,24 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+
+    - name: Create Git LFS file list
+      run: git lfs ls-files -l |cut -d' ' -f1 |sort >.git/lfs-hashes.txt
+
+    - name: Restore Git LFS object cache
+      uses: actions/cache@v4
       with:
-        lfs: 'true'
+        path: .git/lfs
+        key: ${{ runner.os }}-lfsdata-v1-${{ hashFiles('.git/lfs-hashes.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-lfsdata-v1-
+          ${{ runner.os }}-lfsdata
+
+    - name: Fetch any needed Git LFS objects and prune extraneous ones
+      run: git lfs fetch --prune
+
+    - name: Check out Git LFS content
+      run: git lfs checkout
 
     - name: Set reusable strings
       # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.

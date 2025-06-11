@@ -1,0 +1,81 @@
+name: Build & Package (Ubuntu)
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build-and-package:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        lfs: true
+
+    - name: Setup Git LFS
+      run: |
+        git lfs install
+        git lfs pull
+
+    - name: Install system dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y cmake build-essential clang pkg-config
+
+    - name: Install ICU 77.1
+      run: |
+        cd /tmp
+        wget https://github.com/unicode-org/icu/releases/download/release-77-1/icu4c-77_1-src.tgz
+        tar xzf icu4c-77_1-src.tgz
+        cd icu/source
+        ./configure --prefix=/usr/local
+        make -j$(nproc)
+        sudo make install
+        sudo ldconfig
+
+    - name: Configure & Build
+      run: |
+        mkdir -p build
+        cd build
+        CC=clang CXX=clang++ cmake .. \
+          -DCMAKE_BUILD_TYPE=Release \
+          -DICU_ROOT=/usr/local \
+          -DCMAKE_PREFIX_PATH=/usr/local
+        make -j$(nproc)
+
+    - name: Run tests
+      run: |
+        cd build
+        make check
+
+    - name: Package with CPack
+      run: |
+        cd build
+        cpack
+        ls -la *.deb *.tar.gz
+
+    - name: Upload release artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: ubuntu-release-artifacts
+        path: |
+          build/*.deb
+          build/*.tar.gz
+        retention-days: 30
+
+    - name: Upload to GitHub Release
+      uses: softprops/action-gh-release@v2
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        name: "Release ${{ github.ref_name }}"
+        files: |
+          build/*.deb
+          build/*.tar.gz
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

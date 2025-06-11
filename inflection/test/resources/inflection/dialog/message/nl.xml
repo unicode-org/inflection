@@ -1,0 +1,1280 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+ Copyright 2025 Unicode Incorporated and others. All rights reserved.
+-->
+<messagetest locale="nl">
+    <test>
+        <params>
+            <param name="source" type="String"><value>een huis</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=definiteness} .match $feature |indefinite| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>de man</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=definiteness} .match $feature |definite| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>de vrouw</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=definiteness} .match $feature |definite| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>het huis</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=definiteness} .match $feature |definite| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>zakenkrant</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=definiteness} .match $feature || {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>QQQQQQ</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=definiteness} .match $feature || {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>value</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite gender=masculine number=singular}</source>
+        <print>de value</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>value</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite gender=neuter number=singular}</source>
+        <print>het value</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>value</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite number=singular sizeness=diminutive}</source>
+        <print>het value</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>value</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite number=plural}</source>
+        <print>de value</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>huis</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>het huis</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>tuinhuis</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>het tuinhuis</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>boek</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>het boek</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>tafel</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>de tafel</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>keukentafel</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>de keukentafel</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>boekenkast</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>de boekenkast</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>huizen</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>de huizen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>tuinhuizen</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>de tuinhuizen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>boekenkastje</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>het boekenkastje</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>boekenkastjes</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>de boekenkastjes</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>bureaulampje</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>het bureaulampje</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>bureaulampjes</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>de bureaulampjes</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>stadscentrum</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>het stadscentrum</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>stadscentra</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>de stadscentra</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>appelblauwzeegroene huis</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>het appelblauwzeegroene huis</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>vervallen huis</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>het vervallen huis</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>dikke boek</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>het dikke boek</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>bruine tafel</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>de bruine tafel</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>nieuwe keukentafel</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>de nieuwe keukentafel</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>lege boekenkast</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>de lege boekenkast</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>vervallen huizen</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>de vervallen huizen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>grote tuinhuizen</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>de grote tuinhuizen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>lege boekenkastje</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>het lege boekenkastje</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>lege boekenkastjes</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>de lege boekenkastjes</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>kleine bureaulampje</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>het kleine bureaulampje</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>kleine bureaulampjes</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>de kleine bureaulampjes</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>oude stadscentrum</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>het oude stadscentrum</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>moderne stadscentra</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>de moderne stadscentra</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>vervallen huis dat gebouwd is in 1977</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>het vervallen huis dat gebouwd is in 1977</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>dikke boek over Steve Jobs</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>het dikke boek over Steve Jobs</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>bruine tafel waaop het boek ligt</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>de bruine tafel waaop het boek ligt</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>nieuwe keukentafel in de living</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>de nieuwe keukentafel in de living</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>lege boekenkast uit Ikea</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>de lege boekenkast uit Ikea</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>vervallen huizen in Gent</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>de vervallen huizen in Gent</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>grote tuinhuizen van de buren</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>de grote tuinhuizen van de buren</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>lege boekenkastjes met boeken</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>de lege boekenkastjes met boeken</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>kleine bureaulampjes van mijn broer</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>de kleine bureaulampjes van mijn broer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>oude stadscentrum van Gent</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>het oude stadscentrum van Gent</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>moderne stadscentra in Europa</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>de moderne stadscentra in Europa</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>kamer van Tom</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>de kamer van Tom</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>huis van Tom</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>het huis van Tom</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>reis</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>reis</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>reis</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>reizen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>feestdag</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>feestdag</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>feestdag</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>feestdagen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>schip</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>schip</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>schip</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>schepen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>uitstapje</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>uitstapje</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>uitstapje</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>uitstapjes</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>vegetarisch</value></param>
+        </params>
+        <source>{$source :inflection declension=undeclined}</source>
+        <print>vegetarisch</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>vegetarisch</value></param>
+        </params>
+        <source>{$source :inflection declension=declined}</source>
+        <print>vegetarische</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ouder</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>ouder</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ouder</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>ouders</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>zakelijk nummer</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>zakelijk nummer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>zakelijk nummer</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>zakelijke nummers</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>groot rood</value></param>
+        </params>
+        <source>{$source :inflection declension=declined number=plural}</source>
+        <print>grote rode</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ik</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>mijn</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>zij</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=singular}</source>
+        <print>haar</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>zij</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=plural}</source>
+        <print>hun</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Tom</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>Tom’s</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Yasser</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>Yasser’s</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Alex</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>Alex’</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ik</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>mijn</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>me</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>mijn</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>mij</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>mijn</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>je</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>jouw</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>jij</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>jouw</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>jou</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>jouw</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>hij</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>zijn</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>hem</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>zijn</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>haar</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>haar</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>hen</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>hun</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>hun</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>hun</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ze</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=singular}</source>
+        <print>haar</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>zij</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=singular}</source>
+        <print>haar</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ze</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=plural}</source>
+        <print>hun</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>zij</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=plural}</source>
+        <print>hun</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>we</value></param>
+        </params>
+        <source>{$source :inflection case=genitive declension=undeclined}</source>
+        <print>ons</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>wij</value></param>
+        </params>
+        <source>{$source :inflection case=genitive declension=undeclined}</source>
+        <print>ons</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>we</value></param>
+        </params>
+        <source>{$source :inflection case=genitive declension=declined}</source>
+        <print>onze</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>wij</value></param>
+        </params>
+        <source>{$source :inflection case=genitive declension=declined}</source>
+        <print>onze</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Tom</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>Tom’s</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Eric</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>Eric’s</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Ellen</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>Ellen’s</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Tom's</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>Tom's</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Eric's</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>Eric's</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Ellen's</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>Ellen's</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Jezus</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>Jezus’</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Inez</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>Inez’</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Chris</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>Chris’</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Bush</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>Bush’</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Alex</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>Alex’</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Vermeesch</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>Vermeesch’</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Jezus'</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>Jezus'</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Inez'</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>Inez'</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Chris'</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>Chris'</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Bush'</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>Bush'</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Alex'</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>Alex'</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Vermeesch'</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>Vermeesch'</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>BRB'</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>BRB's</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>JK'</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>JK's</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>huis</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>het huis</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>vrouw</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>de vrouw</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>man</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>de man</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>huis</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite}</source>
+        <print>een huis</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>vrouw</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite}</source>
+        <print>een vrouw</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>man</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite}</source>
+        <print>een man</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>dag</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>dagen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>lang saai programma</value></param>
+        </params>
+        <source>{$source :inflection pos=adjective}</source>
+        <print>lang saai programma</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>lang saai programma</value></param>
+        </params>
+        <source>{$source :inflection declension=declined}</source>
+        <print>lang saai programma</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>lang saai programma</value></param>
+        </params>
+        <source>{$source :inflection declension=undeclined}</source>
+        <print>lang saai programma</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>lang saai programma</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>lang saai programma</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>lang saai programma</value></param>
+        </params>
+        <source>{$source :inflection declension=declined number=singular}</source>
+        <print>lang saai programma</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>lang saai programma</value></param>
+        </params>
+        <source>{$source :inflection declension=undeclined number=singular}</source>
+        <print>lang saai programma</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>lang saai programma</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>lange saaie programma’s</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>lang saai programma</value></param>
+        </params>
+        <source>{$source :inflection declension=declined number=plural}</source>
+        <print>lange saaie programma’s</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>lang saai programma</value></param>
+        </params>
+        <source>{$source :inflection declension=undeclined number=plural}</source>
+        <print>lange saaie programma’s</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>groot boos wolf</value></param>
+        </params>
+        <source>{$source :inflection pos=adjective}</source>
+        <print>groot boos wolf</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>groot boos wolf</value></param>
+        </params>
+        <source>{$source :inflection declension=declined}</source>
+        <print>groot boos wolf</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>groot boos wolf</value></param>
+        </params>
+        <source>{$source :inflection declension=undeclined}</source>
+        <print>groot boos wolf</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>groot boos wolf</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>grote boze wolf</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>groot boos wolf</value></param>
+        </params>
+        <source>{$source :inflection declension=declined number=singular}</source>
+        <print>grote boze wolf</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>groot boos wolf</value></param>
+        </params>
+        <source>{$source :inflection declension=undeclined number=singular}</source>
+        <print>grote boze wolf</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>groot boos wolf</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>grote boze wolven</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>groot boos wolf</value></param>
+        </params>
+        <source>{$source :inflection declension=declined number=plural}</source>
+        <print>grote boze wolven</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>groot boos wolf</value></param>
+        </params>
+        <source>{$source :inflection declension=undeclined number=plural}</source>
+        <print>grote boze wolven</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>xxx</value></param>
+        </params>
+        <source>{$source :inflection}</source>
+        <print>xxx</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>xxx</value></param>
+        </params>
+        <source>{$source :inflection declension=declined}</source>
+        <print>xxx</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>xxx</value></param>
+        </params>
+        <source>{$source :inflection declension=undeclined}</source>
+        <print>xxx</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>xxx</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>xxx</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>xxx</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>xxx</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>xxx</value></param>
+        </params>
+        <source>{$source :inflection declension=declined number=singular}</source>
+        <print>xxx</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>xxx</value></param>
+        </params>
+        <source>{$source :inflection declension=undeclined number=plural}</source>
+        <print>xxx</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>kamer van jan</value></param>
+        </params>
+        <source>{$source :inflection}</source>
+        <print>kamer van jan</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>kamer van jan</value></param>
+        </params>
+        <source>{$source :inflection declension=declined}</source>
+        <print>kamer van jan</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>kamer van jan</value></param>
+        </params>
+        <source>{$source :inflection declension=undeclined}</source>
+        <print>kamer van jan</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>kamer van jan</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>kamer van jan</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>kamer van jan</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>kamer van jan</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>kamer van jan</value></param>
+        </params>
+        <source>{$source :inflection declension=declined number=singular}</source>
+        <print>kamer van jan</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>kamer van jan</value></param>
+        </params>
+        <source>{$source :inflection declension=undeclined number=plural}</source>
+        <print>kamer van jan</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Jan groot kamer</value></param>
+        </params>
+        <source>{$source :inflection}</source>
+        <print>Jan groot kamer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Jan groot kamer</value></param>
+        </params>
+        <source>{$source :inflection declension=declined}</source>
+        <print>Jan groot kamer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Jan groot kamer</value></param>
+        </params>
+        <source>{$source :inflection declension=undeclined}</source>
+        <print>Jan groot kamer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Jan groot kamer</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>Jan groot kamer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Jan groot kamer</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>Jan groot kamer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Jan groot kamer</value></param>
+        </params>
+        <source>{$source :inflection declension=declined number=singular}</source>
+        <print>Jan groot kamer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Jan groot kamer</value></param>
+        </params>
+        <source>{$source :inflection declension=undeclined number=plural}</source>
+        <print>Jan groot kamer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>kamer lelijk</value></param>
+        </params>
+        <source>{$source :inflection}</source>
+        <print>kamer lelijk</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>kamer lelijk</value></param>
+        </params>
+        <source>{$source :inflection declension=declined}</source>
+        <print>kamer lelijk</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>kamer lelijk</value></param>
+        </params>
+        <source>{$source :inflection declension=undeclined}</source>
+        <print>kamer lelijk</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>kamer lelijk</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>kamer lelijk</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>kamer lelijk</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>kamer lelijk</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>kamer lelijk</value></param>
+        </params>
+        <source>{$source :inflection declension=declined number=singular}</source>
+        <print>kamer lelijk</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>kamer lelijk</value></param>
+        </params>
+        <source>{$source :inflection declension=undeclined number=plural}</source>
+        <print>kamer lelijk</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>auto oud jong beschonken</value></param>
+        </params>
+        <source>{$source :inflection}</source>
+        <print>auto oud jong beschonken</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>auto oud jong beschonken</value></param>
+        </params>
+        <source>{$source :inflection declension=declined}</source>
+        <print>auto oud jong beschonken</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>auto oud jong beschonken</value></param>
+        </params>
+        <source>{$source :inflection declension=undeclined}</source>
+        <print>auto oud jong beschonken</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>auto oud jong beschonken</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>auto oud jong beschonken</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>auto oud jong beschonken</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>auto oud jong beschonken</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>auto oud jong beschonken</value></param>
+        </params>
+        <source>{$source :inflection declension=declined number=singular}</source>
+        <print>auto oud jong beschonken</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>auto oud jong beschonken</value></param>
+        </params>
+        <source>{$source :inflection declension=undeclined number=plural}</source>
+        <print>auto oud jong beschonken</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>bewillig</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>bewillig</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>bewilligen</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>bewillig</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>bewillig</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>bewilligen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>bewilligt</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>bewilligen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>bewilligen</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>bewilligen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>zat</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>zat</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>zaten</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>zate</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>zaten</value></param>
+        </params>
+        <source>{$source :inflection number=singular pos=noun}</source>
+        <print>zate</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>zaten</value></param>
+        </params>
+        <source>{$source :inflection number=singular pos=verb}</source>
+        <print>zat</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>zat</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>zaten</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>zaten</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>zaten</print>
+    </test>
+</messagetest>

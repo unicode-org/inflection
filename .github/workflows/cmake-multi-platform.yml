@@ -82,6 +82,7 @@ jobs:
 
     - name: Restore Git LFS object cache
       uses: actions/cache@v4
+      id: lfscache
       with:
         path: .git/lfs
         key: ${{ runner.os }}-lfsdata-v1-${{ hashFiles('.git/lfs-hashes.txt') }}
@@ -90,9 +91,11 @@ jobs:
           ${{ runner.os }}-lfsdata
 
     - name: Fetch any needed Git LFS objects and prune extraneous ones
+      if: steps.lfscache.outputs.cache-hit != 'true'
       run: git lfs fetch --prune
 
     - name: Check out Git LFS content
+      if: steps.lfscache.outputs.cache-hit != 'true'
       run: git lfs checkout
 
     - name: Set reusable strings

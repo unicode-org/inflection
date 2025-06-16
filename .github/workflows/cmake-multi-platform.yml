@@ -90,6 +90,9 @@ jobs:
           ${{ runner.os }}-lfsdata-v1-
           ${{ runner.os }}-lfsdata
 
+    - name: Check LFS restore the files or not
+      run: ls -l inflection/resources/org/unicode/inflection/dictionary/*
+
     - name: Fetch any needed Git LFS objects and prune extraneous ones
       if: steps.lfscache.outputs.cache-hit != 'true'
       run: git lfs fetch --prune

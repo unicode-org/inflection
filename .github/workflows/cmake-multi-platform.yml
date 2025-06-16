@@ -94,12 +94,15 @@ jobs:
       run: ls -l inflection/resources/org/unicode/inflection/dictionary/*
 
     - name: Fetch any needed Git LFS objects and prune extraneous ones
-      if: steps.lfscache.outputs.cache-hit != 'true'
+      # if: steps.lfscache.outputs.cache-hit != 'true'
       run: git lfs fetch --prune
 
     - name: Check out Git LFS content
-      if: steps.lfscache.outputs.cache-hit != 'true'
+      # if: steps.lfscache.outputs.cache-hit != 'true'
       run: git lfs checkout
+
+    - name: Check LFS restore the files or not after checkout
+      run: ls -l inflection/resources/org/unicode/inflection/dictionary/*
 
     - name: Set reusable strings
       # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.

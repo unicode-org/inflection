@@ -84,7 +84,7 @@ jobs:
       uses: actions/cache@v4
       id: lfscache
       with:
-        path: .git/lfs
+        path: inflection/resources/org/unicode/inflection/dictionary
         key: ${{ runner.os }}-lfsdata-v1-${{ hashFiles('.git/lfs-hashes.txt') }}
         restore-keys: |
           ${{ runner.os }}-lfsdata-v1-

@@ -47,12 +47,12 @@ RuCommonConceptFactory::~RuCommonConceptFactory()
             type = ::inflection::grammar::synthesis::GrammemeConstants::NUMBER_SINGULAR();
             semanticConceptClone->putConstraint(semanticFeatureCase, ::inflection::grammar::synthesis::GrammemeConstants::CASE_GENITIVE());
         } else {
-            auto caseSpeakableString = semanticConceptClone->getFeatureValue(semanticFeatureCase);
+            std::unique_ptr<SpeakableString> caseSpeakableString(
+                semanticConceptClone->getFeatureValue(semanticFeatureCase));
             ::std::u16string caseString;
-            if (caseSpeakableString != nullptr && ::inflection::grammar::synthesis::GrammemeConstants::CASE_NOMINATIVE() != npc(caseSpeakableString)->getPrint()) {
-                caseString = npc(caseSpeakableString)->getPrint();
+            if (caseSpeakableString != nullptr && ::inflection::grammar::synthesis::GrammemeConstants::CASE_NOMINATIVE() != caseSpeakableString->getPrint()) {
+                caseString = caseSpeakableString->getPrint();
             }
-            delete caseSpeakableString;
             if (caseString.empty() || ::inflection::grammar::synthesis::GrammemeConstants::CASE_NOMINATIVE() == caseString || ::inflection::grammar::synthesis::GrammemeConstants::CASE_ACCUSATIVE() == caseString) {
                 semanticConceptClone->putConstraint(semanticFeatureCase, ::inflection::grammar::synthesis::GrammemeConstants::CASE_GENITIVE());
             }
@@ -62,13 +62,13 @@ RuCommonConceptFactory::~RuCommonConceptFactory()
                 if (::inflection::grammar::synthesis::GrammemeConstants::CASE_ACCUSATIVE() == caseString && Plurality::Rule::FEW == countType) {
                     ::std::unique_ptr<SemanticFeatureConceptBase> semanticConceptCloneForAnimacy(npc(semanticConcept.clone()));
                     semanticConceptCloneForAnimacy->clearConstraint(semanticFeatureCase);
-                    auto animacySpeakableString = semanticConceptCloneForAnimacy->getFeatureValue(semanticFeatureAnimacy);
-                    if (animacySpeakableString != nullptr && ::inflection::grammar::synthesis::GrammemeConstants::ANIMACY_INANIMATE() == npc(animacySpeakableString)->getPrint()) {
+                    std::unique_ptr<SpeakableString> animacySpeakableString(
+                        semanticConceptCloneForAnimacy->getFeatureValue(semanticFeatureAnimacy));
+                    if (animacySpeakableString != nullptr && ::inflection::grammar::synthesis::GrammemeConstants::ANIMACY_INANIMATE() == animacySpeakableString->getPrint()) {
                         type = ::inflection::grammar::synthesis::GrammemeConstants::NUMBER_SINGULAR();
                     } else {
                         type = ::inflection::grammar::synthesis::GrammemeConstants::NUMBER_PLURAL();
                     }
-                    delete animacySpeakableString;
                 } else {
                     type = ::inflection::grammar::synthesis::GrammemeConstants::NUMBER_PLURAL();
                 }
@@ -85,18 +85,19 @@ RuCommonConceptFactory::~RuCommonConceptFactory()
 
 inflection::dialog::SpeakableString* RuCommonConceptFactory::quantify(const NumberConcept& number, const SemanticFeatureConceptBase* semanticConcept) const
 {
-    auto genderSpeakableString = npc(semanticConcept)->getFeatureValue(semanticFeatureGender);
+    std::unique_ptr<SpeakableString> genderSpeakableString(
+        npc(semanticConcept)->getFeatureValue(semanticFeatureGender));
     ::std::u16string gender;
     if (genderSpeakableString != nullptr) {
-        gender = npc(genderSpeakableString)->getPrint();
-        delete genderSpeakableString;
+        gender = genderSpeakableString->getPrint();
     }
     inflection::dialog::SpeakableString formattedNumber({});
     if (!gender.empty()) {
-        auto caseSpeakableString = npc(semanticConcept)->getFeatureValue(semanticFeatureCase);
+        std::unique_ptr<SpeakableString> caseSpeakableString(
+            npc(semanticConcept)->getFeatureValue(semanticFeatureCase));
         ::std::u16string caseString;
-        if (caseSpeakableString != nullptr && ::inflection::grammar::synthesis::GrammemeConstants::CASE_NOMINATIVE() != npc(caseSpeakableString)->getPrint()) {
-            caseString = npc(caseSpeakableString)->getPrint();
+        if (caseSpeakableString != nullptr && ::inflection::grammar::synthesis::GrammemeConstants::CASE_NOMINATIVE() != caseSpeakableString->getPrint()) {
+            caseString = caseSpeakableString->getPrint();
             // TODO Deprecated usage based on bad advice when Russian was first started. We can change this once RBNF is updated.
             if (caseString == ::inflection::grammar::synthesis::GrammemeConstants::CASE_INSTRUMENTAL()) {
                 caseString = ::inflection::grammar::synthesis::GrammemeConstants::CASE_ABLATIVE();
@@ -106,7 +107,6 @@ inflection::dialog::SpeakableString* RuCommonConceptFactory::quantify(const Numb
             }
             caseString = ::std::u16string(u"-") + caseString;
         }
-        delete caseSpeakableString;
         formattedNumber = number.asSpokenWords(::std::u16string(u"cardinal-") + gender + caseString);
     } else {
         // We don't know what this word is. Default to digits.

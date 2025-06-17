@@ -109,13 +109,13 @@ FormattedPlaceholder InflectionFormatter::format(
                                                 value.getString(errorCode));
                 }
             }
-            auto string = stringConcept.toSpeakableString();
+            std::unique_ptr<inflection::dialog::SpeakableString> string(
+                stringConcept.toSpeakableString());
             if (string == nullptr) {
                 errorCode = U_MF_FORMATTING_ERROR;
                 return FormattedPlaceholder("inflection");
             }
             result += string->getPrint();
-            delete string;
             break;
         }
         default: {
@@ -187,13 +187,11 @@ void InflectionSelector::selectKey(
         auto value = model->getFeature(opt.at(u"select").getString(errorCode));
         UnicodeString feature;
         if (value != nullptr) {
-            auto result = stringConcept.getFeatureValue(*value);
-            if (result == nullptr) {
-                errorCode = U_MF_SELECTOR_ERROR;
-                return;
+            std::unique_ptr<inflection::dialog::SpeakableString> result(
+                stringConcept.getFeatureValue(*value));
+            if (result != nullptr) {
+                feature = result->getPrint();
             }
-            feature = result->getPrint();
-            delete result;
         }
         for (int i = 0; i < keysLen; i++) {
             if (feature == keys[i]) {

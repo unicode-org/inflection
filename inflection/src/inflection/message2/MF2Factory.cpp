@@ -109,7 +109,13 @@ FormattedPlaceholder InflectionFormatter::format(
                                                 value.getString(errorCode));
                 }
             }
-            result += stringConcept.toSpeakableString()->getPrint();
+            auto string = stringConcept.toSpeakableString();
+            if (string == nullptr) {
+                errorCode = U_MF_FORMATTING_ERROR;
+                return FormattedPlaceholder("inflection");
+            }
+            result += string->getPrint();
+            delete string;
             break;
         }
         default: {
@@ -182,9 +188,12 @@ void InflectionSelector::selectKey(
         UnicodeString feature;
         if (value != nullptr) {
             auto result = stringConcept.getFeatureValue(*value);
-            if (result != nullptr) {
-                feature = result->getPrint();
+            if (result == nullptr) {
+                errorCode = U_MF_SELECTOR_ERROR;
+                return;
             }
+            feature = result->getPrint();
+            delete result;
         }
         for (int i = 0; i < keysLen; i++) {
             if (feature == keys[i]) {

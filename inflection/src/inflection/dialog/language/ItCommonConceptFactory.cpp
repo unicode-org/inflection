@@ -37,12 +37,12 @@ inflection::dialog::SpeakableString* ItCommonConceptFactory::quantify(const infl
 {
     ::inflection::dialog::SpeakableString formattedNumber({});
     if (number.longValue() == 1) {
-        auto indefiniteArticle = npc(semanticConcept)->getFeatureValue(*npc(semanticFeatureIndefiniteArticle));
+        std::unique_ptr<SpeakableString> indefiniteArticle(
+            npc(semanticConcept)->getFeatureValue(*npc(semanticFeatureIndefiniteArticle)));
         if (indefiniteArticle == nullptr) {
             formattedNumber = number.asSpokenWords(u"cardinal-masculine");
         } else {
-            formattedNumber = ::inflection::dialog::SpeakableString(npc(indefiniteArticle)->getPrint(), npc(indefiniteArticle)->getPrint());
-            delete indefiniteArticle;
+            formattedNumber = ::inflection::dialog::SpeakableString(indefiniteArticle->getPrint(), indefiniteArticle->getPrint());
         }
     } else {
         formattedNumber = number.asSpokenWords(u"cardinal-masculine");

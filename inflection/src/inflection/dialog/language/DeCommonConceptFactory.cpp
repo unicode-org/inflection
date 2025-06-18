@@ -32,17 +32,17 @@ DeCommonConceptFactory::DeCommonConceptFactory(const ::inflection::util::ULocale
 
 inflection::dialog::SpeakableString* DeCommonConceptFactory::quantify(const NumberConcept& number, const SemanticFeatureConceptBase* semanticConcept) const
 {
-    auto genderSpeakableString = npc(semanticConcept)->getFeatureValue(*npc(semanticFeatureGender));
+    std::unique_ptr<SpeakableString> genderSpeakableString(
+        npc(semanticConcept)->getFeatureValue(*npc(semanticFeatureGender)));
     ::std::u16string gender;
     if (genderSpeakableString != nullptr) {
-        gender = npc(genderSpeakableString)->getPrint();
-        delete genderSpeakableString;
+        gender = genderSpeakableString->getPrint();
     }
-    auto caseSpeakableString = npc(semanticConcept)->getFeatureValue(*npc(semanticFeatureCase));
+    std::unique_ptr<SpeakableString> caseSpeakableString(
+        npc(semanticConcept)->getFeatureValue(*npc(semanticFeatureCase)));
     ::std::u16string caseString;
     if (caseSpeakableString != nullptr) {
-        caseString = npc(caseSpeakableString)->getPrint();
-        delete caseSpeakableString;
+        caseString = caseSpeakableString->getPrint();
     }
     ::inflection::dialog::SpeakableString formattedNumber({});
     if (caseString.empty() || ::inflection::grammar::synthesis::GrammemeConstants::CASE_NOMINATIVE() == caseString) {

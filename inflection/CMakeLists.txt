@@ -141,7 +141,7 @@ set(CPACK_GENERATOR "DEB;TGZ")
 
 # DEB-specific options
 set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Unicode Consortium <inflection-team@unicode.org>")
-set(CPACK_DEBIAN_PACKAGE_DEPENDS "libicu-dev (>= 77.1)")
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "libicu77 (>= 77.1)")
 set(CPACK_DEBIAN_PACKAGE_SECTION "libs")
 set(CPACK_DEBIAN_PACKAGE_PRIORITY "optional")
 

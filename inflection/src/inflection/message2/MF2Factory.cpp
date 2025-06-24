@@ -98,8 +98,8 @@ FormattedPlaceholder InflectionFormatter::format(
 
     switch (toFormat.getType()) {
         case UFMT_STRING: {
-            inflection::dialog::SpeakableString input(
-                toFormat.getString(errorCode));
+            UnicodeString inputString = toFormat.getString(errorCode);
+            inflection::dialog::SpeakableString input(inputString);
             inflection::dialog::InflectableStringConcept stringConcept(
                 model, input);
             for (const auto& [key, value] : options.getOptions()) {
@@ -111,11 +111,13 @@ FormattedPlaceholder InflectionFormatter::format(
             }
             std::unique_ptr<inflection::dialog::SpeakableString> string(
                 stringConcept.toSpeakableString());
-            if (string == nullptr) {
-                errorCode = U_MF_FORMATTING_ERROR;
-                return FormattedPlaceholder("inflection");
+            if (string != nullptr) {
+                result += string->getPrint();
+            } else {
+                // stringConcept return nullptr When the constrained values is an empty set
+                // Fallback to the inputString, same as the default case in switch().
+                result += inputString;
             }
-            result += string->getPrint();
             break;
         }
         default: {

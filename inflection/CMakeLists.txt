@@ -135,12 +135,12 @@ install(DIRECTORY ${INFLECTION_DATA_ROOT}/    TYPE DATA    COMPONENT inflection_
 
 set(CPACK_PACKAGE_NAME "unicode-inflection")
 set(CPACK_PACKAGE_VENDOR "Unicode Consortium")
-set(CPACK_PACKAGE_CONTACT "grhoten@gmail.com")
+set(CPACK_PACKAGE_CONTACT "https://github.com/unicode-org/inflection")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Unicode Inflection Library")
 set(CPACK_GENERATOR "DEB;TGZ")
 
 # DEB-specific options
-set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Unicode Consortium <grhoten@gmail.com>")
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Unicode Consortium <inflection-team@unicode.org>")
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "libicu-dev (>= 77.1)")
 set(CPACK_DEBIAN_PACKAGE_SECTION "libs")
 set(CPACK_DEBIAN_PACKAGE_PRIORITY "optional")

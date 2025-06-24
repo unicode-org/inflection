@@ -31,12 +31,9 @@ jobs:
     - name: Install ICU 77.1
       run: |
         cd /tmp
-        wget https://github.com/unicode-org/icu/releases/download/release-77-1/icu4c-77_1-src.tgz
-        tar xzf icu4c-77_1-src.tgz
-        cd icu/source
-        ./configure --prefix=/usr/local
-        make -j$(nproc)
-        sudo make install
+        wget https://github.com/unicode-org/icu/releases/download/release-77-1/icu4c-77_1-Ubuntu2204-x64.tgz
+        tar xzf icu4c-77_1-Ubuntu2204-x64.tgz
+        sudo cp -r usr/* /usr/local/
         sudo ldconfig
 
     - name: Configure & Build

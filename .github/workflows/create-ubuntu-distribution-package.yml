@@ -41,7 +41,6 @@ jobs:
         cd /tmp
         wget https://github.com/unicode-org/icu/releases/download/release-77-1/icu4c-77_1-Ubuntu22.04-x64.tgz
         tar xzf icu4c-77_1-Ubuntu22.04-x64.tgz
-        cd icu4c-77_1-Ubuntu22.04-x64
         sudo cp -r usr/* /usr/local/
         sudo ldconfig
 

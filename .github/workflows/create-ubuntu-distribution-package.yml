@@ -1,5 +1,4 @@
 name: Build & Package (Ubuntu)
-
 on:
   push:
     tags:
@@ -7,35 +6,42 @@ on:
   workflow_dispatch:
   pull_request:
     branches: [ main ]
-
 jobs:
   build-and-package:
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout
       uses: actions/checkout@v4
       with:
         lfs: true
-
     - name: Setup Git LFS
       run: |
         git lfs install
         git lfs pull
-
     - name: Install system dependencies
       run: |
         sudo apt update
         sudo apt install -y cmake build-essential clang pkg-config
-
-    - name: Install ICU 77.1
+    - name: Cache ICU
+      uses: actions/cache@v4
+      id: cache-icu
+      with:
+        path: /usr/local
+        key: icu-77.1-ubuntu-${{ runner.os }}
+        
+    - name: Install ICU 77.1 (Binary)
+      if: steps.cache-icu.outputs.cache-hit != 'true'
       run: |
         cd /tmp
         wget https://github.com/unicode-org/icu/releases/download/release-77-1/icu4c-77_1-Ubuntu2204-x64.tgz
         tar xzf icu4c-77_1-Ubuntu2204-x64.tgz
         sudo cp -r usr/* /usr/local/
         sudo ldconfig
-
+        
+    - name: Setup ICU (from cache)
+      if: steps.cache-icu.outputs.cache-hit == 'true'
+      run: |
+        sudo ldconfig
     - name: Configure & Build
       run: |
         mkdir -p build
@@ -45,18 +51,15 @@ jobs:
           -DICU_ROOT=/usr/local \
           -DCMAKE_PREFIX_PATH=/usr/local
         make -j$(nproc)
-
     - name: Run tests
       run: |
         cd build
         make check
-
     - name: Package with CPack
       run: |
         cd build
         cpack
         ls -la *.deb *.tar.gz
-
     - name: Upload release artifacts
       uses: actions/upload-artifact@v4
       with:
@@ -65,7 +68,6 @@ jobs:
           build/*.deb
           build/*.tar.gz
         retention-days: 30
-
     - name: Upload to GitHub Release
       uses: softprops/action-gh-release@v2
       if: startsWith(github.ref, 'refs/tags/')

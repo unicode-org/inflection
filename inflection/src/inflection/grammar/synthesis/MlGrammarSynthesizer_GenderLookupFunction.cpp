@@ -16,8 +16,13 @@
 
 namespace inflection::grammar::synthesis {
 
+static bool ends_with(const std::u16string& str, const std::u16string_view& suffix) {
+    if (suffix.size() > str.size()) return false;
+    return std::equal(suffix.rbegin(), suffix.rend(), str.rbegin());
+}
+
 MlGrammarSynthesizer_GenderLookupFunction::MlGrammarSynthesizer_GenderLookupFunction()
-    : super(::inflection::util::LocaleUtils::MALAYALAM(), {u"masculine", u"feminine"})
+    : super(::inflection::util::LocaleUtils::MALAYALAM(), {u"masculine", u"feminine", u"neuter"})
     , tokenizer(::inflection::tokenizer::TokenizerFactory::createTokenizer(::inflection::util::LocaleUtils::MALAYALAM()))
     , dictionary(getDictionary())
 {
@@ -33,7 +38,7 @@ static const ::std::set<::std::u16string_view>& FEMININE_SUFFIXES()
 {
     static auto FEMININE_SUFFIXES_ = new ::std::set<::std::u16string_view>({
         u"ി"   // e.g. പെൺ (pen) endings
-       , u" ാളി"  // common feminine suffix in Malayalam nouns
+       , u"ാളി"  // common feminine suffix in Malayalam nouns
     });
     return *npc(FEMININE_SUFFIXES_);
 }
@@ -47,51 +52,87 @@ static const ::std::set<::std::u16string_view>& MASCULINE_SUFFIXES()
     return *npc(MASCULINE_SUFFIXES_);
 }
 
+static const ::std::set<::std::u16string_view>& NEUTER_SUFFIXES()
+{
+    static auto NEUTER_SUFFIXES_ = new ::std::set<::std::u16string_view>({
+        u"ത്",
+        u"ം",
+        u"യം"
+    });
+    return *npc(NEUTER_SUFFIXES_);
+}
+
 ::std::u16string MlGrammarSynthesizer_GenderLookupFunction::determine(const ::std::u16string& word) const
 {
     if (word.empty()) {
         return {};
     }
-    auto out = super::determine(word);
-    if (out.empty() && !word.empty()) {
+
+    auto gender = super::determine(word);
+    if (gender.empty()) {
         ::std::unique_ptr<::inflection::tokenizer::TokenChain> tokenChain(npc(npc(tokenizer.get())->createTokenChain(word)));
+        
+        // First try dictionary lookup on noun tokens
         for (auto token = tokenChain->begin(); token != tokenChain->end(); ++token) {
-            if (dynamic_cast<const ::inflection::tokenizer::Token_Word*>(token.get()) != nullptr && dictionary.hasAllProperties(token->getCleanValue(), nounProperty)) {
-                out = super::determine(token->getValue());
-                break;
+            if (dynamic_cast<const ::inflection::tokenizer::Token_Word*>(token.get()) != nullptr &&
+                dictionary.hasAllProperties(token->getCleanValue(), nounProperty)) {
+                gender = super::determine(token->getValue());
+                if (!gender.empty()) break;
             }
         }
-        if (out.empty()) {
+
+        // If still empty, try any word token
+        if (gender.empty()) {
             for (auto token = tokenChain->begin(); token != tokenChain->end(); ++token) {
                 if (dynamic_cast<const ::inflection::tokenizer::Token_Word*>(token.get()) != nullptr) {
-                    out = super::determine(token->getValue());
-                    break;
+                    gender = super::determine(token->getValue());
+                    if (!gender.empty()) break;
                 }
             }
         }
-        if (out.empty()) {
-            auto token = npc(tokenChain->getHead())->getNext();
-            const auto& stringToken = npc(token)->getCleanValue();
-            for (const auto& suffix : MASCULINE_SUFFIXES()) {
-                if (stringToken.ends_with(suffix)) {
-                    out = GrammemeConstants::GENDER_MASCULINE();
-                    break;
-                }
-            }
-            if (out.empty()) {
-                for (const auto& suffix : FEMININE_SUFFIXES()) {
-                    if (stringToken.ends_with(suffix)) {
-                        out = GrammemeConstants::GENDER_FEMININE();
-                        break;
+
+        // If still empty, fallback to suffix heuristics on the second token in chain
+        if (gender.empty()) {
+            auto head = tokenChain->getHead();
+            if (head != nullptr) {
+                auto token = npc(head)->getNext();
+                if (token != nullptr) {
+                    const auto& stringToken = npc(token)->getCleanValue();
+
+                    for (const auto& suffix : MASCULINE_SUFFIXES()) {
+                        if (ends_with(stringToken, suffix)) {
+                            gender = GrammemeConstants::GENDER_MASCULINE();
+                            break;
+                        }
+                    }
+
+                    if (gender.empty()) {
+                        for (const auto& suffix : FEMININE_SUFFIXES()) {
+                            if (ends_with(stringToken, suffix)) {
+                                gender = GrammemeConstants::GENDER_FEMININE();
+                                break;
+                            }
+                        }
+                    }
+
+                    if (gender.empty()) {
+                        for (const auto& suffix : NEUTER_SUFFIXES()) {
+                            if (ends_with(stringToken, suffix)) {
+                                gender = GrammemeConstants::GENDER_NEUTER();
+                                break;
+                            }
+                        }
                     }
                 }
             }
         }
     }
-    if (out.empty()) {
-        out = GrammemeConstants::GENDER_MASCULINE();
+
+    if (gender.empty()) {
+        // Default to masculine if no gender is detected
+        gender = GrammemeConstants::GENDER_MASCULINE();
     }
-    return out;
+    return gender;
 }
 
 } // namespace inflection::grammar::synthesis

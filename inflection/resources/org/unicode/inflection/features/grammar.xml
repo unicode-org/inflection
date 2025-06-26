@@ -1633,12 +1633,16 @@
             <grammeme name="dative"/>          <!-- -ക്ക്, -ന് (to/for) -->
             <grammeme name="instrumental"/>    <!-- -ആല് (by means of) -->
             <grammeme name="locative"/>        <!-- -യില് (in/at) -->
-            <grammeme name="ablative"/>        <!-- -യില് നിന്നു് (from) -->
-            <grammeme name="vocative"/>        <!-- used in direct address -->
+            <grammeme name="sociative"/>       <!-- -ഓടു് (along with) -->
         </category>
         <category name="number">
             <grammeme name="singular"/>
             <grammeme name="plural"/>
+        </category>
+        <category name="pos">
+            <grammeme name="pronoun"/>
+            <grammeme name="verb"/>
+            <grammeme name="noun"/>
         </category>
         <category name="person">
             <restrictions>
@@ -1674,36 +1678,19 @@
             <grammeme name="imperative"/>
             <grammeme name="subjunctive"/>
         </category>
-        <category name="voice">
-            <restrictions>
-                <restriction name="pos" value="verb"/>
-            </restrictions>
-            <grammeme name="active"/>
-            <grammeme name="passive"/>
-        </category>
         <category name="formality">
             <restrictions>
-                <restriction name="pos" value="pronoun"/>
                 <restriction name="pos" value="verb"/>
             </restrictions>
-            <grammeme name="intimate"/>
-            <grammeme name="casual"/>
             <grammeme name="formal"/>
-            <grammeme name="honorific"/>
+            <grammeme name="informal"/>
         </category>
-        <category name="aspect">
+        <category name="clusivity">
             <restrictions>
-                <restriction name="pos" value="verb"/>
+                <restriction name="pos" value="pronoun"/>
             </restrictions>
-            <grammeme name="perfective"/>
-            <grammeme name="imperfective"/>
-        </category>
-        <category name="negation">
-            <restrictions>
-                <restriction name="pos" value="verb"/>
-            </restrictions>
-            <grammeme name="affirmative"/>
-            <grammeme name="negative"/>
+            <grammeme name="inclusive"/>
+            <grammeme name="exclusive"/>
         </category>
     </grammar>
     </language>

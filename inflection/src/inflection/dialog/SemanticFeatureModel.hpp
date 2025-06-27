@@ -10,6 +10,7 @@
 #include <inflection/util/ULocale.hpp>
 #include <inflection/Object.hpp>
 #include <map>
+#include <memory>
 #include <set>
 #include <string>
 #include <tuple>
@@ -31,7 +32,7 @@ private:
     ::std::map<SemanticValue, SemanticFeatureModel_DisplayData> semanticValueMap {  };
     ::std::map<::inflection::dialog::SemanticFeature, DefaultFeatureFunction*> defaultFeatureFunctions {  };
     ::inflection::util::ULocale locale;
-    DefaultDisplayFunction* defaultDisplayFunction {  };
+    std::unique_ptr<DefaultDisplayFunction> defaultDisplayFunction;
 
 public:
     static constexpr auto SPEAK = u"speak";

@@ -9,6 +9,7 @@ on:
   pull_request:
     paths:
     - 'inflection/**'
+    - '.github/workflows/**'
     - '!data/**'
     - '!documents/**'
     - '!fst/**'
@@ -17,6 +18,7 @@ on:
     branches:
       - main
     paths:
+      - 'inflection/**'
       - '.github/workflows/**'
 env:
   ICU_MAJOR: '77'

@@ -25,13 +25,12 @@ static std::mutex& CLASS_MUTEX() {
 
 DictionaryMetaData::DictionaryMetaData(DictionaryMetaData_MMappedDictionary* dictionary)
     : super()
-    , dictionary(dictionary)
+    , dictionary(npc(dictionary))
 {
 }
 
 DictionaryMetaData::~DictionaryMetaData()
 {
-    delete dictionary;
 }
 
 static constexpr char16_t FILE_EXTENSION[] = { u".sdict" };
@@ -116,12 +115,12 @@ const DictionaryMetaData* DictionaryMetaData::createDictionary(const ::inflectio
 int64_t* DictionaryMetaData::getCombinedBinaryType(int64_t* result, std::u16string_view word) const
 {
     *npc(result) = 0;
-    auto combinedType = npc(dictionary)->getWordType(word);
+    auto combinedType = dictionary->getWordType(word);
     if (!combinedType) {
         ::std::u16string normalized;
-        transform(&normalized, word, npc(dictionary)->getLocale());
+        transform(&normalized, word, dictionary->getLocale());
         if (normalized != word) {
-            combinedType = npc(dictionary)->getWordType(normalized);
+            combinedType = dictionary->getWordType(normalized);
         }
     }
     if (!combinedType) {
@@ -133,12 +132,12 @@ int64_t* DictionaryMetaData::getCombinedBinaryType(int64_t* result, std::u16stri
 
 ::std::vector<::std::u16string> DictionaryMetaData::getPropertyNames(int64_t binaryProperties) const
 {
-    return npc(dictionary)->getTypesOfValues(binaryProperties);
+    return dictionary->getTypesOfValues(binaryProperties);
 }
 
 ::std::u16string DictionaryMetaData::getPropertyName(int64_t singleProperty) const
 {
-    return npc(dictionary)->getTypeOfValue(singleProperty).value_or(std::u16string());
+    return dictionary->getTypeOfValue(singleProperty).value_or(std::u16string());
 }
 
 bool DictionaryMetaData::isKnownWord(std::u16string_view word) const
@@ -149,7 +148,7 @@ bool DictionaryMetaData::isKnownWord(std::u16string_view word) const
 
 bool DictionaryMetaData::hasProperty(std::u16string_view word, std::u16string_view partOfSpeech) const
 {
-    auto property = npc(dictionary)->getValueOfType(partOfSpeech);
+    auto property = dictionary->getValueOfType(partOfSpeech);
     if (!property) {
         return false;
     }
@@ -182,7 +181,7 @@ int64_t DictionaryMetaData::getBinaryProperties(const ::std::vector<::std::u16st
 
 int64_t* DictionaryMetaData::getBinaryProperties(int64_t* result, const ::std::vector<::std::u16string>& properties) const
 {
-    *npc(result) = npc(dictionary)->getValuesOfTypes(properties);
+    *npc(result) = dictionary->getValuesOfTypes(properties);
     if (*npc(result) == 0) {
         return nullptr;
     }
@@ -210,12 +209,12 @@ bool DictionaryMetaData::getPropertyValues(::std::vector<::std::u16string>* resu
     if (result != nullptr) {
         result->clear();
     }
-    auto exists = npc(dictionary)->getWordPropertyValues(result, word, partOfSpeech);
-    if (!exists && !inflection::util::StringViewUtils::isAllLowerCase(word) && !npc(dictionary)->getWordType(word)) {
+    auto exists = dictionary->getWordPropertyValues(result, word, partOfSpeech);
+    if (!exists && !inflection::util::StringViewUtils::isAllLowerCase(word) && !dictionary->getWordType(word)) {
         ::std::u16string normalized;
-        transform(&normalized, word, npc(dictionary)->getLocale());
+        transform(&normalized, word, dictionary->getLocale());
         if (normalized != word) {
-            exists = npc(dictionary)->getWordPropertyValues(result, normalized, partOfSpeech);
+            exists = dictionary->getWordPropertyValues(result, normalized, partOfSpeech);
         }
     }
     return exists;
@@ -223,12 +222,12 @@ bool DictionaryMetaData::getPropertyValues(::std::vector<::std::u16string>* resu
 
 DictionaryKeyIterator DictionaryMetaData::getKnownWords() const
 {
-    return npc(dictionary)->getAllWords();
+    return dictionary->getAllWords();
 }
 
 int32_t DictionaryMetaData::getKnownWordsSize() const
 {
-    return npc(dictionary)->getAllWordsSize();
+    return dictionary->getAllWordsSize();
 }
 
 } // namespace inflection::dictionary

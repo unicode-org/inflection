@@ -1,3 +1,4 @@
+
 name: Build & Package (Ubuntu)
 
 on:
@@ -40,8 +41,9 @@ jobs:
       run: |
         cd /tmp
         wget https://github.com/unicode-org/icu/releases/download/release-77-1/icu4c-77_1-Ubuntu22.04-x64.tgz
-        tar xzf icu4c-77_1-Ubuntu22.04-x64.tgz
-        sudo cp -r usr/* /usr/local/
+        mkdir icu-install
+        tar -xzf icu4c-77_1-Ubuntu22.04-x64.tgz -C icu-install
+        sudo cp -r icu-install/usr/* /usr/local/
         sudo ldconfig
 
     - name: Setup ICU (from cache)
@@ -96,3 +98,4 @@ jobs:
           build/*.tar.gz
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

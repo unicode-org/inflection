@@ -21,7 +21,7 @@ namespace inflection::grammar::synthesis {
 KoGrammarSynthesizer_ParticleResolver::KoGrammarSynthesizer_ParticleResolver(const icu4cxx::UnicodeSet& vowelSet, const ::std::u16string& vowelParticle, const ::std::u16string& consonantParticle)
     : dictionary(*npc(inflection::dictionary::DictionaryMetaData::createDictionary(::inflection::util::LocaleUtils::KOREA())))
     , vowelSet(vowelSet)
-    , englishTokenizer(inflection::tokenizer::TokenizerFactory::createTokenizer(inflection::util::LocaleUtils::ENGLISH()))
+    , englishTokenizer(npc(inflection::tokenizer::TokenizerFactory::createTokenizer(inflection::util::LocaleUtils::ENGLISH())))
     , vowelParticle(vowelParticle)
     , consonantParticle(consonantParticle)
     , vowelsWithRieul(&vowelSet == &KoGrammarSynthesizer::VOWELS_WITH_RIEUL())
@@ -32,7 +32,7 @@ KoGrammarSynthesizer_ParticleResolver::KoGrammarSynthesizer_ParticleResolver(con
 KoGrammarSynthesizer_ParticleResolver::KoGrammarSynthesizer_ParticleResolver(const KoGrammarSynthesizer_ParticleResolver& other) noexcept
     : dictionary(other.dictionary)
     , vowelSet(other.vowelSet)
-    , englishTokenizer(inflection::tokenizer::TokenizerFactory::createTokenizer(inflection::util::LocaleUtils::ENGLISH()))
+    , englishTokenizer(npc(inflection::tokenizer::TokenizerFactory::createTokenizer(inflection::util::LocaleUtils::ENGLISH())))
     , vowelParticle(other.vowelParticle)
     , consonantParticle(other.consonantParticle)
     , vowelsWithRieul(other.vowelsWithRieul)

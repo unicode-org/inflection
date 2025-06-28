@@ -58,7 +58,7 @@ int32_t RegexSplitIterator::getNextBoundary()
         if (matchFound) {
             if (tokenExtractor.wordsToNotSplit != nullptr) {
                 ::inflection::util::StringViewUtils::lowercase(&lowercase, str.substr(start, length), tokenExtractor.locale);
-                if (npc(tokenExtractor.wordsToNotSplit)->find(lowercase) != npc(tokenExtractor.wordsToNotSplit)->end()) {
+                if (tokenExtractor.wordsToNotSplit->find(lowercase) != tokenExtractor.wordsToNotSplit->end()) {
                     goto exit;
                 }
             }

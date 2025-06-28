@@ -38,7 +38,7 @@ TokenExtractor::TokenExtractor(const ::inflection::util::ULocale& locale, const 
     auto decompoundEntry = config.find(DECOMPOUND_KEY);
     if (decompoundEntry != config.end() && decompoundEntry->second[0] != 0) {
         ::std::u16string regex(u"^(" + ::std::u16string(decompoundEntry->second) + u")$");
-        splitPattern = new ::icu4cxx::RegularExpression(regex, UREGEX_CASE_INSENSITIVE, nullptr);
+        splitPattern.reset(new ::icu4cxx::RegularExpression(regex, UREGEX_CASE_INSENSITIVE, nullptr));
     }
 
     // Initialize the caches so that it doesn't possibly fail later.
@@ -47,8 +47,6 @@ TokenExtractor::TokenExtractor(const ::inflection::util::ULocale& locale, const 
 
 TokenExtractor::~TokenExtractor()
 {
-    delete wordsToNotSplit;
-    delete splitPattern;
 }
 
 constexpr char16_t TokenExtractor::NON_DECOMPOUND_FILE_KEY[];

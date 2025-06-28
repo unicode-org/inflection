@@ -157,8 +157,13 @@ jobs:
 
     - name: Install doxygen
       run: |
-        sudo apt-get -y install doxygen
+        if [[ "${{ matrix.os }}" == "ubuntu-latest" ]]; then
+          sudo apt-get -y install doxygen
+        fi
 
     - name: Build doc
       working-directory: ${{ steps.strings.outputs.build-output-dir }}
-      run: cmake --build . -t docs -j ${{ steps.cpu-cores.outputs.count }}
+      run: |
+        if [[ "${{ matrix.os }}" == "ubuntu-latest" ]]; then
+          cmake --build . -t docs -j ${{ steps.cpu-cores.outputs.count }}
+        fi

@@ -1,3 +1,4 @@
+
 name: Build & Package (Ubuntu)
 
 on:
@@ -42,8 +43,8 @@ jobs:
         wget https://github.com/unicode-org/icu/releases/download/release-77-1/icu4c-77_1-Ubuntu22.04-x64.tgz
         mkdir icu-install
         tar -xzf icu4c-77_1-Ubuntu22.04-x64.tgz -C icu-install --strip-components=1
-        ls -la icu-install/usr
-        sudo cp -r icu-install/usr/* /usr/local/
+        ls -la icu-install/local
+        sudo cp -r icu-install/local/* /usr/local/
         sudo ldconfig
 
     - name: Setup ICU (from cache)
@@ -60,8 +61,8 @@ jobs:
       run: |
         export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH
         export CPLUS_INCLUDE_PATH=/usr/local/include:$CPLUS_INCLUDE_PATH
-        mkdir -p build
-        cd build
+        mkdir -p inflection/build
+        cd inflection/build
         CC=clang CXX=clang++ cmake .. \
           -DCMAKE_BUILD_TYPE=Release \
           -DICU_ROOT=/usr/local \
@@ -70,12 +71,12 @@ jobs:
 
     - name: Run tests
       run: |
-        cd build
+        cd inflection/build
         make check
 
     - name: Package with CPack
       run: |
-        cd build
+        cd inflection/build
         cpack
         ls -la *.deb *.tar.gz
 
@@ -84,8 +85,8 @@ jobs:
       with:
         name: ubuntu-release-artifacts
         path: |
-          build/*.deb
-          build/*.tar.gz
+          inflection/build/*.deb
+          inflection/build/*.tar.gz
         retention-days: 30
 
     - name: Upload to GitHub Release
@@ -94,7 +95,7 @@ jobs:
       with:
         name: "Release ${{ github.ref_name }}"
         files: |
-          build/*.deb
-          build/*.tar.gz
+          inflection/build/*.deb
+          inflection/build/*.tar.gz
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

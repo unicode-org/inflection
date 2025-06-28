@@ -40,10 +40,6 @@ jobs:
 
           tar xvfz *.tgz
           rm *.tgz
-      - uses: actions/cache/save@v4
-        with:
-          path: ~/icu
-          key: ${{ runner.os }}-icu-${ICU_MAJOR}-${ICU_MINOR}
 
       - uses: actions/cache/save@v4
         with:

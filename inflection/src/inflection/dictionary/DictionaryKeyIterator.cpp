@@ -18,24 +18,22 @@ DictionaryKeyIterator::DictionaryKeyIterator(const metadata::MarisaTrieIterator<
 }
 
 DictionaryKeyIterator::DictionaryKeyIterator(DictionaryKeyIterator&& iterator)
-    : trieIterator(iterator.trieIterator)
+    : trieIterator(npc(iterator.trieIterator.release()))
 {
-    iterator.trieIterator = nullptr;
 }
 
 DictionaryKeyIterator::~DictionaryKeyIterator()
 {
-    delete trieIterator;
 }
 
 const ::std::u16string&
 DictionaryKeyIterator::operator*() const {
-    return (*(*npc(trieIterator))).first;
+    return (*(*trieIterator)).first;
 }
 
 DictionaryKeyIterator&
 DictionaryKeyIterator::operator++() {
-    ++*npc(trieIterator);
+    ++*trieIterator;
     return *this;
 }
 
@@ -52,13 +50,13 @@ DictionaryKeyIterator::operator!=(const DictionaryKeyIterator& rhs) const {
 DictionaryKeyIterator
 DictionaryKeyIterator::begin() const
 {
-    return DictionaryKeyIterator(npc(trieIterator)->begin());
+    return DictionaryKeyIterator(trieIterator->begin());
 }
 
 DictionaryKeyIterator
 DictionaryKeyIterator::end() const
 {
-    return DictionaryKeyIterator(npc(trieIterator)->end());
+    return DictionaryKeyIterator(trieIterator->end());
 }
 
 } // namespace inflection::dictionary

@@ -21,7 +21,7 @@ namespace inflection::grammar::synthesis {
 KoGrammarSynthesizer_ParticleResolver::KoGrammarSynthesizer_ParticleResolver(const icu4cxx::UnicodeSet& vowelSet, const ::std::u16string& vowelParticle, const ::std::u16string& consonantParticle)
     : dictionary(*npc(inflection::dictionary::DictionaryMetaData::createDictionary(::inflection::util::LocaleUtils::KOREA())))
     , vowelSet(vowelSet)
-    , englishTokenizer(inflection::tokenizer::TokenizerFactory::createTokenizer(inflection::util::LocaleUtils::ENGLISH()))
+    , englishTokenizer(npc(inflection::tokenizer::TokenizerFactory::createTokenizer(inflection::util::LocaleUtils::ENGLISH())))
     , vowelParticle(vowelParticle)
     , consonantParticle(consonantParticle)
     , vowelsWithRieul(&vowelSet == &KoGrammarSynthesizer::VOWELS_WITH_RIEUL())
@@ -32,7 +32,7 @@ KoGrammarSynthesizer_ParticleResolver::KoGrammarSynthesizer_ParticleResolver(con
 KoGrammarSynthesizer_ParticleResolver::KoGrammarSynthesizer_ParticleResolver(const KoGrammarSynthesizer_ParticleResolver& other) noexcept
     : dictionary(other.dictionary)
     , vowelSet(other.vowelSet)
-    , englishTokenizer(inflection::tokenizer::TokenizerFactory::createTokenizer(inflection::util::LocaleUtils::ENGLISH()))
+    , englishTokenizer(npc(inflection::tokenizer::TokenizerFactory::createTokenizer(inflection::util::LocaleUtils::ENGLISH())))
     , vowelParticle(other.vowelParticle)
     , consonantParticle(other.consonantParticle)
     , vowelsWithRieul(other.vowelsWithRieul)
@@ -41,7 +41,6 @@ KoGrammarSynthesizer_ParticleResolver::KoGrammarSynthesizer_ParticleResolver(con
 
 KoGrammarSynthesizer_ParticleResolver::~KoGrammarSynthesizer_ParticleResolver()
 {
-    delete englishTokenizer;
 }
 
 std::optional<std::u16string> KoGrammarSynthesizer_ParticleResolver::switchParticleValue(const ::std::u16string& str, bool enableInflectionGuess) const
@@ -76,7 +75,7 @@ std::u16string KoGrammarSynthesizer_ParticleResolver::getRelevantString(std::u16
     }
     if (!strToTokenize.empty() && !inflection::lang::StringFilterUtil::HANGUL_SCRIPT().contains((UChar32)inflection::util::StringViewUtils::codePointAt(strToTokenize, int32_t(strToTokenize.length() - 1)))) {
         // We don't care about the strings in the phonetic Hangul script. Return the relevant last word to check without punctuation.
-        std::unique_ptr<inflection::tokenizer::TokenChain> tokenChain(npc(npc(englishTokenizer)->createTokenChain(std::u16string(strToTokenize))));
+        std::unique_ptr<inflection::tokenizer::TokenChain> tokenChain(npc(englishTokenizer->createTokenChain(std::u16string(strToTokenize))));
         for (const inflection::tokenizer::Token *token = tokenChain->getTail(); token != nullptr; token = token->getPrevious()) {
             const auto &value = npc(token)->getValue();
             if (!value.empty() && bool(u_isalnum((UChar32)inflection::util::StringViewUtils::codePointAt(value, int32_t(value.length() - 1))))) {

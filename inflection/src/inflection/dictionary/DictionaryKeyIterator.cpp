@@ -18,7 +18,7 @@ DictionaryKeyIterator::DictionaryKeyIterator(const metadata::MarisaTrieIterator<
 }
 
 DictionaryKeyIterator::DictionaryKeyIterator(DictionaryKeyIterator&& iterator)
-    : trieIterator(iterator.trieIterator.release())
+    : trieIterator(npc(iterator.trieIterator.release()))
 {
 }
 

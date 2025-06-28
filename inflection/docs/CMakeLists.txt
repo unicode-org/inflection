@@ -3,5 +3,5 @@
 #
 add_custom_target(docs
 	COMMAND
-	doxygen ../../docs/Doxyfile
+	doxygen -u ../../docs/Doxyfile
 	VERBATIM)

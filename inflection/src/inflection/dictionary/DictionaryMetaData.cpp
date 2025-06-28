@@ -25,7 +25,7 @@ static std::mutex& CLASS_MUTEX() {
 
 DictionaryMetaData::DictionaryMetaData(DictionaryMetaData_MMappedDictionary* dictionary)
     : super()
-    , dictionary(dictionary)
+    , dictionary(npc(dictionary))
 {
 }
 

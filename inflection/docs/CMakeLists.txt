@@ -3,5 +3,6 @@
 #
 add_custom_target(docs
 	COMMAND
-	doxygen -u ../../docs/Doxyfile
+	doxygen ../../docs/Doxyfile
 	VERBATIM)
+add_dependencies(docs inflection-headers)

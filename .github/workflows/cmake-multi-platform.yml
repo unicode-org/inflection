@@ -153,3 +153,12 @@ jobs:
     - name: Test
       working-directory: ${{ steps.strings.outputs.build-output-dir }}
       run: cmake --build . -t check -j ${{ steps.cpu-cores.outputs.count }}
+
+
+    - name: Install doxygen
+      run: |
+        sudo apt-get -y install doxygen
+
+    - name: Build doc
+      working-directory: ${{ steps.strings.outputs.build-output-dir }}
+      run: cmake --build . -t docs -j ${{ steps.cpu-cores.outputs.count }}

@@ -16,12 +16,6 @@ env:
   ICU_MAJOR: '77'
   ICU_MINOR: '1'
 
-inputs:
-  doxygen_version:
-    description: 'Version of Doxygen to install'
-    required: false
-    default: "1.9.6"
-
 jobs:
   cache-icu:
     runs-on: ubuntu-latest
@@ -138,15 +132,7 @@ jobs:
 
     # copy from https://github.com/DenverCoder1/doxygen-github-pages-action/blob/main/action.yml
     - name: Install dependencies
-      run: sudo apt-get update && sudo apt-get install -y wget graphviz
-      shell: bash
-
-    - name: Install Doxygen v${{ inputs.doxygen_version }}
-      run: |
-        transformed_version=$(echo "${{ inputs.doxygen_version }}" | tr '.' '_')
-        wget https://github.com/doxygen/doxygen/releases/download/Release_${transformed_version}/doxygen-${{ inputs.doxygen_version }}.linux.bin.tar.gz
-        tar -xzf doxygen-${{ inputs.doxygen_version }}.linux.bin.tar.gz
-        sudo mv doxygen-${{ inputs.doxygen_version }}/bin/doxygen /usr/local/bin/doxygen
+      run: sudo apt-get update && sudo apt-get install -y wget graphviz doxygen
       shell: bash
 
     - name: Build and install header

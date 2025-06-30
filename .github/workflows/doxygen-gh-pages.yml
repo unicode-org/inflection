@@ -9,17 +9,10 @@ on:
   pull_request:
     paths:
     - 'inflection/**'
-    - '.github/workflows/**'
     - '!data/**'
     - '!documents/**'
     - '!fst/**'
-  # Run the build when we merge into main
-  push:
-    branches:
-      - main
-    paths:
-      - 'inflection/**'
-      - '.github/workflows/**'
+
 env:
   ICU_MAJOR: '77'
   ICU_MINOR: '1'
@@ -83,30 +76,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-
-    - name: Create Git LFS file list
-      run: git lfs ls-files -l |cut -d' ' -f1 |sort >.git/lfs-hashes.txt
-
-    - name: Restore Git LFS object cache
-      uses: actions/cache@v4
-      id: lfscache
       with:
-        path: inflection/resources/org/unicode/inflection/dictionary
-        key: ${{ runner.os }}-lfsdata-v1-${{ hashFiles('.git/lfs-hashes.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-lfsdata-v1-
-          ${{ runner.os }}-lfsdata
-
-    - name: Fetch any needed Git LFS objects and prune extraneous ones
-      if: steps.lfscache.outputs.cache-hit != 'true'
-      run: git lfs fetch --prune
-
-    - name: Check out Git LFS content
-      if: steps.lfscache.outputs.cache-hit != 'true'
-      run: git lfs checkout
-
-    - name: Check LFS restore the files or not after checkout
-      run: ls -l inflection/resources/org/unicode/inflection/dictionary/*
+        lfs: 'true'
 
     - name: Set reusable strings
       # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
@@ -153,3 +124,17 @@ jobs:
     - name: Test
       working-directory: ${{ steps.strings.outputs.build-output-dir }}
       run: cmake --build . -t check -j ${{ steps.cpu-cores.outputs.count }}
+
+
+    - name: Install doxygen
+      run: |
+        if [[ "${{ matrix.os }}" == "ubuntu-latest" ]]; then
+          sudo apt-get -y install doxygen
+        fi
+
+    - name: Build doc
+      working-directory: ${{ steps.strings.outputs.build-output-dir }}
+      run: |
+        if [[ "${{ matrix.os }}" == "ubuntu-latest" ]]; then
+          cmake --build . -t docs -j ${{ steps.cpu-cores.outputs.count }}
+        fi

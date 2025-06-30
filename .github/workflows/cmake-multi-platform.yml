@@ -154,6 +154,7 @@ jobs:
       working-directory: ${{ steps.strings.outputs.build-output-dir }}
       run: cmake --build . -t check -j ${{ steps.cpu-cores.outputs.count }}
 
+
   # see https://github.com/marketplace/actions/doxygen-github-pages-deploy-action
   # only run on ubuntu
   deploy-doxygen:
@@ -162,7 +163,11 @@ jobs:
     permissions:
       contents: write
     steps:
+      - name: Install headers
+        working-directory: ${{ steps.strings.outputs.build-output-dir }}
+        run: cmake --build . -t inflection-headers -j ${{ steps.cpu-cores.outputs.count }}
+
       - uses: DenverCoder1/doxygen-github-pages-action@v2.0.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          config_file: docs/Doxyfile
+          config_file: ../../docs/Doxyfile

@@ -3,6 +3,8 @@ name: Doxygen
 on:
   # Keep it for manual runs.
   workflow_dispatch:
+  # For testing before check in
+  pull_request:
   # Run the build when we merge into main
   push:
     branches:

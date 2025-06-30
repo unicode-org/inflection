@@ -132,7 +132,16 @@ jobs:
 
     - name: Build and install header
       # Build your program with the given configuration. Note that --config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
-      run: cmake --build ${{ steps.strings.outputs.build-output-dir }} -t inflection-headers --config ${{ matrix.build_type }} -j ${{ steps.cpu-cores.outputs.count }}
+      run: |
+        cmake --build ${{ steps.strings.outputs.build-output-dir }} -t inflection-headers --config ${{ matrix.build_type }} -j ${{ steps.cpu-cores.outputs.count }}
+        echo "ls current  directory"
+        ls
+        echo "ls docs"
+        ls docs
+        echo "ls .."
+        ls ..
+        echo "ls ../.."
+        ls ../..
 
     # see https://github.com/marketplace/actions/doxygen-github-pages-deploy-action
     - uses: DenverCoder1/doxygen-github-pages-action@v2.0.0

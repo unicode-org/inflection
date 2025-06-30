@@ -165,3 +165,4 @@ jobs:
       - uses: DenverCoder1/doxygen-github-pages-action@v2.0.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          config_file: docs/Doxyfile

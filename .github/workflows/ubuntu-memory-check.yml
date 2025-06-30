@@ -7,10 +7,17 @@ on:
   pull_request:
     paths:
     - 'inflection/**'
+    - '.github/workflows/**'
     - '!data/**'
     - '!documents/**'
     - '!fst/**'
-
+  # Run the build when we merge into main
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/**'
+      - 'inflection/**'
 env:
   ICU_MAJOR: '77'
   ICU_MINOR: '1'

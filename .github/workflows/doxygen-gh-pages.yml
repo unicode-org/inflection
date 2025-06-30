@@ -134,17 +134,11 @@ jobs:
       # Build your program with the given configuration. Note that --config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
       run: |
         cmake --build ${{ steps.strings.outputs.build-output-dir }} -t inflection-headers --config ${{ matrix.build_type }} -j ${{ steps.cpu-cores.outputs.count }}
-        echo "ls current  directory"
-        ls
-        echo "ls docs"
-        ls docs
-        echo "ls .."
-        ls ..
-        echo "ls ../.."
-        ls ../..
+        echo "ls inflection/docs"
+        ls -l inflection/docs
 
     # see https://github.com/marketplace/actions/doxygen-github-pages-deploy-action
     - uses: DenverCoder1/doxygen-github-pages-action@v2.0.0
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        config_file: ../../docs/Doxyfile
+        config_file: inflection/docs/Doxyfile

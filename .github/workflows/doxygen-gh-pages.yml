@@ -16,6 +16,12 @@ env:
   ICU_MAJOR: '77'
   ICU_MINOR: '1'
 
+inputs:
+  doxygen_version:
+    description: 'Version of Doxygen to install'
+    required: false
+    default: "1.9.6"
+
 jobs:
   cache-icu:
     runs-on: ubuntu-latest
@@ -130,15 +136,31 @@ jobs:
       uses: SimenB/github-actions-cpu-cores@v2
       id: cpu-cores
 
+    # copy from https://github.com/DenverCoder1/doxygen-github-pages-action/blob/main/action.yml
+    - name: Install dependencies
+      run: sudo apt-get update && sudo apt-get install -y wget graphviz
+      shell: bash
+
+    - name: Install Doxygen v${{ inputs.doxygen_version }}
+      run: |
+        transformed_version=$(echo "${{ inputs.doxygen_version }}" | tr '.' '_')
+        wget https://github.com/doxygen/doxygen/releases/download/Release_${transformed_version}/doxygen-${{ inputs.doxygen_version }}.linux.bin.tar.gz
+        tar -xzf doxygen-${{ inputs.doxygen_version }}.linux.bin.tar.gz
+        sudo mv doxygen-${{ inputs.doxygen_version }}/bin/doxygen /usr/local/bin/doxygen
+      shell: bash
+
     - name: Build and install header
       # Build your program with the given configuration. Note that --config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
       run: |
-        cmake --build ${{ steps.strings.outputs.build-output-dir }} -t inflection-headers --config ${{ matrix.build_type }} -j ${{ steps.cpu-cores.outputs.count }}
+        cmake --build ${{ steps.strings.outputs.build-output-dir }} -t docs --config ${{ matrix.build_type }} -j ${{ steps.cpu-cores.outputs.count }}
         echo "ls inflection/docs"
         ls -l inflection/docs
 
-    # see https://github.com/marketplace/actions/doxygen-github-pages-deploy-action
-    - uses: DenverCoder1/doxygen-github-pages-action@v2.0.0
+    - name: Create .nojekyll (ensures pages with underscores work on gh pages)
+      run: touch inflection/docs/html/.nojekyll
+      shell: bash
+
+    - name: Deploy to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@v4
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        config_file: inflection/docs/Doxyfile
+        token: ${{ secrets.GITHUB_TOKEN }}

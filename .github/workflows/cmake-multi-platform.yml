@@ -153,3 +153,15 @@ jobs:
     - name: Test
       working-directory: ${{ steps.strings.outputs.build-output-dir }}
       run: cmake --build . -t check -j ${{ steps.cpu-cores.outputs.count }}
+
+  # see https://github.com/marketplace/actions/doxygen-github-pages-deploy-action
+  # only run on ubuntu
+  deploy-doxygen:
+    needs:  build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: DenverCoder1/doxygen-github-pages-action@v2.0.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}

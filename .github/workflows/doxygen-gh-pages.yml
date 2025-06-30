@@ -1,18 +1,8 @@
-# This starter workflow is for a CMake project running on multiple platforms. There is a different starter workflow if you just want a single platform.
-# See: https://github.com/actions/starter-workflows/blob/main/ci/cmake-single-platform.yml
-name: CMake on multiple platforms
+name: Doxygen
 
 on:
   # Keep it for manual runs.
   workflow_dispatch:
-  # Run it on all branches but ignore some paths.
-  pull_request:
-    paths:
-    - 'inflection/**'
-    - '.github/workflows/**'
-    - '!data/**'
-    - '!documents/**'
-    - '!fst/**'
   # Run the build when we merge into main
   push:
     branches:
@@ -55,10 +45,11 @@ jobs:
           path: ~/icu
           key: ${{ runner.os }}-icu-${ICU_MAJOR}-${ICU_MINOR}
 
-  build:
+  doxygen:
     needs: cache-icu
     runs-on: ${{ matrix.os }}
-
+    permissions:
+      contents: write
     strategy:
       # Set fail-fast to false to ensure that feedback is delivered for all matrix combinations. Consider changing this to true when your workflow is stable.
       fail-fast: false
@@ -68,16 +59,12 @@ jobs:
       #
       # To add more build types (Release, Debug, RelWithDebInfo, etc.) customize the build_type list.
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest]
         build_type: [Release]
         c_compiler: [clang]
         # All [OS x compiler] items should be covered in include/exclude sections.
         include:
           - os: ubuntu-latest
-            c_compiler: clang
-            cpp_compiler: clang++
-
-          - os: macos-latest
             c_compiler: clang
             cpp_compiler: clang++
 
@@ -122,15 +109,10 @@ jobs:
         path: ~/icu
         key: ${{ runner.os }}-icu-${ICU_MAJOR}-${ICU_MINOR}
 
-      # Install all the required dependencies for the macos
-    - name: Install ICU (Ubuntu/macos)
+      # Install all the required dependencies
+    - name: Install ICU (Ubuntu)
       run: |
-        if [[ "${{ matrix.os }}" == "ubuntu-latest" ]]; then
-          echo "ICU_ROOT=~/icu/icu/usr/local" >> $GITHUB_ENV
-        elif [[ "${{ matrix.os }}" == "macos-latest" ]]; then
-            brew list icu4c || brew install icu4c
-            echo "ICU_ROOT=$(brew --prefix icu4c)" >> $GITHUB_ENV
-        fi
+        echo "ICU_ROOT=~/icu/icu/usr/local" >> $GITHUB_ENV
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
@@ -146,10 +128,15 @@ jobs:
       uses: SimenB/github-actions-cpu-cores@v2
       id: cpu-cores
 
-    - name: Build
+    - name: Build and install header
       # Build your program with the given configuration. Note that --config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
-      run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }} -j ${{ steps.cpu-cores.outputs.count }}
+      run: cmake --build ${{ steps.strings.outputs.build-output-dir }} -t inflection-headers --config ${{ matrix.build_type }} -j ${{ steps.cpu-cores.outputs.count }}
 
-    - name: Test
-      working-directory: ${{ steps.strings.outputs.build-output-dir }}
-      run: cmake --build . -t check -j ${{ steps.cpu-cores.outputs.count }}
+    # see https://github.com/marketplace/actions/doxygen-github-pages-deploy-action
+    - uses: DenverCoder1/doxygen-github-pages-action@v2.0.0
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        config_file: ../../docs/Doxyfile
+
+    steps:
+

@@ -1,5 +1,0 @@
-build/*
-.vscode/launch.json
-.vscode/settings.json
-fst/__pycache__/*
-inflection/tools/dictionary-parser/bin/*

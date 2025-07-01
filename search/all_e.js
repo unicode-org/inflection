@@ -1,0 +1,13 @@
+var searchData=
+[
+  ['operator_21_3d_0',['operator!=',['../classinflection.html#ae4c6a6ca5e3322a639096f2870a205d6',1,'inflection::operator!=(const SemanticConcept &amp;o) const'],['../classinflection.html#a0d0871f3a2d7f97fc65c4be71929fbec',1,'inflection::operator!=(const DictionaryKeyIterator &amp;rhs) const'],['../classinflection.html#a5c03ef8d9ee645489859eca8ae2ce413',1,'inflection::operator!=(const ::inflection::util::ULocale &amp;other) const'],['../classinflection.html#ae04c2f0b397ad2401a3a9417c925d66e',1,'inflection::operator!=(const PronounConcept &amp;o) const']]],
+  ['operator_28_29_1',['operator()',['../classinflection.html#a8186dff3884ebb130dcef15a1c5cfbc2',1,'inflection::operator()(const NumberConcept &amp;o) const noexcept'],['../classinflection.html#ad3ed9fba2c9a251c3b28aa12bd6e47c8',1,'inflection::operator()(const inflection::util::ULocale &amp;locale) const noexcept']]],
+  ['operator_2a_2',['operator*',['../classinflection.html#ab95e2864bbf271a23cab59a7b75715b1',1,'inflection']]],
+  ['operator_2b_2b_3',['operator++',['../classinflection.html#a4d87cb16942bc18b912725b6e46bbf76',1,'inflection']]],
+  ['operator_3c_4',['operator&lt;',['../classinflection.html#a99665bfb6f43e7fc59b080da37312076',1,'inflection::operator&lt;(const NumberConcept &amp;o) const'],['../classinflection.html#a6eab60722d807fd2fddfb66d35e5b534',1,'inflection::operator&lt;(const ::inflection::util::ULocale &amp;other) const']]],
+  ['operator_3c_3d_3e_5',['operator&lt;=&gt;',['../classinflection.html#a92e7d1db7b61d3410521e86435c33f2b',1,'inflection']]],
+  ['operator_3d_6',['operator=',['../classinflection.html#a6346c3b1c37af271ae03c4527e823736',1,'inflection']]],
+  ['operator_3d_3d_7',['operator==',['../classinflection.html#a179cd50376440b0994f87202152d3147',1,'inflection::operator==(const NumberConcept &amp;o) const'],['../classinflection.html#a4e23716a4ef50903d2c5373714061ee2',1,'inflection::operator==(const PronounConcept &amp;o) const'],['../classinflection.html#a5b5f05bc951c863f24e2ff3d45f91a72',1,'inflection::operator==(const SemanticConcept &amp;o) const'],['../classinflection.html#ab686a99af8329cdaf305aa787a209b68',1,'inflection::operator==(const SemanticValue &amp;other) const'],['../classinflection.html#ad1862c64549ad3316617a9a03233e0af',1,'inflection::operator==(const DictionaryKeyIterator &amp;rhs) const'],['../classinflection.html#ae879260ec0364aafee78fcade0ca6112',1,'inflection::operator==(const ::inflection::util::ULocale &amp;other) const']]],
+  ['operator_3e_8',['operator&gt;',['../classinflection.html#aaa9ab47f91738f402a20db19c47a8023',1,'inflection']]],
+  ['operator_5b_5d_9',['operator[]',['../classinflection.html#a36577dd1f6b3662dcdc645584134cf85',1,'inflection']]]
+];

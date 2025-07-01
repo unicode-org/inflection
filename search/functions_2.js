@@ -1,0 +1,24 @@
+var searchData=
+[
+  ['canadian_5fenglish_0',['CANADIAN_ENGLISH',['../classinflection.html#a4fb876bb5f7ab8256c223f33e23b3cca',1,'inflection']]],
+  ['canadian_5ffrench_1',['CANADIAN_FRENCH',['../classinflection.html#a19dec02deff03735405aa6a9e73418bf',1,'inflection']]],
+  ['catalan_2',['CATALAN',['../classinflection.html#ab6c66c02aa718dfffeaa34bc7d797b43',1,'inflection']]],
+  ['chilean_5fspanish_3',['CHILEAN_SPANISH',['../classinflection.html#a5390473c065e3146573fdd8000d55cc6',1,'inflection']]],
+  ['china_4',['CHINA',['../classinflection.html#a186cadc4ed32b1df47e381f14068fd6c',1,'inflection']]],
+  ['china_5fcantonese_5',['CHINA_CANTONESE',['../classinflection.html#add5af69a22a51908b38bd9e789fe628e',1,'inflection']]],
+  ['chinese_6',['CHINESE',['../classinflection.html#a4e489e01b8ed9d14e3c48278883e71b2',1,'inflection']]],
+  ['classcastexception_7',['classcastexception',['../classinflection.html#aa5b6666485a0adf8173481b07cefcf4f',1,'inflection::ClassCastException()'],['../classinflection.html#ae80c6f642100cabe8efe44fdad2bbca8',1,'inflection::ClassCastException(const std::u16string &amp;message)']]],
+  ['clone_8',['clone',['../classinflection.html#abcdf61f439992524ebecb0fa696ed8cd',1,'inflection::clone() const override'],['../classinflection.html#a7a3d86f2ce65b96015cdd58ebeb26e2c',1,'inflection::clone() const override'],['../classinflection.html#a6c7c385c348fe6d43773c20a2a3e3510',1,'inflection::clone() const override'],['../classinflection.html#ab21576275f11434aa7dd0275cdf396b8',1,'inflection::clone() const =0']]],
+  ['contains_9',['contains',['../classinflection.html#a394ee1b789b1a136fbafd0d68f6bc985',1,'inflection']]],
+  ['createandlist_10',['createandlist',['../classinflection.html#a0471127c57d5e5e30ab8ebbe7c36afea',1,'inflection::createAndList(const ::std::vector&lt; const ::inflection::dialog::SemanticFeatureConceptBase * &gt; &amp;concepts) const =0'],['../classinflection.html#a98c7ebd26906fd8be3960091c103bbaf',1,'inflection::createAndList(const ::std::vector&lt;::inflection::dialog::SemanticFeatureConceptBase * &gt; &amp;concepts) const =0']]],
+  ['createconcept_11',['createConcept',['../classinflection.html#a65154abc860b883e3da696620b20101f',1,'inflection']]],
+  ['createdictionary_12',['createDictionary',['../classinflection.html#ae402861a0415e849eb8ba0fb27f4b3a1',1,'inflection']]],
+  ['createformatterfactory_13',['CreateFormatterFactory',['../classinflection_1_1message2_1_1MF2Factory.html#aaca4c510e11bac69a735b89a9640ab1e',1,'inflection::message2::MF2Factory']]],
+  ['createorlist_14',['createorlist',['../classinflection.html#a3762e44cf07f6b66cf0364648dde25f6',1,'inflection::createOrList(const ::std::vector&lt; const ::inflection::dialog::SemanticFeatureConceptBase * &gt; &amp;concepts) const =0'],['../classinflection.html#aa587bea99b3ff665dfd5d4aac538f39c',1,'inflection::createOrList(const ::std::vector&lt;::inflection::dialog::SemanticFeatureConceptBase * &gt; &amp;concepts) const =0']]],
+  ['createselectorfactory_15',['CreateSelectorFactory',['../classinflection_1_1message2_1_1MF2Factory.html#ac8d58c7b72468cd0273390918582a89f',1,'inflection::message2::MF2Factory']]],
+  ['createvalidregionawarelanguage_16',['createValidRegionAwareLanguage',['../classinflection.html#ae2877211d7d5bee8e0de41371de4de37',1,'inflection']]],
+  ['croatia_17',['CROATIA',['../classinflection.html#a2148ed0a3c5178edfe81d5bb4cd735d5',1,'inflection']]],
+  ['croatian_18',['CROATIAN',['../classinflection.html#a801bcce3b2287bb5fa1f60f77e835a10',1,'inflection']]],
+  ['czech_19',['CZECH',['../classinflection.html#af394b2e831eae601060df0394e098388',1,'inflection']]],
+  ['czechia_20',['CZECHIA',['../classinflection.html#aa1264953d999fbbf1e6fb9c0283d7fce',1,'inflection']]]
+];

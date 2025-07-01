@@ -1,0 +1,26 @@
+var searchData=
+[
+  ['iceland_0',['ICELAND',['../classinflection.html#a71760b3770ba5f22c756c82d8ff2f0ef',1,'inflection']]],
+  ['icelandic_1',['ICELANDIC',['../classinflection.html#a7d2028ae5205cc1154aeffa33f8c8e2f',1,'inflection']]],
+  ['icuexception_2',['icuexception',['../classinflection.html#a6a272ffbcfd410220f4463ac984ae4ee',1,'inflection::ICUException(UErrorCode status)'],['../classinflection.html#a0aec3d7ab8da62dd198ccf9d2527433a',1,'inflection::ICUException(UErrorCode status, const std::u16string &amp;message)']]],
+  ['illegalargumentexception_3',['illegalargumentexception',['../classinflection.html#adbc11dfd3d86d7e7b5ad4c8891a8594b',1,'inflection::IllegalArgumentException()'],['../classinflection.html#a0de408d1ff52da854959ae9c51ea08df',1,'inflection::IllegalArgumentException(const std::u16string &amp;message)']]],
+  ['illegalstateexception_4',['illegalstateexception',['../classinflection.html#ae0c8c2bab8b438f142c7ddddb7f3dfe8',1,'inflection::IllegalStateException()'],['../classinflection.html#ad7cc2f6f1d0f6794a1818dee2292a7f2',1,'inflection::IllegalStateException(const std::u16string &amp;message)']]],
+  ['incompatibleversionexception_5',['incompatibleversionexception',['../classinflection.html#a1c7ba330c1f21ec4c2e5c23fcb5d1019',1,'inflection::IncompatibleVersionException()'],['../classinflection.html#aea2c4418892eb62de16c8c3ab211b76b',1,'inflection::IncompatibleVersionException(const std::u16string &amp;message)']]],
+  ['indexoutofboundsexception_6',['indexoutofboundsexception',['../classinflection.html#a4abe673ac930aece42b073925f863a40',1,'inflection::IndexOutOfBoundsException()'],['../classinflection.html#a6cbb791665b2877c9faad485273068c5',1,'inflection::IndexOutOfBoundsException(int32_t index)'],['../classinflection.html#a1dfad3aed4ea87b0c83febaf093f064b',1,'inflection::IndexOutOfBoundsException(const std::u16string &amp;message)']]],
+  ['india_5fhindi_7',['INDIA_HINDI',['../classinflection.html#a551849d52d6b969e5015009176bf4120',1,'inflection']]],
+  ['indian_5fenglish_8',['INDIAN_ENGLISH',['../classinflection.html#a24ec1ee9cf952a3659a052cbb26a0adb',1,'inflection']]],
+  ['indonesia_9',['INDONESIA',['../classinflection.html#a705d496f8cbcf79fb4acad8544a89557',1,'inflection']]],
+  ['indonesian_10',['INDONESIAN',['../classinflection.html#ac23fe218b8cb049d6879920cb4d38d82',1,'inflection']]],
+  ['inflectablestringconcept_11',['inflectablestringconcept',['../classinflection.html#a7a3cbb719bb3e3d259e3bbe01444d7a3',1,'inflection::InflectableStringConcept(const InflectableStringConcept &amp;other)'],['../classinflection.html#a4c7e5dd5a8f68e12018df8bd4d2689ac',1,'inflection::InflectableStringConcept(const SemanticFeatureModel *model, const SpeakableString &amp;value)']]],
+  ['invalidconfigurationexception_12',['invalidconfigurationexception',['../classinflection.html#a91e4ddc9ea59e095bbe1eedc11a6b8d2',1,'inflection::InvalidConfigurationException()'],['../classinflection.html#afb877a94faa21c74e0a99ad5096e539d',1,'inflection::InvalidConfigurationException(const std::u16string &amp;message)']]],
+  ['ioexception_13',['ioexception',['../classinflection.html#a75a03ebd59481e1d43949226175f601f',1,'inflection::IOException()'],['../classinflection.html#ac09d146adebb4b310d8e9ffa58a731f4',1,'inflection::IOException(const std::u16string &amp;message)']]],
+  ['irish_5fenglish_14',['IRISH_ENGLISH',['../classinflection.html#a0f92f1a50755f48a108f23a0bfcbd93b',1,'inflection']]],
+  ['iscustommatch_15',['isCustomMatch',['../classinflection.html#a81bff053f79743727fff04622130e0b1',1,'inflection']]],
+  ['isempty_16',['isEmpty',['../classinflection.html#af79cef78e18e636aa1c8efe862c8f769',1,'inflection']]],
+  ['isexists_17',['isexists',['../classinflection.html#a425e50879767a2e304e968149dc54770',1,'inflection::isExists() const override'],['../classinflection.html#ad46fbaa7db6a61ec4b1e1035da22cd24',1,'inflection::isExists() const =0'],['../classinflection.html#a425e50879767a2e304e968149dc54770',1,'inflection::isExists() const override'],['../classinflection.html#a425e50879767a2e304e968149dc54770',1,'inflection::isExists() const override'],['../classinflection.html#a425e50879767a2e304e968149dc54770',1,'inflection::isExists() const override']]],
+  ['isknownword_18',['isKnownWord',['../classinflection.html#ac6b41acd5a0ea8a294a801fbf91a72eb',1,'inflection']]],
+  ['israel_19',['ISRAEL',['../classinflection.html#acc948c89c2e03e9b8ecea8ce9ca6a4f3',1,'inflection']]],
+  ['isuniquevalues_20',['isUniqueValues',['../classinflection.html#a1b2be66d414704dd07b1cfbae69ac40c',1,'inflection']]],
+  ['italian_21',['ITALIAN',['../classinflection.html#ac470c20a25f1de8e8fe789e2c108c47f',1,'inflection']]],
+  ['italy_22',['ITALY',['../classinflection.html#a1cf17869b185a4286d3ce07d6ac63b22',1,'inflection']]]
+];

@@ -106,7 +106,7 @@ add_custom_target(dist
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     VERBATIM
 )
-add_dependencies(dist inflection inflection-headers inflection-data)
+add_dependencies(dist inflection inflection-headers inflection-data docs)
 
 add_subdirectory(docs EXCLUDE_FROM_ALL)
 
@@ -119,6 +119,7 @@ make check-headers          : Tests whether all exported headers can be compiled
 make inflection             : Builds the shared library.\\n\
 make inflection-headers     : Copy all inflection public headers to <build>/inflection_headers.\\n\
 make inflection-data        : Generate all inflection data under <build>/inflection_data.\\n\
+make docs                   : Generate all inflection docs.\\n\
 make dist                   : Builds inflection, the headers, and the data.\\n\
 make coverage               : Generates code coverage using sonar-scanner\\n\
 make generate-coverage-csv  : Generates code coverage as a csv\\n\

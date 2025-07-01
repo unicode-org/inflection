@@ -141,6 +141,7 @@ jobs:
         cmake --build ${{ steps.strings.outputs.build-output-dir }} -t docs --config ${{ matrix.build_type }} -j ${{ steps.cpu-cores.outputs.count }}
 
     - name: debug
+      run: |
         echo ${{ steps.strings.outputs.build-output-dir }}
         find ${{ steps.strings.outputs.build-output-dir }}
 

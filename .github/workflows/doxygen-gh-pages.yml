@@ -139,11 +139,13 @@ jobs:
       # Build your program with the given configuration. Note that --config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
       run: |
         cmake --build ${{ steps.strings.outputs.build-output-dir }} -t docs --config ${{ matrix.build_type }} -j ${{ steps.cpu-cores.outputs.count }}
-        echo "ls inflection/docs"
-        ls -l inflection/docs
+
+    - name: debug
+        echo ${{ steps.strings.outputs.build-output-dir }}
+        find ${{ steps.strings.outputs.build-output-dir }}
 
     - name: Create .nojekyll (ensures pages with underscores work on gh pages)
-      run: touch inflection/docs/html/.nojekyll
+      run: touch ${{ steps.strings.outputs.build-output-dir }}/docs/html/.nojekyll
       shell: bash
 
     - name: Deploy to GitHub Pages

@@ -148,4 +148,4 @@ jobs:
       uses: JamesIves/github-pages-deploy-action@v4
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        folder: $${{ steps.strings.outputs.build-output-dir }}/docs/html
+        folder: ${{ steps.strings.outputs.build-output-dir }}/docs/html

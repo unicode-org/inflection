@@ -140,11 +140,6 @@ jobs:
       run: |
         cmake --build ${{ steps.strings.outputs.build-output-dir }} -t docs --config ${{ matrix.build_type }} -j ${{ steps.cpu-cores.outputs.count }}
 
-    - name: debug
-      run: |
-        echo ${{ steps.strings.outputs.build-output-dir }}
-        find ${{ steps.strings.outputs.build-output-dir }}
-
     - name: Create .nojekyll (ensures pages with underscores work on gh pages)
       run: touch ${{ steps.strings.outputs.build-output-dir }}/docs/html/.nojekyll
       shell: bash
@@ -153,3 +148,4 @@ jobs:
       uses: JamesIves/github-pages-deploy-action@v4
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
+        folder: $${{ steps.strings.outputs.build-output-dir }}/docs/html

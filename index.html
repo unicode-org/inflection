@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Inflection: Main Page</title>
+<title>Inflection: Inflection</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -69,14 +69,110 @@ $(function() {
 </div>
 </div>
 
-<div class="header">
-  <div class="headertitle"><div class="title">Inflection Documentation</div></div>
+<div><div class="header">
+  <div class="headertitle"><div class="title">Inflection </div></div>
 </div><!--header-->
 <div class="contents">
+<div class="textblock"><p><a class="anchor" id="md__2home_2runner_2work_2inflection_2inflection_2inflection_2README"></a></p>
+<h1><a class="anchor" id="mainpage"></a>
+Inflection</h1>
+<h2><a class="anchor" id="autotoc_md0"></a>
+About Unicode Inflection</h2>
+<p>Unicode Inflection is a C/C++ library that provides support for the following tasks.</p>
+<ul>
+<li>Word inflection of a word into another <a href="https://en.wikipedia.org/wiki/Surface_form">surface form</a> of another word.</li>
+<li>Grammatical agreement between words.</li>
+<li>Querying grammatical properties as <a href="https://en.wiktionary.org/wiki/grammeme">grammemes</a> (the values of <a href="https://en.wikipedia.org/wiki/Grammatical_category">grammatical categories</a>)</li>
+</ul>
+<p>It uses C++20, <a href="https://icu.unicode.org/">ICU4C</a>, UTF-16 strings (just like Java) and a data source of lexical dictionaries that contain relationships between inflections of a word. Just like ICU, it is thread safe between service objects, but mutable objects are not necessarily thread safe between threads.</p>
+<p>By making this implementation open sourced, various software frameworks can generate grammatically correct messages and to lower the barriers to correctly localizing software.</p>
+<h3><a class="anchor" id="autotoc_md1"></a>
+Platforms</h3>
+<p>Unicode Inflection is currently supported on these operating systems:</p>
+<ul>
+<li>iOS</li>
+<li>iPadOS</li>
+<li>macOS</li>
+<li>tvOS</li>
+<li>watchOS</li>
+<li>visionOS</li>
+<li>UBI Linux 9</li>
+<li>Ubuntu Linux 22</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md2"></a>
+How Unicode Inflection works</h2>
+<p>The following sections delve a bit deeper into the low-level functionality of Unicode Inflection, such as how caching, multi-threading, work with Unicode Inflection. These sections are meant as a guide to utilizing Unicode Inflection in a safe manner while also squeezing the most potential out of the library as possible.</p>
+<h3><a class="anchor" id="autotoc_md3"></a>
+Caching</h3>
+<p>At the time of writing, caching is a one-way street. Once an object that utilizes caching functionality with some data, it remains in-memory until the process has terminated. Reloading of such caches are not supported, since that involves ensuring that all dependencies in the process space sharing the same resources have also stopped and released the same resources.</p>
+<p>The caching being done by Unicode Inflection lowers the lookup time for many portions of the <code><a class="el" href="classinflection_1_1dialog_1_1CommonConceptFactory.html" title="Facilitates the creation of Concepts">inflection::dialog::CommonConceptFactory</a></code> operations. It is for this reason that it may be a good idea to initialize these constructs before lookup time, so that Unicode Inflection is in a "warmed up" state.</p>
+<p>It is important to note that many of these cached data structures have ties to specific references in Unicode Inflection's memory-mapped dictionaries. This makes reloading dictionaries difficult.</p>
+<h4><a class="anchor" id="autotoc_md4"></a>
+Grammar synthesizer caching</h4>
+<p>Grammar synthesizers memory map lexical dictionaries and cache various grammatical structures depending on the language. Synthesized words are not cached.</p>
+<h3><a class="anchor" id="autotoc_md5"></a>
+Multi-threading</h3>
+<p>Unicode Inflection is multi-thread friendly. It has <code>std::mutex</code> in places where deadlocks could occur, and generally tries to abstract this away from users.</p>
+<h2><a class="anchor" id="autotoc_md6"></a>
+History</h2>
+<p>This project was donated to the Unicode consortium from Siri at Apple Inc. These additional resources may be helpful background information to reference:</p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=C2e7hYIkqoM">Automatic Grammar Agreement in Message Formatting</a> (<a href="https://www.unicode.org/events/utw/2023/talks/grammar/">2023.11.8</a>)</li>
+<li><a href="https://www.youtube.com/watch?v=emlIWUTaJFM">Authoring Grammatically Correct Conversational Templates for Siri</a> (<a href="https://www.unicodeconference.org/iuc44/Conference_Program.pdf">2020.10.16</a>)</li>
+<li><a href="https://www.youtube.com/watch?v=KclVxxHX26k">Let's Come To An Agreement About Our Words</a> (<a href="https://www.imug.org/events/imug-2017-events.htm#words">2017.02.16</a>)</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md7"></a>
+Dependencies</h2>
+<p>The following are the dependencies to use this code.</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Library   </th><th class="markdownTableHeadCenter">runtime   </th><th class="markdownTableHeadCenter">build time   </th><th class="markdownTableHeadCenter">test time   </th><th class="markdownTableHeadNone">Note    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><a href="https://icu.unicode.org/">ICU4C</a>   </td><td class="markdownTableBodyCenter">✅   </td><td class="markdownTableBodyCenter">✅   </td><td class="markdownTableBodyCenter">✅   </td><td class="markdownTableBodyNone"></td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><a href="https://github.com/s-yata/marisa-trie">marisa</a>   </td><td class="markdownTableBodyCenter">✅   </td><td class="markdownTableBodyCenter">✅   </td><td class="markdownTableBodyCenter">✅   </td><td class="markdownTableBodyNone">statically linked    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><a href="https://cmake.org/">cmake</a>   </td><td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter">✅   </td><td class="markdownTableBodyCenter"></td><td class="markdownTableBodyNone"></td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><a href="https://gitlab.gnome.org/GNOME/libxml2">libxml2</a>   </td><td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter">✅   </td><td class="markdownTableBodyCenter">✅   </td><td class="markdownTableBodyNone"></td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><a href="https://github.com/catchorg/Catch2/">Catch2</a>   </td><td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter"></td><td class="markdownTableBodyCenter">✅   </td><td class="markdownTableBodyNone">automatically downloaded   </td></tr>
+</table>
+<h3><a class="anchor" id="autotoc_md8"></a>
+Building</h3>
+<h4><a class="anchor" id="autotoc_md9"></a>
+Working with LFS</h4>
+<p>Additional checkout steps are necessary when working with the repository as it utilizes Git LFS files.</p>
+<p><a class="anchor" id="autotoc_md10"></a> </p><h5>Get LFS client and install it, e.g. on Ubuntu</h5>
+<div class="fragment"><div class="line">sudo apt install git-lfs</div>
+<div class="line">git lfs install</div>
+</div><!-- fragment --><p>For more details and troubleshooting refer to this <a href="https://git-lfs.com/">guide</a>.</p>
+<h4><a class="anchor" id="autotoc_md11"></a>
+Resolving ICU4C dependancy</h4>
+<p>Before building this project, you must have a distribution of ICU4C available. The path to the ICU distribution must be set as ICU_ROOT in either options.mk or as a command line argument to cmake. The path should be the same as the &ndash;prefix value used when ICU was configured, built and installed.</p>
+<p>Typical ICU installation requires:</p><ul>
+<li>Downloading "Latest" released ICU4C "Source code.[zip|tar.gz]" from <a href="https://github.com/unicode-org/icu/releases">https://github.com/unicode-org/icu/releases</a>.</li>
+<li>Following <a href="https://unicode-org.github.io/icu/userguide/icu4c/build.html">build and installation instructions</a>.</li>
+</ul>
+<p><a class="anchor" id="autotoc_md12"></a> </p><h5>Linux specific</h5>
+<ul>
+<li>ICU4C is installed to /usr/local/lib/*icu* by default.</li>
+<li>ICU_ROOT should point to /usr/local/lib/. Omitting /icu applies to any other installation path.</li>
+</ul>
+<h4><a class="anchor" id="autotoc_md13"></a>
+Build instructions</h4>
+<div class="fragment"><div class="line">cd inflection</div>
+<div class="line">mkdir build</div>
+<div class="line">cd build</div>
+<div class="line">CC=clang CXX=clang++ cmake -DICU_ROOT=&lt;PATH_TO_ICU&gt; ..</div>
+<div class="line">make -j 8 check</div>
+</div><!-- fragment --><p>Alternatively, you can use cmake for the building, testing etc. </p><div class="fragment"><div class="line">cmake --build . -j8 -t check</div>
+</div><!-- fragment --><p>Optionally, ICU_ROOT can be specified in the file options.mk with the following type of syntax. </p><div class="fragment"><div class="line">ICU_ROOT=&lt;PATH_TO_ICU&gt;</div>
+</div><!-- fragment --> </div></div><!-- PageDoc -->
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jul 2 2025 23:14:23 for Inflection by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+Generated on Wed Jul 2 2025 23:35:08 for Inflection by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
 </small></address>
 </body>
 </html>

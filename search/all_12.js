@@ -35,5 +35,6 @@ var searchData=
   ['swedish_32',['SWEDISH',['../classinflection_1_1util_1_1LocaleUtils.html#ad651d1a4c7afc68983d4961cc9e80440',1,'inflection::util::LocaleUtils']]],
   ['switzerland_5ffrench_33',['SWITZERLAND_FRENCH',['../classinflection_1_1util_1_1LocaleUtils.html#a16e390594543129f5f091497aae30708',1,'inflection::util::LocaleUtils']]],
   ['switzerland_5fgerman_34',['SWITZERLAND_GERMAN',['../classinflection_1_1util_1_1LocaleUtils.html#a3ae8e06686b88d7d60efad3210dc33c3',1,'inflection::util::LocaleUtils']]],
-  ['switzerland_5fitalian_35',['SWITZERLAND_ITALIAN',['../classinflection_1_1util_1_1LocaleUtils.html#a979b3439717b4a00547db0456e3bcdc4',1,'inflection::util::LocaleUtils']]]
+  ['switzerland_5fitalian_35',['SWITZERLAND_ITALIAN',['../classinflection_1_1util_1_1LocaleUtils.html#a979b3439717b4a00547db0456e3bcdc4',1,'inflection::util::LocaleUtils']]],
+  ['synthesizer_20caching_36',['Grammar synthesizer caching',['../index.html#autotoc_md4',1,'']]]
 ];

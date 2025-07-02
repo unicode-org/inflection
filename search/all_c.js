@@ -9,5 +9,6 @@ var searchData=
   ['mf2factory_6',['MF2Factory',['../classinflection_1_1message2_1_1MF2Factory.html',1,'inflection::message2']]],
   ['minfractiondigits_7',['minFractionDigits',['../classinflection_1_1dialog_1_1NumberConcept.html#aed02f5dba74a6ee2c8b7df2855a4a7bd',1,'inflection::dialog::NumberConcept']]],
   ['minintegerdigits_8',['minIntegerDigits',['../classinflection_1_1dialog_1_1NumberConcept.html#a9d29e546b6b1b901708ee4b0a1ce6f62',1,'inflection::dialog::NumberConcept']]],
-  ['missingresourceexception_9',['missingresourceexception',['../classinflection_1_1exception_1_1MissingResourceException.html',1,'inflection::exception::MissingResourceException'],['../classinflection_1_1exception_1_1MissingResourceException.html#a86c3dfcfd261e3eacf743fc8e1d6fa5c',1,'inflection::exception::MissingResourceException::MissingResourceException()']]]
+  ['missingresourceexception_9',['missingresourceexception',['../classinflection_1_1exception_1_1MissingResourceException.html',1,'inflection::exception::MissingResourceException'],['../classinflection_1_1exception_1_1MissingResourceException.html#a86c3dfcfd261e3eacf743fc8e1d6fa5c',1,'inflection::exception::MissingResourceException::MissingResourceException()']]],
+  ['multi_20threading_10',['Multi-threading',['../index.html#autotoc_md5',1,'']]]
 ];

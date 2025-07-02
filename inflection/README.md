@@ -1,7 +1,7 @@
 <!--
  Copyright 2016-2024 Apple Inc. All rights reserved.
 -->
-# Inflection
+# Inflection  {#mainpage}
 
 ## About Unicode Inflection
 

@@ -7,11 +7,7 @@
 // INFLECTION_CLASS_API
 
 #include <unicode/uversion.h>
-
-namespace U_ICU_NAMESPACE::message2 {
-class FormatterFactory;
-class SelectorFactory;
-}  // namespace U_ICU_NAMESPACE::message2
+#include <unicode/messageformat2_function_registry.h>
 
 /**
  * @brief The MF2Factory provide factory method to create custom formatter and selector

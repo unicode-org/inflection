@@ -869,6 +869,10 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a937b8edea6fdc51902c66a1e30a5ec2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0dc4561bc8e2915ebfaff852dcb60b6d" id="r_a0dc4561bc8e2915ebfaff852dcb60b6d"><td class="memItemLeft" align="right" valign="top">static std::set&lt;::inflection::util::ULocale &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classinflection.html#a0dc4561bc8e2915ebfaff852dcb60b6d">getKnownLanguages</a> ()</td></tr>
 <tr class="separator:a0dc4561bc8e2915ebfaff852dcb60b6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d18fce03aa5d6f6c44c97ac16e5498f" id="r_a9d18fce03aa5d6f6c44c97ac16e5498f"><td class="memItemLeft" align="right" valign="top">static icu::message2::FormatterFactory *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classinflection.html#a9d18fce03aa5d6f6c44c97ac16e5498f">CreateFormatterFactory</a> ()</td></tr>
+<tr class="separator:a9d18fce03aa5d6f6c44c97ac16e5498f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2eb80cfc5c644fc34eb9ddbe8cd588a4" id="r_a2eb80cfc5c644fc34eb9ddbe8cd588a4"><td class="memItemLeft" align="right" valign="top">static icu::message2::SelectorFactory *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classinflection.html#a2eb80cfc5c644fc34eb9ddbe8cd588a4">CreateSelectorFactory</a> ()</td></tr>
+<tr class="separator:a2eb80cfc5c644fc34eb9ddbe8cd588a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afee096d8666b95a1b73d2336d14e6e49" id="r_afee096d8666b95a1b73d2336d14e6e49"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classinflection.html#afee096d8666b95a1b73d2336d14e6e49">registerDataPathForLocale</a> (const inflection::util::ULocale &amp;locale, const std::string &amp;path)</td></tr>
 <tr class="separator:afee096d8666b95a1b73d2336d14e6e49"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a95fd589c7de0c09daa1ffd38a705deb8" id="r_a95fd589c7de0c09daa1ffd38a705deb8"><td class="memItemLeft" align="right" valign="top">static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classinflection.html#a95fd589c7de0c09daa1ffd38a705deb8">getDataPathForLocale</a> (const inflection::util::ULocale &amp;locale)</td></tr>
@@ -1174,6 +1178,7 @@ Friends</h2></td></tr>
 <p>Provides utility functions for use with ULocale objects.</p>
 <p>Provides registration capabilities for registering data for Inflection to utilize.</p>
 <p>Inflection's root object.</p>
+<p>The MF2Factory provide factory method to create custom formatter and selector factory to work with <code>icu::message2</code> library. The intend usage is to creat <code>icu::message2::FormatterFactory</code> or <code>icu::message2::SelectorFactory</code> and use it with <code>icu::message2::MFFunctionRegistry::Builder</code> to construct a custom function registry to build MessageFormatter with <code>MessageFormatter::Builder</code>.</p>
 <p>A named feature with a possible set of feature values.</p>
 <p>A container of grammemes of a specific grammatical category.</p>
 <p>A single feature value with a set of constraints for when the value is valid.</p>
@@ -1246,6 +1251,39 @@ Friends</h2></td></tr>
 <p>A grammatical category are concepts that involve selecting a variant of a word or are properties of a word. A category like number is represented as count in Siri. The grammeme values are singular and plural in English. In some other languages, this concept may not exist. In another language, there may several plural forms to choose from.</p>
 <dl class="section see"><dt>See also</dt><dd><a href="http://en.wikipedia.org/wiki/Grammatical_category">http://en.wikipedia.org/wiki/Grammatical_category</a></dd></dl>
 <p>Grammatical features are usually a set of possible words that need to be in grammatical agreement with semantic concepts. Frequently they are articles, prepositions and measure words. These values are typically based (constrained) on the grammatical category values of the nouns.</p>
+<p>For example: </p><blockquote class="doxtable">
+<pre>
+auto customRegistry = icu::message2::MFFunctionRegistry::Builder(errorCode)
+         .adoptFormatter(FunctionName("inflection"),
+                         MF2Factory::CreateFormatterFactory(), errorCode)
+         .adoptSelector(FunctionName("inflection"),
+                         MF2Factory::CreateSelectorFactory(), errorCode)
+         .build();
+
+UParseError pe;
+auto mf1 = icu::message2::MessageFormatter::Builder(errorCode)
+             .setFunctionRegistry(customRegistry)
+             .setLocale(Locale::forLanguageTag("es-MX", errorCode))
+             .setPattern("Location is {$name :inflection hello=world \
+                          definiteness=definite number=plural \
+                          gender=feminine}",
+                         pe, errorCode)
+             .build(errorCode);
+
+auto mf2 = icu::message2::MessageFormatter::Builder(errorCode)
+             .setFunctionRegistry(customRegistry)
+             .setLocale(Locale::forLanguageTag("es-MX", errorCode))
+             .setPattern(".local $gender = {$name :inflection \
+                                            feature=gender} \
+                          .local $number = {$name :inflection \
+                                            feature=number} \
+                          .match $gender $number \
+                          feminine singular {{Feminine Singular {$name}}}\
+                          masculine singular {{Masculine Singular {$name}}}\
+                          * * {{other {$name} }}\n",
+                          pe, errorCode)
+             .build(errorCode);
+</pre> </blockquote>
 <p>This class provides the most basic capabilities to classes in Inflection. Almost all other classes inherit from Object.</p>
 <p>This class is used by Inflection to add paths for varying locale's data. It should be used to specify where data exists whenever necessary, for example when using Inflection on client devices (with downloaded data), or when testing with custom data.</p>
 <p>This class contains many static functions that are very useful for manipulation, combination, accessing, and validation of ULocale objects.</p>
@@ -3683,6 +3721,32 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="a9d18fce03aa5d6f6c44c97ac16e5498f" name="a9d18fce03aa5d6f6c44c97ac16e5498f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d18fce03aa5d6f6c44c97ac16e5498f">&#9670;&#160;</a></span>CreateFormatterFactory()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static icu::message2::FormatterFactory * inflection::CreateFormatterFactory </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Create an implementation of icu::message2::FormatterFactory*, based on the infleciton library, which can be passed to icu::messsage2::MFFunctionRegistry::Builder::adoptFormatter to register a custom formatter factory. </p>
+
+</div>
+</div>
 <a id="a3762e44cf07f6b66cf0364648dde25f6" name="a3762e44cf07f6b66cf0364648dde25f6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3762e44cf07f6b66cf0364648dde25f6">&#9670;&#160;</a></span>createOrList() <span class="overload">[1/2]</span></h2>
 
@@ -3752,6 +3816,32 @@ Friends</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a2eb80cfc5c644fc34eb9ddbe8cd588a4" name="a2eb80cfc5c644fc34eb9ddbe8cd588a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2eb80cfc5c644fc34eb9ddbe8cd588a4">&#9670;&#160;</a></span>CreateSelectorFactory()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static icu::message2::SelectorFactory * inflection::CreateSelectorFactory </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Create an implementation of icu::message2::SelectorFactory*, based on the infleciton library, which can be passed to icu::messsage2::MFFunctionRegistry::Builder::adoptSelector to register a custom selector factory. </p>
 
 </div>
 </div>
@@ -12617,6 +12707,7 @@ It's hard to guarantee that all frameworks in your process using Inflection eith
 <li>/home/runner/work/inflection/inflection/inflection/build/inflection_headers/inflection/exception/<a class="el" href="Throwable_8hpp_source.html">Throwable.hpp</a></li>
 <li>/home/runner/work/inflection/inflection/inflection/build/inflection_headers/inflection/dialog/<a class="el" href="CommonConceptFactoryProvider_8hpp_source.html">CommonConceptFactoryProvider.hpp</a></li>
 <li>/home/runner/work/inflection/inflection/inflection/build/inflection_headers/inflection/dialog/<a class="el" href="SpeakableConcept_8hpp_source.html">SpeakableConcept.hpp</a></li>
+<li>/home/runner/work/inflection/inflection/inflection/build/inflection_headers/inflection/message2/<a class="el" href="MF2Factory_8hpp_source.html">MF2Factory.hpp</a></li>
 <li>/home/runner/work/inflection/inflection/inflection/build/inflection_headers/inflection/<a class="el" href="Object_8hpp_source.html">Object.hpp</a></li>
 <li>/home/runner/work/inflection/inflection/inflection/build/inflection_headers/inflection/resources/<a class="el" href="DataRegistrationService_8hpp_source.html">DataRegistrationService.hpp</a></li>
 <li>/home/runner/work/inflection/inflection/inflection/build/inflection_headers/inflection/util/<a class="el" href="LocaleUtils_8hpp_source.html">LocaleUtils.hpp</a></li>
@@ -12626,7 +12717,7 @@ It's hard to guarantee that all frameworks in your process using Inflection eith
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jul 1 2025 00:48:44 for Inflection by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+Generated on Wed Jul 2 2025 04:41:18 for Inflection by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
 </small></address>
 </body>
 </html>

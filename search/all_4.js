@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['end_0',['end',['../classinflection.html#ac76dd35fd5379b335abdb7614e629a1e',1,'inflection']]],
-  ['english_1',['ENGLISH',['../classinflection.html#aeb8ff342966f4688bcd9be4f6cedf095',1,'inflection']]],
-  ['estonia_2',['ESTONIA',['../classinflection.html#a427a6db78401ddedc7c437b3886dcb82',1,'inflection']]],
-  ['estonian_3',['ESTONIAN',['../classinflection.html#a1b5da0b7ddbfc42d55bd5fb55d9aa246',1,'inflection']]],
-  ['exception_4',['exception',['../classinflection.html#ac7ca0f2a054376ca2bb14c9da63d96c8',1,'inflection::Exception()'],['../classinflection.html#abe277ae8725108aa0a983198c63933af',1,'inflection::Exception(const std::u16string &amp;message)']]]
+  ['end_0',['end',['../classinflection_1_1dictionary_1_1DictionaryKeyIterator.html#ad753379927859b08053936eddeaaf614',1,'inflection::dictionary::DictionaryKeyIterator']]],
+  ['english_1',['ENGLISH',['../classinflection_1_1util_1_1LocaleUtils.html#abece8be2a29b6b9573ad4fa7cd99730d',1,'inflection::util::LocaleUtils']]],
+  ['estonia_2',['ESTONIA',['../classinflection_1_1util_1_1LocaleUtils.html#abccb672758dbb426634e63d5b39dd087',1,'inflection::util::LocaleUtils']]],
+  ['estonian_3',['ESTONIAN',['../classinflection_1_1util_1_1LocaleUtils.html#a631a02bf066d3f2e6e5f0b18ae06186d',1,'inflection::util::LocaleUtils']]],
+  ['exception_4',['exception',['../classinflection_1_1exception_1_1Exception.html',1,'inflection::exception::Exception'],['../classinflection_1_1exception_1_1Exception.html#a2f2dda8fe45b11c3323623d49ace0a63',1,'inflection::exception::Exception::Exception()'],['../classinflection_1_1exception_1_1Exception.html#abbe7118b8766e186dd01fd3e6b78a04d',1,'inflection::exception::Exception::Exception(const std::u16string &amp;message)']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['what_0',['what',['../classinflection.html#afe4063e3ab559824ad036898ab5cb530',1,'inflection']]]
+  ['what_0',['what',['../classinflection_1_1exception_1_1Throwable.html#ab136892954e05dd73af5cb77aaf0776a',1,'inflection::exception::Throwable']]]
 ];

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['quantify_0',['quantify',['../classinflection.html#a57a16d83507735e875feaea415444974',1,'inflection::quantify(const NumberConcept &amp;number, const ::inflection::dialog::SemanticFeatureConceptBase *semanticConcept) const =0'],['../classinflection.html#a0182294d02b2144e4c546c0669b44eb7',1,'inflection::quantify(const NumberConcept &amp;number, const ::inflection::dialog::SpeakableString &amp;formattedNumber, const ::inflection::dialog::SemanticFeatureConceptBase *semanticConcept) const =0']]],
-  ['quote_1',['quote',['../classinflection.html#a07cc2dad5ee0d3e9cb65f2c184c4620f',1,'inflection']]]
+  ['quantify_0',['quantify',['../classinflection_1_1dialog_1_1CommonConceptFactory.html#a96df29a2bc58c699548611fa089ff7eb',1,'inflection::dialog::CommonConceptFactory::quantify(const NumberConcept &amp;number, const ::inflection::dialog::SemanticFeatureConceptBase *semanticConcept) const =0'],['../classinflection_1_1dialog_1_1CommonConceptFactory.html#a1c5743dca61a166b93fc33adc4d9121a',1,'inflection::dialog::CommonConceptFactory::quantify(const NumberConcept &amp;number, const ::inflection::dialog::SpeakableString &amp;formattedNumber, const ::inflection::dialog::SemanticFeatureConceptBase *semanticConcept) const =0']]],
+  ['quote_1',['quote',['../classinflection_1_1dialog_1_1CommonConceptFactory.html#a105590601caac7f3b22ac59d5ff74764',1,'inflection::dialog::CommonConceptFactory']]]
 ];

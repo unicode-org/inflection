@@ -1,12 +1,12 @@
 var searchData=
 [
-  ['malay_0',['MALAY',['../classinflection.html#af2bd12555cc194f11f2d571e3845f46e',1,'inflection']]],
-  ['malaysia_1',['MALAYSIA',['../classinflection.html#ab823164a990dde31eb4044c8f9f37968',1,'inflection']]],
-  ['maxfractiondigits_2',['maxFractionDigits',['../classinflection.html#a1e1f0b14b448be57974575d966698d28',1,'inflection']]],
-  ['maxfractiondigitsaboveone_3',['maxFractionDigitsAboveOne',['../classinflection.html#a770ed87524985734ea9f73d2d2e33875',1,'inflection']]],
-  ['maxintegerdigits_4',['maxIntegerDigits',['../classinflection.html#a2a0e42b671cb11e4035f3ba6b4ebc69b',1,'inflection']]],
-  ['mexico_5fspanish_5',['MEXICO_SPANISH',['../classinflection.html#aea75bc7706d4af5572b994dbb7d83e34',1,'inflection']]],
-  ['minfractiondigits_6',['minFractionDigits',['../classinflection.html#a0b83bcdf35631435d90f646b6add7b77',1,'inflection']]],
-  ['minintegerdigits_7',['minIntegerDigits',['../classinflection.html#a5329f7211323f1bd5b0f3d95179bf233',1,'inflection']]],
-  ['missingresourceexception_8',['MissingResourceException',['../classinflection.html#a05070f4a8f3d92df85f13dab6961a75d',1,'inflection']]]
+  ['malay_0',['MALAY',['../classinflection_1_1util_1_1LocaleUtils.html#ae205e0c0e76f52ed101aa2e531fbb7d5',1,'inflection::util::LocaleUtils']]],
+  ['malaysia_1',['MALAYSIA',['../classinflection_1_1util_1_1LocaleUtils.html#a0597146dfb4a43b1b7d79b040f08b736',1,'inflection::util::LocaleUtils']]],
+  ['maxfractiondigits_2',['maxFractionDigits',['../classinflection_1_1dialog_1_1NumberConcept.html#a65a01a3b6973498f7bbf0679cc3af671',1,'inflection::dialog::NumberConcept']]],
+  ['maxfractiondigitsaboveone_3',['maxFractionDigitsAboveOne',['../classinflection_1_1dialog_1_1NumberConcept.html#a36ebf15239ec462cae654e8366e247d0',1,'inflection::dialog::NumberConcept']]],
+  ['maxintegerdigits_4',['maxIntegerDigits',['../classinflection_1_1dialog_1_1NumberConcept.html#a4795d7af6efad6672cd1aeba2e2d60da',1,'inflection::dialog::NumberConcept']]],
+  ['mexico_5fspanish_5',['MEXICO_SPANISH',['../classinflection_1_1util_1_1LocaleUtils.html#ab028537a1a03e98f62d40a20637994de',1,'inflection::util::LocaleUtils']]],
+  ['minfractiondigits_6',['minFractionDigits',['../classinflection_1_1dialog_1_1NumberConcept.html#aed02f5dba74a6ee2c8b7df2855a4a7bd',1,'inflection::dialog::NumberConcept']]],
+  ['minintegerdigits_7',['minIntegerDigits',['../classinflection_1_1dialog_1_1NumberConcept.html#a9d29e546b6b1b901708ee4b0a1ce6f62',1,'inflection::dialog::NumberConcept']]],
+  ['missingresourceexception_8',['MissingResourceException',['../classinflection_1_1exception_1_1MissingResourceException.html#a86c3dfcfd261e3eacf743fc8e1d6fa5c',1,'inflection::exception::MissingResourceException']]]
 ];

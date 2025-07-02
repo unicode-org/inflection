@@ -1,10 +1,10 @@
 var searchData=
 [
-  ['arabic_0',['ARABIC',['../classinflection.html#a0b60648aa89ca974e70a51ced3ffabda',1,'inflection']]],
-  ['arelanguagescriptcompatible_1',['areLanguageScriptCompatible',['../classinflection.html#ac0dc049a767a8df37352e35c5630c5d3',1,'inflection']]],
-  ['asdigits_2',['asDigits',['../classinflection.html#aaa0edba441ae1c63b1bf6d6d0fc627fe',1,'inflection']]],
-  ['asspokenwords_3',['asSpokenWords',['../classinflection.html#a2d07b7d7ba56396a62ed4179621f0707',1,'inflection']]],
-  ['aswords_4',['asWords',['../classinflection.html#a5227609a4f06343e1555036b0e1e4670',1,'inflection']]],
-  ['australia_5fenglish_5',['AUSTRALIA_ENGLISH',['../classinflection.html#ab19cf29e7b7432ea30bb4ebc2a799180',1,'inflection']]],
-  ['austria_6',['AUSTRIA',['../classinflection.html#a488a0b224c1a5fd64f0b42f286b4dd37',1,'inflection']]]
+  ['arabic_0',['ARABIC',['../classinflection_1_1util_1_1LocaleUtils.html#ab4c30acce38b25fbd1db05f61768ba7c',1,'inflection::util::LocaleUtils']]],
+  ['arelanguagescriptcompatible_1',['areLanguageScriptCompatible',['../classinflection_1_1util_1_1LocaleUtils.html#aab9d8cb37aeec729e3bc61a168867b89',1,'inflection::util::LocaleUtils']]],
+  ['asdigits_2',['asDigits',['../classinflection_1_1dialog_1_1NumberConcept.html#aa6f1a3b4cee5a7bb62ee157784b74304',1,'inflection::dialog::NumberConcept']]],
+  ['asspokenwords_3',['asSpokenWords',['../classinflection_1_1dialog_1_1NumberConcept.html#a3780a5826d2659484407861f91c899fd',1,'inflection::dialog::NumberConcept']]],
+  ['aswords_4',['asWords',['../classinflection_1_1dialog_1_1NumberConcept.html#a6a3ad3bae32b9b31443ab7ae19fa415b',1,'inflection::dialog::NumberConcept']]],
+  ['australia_5fenglish_5',['AUSTRALIA_ENGLISH',['../classinflection_1_1util_1_1LocaleUtils.html#a1037a436eceb8a1d46bd0f4051a19ea3',1,'inflection::util::LocaleUtils']]],
+  ['austria_6',['AUSTRIA',['../classinflection_1_1util_1_1LocaleUtils.html#a5cf1d52e72e0775f63821ba529b8a482',1,'inflection::util::LocaleUtils']]]
 ];

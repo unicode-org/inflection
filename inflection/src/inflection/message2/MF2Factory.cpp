@@ -12,7 +12,6 @@
 
 #include <unicode/locid.h>
 #include <unicode/messageformat2.h>
-#include <unicode/messageformat2_function_registry.h>
 #include <unicode/messageformat2_formattable.h>
 
 using U_ICU_NAMESPACE::Locale;

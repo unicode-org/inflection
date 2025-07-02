@@ -3,29 +3,24 @@
  */
 #pragma once
 
-#include <inflection/api.h>
+#include <inflection/message2/fwd.hpp>
 // INFLECTION_CLASS_API
 
 #include <unicode/uversion.h>
-
-namespace U_ICU_NAMESPACE::message2 {
-class FormatterFactory;
-class SelectorFactory;
-}  // namespace U_ICU_NAMESPACE::message2
-
-namespace inflection::message2 {
+#include <unicode/messageformat2_function_registry.h>
 
 /**
- * The MF2Factory provide factory method to create custom formatter and selector
- * factory to work with icu::message2 library.
- * The intend usage is to creat icu::message2::FormatterFactory
- * or icu::message2::SelectorFactory and use it with
- * icu::message2::MFFunctionRegistry::Builder
+ * @brief The MF2Factory provide factory method to create custom formatter and selector
+ * factory to work with <code>icu::message2</code> library.
+ * The intend usage is to creat <code>icu::message2::FormatterFactory</code>
+ * or <code>icu::message2::SelectorFactory</code> and use it with
+ * <code>icu::message2::MFFunctionRegistry::Builder</code>
  * to construct a custom function registry to build MessageFormatter
- * with MessageFormatter::Builder.
+ * with <code>MessageFormatter::Builder</code>.
  *
- * For example:
- *
+ * <p>For example:
+ * <blockquote>
+ * <pre>
  * auto customRegistry = icu::message2::MFFunctionRegistry::Builder(errorCode)
  *          .adoptFormatter(FunctionName("inflection"),
  *                          MF2Factory::CreateFormatterFactory(), errorCode)
@@ -56,8 +51,11 @@ namespace inflection::message2 {
  *                           * * {{other {$name} }}\n",
  *                           pe, errorCode)
  *              .build(errorCode);
+ * </pre>
+ * </blockquote>
+ * </p>
  */
-class INFLECTION_CLASS_API MF2Factory {
+class INFLECTION_CLASS_API inflection::message2::MF2Factory {
  public:
   /**
    * Create an implementation of icu::message2::FormatterFactory*, based on the
@@ -75,5 +73,3 @@ class INFLECTION_CLASS_API MF2Factory {
    */
   static icu::message2::SelectorFactory* CreateSelectorFactory();
 };
-
-}  // namespace inflection::message2

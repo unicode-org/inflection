@@ -480,10 +480,25 @@ public:
      * uk_UA: Ukrainian (Ukraine)
      */
     static const ::inflection::util::ULocale& UKRAINE();
+    /**
+     * vi: Vietnamese
+     */
     static const ::inflection::util::ULocale& VIETNAMESE();
+    /**
+     * vi_VN: Vietnamese (Vietnam)
+     */
     static const ::inflection::util::ULocale& VIETNAM();
+    /**
+     * wuu: Shanghainese
+     */
     static const ::inflection::util::ULocale& SHANGHAINESE();
+    /**
+     * wuu_CN: Shanghainese (China)
+     */
     static const ::inflection::util::ULocale& CHINA_SHANGHAINESE();
+    /**
+     * yue: Cantonese
+     */
     static const ::inflection::util::ULocale& CANTONESE();
     /**
      * yue_CN: Cantonese (China)

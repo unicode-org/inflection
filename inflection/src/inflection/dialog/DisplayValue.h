@@ -14,8 +14,8 @@ INFLECTION_CBEGIN
 typedef struct IDDisplayValue_Constraint {
     /**
      * The semantic feature name. This should be a valid name from
-     * {@link LanguageGrammarFeatures_GrammarCategory} or
-     * {@link LanguageGrammarFeatures_GrammarFeatures}. In all
+     * {@link inflection::lang::features::LanguageGrammarFeatures_GrammarCategory} or
+     * {@link inflection::lang::features::LanguageGrammarFeatures_GrammarFeatures}. In all
      * languages, there is also a special key for the speak part
      * of a SpeakableString named "speak". When that is provided,
      * the associated value will be returned as a part of the
@@ -24,8 +24,8 @@ typedef struct IDDisplayValue_Constraint {
     const char16_t* name;
     /**
      * The semantic feature name. This should be a valid value from
-     * {@link LanguageGrammarFeatures_GrammarCategory} or
-     * {@link LanguageGrammarFeatures_GrammarFeatures}. Some constraints
+     * {@link inflection::lang::features::LanguageGrammarFeatures_GrammarCategory} or
+     * {@link inflection::lang::features::LanguageGrammarFeatures_GrammarFeatures}. Some constraints
      * are bounded, and some are unbounded. Typically, grammar
      * categories are bounded. The grammar features may or may not be
      * bounded. This string must be null-terminated.

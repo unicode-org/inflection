@@ -20,6 +20,9 @@ class INFLECTION_CLASS_API inflection::dialog::SemanticFeatureConceptBase
     : public virtual SpeakableConcept
 {
 public:
+    /**
+     * super class.
+     */
     typedef SpeakableConcept super;
 
 private: /* package */

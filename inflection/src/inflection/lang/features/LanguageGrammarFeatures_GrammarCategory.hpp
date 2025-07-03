@@ -23,6 +23,9 @@ class INFLECTION_CLASS_API inflection::lang::features::LanguageGrammarFeatures_G
     : public virtual ::inflection::Object
 {
 public:
+    /**
+     * super class.
+     */
     typedef ::inflection::Object super;
 
 private:

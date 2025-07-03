@@ -82,6 +82,9 @@ class INFLECTION_CLASS_API inflection::util::ULocale
     : public virtual ::inflection::Object
 {
 public:
+    /**
+     * super class.
+     */
     typedef ::inflection::Object super;
 
 public:

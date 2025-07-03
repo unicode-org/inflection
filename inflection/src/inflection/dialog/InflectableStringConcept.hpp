@@ -17,6 +17,9 @@ class INFLECTION_CLASS_API inflection::dialog::InflectableStringConcept
     : public SemanticFeatureConceptBase
 {
 public:
+    /**
+     * super class.
+     */
     typedef SemanticFeatureConceptBase super;
 
 private:

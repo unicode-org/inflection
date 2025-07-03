@@ -14,6 +14,9 @@ class INFLECTION_CLASS_API inflection::exception::IndexOutOfBoundsException
     : public inflection::exception::RuntimeException
 {
 public:
+    /**
+     * super class.
+     */
     typedef ::inflection::exception::RuntimeException super;
 
 public:

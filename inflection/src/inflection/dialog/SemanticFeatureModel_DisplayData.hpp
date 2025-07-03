@@ -19,6 +19,9 @@ class INFLECTION_CLASS_API inflection::dialog::SemanticFeatureModel_DisplayData
     : public virtual ::inflection::Object
 {
 public:
+    /**
+     * super class.
+     */
     typedef ::inflection::Object super;
 
 private:

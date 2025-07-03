@@ -20,6 +20,9 @@ class INFLECTION_CLASS_API inflection::exception::Exception
     : public inflection::exception::Throwable
 {
 public:
+    /**
+     * super class.
+     */
     typedef ::inflection::exception::Throwable super;
 
 public:

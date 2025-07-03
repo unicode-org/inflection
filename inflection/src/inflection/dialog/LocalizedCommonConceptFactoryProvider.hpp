@@ -18,6 +18,9 @@ class INFLECTION_CLASS_API inflection::dialog::LocalizedCommonConceptFactoryProv
     : public virtual CommonConceptFactoryProvider
 {
 public:
+    /**
+     * super class.
+     */
     typedef ::inflection::dialog::CommonConceptFactoryProvider super;
 
 private:

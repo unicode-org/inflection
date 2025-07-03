@@ -18,6 +18,9 @@ class INFLECTION_CLASS_API inflection::dictionary::DictionaryKeyIterator
 {
 
 public:
+    /**
+     * super class.
+     */
     typedef ::inflection::Object super;
 
     /**

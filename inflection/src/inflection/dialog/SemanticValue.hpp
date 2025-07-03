@@ -15,6 +15,9 @@ class INFLECTION_CLASS_API inflection::dialog::SemanticValue
     : public virtual ::inflection::Object
 {
 public:
+    /**
+     * super class.
+     */
     typedef ::inflection::Object super;
 private:
     ::std::u16string label {  };

@@ -1,9 +1,10 @@
+cat .github/workflows/create-ubuntu-distribution-package.yml
 name: Build & Package (Ubuntu)
 
 on:
   push:
     tags:
-      - 'v'
+      - 'v*'
   workflow_dispatch:
   pull_request:
     branches: [ main ]

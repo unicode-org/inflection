@@ -1,9 +1,3 @@
-cat .github/workflows/
-cmake-multi-platform.yml
-create-ubuntu-distribution-package.yml
-ubuntu-memory-check.yml
-unicode25@Hassan:/mnt/e/Hussain/unicodeInflectionforking/inflection$ cat .github/workflows/create-ubuntu-distribution-package.yml
-cat .github/workflows/create-ubuntu-distribution-package.yml
 name: Build & Package (Ubuntu)
 
 on:

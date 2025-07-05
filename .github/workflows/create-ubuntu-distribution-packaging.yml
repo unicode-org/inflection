@@ -1,0 +1,104 @@
+cat .github/workflows/
+cmake-multi-platform.yml
+create-ubuntu-distribution-package.yml
+ubuntu-memory-check.yml
+unicode25@Hassan:/mnt/e/Hussain/unicodeInflectionforking/inflection$ cat .github/workflows/create-ubuntu-distribution-package.yml
+cat .github/workflows/create-ubuntu-distribution-package.yml
+name: Build & Package (Ubuntu)
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Setup Git LFS
+        run: |
+          git lfs install
+          git lfs pull
+
+      - name: Install system dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y cmake build-essential clang pkg-config
+
+      - name: Cache ICU
+        uses: actions/cache@v4
+        id: cache-icu
+        with:
+          path: /usr/local
+          key: icu-77.1-ubuntu-${{ runner.os }}
+
+      - name: Install ICU 77.1 (Binary)
+        if: steps.cache-icu.outputs.cache-hit != 'true'
+        run: |
+          cd /tmp
+          wget https://github.com/unicode-org/icu/releases/download/release-77-1/icu4c-77_1-Ubuntu22.04-x64.tgz
+          mkdir icu-install
+          tar -xzf icu4c-77_1-Ubuntu22.04-x64.tgz -C icu-install
+          sudo cp -r icu-install/usr/ /usr/local/
+          sudo ldconfig
+
+      - name: Setup ICU (from cache)
+        if: steps.cache-icu.outputs.cache-hit == 'true'
+        run: |
+          sudo ldconfig
+
+      - name: Debug ICU version
+        run: |
+          ls -l /usr/local/lib | grep icu || true
+          strings /usr/local/lib/libicuuc.so | grep "ICU" | head -n 5 || true
+
+      - name: Configure & Build
+        run: |
+          export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH
+          export CPLUS_INCLUDE_PATH=/usr/local/include:$CPLUS_INCLUDE_PATH
+          mkdir -p inflection/build
+          cd inflection/build
+          CC=clang CXX=clang++ cmake .. \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DICU_ROOT=/usr/local \
+            -DCMAKE_PREFIX_PATH=/usr/local
+          make -j$(nproc)
+
+      - name: Run tests
+        run: |
+          cd inflection/build
+          make check
+
+      - name: Package with CPack
+        run: |
+          cd inflection/build
+          cpack
+          ls -la *.deb *.tar.gz
+
+      - name: Upload release artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ubuntu-release-artifacts
+          path: |
+            inflection/build/*.deb
+            inflection/build/*.tar.gz
+          retention-days: 30
+
+      - name: Upload to GitHub Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          name: "Release ${{ github.ref_name }}"
+          files: |
+            inflection/build/*.deb
+            inflection/build/*.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

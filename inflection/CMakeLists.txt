@@ -130,3 +130,23 @@ make generate-coverage-csv  : Generates code coverage as a csv\\n\
 install(TARGETS   inflection                  LIBRARY      COMPONENT inflection_library)
 install(DIRECTORY ${INFLECTION_INCLUDE_ROOT}/ TYPE INCLUDE COMPONENT inflection_headers)
 install(DIRECTORY ${INFLECTION_DATA_ROOT}/    TYPE DATA    COMPONENT inflection_data)
+
+# CPack Configuration for Ubuntu Packaging
+
+set(CPACK_PACKAGE_NAME "unicode-inflection")
+set(CPACK_PACKAGE_VENDOR "Unicode Consortium")
+set(CPACK_PACKAGE_CONTACT "https://github.com/unicode-org/inflection")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Unicode Inflection Library")
+set(CPACK_GENERATOR "DEB;TGZ")
+
+# DEB-specific options
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Unicode Consortium <inflection-team@unicode.org>")
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "libicu77 (>= 77.1)")
+set(CPACK_DEBIAN_PACKAGE_SECTION "libs")
+set(CPACK_DEBIAN_PACKAGE_PRIORITY "optional")
+
+# Source package
+set(CPACK_SOURCE_GENERATOR "TGZ")
+set(CPACK_SOURCE_IGNORE_FILES "/build/;/.git/;/.vscode/;/.idea/")
+
+include(CPack)

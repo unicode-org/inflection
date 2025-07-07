@@ -134,6 +134,7 @@ install(DIRECTORY ${INFLECTION_DATA_ROOT}/    TYPE DATA    COMPONENT inflection_
 # CPack Configuration for Ubuntu Packaging
 
 set(CPACK_PACKAGE_NAME "unicode-inflection")
+set(CPACK_PACKAGE_VERSION "${INFLECTION_VERSION}")
 set(CPACK_PACKAGE_VENDOR "Unicode Consortium")
 set(CPACK_PACKAGE_CONTACT "https://github.com/unicode-org/inflection")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Unicode Inflection Library")
@@ -144,9 +145,11 @@ set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Unicode Consortium <inflection-team@unicode
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "libicu77 (>= 77.1)")
 set(CPACK_DEBIAN_PACKAGE_SECTION "libs")
 set(CPACK_DEBIAN_PACKAGE_PRIORITY "optional")
+set(CPACK_DEBIAN_PACKAGE_VERSION "${INFLECTION_VERSION}")
 
 # Source package
 set(CPACK_SOURCE_GENERATOR "TGZ")
 set(CPACK_SOURCE_IGNORE_FILES "/build/;/.git/;/.vscode/;/.idea/")
+set(CPACK_SOURCE_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${INFLECTION_VERSION}")
 
 include(CPack)

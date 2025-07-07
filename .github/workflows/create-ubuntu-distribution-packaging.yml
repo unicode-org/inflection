@@ -5,12 +5,12 @@ on:
     tags:
       - 'v*'
   workflow_dispatch:
-  pull_request:
-    branches: [ main ]
 
 jobs:
   build-and-package:
     runs-on: ubuntu-latest
+    env:
+      ICU_VERSION: 77_1
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -32,15 +32,15 @@ jobs:
         id: cache-icu
         with:
           path: /usr/local
-          key: icu-77.1-ubuntu-${{ runner.os }}
+          key: icu-${{ env.ICU_VERSION }}-ubuntu-${{ runner.os }}
 
-      - name: Install ICU 77.1 (Binary)
+      - name: Install ICU (Binary)
         if: steps.cache-icu.outputs.cache-hit != 'true'
         run: |
           cd /tmp
-          wget https://github.com/unicode-org/icu/releases/download/release-77-1/icu4c-77_1-Ubuntu22.04-x64.tgz
+          wget https://github.com/unicode-org/icu/releases/download/release-${ICU_VERSION//_/-}/icu4c-${ICU_VERSION}-Ubuntu22.04-x64.tgz
           mkdir icu-install
-          tar -xzf icu4c-77_1-Ubuntu22.04-x64.tgz -C icu-install
+          tar -xzf icu4c-${ICU_VERSION}-Ubuntu22.04-x64.tgz -C icu-install
           sudo cp -r icu-install/icu/usr/local/* /usr/local/
           sudo ldconfig
 
@@ -48,11 +48,6 @@ jobs:
         if: steps.cache-icu.outputs.cache-hit == 'true'
         run: |
           sudo ldconfig
-
-      - name: Debug ICU version
-        run: |
-          ls -l /usr/local/lib | grep icu || true
-          strings /usr/local/lib/libicuuc.so | grep "ICU" | head -n 5 || true
 
       - name: Configure & Build
         run: |
@@ -69,7 +64,7 @@ jobs:
       - name: Run tests
         run: |
           cd inflection/build
-          make check
+          make -j$(nproc) check
 
       - name: Package with CPack
         run: |
@@ -96,3 +91,4 @@ jobs:
             inflection/build/*.tar.gz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

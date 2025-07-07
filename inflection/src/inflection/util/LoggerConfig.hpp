@@ -12,10 +12,25 @@
 class INFLECTION_CLASS_API inflection::util::LoggerConfig final
 {
 public:
+    /**
+     * Is trace logging currently enabled?
+     */
     static bool isTraceEnabled();
+    /**
+     * Is debug logging currently enabled?
+     */
     static bool isDebugEnabled();
+    /**
+     * Is info logging currently enabled?
+     */
     static bool isInfoEnabled();
+    /**
+     * Is warn logging currently enabled?
+     */
     static bool isWarnEnabled();
+    /**
+     * Is error logging currently enabled?
+     */
     static bool isErrorEnabled();
 
     /**

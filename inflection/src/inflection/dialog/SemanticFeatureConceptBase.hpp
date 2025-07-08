@@ -47,7 +47,7 @@ public: /* protected */
      */
     virtual bool hasConstraint(const SemanticFeature& feature) const;
     /**
-     * Put the feature value into this by the given semantic feature.
+     * Add a semantic feature with a value as a constraint.
      * @param feature The semantic feature object of the constraint to be added.
      * @param featureValue The value of the feature.
      */

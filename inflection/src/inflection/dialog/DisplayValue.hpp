@@ -42,8 +42,23 @@ public:
      * Returns all possible constraint values for this display value.
      */
     virtual const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& getConstraintMap() const;
+    /**
+     * Returns true when both objects refer to the same display string, have the same semantic features, and have the same constraints.
+     * @param o The display value object to be compared with this.
+     * @return True if the two display value are the same, false otherwise.
+     */
     bool operator==(const DisplayValue& o) const;
+    /**
+     * Equivalent to the inverse of operator==. 
+     * @param o The display value object to be compared with this.
+     * @return True if the two display value are not the same, false otherwise.
+     */
     bool operator!=(const DisplayValue& o) const;
+    /**
+     * Generates a hash code compatible with std::hash for the o.
+     * @param o The display value object to generate the hash value.
+     * @return the hash code compatible with std::hash for the o.    
+     */
     std::size_t operator()(const DisplayValue& displayValue) const noexcept;
 
     /**

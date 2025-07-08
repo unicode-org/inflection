@@ -66,9 +66,9 @@ public:
      */
     const util::ULocale& getLocale() const;
     /**
-     * TBW
-     * @param feature TBW.
-     * @return TBW.
+     * Returns the registered feature function for the requested semantic feature.
+     * @param feature The feature to request.
+     * @return Returns null if no feature function exists.
      */
     const DefaultFeatureFunction* getDefaultFeatureFunction(const SemanticFeature& feature) const;
     /**

@@ -51,6 +51,11 @@ public:
     bool operator<(const LanguageGrammarFeatures_GrammarFeatures& other) const;
 
 protected: /* package */
+    /**
+     * Construct a grammar features with name, and values.
+     * @param name The name of the grammar features.
+     * @param values The list of features.
+     */
     LanguageGrammarFeatures_GrammarFeatures(const std::u16string& name, const std::vector<::inflection::lang::features::LanguageGrammarFeatures_Feature>& values);
 public:
     /**

@@ -38,7 +38,7 @@ private:
 
 public:
     /**
-     * TBW.
+     * The name of the speak semantic feature.
      */
     static constexpr auto SPEAK = u"speak";
 

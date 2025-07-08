@@ -72,11 +72,6 @@ public:
      * aliased without specifying the name.
      */
     virtual bool isAliased() const;
-    /**
-     * Checks if the name of this semantic feature is less than the other..
-     * @param other The semantic feature object to be compared with this.
-     * @return True if the name of this semantic feature is less than the other, false otherwise.
-     */
     bool operator<(const SemanticFeature& other) const;
     /**
      * Returns true when both objects refer to the same semantic feature, with the same

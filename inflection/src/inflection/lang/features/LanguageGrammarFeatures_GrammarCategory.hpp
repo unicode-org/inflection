@@ -66,11 +66,6 @@ public:
      * @return TBW
      */
     virtual int32_t compareTo(const LanguageGrammarFeatures_GrammarCategory& o) const;
-    /**
-     * Checks if the name of this grammar category is less than the other..
-     * @param other The grammar category object to be compared with this.
-     * @return True if the name of this grammar category is less than the other, false otherwise.
-     */
     bool operator<(const LanguageGrammarFeatures_GrammarCategory& other) const;
 
 

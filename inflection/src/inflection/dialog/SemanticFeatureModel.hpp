@@ -37,6 +37,9 @@ private:
     std::unique_ptr<DefaultDisplayFunction> defaultDisplayFunction;
 
 public:
+    /**
+     * TBW.
+     */
     static constexpr auto SPEAK = u"speak";
 
     /**
@@ -47,13 +50,33 @@ public:
      * Returns the SemanticFeatureModel_DisplayData associated with the semantic value in this SemanticFeatureModel
      */
     const SemanticFeatureModel_DisplayData* getDisplayData(const SemanticValue& semantic) const;
+    /**
+     * TBW
+     * @param name TBW.
+     * @return TBW.
+     */
     const SemanticFeature* getFeature(::std::u16string_view name) const;
+    /**
+     * TBW
+     * @param name TBW.
+     * @return TBW.
+     */
     ::std::pair<::inflection::dialog::SemanticFeature*, ::std::u16string> getFeatureAlias(::std::u16string_view name) const;
     /**
      * Returns the locale created with this SemanticFeatureModel.
      */
     const util::ULocale& getLocale() const;
+    /**
+     * TBW
+     * @param feature TBW.
+     * @return TBW.
+     */
     const DefaultFeatureFunction* getDefaultFeatureFunction(const SemanticFeature& feature) const;
+    /**
+     * TBW
+     * @param feature TBW.
+     * @param function TBW.
+     */
     void putDefaultFeatureFunction(const SemanticFeature& feature, DefaultFeatureFunction* function);
     /**
      * This function works the same way as putDefaultFeatureFunction, but an exception is thrown if the feature is unknown.
@@ -82,6 +105,11 @@ public:
      * Creates a default SemanticFeatureModel for a given locale without any display data.
      */
     explicit SemanticFeatureModel(const ::inflection::util::ULocale& locale);
+    /**
+     * Creates a  SemanticFeatureModel for a given locale with a mapping of display data.
+     * @param locale The locale.
+     * @param semanticValueMap The mapping of a semantic value to display data.
+     */
     SemanticFeatureModel(const ::inflection::util::ULocale& locale, const ::std::map<SemanticValue, SemanticFeatureModel_DisplayData>& semanticValueMap);
     /**
      * Destructor

@@ -35,7 +35,7 @@ public: /* protected */
      */
     virtual const SemanticFeatureModel* getModel() const;
     /**
-     * Get the value of the semantic feature is in this.
+     * Get the value of the semantic feature.
      * @param feature The semantic feature object.
      * @return The value of the constraint feature.
      */

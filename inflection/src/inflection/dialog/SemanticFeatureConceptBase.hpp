@@ -41,7 +41,7 @@ public: /* protected */
      */
     virtual const ::std::u16string* getConstraint(const SemanticFeature& feature) const;
     /**
-     * Check if the semantic feature is in this.
+     * Check if the semantic feature has been added as a constraint.
      * @param feature The semantic feature object.
      * @return True if the semantic feature is in this, false otherwise.
      */

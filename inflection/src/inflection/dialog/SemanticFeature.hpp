@@ -21,7 +21,7 @@ public:
 
 public:
     /**
-     * TBW
+     * Metadata about how a SemanticFeature is bounded.
      */
     enum Type {
         NoValue,

@@ -45,8 +45,7 @@ public:
     virtual bool speakEqualsPrint() const;
 
     /**
-     * TBW
-     * @return TBW.
+     * Return a string helpful for debugging purposes.
      */
     ::std::u16string toString() const override;
     /**

@@ -41,7 +41,8 @@ public:
      * Returns true when both objects refer to the same display data, have the same mapping between constraints and their corresponding SemanticValue.
      * @param o The display data object to be compared with this.
      * @return True if the two display data are the same, false otherwise.
-     */    bool operator==(const SemanticFeatureModel_DisplayData& o) const;
+     */    
+    bool operator==(const SemanticFeatureModel_DisplayData& o) const;
     /**
      * Equivalent to the inverse of operator==. 
      * @param o The display data object to be compared with this.

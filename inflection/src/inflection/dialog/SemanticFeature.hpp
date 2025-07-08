@@ -15,7 +15,9 @@ class INFLECTION_CLASS_API inflection::dialog::SemanticFeature
     : public virtual ::inflection::Object
 {
 public:
+    /// @cond
     typedef ::inflection::Object super;
+    /// @endcond
 
 public:
     enum Type {

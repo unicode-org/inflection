@@ -47,6 +47,9 @@ public:
      */
     std::strong_ordering operator<=>(const SemanticValue&) const;
 
+    /**
+     * Construct a SemanticValue by a label and a string value.
+     */
     SemanticValue(const ::std::u16string& label, const ::std::u16string& string);
     /**
      * Destructor

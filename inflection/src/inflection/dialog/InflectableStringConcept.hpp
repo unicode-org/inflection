@@ -40,6 +40,9 @@ public:
      * @return true when the value is empty.
      */
     bool isExists() const override;
+     /**
+     * Return a string helpful for debugging purposes.
+     */
     ::std::u16string toString() const override;
 
 private:

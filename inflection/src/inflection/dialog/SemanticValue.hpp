@@ -15,10 +15,10 @@ class INFLECTION_CLASS_API inflection::dialog::SemanticValue
     : public virtual ::inflection::Object
 {
 public:
-    /**
-     * super class.
-     */
+    // @cond
     typedef ::inflection::Object super;
+    // @endcond
+
 private:
     ::std::u16string label {  };
     ::std::u16string value {  };

@@ -17,10 +17,9 @@ class INFLECTION_CLASS_API inflection::dialog::SemanticConceptList
     : public SemanticFeatureConceptBase
 {
 public:
-    /**
-     * super class.
-     */
+    // @cond
     typedef SemanticFeatureConceptBase super;
+    // @endcond
 
 private:
     ::std::vector<SemanticFeatureConceptBase*> concepts {  };

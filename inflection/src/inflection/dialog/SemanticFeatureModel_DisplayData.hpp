@@ -19,10 +19,9 @@ class INFLECTION_CLASS_API inflection::dialog::SemanticFeatureModel_DisplayData
     : public virtual ::inflection::Object
 {
 public:
-    /**
-     * super class.
-     */
+    // @cond
     typedef ::inflection::Object super;
+    // @endcond
 
 private:
     ::std::vector<::inflection::dialog::DisplayValue> allValues {  };

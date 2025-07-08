@@ -16,10 +16,9 @@ class INFLECTION_CLASS_API inflection::exception::IllegalArgumentException
     : public inflection::exception::RuntimeException
 {
 public:
-    /**
-     * super class.
-     */
+    // @cond
     typedef ::inflection::exception::RuntimeException super;
+    // @endcond
 
 public:
     /**

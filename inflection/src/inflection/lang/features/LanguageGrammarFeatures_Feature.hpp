@@ -20,10 +20,9 @@ class INFLECTION_CLASS_API inflection::lang::features::LanguageGrammarFeatures_F
     : public virtual ::inflection::Object
 {
 public:
-    /**
-     * super class.
-     */
+    // @cond
     typedef ::inflection::Object super;
+    // @endcond
 
 private:
     std::u16string value {  };

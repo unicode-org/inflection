@@ -15,10 +15,9 @@ class INFLECTION_CLASS_API inflection::exception::NullPointerException
     : public inflection::exception::RuntimeException
 {
 public:
-    /**
-     * super class.
-     */
+    // @cond
     typedef ::inflection::exception::RuntimeException super;
+    // @endcond
 
 public:
     /**

@@ -27,10 +27,10 @@ class INFLECTION_CLASS_API inflection::dialog::PronounConcept
 {
 
 public:
-    /**
-     * super class.
-     */
+    // @cond
     typedef SemanticFeatureConceptBase super;
+    // @endcond
+
 private:
     enum MatchState {
         NO_MATCH,

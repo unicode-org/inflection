@@ -21,10 +21,9 @@ class INFLECTION_CLASS_API inflection::dictionary::DictionaryMetaData
 {
 
 public:
-    /**
-     * super class.
-     */
+    // @cond
     typedef ::inflection::Object super;
+    // @endcond
 
 public:
     /**

@@ -51,9 +51,8 @@ public:
      */
     const SemanticFeatureModel_DisplayData* getDisplayData(const SemanticValue& semantic) const;
     /**
-     * TBW
-     * @param name TBW.
-     * @return TBW.
+     * Return the semantic feature by the name.
+     * @param name The name of the semantic feature.
      */
     const SemanticFeature* getFeature(::std::u16string_view name) const;
     /**

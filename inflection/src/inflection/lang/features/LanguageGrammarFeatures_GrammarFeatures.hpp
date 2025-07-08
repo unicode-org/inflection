@@ -43,11 +43,6 @@ public:
      * @return TBW
      */
     virtual int32_t compareTo(const LanguageGrammarFeatures_GrammarFeatures& other) const;
-    /**
-     * Checks if the name of this grammar features is less than the other..
-     * @param other The grammar features object to be compared with this.
-     * @return True if the name of this grammar features is less than the other, false otherwise.
-     */
     bool operator<(const LanguageGrammarFeatures_GrammarFeatures& other) const;
 
 protected: /* package */

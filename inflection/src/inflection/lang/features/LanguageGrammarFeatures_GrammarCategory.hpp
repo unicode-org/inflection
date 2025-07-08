@@ -59,7 +59,18 @@ public:
      * @param grammemeValue Use <code>getValues()</code> to get the list of values that can be used as an argument.
      */
     std::multimap<std::u16string, std::u16string> getGrammemeDependenciesForValue(std::u16string_view grammemeValue) const;
+
+    /**
+     * Compares the name of this grammar category with the other..
+     * @param other The grammar category object to be compared with this.
+     * @return TBW
+     */
     virtual int32_t compareTo(const LanguageGrammarFeatures_GrammarCategory& o) const;
+    /**
+     * Checks if the name of this grammar category is less than the other..
+     * @param other The grammar category object to be compared with this.
+     * @return True if the name of this grammar category is less than the other, false otherwise.
+     */
     bool operator<(const LanguageGrammarFeatures_GrammarCategory& other) const;
 
 

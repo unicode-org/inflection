@@ -16,9 +16,9 @@ class INFLECTION_CLASS_API inflection::dialog::SpeakableString
     : public virtual SpeakableConcept
 {
 public:
-    // @cond
+    /// @cond
     typedef ::inflection::dialog::SpeakableConcept super;
-    // @endcond
+    /// @endcond
 
 private:
     ::std::u16string print {  };

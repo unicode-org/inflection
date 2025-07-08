@@ -18,9 +18,9 @@ class INFLECTION_CLASS_API inflection::dictionary::DictionaryKeyIterator
 {
 
 public:
-    // @cond
+    /// @cond
     typedef ::inflection::Object super;
-    // @endcond
+    /// @endcond
 
     /**
      * Move constructor

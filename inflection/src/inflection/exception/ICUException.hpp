@@ -16,9 +16,9 @@ class INFLECTION_CLASS_API inflection::exception::ICUException
     : public inflection::exception::RuntimeException
 {
 public:
-    // @cond
+    /// @cond
     typedef ::inflection::exception::RuntimeException super;
-    // @endcond
+    /// @endcond
 
 private:
     UErrorCode status { U_ZERO_ERROR };

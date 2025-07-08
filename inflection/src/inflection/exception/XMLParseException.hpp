@@ -15,9 +15,9 @@ class INFLECTION_CLASS_API inflection::exception::XMLParseException
     : public inflection::exception::Exception
 {
 public:
-    // @cond
+    /// @cond
     typedef ::inflection::exception::Exception super;
-    // @endcond
+    /// @endcond
 
 
 public:

@@ -18,9 +18,9 @@ class INFLECTION_CLASS_API inflection::dialog::SemanticConcept
     : public SemanticFeatureConceptBase
 {
 public:
-    // @cond
+    /// @cond
     typedef SemanticFeatureConceptBase super;
-    // @endcond
+    /// @endcond
 
 private:
     SemanticValue semantic;

@@ -20,9 +20,9 @@ class INFLECTION_CLASS_API inflection::dialog::SemanticFeatureConceptBase
     : public virtual SpeakableConcept
 {
 public:
-    // @cond
+    /// @cond
     typedef SpeakableConcept super;
-    // @endcond
+    /// @endcond
 
 private: /* package */
     const SemanticFeatureModel* model {  };

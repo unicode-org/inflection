@@ -20,9 +20,9 @@ class INFLECTION_CLASS_API inflection::exception::Exception
     : public inflection::exception::Throwable
 {
 public:
-    // @cond
+    /// @cond
     typedef ::inflection::exception::Throwable super;
-    // @endcond
+    /// @endcond
 
 public:
     /**

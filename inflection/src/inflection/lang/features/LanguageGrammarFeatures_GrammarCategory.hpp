@@ -23,9 +23,9 @@ class INFLECTION_CLASS_API inflection::lang::features::LanguageGrammarFeatures_G
     : public virtual ::inflection::Object
 {
 public:
-    // @cond
+    /// @cond
     typedef ::inflection::Object super;
-    // @endcond
+    /// @endcond
 
 private:
     std::u16string name {  };

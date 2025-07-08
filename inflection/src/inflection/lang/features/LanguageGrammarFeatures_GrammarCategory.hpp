@@ -63,7 +63,9 @@ public:
     /**
      * Compares the name of this grammar category with the other..
      * @param other The grammar category object to be compared with this.
-     * @return TBW
+     * @return the value 0 if the name of the argument other is equal to the name of this; a value -1 if the name 
+     *         of this is lexicographically less than the name of the argument other; and a value 1 if the name
+     *         of this is lexicographically greater than the name of the argument other.
      */
     virtual int32_t compareTo(const LanguageGrammarFeatures_GrammarCategory& o) const;
     bool operator<(const LanguageGrammarFeatures_GrammarCategory& other) const;

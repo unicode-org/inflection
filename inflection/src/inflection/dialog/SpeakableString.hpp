@@ -44,11 +44,40 @@ public:
      */
     virtual bool speakEqualsPrint() const;
 
+    /**
+     * TBW
+     * @return TBW.
+     */
     ::std::u16string toString() const override;
+    /**
+     * Returns true when both objects refer to the speakable string, with the same print and speak string.
+     * @param o The speakable string object to be compared with this.
+     * @return True if the two  speakable string are the same, false otherwise.
+     */
     bool operator==(const ::inflection::dialog::SpeakableString& o) const;
+    /**
+     * Equivalent to the inverse of operator==. 
+     * @param o The speakable string object to be compared with this.
+     * @return True if the two display value are not the same, false otherwise.
+     */
     bool operator!=(const ::inflection::dialog::SpeakableString& o) const;
+    /**
+     * Create a new speakable string by appened other to this.
+     * @param o the speakable string to be appened with this.
+     * @return the result speakable string object.
+     */
     SpeakableString operator+(const ::inflection::dialog::SpeakableString& o) const;
+    /**
+     * Assigns a speakable string to this.
+     * @param o the speakable string to be assigned to this.
+     * @return the result speakable string object.
+     */
     SpeakableString& operator=(const ::inflection::dialog::SpeakableString& o);
+    /**
+     * Appends a speakable string to this.
+     * @param o the speakable string to be appended to this.
+     * @return the result speakable string object.
+     */
     SpeakableString& operator+=(const ::inflection::dialog::SpeakableString& o);
 
     /**

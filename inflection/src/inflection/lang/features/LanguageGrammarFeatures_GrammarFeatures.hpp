@@ -37,7 +37,17 @@ public:
      * If this feature is bounded, these are the valid values.
      */
     std::vector<::inflection::lang::features::LanguageGrammarFeatures_Feature> getValues() const;
-    virtual int32_t compareTo(const LanguageGrammarFeatures_GrammarFeatures& o) const;
+    /**
+     * Compares the name of this grammar features with the other..
+     * @param other The grammar features object to be compared with this.
+     * @return TBW
+     */
+    virtual int32_t compareTo(const LanguageGrammarFeatures_GrammarFeatures& o) const
+    /**
+     * Checks if the name of this grammar features is less than the other..
+     * @param other The grammar features object to be compared with this.
+     * @return True if the name of this grammar features is less than the other, false otherwise.
+     */
     bool operator<(const LanguageGrammarFeatures_GrammarFeatures& other) const;
 
 protected: /* package */

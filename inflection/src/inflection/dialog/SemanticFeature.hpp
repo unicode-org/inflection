@@ -63,10 +63,30 @@ public:
      * Returns the possible values of this SemanticFeature. Only bounded SemanticFeatures can have a non-empty set of bounded values.
      */
     virtual const ::std::set<::std::u16string>& getBoundedValues() const;
+    /**
+     @return True if this semantic feature is aliased.
+     */
     virtual bool isAliased() const;
+    /**
+     * Checks if the name of this semantic feature is less than the other..
+     * @param other The semantic feature object to be compared with this.
+     * @return True if the name of this semantic feature is less than the other, false otherwise.
+     */
     bool operator<(const SemanticFeature& other) const;
+    /**
+     * Returns true when both objects refer to the same semantic feature, with the same name.
+     * @param other The semantic feature object to be compared with this.
+     * @return True if the two semantic feature are the same, false otherwise.
+     */
     bool operator==(const SemanticFeature& other) const;
 
+    /**
+     * Construct the SemanticFeature from the name, type, bounded values. 
+     * @param name The name of the SemanticFeature.
+     * @param type The type of the SemanticFeature.
+     * @param boundedValues The set of values bounded to the feature.
+     * @para aliased To indicate the feature is an alias.
+     */
     SemanticFeature(const ::std::u16string& name, Type type, const ::std::set<::std::u16string>& boundedValues, bool aliased);
     /**
      * The copy constructor

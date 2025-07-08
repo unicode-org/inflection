@@ -14,7 +14,9 @@ class INFLECTION_CLASS_API inflection::exception::FileNotFoundException
     : public inflection::exception::IOException
 {
 public:
+    /// @cond
     typedef ::inflection::exception::IOException super;
+    /// @endcond
 
 
 public:

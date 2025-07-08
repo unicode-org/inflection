@@ -17,7 +17,9 @@ class INFLECTION_CLASS_API inflection::dialog::InflectableStringConcept
     : public SemanticFeatureConceptBase
 {
 public:
+    /// @cond
     typedef SemanticFeatureConceptBase super;
+    /// @endcond
 
 private:
     SpeakableString value;

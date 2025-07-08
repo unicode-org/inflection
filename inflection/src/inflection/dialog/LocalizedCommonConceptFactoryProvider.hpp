@@ -18,7 +18,9 @@ class INFLECTION_CLASS_API inflection::dialog::LocalizedCommonConceptFactoryProv
     : public virtual CommonConceptFactoryProvider
 {
 public:
+    /// @cond
     typedef ::inflection::dialog::CommonConceptFactoryProvider super;
+    /// @endcond
 
 private:
     ::std::map<::inflection::util::ULocale, ::inflection::dialog::CommonConceptFactory*> commonConceptFactoryCache {  };

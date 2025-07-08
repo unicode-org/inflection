@@ -24,7 +24,9 @@ class INFLECTION_CLASS_API inflection::dialog::SemanticFeatureModel final
 {
 
 public:
+    /// @cond
     typedef ::inflection::Object super;
+    /// @endcond
 
 private:
     ::std::map<::std::u16string, ::inflection::dialog::SemanticFeature*, std::less<>> featureMap {  };

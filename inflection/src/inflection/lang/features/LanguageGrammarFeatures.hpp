@@ -25,7 +25,9 @@ class INFLECTION_CLASS_API inflection::lang::features::LanguageGrammarFeatures
 {
 
 public:
+    /// @cond
     typedef ::inflection::Object super;
+    /// @endcond
 
 private:
     ::inflection::util::ULocale language;

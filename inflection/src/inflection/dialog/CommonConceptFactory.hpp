@@ -32,7 +32,9 @@ class INFLECTION_CLASS_API inflection::dialog::CommonConceptFactory
     : public virtual ::inflection::Object
 {
 public:
+    /// @cond
     typedef ::inflection::Object super;
+    /// @endcond
 
 public:
     /**

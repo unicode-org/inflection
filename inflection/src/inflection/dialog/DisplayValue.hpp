@@ -19,7 +19,9 @@ class INFLECTION_CLASS_API inflection::dialog::DisplayValue
     : public virtual ::inflection::Object
 {
 public:
+    /// @cond
     typedef ::inflection::Object super;
+    /// @endcond
 
 private:
     ::std::u16string displayString {  };

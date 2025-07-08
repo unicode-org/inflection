@@ -15,7 +15,9 @@ class INFLECTION_CLASS_API inflection::exception::IncompatibleVersionException
     : public ::inflection::exception::RuntimeException
 {
 public:
+    /// @cond
     typedef ::inflection::exception::RuntimeException super;
+    /// @endcond
 
 public:
     /**

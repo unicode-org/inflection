@@ -16,7 +16,9 @@ class INFLECTION_CLASS_API inflection::exception::IllegalStateException
     : public inflection::exception::RuntimeException
 {
 public:
+    /// @cond
     typedef ::inflection::exception::RuntimeException super;
+    /// @endcond
 
 public:
     /**

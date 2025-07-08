@@ -56,7 +56,10 @@ public:
      */
     const SemanticFeature* getFeature(::std::u16string_view name) const;
     /**
-     * If a feature name is aliasable, return the associated semantic feature and its value. If a semantic feature can be more than one name, the value will have the canonical name. This can happen if the semantic feature has been deprecated, or has more than one known name for the value.
+     * If a feature name is aliasable, return the associated semantic feature and its value. 
+     * If a semantic feature can be more than one name, the value will have the canonical name.
+     * This can happen if the semantic feature has been deprecated, or has more than one known 
+     * name for the value.
      * @param name The name of the semantic feature.
      * @return The semantic feature will be null if no alias was found.
      */
@@ -74,23 +77,29 @@ public:
     /**
      * Register a default feature function for a semantic feature.
      * @param feature The feature to register the function for.
-     * @param function The feature function to call for the semantic feature. This SemanticFeatureModel will adopt ownership of this function, and it will be deleted when this SemanticFeatureModel is deleted.
+     * @param function The feature function to call for the semantic feature. This 
+     *        SemanticFeatureModel will adopt ownership of this function, and it will be
+     *        deleted when this SemanticFeatureModel is deleted.
      */
     void putDefaultFeatureFunction(const SemanticFeature& feature, DefaultFeatureFunction* function);
     /**
-     * This function works the same way as putDefaultFeatureFunction, but an exception is thrown if the feature is unknown.
+     * This function works the same way as putDefaultFeatureFunction, but an exception is 
+     * thrown if the feature is unknown.
      * @param feature The name of the SemanticFeature in this SemanticFeatureModel.
-     * @param function The function to derive the specified SemanticFeature for the locale when it's not specified by available SemanticFeatureModel_DisplayData.
+     * @param function The function to derive the specified SemanticFeature for the locale when 
+     *        it's not specified by available SemanticFeatureModel_DisplayData.
      */
     void putDefaultFeatureFunctionByName(::std::u16string_view feature, DefaultFeatureFunction* function);
     /**
-     * Returns the function is used for inflecting phrases when no constraints match the available SemanticFeatureModel_DisplayData.
+     * Returns the function is used for inflecting phrases when no constraints match the available
+     * SemanticFeatureModel_DisplayData.
      * When it's null, then there is no way to inflect phrases from the constraints.
      * @see getDisplayData
      */
     const DefaultDisplayFunction* getDefaultDisplayFunction() const;
     /**
-     * This function is used for inflecting phrases when no constraints match the available SemanticFeatureModel_DisplayData.
+     * This function is used for inflecting phrases when no constraints match the available
+     * SemanticFeatureModel_DisplayData.
      * Normally this does not need to be set.
      * @see getDisplayData
      */
@@ -105,7 +114,8 @@ public:
      */
     explicit SemanticFeatureModel(const ::inflection::util::ULocale& locale);
     /**
-     * Creates a SemanticFeatureModel for a given locale with a mapping of display data used for constructing things like a SemanticConcept.
+     * Creates a SemanticFeatureModel for a given locale with a mapping of display data used for
+     * constructing things like a SemanticConcept.
      * @param locale The locale.
      * @param semanticValueMap The mapping of a semantic value to display data.
      */

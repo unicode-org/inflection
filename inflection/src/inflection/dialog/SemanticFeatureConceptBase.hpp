@@ -87,7 +87,7 @@ public: /* protected */
     virtual SpeakableString* getFeatureValueByName(::std::u16string_view featureName) const;
 protected: /* protected */
     /**
-     * TBW
+     * The semantic feature for the spoken form of a string.
      */
     virtual const SemanticFeature* getSpeakFeature() const;
 

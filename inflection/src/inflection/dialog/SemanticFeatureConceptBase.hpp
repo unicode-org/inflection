@@ -27,6 +27,9 @@ public:
 private: /* package */
     const SemanticFeatureModel* model {  };
 protected: /* package */
+    /**
+     * All the constraints
+     */
     ::std::map<SemanticFeature, ::std::u16string> constraints {  };
 
 public: /* protected */

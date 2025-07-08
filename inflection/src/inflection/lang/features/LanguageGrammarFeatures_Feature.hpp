@@ -39,6 +39,11 @@ public:
     virtual std::map<std::u16string, std::u16string> getConstraints() const;
 
 public: /* package */
+    /**
+     * Construct a feature by value and a mapping of constraints.
+     * @param value the name of the feature.
+     * @param constraints The mapping of constraints.
+     */
     LanguageGrammarFeatures_Feature(const std::u16string& value, const std::map<std::u16string, std::u16string>& constraints);
     /**
      * Destructor

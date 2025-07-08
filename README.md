@@ -26,6 +26,7 @@ LLMs can craft natural-sounding sentences in many languages, including those men
 
 For more details refer to the [Proposal for a Unicode Language Inflection Work Group](https://docs.google.com/document/d/1YWGnMxnJWUC9MFl4j4l8fHeh83ikbpG9_1jCiDCrvIg/edit?usp=sharing) document.
 
+See more details about how to use this library in [API Document](https://unicode-org.github.io/inflection).
 ### Copyright & Licenses
 
 Copyright © 2024 Unicode, Inc. Unicode and the Unicode Logo are registered trademarks of Unicode, Inc. in the United States and other countries.

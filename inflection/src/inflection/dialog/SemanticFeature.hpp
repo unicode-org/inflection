@@ -86,7 +86,7 @@ public:
      * @param name The name of the SemanticFeature.
      * @param type The type of the SemanticFeature.
      * @param boundedValues The set of values bounded to the feature.
-     * @para aliased To indicate the feature is an alias.
+     * @param aliased To indicate the feature is an alias.
      */
     SemanticFeature(const ::std::u16string& name, Type type, const ::std::set<::std::u16string>& boundedValues, bool aliased);
     /**

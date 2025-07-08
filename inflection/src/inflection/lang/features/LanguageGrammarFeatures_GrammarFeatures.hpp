@@ -42,7 +42,7 @@ public:
      * @param other The grammar features object to be compared with this.
      * @return TBW
      */
-    virtual int32_t compareTo(const LanguageGrammarFeatures_GrammarFeatures& o) const
+    virtual int32_t compareTo(const LanguageGrammarFeatures_GrammarFeatures& other) const;
     /**
      * Checks if the name of this grammar features is less than the other..
      * @param other The grammar features object to be compared with this.

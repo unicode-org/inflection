@@ -33,8 +33,17 @@ private:
     bool avoidAffixRedundancy { true };
 
 public:
+    /**
+     * Put constraint feature and value into the SemanticConceptList.
+     * @param feature the feature of the constraint to be added.
+     * @param featureValue the value of the constraint.
+     */
     void putConstraint(const SemanticFeature& feature, ::std::u16string_view featureValue) override;
-    void clearConstraint(const SemanticFeature& feature) override;
+    /**
+     * Clean the constraint feature in the SemanticConceptList.
+     * @param feature the feature of the constraint to be clearn.
+     */    
+    void clearConstraint(const SemanticFeature& feature) override;    
     void reset() override;
 
 public: /* protected */

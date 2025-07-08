@@ -56,9 +56,9 @@ public:
      */
     const SemanticFeature* getFeature(::std::u16string_view name) const;
     /**
-     * TBW
-     * @param name TBW.
-     * @return TBW.
+     * If a feature name is aliasable, return the associated semantic feature and its value. If a semantic feature can be more than one name, the value will have the canonical name. This can happen if the semantic feature has been deprecated, or has more than one known name for the value.
+     * @param name The name of the semantic feature.
+     * @return The semantic feature will be null if no alias was found.
      */
     ::std::pair<::inflection::dialog::SemanticFeature*, ::std::u16string> getFeatureAlias(::std::u16string_view name) const;
     /**

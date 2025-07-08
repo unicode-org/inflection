@@ -105,7 +105,7 @@ public:
      */
     explicit SemanticFeatureModel(const ::inflection::util::ULocale& locale);
     /**
-     * Creates a  SemanticFeatureModel for a given locale with a mapping of display data.
+     * Creates a SemanticFeatureModel for a given locale with a mapping of display data used for constructing things like a SemanticConcept.
      * @param locale The locale.
      * @param semanticValueMap The mapping of a semantic value to display data.
      */

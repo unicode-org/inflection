@@ -67,7 +67,7 @@ public:
      *         of this is lexicographically less than the name of the argument other; and a value 1 if the name
      *         of this is lexicographically greater than the name of the argument other.
      */
-    virtual int32_t compareTo(const LanguageGrammarFeatures_GrammarCategory& o) const;
+    virtual int32_t compareTo(const LanguageGrammarFeatures_GrammarCategory& other) const;
     bool operator<(const LanguageGrammarFeatures_GrammarCategory& other) const;
 
 

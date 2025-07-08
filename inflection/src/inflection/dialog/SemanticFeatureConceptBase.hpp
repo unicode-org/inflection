@@ -34,11 +34,39 @@ public: /* protected */
      * Returns the SemanticFeatureModel used to create this string.
      */
     virtual const SemanticFeatureModel* getModel() const;
+    /**
+     * Get the value of the semantic feature is in this.
+     * @param feature The semantic feature object.
+     * @return The value of the constraint feature.
+     */
     virtual const ::std::u16string* getConstraint(const SemanticFeature& feature) const;
+    /**
+     * Check if the semantic feature is in this.
+     * @param feature The semantic feature object.
+     * @return True if the semantic feature is in this, false otherwise.
+     */
     virtual bool hasConstraint(const SemanticFeature& feature) const;
+    /**
+     * Put the feature value into this by the given semantic feature.
+     * @param feature The semantic feature object of the constraint to be added.
+     * @param featureValue The value of the feature.
+     */
     virtual void putConstraint(const SemanticFeature& feature, ::std::u16string_view featureValue);
+    /**
+     * Put the feature value into this by the given feature name.
+     * @param featureName The name of the constraint to be cleared.
+     * @param featureValue The value of the feature.
+     */ 
     virtual void putConstraintByName(::std::u16string_view featureName, ::std::u16string_view featureValue);
+    /**
+     * Clear the feature by the given semantic feature object.
+     * @param feature The semantic feature of the constraint to be cleared.
+     */    
     virtual void clearConstraint(const SemanticFeature& feature);
+    /**
+     * Clear the feature by the given feature name.
+     * @param featureName The name of the constraint to be cleared.
+     */ 
     virtual void clearConstraintByName(::std::u16string_view featureName);
     /**
      * Returns {@code true} if a value exists for the given constraints
@@ -58,6 +86,9 @@ public: /* protected */
      */
     virtual SpeakableString* getFeatureValueByName(::std::u16string_view featureName) const;
 protected: /* protected */
+    /**
+     * TBW
+     */
     virtual const SemanticFeature* getSpeakFeature() const;
 
 public:

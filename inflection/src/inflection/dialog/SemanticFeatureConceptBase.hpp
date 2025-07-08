@@ -53,8 +53,8 @@ public: /* protected */
      */
     virtual void putConstraint(const SemanticFeature& feature, ::std::u16string_view featureValue);
     /**
-     * Put the feature value into this by the given feature name.
-     * @param featureName The name of the constraint to be cleared.
+     * Add a semantic feature with a value as a constraint by the name of the SemanticFeature.
+     * @param featureName The value of the feature.
      * @param featureValue The value of the feature.
      */ 
     virtual void putConstraintByName(::std::u16string_view featureName, ::std::u16string_view featureValue);

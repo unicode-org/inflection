@@ -36,9 +36,4 @@ bool SemanticFeatureModel_DisplayData::operator==(const SemanticFeatureModel_Dis
     return allValues == o.allValues;
 }
 
-bool SemanticFeatureModel_DisplayData::operator!=(const SemanticFeatureModel_DisplayData& o) const
-{
-    return !operator==(o);
-}
-
 } // namespace inflection::dialog

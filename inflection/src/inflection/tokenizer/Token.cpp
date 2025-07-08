@@ -55,11 +55,6 @@ bool Token::operator==(const Token& rhs) const
     return getLength() == rhs.getLength() && isSignificant() == rhs.isSignificant() && isHead() == rhs.isHead() && isTail() == rhs.isTail() && isWhitespace() == rhs.isWhitespace() && getCleanValue() == rhs.getCleanValue() && getValue() == rhs.getValue();
 }
 
-bool Token::operator!=(const Token& rhs) const
-{
-    return !(*this == rhs);
-}
-
 std::size_t Token::operator()(const Token& token) const noexcept
 {
     return std::hash<std::u16string>()(token.value);

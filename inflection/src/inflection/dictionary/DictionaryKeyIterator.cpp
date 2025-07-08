@@ -42,11 +42,6 @@ DictionaryKeyIterator::operator==(const DictionaryKeyIterator& rhs) const {
     return *trieIterator == *rhs.trieIterator;
 }
 
-bool
-DictionaryKeyIterator::operator!=(const DictionaryKeyIterator& rhs) const {
-    return !(*this == rhs);
-}
-
 DictionaryKeyIterator
 DictionaryKeyIterator::begin() const
 {

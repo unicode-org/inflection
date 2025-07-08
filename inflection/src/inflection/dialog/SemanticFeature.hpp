@@ -72,7 +72,6 @@ public:
      * aliased without specifying the name.
      */
     virtual bool isAliased() const;
-    bool operator<(const SemanticFeature& other) const;
     /**
      * Returns true when both objects refer to the same semantic feature, with the same
      * name.
@@ -80,6 +79,10 @@ public:
      * @return True if the two semantic feature are the same, false otherwise.
      */
     bool operator==(const SemanticFeature& other) const;
+    /**
+     * @param other The semantic feature object to be compared with this.
+     */
+    std::weak_ordering operator<=>(const SemanticFeature& other) const;
 
     /**
      * Construct the SemanticFeature from the name, type, bounded values. 

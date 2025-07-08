@@ -45,7 +45,7 @@ public:
     int64_t firstContainingPartOfSpeech(const ::std::vector<int64_t> &partOfSpeech) const;
     int64_t getPartsOfSpeech() const;
 
-    bool operator<(const Inflector_InflectionPattern& other) const;
+    std::weak_ordering operator<=>(const Inflector_InflectionPattern& other) const;
 
 private:
     Inflector_InflectionPattern() = delete;

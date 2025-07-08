@@ -142,29 +142,11 @@ public:
     bool   operator==(const    ::inflection::util::ULocale&     other) const;
 
     /**
-     * Checks if two locale keys are not the same.
+     * String compares the order of the locale key.
      *
      * @param other The locale key object to be compared with this.
-     * @return      True if the two locale keys are not the same, false
-     *              otherwise.
      */
-    bool   operator!=(const    ::inflection::util::ULocale&     other) const;
-
-    /**
-     * Checks if this locale key is less than the other.
-     *
-     * @param other The locale key object to be compared with this.
-     * @return      True if this locale key is less than the other, false otherwise.
-     */
-    bool   operator<(const    ::inflection::util::ULocale&     other) const;
-
-    /**
-     * Checks if this locale key is greater than the other.
-     *
-     * @param other The locale key object to be compared with this.
-     * @return      True if this locale key is greater than the other, false otherwise.
-     */
-    bool   operator>(const    ::inflection::util::ULocale&     other) const;
+    std::strong_ordering   operator<=>(const    ::inflection::util::ULocale&     other) const;
 
     /**
      * Returns the locale's ISO-639 language code.
@@ -231,25 +213,13 @@ private:
 inline bool
 inflection::util::ULocale::operator==(const ::inflection::util::ULocale& other) const
 {
-    return other.fullName == fullName;
+    return other <=> *this == 0;
 }
 
-inline bool
-inflection::util::ULocale::operator!=(const ::inflection::util::ULocale& other) const
+inline std::strong_ordering
+inflection::util::ULocale::operator<=>(const ::inflection::util::ULocale& other) const
 {
-    return !operator==(other);
-}
-
-inline bool
-inflection::util::ULocale::operator<(const ::inflection::util::ULocale& other) const
-{
-    return other.fullName < fullName;
-}
-
-inline bool
-inflection::util::ULocale::operator>(const ::inflection::util::ULocale& other) const
-{
-    return other.fullName > fullName;
+    return other.fullName <=> fullName;
 }
 
 inline ::std::string_view

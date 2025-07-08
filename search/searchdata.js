@@ -3,9 +3,10 @@ var indexSectionsWithContent =
   0: "abcdefghijklmnopqrstuvwx~",
   1: "cdefilmnoprstuvx",
   2: "i",
-  3: "abcdefghijklmnopqrstuvw~",
-  4: "cdnv",
-  5: "i"
+  3: "abcdefghijklmnopqrstuvwx~",
+  4: "cdnsv",
+  5: "t",
+  6: "i"
 };
 
 var indexSectionNames =
@@ -15,7 +16,8 @@ var indexSectionNames =
   2: "namespaces",
   3: "functions",
   4: "variables",
-  5: "pages"
+  5: "enums",
+  6: "pages"
 };
 
 var indexSectionLabels =
@@ -25,6 +27,7 @@ var indexSectionLabels =
   2: "Namespaces",
   3: "Functions",
   4: "Variables",
-  5: "Pages"
+  5: "Enumerations",
+  6: "Pages"
 };
 

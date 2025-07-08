@@ -42,7 +42,9 @@ public: /* package */
     /**
      * Construct a feature by value and a mapping of constraints.
      * @param value the name of the feature.
-     * @param constraints The constraints that are valid for the value. This map contains grammatical category name  mapped to the specific value valid for the grammatical category.
+     * @param constraints The constraints that are valid for the value. This map contains 
+     *        grammatical category name  mapped to the specific value valid for the 
+     *        grammatical category.
      */
     LanguageGrammarFeatures_Feature(const std::u16string& value, const std::map<std::u16string, std::u16string>& constraints);
     /**

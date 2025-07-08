@@ -72,9 +72,9 @@ public:
      */
     const DefaultFeatureFunction* getDefaultFeatureFunction(const SemanticFeature& feature) const;
     /**
-     * TBW
-     * @param feature TBW.
-     * @param function TBW.
+     * Register a default feature function for a semantic feature.
+     * @param feature The feature to register the function for.
+     * @param function The feature function to call for the semantic feature. This SemanticFeatureModel will adopt ownership of this function, and it will be deleted when this SemanticFeatureModel is deleted.
      */
     void putDefaultFeatureFunction(const SemanticFeature& feature, DefaultFeatureFunction* function);
     /**

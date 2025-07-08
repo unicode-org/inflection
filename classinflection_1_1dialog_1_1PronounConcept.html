@@ -76,7 +76,6 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classinflection_1_1dialog_1_1PronounConcept-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">inflection::dialog::PronounConcept Class Reference</div></div>
@@ -101,14 +100,6 @@ $(function() {
   </map>
 </div></div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
-Public Types</h2></td></tr>
-<tr class="memitem:a5be108f14d5dae9cfcc07a512872b82b" id="r_a5be108f14d5dae9cfcc07a512872b82b"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="classinflection_1_1dialog_1_1SemanticFeatureConceptBase.html">SemanticFeatureConceptBase</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classinflection_1_1dialog_1_1PronounConcept.html#a5be108f14d5dae9cfcc07a512872b82b">super</a></td></tr>
-<tr class="separator:a5be108f14d5dae9cfcc07a512872b82b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_types_classinflection_1_1dialog_1_1SemanticFeatureConceptBase"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classinflection_1_1dialog_1_1SemanticFeatureConceptBase')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classinflection_1_1dialog_1_1SemanticFeatureConceptBase.html">inflection::dialog::SemanticFeatureConceptBase</a></td></tr>
-<tr class="memitem:a2da31f96331076e782486e904bd1443a inherit pub_types_classinflection_1_1dialog_1_1SemanticFeatureConceptBase" id="r_a2da31f96331076e782486e904bd1443a"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="classinflection_1_1dialog_1_1SpeakableConcept.html">SpeakableConcept</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classinflection_1_1dialog_1_1SemanticFeatureConceptBase.html#a2da31f96331076e782486e904bd1443a">super</a></td></tr>
-<tr class="separator:a2da31f96331076e782486e904bd1443a inherit pub_types_classinflection_1_1dialog_1_1SemanticFeatureConceptBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a6a285f6ce82654d3a506a7d5cc94337b" id="r_a6a285f6ce82654d3a506a7d5cc94337b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classinflection_1_1dialog_1_1SpeakableString.html">::inflection::dialog::SpeakableString</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classinflection_1_1dialog_1_1PronounConcept.html#a6a285f6ce82654d3a506a7d5cc94337b">getFeatureValue</a> (const <a class="el" href="classinflection_1_1dialog_1_1SemanticFeature.html">SemanticFeature</a> &amp;feature) const override</td></tr>
@@ -194,24 +185,7 @@ virtual const <a class="el" href="classinflection_1_1dialog_1_1SemanticFeature.h
 <p>Formatting a pronoun in various languages requires a lot of context. It may be known that the pronoun needs to be in the third person, and that the gender of the pronoun in the message, but the context in the sentence may affect the type of pronoun used or even be affected by the grammatical properties of a separate noun that the pronoun is possessing. For example, in Spanish, the phrase "your message" is "tu mensaje" where "your" is "tu" in Spanish. If there are multiple messages, then the phrase would be "tus mensajes". If you have a scenario where the pronoun depends on the properties of another word, then it's recommended that you use toSpeakableString(const SemanticFeatureConceptBase&amp;) to provide that additional context beyond the constraints. </p>
 
 <p class="definition">Definition at line <a class="el" href="PronounConcept_8hpp_source.html#l00025">25</a> of file <a class="el" href="PronounConcept_8hpp_source.html">PronounConcept.hpp</a>.</p>
-</div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="a5be108f14d5dae9cfcc07a512872b82b" name="a5be108f14d5dae9cfcc07a512872b82b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5be108f14d5dae9cfcc07a512872b82b">&#9670;&#160;</a></span>super</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef <a class="el" href="classinflection_1_1dialog_1_1SemanticFeatureConceptBase.html">SemanticFeatureConceptBase</a> <a class="el" href="classinflection_1_1dialog_1_1SemanticFeatureConceptBase.html">inflection::dialog::PronounConcept::super</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="PronounConcept_8hpp_source.html#l00030">30</a> of file <a class="el" href="PronounConcept_8hpp_source.html">PronounConcept.hpp</a>.</p>
-
-</div>
-</div>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a306cc2fcf3a73cfc7f6d096796bd9232" name="a306cc2fcf3a73cfc7f6d096796bd9232"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a306cc2fcf3a73cfc7f6d096796bd9232">&#9670;&#160;</a></span>PronounConcept() <span class="overload">[1/4]</span></h2>
 
@@ -603,7 +577,7 @@ virtual const <a class="el" href="classinflection_1_1dialog_1_1SemanticFeature.h
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jul 7 2025 23:29:07 for Inflection by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+Generated on Tue Jul 8 2025 03:04:13 for Inflection by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
 </small></address>
 </body>
 </html>

@@ -75,7 +75,6 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classinflection_1_1util_1_1ULocale-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">inflection::util::ULocale Class Reference</div></div>
@@ -98,11 +97,6 @@ $(function() {
   </map>
 </div></div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
-Public Types</h2></td></tr>
-<tr class="memitem:a8d3bb7c7ec623aa62c6da372fb0e314a" id="r_a8d3bb7c7ec623aa62c6da372fb0e314a"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="classinflection_1_1Object.html">::inflection::Object</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classinflection_1_1util_1_1ULocale.html#a8d3bb7c7ec623aa62c6da372fb0e314a">super</a></td></tr>
-<tr class="separator:a8d3bb7c7ec623aa62c6da372fb0e314a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ac79c825d4c7590e1b3c6807d64d36ad0" id="r_ac79c825d4c7590e1b3c6807d64d36ad0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classinflection_1_1util_1_1ULocale.html#ac79c825d4c7590e1b3c6807d64d36ad0">ULocale</a> (std::string_view language, std::string_view country=std::string_view(), std::string_view variant=std::string_view(), std::string_view keywordsAndValues=std::string_view())</td></tr>
@@ -161,24 +155,7 @@ Public Member Functions</h2></td></tr>
 <p>A <code>Locale</code> is the mechanism for identifying the kind of object (<code>NumberFormat</code>) that you would like to get. The locale is <b>just</b> a mechanism for identifying objects, <b>not</b> a container for the objects themselves. </p>
 
 <p class="definition">Definition at line <a class="el" href="ULocale_8hpp_source.html#l00081">81</a> of file <a class="el" href="ULocale_8hpp_source.html">ULocale.hpp</a>.</p>
-</div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="a8d3bb7c7ec623aa62c6da372fb0e314a" name="a8d3bb7c7ec623aa62c6da372fb0e314a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8d3bb7c7ec623aa62c6da372fb0e314a">&#9670;&#160;</a></span>super</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef <a class="el" href="classinflection_1_1Object.html">::inflection::Object</a> <a class="el" href="classinflection_1_1Object.html">inflection::util::ULocale::super</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="ULocale_8hpp_source.html#l00085">85</a> of file <a class="el" href="ULocale_8hpp_source.html">ULocale.hpp</a>.</p>
-
-</div>
-</div>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ac79c825d4c7590e1b3c6807d64d36ad0" name="ac79c825d4c7590e1b3c6807d64d36ad0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac79c825d4c7590e1b3c6807d64d36ad0">&#9670;&#160;</a></span>ULocale() <span class="overload">[1/2]</span></h2>
 
@@ -305,7 +282,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Returns the locale's ISO-3166 country code. </p><dl class="section return"><dt>Returns</dt><dd>An alias to the code </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ULocale_8hpp_source.html#l00254">254</a> of file <a class="el" href="ULocale_8hpp_source.html">ULocale.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ULocale_8hpp_source.html#l00256">256</a> of file <a class="el" href="ULocale_8hpp_source.html">ULocale.hpp</a>.</p>
 
 </div>
 </div>
@@ -351,7 +328,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Returns the locale's ISO-639 language code. </p><dl class="section return"><dt>Returns</dt><dd>An alias to the code </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ULocale_8hpp_source.html#l00260">260</a> of file <a class="el" href="ULocale_8hpp_source.html">ULocale.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ULocale_8hpp_source.html#l00262">262</a> of file <a class="el" href="ULocale_8hpp_source.html">ULocale.hpp</a>.</p>
 
 </div>
 </div>
@@ -379,7 +356,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Returns the programmatic name of the entire locale, with the language, country and variant separated by underbars. If a field is missing, up to two leading underbars will occur. Example: "en", "de_DE", "en_US_WIN", "de__POSIX", "fr__MAC", "__MAC", "_MT", "_FR_EURO" </p><dl class="section return"><dt>Returns</dt><dd>A pointer to "name". </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ULocale_8hpp_source.html#l00278">278</a> of file <a class="el" href="ULocale_8hpp_source.html">ULocale.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ULocale_8hpp_source.html#l00280">280</a> of file <a class="el" href="ULocale_8hpp_source.html">ULocale.hpp</a>.</p>
 
 </div>
 </div>
@@ -410,7 +387,7 @@ Public Member Functions</h2></td></tr>
 <dd>
 uscript_getCode </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ULocale_8hpp_source.html#l00266">266</a> of file <a class="el" href="ULocale_8hpp_source.html">ULocale.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ULocale_8hpp_source.html#l00268">268</a> of file <a class="el" href="ULocale_8hpp_source.html">ULocale.hpp</a>.</p>
 
 </div>
 </div>
@@ -438,7 +415,7 @@ uscript_getCode </dd></dl>
 </div><div class="memdoc">
 <p>Returns the locale's variant code. </p><dl class="section return"><dt>Returns</dt><dd>An alias to the code </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ULocale_8hpp_source.html#l00272">272</a> of file <a class="el" href="ULocale_8hpp_source.html">ULocale.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ULocale_8hpp_source.html#l00274">274</a> of file <a class="el" href="ULocale_8hpp_source.html">ULocale.hpp</a>.</p>
 
 </div>
 </div>
@@ -474,7 +451,7 @@ uscript_getCode </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if the two locale keys are not the same, false otherwise. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ULocale_8hpp_source.html#l00236">236</a> of file <a class="el" href="ULocale_8hpp_source.html">ULocale.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ULocale_8hpp_source.html#l00238">238</a> of file <a class="el" href="ULocale_8hpp_source.html">ULocale.hpp</a>.</p>
 
 </div>
 </div>
@@ -537,7 +514,7 @@ uscript_getCode </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if this locale key is less than the other, false otherwise. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ULocale_8hpp_source.html#l00241">241</a> of file <a class="el" href="ULocale_8hpp_source.html">ULocale.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ULocale_8hpp_source.html#l00243">243</a> of file <a class="el" href="ULocale_8hpp_source.html">ULocale.hpp</a>.</p>
 
 </div>
 </div>
@@ -599,7 +576,7 @@ uscript_getCode </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if the two locale keys are the same, false otherwise. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ULocale_8hpp_source.html#l00230">230</a> of file <a class="el" href="ULocale_8hpp_source.html">ULocale.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ULocale_8hpp_source.html#l00232">232</a> of file <a class="el" href="ULocale_8hpp_source.html">ULocale.hpp</a>.</p>
 
 </div>
 </div>
@@ -635,7 +612,7 @@ uscript_getCode </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if this locale key is greater than the other, false otherwise. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ULocale_8hpp_source.html#l00248">248</a> of file <a class="el" href="ULocale_8hpp_source.html">ULocale.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ULocale_8hpp_source.html#l00250">250</a> of file <a class="el" href="ULocale_8hpp_source.html">ULocale.hpp</a>.</p>
 
 </div>
 </div>
@@ -671,7 +648,7 @@ uscript_getCode </dd></dl>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jul 7 2025 23:29:07 for Inflection by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+Generated on Tue Jul 8 2025 03:04:13 for Inflection by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
 </small></address>
 </body>
 </html>

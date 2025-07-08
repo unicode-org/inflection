@@ -22,6 +22,10 @@ public:
 
 public:
     XMLParseException();
+    /**
+     * Construct a XMLParseException with a message.
+     * @param message The debugging message of this XML parse exception.
+     */
     explicit XMLParseException(const std::u16string& message);
     ~XMLParseException() override;
 };

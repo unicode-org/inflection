@@ -110,8 +110,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a4955a954f87ac5c5b9b8531838a35283"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a02073ccdcf84addade7d653379297663" id="r_a02073ccdcf84addade7d653379297663"><td class="memItemLeft" align="right" valign="top">std::multimap&lt; std::u16string, std::u16string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classinflection_1_1lang_1_1features_1_1LanguageGrammarFeatures__GrammarCategory.html#a02073ccdcf84addade7d653379297663">getGrammemeDependenciesForValue</a> (std::u16string_view grammemeValue) const</td></tr>
 <tr class="separator:a02073ccdcf84addade7d653379297663"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6a6c342430c44c590471b15e07f223fb" id="r_a6a6c342430c44c590471b15e07f223fb"><td class="memItemLeft" align="right" valign="top">virtual int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classinflection_1_1lang_1_1features_1_1LanguageGrammarFeatures__GrammarCategory.html#a6a6c342430c44c590471b15e07f223fb">compareTo</a> (const <a class="el" href="classinflection_1_1lang_1_1features_1_1LanguageGrammarFeatures__GrammarCategory.html">LanguageGrammarFeatures_GrammarCategory</a> &amp;o) const</td></tr>
-<tr class="separator:a6a6c342430c44c590471b15e07f223fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0fbbc7a7c85a17f4f86d6a021c544f03" id="r_a0fbbc7a7c85a17f4f86d6a021c544f03"><td class="memItemLeft" align="right" valign="top">virtual int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classinflection_1_1lang_1_1features_1_1LanguageGrammarFeatures__GrammarCategory.html#a0fbbc7a7c85a17f4f86d6a021c544f03">compareTo</a> (const <a class="el" href="classinflection_1_1lang_1_1features_1_1LanguageGrammarFeatures__GrammarCategory.html">LanguageGrammarFeatures_GrammarCategory</a> &amp;other) const</td></tr>
+<tr class="separator:a0fbbc7a7c85a17f4f86d6a021c544f03"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a028825d2da6ebb7bee3a8ffcded6726f" id="r_a028825d2da6ebb7bee3a8ffcded6726f"><td class="memItemLeft" align="right" valign="top"><a id="a028825d2da6ebb7bee3a8ffcded6726f" name="a028825d2da6ebb7bee3a8ffcded6726f"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;</b> (const <a class="el" href="classinflection_1_1lang_1_1features_1_1LanguageGrammarFeatures__GrammarCategory.html">LanguageGrammarFeatures_GrammarCategory</a> &amp;other) const</td></tr>
 <tr class="separator:a028825d2da6ebb7bee3a8ffcded6726f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -162,8 +162,8 @@ Friends</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a6a6c342430c44c590471b15e07f223fb" name="a6a6c342430c44c590471b15e07f223fb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6a6c342430c44c590471b15e07f223fb">&#9670;&#160;</a></span>compareTo()</h2>
+<a id="a0fbbc7a7c85a17f4f86d6a021c544f03" name="a0fbbc7a7c85a17f4f86d6a021c544f03"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0fbbc7a7c85a17f4f86d6a021c544f03">&#9670;&#160;</a></span>compareTo()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -175,7 +175,7 @@ Friends</h2></td></tr>
           <td class="memname">virtual int32_t inflection::lang::features::LanguageGrammarFeatures_GrammarCategory::compareTo </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classinflection_1_1lang_1_1features_1_1LanguageGrammarFeatures__GrammarCategory.html">LanguageGrammarFeatures_GrammarCategory</a> &amp;&#160;</td>
-          <td class="paramname"><em>o</em></td><td>)</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -191,7 +191,7 @@ Friends</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>TBW </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>the value 0 if the name of the argument other is equal to the name of this; a value -1 if the name of this is lexicographically less than the name of the argument other; and a value 1 if the name of this is lexicographically greater than the name of the argument other. </dd></dl>
 
 </div>
 </div>
@@ -312,7 +312,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LanguageGrammarFeatures__GrammarCategory_8hpp_source.html#l00083">83</a> of file <a class="el" href="LanguageGrammarFeatures__GrammarCategory_8hpp_source.html">LanguageGrammarFeatures_GrammarCategory.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LanguageGrammarFeatures__GrammarCategory_8hpp_source.html#l00085">85</a> of file <a class="el" href="LanguageGrammarFeatures__GrammarCategory_8hpp_source.html">LanguageGrammarFeatures_GrammarCategory.hpp</a>.</p>
 
 </div>
 </div>
@@ -322,7 +322,7 @@ Friends</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jul 8 2025 20:15:17 for Inflection by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+Generated on Tue Jul 8 2025 20:32:12 for Inflection by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
 </small></address>
 </body>
 </html>

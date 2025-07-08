@@ -20,6 +20,9 @@ public:
     /// @endcond
 
 public:
+    /**
+     * TBW
+     */
     enum Type {
         NoValue,
         BoundedValue,

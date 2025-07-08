@@ -67,7 +67,7 @@ public:
      */
     virtual const ::std::set<::std::u16string>& getBoundedValues() const;
     /**
-     @return True if this semantic feature is aliased.
+     * True if this semantic feature can be referenced by the bounded values directly or aliased without specifying the name.
      */
     virtual bool isAliased() const;
     /**

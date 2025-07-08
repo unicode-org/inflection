@@ -59,7 +59,7 @@ public: /* protected */
      */ 
     virtual void putConstraintByName(::std::u16string_view featureName, ::std::u16string_view featureValue);
     /**
-     * Clear the feature by the given semantic feature object.
+     * Clear the specified semantic constraint feature.
      * @param feature The semantic feature of the constraint to be cleared.
      */    
     virtual void clearConstraint(const SemanticFeature& feature);

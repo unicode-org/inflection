@@ -54,15 +54,18 @@ TEST_CASE("LocaleUtilsTest#hashTest")
 {
     inflection::util::ULocale locale1 = inflection::util::LocaleUtils::ARABIC();
     inflection::util::ULocale locale2 = inflection::util::LocaleUtils::GERMAN();
+    inflection::util::ULocale locale3 = inflection::util::LocaleUtils::HINDI();
 
     std::set<inflection::util::ULocale> s;
-    s.insert(locale1);
     s.insert(locale2);
+    s.insert(locale1);
+    s.insert(locale3);
 
     auto it = s.begin();
 
-    REQUIRE(locale2 == *it);
-    REQUIRE(locale1 == *(++it));
+    REQUIRE(locale1 == *it);
+    REQUIRE(locale2 == *(++it));
+    REQUIRE(locale3 == *(++it));
 }
 
 TEST_CASE("LocaleUtilsTest#testCoverage")

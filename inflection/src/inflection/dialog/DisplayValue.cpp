@@ -57,11 +57,6 @@ bool DisplayValue::operator==(const DisplayValue& o) const
     return displayString == o.displayString && constraintMap == o.constraintMap;
 }
 
-bool DisplayValue::operator!=(const DisplayValue& o) const
-{
-    return !operator==(o);
-}
-
 std::size_t DisplayValue::operator()(const DisplayValue& displayValue) const noexcept
 {
     return std::hash<std::u16string>()(displayValue.displayString);

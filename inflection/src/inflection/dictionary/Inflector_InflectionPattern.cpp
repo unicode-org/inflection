@@ -301,8 +301,8 @@ int32_t Inflector_InflectionPattern::numInflections() const
     return numOfInflections;
 }
 
-bool Inflector_InflectionPattern::operator<(const Inflector_InflectionPattern& other) const {
-    return (getIdentifier() < other.getIdentifier());
+std::weak_ordering Inflector_InflectionPattern::operator<=>(const Inflector_InflectionPattern& other) const {
+    return getIdentifier() <=> other.getIdentifier();
 }
 
 int64_t Inflector_InflectionPattern::firstContainingPartOfSpeech(const ::std::vector<int64_t> &partOfSpeechList) const {

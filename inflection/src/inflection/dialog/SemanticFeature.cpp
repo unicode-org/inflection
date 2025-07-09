@@ -72,14 +72,14 @@ bool SemanticFeature::isAliased() const
     return aliased;
 }
 
-bool SemanticFeature::operator<(const SemanticFeature& other) const
+std::weak_ordering SemanticFeature::operator<=>(const SemanticFeature& other) const
 {
-    return name < other.name;
+    return name <=> other.name;
 }
 
 bool SemanticFeature::operator==(const SemanticFeature& other) const
 {
-    return name == other.name;
+    return (*this <=> other) == 0;
 }
 
 } // namespace inflection::dialog

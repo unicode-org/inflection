@@ -194,9 +194,4 @@ bool SemanticConcept::operator==(const SemanticConcept& other) const
     return getModel() == other.getModel() && semantic == other.semantic && defaultToSemantic == other.defaultToSemantic && getSpeakFeature() == other.getSpeakFeature() && constraints == other.constraints;
 }
 
-bool SemanticConcept::operator!=(const SemanticConcept& other) const
-{
-    return !(*this == other);
-}
-
 } // namespace inflection::dialog

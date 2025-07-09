@@ -65,9 +65,4 @@ TokenIterator::operator==(const TokenIterator& rhs) const {
     return token == rhs.token;
 }
 
-bool
-TokenIterator::operator!=(const TokenIterator& rhs) const {
-    return !(*this == rhs);
-}
-
 } // namespace inflection

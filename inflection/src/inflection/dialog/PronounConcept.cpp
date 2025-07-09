@@ -481,9 +481,4 @@ bool PronounConcept::operator==(const PronounConcept& other) const
             constraints == other.constraints;
 }
 
-bool PronounConcept::operator!=(const PronounConcept& other) const
-{
-    return !(*this == other);
-}
-
 } // namespace inflection::dialog

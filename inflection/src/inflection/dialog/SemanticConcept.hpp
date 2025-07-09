@@ -82,11 +82,6 @@ public:
     bool operator==(const SemanticConcept& o) const;
 
     /**
-     * Equivalent to the inverse of operator==
-     */
-    bool operator!=(const SemanticConcept& o) const;
-
-    /**
      * Constructs a new SemanticConcept. A SemanticFeatureModel is required, as it will enforce the locale and store display data.
      */
     SemanticConcept(const SemanticFeatureModel* model, const SemanticValue& semantic, bool defaultToSemantic = false);

@@ -43,12 +43,6 @@ public:
      * @return True if the two display data are the same, false otherwise.
      */    
     bool operator==(const SemanticFeatureModel_DisplayData& o) const;
-    /**
-     * Equivalent to the inverse of operator==. 
-     * @param o The display data object to be compared with this.
-     * @return True if the two display data are not the same, false otherwise.
-     */
-    bool operator!=(const SemanticFeatureModel_DisplayData& o) const;
 
     /**
      * Construct the display data with all of the known display values. Typically the first display value is shown that matches the desired semantic features.

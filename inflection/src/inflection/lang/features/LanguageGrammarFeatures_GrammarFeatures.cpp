@@ -26,14 +26,9 @@ std::vector<LanguageGrammarFeatures_Feature> LanguageGrammarFeatures_GrammarFeat
     return values;
 }
 
-int32_t LanguageGrammarFeatures_GrammarFeatures::compareTo(const LanguageGrammarFeatures_GrammarFeatures& o) const
+std::weak_ordering LanguageGrammarFeatures_GrammarFeatures::operator<=>(const LanguageGrammarFeatures_GrammarFeatures& other) const
 {
-    return name.compare(o.name);
-}
-
-bool LanguageGrammarFeatures_GrammarFeatures::operator<(const LanguageGrammarFeatures_GrammarFeatures& other) const
-{
-    return (name.compare(other.name)) < 0;
+    return name <=> other.name;
 }
 
 } // namespace inflection::lang::features

@@ -37,7 +37,6 @@ public:
     TokenIterator    operator--(int postDecrement);
 
     bool operator==(const TokenIterator& rhs) const;
-    bool operator!=(const TokenIterator& rhs) const;
 
 private:
     const Token* token;

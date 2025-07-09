@@ -219,7 +219,7 @@ inflection::util::ULocale::operator==(const ::inflection::util::ULocale& other) 
 inline std::strong_ordering
 inflection::util::ULocale::operator<=>(const ::inflection::util::ULocale& other) const
 {
-    return other.fullName <=> fullName;
+    return fullName <=> other.fullName;
 }
 
 inline ::std::string_view

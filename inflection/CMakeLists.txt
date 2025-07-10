@@ -138,7 +138,7 @@ install(DIRECTORY ${INFLECTION_DATA_ROOT}/    TYPE DATA    COMPONENT inflection_
 set(CPACK_PACKAGE_NAME "unicode-inflection")
 set(CPACK_PACKAGE_VERSION "${INFLECTION_VERSION}")
 
-# --- Robust version parsing block ---
+
 string(REPLACE "." ";" INFLECTION_VERSION_LIST "${INFLECTION_VERSION}")
 
 # Set defaults to avoid list index errors
@@ -156,7 +156,8 @@ endif()
 if(_len GREATER 2)
   list(GET INFLECTION_VERSION_LIST 2 CPACK_PACKAGE_VERSION_PATCH)
 endif()
-# --- End version parsing block ---
+
+
 
 set(CPACK_PACKAGE_VENDOR "Unicode Consortium")
 set(CPACK_PACKAGE_CONTACT "https://github.com/unicode-org/inflection")

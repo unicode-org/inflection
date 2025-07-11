@@ -1,0 +1,881 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+ Copyright 2025 Unicode Incorporated and others. All rights reserved.
+-->
+<messagetest locale="ru">
+    <test>
+        <params>
+            <param name="source" type="String"><value>hello</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=gender} .match $feature || {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ясперсон</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=gender} .match $feature || {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Иванов</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=gender} .match $feature |masculine| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Ивановна</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=gender} .match $feature |feminine| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>аббатство</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=gender} .match $feature |neuter| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>всадники</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withAboutPrep} .match $feature |обо всадники| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ресторан</value></param>
+        </params>
+        <source>{$source :inflection}</source>
+        <print>ресторан</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>склерозы</value></param>
+        </params>
+        <source>{$source :inflection case=dative number=plural}</source>
+        <print>склерозам</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ресторан</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=plural}</source>
+        <print>ресторанов</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>restaurant</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=plural}</source>
+        <print>restaurant</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>завтра</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=singular}</source>
+        <print>завтра</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>сан-франциско</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=singular}</source>
+        <print>сан-франциско</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>кремлёвская башня</value></param>
+        </params>
+        <source>{$source :inflection case=nominative number=singular}</source>
+        <print>кремлёвская башня</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>эйфелева башня</value></param>
+        </params>
+        <source>{$source :inflection case=nominative number=singular}</source>
+        <print>эйфелева башня</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>леной</value></param>
+        </params>
+        <source>{$source :inflection case=instrumental number=singular}</source>
+        <print>леной</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>79264496730</value></param>
+        </params>
+        <source>{$source :inflection case=instrumental number=singular}</source>
+        <print>79264496730</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>пятого ноль второго 1988-го</value></param>
+        </params>
+        <source>{$source :inflection case=nominative number=singular}</source>
+        <print>пятый ноль второе 1988-го</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>12.01.1988</value></param>
+        </params>
+        <source>{$source :inflection case=nominative number=singular}</source>
+        <print>12.01.1988</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>10 января 2016 г.</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=singular}</source>
+        <print>10 января 2016 г.</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>10 марта 2016 г.</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=singular}</source>
+        <print>10 марта 2016 г.</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>10 мая 2016 г.</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=singular}</source>
+        <print>10 мая 2016 г.</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>таджикистан</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>таджикистана</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>сегодняшний день в 17:21</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=singular}</source>
+        <print>сегодняшнего дня в 17:21</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>завтрашний день в 17:59</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=singular}</source>
+        <print>завтрашнего дня в 17:59</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Евгения Смирнова</value></param>
+        </params>
+        <source>{$source :inflection case=nominative}</source>
+        <print>Евгения Смирнова</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Абра Смирнова</value></param>
+        </params>
+        <source>{$source :inflection case=nominative}</source>
+        <print>Абра Смирнова</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Майкл</value></param>
+        </params>
+        <source>{$source :inflection case=genitive pos=proper-noun}</source>
+        <print>Майкла</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Иванович</value></param>
+        </params>
+        <source>{$source :inflection case=genitive pos=proper-noun}</source>
+        <print>Ивановича</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Иваныч</value></param>
+        </params>
+        <source>{$source :inflection case=genitive pos=proper-noun}</source>
+        <print>Иваныча</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>23 апреля 2015 г.</value></param>
+        </params>
+        <source>{$source :inflection case=accusative number=singular}</source>
+        <print>23 апреля 2015 г.</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>lifecell центр</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>lifecell центра</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Ремонт Iphone</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>Ремонта Iphone</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>❤️Муж❤️</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>❤️Мужа❤️</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ОЛЬГА</value></param>
+        </params>
+        <source>{$source :inflection case=dative number=singular}</source>
+        <print>ОЛЬГЕ</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>лимонадный</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>лимонадного</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>1-м</value></param>
+        </params>
+        <source>{$source :inflection case=prepositional number=singular}</source>
+        <print>1-м</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>м-м</value></param>
+        </params>
+        <source>{$source :inflection case=prepositional number=singular}</source>
+        <print>м-м</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>latin-м</value></param>
+        </params>
+        <source>{$source :inflection case=prepositional number=singular}</source>
+        <print>latin-м</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Сергій</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=singular}</source>
+        <print>Сергій</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Сергiй</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=singular}</source>
+        <print>Сергiй</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Мама 2</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=singular}</source>
+        <print>Мамы 2</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>сегодняшний день в 23:30</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=singular}</source>
+        <print>сегодняшнего дня в 23:30</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>сегодняшний день с 13:00 по 14:00</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=singular}</source>
+        <print>сегодняшнего дня с 13:00 по 14:00</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>среда в 23:55</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=singular}</source>
+        <print>среды в 23:55</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>13:15 суббота</value></param>
+        </params>
+        <source>{$source :inflection case=accusative number=singular}</source>
+        <print>13:15 субботу</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>утро в 6:00</value></param>
+        </params>
+        <source>{$source :inflection case=instrumental number=singular}</source>
+        <print>утром в 6:00</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>завтрашний вечер в 5:21</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=singular}</source>
+        <print>завтрашнего вечера в 5:21</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>деревом</value></param>
+        </params>
+        <source>{$source :inflection case=nominative}</source>
+        <print>дерево</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>дереве</value></param>
+        </params>
+        <source>{$source :inflection case=nominative}</source>
+        <print>дерево</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>дерева</value></param>
+        </params>
+        <source>{$source :inflection case=nominative}</source>
+        <print>дерево</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>дереву</value></param>
+        </params>
+        <source>{$source :inflection case=nominative}</source>
+        <print>дерево</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>корзины</value></param>
+        </params>
+        <source>{$source :inflection case=nominative}</source>
+        <print>корзины</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>корзине</value></param>
+        </params>
+        <source>{$source :inflection case=nominative}</source>
+        <print>корзина</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>корзину</value></param>
+        </params>
+        <source>{$source :inflection case=nominative}</source>
+        <print>корзина</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>стуле</value></param>
+        </params>
+        <source>{$source :inflection case=nominative}</source>
+        <print>стул</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Анатольевичу</value></param>
+        </params>
+        <source>{$source :inflection case=nominative number=singular}</source>
+        <print>Анатольевич</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Анатоличу</value></param>
+        </params>
+        <source>{$source :inflection case=nominative number=singular}</source>
+        <print>Анатолич</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Анатолию</value></param>
+        </params>
+        <source>{$source :inflection case=nominative number=singular}</source>
+        <print>Анатолий</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Филипов</value></param>
+        </params>
+        <source>{$source :inflection case=nominative number=singular}</source>
+        <print>Филипов</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Сарапулов</value></param>
+        </params>
+        <source>{$source :inflection case=nominative number=singular}</source>
+        <print>Сарапулов</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Назад Шляху Немає</value></param>
+        </params>
+        <source>{$source :inflection case=nominative}</source>
+        <print>Назад Шляху Немає</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Назад Шляху Немає</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>Назад Шляху Немає</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Вася Чапаєвський</value></param>
+        </params>
+        <source>{$source :inflection case=nominative}</source>
+        <print>Вася Чапаєвський</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Вася Чапаєвський</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>Вася Чапаєвський</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Теорія Простору</value></param>
+        </params>
+        <source>{$source :inflection case=nominative}</source>
+        <print>Теорія Простору</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Теорія Простору</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>Теорія Простору</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>человек очень быстро бежит по большому саду</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>человека очень быстрого бежит по большого сада</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>кошка</value></param>
+        </params>
+        <source>{$source :inflection case=instrumental number=plural}</source>
+        <print>кошками</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>кошка</value></param>
+        </params>
+        <source>{$source :inflection case=instrumental number=singular}</source>
+        <print>кошкой</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>кошка</value></param>
+        </params>
+        <source>{$source :inflection case=accusative number=plural}</source>
+        <print>кошек</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>кошка</value></param>
+        </params>
+        <source>{$source :inflection case=accusative number=singular}</source>
+        <print>кошку</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>кошка</value></param>
+        </params>
+        <source>{$source :inflection case=dative number=plural}</source>
+        <print>кошкам</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>кошка</value></param>
+        </params>
+        <source>{$source :inflection case=dative number=singular}</source>
+        <print>кошке</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>кошка</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=plural}</source>
+        <print>кошек</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>кошка</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=singular}</source>
+        <print>кошки</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>кошка</value></param>
+        </params>
+        <source>{$source :inflection case=prepositional number=plural}</source>
+        <print>кошках</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>кошка</value></param>
+        </params>
+        <source>{$source :inflection case=prepositional number=singular}</source>
+        <print>кошке</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>кошка</value></param>
+        </params>
+        <source>{$source :inflection case=nominative number=plural}</source>
+        <print>кошки</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>кошка</value></param>
+        </params>
+        <source>{$source :inflection case=nominative number=singular}</source>
+        <print>кошка</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ресторан</value></param>
+        </params>
+        <source>{$source :inflection case=instrumental number=plural}</source>
+        <print>ресторанами</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ресторан</value></param>
+        </params>
+        <source>{$source :inflection case=instrumental number=singular}</source>
+        <print>рестораном</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ресторан</value></param>
+        </params>
+        <source>{$source :inflection case=accusative number=plural}</source>
+        <print>рестораны</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ресторан</value></param>
+        </params>
+        <source>{$source :inflection case=accusative number=singular}</source>
+        <print>ресторан</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ресторан</value></param>
+        </params>
+        <source>{$source :inflection case=dative number=plural}</source>
+        <print>ресторанам</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ресторан</value></param>
+        </params>
+        <source>{$source :inflection case=dative number=singular}</source>
+        <print>ресторану</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ресторан</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=plural}</source>
+        <print>ресторанов</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ресторан</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=singular}</source>
+        <print>ресторана</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ресторан</value></param>
+        </params>
+        <source>{$source :inflection case=prepositional number=plural}</source>
+        <print>ресторанах</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ресторан</value></param>
+        </params>
+        <source>{$source :inflection case=prepositional number=singular}</source>
+        <print>ресторане</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ресторан</value></param>
+        </params>
+        <source>{$source :inflection case=nominative number=plural}</source>
+        <print>рестораны</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ресторан</value></param>
+        </params>
+        <source>{$source :inflection case=nominative number=singular}</source>
+        <print>ресторан</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>красивый</value></param>
+        </params>
+        <source>{$source :inflection case=instrumental number=plural}</source>
+        <print>красивыми</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>красивый</value></param>
+        </params>
+        <source>{$source :inflection case=instrumental number=singular}</source>
+        <print>красивым</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>красивый</value></param>
+        </params>
+        <source>{$source :inflection animacy=inanimate case=accusative number=plural}</source>
+        <print>красивые</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>красивый</value></param>
+        </params>
+        <source>{$source :inflection animacy=inanimate case=accusative number=singular}</source>
+        <print>красивый</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>красивый</value></param>
+        </params>
+        <source>{$source :inflection case=dative number=plural}</source>
+        <print>красивым</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>красивый</value></param>
+        </params>
+        <source>{$source :inflection case=dative number=singular}</source>
+        <print>красивому</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>красивый</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=plural}</source>
+        <print>красивых</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>красивый</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=singular}</source>
+        <print>красивого</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>красивый</value></param>
+        </params>
+        <source>{$source :inflection case=prepositional number=plural}</source>
+        <print>красивых</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>красивый</value></param>
+        </params>
+        <source>{$source :inflection case=prepositional number=singular}</source>
+        <print>красивом</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>красивый</value></param>
+        </params>
+        <source>{$source :inflection case=nominative number=plural}</source>
+        <print>красивые</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>красивый</value></param>
+        </params>
+        <source>{$source :inflection case=nominative number=singular}</source>
+        <print>красивый</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value></value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withAboutPrep case=nominative} .match $feature |о| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ждлоыва</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withAboutPrep case=nominative} .match $feature |о ждлоыва| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>новости</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withAboutPrep case=nominative} .match $feature |о новости| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>этом</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withAboutPrep case=prepositional} .match $feature |об этом| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>открытии</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withAboutPrep case=prepositional} .match $feature |об открытии| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value></value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withInPrep case=nominative} .match $feature |в| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ждлоыва</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withInPrep case=nominative} .match $feature |в ждлоыва| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>речке</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withInPrep} .match $feature |в речке| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>мне</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withInPrep case=nominative} .match $feature |во мне| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>рву</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withInPrep case=dative} .match $feature |во рву| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value></value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withWithPrep case=nominative} .match $feature |с| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ждлоыва</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withWithPrep case=nominative} .match $feature |со ждлоыва| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>тобой</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withWithPrep case=instrumental} .match $feature |с тобой| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>мной</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withWithPrep case=instrumental} .match $feature |со мной| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>вторника</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withWithPrep case=genitive} .match $feature |со вторника| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>сгущенкой</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withWithPrep case=instrumental} .match $feature |со сгущенкой| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>вчерашний день</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withWithPrep case=nominative} .match $feature |со вчерашний день| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value></value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withToPrep case=nominative} .match $feature |к| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ждлоыва</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withToPrep case=nominative} .match $feature |к ждлоыва| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>нему</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withToPrep case=dative} .match $feature |к нему| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>мне</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withToPrep case=dative} .match $feature |ко мне| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>вторнику</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withToPrep case=dative} .match $feature |ко вторнику| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+</messagetest>

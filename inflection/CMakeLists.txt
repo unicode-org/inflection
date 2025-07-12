@@ -136,8 +136,10 @@ install(DIRECTORY ${INFLECTION_DATA_ROOT}/    TYPE DATA    COMPONENT inflection_
 # CPack Configuration for Ubuntu Packaging
 
 set(CPACK_PACKAGE_NAME "unicode-inflection")
-set(CPACK_PACKAGE_VERSION "${INFLECTION_VERSION}")
 
+# Apply the current tagged Inflection version to the CPack version.
+# CPack may inherit a default or cached version, so we explicitly set it here.
+set(CPACK_PACKAGE_VERSION "${INFLECTION_VERSION}")
 
 string(REPLACE "." ";" INFLECTION_VERSION_LIST "${INFLECTION_VERSION}")
 
@@ -156,8 +158,6 @@ endif()
 if(_len GREATER 2)
   list(GET INFLECTION_VERSION_LIST 2 CPACK_PACKAGE_VERSION_PATCH)
 endif()
-
-
 
 set(CPACK_PACKAGE_VENDOR "Unicode Consortium")
 set(CPACK_PACKAGE_CONTACT "https://github.com/unicode-org/inflection")

@@ -22,7 +22,13 @@ static bool ends_with(const std::u16string& str, const std::u16string_view& suff
 }
 
 MlGrammarSynthesizer_GenderLookupFunction::MlGrammarSynthesizer_GenderLookupFunction()
-    : super(::inflection::util::LocaleUtils::MALAYALAM(), {u"masculine", u"feminine", u"neuter"})
+    : super(::inflection::util::LocaleUtils::MALAYALAM(),
+            {GrammemeConstants::GENDER_MASCULINE(),
+             GrammemeConstants::GENDER_FEMININE(),
+             GrammemeConstants::GENDER_NEUTER()},
+            {GrammemeConstants::POS_NOUN(),
+             GrammemeConstants::POS_ADJECTIVE(),
+             GrammemeConstants::POS_PRONOUN()})
     , tokenizer(::inflection::tokenizer::TokenizerFactory::createTokenizer(::inflection::util::LocaleUtils::MALAYALAM()))
     , dictionary(getDictionary())
 {

@@ -1624,7 +1624,7 @@
             </category>
         </grammar>
     </language>
-   <language id="ml">
+    <language id="ml">
     <grammar>
         <category name="case">
             <grammeme name="nominative"/>      <!-- no explicit marker; subject form -->
@@ -1643,6 +1643,7 @@
             <grammeme name="pronoun"/>
             <grammeme name="verb"/>
             <grammeme name="noun"/>
+            <grammeme name="adjective"/>
         </category>
         <category name="person">
             <restrictions>
@@ -1657,6 +1658,7 @@
             <restrictions>
                 <restriction name="pos" value="pronoun"/>
                 <restriction name="pos" value="verb"/>
+                <restriction name="pos" value="noun"/>
             </restrictions>
             <grammeme name="masculine"/>
             <grammeme name="feminine"/>
@@ -1670,6 +1672,14 @@
             <grammeme name="present"/>
             <grammeme name="future"/>
         </category>
+        <category name="determination">
+            <restrictions>
+                <restriction name="pos" value="pronoun"/>
+                <restriction name="case" value="genitive"/>
+            </restrictions>
+            <grammeme name="independent"/> <!-- e.g. mine -->
+            <grammeme name="dependent"/> <!-- e.g. my {object} -->
+        </category>
         <category name="mood">
             <restrictions>
                 <restriction name="pos" value="verb"/>
@@ -1678,9 +1688,20 @@
             <grammeme name="imperative"/>
             <grammeme name="subjunctive"/>
         </category>
+        <category name="pronounType">
+            <restrictions>
+                <restriction name="pos" value="pronoun"/>
+            </restrictions>
+            <grammeme name="personal"/>    <!-- regular pronouns like ഞാൻ, നീ -->
+            <grammeme name="reflexive"/>   <!-- e.g. താൻ, തങ്ങൾ -->
+            <grammeme name="proximal"/>    <!-- e.g. ഇവൻ, ഇവൾ, ഇത് -->
+            <grammeme name="distal"/>      <!-- e.g. അവൻ, അവൾ, അത് -->
+            <grammeme name="interrogative"/> <!-- e.g. എവൻ, എവൾ, ഏത് -->
+        </category>
         <category name="formality">
             <restrictions>
                 <restriction name="pos" value="verb"/>
+                <restriction name="pos" value="pronoun"/>
             </restrictions>
             <grammeme name="formal"/>
             <grammeme name="informal"/>

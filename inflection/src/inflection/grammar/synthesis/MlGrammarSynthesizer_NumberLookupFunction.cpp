@@ -58,7 +58,7 @@ MlGrammarSynthesizer_NumberLookupFunction::~MlGrammarSynthesizer_NumberLookupFun
         u"കൾ", u"ങ്ങൾ", u"മാർ", u"വർ", u"കളുടെ", u"ങ്ങൾക്ക്"
     };
 
-    const auto& lastToken = npc(npc(tokenChain->getEnd())->getPrevious())->getCleanValue();
+    const auto& lastToken = npc(npc(tokenChain->getEnd())->getPrevious())->getValue();
     for (const auto& suffix : PLURAL_SUFFIXES) {
         if (lastToken.size() >= suffix.size() && lastToken.ends_with(suffix)) {
             return GrammemeConstants::NUMBER_PLURAL();

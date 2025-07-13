@@ -24,19 +24,27 @@ inflection::dialog::SpeakableString* MlGrammarSynthesizer_CaseLookupFunction::ge
    std::u16string displayString;
    ::inflection::util::StringViewUtils::lowercase(&displayString, displayValue.getDisplayString(), ::inflection::util::LocaleUtils::MALAYALAM());
 
-   static const std::vector<std::u16string> suffixes = {
-       u"ഉടെ",   
-       u"യുടെ",   
-       u"ന്റെ",  
-       u"ആയുടെ", 
-       u"ഉടേതു്",
-       u"ഉടേതു",
-       u"ഉടെത്"
+   static const std::vector<std::pair<std::u16string, std::u16string>> suffixToCase = {
+        {u"ന്റെ", GrammemeConstants::CASE_GENITIVE()},
+        {u"യുടെ", GrammemeConstants::CASE_GENITIVE()},
+        {u"ഉടെ", GrammemeConstants::CASE_GENITIVE()},
+        {u"ആയുടെ", GrammemeConstants::CASE_GENITIVE()},
+        {u"ഉടേതു്", GrammemeConstants::CASE_GENITIVE()},
+        {u"ഉടേതു", GrammemeConstants::CASE_GENITIVE()},
+        {u"ഉടെത്", GrammemeConstants::CASE_GENITIVE()},
+        {u"നെ", GrammemeConstants::CASE_ACCUSATIVE()},
+        {u"ക്ക്", GrammemeConstants::CASE_DATIVE()},
+        {u"യ്ക്ക്", GrammemeConstants::CASE_DATIVE()},
+        {u"യിൽ", GrammemeConstants::CASE_LOCATIVE()},
+        {u"ഇൽ", GrammemeConstants::CASE_LOCATIVE()},
+        {u"ആൽ", GrammemeConstants::CASE_INSTRUMENTAL()},
+        {u"വഴി", GrammemeConstants::CASE_INSTRUMENTAL()},
+        {u"ഓടെ", GrammemeConstants::CASE_SOCIATIVE()},
    };
 
-   for (const auto& suffix : suffixes) {
-       if (displayString.size() > suffix.size() && ends_with(displayString, suffix)) {
-           return new ::inflection::dialog::SpeakableString(GrammemeConstants::CASE_GENITIVE());
+   for (const auto& [suffix, caseGrammeme] : suffixToCase) {
+       if (ends_with(displayString, suffix)) {
+           return new ::inflection::dialog::SpeakableString(caseGrammeme);
        }
    }
 

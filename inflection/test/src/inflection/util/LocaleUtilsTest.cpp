@@ -93,7 +93,7 @@ TEST_CASE("LocaleUtilsTest#testCoverage")
         inflection::util::LocaleUtils::KOREAN(),
         inflection::util::LocaleUtils::LITHUANIAN(),
         inflection::util::LocaleUtils::MALAY(),
-	inflection::util::LocaleUtils::MALAYALAM(),
+	    inflection::util::LocaleUtils::MALAYALAM(),
         inflection::util::LocaleUtils::NORWEGIAN(),
         inflection::util::LocaleUtils::DUTCH(),
         inflection::util::LocaleUtils::POLISH(),

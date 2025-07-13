@@ -70,7 +70,7 @@ namespace inflection
             class NbGrammarSynthesizer_ArticleLookupFunction;
             class NbGrammarSynthesizer_NbDisplayFunction;
             class MlGrammarSynthesizer;
-            class MlGrammarSynthesizer_CountLookupFunction;
+            class MlGrammarSynthesizer_NumberLookupFunction;
             class MlGrammarSynthesizer_GenderLookupFunction;
             class MlGrammarSynthesizer_CaseLookupFunction;
             class MlGrammarSynthesizer_MlDisplayFunction;

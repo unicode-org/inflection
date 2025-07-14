@@ -1,0 +1,103 @@
+# ----------------------------------------------------------------------------------------
+# To update ICU version:
+# 1. Update the ICU_VERSION environment variable below.
+# 2. Check the ICU binary URL — is the filename still Ubuntu22.04-x64.tgz?
+#    (e.g., icu4c-78_1-Ubuntu22.04-x64.tgz)
+# 3. Update inflection/CMakeLists.txt:
+#    - Modify `CPACK_DEBIAN_PACKAGE_DEPENDS` to match the new ICU version.
+# ----------------------------------------------------------------------------------------
+
+name: Build & Package (Ubuntu)
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build-and-package:
+    runs-on: ubuntu-latest
+    env:
+      ICU_VERSION: 77_1
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Setup Git LFS
+        run: |
+          git lfs install
+          git lfs pull
+
+      - name: Install system dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y cmake build-essential clang pkg-config
+
+      - name: Cache ICU
+        uses: actions/cache@v4
+        id: cache-icu
+        with:
+          path: /usr/local
+          key: icu-${{ env.ICU_VERSION }}-ubuntu-${{ runner.os }}
+
+      - name: Install ICU (Binary)
+        if: steps.cache-icu.outputs.cache-hit != 'true'
+        run: |
+          cd /tmp
+          wget https://github.com/unicode-org/icu/releases/download/release-${ICU_VERSION//_/-}/icu4c-${ICU_VERSION}-Ubuntu22.04-x64.tgz
+          mkdir icu-install
+          tar -xzf icu4c-${ICU_VERSION}-Ubuntu22.04-x64.tgz -C icu-install
+          sudo cp -r icu-install/icu/usr/local/* /usr/local/
+          sudo ldconfig
+
+      - name: Setup ICU (from cache)
+        if: steps.cache-icu.outputs.cache-hit == 'true'
+        run: |
+          sudo ldconfig
+
+      - name: Configure & Build
+        run: |
+          export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH
+          export CPLUS_INCLUDE_PATH=/usr/local/include:$CPLUS_INCLUDE_PATH
+          mkdir -p inflection/build
+          cd inflection/build
+          CC=clang CXX=clang++ cmake .. \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DICU_ROOT=/usr/local \
+            -DCMAKE_PREFIX_PATH=/usr/local
+          make -j$(nproc)
+
+      - name: Run tests
+        run: |
+          cd inflection/build
+          make -j$(nproc) check
+
+      - name: Package with CPack
+        run: |
+          cd inflection/build
+          cpack
+          ls -la *.deb *.tar.gz
+
+      - name: Upload release artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ubuntu-release-artifacts
+          path: |
+            inflection/build/*.deb
+            inflection/build/*.tar.gz
+          retention-days: 30
+
+      - name: Upload to GitHub Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          name: "Release ${{ github.ref_name }}"
+          files: |
+            inflection/build/*.deb
+            inflection/build/*.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

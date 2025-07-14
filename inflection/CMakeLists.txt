@@ -131,3 +131,51 @@ make generate-coverage-csv  : Generates code coverage as a csv\\n\
 install(TARGETS   inflection                  LIBRARY      COMPONENT inflection_library)
 install(DIRECTORY ${INFLECTION_INCLUDE_ROOT}/ TYPE INCLUDE COMPONENT inflection_headers)
 install(DIRECTORY ${INFLECTION_DATA_ROOT}/    TYPE DATA    COMPONENT inflection_data)
+
+
+
+# CPack Configuration for Ubuntu Packaging
+
+set(CPACK_PACKAGE_NAME "unicode-inflection")
+
+# Apply the current tagged Inflection version to the CPack version.
+# CPack may inherit a default or cached version, so we explicitly set it here.
+set(CPACK_PACKAGE_VERSION "${INFLECTION_VERSION}")
+
+string(REPLACE "." ";" INFLECTION_VERSION_LIST "${INFLECTION_VERSION}")
+
+# Set defaults to avoid list index errors
+set(CPACK_PACKAGE_VERSION_MAJOR "0")
+set(CPACK_PACKAGE_VERSION_MINOR "0")
+set(CPACK_PACKAGE_VERSION_PATCH "0")
+
+list(LENGTH INFLECTION_VERSION_LIST _len)
+if(_len GREATER 0)
+  list(GET INFLECTION_VERSION_LIST 0 CPACK_PACKAGE_VERSION_MAJOR)
+endif()
+if(_len GREATER 1)
+  list(GET INFLECTION_VERSION_LIST 1 CPACK_PACKAGE_VERSION_MINOR)
+endif()
+if(_len GREATER 2)
+  list(GET INFLECTION_VERSION_LIST 2 CPACK_PACKAGE_VERSION_PATCH)
+endif()
+
+set(CPACK_PACKAGE_VENDOR "Unicode Consortium")
+set(CPACK_PACKAGE_CONTACT "https://github.com/unicode-org/inflection")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Unicode Inflection Library")
+set(CPACK_GENERATOR "DEB;TGZ")
+
+# DEB-specific options
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Unicode Consortium <inflection-team@unicode.org>")
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "libicu77 (>= 77.1)")
+set(CPACK_DEBIAN_PACKAGE_SECTION "libs")
+set(CPACK_DEBIAN_PACKAGE_PRIORITY "optional")
+set(CPACK_DEBIAN_PACKAGE_VERSION "${INFLECTION_VERSION}")
+
+# Source package
+set(CPACK_SOURCE_GENERATOR "TGZ")
+set(CPACK_SOURCE_IGNORE_FILES "/build/;/.git/;/.vscode/;/.idea/")
+set(CPACK_SOURCE_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${INFLECTION_VERSION}")
+
+include(CPack)
+

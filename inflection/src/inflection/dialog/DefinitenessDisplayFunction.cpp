@@ -79,13 +79,13 @@ int32_t DefinitenessDisplayFunction::getArticlePrefixLength(DisplayValue* origin
 DisplayValue*
 DefinitenessDisplayFunction::replaceDisplayValue(DisplayValue* originalDisplayValue, const SpeakableString& string) const
 {
-    auto displayValueConstraints(npc(originalDisplayValue)->getConstraintMap());
+    ::std::unique_ptr<DisplayValue> value(npc(originalDisplayValue));
+    auto displayValueConstraints(value->getConstraintMap());
     if (!string.speakEqualsPrint()) {
         displayValueConstraints[*npc(speakFeature)] = string.getSpeak();
     }
-    auto newValue = new DisplayValue(string.getPrint(), displayValueConstraints);
-    delete originalDisplayValue;
-    return newValue;
+    value.reset(new DisplayValue(string.getPrint(), displayValueConstraints));
+    return value.release();
 }
 
 DisplayValue*

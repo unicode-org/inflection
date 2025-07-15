@@ -243,13 +243,13 @@ inflection::util::ULocale::operator!=(const ::inflection::util::ULocale& other) 
 inline bool
 inflection::util::ULocale::operator<(const ::inflection::util::ULocale& other) const
 {
-    return other.fullName < fullName;
+    return fullName < other.fullName;
 }
 
 inline bool
 inflection::util::ULocale::operator>(const ::inflection::util::ULocale& other) const
 {
-    return other.fullName > fullName;
+    return fullName > other.fullName;
 }
 
 inline ::std::string_view

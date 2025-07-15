@@ -459,9 +459,9 @@ std::size_t NumberConcept::operator()(const NumberConcept& o) const noexcept
     return o.longValue();
 }
 
-bool NumberConcept::operator<(const NumberConcept& o) const
+std::partial_ordering NumberConcept::operator<=>(const NumberConcept& o) const
 {
-    return doubleValue() < o.doubleValue();
+    return doubleValue() <=> o.doubleValue();
 }
 
 int64_t NumberConcept::longValue() const

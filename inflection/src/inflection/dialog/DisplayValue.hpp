@@ -49,15 +49,9 @@ public:
      */
     bool operator==(const DisplayValue& o) const;
     /**
-     * Equivalent to the inverse of operator==. 
-     * @param o The display value object to be compared with this.
-     * @return True if the two display value are not the same, false otherwise.
-     */
-    bool operator!=(const DisplayValue& o) const;
-    /**
      * Generates a hash code compatible with std::hash for the displayValue.
      * @param displayValue The display value object to generate the hash value.
-     * @return the hash code compatible with std::hash for the displayValue.    
+     * @return the hash code compatible with std::hash for the displayValue.
      */
     std::size_t operator()(const DisplayValue& displayValue) const noexcept;
 

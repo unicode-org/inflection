@@ -50,14 +50,9 @@ std::multimap<std::u16string, std::u16string> LanguageGrammarFeatures_GrammarCat
     return {};
 }
 
-int32_t LanguageGrammarFeatures_GrammarCategory::compareTo(const LanguageGrammarFeatures_GrammarCategory& o) const
+std::weak_ordering LanguageGrammarFeatures_GrammarCategory::operator<=>(const LanguageGrammarFeatures_GrammarCategory& other) const
 {
-    return name.compare(o.name);
-}
-
-bool LanguageGrammarFeatures_GrammarCategory::operator<(const LanguageGrammarFeatures_GrammarCategory& other) const
-{
-    return (name.compare(other.name)) < 0;
+    return name <=> other.name;
 }
 
 } // namespace inflection::lang::features

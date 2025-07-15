@@ -126,12 +126,11 @@ std::u16string SemanticConceptList::toString() const
         if (previousConcept != nullptr) {
             displayValue += comma;
         }
-        auto conceptResult = npc(conceptObj)->toSpeakableString();
-        if (conceptResult != nullptr) {
-            displayValue += *npc(conceptResult);
+        ::std::unique_ptr<::inflection::dialog::SpeakableString> conceptResult(npc(conceptObj)->toSpeakableString());
+        if (conceptResult.get() != nullptr) {
+            displayValue += *conceptResult;
         }
         previousConcept = conceptObj;
-        delete conceptResult;
     }
     return u"[" + displayValue.getPrint() + u"]";
 }

@@ -41,6 +41,7 @@ private:
     const Inflector_MMappedDictionary mmappedDictionary;
 
     friend class DictionaryMetaData_MMappedDictionary;
+    friend struct std::default_delete<Inflector>;
     friend class Inflector_Inflection;
     friend class Inflector_InflectionPattern;
 };

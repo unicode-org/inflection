@@ -13,7 +13,7 @@
 namespace inflection::dictionary {
 
 const Inflector& Inflector::getInflector(const ::inflection::util::ULocale &locale) {
-    const Inflector* result = npc(DictionaryMetaData::createDictionary(locale))->dictionary->inflector;
+    const Inflector* result = npc(DictionaryMetaData::createDictionary(locale))->dictionary->inflector.get();
     if (result == nullptr) {
         throw ::inflection::exception::NullPointerException(inflection::util::StringViewUtils::to_u16string("Inflector not found for " + locale.getName()));
     }

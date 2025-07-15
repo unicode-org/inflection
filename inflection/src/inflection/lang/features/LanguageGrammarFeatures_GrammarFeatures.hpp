@@ -45,6 +45,11 @@ public:
      *         of this is lexicographically greater than the name of the argument other.
      */
     virtual int32_t compareTo(const LanguageGrammarFeatures_GrammarFeatures& other) const;
+    /**
+     * Checks if this name is less than the name of the other.
+     * @param other The grammar features object to be compared with this.
+     * @return True if the name is lexicographically less than the name of the argument other, false otherwise.
+     */
     bool operator<(const LanguageGrammarFeatures_GrammarFeatures& other) const;
 
 protected: /* package */

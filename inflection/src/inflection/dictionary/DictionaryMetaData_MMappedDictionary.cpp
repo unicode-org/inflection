@@ -45,8 +45,6 @@ DictionaryMetaData_MMappedDictionary::DictionaryMetaData_MMappedDictionary(::inf
 
 DictionaryMetaData_MMappedDictionary::~DictionaryMetaData_MMappedDictionary()
 {
-    delete inflector;
-    delete memoryMappedRegion;
 }
 
 const ::inflection::util::ULocale& DictionaryMetaData_MMappedDictionary::getLocale() const
@@ -189,11 +187,11 @@ bool DictionaryMetaData_MMappedDictionary::getWordPropertyValues(::std::vector<:
         return true;
     }
 
-    const bool useInflectionTrieForKeys = (inflector != nullptr) && (propertyNameIdentifier == inflectionKeyIdentifier);
+    const bool useInflectionTrieForKeys = (inflector.get() != nullptr) && (propertyNameIdentifier == inflectionKeyIdentifier);
 
     for (const auto propertyIdentifier: propertyIdentifiers) {
         npc(result)->emplace_back(useInflectionTrieForKeys
-                ? npc(inflector)->mmappedDictionary.identifierToInflectionPatternTrie.getKey(propertyIdentifier)
+                ? inflector->mmappedDictionary.identifierToInflectionPatternTrie.getKey(propertyIdentifier)
                 : propertyValuesStringContainer.getString(propertyIdentifier));
     }
 

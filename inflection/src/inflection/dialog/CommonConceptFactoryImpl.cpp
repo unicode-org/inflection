@@ -210,10 +210,9 @@ SpeakableString* CommonConceptFactoryImpl::quantify(const NumberConcept& number,
 {
     ::std::unique_ptr<SpeakableString> formattedNumber;
     if (semanticFeatureForNumberConcept != nullptr) {
-        auto speakableFeatureValue = npc(semanticConcept)->getFeatureValue(*npc(semanticFeatureForNumberConcept));
-        if (speakableFeatureValue != nullptr) {
-            auto rulename = semanticFeatureToNumberConceptName.find(npc(speakableFeatureValue)->getPrint());
-            delete speakableFeatureValue;
+        ::std::unique_ptr<SpeakableString> speakableFeatureValue(npc(semanticConcept)->getFeatureValue(*npc(semanticFeatureForNumberConcept)));
+        if (speakableFeatureValue.get() != nullptr) {
+            auto rulename = semanticFeatureToNumberConceptName.find(speakableFeatureValue->getPrint());
             if (rulename != semanticFeatureToNumberConceptName.end()) {
                 formattedNumber.reset(new SpeakableString(number.asSpokenWords(rulename->second)));
             }

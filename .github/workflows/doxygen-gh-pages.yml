@@ -10,6 +10,14 @@ on:
     paths:
       - 'inflection/**'
       - '.github/workflows/**'
+  pull_request:
+    paths:
+    - 'inflection/**'
+    - '.github/workflows/**'
+    - '!data/**'
+    - '!documents/**'
+    - '!fst/**'
+
 env:
   ICU_MAJOR: '77'
   ICU_MINOR: '1'

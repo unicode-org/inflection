@@ -131,9 +131,15 @@ install(TARGETS   inflection                  LIBRARY      COMPONENT inflection_
 install(DIRECTORY ${INFLECTION_INCLUDE_ROOT}/ TYPE INCLUDE COMPONENT inflection_headers)
 install(DIRECTORY ${INFLECTION_DATA_ROOT}/    TYPE DATA    COMPONENT inflection_data)
 
-
-
+# ----------------------------------------------------------------------------------------
 # CPack Configuration for Ubuntu Packaging
+#
+# To update ICU version:
+# 1. Update ICU_VERSION in the GitHub Actions workflow (.github/workflows/create-ubuntu-distribution-packaging.yml)
+# 2. Make sure the downloaded ICU binary file matches the filename format
+#    (e.g., icu4c-78_1-Ubuntu22.04-x64.tgz)
+# 3. Update the line below to match the correct ICU dependency in Debian packaging
+# ----------------------------------------------------------------------------------------
 
 set(CPACK_PACKAGE_NAME "unicode-inflection")
 
@@ -141,9 +147,8 @@ set(CPACK_PACKAGE_NAME "unicode-inflection")
 # CPack may inherit a default or cached version, so we explicitly set it here.
 set(CPACK_PACKAGE_VERSION "${INFLECTION_VERSION}")
 
+# Extract version components
 string(REPLACE "." ";" INFLECTION_VERSION_LIST "${INFLECTION_VERSION}")
-
-# Set defaults to avoid list index errors
 set(CPACK_PACKAGE_VERSION_MAJOR "0")
 set(CPACK_PACKAGE_VERSION_MINOR "0")
 set(CPACK_PACKAGE_VERSION_PATCH "0")
@@ -159,6 +164,7 @@ if(_len GREATER 2)
   list(GET INFLECTION_VERSION_LIST 2 CPACK_PACKAGE_VERSION_PATCH)
 endif()
 
+# Basic package metadata
 set(CPACK_PACKAGE_VENDOR "Unicode Consortium")
 set(CPACK_PACKAGE_CONTACT "https://github.com/unicode-org/inflection")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Unicode Inflection Library")
@@ -171,7 +177,7 @@ set(CPACK_DEBIAN_PACKAGE_SECTION "libs")
 set(CPACK_DEBIAN_PACKAGE_PRIORITY "optional")
 set(CPACK_DEBIAN_PACKAGE_VERSION "${INFLECTION_VERSION}")
 
-# Source package
+# Source package config
 set(CPACK_SOURCE_GENERATOR "TGZ")
 set(CPACK_SOURCE_IGNORE_FILES "/build/;/.git/;/.vscode/;/.idea/")
 set(CPACK_SOURCE_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${INFLECTION_VERSION}")

@@ -18,7 +18,9 @@ class INFLECTION_CLASS_API inflection::exception::MissingResourceException
     : public inflection::exception::RuntimeException
 {
 public:
+    /// @cond
     typedef ::inflection::exception::RuntimeException super;
+    /// @endcond
 
 private:
     ::std::u16string className;

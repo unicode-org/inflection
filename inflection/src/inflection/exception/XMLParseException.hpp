@@ -15,11 +15,17 @@ class INFLECTION_CLASS_API inflection::exception::XMLParseException
     : public inflection::exception::Exception
 {
 public:
+    /// @cond
     typedef ::inflection::exception::Exception super;
+    /// @endcond
 
 
 public:
     XMLParseException();
+    /**
+     * Construct an XMLParseException with a message.
+     * @param message The debugging message of this XML parse exception.
+     */
     explicit XMLParseException(const std::u16string& message);
     ~XMLParseException() override;
 };

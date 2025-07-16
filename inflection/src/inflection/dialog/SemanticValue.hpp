@@ -15,7 +15,10 @@ class INFLECTION_CLASS_API inflection::dialog::SemanticValue
     : public virtual ::inflection::Object
 {
 public:
+    /// @cond
     typedef ::inflection::Object super;
+    /// @endcond
+
 private:
     ::std::u16string label {  };
     ::std::u16string value {  };
@@ -44,6 +47,9 @@ public:
      */
     std::strong_ordering operator<=>(const SemanticValue&) const;
 
+    /**
+     * Construct a SemanticValue by a label and a string value.
+     */
     SemanticValue(const ::std::u16string& label, const ::std::u16string& string);
     /**
      * Destructor

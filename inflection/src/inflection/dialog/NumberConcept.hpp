@@ -22,7 +22,9 @@ class INFLECTION_CLASS_API inflection::dialog::NumberConcept
     : public virtual SpeakableConcept
 {
 public:
+    /// @cond
     typedef ::inflection::dialog::SpeakableConcept super;
+    /// @endcond
 
 private:
     struct Number {

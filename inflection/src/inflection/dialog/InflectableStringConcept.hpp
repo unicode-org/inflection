@@ -17,7 +17,9 @@ class INFLECTION_CLASS_API inflection::dialog::InflectableStringConcept
     : public SemanticFeatureConceptBase
 {
 public:
+    /// @cond
     typedef SemanticFeatureConceptBase super;
+    /// @endcond
 
 private:
     SpeakableString value;
@@ -38,6 +40,9 @@ public:
      * @return true when the value is empty.
      */
     bool isExists() const override;
+     /**
+     * Return a string helpful for debugging purposes.
+     */
     ::std::u16string toString() const override;
 
 private:

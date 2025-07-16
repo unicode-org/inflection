@@ -8,6 +8,7 @@
 #include <inflection/util/fwd.hpp>
 #include <inflection/Object.hpp>
 #include <map>
+#include <memory>
 #include <string>
 #include <vector>
 #include <string_view>
@@ -20,7 +21,9 @@ class INFLECTION_CLASS_API inflection::dictionary::DictionaryMetaData
 {
 
 public:
+    /// @cond
     typedef ::inflection::Object super;
+    /// @endcond
 
 public:
     /**
@@ -106,7 +109,7 @@ private:
     ~DictionaryMetaData() override;
 
 private:
-    DictionaryMetaData_MMappedDictionary* dictionary;
+    std::unique_ptr<DictionaryMetaData_MMappedDictionary> dictionary;
 private:
     friend class Inflector;
     friend class Inflector_MMappedDictionary;

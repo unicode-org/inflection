@@ -12,7 +12,6 @@
 
 #include <unicode/locid.h>
 #include <unicode/messageformat2.h>
-#include <unicode/messageformat2_function_registry.h>
 #include <unicode/messageformat2_formattable.h>
 
 using U_ICU_NAMESPACE::Locale;
@@ -98,8 +97,8 @@ FormattedPlaceholder InflectionFormatter::format(
 
     switch (toFormat.getType()) {
         case UFMT_STRING: {
-            inflection::dialog::SpeakableString input(
-                toFormat.getString(errorCode));
+            UnicodeString inputString = toFormat.getString(errorCode);
+            inflection::dialog::SpeakableString input(inputString);
             inflection::dialog::InflectableStringConcept stringConcept(
                 model, input);
             for (const auto& [key, value] : options.getOptions()) {
@@ -109,7 +108,15 @@ FormattedPlaceholder InflectionFormatter::format(
                                                 value.getString(errorCode));
                 }
             }
-            result += stringConcept.toSpeakableString()->getPrint();
+            std::unique_ptr<inflection::dialog::SpeakableString> string(
+                stringConcept.toSpeakableString());
+            if (string != nullptr) {
+                result += string->getPrint();
+            } else {
+                // stringConcept return nullptr When the constrained values is an empty set
+                // Fallback to the inputString, same as the default case in switch().
+                result += inputString;
+            }
             break;
         }
         default: {
@@ -181,7 +188,8 @@ void InflectionSelector::selectKey(
         auto value = model->getFeature(opt.at(u"select").getString(errorCode));
         UnicodeString feature;
         if (value != nullptr) {
-            auto result = stringConcept.getFeatureValue(*value);
+            std::unique_ptr<inflection::dialog::SpeakableString> result(
+                stringConcept.getFeatureValue(*value));
             if (result != nullptr) {
                 feature = result->getPrint();
             }

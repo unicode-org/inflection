@@ -7,10 +7,17 @@ on:
   pull_request:
     paths:
     - 'inflection/**'
+    - '.github/workflows/**'
     - '!data/**'
     - '!documents/**'
     - '!fst/**'
-
+  # Run the build when we merge into main
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/**'
+      - 'inflection/**'
 env:
   ICU_MAJOR: '77'
   ICU_MINOR: '1'
@@ -41,6 +48,11 @@ jobs:
           tar xvfz *.tgz
           rm *.tgz
 
+      - uses: actions/cache/save@v4
+        with:
+          path: ~/icu
+          key: ${{ runner.os }}-icu-${ICU_MAJOR}-${ICU_MINOR}
+
   checkleak:
     needs: cache-icu
     runs-on: ubuntu-latest
@@ -51,8 +63,30 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+
+    - name: Create Git LFS file list
+      run: git lfs ls-files -l |cut -d' ' -f1 |sort >.git/lfs-hashes.txt
+
+    - name: Restore Git LFS object cache
+      id: lfscache
+      uses: actions/cache@v4
       with:
-        lfs: 'true'
+        path: inflection/resources/org/unicode/inflection/dictionary
+        key: ${{ runner.os }}-lfsdata-v1-${{ hashFiles('.git/lfs-hashes.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-lfsdata-v1-
+          ${{ runner.os }}-lfsdata
+
+    - name: Fetch any needed Git LFS objects and prune extraneous ones
+      if: steps.lfscache.outputs.cache-hit != 'true'
+      run: git lfs fetch --prune
+
+    - name: Check out Git LFS content
+      if: steps.lfscache.outputs.cache-hit != 'true'
+      run: git lfs checkout
+
+    - name: Check LFS restore the files or not after checkout
+      run: ls -l inflection/resources/org/unicode/inflection/dictionary/*
 
     - name: Set reusable strings
       # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.

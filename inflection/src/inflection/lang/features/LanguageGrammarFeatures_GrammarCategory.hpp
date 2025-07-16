@@ -23,7 +23,9 @@ class INFLECTION_CLASS_API inflection::lang::features::LanguageGrammarFeatures_G
     : public virtual ::inflection::Object
 {
 public:
+    /// @cond
     typedef ::inflection::Object super;
+    /// @endcond
 
 private:
     std::u16string name {  };
@@ -57,7 +59,15 @@ public:
      * @param grammemeValue Use <code>getValues()</code> to get the list of values that can be used as an argument.
      */
     std::multimap<std::u16string, std::u16string> getGrammemeDependenciesForValue(std::u16string_view grammemeValue) const;
-    virtual int32_t compareTo(const LanguageGrammarFeatures_GrammarCategory& o) const;
+
+    /**
+     * Compares the name of this grammar category with the other..
+     * @param other The grammar category object to be compared with this.
+     * @return the value 0 if the name of the argument other is equal to the name of this; a value -1 if the name 
+     *         of this is lexicographically less than the name of the argument other; and a value 1 if the name
+     *         of this is lexicographically greater than the name of the argument other.
+     */
+    virtual int32_t compareTo(const LanguageGrammarFeatures_GrammarCategory& other) const;
     bool operator<(const LanguageGrammarFeatures_GrammarCategory& other) const;
 
 

@@ -15,7 +15,9 @@ class INFLECTION_CLASS_API inflection::exception::RuntimeException
     : public inflection::exception::Exception
 {
 public:
+    /// @cond
     typedef ::inflection::exception::Exception super;
+    /// @endcond
 
 public:
     /**

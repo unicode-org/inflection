@@ -82,7 +82,9 @@ class INFLECTION_CLASS_API inflection::util::ULocale
     : public virtual ::inflection::Object
 {
 public:
+    /// @cond
     typedef ::inflection::Object super;
+    /// @endcond
 
 public:
     /**
@@ -241,13 +243,13 @@ inflection::util::ULocale::operator!=(const ::inflection::util::ULocale& other) 
 inline bool
 inflection::util::ULocale::operator<(const ::inflection::util::ULocale& other) const
 {
-    return other.fullName < fullName;
+    return fullName < other.fullName;
 }
 
 inline bool
 inflection::util::ULocale::operator>(const ::inflection::util::ULocale& other) const
 {
-    return other.fullName > fullName;
+    return fullName > other.fullName;
 }
 
 inline ::std::string_view

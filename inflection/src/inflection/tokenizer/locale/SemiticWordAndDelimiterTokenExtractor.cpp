@@ -48,7 +48,7 @@ inflection::tokenizer::iterator::TokenExtractorIterator* SemiticWordAndDelimiter
 
 bool SemiticWordAndDelimiterTokenExtractor::isKnownWord(std::u16string_view compoundWord) const
 {
-    return wordsToNotSplit != nullptr && npc(wordsToNotSplit)->find(compoundWord) != npc(wordsToNotSplit)->end();
+    return wordsToNotSplit != nullptr && wordsToNotSplit->find(compoundWord) != wordsToNotSplit->end();
 }
 
 void

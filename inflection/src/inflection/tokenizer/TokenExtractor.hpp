@@ -33,10 +33,10 @@ private: /* package */
     ::inflection::util::ULocale locale;
 
 protected: /* protected */
-    ::std::set<::std::u16string_view>* const wordsToNotSplit { nullptr };
+    std::unique_ptr<::std::set<::std::u16string_view>> const wordsToNotSplit { nullptr };
 
 private:
-    icu4cxx::RegularExpression *splitPattern { nullptr };
+    std::unique_ptr<icu4cxx::RegularExpression> splitPattern { nullptr };
 
 public:
     ::std::set<::std::u16string_view>* createWordsToNotSplit(const ::inflection::util::ULocale& locale, const ::std::map<::std::u16string_view, const char16_t*>& config, bool (*isIndivisibleWordNormalized)(::std::u16string& workspace, const ::inflection::util::ULocale& locale, std::u16string_view str)) const;

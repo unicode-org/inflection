@@ -27,11 +27,9 @@ Chunk::Chunk(Token* start, Token* end, bool adoptTokens)
 Chunk::~Chunk()
 {
     if (ownTokens) {
-        auto curr = this->start_;
+        std::unique_ptr<Token> curr(this->start_);
         while (curr != nullptr) {
-            auto next = npc(curr)->getNext();
-            delete curr;
-            curr = next;
+            curr.reset(curr->getNext());
         }
     }
 }

@@ -37,7 +37,6 @@ SemanticFeatureModel::SemanticFeatureModel(const ::inflection::util::ULocale& lo
 
 SemanticFeatureModel::~SemanticFeatureModel()
 {
-    delete defaultDisplayFunction;
     for (const auto& defaultFeatureFunction : defaultFeatureFunctions) {
         delete defaultFeatureFunction.second;
     }
@@ -119,13 +118,12 @@ void SemanticFeatureModel::putDefaultFeatureFunctionByName(::std::u16string_view
 
 const DefaultDisplayFunction* SemanticFeatureModel::getDefaultDisplayFunction() const
 {
-    return defaultDisplayFunction;
+    return defaultDisplayFunction.get();
 }
 
 void SemanticFeatureModel::setDefaultDisplayFunction(DefaultDisplayFunction* defaultDisplayFunction)
 {
-    delete this->defaultDisplayFunction;
-    this->defaultDisplayFunction = defaultDisplayFunction;
+    this->defaultDisplayFunction.reset(defaultDisplayFunction);
 }
 
 ::std::vector<SemanticFeature*> SemanticFeatureModel::createDefaultSemanticFeatures(const ::inflection::util::ULocale& locale)

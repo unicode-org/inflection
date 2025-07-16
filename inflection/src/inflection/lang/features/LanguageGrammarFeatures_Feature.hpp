@@ -20,7 +20,9 @@ class INFLECTION_CLASS_API inflection::lang::features::LanguageGrammarFeatures_F
     : public virtual ::inflection::Object
 {
 public:
+    /// @cond
     typedef ::inflection::Object super;
+    /// @endcond
 
 private:
     std::u16string value {  };
@@ -37,6 +39,13 @@ public:
     virtual std::map<std::u16string, std::u16string> getConstraints() const;
 
 public: /* package */
+    /**
+     * Construct a feature by value and a mapping of constraints.
+     * @param value the name of the feature.
+     * @param constraints The constraints that are valid for the value. This map contains 
+     *        grammatical category name  mapped to the specific value valid for the 
+     *        grammatical category.
+     */
     LanguageGrammarFeatures_Feature(const std::u16string& value, const std::map<std::u16string, std::u16string>& constraints);
     /**
      * Destructor

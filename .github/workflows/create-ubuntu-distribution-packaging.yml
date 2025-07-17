@@ -100,4 +100,3 @@ jobs:
             inflection/build/*.tar.gz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-

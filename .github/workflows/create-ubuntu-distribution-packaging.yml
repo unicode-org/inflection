@@ -4,7 +4,7 @@
 # 2. Check the ICU binary URL — is the filename still Ubuntu22.04-x64.tgz?
 #    (e.g., icu4c-78_1-Ubuntu22.04-x64.tgz)
 # 3. Update inflection/CMakeLists.txt:
-#    - Modify `CPACK_DEBIAN_PACKAGE_DEPENDS` to match the new ICU version.
+#    Modify `CPACK_DEBIAN_PACKAGE_DEPENDS` to match the new ICU version.
 # ----------------------------------------------------------------------------------------
 
 

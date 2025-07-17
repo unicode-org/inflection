@@ -7,12 +7,13 @@
 #    - Modify `CPACK_DEBIAN_PACKAGE_DEPENDS` to match the new ICU version.
 # ----------------------------------------------------------------------------------------
 
+
 name: Build & Package (Ubuntu)
 
 on:
   push:
     tags:
-      - 'v*'
+      - '*'
   workflow_dispatch:
 
 jobs:
@@ -41,12 +42,11 @@ jobs:
         id: cache-icu
         with:
           path: /usr/local/icu-${{ env.ICU_VERSION }}
-          key: icu-${{ env.ICU_VERSION }}-${{ runner.os }}-${{ github.run_id }}
+          # Stable cache key for best reuse and minimal collision
+          key: icu-${{ env.ICU_VERSION }}-${{ runner.os }}
           restore-keys: |
-            icu-${{ env.ICU_VERSION }}-${{ runner.os }}-
             icu-${{ env.ICU_VERSION }}-
-
-
+            icu-
 
       - name: Install ICU (Binary)
         if: steps.cache-icu.outputs.cache-hit != 'true'
@@ -55,7 +55,6 @@ jobs:
           wget https://github.com/unicode-org/icu/releases/download/release-${ICU_VERSION//_/-}/icu4c-${ICU_VERSION}-Ubuntu22.04-x64.tgz
           mkdir icu-install
           tar -xzf icu4c-${ICU_VERSION}-Ubuntu22.04-x64.tgz -C icu-install
-
           sudo mkdir -p /usr/local/icu-${ICU_VERSION}
           sudo cp -r icu-install/icu/usr/local/* /usr/local/icu-${ICU_VERSION}/
           sudo ldconfig
@@ -70,14 +69,12 @@ jobs:
           export PKG_CONFIG_PATH=/usr/local/icu-${ICU_VERSION}/lib/pkgconfig:$PKG_CONFIG_PATH
           export CPLUS_INCLUDE_PATH=/usr/local/icu-${ICU_VERSION}/include:$CPLUS_INCLUDE_PATH
           export LD_LIBRARY_PATH=/usr/local/icu-${ICU_VERSION}/lib:$LD_LIBRARY_PATH
-
           mkdir -p inflection/build
           cd inflection/build
           CC=clang CXX=clang++ cmake .. \
             -DCMAKE_BUILD_TYPE=Release \
             -DICU_ROOT=/usr/local/icu-${ICU_VERSION} \
             -DCMAKE_PREFIX_PATH=/usr/local/icu-${ICU_VERSION}
-
           make -j$(nproc)
 
       - name: Run tests
@@ -110,4 +107,3 @@ jobs:
             inflection/build/*.tar.gz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-

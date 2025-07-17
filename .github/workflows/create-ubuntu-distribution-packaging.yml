@@ -12,7 +12,7 @@ name: Build & Package (Ubuntu)
 on:
   push:
     tags:
-      - '*'
+      - 'v*'
   workflow_dispatch:
 
 jobs:

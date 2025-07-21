@@ -8,6 +8,7 @@
 #include <inflection/dialog/SemanticFeature.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
 #include <inflection/dialog/DisplayValue.hpp>
+#include <inflection/dialog/DictionaryLookupInflector.hpp>
 #include <string>
 #include <map>
 
@@ -26,6 +27,10 @@ private:
     const ::inflection::dialog::SemanticFeature& personFeature;
     const ::inflection::dialog::SemanticFeature& tenseFeature;
     const ::inflection::dialog::SemanticFeature& moodFeature;
+    const ::inflection::dialog::SemanticFeature& pronounTypeFeature;
+    const ::inflection::dialog::SemanticFeature& determinationFeature;
+
+    ::inflection::dialog::DictionaryLookupInflector dictionaryInflector;
 
 public:
     ::inflection::dialog::DisplayValue* getDisplayValue(

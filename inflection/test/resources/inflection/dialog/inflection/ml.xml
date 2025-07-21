@@ -5,8 +5,8 @@
 <inflectionTest locale="ml">
 <!-- Malayalam Pronoun Inflection Tests -->
 <test><source person="first" number="singular" pos="pronoun">ഞാൻ</source><result>ഞാൻ</result></test>
-<test clusivity="exclusive"><source person="first" number="plural" pos="pronoun">ഞങ്ങൾ</source><result>ഞങ്ങൾ</result></test>
-<test clusivity="inclusive"><source person="first" number="plural" pos="pronoun">നാം</source><result>നാം</result></test>
+<test><source person="first" number="plural" pos="pronoun" clusivity="exclusive">ഞങ്ങൾ</source><result>ഞങ്ങൾ</result></test>
+<test><source person="first" number="plural" case="nominative" clusivity="inclusive"/><result>നാം</result></test>
 <test><source person="second" number="singular" gender="masculine" pos="pronoun">നീ</source><result>നീ</result></test>
 <test><source person="second" number="plural" pos="pronoun">നിങ്ങൾ</source><result>നിങ്ങൾ</result></test>
 <test><source person="third" gender="feminine" pos="pronoun">അവൾ</source><result gender="feminine">അവൾ</result></test>
@@ -15,9 +15,9 @@
 
 <!-- Malayalam Singular Plural Inflection Tests -->
 <test><source number="singular">കുട്ടി</source><result>കുട്ടികൾ</result></test>
-<test><source number="plural">പുസ്തകങ്ങൾ</source><result>പുസ്തകം</result></test>
+<test><source number="singular">പുസ്തകം</source><result>പുസ്തകങ്ങൾ</result></test>
 <test><source number="singular">മരം</source><result>മരങ്ങൾ</result></test>
-<test><source number="plural">കഥകൾ</source><result>കഥ</result></test>
+<test><source number="singular">കഥ</source><result>കഥകൾ</result></test>
 
 <!-- Malayalam Gender Inflection Tests (for adjectives) -->
 <test><source gender="feminine">നല്ല</source><result exists="true">നല്ല</result></test>

@@ -146,7 +146,7 @@ Tokenizer* TokenizerFactory::createTokenizerObject(const util::ULocale& locale, 
                 }
                 auto tokenizer = new Tokenizer(TOKENIZER_CONSTRUCTORS[mid].construct(locale, systemConfig));
                 // Initialize the data loading and caches so that it doesn't possibly fail later.
-                ::std::unique_ptr<TokenChain> unused(npc(tokenizer)->createTokenChain(u"initialization"));
+                delete npc(tokenizer)->createTokenChain(u"initialization");
                 return tokenizer;
             }
         }

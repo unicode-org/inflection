@@ -159,8 +159,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a1a8501b73050a898c0e6d23b3bc31d02"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aca018b62f214af090bea8a12fa8f7416" id="r_aca018b62f214af090bea8a12fa8f7416"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classinflection_1_1dialog_1_1NumberConcept.html#aca018b62f214af090bea8a12fa8f7416">operator()</a> (const <a class="el" href="classinflection_1_1dialog_1_1NumberConcept.html">NumberConcept</a> &amp;o) const noexcept</td></tr>
 <tr class="separator:aca018b62f214af090bea8a12fa8f7416"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0cbebbbb5d6f97a2630d0eb4150d2d47" id="r_a0cbebbbb5d6f97a2630d0eb4150d2d47"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classinflection_1_1dialog_1_1NumberConcept.html#a0cbebbbb5d6f97a2630d0eb4150d2d47">operator&lt;</a> (const <a class="el" href="classinflection_1_1dialog_1_1NumberConcept.html">NumberConcept</a> &amp;o) const</td></tr>
-<tr class="separator:a0cbebbbb5d6f97a2630d0eb4150d2d47"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab28328ac327277a2f1972d4cbcf66ac0" id="r_ab28328ac327277a2f1972d4cbcf66ac0"><td class="memItemLeft" align="right" valign="top">std::partial_ordering&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classinflection_1_1dialog_1_1NumberConcept.html#ab28328ac327277a2f1972d4cbcf66ac0">operator&lt;=&gt;</a> (const <a class="el" href="classinflection_1_1dialog_1_1NumberConcept.html">NumberConcept</a> &amp;o) const</td></tr>
+<tr class="separator:ab28328ac327277a2f1972d4cbcf66ac0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeb5ac040b780caad3f2ccd8762887a49" id="r_aeb5ac040b780caad3f2ccd8762887a49"><td class="memItemLeft" align="right" valign="top">int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classinflection_1_1dialog_1_1NumberConcept.html#aeb5ac040b780caad3f2ccd8762887a49">longValue</a> () const</td></tr>
 <tr class="separator:aeb5ac040b780caad3f2ccd8762887a49"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5ecf642d32b0adc29128310c547361cc" id="r_a5ecf642d32b0adc29128310c547361cc"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classinflection_1_1dialog_1_1NumberConcept.html#a5ecf642d32b0adc29128310c547361cc">doubleValue</a> () const</td></tr>
@@ -840,14 +840,14 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a0cbebbbb5d6f97a2630d0eb4150d2d47" name="a0cbebbbb5d6f97a2630d0eb4150d2d47"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0cbebbbb5d6f97a2630d0eb4150d2d47">&#9670;&#160;</a></span>operator&lt;()</h2>
+<a id="ab28328ac327277a2f1972d4cbcf66ac0" name="ab28328ac327277a2f1972d4cbcf66ac0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab28328ac327277a2f1972d4cbcf66ac0">&#9670;&#160;</a></span>operator&lt;=&gt;()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool inflection::dialog::NumberConcept::operator&lt; </td>
+          <td class="memname">std::partial_ordering inflection::dialog::NumberConcept::operator&lt;=&gt; </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classinflection_1_1dialog_1_1NumberConcept.html">NumberConcept</a> &amp;&#160;</td>
           <td class="paramname"><em>o</em></td><td>)</td>
@@ -855,7 +855,12 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Returns true when this <a class="el" href="classinflection_1_1dialog_1_1NumberConcept.html" title="Provides representation of numerics as lexical tokens, such as ordinals or cardinals.">NumberConcept</a> is less than the other <a class="el" href="classinflection_1_1dialog_1_1NumberConcept.html" title="Provides representation of numerics as lexical tokens, such as ordinals or cardinals.">NumberConcept</a> being compared. Formatting differences are not considered. </p>
+<p>String compares the order of the <a class="el" href="classinflection_1_1dialog_1_1NumberConcept.html" title="Provides representation of numerics as lexical tokens, such as ordinals or cardinals.">NumberConcept</a> objects. Formatting differences are not considered. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">o</td><td>The object to be compared with this. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1094,7 +1099,7 @@ Public Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jul 22 2025 15:40:35 for Inflection by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+Generated on Tue Jul 22 2025 16:34:22 for Inflection by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
 </small></address>
 </body>
 </html>

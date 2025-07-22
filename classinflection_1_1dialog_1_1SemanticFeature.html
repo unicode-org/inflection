@@ -117,11 +117,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:abc1185e72770bd793bd8cfa984b0b811"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd202d76cb42e1c70dd6a162d10b6df7" id="r_afd202d76cb42e1c70dd6a162d10b6df7"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classinflection_1_1dialog_1_1SemanticFeature.html#afd202d76cb42e1c70dd6a162d10b6df7">isAliased</a> () const</td></tr>
 <tr class="separator:afd202d76cb42e1c70dd6a162d10b6df7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4f18f77709695ab1268476a1af844cdb" id="r_a4f18f77709695ab1268476a1af844cdb"><td class="memItemLeft" align="right" valign="top"><a id="a4f18f77709695ab1268476a1af844cdb" name="a4f18f77709695ab1268476a1af844cdb"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;</b> (const <a class="el" href="classinflection_1_1dialog_1_1SemanticFeature.html">SemanticFeature</a> &amp;other) const</td></tr>
-<tr class="separator:a4f18f77709695ab1268476a1af844cdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a53b52b313a48e3b6a5f8615878506e48" id="r_a53b52b313a48e3b6a5f8615878506e48"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classinflection_1_1dialog_1_1SemanticFeature.html#a53b52b313a48e3b6a5f8615878506e48">operator==</a> (const <a class="el" href="classinflection_1_1dialog_1_1SemanticFeature.html">SemanticFeature</a> &amp;other) const</td></tr>
 <tr class="separator:a53b52b313a48e3b6a5f8615878506e48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa080664960917777280d86877f348218" id="r_aa080664960917777280d86877f348218"><td class="memItemLeft" align="right" valign="top">std::weak_ordering&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classinflection_1_1dialog_1_1SemanticFeature.html#aa080664960917777280d86877f348218">operator&lt;=&gt;</a> (const <a class="el" href="classinflection_1_1dialog_1_1SemanticFeature.html">SemanticFeature</a> &amp;other) const</td></tr>
+<tr class="separator:aa080664960917777280d86877f348218"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a38e181d80f01deed2aa78a262eb0daa1" id="r_a38e181d80f01deed2aa78a262eb0daa1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classinflection_1_1dialog_1_1SemanticFeature.html#a38e181d80f01deed2aa78a262eb0daa1">SemanticFeature</a> (const ::std::u16string &amp;name, <a class="el" href="classinflection_1_1dialog_1_1SemanticFeature.html#af942654a62b07de57e6736ae82b5110c">Type</a> type, const ::std::set&lt;::std::u16string &gt; &amp;boundedValues, bool aliased)</td></tr>
 <tr class="separator:a38e181d80f01deed2aa78a262eb0daa1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0aca52d1874c2b9cc4c728c84e0806a9" id="r_a0aca52d1874c2b9cc4c728c84e0806a9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classinflection_1_1dialog_1_1SemanticFeature.html#a0aca52d1874c2b9cc4c728c84e0806a9">SemanticFeature</a> (const <a class="el" href="classinflection_1_1dialog_1_1SemanticFeature.html">SemanticFeature</a> &amp;other)</td></tr>
@@ -440,6 +439,30 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="aa080664960917777280d86877f348218" name="aa080664960917777280d86877f348218"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa080664960917777280d86877f348218">&#9670;&#160;</a></span>operator&lt;=&gt;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::weak_ordering inflection::dialog::SemanticFeature::operator&lt;=&gt; </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classinflection_1_1dialog_1_1SemanticFeature.html">SemanticFeature</a> &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">other</td><td>The semantic feature object to be compared with this. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a53b52b313a48e3b6a5f8615878506e48" name="a53b52b313a48e3b6a5f8615878506e48"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a53b52b313a48e3b6a5f8615878506e48">&#9670;&#160;</a></span>operator==()</h2>
 
@@ -503,7 +526,7 @@ Static Public Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jul 22 2025 15:40:35 for Inflection by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+Generated on Tue Jul 22 2025 16:34:22 for Inflection by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
 </small></address>
 </body>
 </html>

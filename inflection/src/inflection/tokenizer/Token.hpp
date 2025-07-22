@@ -89,13 +89,6 @@ public:
      */
     bool operator==(const ::inflection::tokenizer::Token& rhs) const;
     /**
-     * Checks if the two Tokens are not the same.
-     *
-     * @param rhs   Other Token being compared to.
-     * @return      True if the two are not the same, false otherwise.
-     */
-    bool operator!=(const ::inflection::tokenizer::Token& rhs) const;
-    /**
      * Generates a unique hash of this Token.
      *
      * The hash is calculated by casting the <code>std::hash</code> of the underlying value (returned by getValue()).

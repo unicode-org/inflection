@@ -45,10 +45,6 @@ public:
      * Return true when this is equal to the other iterator.
      */
     bool operator==(const DictionaryKeyIterator& rhs) const;
-    /**
-     * Return false when this is equal to the other iterator.
-     */
-    bool operator!=(const DictionaryKeyIterator& rhs) const;
 
     /**
      * The first word in the dictionary.

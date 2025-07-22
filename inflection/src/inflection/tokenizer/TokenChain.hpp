@@ -40,13 +40,6 @@ public:
      */
     bool operator==(const inflection::tokenizer::TokenChain& rhs) const;
     /**
-     * Returns true if both TokenChains are not equal.
-     *
-     * @param rhs The other TokenChain.
-     * @return true if both TokenChains are not equal.
-     */
-    bool operator!=(const inflection::tokenizer::TokenChain& rhs) const;
-    /**
      * Returns a unique <code>std::size_t</code> hash of the entire TokenChain. This hash is calculated by summing all the
      * hashes of each Token in the TokenChain.
      *

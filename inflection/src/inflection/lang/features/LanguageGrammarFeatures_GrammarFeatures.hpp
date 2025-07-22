@@ -38,14 +38,10 @@ public:
      */
     std::vector<::inflection::lang::features::LanguageGrammarFeatures_Feature> getValues() const;
     /**
-     * Compares the name of this grammar features with the other..
-     * @param other The grammar features object to be compared with this.
-     * @return the value 0 if the name of the argument other is equal to the name of this; a value -1 if the name 
-     *         of this is lexicographically less than the name of the argument other; and a value 1 if the name
-     *         of this is lexicographically greater than the name of the argument other.
+     * String compares the order of the name.
+     * @param other The object to be compared with this.
      */
-    virtual int32_t compareTo(const LanguageGrammarFeatures_GrammarFeatures& other) const;
-    bool operator<(const LanguageGrammarFeatures_GrammarFeatures& other) const;
+    std::weak_ordering operator<=>(const LanguageGrammarFeatures_GrammarFeatures& other) const;
 
 protected: /* package */
     /**

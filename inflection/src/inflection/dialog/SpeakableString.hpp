@@ -55,12 +55,6 @@ public:
      */
     bool operator==(const ::inflection::dialog::SpeakableString& o) const;
     /**
-     * Equivalent to the inverse of operator==. 
-     * @param o The speakable string object to be compared with this.
-     * @return True if the two display value are not the same, false otherwise.
-     */
-    bool operator!=(const ::inflection::dialog::SpeakableString& o) const;
-    /**
      * Create a new speakable string by appened other to this.
      * @param o the speakable string to be appened with this.
      * @return the result speakable string object.

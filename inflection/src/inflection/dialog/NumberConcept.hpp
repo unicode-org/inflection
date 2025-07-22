@@ -259,10 +259,11 @@ public:
     std::size_t operator()(const NumberConcept& o) const noexcept;
 
     /**
-     * Returns true when this NumberConcept is less than the other NumberConcept being compared.
+     * String compares the order of the NumberConcept objects.
      * Formatting differences are not considered.
+     * @param o The object to be compared with this.
      */
-    bool operator<(const NumberConcept& o) const;
+    std::partial_ordering operator<=>(const NumberConcept& o) const;
 
     /**
      * Returns the value of this NumberConcept as a 64-bit number.

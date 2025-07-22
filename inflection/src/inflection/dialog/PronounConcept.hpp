@@ -109,11 +109,6 @@ public:
     bool operator==(const PronounConcept& o) const;
 
     /**
-     * Equivalent to the inverse of operator==
-     */
-    bool operator!=(const PronounConcept& o) const;
-
-    /**
      * Constructs a new PronounConcept based on custom pronouns. Any unspecified pronouns will use the language's default pronouns.
      * @param model The SemanticFeatureModel for the language
      * @param defaultDisplayData These are customized pronouns that override the default pronouns.

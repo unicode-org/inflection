@@ -82,12 +82,6 @@ bool TokenChain::operator==(const TokenChain& rhs) const
     return rightPointer == nullptr;
 }
 
-bool
-TokenChain::operator!=(const TokenChain& rhs) const
-{
-    return !(*this == rhs);
-}
-
 std::size_t TokenChain::operator()(const TokenChain& tokenChain) const noexcept
 {
     std::size_t hash = 0;

@@ -71,11 +71,6 @@ bool SpeakableString::operator==(const SpeakableString& o) const
     return this->print == o.print && ((this->speak == nullptr && o.speak == nullptr) || (this->speak != nullptr && o.speak != nullptr && *this->speak == *o.speak));
 }
 
-bool SpeakableString::operator!=(const SpeakableString& o) const
-{
-    return !(*this == o);
-}
-
 SpeakableString SpeakableString::operator+(const SpeakableString& o) const
 {
     ::std::u16string print(this->print);

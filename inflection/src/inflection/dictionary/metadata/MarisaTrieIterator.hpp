@@ -48,7 +48,6 @@ public:
     MarisaTrieIterator<T>&   operator++();
 
     bool operator==(const MarisaTrieIterator<T>& rhs) const;
-    bool operator!=(const MarisaTrieIterator<T>& rhs) const;
 
     MarisaTrieIterator<T>    begin() const;
     MarisaTrieIterator<T>    end() const;
@@ -90,12 +89,6 @@ bool
 inflection::dictionary::metadata::MarisaTrieIterator<T>::operator==(const MarisaTrieIterator& rhs) const {
     // Same trie with the same key id. It has to be the same.
     return &trie == &rhs.trie && reachedEnd == rhs.reachedEnd && (reachedEnd || agent.key().id() == rhs.agent.key().id());
-}
-
-template <typename T>
-bool
-inflection::dictionary::metadata::MarisaTrieIterator<T>::operator!=(const MarisaTrieIterator& rhs) const {
-    return !(*this == rhs);
 }
 
 template <typename T>

@@ -33,6 +33,7 @@ public:
 private:
     explicit Inflector(inflection::util::MemoryMappedFile& memoryMappedFile, const ::std::u16string& sourcePath, const ::inflection::dictionary::DictionaryMetaData_MMappedDictionary &dictionary);
 
+public:
     ~Inflector() override;
 
 private:

@@ -70,8 +70,8 @@ private:
     ::inflection::dictionary::metadata::StringArrayContainer propertyNameToKeyId {  };
     ::inflection::dictionary::metadata::StringContainer propertyValuesStringContainer {  };
     ::inflection::dictionary::metadata::CompressedArray<int32_t> propertyValueMaps {::std::vector<int32_t>()};
-    ::inflection::dictionary::Inflector* inflector {  };
-    ::inflection::util::MemoryMappedFile* memoryMappedRegion {  };
+    ::std::unique_ptr<::inflection::dictionary::Inflector> inflector {  };
+    ::std::unique_ptr<::inflection::util::MemoryMappedFile> memoryMappedRegion {  };
     int32_t inflectionKeyIdentifier { -1 };
     int32_t bitsPropertyValueMapKeyMask {  };
     int32_t bitsPropertyValueMapKeySize {  };

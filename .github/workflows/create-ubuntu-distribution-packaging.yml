@@ -12,7 +12,7 @@ name: Build & Package (Ubuntu)
 on:
   push:
     tags:
-      - 'v*'
+      - '*'
   workflow_dispatch:
 
 jobs:
@@ -20,6 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       ICU_VERSION: 77_1
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -40,8 +41,11 @@ jobs:
         uses: actions/cache@v4
         id: cache-icu
         with:
-          path: /usr/local
-          key: icu-${{ env.ICU_VERSION }}-ubuntu-${{ runner.os }}
+          path: /usr/local/icu-${{ env.ICU_VERSION }}
+          key: icu-${{ env.ICU_VERSION }}-${{ runner.os }}
+          restore-keys: |
+            icu-${{ env.ICU_VERSION }}-
+            icu-
 
       - name: Install ICU (Binary)
         if: steps.cache-icu.outputs.cache-hit != 'true'
@@ -50,7 +54,8 @@ jobs:
           wget https://github.com/unicode-org/icu/releases/download/release-${ICU_VERSION//_/-}/icu4c-${ICU_VERSION}-Ubuntu22.04-x64.tgz
           mkdir icu-install
           tar -xzf icu4c-${ICU_VERSION}-Ubuntu22.04-x64.tgz -C icu-install
-          sudo cp -r icu-install/icu/usr/local/* /usr/local/
+          sudo mkdir -p /usr/local/icu-${ICU_VERSION}
+          sudo cp -r icu-install/icu/usr/local/* /usr/local/icu-${ICU_VERSION}/
           sudo ldconfig
 
       - name: Setup ICU (from cache)
@@ -60,18 +65,22 @@ jobs:
 
       - name: Configure & Build
         run: |
-          export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH
-          export CPLUS_INCLUDE_PATH=/usr/local/include:$CPLUS_INCLUDE_PATH
+          export PKG_CONFIG_PATH=/usr/local/icu-${ICU_VERSION}/lib/pkgconfig:$PKG_CONFIG_PATH
+          export CPLUS_INCLUDE_PATH=/usr/local/icu-${ICU_VERSION}/include:$CPLUS_INCLUDE_PATH
+          export LD_LIBRARY_PATH=/usr/local/icu-${ICU_VERSION}/lib:$LD_LIBRARY_PATH
           mkdir -p inflection/build
           cd inflection/build
           CC=clang CXX=clang++ cmake .. \
             -DCMAKE_BUILD_TYPE=Release \
-            -DICU_ROOT=/usr/local \
-            -DCMAKE_PREFIX_PATH=/usr/local
+            -DICU_ROOT=/usr/local/icu-${ICU_VERSION} \
+            -DCMAKE_PREFIX_PATH=/usr/local/icu-${ICU_VERSION}
           make -j$(nproc)
 
       - name: Run tests
         run: |
+          export PKG_CONFIG_PATH=/usr/local/icu-${ICU_VERSION}/lib/pkgconfig:$PKG_CONFIG_PATH
+          export CPLUS_INCLUDE_PATH=/usr/local/icu-${ICU_VERSION}/include:$CPLUS_INCLUDE_PATH
+          export LD_LIBRARY_PATH=/usr/local/icu-${ICU_VERSION}/lib:$LD_LIBRARY_PATH
           cd inflection/build
           make -j$(nproc) check
 

@@ -117,18 +117,18 @@ static ::std::map<const ::icu4cxx::UnicodeSet*, const ::icu4cxx::UnicodeSet*>* S
     return setSingletons_;
 }
 
-const icu4cxx::UnicodeSet* StringFilterUtil::getSetSingleton(::icu4cxx::UnicodeSet* set)
+const icu4cxx::UnicodeSet* StringFilterUtil::getSetSingleton(::icu4cxx::UnicodeSet* input)
 {
     // TODO: this code probably doesn't work that well anymore. We should check the caching again.
     auto setSingletons = SET_SINGLETONS();
     const icu4cxx::UnicodeSet* singleton;
-    auto singletonCache = npc(setSingletons)->find(set);
+    ::std::unique_ptr<::icu4cxx::UnicodeSet> set(input);
+    auto singletonCache = npc(setSingletons)->find(set.get());
     if (singletonCache == npc(setSingletons)->end()) {
-        singleton = ::inflection::util::UnicodeSetUtils::freeze(set);
+        singleton = ::inflection::util::UnicodeSetUtils::freeze(set.release());
         npc(setSingletons)->emplace(singleton, singleton);
     }
     else {
-        delete set;
         singleton = singletonCache->second;
     }
     return singleton;

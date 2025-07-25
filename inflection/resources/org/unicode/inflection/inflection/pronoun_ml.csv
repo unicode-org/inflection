@@ -1,8 +1,10 @@
+അവൻ,third,singular,nominative,masculine,personal,distal
 എനിക്ക്,first,singular,dative,personal
 ഞാൻ,first,singular,nominative,exclusive,personal
 എന്നെ,first,singular,accusative,exclusive,personal
 എന്റെ,first,singular,genitive,determination=dependent,exclusive,personal
 എന്റേത്,first,singular,genitive,determination=independent,exclusive,personal
+നമ്മെ,first,plural,accusative,inclusive,personal
 നമുക്ക്,first,plural,dative,inclusive,personal
 ഞങ്ങൾ,first,plural,nominative,exclusive,personal
 ഞങ്ങളെ,first,plural,accusative,exclusive,personal
@@ -26,7 +28,6 @@
 നിങ്ങൾക്ക്,second,plural,dative,formal,personal
 നിങ്ങളുടെ,second,plural,genitive,formal,determination=dependent,personal
 നിങ്ങളുടേതു്,second,plural,genitive,formal,determination=independent,personal
-അവൻ,third,singular,nominative,masculine,personal,distal
 അവനെ,third,singular,accusative,masculine,personal,distal
 അവന്റെ,third,singular,genitive,masculine,determination=dependent,personal,distal
 അവന്റെത്,third,singular,genitive,masculine,determination=independent,personal,distal
@@ -79,5 +80,4 @@
 എവൾ,third,singular,nominative,feminine,interrogative
 എവർ,third,plural,nominative,interrogative
 ഏത്,third,singular,nominative,neuter,interrogative
-നമ്മൾ,first,plural,nominative,inclusive,personal
-നമ്മെ,first,plural,accusative,inclusive,personal
+നാം,first,plural,nominative,inclusive,personal

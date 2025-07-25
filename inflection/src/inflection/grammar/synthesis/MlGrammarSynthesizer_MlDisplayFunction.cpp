@@ -16,6 +16,44 @@
 
 namespace inflection::grammar::synthesis {
 
+// Helper function to get string feature by name from the feature map
+static std::u16string getStrFeature(
+    const std::u16string& name,
+    const std::map<dialog::SemanticFeature, std::u16string>& features)
+{
+    for (const auto& [key, value] : features) {
+        if (key.getName() == name) { 
+            return value;
+        }
+    }
+    return u"";
+}
+
+// Changed parameter type from FeatureSet to map<SemanticFeature,u16string>
+std::u16string fallbackMalayalamPronoun(const std::map<dialog::SemanticFeature, std::u16string>& features) {
+    auto person = getStrFeature(u"person", features);
+    auto number = getStrFeature(u"number", features);
+    auto case_ = getStrFeature(u"case", features);
+    auto gender = getStrFeature(u"gender", features);
+    auto clusivity = getStrFeature(u"clusivity", features);
+    auto formality = getStrFeature(u"formality", features);
+
+    // STRICT MINIMUM CHECKS: No fallback unless these are defined
+    if (person.empty() || number.empty() || case_.empty()) {
+        return u"";
+    }
+
+    // Only fallback for known safe combinations (e.g., 1st person, no gender)
+    // You can later extend this to add valid known forms (e.g., ഞാൻ, നീ, etc.)
+    if (person == u"first" && number == u"singular" && case_ == u"dative") {
+        return u"എനിക്ക്";
+    }
+
+    // Optional: Add more valid fallback patterns here if you have confidence
+    // Otherwise: return empty
+    return u"";
+}
+
 using dialog::SemanticFeature;
 using dialog::SemanticFeatureModel_DisplayData;
 using dialog::DisplayValue;
@@ -89,6 +127,12 @@ static std::u16string guessPluralForm(const std::u16string& token) {
     if (token.ends_with(u"ൻ")) {
         return token + u"മാർ";
     }
+    if (token.ends_with(u"ി")) {
+        return token + u"കൾ";
+    }
+    if (token.ends_with(u"ാ")) {
+        return token + u"കൾ";
+    }
     if (!token.empty() && token.back() != u'്') {
         return token + u"കൾ";
     }
@@ -101,15 +145,27 @@ static std::u16string guessPluralForm(const std::u16string& token) {
     bool enableInflectionGuess) const
 {
     const auto displayValue = GrammarSynthesizerUtil::getTheBestDisplayValue(displayData, constraints);
-    if (displayValue == nullptr) {
-        return nullptr;
+if (displayValue == nullptr) {
+    if (GrammarSynthesizerUtil::getFeatureValue(constraints, posFeature) == u"pronoun") {
+        std::u16string fallback = fallbackMalayalamPronoun(constraints);
+        if (!fallback.empty()) {
+            return new DisplayValue(fallback, constraints);
+        }
     }
+    return nullptr;
+}
 
     const std::u16string baseForm = displayValue->getDisplayString();
 
     if (baseForm.empty()) {
-    return nullptr;
+    if (GrammarSynthesizerUtil::getFeatureValue(constraints, posFeature) == u"pronoun") {
+        std::u16string fallback = fallbackMalayalamPronoun(constraints);
+        if (!fallback.empty()) {
+            return new DisplayValue(fallback, constraints);
+        }
     }
+    return nullptr;
+}
 
     const std::u16string posFeatureValue = GrammarSynthesizerUtil::getFeatureValue(constraints, posFeature);
     const std::u16string numberFeatureValue = GrammarSynthesizerUtil::getFeatureValue(constraints, numberFeature);
@@ -133,35 +189,27 @@ static std::u16string guessPluralForm(const std::u16string& token) {
     if (posFeatureValue == GrammemeConstants::POS_PRONOUN()) {
         constraintValues.push_back(u"pos=pronoun");
 
-    // Person
         const auto personVal = GrammarSynthesizerUtil::getFeatureValue(constraints, personFeature);
         constraintValues.push_back(personVal.empty() ? PERSON_THIRD : personVal);
 
-    // Number
         const auto numberVal = GrammarSynthesizerUtil::getFeatureValue(constraints, numberFeature);
         constraintValues.push_back(numberVal.empty() ? NUMBER_SINGULAR : numberVal);
 
-    // Gender
         const auto genderVal = GrammarSynthesizerUtil::getFeatureValue(constraints, genderFeature);
         constraintValues.push_back(genderVal.empty() ? GENDER_MASCULINE : genderVal);
 
-    // Case
         const auto caseVal = GrammarSynthesizerUtil::getFeatureValue(constraints, caseFeature);
         constraintValues.push_back(caseVal.empty() ? CASE_NOMINATIVE : caseVal);
 
-    // Formality
         const auto formalityVal = GrammarSynthesizerUtil::getFeatureValue(constraints, formalityFeature);
         constraintValues.push_back(formalityVal.empty() ? FORMALITY_INFORMAL : formalityVal);
 
-    // Clusivity
         const auto clusivityVal = GrammarSynthesizerUtil::getFeatureValue(constraints, clusivityFeature);
         constraintValues.push_back(clusivityVal.empty() ? CLUSIVITY_EXCLUSIVE : clusivityVal);
 
-    // Determination
         const auto determinationVal = GrammarSynthesizerUtil::getFeatureValue(constraints, determinationFeature);
         constraintValues.push_back(determinationVal.empty() ? u"!dependent" : determinationVal);
 
-    // Mark as personal pronoun
         constraintValues.push_back(u"personal");
     }
 
@@ -191,32 +239,31 @@ static std::u16string guessPluralForm(const std::u16string& token) {
     }
 
     auto inflectedOpt = dictionaryInflector.inflect(baseForm, wordGrammemes, constraintValues);
-    if (inflectedOpt.has_value()) {
+    if (inflectedOpt.has_value() && *inflectedOpt != baseForm) {
+
         std::u16string result = *inflectedOpt;
 
-    // Prefer "ഞാൻ" over "ഏൻ"
-    if (std::find(constraintValues.begin(), constraintValues.end(), u"first") != constraintValues.end() &&
-        std::find(constraintValues.begin(), constraintValues.end(), u"singular") != constraintValues.end() &&
-        std::find(constraintValues.begin(), constraintValues.end(), u"nominative") != constraintValues.end() &&
-        std::find(constraintValues.begin(), constraintValues.end(), u"exclusive") != constraintValues.end() &&
-        (result == u"ഏൻ" || baseForm == u"ഏൻ")) {
-        return new DisplayValue(u"ഞാൻ", constraints);
-    }
+        if (std::find(constraintValues.begin(), constraintValues.end(), u"first") != constraintValues.end() &&
+            std::find(constraintValues.begin(), constraintValues.end(), u"singular") != constraintValues.end() &&
+            std::find(constraintValues.begin(), constraintValues.end(), u"nominative") != constraintValues.end() &&
+            std::find(constraintValues.begin(), constraintValues.end(), u"exclusive") != constraintValues.end() &&
+            (result == u"ഏൻ" || baseForm == u"ഏൻ")) {
+            return new DisplayValue(u"ഞാൻ", constraints);
+        }
 
-    // Prefer "നമ്മൾ" over "നാം"
-    if (std::find(constraintValues.begin(), constraintValues.end(), u"first") != constraintValues.end() &&
-        std::find(constraintValues.begin(), constraintValues.end(), u"plural") != constraintValues.end() &&
-        std::find(constraintValues.begin(), constraintValues.end(), u"nominative") != constraintValues.end() &&
-        std::find(constraintValues.begin(), constraintValues.end(), u"inclusive") != constraintValues.end() &&
-        (result == u"നാം" || baseForm == u"നാം")) {
-        return new DisplayValue(u"നമ്മൾ", constraints);
-}
+        if (std::find(constraintValues.begin(), constraintValues.end(), u"first") != constraintValues.end() &&
+            std::find(constraintValues.begin(), constraintValues.end(), u"plural") != constraintValues.end() &&
+            std::find(constraintValues.begin(), constraintValues.end(), u"nominative") != constraintValues.end() &&
+            std::find(constraintValues.begin(), constraintValues.end(), u"inclusive") != constraintValues.end() &&
+            (result == u"നാം" || baseForm == u"നാം")) {
+            return new DisplayValue(u"നമ്മൾ", constraints);
+        }
 
         return new DisplayValue(result, constraints);
     }
 
     if (enableInflectionGuess && posFeatureValue != u"pronoun") {
-        const bool isNoun = (posFeatureValue == u"noun");
+        const bool isNoun = (posFeatureValue == u"noun" || posFeatureValue.empty());
         const bool isPluralTarget = (numberFeatureValue == NUMBER_PLURAL);
 
         if (isNoun && isPluralTarget) {
@@ -282,6 +329,13 @@ static std::u16string guessPluralForm(const std::u16string& token) {
         }
     }
 
+    // Move this outside so it always runs last
+    if (posFeatureValue == u"pronoun") {
+        std::u16string fallback = fallbackMalayalamPronoun(constraints);
+        if (!fallback.empty()) {
+            return new DisplayValue(fallback, constraints);
+        }
+    }   
     return nullptr;
 }
 

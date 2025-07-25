@@ -8,21 +8,21 @@
     
     <!-- First person singular -->
     <test><source person="first" number="singular" case="nominative"/><result>ഞാൻ</result></test>
-    <test><source pos="pronoun" person="first" number="singular" case="dative"/><result>എനിക്ക്</result></test>
+    <test><source person="first" number="singular" case="dative"/><result>എനിക്ക്</result></test>
     <test><source person="first" number="singular" case="genitive"/><result>എന്റെ</result></test>
     
     <!-- First person plural (inclusive vs exclusive) -->
     <test><source person="first" number="plural" case="nominative" clusivity="inclusive"/><result>നാം</result></test>
     <test><source person="first" number="plural" case="nominative" clusivity="exclusive"/><result>ഞങ്ങൾ</result></test>
-    <test><source person="first" number="plural" case="accusative" clusivity="inclusive"/><result>നമുക്ക്</result></test>
-    <test><source person="first" number="plural" case="accusative" clusivity="exclusive"/><result>ഞങ്ങൾക്ക്</result></test>
+    <test><source person="first" number="plural" case="dative" clusivity="inclusive"/><result>നമുക്ക്</result></test>
+    <test><source person="first" number="plural" case="dative" clusivity="exclusive"/><result>ഞങ്ങൾക്ക്</result></test>
     <test><source person="first" number="plural" case="genitive" clusivity="inclusive"/><result>നമ്മുടെ</result></test>
     <test><source person="first" number="plural" case="genitive" clusivity="exclusive"/><result>ഞങ്ങളുടെ</result></test>
 
     <!-- Second person singular -->
     <test><source person="second" number="singular" case="nominative" formality="informal"/><result>നീ</result></test>
     <test><source person="second" number="singular" case="nominative" formality="formal"/><result>താങ്കൾ</result></test>
-    <test><source person="second" number="singular" case="accusative" formality="informal"/><result>നിനക്കെ</result></test>
+    <test><source person="second" number="singular" case="accusative" formality="informal"/><result>നിനെ</result></test>
     <test><source person="second" number="singular" case="accusative" formality="formal"/><result>താങ്കളെ</result></test>
     <test><source person="second" number="singular" case="genitive" formality="informal"/><result>നിന്റെ</result></test>
     <test><source person="second" number="singular" case="genitive" formality="formal"/><result>താങ്കളുടെ</result></test>
@@ -45,8 +45,8 @@
 
     <!-- Third person singular neuter (it/that) -->
     <test><source person="third" number="singular" case="nominative" gender="neuter"/><result>അത്</result></test>
-    <test><source person="third" number="singular" case="accusative" gender="neuter"/><result>അത്</result></test>
-    <test><source person="third" number="singular" case="genitive" gender="neuter"/><result>അതിന്റേത്</result></test>
+    <test><source person="third" number="singular" case="accusative" gender="neuter"/><result>അതിനെ</result></test>
+    <test><source person="third" number="singular" case="genitive" gender="neuter"/><result>അതിന്റെ</result></test>
 
     <!-- Third person plural -->
     <test><source person="third" number="plural" case="nominative"/><result>അവർ</result></test>

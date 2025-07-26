@@ -14,18 +14,6 @@
 
 namespace inflection::grammar::synthesis {
 
-const ::std::u16string& NlGrammarSynthesizer::SIZENESS()
-{
-    static auto SIZENESS_ = new ::std::u16string(u"sizeness");
-    return *npc(SIZENESS_);
-}
-
-const ::std::u16string& NlGrammarSynthesizer::DECLENSION()
-{
-    static auto DECLENSION_ = new ::std::u16string(u"declension");
-    return *npc(DECLENSION_);
-}
-
 const ::std::u16string& NlGrammarSynthesizer::DECLENSION_UNDECLINED()
 {
     static auto DECLENSION_UNDECLINED_ = new ::std::u16string(u"undeclined");
@@ -36,18 +24,6 @@ const ::std::u16string& NlGrammarSynthesizer::DECLENSION_DECLINED()
 {
     static auto DECLENSION_DECLINED_ = new ::std::u16string(u"declined");
     return *npc(DECLENSION_DECLINED_);
-}
-
-const ::std::u16string& NlGrammarSynthesizer::SIZENESS_DIMINUTIVE()
-{
-    static auto SIZENESS_DIMINUTIVE_ = new ::std::u16string(u"diminutive");
-    return *npc(SIZENESS_DIMINUTIVE_);
-}
-
-const ::std::u16string& NlGrammarSynthesizer::SIZENESS_UNSIZED()
-{
-    static auto SIZENESS_UNSIZED_ = new ::std::u16string(u"unsized");
-    return *npc(SIZENESS_UNSIZED_);
 }
 
 void NlGrammarSynthesizer::addSemanticFeatures(::inflection::dialog::SemanticFeatureModel& featureModel)

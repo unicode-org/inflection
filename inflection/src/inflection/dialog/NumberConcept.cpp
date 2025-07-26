@@ -307,7 +307,7 @@ SpeakableString NumberConcept::getAsDigits() const
         }
         else if (::inflection::util::LocaleUtils::SWITZERLAND_FRENCH() == language) {
             if (llabs(longValue()) < 60) {
-                speakVal = format(createSimpleNumberFormat(language));
+                speakVal = format(createSimpleNumberFormat(::inflection::util::LocaleUtils::FRANCE()));
             } else {
                 speakVal = getAsWords();
             }

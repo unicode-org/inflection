@@ -66,20 +66,20 @@ inflection::dialog::SpeakableString* FrGrammarSynthesizer_ArticleLookupFunction:
             return new inflection::dialog::SpeakableString(inflection::util::StringViewUtils::trim(pluralString + (displayString.length() > firstWord.length() ? displayString.substr(npc(firstToken)->getEndChar() + 1) : u"")));
         }
     }
-    auto countValue = FrGrammarSynthesizer::getCount(displayValue.getFeatureValue(*npc(countFeature)));
-    if (countValue == FrGrammarSynthesizer::Count::undefined) {
+    auto countValue = FrGrammarSynthesizer::getNumber(displayValue.getFeatureValue(*npc(countFeature)));
+    if (countValue == FrGrammarSynthesizer::Number::undefined) {
         auto value(countLookupFunction.determine(displayString));
-        countValue = FrGrammarSynthesizer::getCount(&value);
+        countValue = FrGrammarSynthesizer::getNumber(&value);
     }
     auto genderValue = FrGrammarSynthesizer::getGender(displayValue.getFeatureValue(*npc(genderFeature)));
     if (genderValue == FrGrammarSynthesizer::Gender::undefined) {
         auto value(genderLookupFunction.determine(displayString));
         genderValue = FrGrammarSynthesizer::getGender(&value);
     }
-    if (FrGrammarSynthesizer::Count::plural == countValue) {
+    if (FrGrammarSynthesizer::Number::plural == countValue) {
         return createPreposition(displayValue, pluralString);
     }
-    if (FrGrammarSynthesizer::Count::singular == countValue) {
+    if (FrGrammarSynthesizer::Number::singular == countValue) {
         if (!singularStartsWithVowelString.empty() && !displayString.empty()
             && (applyVowelElisionToBothGenders || FrGrammarSynthesizer::Gender::masculine == genderValue)
             && ::inflection::dictionary::PhraseProperties::isStartsWithVowel(::inflection::util::LocaleUtils::FRENCH(), displayString))

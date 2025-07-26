@@ -109,6 +109,8 @@
     <test><source case="genitive">Cities</source><result>Cities’</result></test>
     <test><source case="genitive">Spatula City</source><result>Spatula City’s</result></test>
     <test><source case="genitive">Spatula Cities</source><result>Spatula Cities’</result></test>
+    <test><source case="genitive">Charles</source><result>Charles’s</result></test>
+    <test><source case="genitive">Niagara Falls</source><result>Niagara Falls’</result></test>
     <test><source number="plural">day</source><result>days</result></test>
     <test><source number="plural">boy</source><result>boys</result></test>
     <test><source number="plural">fan</source><result>fans</result></test>

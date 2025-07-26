@@ -12,7 +12,7 @@
 
 namespace inflection::dialog {
 
-static bool getFeatureValues(::std::set<::std::u16string>* articles, const std::vector<::inflection::lang::features::LanguageGrammarFeatures_Feature>& featureValues, const ::std::set<::std::u16string>& excludeValues)
+static bool getFeatureValues(::std::set<::std::u16string, std::less<>>* articles, const std::vector<::inflection::lang::features::LanguageGrammarFeatures_Feature>& featureValues, const ::std::set<::std::u16string, std::less<>>& excludeValues)
 {
     bool hasTrailingSpace = false;
     bool normalizeApostrophe = false;
@@ -28,7 +28,7 @@ static bool getFeatureValues(::std::set<::std::u16string>* articles, const std::
     }
     for (const auto& featureValue : featureValues) {
         std::u16string featureValueStr(featureValue.getValue());
-        if (featureValueStr.empty() || excludeValues.find(featureValueStr) != excludeValues.end()) {
+        if (featureValueStr.empty() || excludeValues.contains(featureValueStr)) {
             continue;
         }
         normalizeApostrophe = normalizeApostrophe || featureValueStr.find(u'’') != std::u16string::npos;
@@ -37,7 +37,7 @@ static bool getFeatureValues(::std::set<::std::u16string>* articles, const std::
     return normalizeApostrophe;
 }
 
-ArticleDetectionFunction::ArticleDetectionFunction(const ::inflection::util::ULocale& locale, const ::std::set<::std::u16string>& definiteFeatures, const ::std::set<::std::u16string>& excludeDefiniteValues, const ::std::set<::std::u16string>& indefiniteFeatures, const ::std::set<::std::u16string>& excludeIndefiniteValues)
+ArticleDetectionFunction::ArticleDetectionFunction(const ::inflection::util::ULocale& locale, const ::std::set<::std::u16string, std::less<>>& definiteFeatures, const ::std::set<::std::u16string, std::less<>>& excludeDefiniteValues, const ::std::set<::std::u16string, std::less<>>& indefiniteFeatures, const ::std::set<::std::u16string, std::less<>>& excludeIndefiniteValues)
     : super()
     , locale(locale)
 {
@@ -47,10 +47,10 @@ ArticleDetectionFunction::ArticleDetectionFunction(const ::inflection::util::ULo
         if (values.empty()) {
             continue;
         }
-        if (definiteFeatures.find(feature.getName()) != definiteFeatures.end()) {
+        if (definiteFeatures.contains(feature.getName())) {
             normalizeApostrophe = getFeatureValues(&definiteArticles, values, excludeDefiniteValues) || normalizeApostrophe;
         }
-        if (indefiniteFeatures.find(feature.getName()) != indefiniteFeatures.end()) {
+        if (indefiniteFeatures.contains(feature.getName())) {
             normalizeApostrophe = getFeatureValues(&indefiniteArticles, values, excludeIndefiniteValues) || normalizeApostrophe;
         }
     }

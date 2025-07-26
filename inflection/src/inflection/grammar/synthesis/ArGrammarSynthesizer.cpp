@@ -47,44 +47,45 @@ void ArGrammarSynthesizer::addSemanticFeatures(::inflection::dialog::SemanticFea
 }
 
 ArGrammarSynthesizer::PronounNumber ArGrammarSynthesizer::getPronounNumber(const ::std::u16string* value) {
-    static auto valueMap = new ::std::map<::std::u16string, PronounNumber>({
-        {GrammemeConstants::NUMBER_SINGULAR(), PronounNumber::singular},
-        {GrammemeConstants::NUMBER_DUAL(), PronounNumber::dual},
-        {GrammemeConstants::NUMBER_PLURAL(), PronounNumber::plural}
-    });
     if (value != nullptr) {
-        auto result = npc(valueMap)->find(*npc(value));
-        if (result != npc(valueMap)->end()) {
-            return result->second;
+        const auto& valRef = *value;
+        if (valRef == GrammemeConstants::NUMBER_SINGULAR()) {
+            return PronounNumber::singular;
+        }
+        if (valRef == GrammemeConstants::NUMBER_DUAL()) {
+            return PronounNumber::dual;
+        }
+        if (valRef == GrammemeConstants::NUMBER_PLURAL()) {
+            return PronounNumber::plural;
         }
     }
     return PronounNumber::undefined;
 }
 
 ArGrammarSynthesizer::Person ArGrammarSynthesizer::getPerson(const ::std::u16string* value) {
-    static auto valueMap = new ::std::map<::std::u16string, ArGrammarSynthesizer::Person>({
-        {GrammemeConstants::PERSON_FIRST(), Person::first},
-        {GrammemeConstants::PERSON_SECOND(), Person::second},
-        {GrammemeConstants::PERSON_THIRD(), Person::third}
-    });
     if (value != nullptr) {
-        auto result = npc(valueMap)->find(*npc(value));
-        if (result != npc(valueMap)->end()) {
-            return result->second;
+        const auto& valRef = *value;
+        if (valRef == GrammemeConstants::PERSON_FIRST()) {
+            return Person::first;
+        }
+        if (valRef == GrammemeConstants::PERSON_SECOND()) {
+            return Person::second;
+        }
+        if (valRef == GrammemeConstants::PERSON_THIRD()) {
+            return Person::third;
         }
     }
     return Person::undefined;
 }
 
 ArGrammarSynthesizer::PronounGender ArGrammarSynthesizer::getPronounGender(const ::std::u16string* value) {
-    static auto valueMap = new ::std::map<::std::u16string, PronounGender>({
-        {GrammemeConstants::GENDER_MASCULINE(), PronounGender::masculine},
-        {GrammemeConstants::GENDER_FEMININE(), PronounGender::feminine}
-    });
     if (value != nullptr) {
-        auto result = npc(valueMap)->find(*npc(value));
-        if (result != npc(valueMap)->end()) {
-            return result->second;
+        const auto& valRef = *value;
+        if (valRef == GrammemeConstants::GENDER_MASCULINE()) {
+            return PronounGender::masculine;
+        }
+        if (valRef == GrammemeConstants::GENDER_FEMININE()) {
+            return PronounGender::feminine;
         }
     }
     return PronounGender::undefined;

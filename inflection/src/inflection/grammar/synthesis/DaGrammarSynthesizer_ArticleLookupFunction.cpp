@@ -34,12 +34,12 @@ DaGrammarSynthesizer_ArticleLookupFunction::DaGrammarSynthesizer_ArticleLookupFu
 
 inflection::dialog::SpeakableString* DaGrammarSynthesizer_ArticleLookupFunction::getFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const
 {
-    auto countValue = DaGrammarSynthesizer::getCount(displayValue.getFeatureValue(*npc(countFeature)));
-    if (DaGrammarSynthesizer::Count::undefined == countValue) {
+    auto countValue = DaGrammarSynthesizer::getNumber(displayValue.getFeatureValue(*npc(countFeature)));
+    if (DaGrammarSynthesizer::Number::undefined == countValue) {
         ::std::unique_ptr<inflection::dialog::SpeakableString> countSpeakableString(countLookupFunction.getFeatureValue(displayValue, constraints));
-        countValue = countSpeakableString != nullptr ? DaGrammarSynthesizer::getCount(&countSpeakableString->getPrint()) : DaGrammarSynthesizer::Count::singular;
+        countValue = countSpeakableString != nullptr ? DaGrammarSynthesizer::getNumber(&countSpeakableString->getPrint()) : DaGrammarSynthesizer::Number::singular;
     }
-    if (DaGrammarSynthesizer::Count::plural == countValue) {
+    if (DaGrammarSynthesizer::Number::plural == countValue) {
         return createPreposition(displayValue, pluralString);
     }
     auto genderValue = DaGrammarSynthesizer::getGender(displayValue.getFeatureValue(*npc(genderFeature)));

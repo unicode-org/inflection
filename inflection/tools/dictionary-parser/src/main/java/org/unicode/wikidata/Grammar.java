@@ -301,6 +301,7 @@ public final class Grammar {
         EMPHATIC,
         IMPERATIVE,
         INDICATIVE,
+        JUSSIVE,
         QUOTATIVE,
         SUBJUNCTIVE,
         VOLITIVE,
@@ -376,7 +377,6 @@ public final class Grammar {
         ADESSIVE,
         ALLATIVE,
         BENEFACTIVE,
-        CAUSAL,
         CAUSATIVE,
         COMITATIVE,
         DATIVE,
@@ -546,6 +546,21 @@ public final class Grammar {
         }
     }
 
+    enum WordOrder {
+        SUBJECT_VERB,
+        VERB_SUBJECT,
+        ;
+        private final String printableValue;
+        WordOrder() {
+            printableValue = super.toString().toLowerCase().replace('_', '-');
+        }
+
+        @Override
+        public String toString() {
+            return printableValue;
+        }
+    }
+
     static final Map<String, Enum<?>> DEFAULTMAP = new HashMap<>(1021);
 
     static {
@@ -583,6 +598,7 @@ public final class Grammar {
         TYPEMAP.put("Q1668170", EnumSet.of(PartOfSpeech.INTERROGATIVE, PartOfSpeech.ADVERB));
         TYPEMAP.put("Q1522423", EnumSet.of(PartOfSpeech.ADVERB)); // locative adverb, but we don't need that much precision about the type.
         TYPEMAP.put("Q1941737", EnumSet.of(PartOfSpeech.ADVERB)); // modal adverb, but we don't need that much precision about the type.
+        TYPEMAP.put("Q1930668", EnumSet.of(PartOfSpeech.ADVERB)); // parenthesis, explanatory or qualifying word, clause, or sentence inserted into a passage
         TYPEMAP.put("Q63153", EnumSet.of(PartOfSpeech.CLASSIFIER)); // classifier, count word, measure word
         TYPEMAP.put("Q36484", EnumSet.of(PartOfSpeech.CONJUNCTION));
         TYPEMAP.put("Q12262560", EnumSet.of(PartOfSpeech.CONJUNCTION)); // adversative linker
@@ -674,6 +690,9 @@ public final class Grammar {
         TYPEMAP.put("Q146786", EnumSet.of(Number.PLURAL));
         TYPEMAP.put("Q138246", EnumSet.of(Number.PLURAL)); // plurale tantum, the lack of a singular form in the inflection table conveys the same information.
         TYPEMAP.put("Q118533730", EnumSet.of(Number.PLURAL)); // substantive plural
+        TYPEMAP.put("Q20386151", EnumSet.of(Number.PLURAL)); // sound plural, whole plural, or regular plural, which is in contrast to a broken plural or loan plural.
+        TYPEMAP.put("Q1098772", new HashSet<>(Arrays.asList(Usage.RARE, Number.PLURAL))); // broken plural
+        TYPEMAP.put("Q126002589", new HashSet<>(Arrays.asList(Usage.RARE, Number.PLURAL))); // loan plural
         TYPEMAP.put("Q110022", EnumSet.of(Number.DUAL));
 
         TYPEMAP.put("Q1520033", EnumSet.of(Count.COUNTABLE)); // count noun
@@ -692,6 +711,8 @@ public final class Grammar {
         TYPEMAP.put("Q52943193", new HashSet<>(Arrays.asList(Gender.MASCULINE, Animacy.ANIMATE))); // masculine animate non-personal
         TYPEMAP.put("Q18478758", new HashSet<>(Arrays.asList(Gender.MASCULINE, Gender.FEMININE))); // common of two genders
         TYPEMAP.put("Q100919075", new HashSet<>(Arrays.asList(Gender.MASCULINE, Gender.FEMININE))); // ambiguous gender
+        TYPEMAP.put("Q132672407", new HashSet<>(Arrays.asList(Gender.MASCULINE, Gender.NEUTER))); // Dutch m/n gender
+        TYPEMAP.put("Q133259189", new HashSet<>(Arrays.asList(Gender.MASCULINE, Gender.FEMININE, Gender.NEUTER))); // Dutch 'm/f/n'
         TYPEMAP.put("Q1775415", EnumSet.of(Gender.FEMININE));
         TYPEMAP.put("Q1775461", EnumSet.of(Gender.NEUTER));
         TYPEMAP.put("Q1305037", EnumSet.of(Gender.COMMON));
@@ -701,10 +722,10 @@ public final class Grammar {
         TYPEMAP.put("Q156986", EnumSet.of(Case.ABLATIVE));
         TYPEMAP.put("Q332734", EnumSet.of(Case.ABSOLUTIVE));
         TYPEMAP.put("Q146078", EnumSet.of(Case.ACCUSATIVE));
+        TYPEMAP.put("Q420020", EnumSet.of(Case.ACCUSATIVE)); // object case, but it's a synonym of the formal accusative name.
         TYPEMAP.put("Q281954", EnumSet.of(Case.ADESSIVE));
         TYPEMAP.put("Q655020", EnumSet.of(Case.ALLATIVE));
         TYPEMAP.put("Q664905", EnumSet.of(Case.BENEFACTIVE));
-        TYPEMAP.put("causal-final", EnumSet.of(Case.CAUSAL));
         TYPEMAP.put("Q113330743", EnumSet.of(Case.CAUSATIVE));
         TYPEMAP.put("Q838581", EnumSet.of(Case.COMITATIVE));
         TYPEMAP.put("Q145599", EnumSet.of(Case.DATIVE));
@@ -725,7 +746,6 @@ public final class Grammar {
         TYPEMAP.put("Q1949687", EnumSet.of(Case.MOTIVATIVE));
         TYPEMAP.put("Q131105", EnumSet.of(Case.NOMINATIVE));
         TYPEMAP.put("Q98946930", EnumSet.of(Case.NOMINATIVE)); // non-genitive
-        TYPEMAP.put("object", EnumSet.of(Case.OBLIQUE)); // AKA objective case for pronouns
         TYPEMAP.put("Q1233197", EnumSet.of(Case.OBLIQUE));
         TYPEMAP.put("Q857325", EnumSet.of(Case.PARTITIVE));
         TYPEMAP.put("Q2114906", EnumSet.of(Case.PREPOSITIONAL));
@@ -762,6 +782,7 @@ public final class Grammar {
         TYPEMAP.put("Q16086106", new HashSet<>(Arrays.asList(Tense.PAST, Voice.PASSIVE, VerbType.PARTICIPLE))); // past active participle
         TYPEMAP.put("Q113133303", EnumSet.of(VerbType.PARTICIPLE)); // conjunctive participle
         TYPEMAP.put("Q192613", EnumSet.of(Tense.PRESENT)); // present tense
+        TYPEMAP.put("Q12230930", EnumSet.of(Tense.PRESENT)); // fi'il muḍāri', which is a non-past verb feature, but the future tense is usually formed by adding a prefix or word before the present tense verb.
         TYPEMAP.put("Q3910936", new HashSet<>(Arrays.asList(Aspect.SIMPLE, Tense.PRESENT))); // simple present and usually future
         TYPEMAP.put("Q1994301", EnumSet.of(Tense.PAST)); // past tense
         TYPEMAP.put("Q1392475", new HashSet<>(Arrays.asList(Aspect.SIMPLE, Tense.PAST))); // simple past
@@ -828,6 +849,7 @@ public final class Grammar {
         TYPEMAP.put("Q63997439", new HashSet<>(Arrays.asList(Tense.FUTURE, Mood.INDICATIVE)));
         TYPEMAP.put("Q56682909", new HashSet<>(Arrays.asList(Tense.PRESENT, Mood.INDICATIVE)));
         TYPEMAP.put("Q125286251", new HashSet<>(Arrays.asList(Tense.PAST, Mood.INDICATIVE)));
+        TYPEMAP.put("Q462367", EnumSet.of(Mood.JUSSIVE));
         TYPEMAP.put("Q473746", EnumSet.of(Mood.SUBJUNCTIVE));
         TYPEMAP.put("Q3502553", new HashSet<>(Arrays.asList(Tense.PRESENT, Mood.SUBJUNCTIVE))); // present subjunctive
         TYPEMAP.put("Q55685962", new HashSet<>(Arrays.asList(Tense.PRESENT, Mood.SUBJUNCTIVE))); // subjunctive I, present subjunctive
@@ -838,8 +860,12 @@ public final class Grammar {
         TYPEMAP.put("Q113959607", EnumSet.of(Mood.EMPHATIC)); // emphatic particle
         TYPEMAP.put("Q2532941", EnumSet.of(Mood.VOLITIVE));
 
+        TYPEMAP.put("Q134489509", EnumSet.of(WordOrder.SUBJECT_VERB)); // verb position A, the Dutch main clause verb position
+        TYPEMAP.put("Q134489487", EnumSet.of(WordOrder.VERB_SUBJECT)); // verb position B, the Dutch subordinate clause verb position
+
         TYPEMAP.put("Q5636904", EnumSet.of(Aspect.HABITUAL));
         TYPEMAP.put("Q75243920", new HashSet<>(Arrays.asList(Aspect.HABITUAL, Tense.PAST))); // habitual past
+        TYPEMAP.put("Q3517796", EnumSet.of(Aspect.SIMPLE)); // simple tense
         TYPEMAP.put("Q121765742", EnumSet.of(Aspect.SIMPLE));
         TYPEMAP.put("Q1424306", EnumSet.of(Aspect.PERFECTIVE));
         TYPEMAP.put("Q442485", new HashSet<>(Arrays.asList(Aspect.PERFECTIVE, Tense.PAST))); // Preterite or perfective with past tense
@@ -849,10 +875,12 @@ public final class Grammar {
         TYPEMAP.put("Q1240211", new HashSet<>(Arrays.asList(Tense.PRESENT, Aspect.PERFECT)));
         TYPEMAP.put("Q64005357", new HashSet<>(Arrays.asList(Tense.PAST, Aspect.PERFECT)));
         TYPEMAP.put("Q23663136", new HashSet<>(Arrays.asList(Tense.PAST, Aspect.PERFECT)));
+        TYPEMAP.put("Q124351233", new HashSet<>(Arrays.asList(Tense.PAST, Aspect.PERFECT))); // performative aspect
         TYPEMAP.put("Q371427", EnumSet.of(Aspect.IMPERFECTIVE));
         TYPEMAP.put("Q54556033", EnumSet.of(Aspect.IMPERFECTIVE)); // imperfective verb
         TYPEMAP.put("Q2898727", EnumSet.of(Aspect.IMPERFECTIVE)); // imperfective form for Japanese verb
         TYPEMAP.put("Q108524486", EnumSet.of(Aspect.IMPERFECT));
+        TYPEMAP.put("Q56649265", new HashSet<>(Arrays.asList(Tense.PRESENT, Aspect.IMPERFECT))); // present imperfect
         TYPEMAP.put("Q7240943", new HashSet<>(Arrays.asList(Tense.PRESENT, Aspect.IMPERFECT))); // present continuous/present imperfect
         TYPEMAP.put("Q56650537", new HashSet<>(Arrays.asList(Tense.PAST, Aspect.IMPERFECT))); // past continuous/present imperfect
         TYPEMAP.put("Q112785242", new HashSet<>(Arrays.asList(Aspect.IMPERFECT, VerbType.PARTICIPLE))); // imperfect participle
@@ -909,7 +937,6 @@ public final class Grammar {
         TYPEMAP.put("Q12237354", EnumSet.of(Usage.RARE)); // obsolete word
         TYPEMAP.put("Q54943392", EnumSet.of(Usage.RARE)); // obsolete form
         TYPEMAP.put("Q181970", EnumSet.of(Usage.RARE)); // archaism
-        TYPEMAP.put("Q1098772", EnumSet.of(Usage.RARE)); // broken plural
         TYPEMAP.put("Q54944750", EnumSet.of(Usage.RARE)); // potential form
         TYPEMAP.put("Q55074511", EnumSet.of(Usage.RARE)); // reconstructed word
 
@@ -921,8 +948,9 @@ public final class Grammar {
         TYPEMAP.put("Q3481344", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // female given name
         TYPEMAP.put("Q202444", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // given name
         TYPEMAP.put("Q22809413", EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // Chinese given name
-        TYPEMAP.put("Q184511", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // slogan
-        TYPEMAP.put("Q30515", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // idiom
+        TYPEMAP.put("Q30515", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // slogan
+        TYPEMAP.put("Q184511", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // idiom
+        TYPEMAP.put("Q3147869", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // idiom
         TYPEMAP.put("Q15841920", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // Redewendung (idiomatic expression)
         TYPEMAP.put("Q104692917", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // idiomatic interjection
         TYPEMAP.put("Q35102", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // proverb
@@ -1010,6 +1038,8 @@ public final class Grammar {
         TYPEMAP.put("Q1668151", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // semantic punctuation mark
         TYPEMAP.put("Q1984758", EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // misspelling, not helpful
         TYPEMAP.put("Q56161479", EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // incorrect form, not helpful
+        TYPEMAP.put("Q110588065", EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // plural of plural, not helpful
+        TYPEMAP.put("Q134489593", EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // inflection_e, it's a verb being used as an adjective
 
         // Types that are algorithmically added instead of stored.
         TYPEMAP.put("Q69761768", EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // feminine possessive
@@ -1040,10 +1070,12 @@ public final class Grammar {
         TYPEMAP.put("Q58233068", EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // humorous
         TYPEMAP.put("Q43747", EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // Internet slang
         TYPEMAP.put("Q89522629", EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // poetic form
+        TYPEMAP.put("Q543", EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // censorship, like forms that are censored from profane words.
         TYPEMAP.put("Q213458", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // clitic
         TYPEMAP.put("Q6548647", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // enclitic
         TYPEMAP.put("Q340015", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // deixis, words requiring context to understand their meaning
         TYPEMAP.put("Q162940", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // diacritic
+        TYPEMAP.put("Q1049294", EnumSet.of(Ignorable.IGNORABLE_INFLECTION)); // emoji
 
         // Hard to classify noun classes.
         TYPEMAP.put("Q113335229", EnumSet.of(Ignorable.IGNORABLE_PROPERTY));

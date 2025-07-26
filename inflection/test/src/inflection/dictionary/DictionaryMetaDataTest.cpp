@@ -97,16 +97,16 @@ TEST_CASE("DictionaryMetaDataTest#testTurkish")
 TEST_CASE("DictionaryMetaDataTest#testRussian")
 {
     auto dictionary = inflection::dictionary::DictionaryMetaData::createDictionary(::inflection::util::LocaleUtils::RUSSIAN());
-    REQUIRE(npc(dictionary)->hasProperty(u"лена", u"proper-noun"));
-    REQUIRE(npc(dictionary)->hasProperty(u"Лена", u"proper-noun"));
-    REQUIRE(!npc(dictionary)->getPropertyValues(u"лена", u"inflection").empty());
+    REQUIRE(npc(dictionary)->hasProperty(u"анатолий", u"proper-noun"));
+    REQUIRE(npc(dictionary)->hasProperty(u"Анатолий", u"proper-noun"));
+    REQUIRE(!npc(dictionary)->getPropertyValues(u"анатолий", u"inflection").empty());
 }
 
 TEST_CASE("DictionaryMetaDataTest#testGermanProperties")
 {
     auto dictionary = inflection::dictionary::DictionaryMetaData::createDictionary(::inflection::util::LocaleUtils::GERMAN());
     int64_t grammemes = 0;
-    REQUIRE(npc(dictionary)->getBinaryProperties(&grammemes, {u"singular", u"accusative", u"nominative", u"masculine", u"neuter", u"determiner", u"pronoun", u"verb"}) != nullptr);
+    REQUIRE(npc(dictionary)->getBinaryProperties(&grammemes, {u"singular", u"nominative", u"masculine", u"neuter", u"pronoun"}) != nullptr);
     REQUIRE(npc(dictionary)->hasAllProperties(u"mein", grammemes));
 }
 

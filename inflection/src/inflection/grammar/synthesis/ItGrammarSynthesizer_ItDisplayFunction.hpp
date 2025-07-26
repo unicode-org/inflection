@@ -33,6 +33,11 @@ private:
     int64_t dictionaryMasculine {  };
     int64_t dictionaryFeminine {  };
     int64_t dictionaryPreposition {  };
+    int64_t dictionaryVerb {  };
+    int64_t importantVerbMask {  };
+
+private:
+    bool isVerbCompatible(::std::u16string_view inflectedWord, int64_t wordGrammemes) const;
 
 public:
     ::std::optional<::std::u16string> inflectWord(::std::u16string_view word, int64_t wordGrammemes, const std::map<dialog::SemanticFeature, std::u16string> &constraints, bool enableInflectionGuess) const;

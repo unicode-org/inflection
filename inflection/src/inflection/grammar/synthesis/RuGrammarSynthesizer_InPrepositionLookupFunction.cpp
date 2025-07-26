@@ -14,16 +14,11 @@ namespace inflection::grammar::synthesis {
 
 RuGrammarSynthesizer_InPrepositionLookupFunction::RuGrammarSynthesizer_InPrepositionLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model, const ::std::u16string& derivedSemanticName)
     : super(model, derivedSemanticName)
-{
-}
-
-const ::std::set<::std::u16string_view>& RuGrammarSynthesizer_InPrepositionLookupFunction::IN_WORDS()
-{
-    static auto IN_WORDS_ = new ::std::set<::std::u16string_view>({
+    , inWords({
         u"что",
         u"мне"
-    });
-    return *npc(IN_WORDS_);
+    })
+{
 }
 
 const ::icu4cxx::UnicodeSet& RuGrammarSynthesizer_InPrepositionLookupFunction::IN_FIRST_CHAR()
@@ -35,7 +30,7 @@ const ::icu4cxx::UnicodeSet& RuGrammarSynthesizer_InPrepositionLookupFunction::I
 inflection::dialog::SpeakableString* RuGrammarSynthesizer_InPrepositionLookupFunction::getArticle(const ::inflection::dialog::DisplayValue& displayValue) const
 {
     const auto& displayString = displayValue.getDisplayString();
-    if (IN_WORDS().count(displayString) != 0 || displayString.starts_with(u"мног") || displayString.starts_with(u"множ") || RuGrammarSynthesizer::startsWith2Consonant(displayString, IN_FIRST_CHAR())) {
+    if (inWords.contains(displayString) || displayString.starts_with(u"мног") || displayString.starts_with(u"множ") || RuGrammarSynthesizer::startsWith2Consonant(displayString, IN_FIRST_CHAR())) {
         return createPreposition(displayValue, u"во");
     }
     return createPreposition(displayValue, u"в");

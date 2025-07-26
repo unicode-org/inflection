@@ -43,8 +43,7 @@ const ::std::u16string* SemanticFeatureConceptBase::getConstraint(const Semantic
 
 bool SemanticFeatureConceptBase::hasConstraint(const SemanticFeature& feature) const
 {
-    auto result = constraints.find(feature);
-    return result != constraints.end();
+    return constraints.contains(feature);
 }
 
 void SemanticFeatureConceptBase::putConstraint(const SemanticFeature& feature, ::std::u16string_view featureValue)

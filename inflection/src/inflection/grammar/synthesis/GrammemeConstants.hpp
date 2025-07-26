@@ -20,7 +20,7 @@ public:
     static const ::std::u16string& POS_ADPOSITION();
     static const ::std::u16string& POS_PROPER_NOUN();
     static const ::std::u16string& POS_VERB();
-    static const ::std::u16string& POS_DETERMINER();
+    static const ::std::u16string& POS_ARTICLE();
     static const ::std::u16string& POS_PRONOUN();
 
     static constexpr auto CASE = u"case";
@@ -70,6 +70,7 @@ public:
     static constexpr auto ANIMACY = u"animacy";
     static const ::std::u16string& ANIMACY_ANIMATE();
     static const ::std::u16string& ANIMACY_INANIMATE();
+    static const ::std::u16string& ANIMACY_HUMAN();
 
     static constexpr auto MOOD = u"mood";
     static const ::std::u16string& MOOD_IMPERATIVE();
@@ -88,6 +89,11 @@ public:
     static const ::std::u16string& COMPARISON_PLAIN();
     static const ::std::u16string& COMPARISON_COMPARATIVE();
     static const ::std::u16string& COMPARISON_SUPERLATIVE();
+
+    static constexpr auto SIZENESS = u"sizeness";
+    static const ::std::u16string& SIZENESS_UNSIZED();
+    static const ::std::u16string& SIZENESS_DIMINUTIVE();
+    static const ::std::u16string& SIZENESS_DOUBLE_DIMINUTIVE();
 
     static const ::std::u16string& VERBTYPE_INFINITIVE();
     static const ::std::u16string& REGISTER_INFORMAL();

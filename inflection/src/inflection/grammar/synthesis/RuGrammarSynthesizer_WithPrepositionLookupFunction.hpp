@@ -16,6 +16,9 @@ class inflection::grammar::synthesis::RuGrammarSynthesizer_WithPrepositionLookup
 public:
     typedef RuGrammarSynthesizer_ArticleLookupFunction super;
 
+private:
+    ::std::set<::std::u16string_view> withWords;
+
 public: /* package */
     ::inflection::dialog::SpeakableString* getArticle(const ::inflection::dialog::DisplayValue& displayValue) const override;
 
@@ -23,7 +26,6 @@ public: /* package */
     RuGrammarSynthesizer_WithPrepositionLookupFunction(const RuGrammarSynthesizer_WithPrepositionLookupFunction&) = delete;
     RuGrammarSynthesizer_WithPrepositionLookupFunction& operator=(const RuGrammarSynthesizer_WithPrepositionLookupFunction&) = delete;
 
-public: /* package */
+private: /* package */
     static const ::icu4cxx::UnicodeSet& WITH_FIRST_CHAR();
-    static const ::std::set<::std::u16string_view>& WITH_WORDS();
 };

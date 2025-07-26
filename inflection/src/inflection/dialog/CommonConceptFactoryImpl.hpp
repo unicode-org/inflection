@@ -52,7 +52,7 @@ protected: /* package */
 
 public:
     SpeakableString* quantify(const NumberConcept& number, const SemanticFeatureConceptBase* semanticConcept) const override;
-    SpeakableString* quantify(const NumberConcept& number, const ::inflection::dialog::SpeakableString& formattedNumber, const SemanticFeatureConceptBase* semanticConcept) const override;
+    SpeakableString* quantifyFormatted(const NumberConcept& number, const ::inflection::dialog::SpeakableString& formattedNumber, const SemanticFeatureConceptBase* semanticConcept) const override;
 
     explicit CommonConceptFactoryImpl(const ::inflection::util::ULocale& language);
     CommonConceptFactoryImpl(const ::inflection::util::ULocale& language, const ::std::u16string& semanticFeatureForNumberConcept, const ::std::map<::std::u16string, ::std::u16string>& semanticFeatureToNumberConceptName);

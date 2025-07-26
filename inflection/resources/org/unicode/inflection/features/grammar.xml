@@ -591,10 +591,10 @@
                 <restrictions>
                     <restriction name="pos" value="pronoun"/>
                 </restrictions>
-                <grammeme name="common"/> <!-- unspecified/unknown/epicene e.g. "them" or "one" -->
                 <grammeme name="masculine"/> <!-- e.g. "him" -->
                 <grammeme name="feminine"/> <!-- e.g. "her" -->
                 <grammeme name="neuter"/> <!-- e.g. "it", and not to be confused with "them" -->
+                <!-- null means unknown/epicene e.g. "them" or "one" -->
             </category>
             <category name="pronounType">
                 <restrictions>

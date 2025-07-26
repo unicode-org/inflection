@@ -45,20 +45,7 @@ EnGrammarSynthesizer_EnDisplayFunction::EnGrammarSynthesizer_EnDisplayFunction(c
     , definiteArticleLookupFunction(model, EnGrammarSynthesizer::ARTICLE_DEFINITE, u"the")
     , indefiniteArticleLookupFunction(model, EnGrammarSynthesizer::ARTICLE_INDEFINITE)
     , definitenessDisplayFunction(model, &definiteArticleLookupFunction, EnGrammarSynthesizer::ARTICLE_DEFINITE, &indefiniteArticleLookupFunction, EnGrammarSynthesizer::ARTICLE_INDEFINITE)
-{
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&pluralProperty, {GrammemeConstants::NUMBER_PLURAL()}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&singularProperty, {GrammemeConstants::NUMBER_SINGULAR()}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&prepositionProperty, {u"adposition"}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&abbreviationProperty, {u"abbreviation"}));
-}
-
-EnGrammarSynthesizer_EnDisplayFunction::~EnGrammarSynthesizer_EnDisplayFunction()
-{
-}
-
-const ::std::map<::std::u16string_view, ::std::u16string_view>& EnGrammarSynthesizer_EnDisplayFunction::POSSESSIVE_DETERMINERS()
-{
-    static auto POSSESSIVE_DETERMINERS_ = new ::std::map<::std::u16string_view, ::std::u16string_view>({
+    , possessiveDeterminers({
         {u"i", u"my"},
         {u"me", u"my"},
         {u"he", u"his"},
@@ -70,8 +57,16 @@ const ::std::map<::std::u16string_view, ::std::u16string_view>& EnGrammarSynthes
         {u"you", u"your"},
         {u"they", u"their"},
         {u"them", u"their"},
-    });
-    return *npc(POSSESSIVE_DETERMINERS_);
+    })
+{
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&pluralProperty, {GrammemeConstants::NUMBER_PLURAL()}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&singularProperty, {GrammemeConstants::NUMBER_SINGULAR()}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&prepositionProperty, {u"adposition"}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&abbreviationProperty, {u"abbreviation"}));
+}
+
+EnGrammarSynthesizer_EnDisplayFunction::~EnGrammarSynthesizer_EnDisplayFunction()
+{
 }
 
 ::inflection::dialog::DisplayValue* EnGrammarSynthesizer_EnDisplayFunction::getDisplayValue(const ::inflection::dialog::SemanticFeatureModel_DisplayData& displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, bool enableInflectionGuess) const
@@ -112,11 +107,11 @@ const ::std::map<::std::u16string_view, ::std::u16string_view>& EnGrammarSynthes
 ::std::optional<::std::u16string> EnGrammarSynthesizer_EnDisplayFunction::inflectPhrase(const std::u16string &originalString, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const
 {
     const auto constraintsVec(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {&numberFeature}));
-    const auto dismbiguationGrammemeValues(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {&partOfSpeechFeature}));
+    const auto disambiguationGrammemeValues(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {&partOfSpeechFeature}));
 
     int64_t significantTokenProperties = 0;
     if (dictionary.getCombinedBinaryType(&significantTokenProperties, originalString) != nullptr) {
-        const auto inflectResult = dictionaryInflector.inflect(originalString, significantTokenProperties, constraintsVec, dismbiguationGrammemeValues);
+        const auto inflectResult = dictionaryInflector.inflect(originalString, significantTokenProperties, constraintsVec, disambiguationGrammemeValues);
         if (inflectResult) {
             // It's a known word or phrase
             return *inflectResult;
@@ -148,7 +143,7 @@ const ::std::map<::std::u16string_view, ::std::u16string_view>& EnGrammarSynthes
     }
     if (significantToken != nullptr && (enableInflectionGuess || significantTokenProperties != 0)) {
         const auto significantWord(npc(significantToken)->getValue());
-        auto inflectionResult(dictionaryInflector.inflect(significantWord, significantTokenProperties, constraintsVec, dismbiguationGrammemeValues));
+        auto inflectionResult(dictionaryInflector.inflect(significantWord, significantTokenProperties, constraintsVec, disambiguationGrammemeValues));
         if (!inflectionResult) {
             if (!enableInflectionGuess) {
                 return {};
@@ -203,8 +198,8 @@ const ::std::map<::std::u16string_view, ::std::u16string_view>& EnGrammarSynthes
 {
     ::std::u16string lowercase;
     ::inflection::util::StringViewUtils::lowercase(&lowercase, displayString, ::inflection::util::LocaleUtils::ENGLISH());
-    auto possessiveException = POSSESSIVE_DETERMINERS().find(lowercase);
-    if (possessiveException != POSSESSIVE_DETERMINERS().end()) {
+    auto possessiveException = possessiveDeterminers.find(lowercase);
+    if (possessiveException != possessiveDeterminers.end()) {
         return ::std::u16string(possessiveException->second);
     }
     else if (!displayString.empty()) {

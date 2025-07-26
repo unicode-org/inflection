@@ -20,7 +20,7 @@ namespace inflection::grammar::synthesis {
 
 NlGrammarSynthesizer_NlAdjectiveInflectionPattern::NlGrammarSynthesizer_NlAdjectiveInflectionPattern(const ::inflection::dialog::SemanticFeatureModel& model)
     : super()
-    , declensionFeature(*npc(model.getFeature(NlGrammarSynthesizer::DECLENSION())))
+    , declensionFeature(*npc(model.getFeature(NlGrammarSynthesizer::DECLENSION)))
     , dictionary(*npc(::inflection::dictionary::DictionaryMetaData::createDictionary(::inflection::util::LocaleUtils::DUTCH())))
 {
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryAdjective, {GrammemeConstants::POS_ADJECTIVE()}));

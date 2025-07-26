@@ -36,8 +36,8 @@ const ::std::u16string& GrammemeConstants::POS_VERB() {
     return *npc(POS_VERB_);
 }
 
-const ::std::u16string& GrammemeConstants::POS_DETERMINER() {
-    static auto POS_DETERMINER_ = new ::std::u16string(u"determiner");
+const ::std::u16string& GrammemeConstants::POS_ARTICLE() {
+    static auto POS_DETERMINER_ = new ::std::u16string(u"article");
     return *npc(POS_DETERMINER_);
 }
 
@@ -261,6 +261,12 @@ const ::std::u16string& GrammemeConstants::ANIMACY_INANIMATE()
     return *npc(ANIMACY_INANIMATE_);
 }
 
+const ::std::u16string& GrammemeConstants::ANIMACY_HUMAN()
+{
+    static auto ANIMACY_HUMAN_ = new ::std::u16string(u"human");
+    return *npc(ANIMACY_HUMAN_);
+}
+
 const ::std::u16string& GrammemeConstants::MOOD_IMPERATIVE()
 {
     static auto MOOD_IMPERATIVE_ = new ::std::u16string(u"imperative");
@@ -319,6 +325,24 @@ const ::std::u16string& GrammemeConstants::COMPARISON_SUPERLATIVE()
 {
     static auto COMPARISON_SUPERLATIVE_ = new ::std::u16string(u"superlative");
     return *npc(COMPARISON_SUPERLATIVE_);
+}
+
+const ::std::u16string& GrammemeConstants::SIZENESS_UNSIZED()
+{
+    static auto SIZENESS_UNSIZED_ = new ::std::u16string(u"unsized");
+    return *npc(SIZENESS_UNSIZED_);
+}
+
+const ::std::u16string& GrammemeConstants::SIZENESS_DIMINUTIVE()
+{
+    static auto SIZENESS_DIMINUTIVE_ = new ::std::u16string(u"diminutive");
+    return *npc(SIZENESS_DIMINUTIVE_);
+}
+
+const ::std::u16string& GrammemeConstants::SIZENESS_DOUBLE_DIMINUTIVE()
+{
+    static auto SIZENESS_DOUBLE_DIMINUTIVE_ = new ::std::u16string(u"double-diminutive");
+    return *npc(SIZENESS_DOUBLE_DIMINUTIVE_);
 }
 
 const ::std::u16string &GrammemeConstants::VERBTYPE_INFINITIVE() {

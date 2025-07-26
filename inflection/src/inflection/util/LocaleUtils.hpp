@@ -48,10 +48,10 @@ public:
      * %2 = The script<br/>
      * %3 = The country<br/>
      * %4 = The variant<br/>
-     * , = The dileanation.
+     * , = The field separator.
      *
      * @param locale The ULocale object to represent as a <code>std::u16string</code>.
-     * @param separator The dileantion characters to use.
+     * @param separator The field separator characters to use.
      * @return The ULocale object represented as a <code>std::u16string</code>.
      */
     static ::std::u16string toString(const ::inflection::util::ULocale& locale, const ::std::u16string& separator);
@@ -73,14 +73,14 @@ public:
      * Returns the list of supported locales in Inflection as a <code>std::set<ULocale></code>.
      * @return The list of supported locales in Inflection.
      */
-    static ::std::set<::inflection::util::ULocale, std::greater<>> getSupportedLocaleList();
+    static ::std::set<::inflection::util::ULocale, std::less<>> getSupportedLocaleList();
     /**
      * Returns a map of the supported locales in Inflection, mapping the language string in the configuration file to the
      * ULocale object it represents.
      *
      * @return The map of supported locales in Inflection.
      */
-    static ::std::map<::std::string, ::std::vector<::inflection::util::ULocale>, std::greater<>> getSupportedLocaleMap();
+    static ::std::map<::std::string, ::std::vector<::inflection::util::ULocale>, std::less<>> getSupportedLocaleMap();
 
     /**
      * This allows you to have behavior that is close to the spoken language, without forcing an unsupported language variant from being too strictly the region based language.
@@ -547,5 +547,5 @@ public:
     static const ::inflection::util::ULocale& ROOT();
 
 private:
-    static const ::std::map<::std::string, ::std::vector<::inflection::util::ULocale>, std::greater<>>& BASE_SUPPORTED_LOCALES();
+    static const ::std::map<::std::string, ::std::vector<::inflection::util::ULocale>, std::less<>>& BASE_SUPPORTED_LOCALES();
 };

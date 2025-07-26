@@ -23,7 +23,7 @@ UnicodeSetUtils::containsSome(const ::icu4cxx::UnicodeSet &set, std::u16string_v
 
 ::std::u16string* UnicodeSetUtils::removeSetFromString(::std::u16string* dest, const ::icu4cxx::UnicodeSet &setToRemove, std::u16string_view str)
 {
-    return replaceSetFromString(dest, setToRemove, str, ::std::u16string());
+    return replaceSetFromString(dest, setToRemove, str, ::std::u16string_view());
 }
 
 ::std::u16string* UnicodeSetUtils::replaceSetFromString(::std::u16string* dest, const ::icu4cxx::UnicodeSet &setToMatch, std::u16string_view str, std::u16string_view replacement)

@@ -98,8 +98,8 @@ PtGrammarSynthesizer_PtDisplayFunction::~PtGrammarSynthesizer_PtDisplayFunction(
 ::std::optional<::std::u16string> PtGrammarSynthesizer_PtDisplayFunction::inflectWord(::std::u16string_view word, int64_t wordType, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const
 {
     const auto constraintsVec(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {&numberFeature, &genderFeature}));
-    const auto dismbiguationGrammemeValues(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {&partOfSpeechFeature}));
-    const auto inflectedWord = dictionaryInflector.inflect(word, wordType, constraintsVec, dismbiguationGrammemeValues);
+    const auto disambiguationGrammemeValues(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {&partOfSpeechFeature}));
+    const auto inflectedWord = dictionaryInflector.inflect(word, wordType, constraintsVec, disambiguationGrammemeValues);
     if (inflectedWord) {
         return *inflectedWord;
     }

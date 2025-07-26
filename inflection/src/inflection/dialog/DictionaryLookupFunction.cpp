@@ -86,7 +86,7 @@ DictionaryLookupFunction::DictionaryLookupFunction(const util::ULocale &locale, 
             // else it's an unknown single word or not a word.
         }
         else {
-            // It's a known single word. Try to disambiuate it.
+            // It's a known single word. Try to disambiguate it.
             result = determineWithDisambiguation(word);
         }
 

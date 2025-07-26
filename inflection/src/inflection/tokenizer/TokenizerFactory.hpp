@@ -5,7 +5,6 @@
 
 #include <inflection/tokenizer/fwd.hpp>
 #include <inflection/util/fwd.hpp>
-#include <inflection/Object.hpp>
 #include <map>
 #include <string_view>
 

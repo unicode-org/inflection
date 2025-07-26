@@ -24,7 +24,7 @@ public: /* package */
     ::std::u16string pluralMasculineWithConst {  };
     ::std::u16string pluralFeminine {  };
 public: /* package */
-    ::inflection::dialog::SpeakableString* getArticle(const ::inflection::dialog::DisplayValue& displayValue, bool wantArticle, ItGrammarSynthesizer::Count countValue, ItGrammarSynthesizer::Gender genderValue) const override;
+    ::inflection::dialog::SpeakableString* getArticle(const ::inflection::dialog::DisplayValue& displayValue, bool wantArticle, ItGrammarSynthesizer::Number numberValue, ItGrammarSynthesizer::Gender genderValue) const override;
 
     ItGrammarSynthesizer_DefiniteArticleLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model, const ::std::u16string& derivedSemanticName, const ::std::u16string& simplePreposition, const ::std::u16string& singularMasculine, const ::std::u16string& singularMasculineWithConst, const ::std::u16string& singularFeminine, const ::std::u16string& singularWithVowel, const ::std::u16string& pluralMasculine, const ::std::u16string& pluralMasculineWithConst, const ::std::u16string& pluralFeminine);
     ItGrammarSynthesizer_DefiniteArticleLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model, const ::std::u16string& derivedSemanticName, const ItGrammarSynthesizer_DefiniteArticleLookupFunction& other);

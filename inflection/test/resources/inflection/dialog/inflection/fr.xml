@@ -273,7 +273,7 @@
     <test><source number="plural">sas</source><result>sas</result></test>
     <test><source number="plural">gaz</source><result>gaz</result></test>
     <test><source number="plural">relax</source><result>relax</result></test>
-    <test><source number="plural">ciel</source><result>cieux</result></test>
+    <test><source number="plural">ciel</source><result>ciels</result></test>
     <test><source number="plural">œil</source><result>yeux</result></test>
     <test><source number="singular">yeux</source><result>œil</result></test>
     <test><source number="plural">travail</source><result>travaux</result></test>
@@ -333,9 +333,14 @@
     <test><source definiteness="indefinite">table</source><result>une table</result></test>
     <test><source definiteness="indefinite">salon</source><result>un salon</result></test>
     <test><source number="singular" definiteness="indefinite">yeux</source><result>un œil</result></test>
-    <test><source number="plural" definiteness="definite">ciel</source><result>les cieux</result></test>
+    <test><source number="plural" definiteness="definite">ciel</source><result>les ciels</result></test>
     <test><source number="plural" definiteness="definite">œil</source><result>les yeux</result></test>
     <test><source number="singular" definiteness="definite">yeux</source><result>l’œil</result></test>
+    <test><source definiteness="definite">surplus</source><result>le surplus</result></test> <!-- ambiguous, but invariant -->
+    <test><source number="plural" definiteness="definite">surplus</source><result>les surplus</result></test> <!-- no ambiguity -->
+    <test><source definiteness="definite">spiritueux</source><result>le spiritueux</result></test> <!-- ambiguous, but invariant as masculine -->
+    <test><source definiteness="definite">spiritueuse</source><result>la spiritueuse</result></test> <!-- not ambiguous as feminine, but part of a pattern that could be considered invariant -->
+    <test><source definiteness="definite">spiritueuses</source><result>les spiritueuses</result></test> <!-- not ambiguous as feminine, but part of a pattern that could be considered invariant -->
 
     <!--    Able to inflect to masculine using dictionary-->
     <test><source gender="masculine">bienvenu</source><result exists="true"/></test>
@@ -350,9 +355,9 @@
     <!--    Able to inflect verbs in French(will mostly get wrong answer except of past participles)-->
     <test><source number="plural">légalisât pardonnât</source><result exists="true"/></test>
     <!--    Able to inflect unknown words to definite-->
-    <test><source definiteness="definite">abracadabra</source><result exists="true"/></test>
+    <test><source definiteness="definite">acadabra</source><result exists="true"/></test>
     <!--    Unknown words definite inflection works but number inflect fails-->
-    <test><source definiteness="definite" number="plural">abracadabra</source><result exists="false"/></test>
+    <test><source definiteness="definite" number="plural">acadabra</source><result exists="false"/></test>
     <!--    Past particples work-->
     <test><source gender="feminine">stressé</source><result exists="true"/></test>
     <!--    Adverbs work as well-->

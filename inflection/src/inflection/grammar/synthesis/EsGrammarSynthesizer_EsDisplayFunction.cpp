@@ -114,8 +114,8 @@ EsGrammarSynthesizer_EsDisplayFunction::~EsGrammarSynthesizer_EsDisplayFunction(
 ::std::optional<::std::u16string> EsGrammarSynthesizer_EsDisplayFunction::inflectWord(std::u16string_view displayString, int64_t wordType, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const
 {
     const auto constraintsVec(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {&numberFeature, &genderFeature}));
-    const auto dismbiguationGrammemeValues(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {&partOfSpeechFeature}));
-    const auto inflectionResult = dictionaryInflector.inflect(displayString, wordType, constraintsVec, dismbiguationGrammemeValues);
+    const auto disambiguationGrammemeValues(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {&partOfSpeechFeature}));
+    const auto inflectionResult = dictionaryInflector.inflect(displayString, wordType, constraintsVec, disambiguationGrammemeValues);
     if (inflectionResult) {
         return *inflectionResult;
     }

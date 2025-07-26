@@ -221,10 +221,10 @@ SpeakableString* CommonConceptFactoryImpl::quantify(const NumberConcept& number,
     if (formattedNumber == nullptr) {
         formattedNumber.reset(number.toSpeakableString());
     }
-    return quantify(number, *formattedNumber, semanticConcept);
+    return quantifyFormatted(number, *formattedNumber, semanticConcept);
 }
 
-SpeakableString* CommonConceptFactoryImpl::quantify(const NumberConcept& number, const SpeakableString& formattedNumber, const SemanticFeatureConceptBase* semanticConcept) const
+SpeakableString* CommonConceptFactoryImpl::quantifyFormatted(const NumberConcept& number, const SpeakableString& formattedNumber, const SemanticFeatureConceptBase* semanticConcept) const
 {
     auto originalCountConstraint = (semanticFeatureCount == nullptr ? nullptr : npc(semanticConcept)->getConstraint(*npc(semanticFeatureCount)));
     auto defaultSupportedCount = plurality.getDefaultSupportedCount();

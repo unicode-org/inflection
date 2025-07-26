@@ -36,6 +36,7 @@ ArGrammarSynthesizer_ArDisplayFunction::ArGrammarSynthesizer_ArDisplayFunction(c
     , tenseFeature(*npc(model.getFeature(GrammemeConstants::TENSE)))
     , personFeature(*npc(model.getFeature(GrammemeConstants::PERSON)))
     , genderFeature(*npc(model.getFeature(GrammemeConstants::GENDER)))
+    , animacyFeature(*npc(model.getFeature(GrammemeConstants::ANIMACY)))
     , partOfSpeechFeature(*npc(model.getFeature(GrammemeConstants::POS)))
     , definitenessFeature(*npc(model.getFeature(GrammemeConstants::DEFINITENESS)))
     , pronounCountFeature(*npc(model.getFeature(ArGrammarSynthesizer::PRONOUN_NUMBER)))
@@ -119,6 +120,9 @@ namespace {
     if (!inflectionContraints.genderString.empty()) {
         constraints.emplace_back(inflectionContraints.genderString);
     }
+    if (!inflectionContraints.animacyString.empty()) {
+        constraints.emplace_back(inflectionContraints.animacyString);
+    }
     if (!inflectionContraints.definitenessString.empty() && GrammemeConstants::DEFINITENESS_CONSTRUCT() == inflectionContraints.definitenessString) {
         constraints.emplace_back(inflectionContraints.definitenessString);
     }
@@ -128,7 +132,9 @@ namespace {
         // We don't add case constraint for verbs by default
         constraints.emplace_back(GrammemeConstants::CASE_NOMINATIVE());
     }
-
+	if (!inflectionContraints.personString.empty()) {
+        constraints.emplace_back(inflectionContraints.personString);
+    }
     const auto &caseConstraintFallback = CASE_CONSTRAINT_FALLBACK();
     while (true) {
         const auto inflectedWord = dictionaryInflector.inflect(word, wordGrammemes, constraints, inflectionContraints.disambiguationGrammemeValues);
@@ -185,6 +191,7 @@ namespace {
     getFeatureValue(&inflectionContraints.tenseString, constraints, tenseFeature);
     getFeatureValue(&inflectionContraints.personString, constraints, personFeature);
     getFeatureValue(&inflectionContraints.genderString, constraints, genderFeature);
+    getFeatureValue(&inflectionContraints.animacyString, constraints, animacyFeature);
     getFeatureValue(&inflectionContraints.definitenessString, constraints, definitenessFeature);
     getFeatureValue(&inflectionContraints.pronounCountString, constraints, pronounCountFeature);
     getFeatureValue(&inflectionContraints.pronounGenderString, constraints, pronounGenderFeature);

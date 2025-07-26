@@ -193,7 +193,7 @@ public:
      * @param semanticConcept An input SemanticConcept to represent the word to be inflected based on
      * the amount.
      */
-    virtual SpeakableString* quantify(const NumberConcept& number, const ::inflection::dialog::SpeakableString& formattedNumber, const ::inflection::dialog::SemanticFeatureConceptBase* semanticConcept) const = 0;
+    virtual SpeakableString* quantifyFormatted(const NumberConcept& number, const ::inflection::dialog::SpeakableString& formattedNumber, const ::inflection::dialog::SemanticFeatureConceptBase* semanticConcept) const = 0;
 
     /**
      * Destructor

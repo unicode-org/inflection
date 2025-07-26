@@ -85,7 +85,7 @@ inflection::dialog::SpeakableString* HeCommonConceptFactory::quantify(const infl
     if (number.longValue() == 1 || number.longValue() == 2) {
         newFormattedNumber = ::inflection::dialog::SpeakableString(newFormattedNumber.getSpeak(), newFormattedNumber.getSpeak());
     }
-    return super::quantify(number, newFormattedNumber, semanticConcept);
+    return super::quantifyFormatted(number, newFormattedNumber, semanticConcept);
 }
 
 inflection::dialog::SpeakableString HeCommonConceptFactory::quantifiedJoin(const inflection::dialog::SpeakableString& formattedNumber, const inflection::dialog::SpeakableString& nounPhrase, const ::std::u16string& /*measureWord*/, Plurality::Rule countType) const

@@ -355,7 +355,7 @@ TEST_CASE("QuantifyTest#testGerman")
     assertQuantity(conceptFactory, ::inflection::dialog::SpeakableString(u"2 Kinder", u"zwei Kinder"), 2, ::inflection::dialog::SpeakableString(u"Kind"), u"accusative");
     assertQuantity(conceptFactory, ::inflection::dialog::SpeakableString(u"1 Film", u"ein Film"), 1, ::inflection::dialog::SpeakableString(u"Film"));
     assertQuantity(conceptFactory, ::inflection::dialog::SpeakableString(u"2 Filme", u"zwei Filme"), 2, ::inflection::dialog::SpeakableString(u"Film"));
-    assertQuantity(conceptFactory, ::inflection::dialog::SpeakableString(u"1 Films", u"eines Films"), 1, ::inflection::dialog::SpeakableString(u"Film"), u"genitive");
+    assertQuantity(conceptFactory, ::inflection::dialog::SpeakableString(u"1 Filmes", u"eines Filmes"), 1, ::inflection::dialog::SpeakableString(u"Film"), u"genitive");
     assertQuantity(conceptFactory, ::inflection::dialog::SpeakableString(u"2 Filme", u"zwei Filme"), 2, ::inflection::dialog::SpeakableString(u"Film"), u"genitive");
     assertQuantity(conceptFactory, ::inflection::dialog::SpeakableString(u"1 Film", u"einem Film"), 1, ::inflection::dialog::SpeakableString(u"Film"), u"dative");
     assertQuantity(conceptFactory, ::inflection::dialog::SpeakableString(u"2 Filmen", u"zwei Filmen"), 2, ::inflection::dialog::SpeakableString(u"Film"), u"dative");
@@ -401,11 +401,7 @@ TEST_CASE("QuantifyTest#testRussian")
     assertQuantity(conceptFactory, ::inflection::dialog::SpeakableString(u"1 столе", u"одном столе"), 1, ::inflection::dialog::SpeakableString(u"стол"), u"locative");
     assertQuantity(conceptFactory, ::inflection::dialog::SpeakableString(u"2 столах", u"двух столах"), 2, ::inflection::dialog::SpeakableString(u"стол"), u"locative");
     assertQuantity(conceptFactory, ::inflection::dialog::SpeakableString(u"5 столах", u"пяти столах"), 5, ::inflection::dialog::SpeakableString(u"стол"), u"locative");
-#if U_ICU_VERSION_MAJOR_NUM >= 77
     assertQuantity(conceptFactory, ::inflection::dialog::SpeakableString(u"1,25 сантиметра", u"одна целая двадцать пять сотых сантиметра"), 1.25, ::inflection::dialog::SpeakableString(u"сантиметр"));
-#else
-    assertQuantity(conceptFactory, ::inflection::dialog::SpeakableString(u"1,25 сантиметра", u"одна целый двадцать пять сотых сантиметра"), 1.25, ::inflection::dialog::SpeakableString(u"сантиметр"));
-#endif
     assertQuantity(conceptFactory, ::inflection::dialog::SpeakableString(u"2,25 сантиметра", u"две целых двадцать пять сотых сантиметра"), 2.25, ::inflection::dialog::SpeakableString(u"сантиметр"));
     assertQuantity(conceptFactory, ::inflection::dialog::SpeakableString(u"5,25 сантиметра", u"пять целых двадцать пять сотых сантиметра"), 5.25, ::inflection::dialog::SpeakableString(u"сантиметр"));
     assertQuantity(conceptFactory, ::inflection::dialog::SpeakableString(u"1,25 QQQ"), 1.25, ::inflection::dialog::SpeakableString(u"QQQ")); // nonsense

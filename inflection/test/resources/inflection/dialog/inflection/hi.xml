@@ -89,8 +89,8 @@
     <test><source gender="masculine">गई</source><result exists="true">गया</result></test>
 
     <!--pressed-->
-    <test><source gender="feminine">दबाया</source><result exists="true">दबाई</result></test>
-    <test><source gender="masculine">दबाई</source><result exists="true">दबाया</result></test>
+    <test><source gender="feminine">दबाया</source><result exists="true">दबायी</result></test>
+    <test><source gender="masculine">दबायी</source><result exists="true">दबाया</result></test>
 
     <test><source gender="masculine">Calculator</source><result>Calculator</result></test> <!-- Latin Words -->
     <test><source gender="feminine">Clock</source><result>Clock</result></test> <!-- Latin Words -->
@@ -128,7 +128,7 @@
     <test><source gender="feminine">चाहते हैं</source><result exists="true">चाहती हैं</result></test>
 
     <test><source gender="feminine">रहा</source><result exists="true">रही</result></test>
-    <test><source gender="feminine">रहे</source><result exists="true">रहीं</result></test>
+    <test><source gender="masculine">रहीं</source><result exists="true">रहे</result></test>
     <test><source gender="feminine">रहे हैं</source><result exists="true">रही हैं</result></test>
 
     <test><source gender="feminine">चलते</source><result exists="true">चलतीं</result></test>

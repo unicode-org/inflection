@@ -252,7 +252,7 @@ TEST_CASE("QuantifyTest-c#testGerman")
         ::std::make_tuple(u"2 Kindern", u"zwei Kindern", 2, u"Kind", u"dative"),
         ::std::make_tuple(u"1 Kind", u"ein Kind", 1, u"Kind", u"accusative"),
         ::std::make_tuple(u"2 Kinder", u"zwei Kinder", 2, u"Kind", u"accusative"),
-        ::std::make_tuple(u"1 Films", u"eines Films", 1, u"Film", u"genitive"),
+        ::std::make_tuple(u"1 Filmes", u"eines Filmes", 1, u"Film", u"genitive"),
         ::std::make_tuple(u"2 Filme", u"zwei Filme", 2, u"Film", u"genitive"),
         ::std::make_tuple(u"1 Film", u"einem Film", 1, u"Film", u"dative"),
         ::std::make_tuple(u"2 Filmen", u"zwei Filmen", 2, u"Film", u"dative"),

@@ -1,136 +1,64 @@
 #Testing
 
-name: CMake on multiple platforms
+name: CMake Multi-Platform
 
 on:
-  workflow_dispatch:
-  pull_request:
-    paths:
-      - 'inflection/**'
-      - '.github/workflows/**'
-      - '!data/**'
-      - '!documents/**'
-      - '!fst/**'
   push:
-    branches:
-      - main
-    paths:
-      - 'inflection/**'
-      - '.github/workflows/**'
-
-env:
-  ICU_MAJOR: '77'
-  ICU_MINOR: '1'
+    branches: [ ghrotenPr167 ]
+  pull_request:
 
 jobs:
-  cache-icu:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/cache/restore@v4
-        id: cache
-        with:
-          path: ~/icu
-          key: ${{ runner.os }}-icu-${ICU_MAJOR}-${ICU_MINOR}
-      - name: Download and install icu
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: |
-          wget https://github.com/unicode-org/icu/releases/download/release-${ICU_MAJOR}-${ICU_MINOR}/icu4c-${ICU_MAJOR}_${ICU_MINOR}-Ubuntu22.04-x64.tgz
-          export ICU=~/icu/
-          mkdir -p $ICU
-          echo "ICU directory is $ICU"
-          cp icu4c-${ICU_MAJOR}_${ICU_MINOR}-Ubuntu22.04-x64.tgz $ICU
-          pushd $ICU
-          tar xvfz *.tgz
-          rm *.tgz
-      - uses: actions/cache/save@v4
-        with:
-          path: ~/icu
-          key: ${{ runner.os }}-icu-${ICU_MAJOR}-${ICU_MINOR}
-
   build:
-    needs: cache-icu
     runs-on: ${{ matrix.os }}
     strategy:
-      fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]
-        build_type: [Release]
-        c_compiler: [clang]
-        include:
-          - os: ubuntu-latest
-            c_compiler: clang
-            cpp_compiler: clang++
-          - os: macos-latest
-            c_compiler: clang
-            cpp_compiler: clang++
+        os: [ubuntu-22.04, macos-14]
+        compiler: [clang]
+    env:
+      ICU_VERSION: "77_1"
 
     steps:
-    - uses: actions/checkout@v4
-
-    - name: Create Git LFS file list
-      run: git lfs ls-files -l |cut -d' ' -f1 |sort >.git/lfs-hashes.txt
-
-    - name: Restore Git LFS object cache
-      uses: actions/cache@v4
-      id: lfscache
+    - name: Checkout
+      uses: actions/checkout@v4
       with:
-        path: inflection/resources/org/unicode/inflection/dictionary
-        key: ${{ runner.os }}-lfsdata-v1-${{ hashFiles('.git/lfs-hashes.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-lfsdata-v1-
-          ${{ runner.os }}-lfsdata
+        submodules: recursive
+        lfs: true
 
-    - name: Fetch any needed Git LFS objects and prune extraneous ones
-      if: steps.lfscache.outputs.cache-hit != 'true'
-      run: git lfs fetch --prune
-
-    - name: Check out Git LFS content
-      if: steps.lfscache.outputs.cache-hit != 'true'
-      run: git lfs checkout
-
-    - name: Check LFS restored files
-      run: ls -l inflection/resources/org/unicode/inflection/dictionary/*
-
-    - name: Set reusable strings
-      id: strings
-      shell: bash
+    - name: Set up Git LFS
       run: |
-        echo "project-root-dir=${{ github.workspace }}/inflection" >> "$GITHUB_OUTPUT"
-        echo "build-output-dir=${{ github.workspace }}/inflection/build" >> "$GITHUB_OUTPUT"
-        echo "inflection-test-data-dir=${{ github.workspace }}/inflection/resources/org/unicode/inflection/dictionary" >> "$GITHUB_OUTPUT"
+        git lfs install
+        git lfs pull
 
-    - uses: actions/cache/restore@v4
-      id: cache
-      with:
-        path: ~/icu
-        key: ${{ runner.os }}-icu-${ICU_MAJOR}-${ICU_MINOR}
-
-    - name: Install ICU (Ubuntu/macos)
+    - name: Set up ICU on Ubuntu
+      if: runner.os == 'Linux'
       run: |
-        if [[ "${{ matrix.os }}" == "ubuntu-latest" ]]; then
-          echo "ICU_ROOT=$HOME/icu/icu/usr/local" >> $GITHUB_ENV
-        elif [[ "${{ matrix.os }}" == "macos-latest" ]]; then
-          brew list icu4c || brew install icu4c
-          echo "ICU_ROOT=$(brew --prefix icu4c)" >> $GITHUB_ENV
-        fi
+        mkdir -p $HOME/icu
+        cd $HOME/icu
+        wget https://github.com/unicode-org/icu/releases/download/release-${ICU_VERSION//_/-}/icu4c-${ICU_VERSION}-Ubuntu22.04-x64.tgz
+        tar -xzf icu4c-${ICU_VERSION}-Ubuntu22.04-x64.tgz
+        echo "ICU_ROOT=$HOME/icu" >> $GITHUB_ENV
+        echo "LD_LIBRARY_PATH=$HOME/icu/lib" >> $GITHUB_ENV
+
+    - name: Set up ICU on macOS
+      if: runner.os == 'macOS'
+      run: |
+        brew install icu4c@77
+        echo "ICU_ROOT=$(brew --prefix icu4c@77)" >> $GITHUB_ENV
+        echo "DYLD_LIBRARY_PATH=$(brew --prefix icu4c@77)/lib" >> $GITHUB_ENV
+
+    - name: Create Build Directory
+      run: mkdir build
 
     - name: Configure CMake
-      run: >
-        cmake -B ${{ steps.strings.outputs.build-output-dir }}
-        -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
-        -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
-        -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
-        -DINFLECTION_TEST_DATA_DIR=${{ steps.strings.outputs.inflection-test-data-dir }}
-        -S ${{ steps.strings.outputs.project-root-dir }}
-
-    - name: Get number of CPU cores
-      uses: SimenB/github-actions-cpu-cores@v2
-      id: cpu-cores
+      working-directory: build
+      run: |
+        cmake .. -DCMAKE_BUILD_TYPE=Release -DICU_ROOT=${{ env.ICU_ROOT }}
 
     - name: Build
-      run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }} -j ${{ steps.cpu-cores.outputs.count }}
+      working-directory: build
+      run: cmake --build . --config Release --parallel
 
-    - name: Test
-      working-directory: ${{ steps.strings.outputs.build-output-dir }}
-      run: cmake --build . -t check -j ${{ steps.cpu-cores.outputs.count }}
+    - name: Run Tests
+      working-directory: build
+      run: ctest --output-on-failure
 

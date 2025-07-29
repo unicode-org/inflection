@@ -10,6 +10,14 @@ on:
     paths:
       - 'inflection/**'
       - '.github/workflows/**'
+  pull_request:
+    paths:
+    - 'inflection/**'
+    - '.github/workflows/**'
+    - '!data/**'
+    - '!documents/**'
+    - '!fst/**'
+
 env:
   ICU_MAJOR: '77'
   ICU_MINOR: '1'
@@ -143,6 +151,8 @@ jobs:
       shell: bash
 
     - name: Deploy to GitHub Pages
+      # only deploy when we merge into main branch
+      if: ${{ github.ref == 'refs/heads/main' }}
       uses: JamesIves/github-pages-deploy-action@v4
       with:
         token: ${{ secrets.GITHUB_TOKEN }}

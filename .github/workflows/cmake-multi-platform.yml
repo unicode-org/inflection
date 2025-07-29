@@ -113,7 +113,10 @@ jobs:
             echo "ICU_ROOT=~/icu/icu/usr/local" >> $GITHUB_ENV
           elif [[ "${{ matrix.os }}" == "macos-latest" ]]; then
             brew list icu4c || brew install icu4c
-            echo "ICU_ROOT=$(brew --prefix icu4c)" >> $GITHUB_ENV
+            ICU_PREFIX=$(brew --prefix icu4c)
+            echo "ICU_ROOT=$ICU_PREFIX" >> $GITHUB_ENV
+            echo "CMAKE_INCLUDE_PATH=$ICU_PREFIX/include" >> $GITHUB_ENV
+            echo "CMAKE_LIBRARY_PATH=$ICU_PREFIX/lib" >> $GITHUB_ENV
           fi
 
       - name: Configure CMake

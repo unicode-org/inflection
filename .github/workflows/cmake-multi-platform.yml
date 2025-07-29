@@ -1,6 +1,6 @@
 #Testing
 
-name: CMake on Multiple Platforms
+name: CMake on multiple platforms
 
 on:
   workflow_dispatch:
@@ -12,23 +12,50 @@ on:
       - '!documents/**'
       - '!fst/**'
   push:
-    branches: [ main ]
+    branches:
+      - main
     paths:
       - 'inflection/**'
       - '.github/workflows/**'
 
 env:
-  ICU_VERSION: 77_1
-  ICU_VERSION_DASH: 77-1
+  ICU_MAJOR: '77'
+  ICU_MINOR: '1'
 
 jobs:
+  cache-icu:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/cache/restore@v4
+        id: cache
+        with:
+          path: ~/icu
+          key: ${{ runner.os }}-icu-${ICU_MAJOR}-${ICU_MINOR}
+      - name: Download and install icu
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          wget https://github.com/unicode-org/icu/releases/download/release-${ICU_MAJOR}-${ICU_MINOR}/icu4c-${ICU_MAJOR}_${ICU_MINOR}-Ubuntu22.04-x64.tgz
+          export ICU=~/icu/
+          mkdir -p $ICU
+          cp icu4c-${ICU_MAJOR}_${ICU_MINOR}-Ubuntu22.04-x64.tgz $ICU
+          pushd $ICU
+          tar xvfz *.tgz
+          rm *.tgz
+      - uses: actions/cache/save@v4
+        with:
+          path: ~/icu
+          key: ${{ runner.os }}-icu-${ICU_MAJOR}-${ICU_MINOR}
+
   build:
+    needs: cache-icu
     runs-on: ${{ matrix.os }}
+
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest]
         build_type: [Release]
+        c_compiler: [clang]
         include:
           - os: ubuntu-latest
             c_compiler: clang
@@ -38,89 +65,101 @@ jobs:
             cpp_compiler: clang++
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          lfs: true
+      - uses: actions/checkout@v4
 
-      - name: Set Git LFS
-        run: |
-          git lfs install
-          git lfs pull --include="inflection/resources/org/unicode/inflection/dictionary/**"
+      - name: Fetch Git tags (for versioning)
+        run: git fetch --tags
 
-      - name: Install Dependencies (Ubuntu)
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          sudo apt update
-          sudo apt install -y cmake build-essential clang pkg-config
+      - name: Create Git LFS file list
+        run: git lfs ls-files -l | cut -d' ' -f1 | sort > .git/lfs-hashes.txt
 
-      - name: Cache ICU (Ubuntu)
-        if: matrix.os == 'ubuntu-latest'
+      - name: Restore Git LFS object cache
         uses: actions/cache@v4
-        id: cache-icu
+        id: lfscache
         with:
-          path: /usr/local/icu-${{ env.ICU_VERSION }}
-          key: icu-${{ env.ICU_VERSION }}-${{ runner.os }}
+          path: inflection/resources/org/unicode/inflection/dictionary
+          key: ${{ runner.os }}-lfsdata-v1-${{ hashFiles('.git/lfs-hashes.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-lfsdata-v1-
+            ${{ runner.os }}-lfsdata
 
-      - name: Install ICU (Ubuntu Binary)
-        if: matrix.os == 'ubuntu-latest' && steps.cache-icu.outputs.cache-hit != 'true'
-        run: |
-          cd /tmp
-          wget https://github.com/unicode-org/icu/releases/download/release-${{ env.ICU_VERSION_DASH }}/icu4c-${{ env.ICU_VERSION }}-Ubuntu22.04-x64.tgz
-          mkdir icu-install
-          tar -xzf icu4c-${{ env.ICU_VERSION }}-Ubuntu22.04-x64.tgz -C icu-install
-          sudo mkdir -p /usr/local/icu-${{ env.ICU_VERSION }}
-          sudo cp -r icu-install/icu/usr/local/* /usr/local/icu-${{ env.ICU_VERSION }}/
-          sudo ldconfig
+      - name: Fetch missing Git LFS files
+        if: steps.lfscache.outputs.cache-hit != 'true'
+        run: git lfs fetch --prune
 
-      - name: Install ICU (macOS via Homebrew)
-        if: matrix.os == 'macos-latest'
-        run: |
-          brew install icu4c@${{ env.ICU_VERSION_DASH }}
-          echo "ICU_ROOT=$(brew --prefix icu4c@${{ env.ICU_VERSION_DASH }})" >> $GITHUB_ENV
+      - name: Checkout Git LFS content
+        if: steps.lfscache.outputs.cache-hit != 'true'
+        run: git lfs checkout
 
-      - name: Set ICU Environment Variables (Ubuntu)
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          echo "ICU_ROOT=/usr/local/icu-${ICU_VERSION}" >> $GITHUB_ENV
-          echo "PKG_CONFIG_PATH=/usr/local/icu-${ICU_VERSION}/lib/pkgconfig" >> $GITHUB_ENV
-          echo "CPLUS_INCLUDE_PATH=/usr/local/icu-${ICU_VERSION}/include" >> $GITHUB_ENV
-          echo "LD_LIBRARY_PATH=/usr/local/icu-${ICU_VERSION}/lib" >> $GITHUB_ENV
+      - name: Debug Git LFS content
+        run: ls -lh inflection/resources/org/unicode/inflection/dictionary/
 
-      - name: Configure with CMake
+      - name: Set reusable paths
+        id: strings
+        shell: bash
         run: |
-          mkdir -p inflection/build
-          cd inflection/build
-          cmake .. \
-            -DCMAKE_C_COMPILER=${{ matrix.c_compiler }} \
-            -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} \
-            -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
-            -DICU_ROOT=${{ env.ICU_ROOT }}
+          echo "project-root-dir=${{ github.workspace }}/inflection" >> "$GITHUB_OUTPUT"
+          echo "build-output-dir=${{ github.workspace }}/inflection/build" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/cache/restore@v4
+        id: cache
+        with:
+          path: ~/icu
+          key: ${{ runner.os }}-icu-${ICU_MAJOR}-${ICU_MINOR}
+
+      - name: Install ICU (Ubuntu/macOS)
+        run: |
+          if [[ "${{ matrix.os }}" == "ubuntu-latest" ]]; then
+            echo "ICU_ROOT=~/icu/icu/usr/local" >> $GITHUB_ENV
+          elif [[ "${{ matrix.os }}" == "macos-latest" ]]; then
+            brew list icu4c || brew install icu4c
+            echo "ICU_ROOT=$(brew --prefix icu4c)" >> $GITHUB_ENV
+          fi
+
+      - name: Configure CMake
+        run: >
+          cmake -B ${{ steps.strings.outputs.build-output-dir }}
+          -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
+          -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
+          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+          -DICU_ROOT=$ICU_ROOT
+          -DCMAKE_PREFIX_PATH=$ICU_ROOT
+          -S ${{ steps.strings.outputs.project-root-dir }}
+
+      - name: Get number of CPU cores
+        uses: SimenB/github-actions-cpu-cores@v2
+        id: cpu-cores
 
       - name: Build
-        run: |
-          cd inflection/build
-          cmake --build . --config ${{ matrix.build_type }} -j$(nproc)
+        run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }} -j ${{ steps.cpu-cores.outputs.count }}
 
-      - name: Run Tests
-        run: |
-          cd inflection/build
-          cmake --build . --target check -j$(nproc)
+      - name: Run tests
+        working-directory: ${{ steps.strings.outputs.build-output-dir }}
+        run: cmake --build . -t check -j ${{ steps.cpu-cores.outputs.count }}
 
-      - name: Package with CPack (Ubuntu only)
-        if: matrix.os == 'ubuntu-latest'
+      - name: Package with CPack
+        working-directory: ${{ steps.strings.outputs.build-output-dir }}
         run: |
-          cd inflection/build
           cpack
-          ls -la *.deb *.tar.gz
+          ls -lh *.tar.gz *.deb || true
 
-      - name: Upload Artifacts (Ubuntu only)
-        if: matrix.os == 'ubuntu-latest'
+      - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ubuntu-release-artifacts
+          name: ${{ matrix.os }}-inflection-artifacts
           path: |
-            inflection/build/*.deb
-            inflection/build/*.tar.gz
+            ${{ steps.strings.outputs.build-output-dir }}/*.deb
+            ${{ steps.strings.outputs.build-output-dir }}/*.tar.gz
           retention-days: 30
+
+      - name: Upload to GitHub Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          name: "Release ${{ github.ref_name }}"
+          files: |
+            ${{ steps.strings.outputs.build-output-dir }}/*.deb
+            ${{ steps.strings.outputs.build-output-dir }}/*.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

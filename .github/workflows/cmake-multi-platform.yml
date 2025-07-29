@@ -1,64 +1,126 @@
 #Testing
 
-name: CMake Multi-Platform
+name: CMake on Multiple Platforms
 
 on:
-  push:
-    branches: [ ghrotenPr167 ]
+  workflow_dispatch:
   pull_request:
+    paths:
+      - 'inflection/**'
+      - '.github/workflows/**'
+      - '!data/**'
+      - '!documents/**'
+      - '!fst/**'
+  push:
+    branches: [ main ]
+    paths:
+      - 'inflection/**'
+      - '.github/workflows/**'
+
+env:
+  ICU_VERSION: 77_1
+  ICU_VERSION_DASH: 77-1
 
 jobs:
   build:
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
-        os: [ubuntu-22.04, macos-14]
-        compiler: [clang]
-    env:
-      ICU_VERSION: "77_1"
+        os: [ubuntu-latest, macos-latest]
+        build_type: [Release]
+        include:
+          - os: ubuntu-latest
+            c_compiler: clang
+            cpp_compiler: clang++
+          - os: macos-latest
+            c_compiler: clang
+            cpp_compiler: clang++
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-      with:
-        submodules: recursive
-        lfs: true
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
 
-    - name: Set up Git LFS
-      run: |
-        git lfs install
-        git lfs pull
+      - name: Set Git LFS
+        run: |
+          git lfs install
+          git lfs pull --include="inflection/resources/org/unicode/inflection/dictionary/**"
 
-    - name: Set up ICU on Ubuntu
-      if: runner.os == 'Linux'
-      run: |
-        mkdir -p $HOME/icu
-        cd $HOME/icu
-        wget https://github.com/unicode-org/icu/releases/download/release-${ICU_VERSION//_/-}/icu4c-${ICU_VERSION}-Ubuntu22.04-x64.tgz
-        tar -xzf icu4c-${ICU_VERSION}-Ubuntu22.04-x64.tgz
-        echo "ICU_ROOT=$HOME/icu" >> $GITHUB_ENV
-        echo "LD_LIBRARY_PATH=$HOME/icu/lib" >> $GITHUB_ENV
+      - name: Install Dependencies (Ubuntu)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt update
+          sudo apt install -y cmake build-essential clang pkg-config
 
-    - name: Set up ICU on macOS
-      if: runner.os == 'macOS'
-      run: |
-        brew install icu4c@77
-        echo "ICU_ROOT=$(brew --prefix icu4c@77)" >> $GITHUB_ENV
-        echo "DYLD_LIBRARY_PATH=$(brew --prefix icu4c@77)/lib" >> $GITHUB_ENV
+      - name: Cache ICU (Ubuntu)
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/cache@v4
+        id: cache-icu
+        with:
+          path: /usr/local/icu-${{ env.ICU_VERSION }}
+          key: icu-${{ env.ICU_VERSION }}-${{ runner.os }}
 
-    - name: Create Build Directory
-      run: mkdir build
+      - name: Install ICU (Ubuntu Binary)
+        if: matrix.os == 'ubuntu-latest' && steps.cache-icu.outputs.cache-hit != 'true'
+        run: |
+          cd /tmp
+          wget https://github.com/unicode-org/icu/releases/download/release-${{ env.ICU_VERSION_DASH }}/icu4c-${{ env.ICU_VERSION }}-Ubuntu22.04-x64.tgz
+          mkdir icu-install
+          tar -xzf icu4c-${{ env.ICU_VERSION }}-Ubuntu22.04-x64.tgz -C icu-install
+          sudo mkdir -p /usr/local/icu-${{ env.ICU_VERSION }}
+          sudo cp -r icu-install/icu/usr/local/* /usr/local/icu-${{ env.ICU_VERSION }}/
+          sudo ldconfig
 
-    - name: Configure CMake
-      working-directory: build
-      run: |
-        cmake .. -DCMAKE_BUILD_TYPE=Release -DICU_ROOT=${{ env.ICU_ROOT }}
+      - name: Install ICU (macOS via Homebrew)
+        if: matrix.os == 'macos-latest'
+        run: |
+          brew install icu4c@${{ env.ICU_VERSION_DASH }}
+          echo "ICU_ROOT=$(brew --prefix icu4c@${{ env.ICU_VERSION_DASH }})" >> $GITHUB_ENV
 
-    - name: Build
-      working-directory: build
-      run: cmake --build . --config Release --parallel
+      - name: Set ICU Environment Variables (Ubuntu)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          echo "ICU_ROOT=/usr/local/icu-${ICU_VERSION}" >> $GITHUB_ENV
+          echo "PKG_CONFIG_PATH=/usr/local/icu-${ICU_VERSION}/lib/pkgconfig" >> $GITHUB_ENV
+          echo "CPLUS_INCLUDE_PATH=/usr/local/icu-${ICU_VERSION}/include" >> $GITHUB_ENV
+          echo "LD_LIBRARY_PATH=/usr/local/icu-${ICU_VERSION}/lib" >> $GITHUB_ENV
 
-    - name: Run Tests
-      working-directory: build
-      run: ctest --output-on-failure
+      - name: Configure with CMake
+        run: |
+          mkdir -p inflection/build
+          cd inflection/build
+          cmake .. \
+            -DCMAKE_C_COMPILER=${{ matrix.c_compiler }} \
+            -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} \
+            -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+            -DICU_ROOT=${{ env.ICU_ROOT }}
+
+      - name: Build
+        run: |
+          cd inflection/build
+          cmake --build . --config ${{ matrix.build_type }} -j$(nproc)
+
+      - name: Run Tests
+        run: |
+          cd inflection/build
+          cmake --build . --target check -j$(nproc)
+
+      - name: Package with CPack (Ubuntu only)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          cd inflection/build
+          cpack
+          ls -la *.deb *.tar.gz
+
+      - name: Upload Artifacts (Ubuntu only)
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ubuntu-release-artifacts
+          path: |
+            inflection/build/*.deb
+            inflection/build/*.tar.gz
+          retention-days: 30
 

@@ -31,7 +31,7 @@ jobs:
         with:
           path: ~/icu
           key: ${{ runner.os }}-icu-${ICU_MAJOR}-${ICU_MINOR}
-      - name: Download and install icu
+      - name: Download and install ICU (Ubuntu binary)
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
           wget https://github.com/unicode-org/icu/releases/download/release-${ICU_MAJOR}-${ICU_MINOR}/icu4c-${ICU_MAJOR}_${ICU_MINOR}-Ubuntu22.04-x64.tgz
@@ -58,10 +58,8 @@ jobs:
         c_compiler: [clang]
         include:
           - os: ubuntu-latest
-            c_compiler: clang
             cpp_compiler: clang++
           - os: macos-latest
-            c_compiler: clang
             cpp_compiler: clang++
 
     steps:
@@ -117,6 +115,9 @@ jobs:
             echo "ICU_ROOT=$ICU_PREFIX" >> $GITHUB_ENV
             echo "CMAKE_INCLUDE_PATH=$ICU_PREFIX/include" >> $GITHUB_ENV
             echo "CMAKE_LIBRARY_PATH=$ICU_PREFIX/lib" >> $GITHUB_ENV
+            echo "PATH=$ICU_PREFIX/bin:$PATH" >> $GITHUB_ENV
+            echo "LDFLAGS=-L$ICU_PREFIX/lib" >> $GITHUB_ENV
+            echo "CPPFLAGS=-I$ICU_PREFIX/include" >> $GITHUB_ENV
           fi
 
       - name: Configure CMake
@@ -144,7 +145,7 @@ jobs:
         working-directory: ${{ steps.strings.outputs.build-output-dir }}
         run: |
           cpack
-          ls -lh *.tar.gz *.deb || true
+          ls -lh ${{ steps.strings.outputs.build-output-dir }}/*.tar.gz ${{ steps.strings.outputs.build-output-dir }}/*.deb || true
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4

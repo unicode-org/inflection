@@ -1,6 +1,6 @@
 /*
- * Copyright 2025 Unicode Incorporated and others. All rights reserved.
- */
+* Copyright 2025 Unicode Incorporated and others. All rights reserved.
+*/
 #include <inflection/grammar/synthesis/MlGrammarSynthesizer_MlDisplayFunction.hpp>
 #include <inflection/dialog/SemanticFeature.hpp>
 #include <inflection/dialog/SemanticFeatureModel_DisplayData.hpp>
@@ -11,6 +11,15 @@
 #include <inflection/grammar/synthesis/GrammemeConstants.hpp>
 #include <inflection/grammar/synthesis/GrammarSynthesizerUtil.hpp>
 #include <inflection/grammar/synthesis/MlGrammarSynthesizer.hpp>
+#include <inflection/tokenizer/Tokenizer.hpp>
+#include <inflection/tokenizer/TokenChain.hpp>
+#include <inflection/tokenizer/TokenizerFactory.hpp>
+#include <inflection/util/StringViewUtils.hpp>
+#include <inflection/util/Validate.hpp>
+#include <inflection/util/UnicodeSetUtils.hpp>
+#include <inflection/lang/StringFilterUtil.hpp>
+#include <icu4cxx/UnicodeSet.hpp>
+#include <unicode/uchar.h>
 #include <inflection/npc.hpp>
 #include <memory>
 
@@ -19,10 +28,10 @@ namespace inflection::grammar::synthesis {
 // Helper function to get string feature by name from the feature map
 static std::u16string getStrFeature(
     const std::u16string& name,
-    const std::map<dialog::SemanticFeature, std::u16string>& features)
+    const std::map<dialog::SemanticFeature, std::u16string>& features) 
 {
     for (const auto& [key, value] : features) {
-        if (key.getName() == name) { 
+        if (key.getName() == name) {
             return value;
         }
     }
@@ -30,7 +39,9 @@ static std::u16string getStrFeature(
 }
 
 // Changed parameter type from FeatureSet to map<SemanticFeature,u16string>
-std::u16string fallbackMalayalamPronoun(const std::map<dialog::SemanticFeature, std::u16string>& features) {
+std::u16string fallbackMalayalamPronoun(
+    const std::map<dialog::SemanticFeature, std::u16string>& features) 
+{
     auto person = getStrFeature(u"person", features);
     auto number = getStrFeature(u"number", features);
     auto case_ = getStrFeature(u"case", features);
@@ -38,19 +49,12 @@ std::u16string fallbackMalayalamPronoun(const std::map<dialog::SemanticFeature, 
     auto clusivity = getStrFeature(u"clusivity", features);
     auto formality = getStrFeature(u"formality", features);
 
-    // STRICT MINIMUM CHECKS: No fallback unless these are defined
     if (person.empty() || number.empty() || case_.empty()) {
         return u"";
     }
-
-    // Only fallback for known safe combinations (e.g., 1st person, no gender)
-    // You can later extend this to add valid known forms (e.g., ഞാൻ, നീ, etc.)
     if (person == u"first" && number == u"singular" && case_ == u"dative") {
         return u"എനിക്ക്";
     }
-
-    // Optional: Add more valid fallback patterns here if you have confidence
-    // Otherwise: return empty
     return u"";
 }
 
@@ -58,64 +62,69 @@ using dialog::SemanticFeature;
 using dialog::SemanticFeatureModel_DisplayData;
 using dialog::DisplayValue;
 
-// Malayalam-specific grammemes
 static constexpr auto CASE_NOMINATIVE = u"nominative";
 static constexpr auto CASE_ACCUSATIVE = u"accusative";
-static constexpr auto CASE_DATIVE     = u"dative";
-static constexpr auto CASE_GENITIVE   = u"genitive";
+static constexpr auto CASE_DATIVE = u"dative";
+static constexpr auto CASE_GENITIVE = u"genitive";
 static constexpr auto CASE_INSTRUMENTAL = u"instrumental";
-static constexpr auto CASE_LOCATIVE   = u"locative";
-static constexpr auto CASE_SOCIATIVE  = u"sociative";
+static constexpr auto CASE_LOCATIVE = u"locative";
+static constexpr auto CASE_SOCIATIVE = u"sociative";
+
 static constexpr auto NUMBER_SINGULAR = u"singular";
-static constexpr auto NUMBER_PLURAL   = u"plural";
+static constexpr auto NUMBER_PLURAL = u"plural";
+
 static constexpr auto GENDER_MASCULINE = u"masculine";
-static constexpr auto GENDER_FEMININE  = u"feminine";
-static constexpr auto GENDER_NEUTER    = u"neuter";
-static constexpr auto FORMALITY_FORMAL   = u"formal";
+static constexpr auto GENDER_FEMININE = u"feminine";
+static constexpr auto GENDER_NEUTER = u"neuter";
+
+static constexpr auto FORMALITY_FORMAL = u"formal";
 static constexpr auto FORMALITY_INFORMAL = u"informal";
-static constexpr auto CLUSIVITY_INCLUSIVE   = u"inclusive";
-static constexpr auto CLUSIVITY_EXCLUSIVE   = u"exclusive";
+
+static constexpr auto CLUSIVITY_INCLUSIVE = u"inclusive";
+static constexpr auto CLUSIVITY_EXCLUSIVE = u"exclusive";
+
 static constexpr auto PERSON_FIRST = u"first";
 static constexpr auto PERSON_SECOND = u"second";
-static constexpr auto PERSON_THIRD  = u"third";
-static constexpr auto TENSE_PAST    = u"past";
+static constexpr auto PERSON_THIRD = u"third";
+
+static constexpr auto TENSE_PAST = u"past";
 static constexpr auto TENSE_PRESENT = u"present";
-static constexpr auto TENSE_FUTURE  = u"future";
-static constexpr auto MOOD_INDICATIVE   = u"indicative";
-static constexpr auto MOOD_IMPERATIVE   = u"imperative";
-static constexpr auto MOOD_SUBJUNCTIVE  = u"subjunctive";
+static constexpr auto TENSE_FUTURE = u"future";
+
+static constexpr auto MOOD_INDICATIVE = u"indicative";
+static constexpr auto MOOD_IMPERATIVE = u"imperative";
+static constexpr auto MOOD_SUBJUNCTIVE = u"subjunctive";
 
 MlGrammarSynthesizer_MlDisplayFunction::MlGrammarSynthesizer_MlDisplayFunction(
     const ::inflection::dialog::SemanticFeatureModel& model)
-    : caseFeature(*npc(model.getFeature(GrammemeConstants::CASE)))
-    , numberFeature(*npc(model.getFeature(GrammemeConstants::NUMBER)))
-    , genderFeature(*npc(model.getFeature(GrammemeConstants::GENDER)))
-    , posFeature(*npc(model.getFeature(GrammemeConstants::POS)))
-    , formalityFeature(*npc(model.getFeature(u"formality")))
-    , clusivityFeature(*npc(model.getFeature(u"clusivity")))
-    , personFeature(*npc(model.getFeature(GrammemeConstants::PERSON)))
-    , tenseFeature(*npc(model.getFeature(u"tense")))
-    , moodFeature(*npc(model.getFeature(u"mood")))
-    , pronounTypeFeature(*npc(model.getFeature(u"pronounType")))
-    , determinationFeature(*npc(model.getFeature(u"determination")))
-    , dictionaryInflector(
-        util::LocaleUtils::MALAYALAM(),
-        {
-            {GrammemeConstants::POS_NOUN(), GrammemeConstants::POS_ADJECTIVE(), GrammemeConstants::POS_VERB()},
-            {CASE_NOMINATIVE, CASE_ACCUSATIVE, CASE_DATIVE, CASE_GENITIVE, CASE_LOCATIVE, CASE_INSTRUMENTAL, CASE_SOCIATIVE},
-            {NUMBER_SINGULAR, NUMBER_PLURAL},
-            {GENDER_MASCULINE, GENDER_FEMININE, GENDER_NEUTER},
-            {FORMALITY_FORMAL, FORMALITY_INFORMAL},
-            {CLUSIVITY_INCLUSIVE, CLUSIVITY_EXCLUSIVE},
-            {PERSON_FIRST, PERSON_SECOND, PERSON_THIRD},
-            {TENSE_PAST, TENSE_PRESENT, TENSE_FUTURE},
-            {MOOD_INDICATIVE, MOOD_IMPERATIVE, MOOD_SUBJUNCTIVE}
-        },
-        {},
-        true)
-{
-    // Constructor initializes feature references and dictionary inflector
-}
+    : caseFeature(*npc(model.getFeature(GrammemeConstants::CASE))),
+      numberFeature(*npc(model.getFeature(GrammemeConstants::NUMBER))),
+      genderFeature(*npc(model.getFeature(GrammemeConstants::GENDER))),
+      posFeature(*npc(model.getFeature(GrammemeConstants::POS))),
+      formalityFeature(*npc(model.getFeature(u"formality"))),
+      clusivityFeature(*npc(model.getFeature(u"clusivity"))),
+      personFeature(*npc(model.getFeature(GrammemeConstants::PERSON))),
+      tenseFeature(*npc(model.getFeature(u"tense"))),
+      moodFeature(*npc(model.getFeature(u"mood"))),
+      pronounTypeFeature(*npc(model.getFeature(u"pronounType"))),
+      determinationFeature(*npc(model.getFeature(u"determination"))),
+      dictionaryInflector(
+          util::LocaleUtils::MALAYALAM(),
+          {
+              {GrammemeConstants::POS_NOUN(), GrammemeConstants::POS_VERB()},
+              {CASE_NOMINATIVE, CASE_ACCUSATIVE, CASE_DATIVE, CASE_GENITIVE,
+               CASE_LOCATIVE, CASE_INSTRUMENTAL, CASE_SOCIATIVE},
+              {NUMBER_SINGULAR, NUMBER_PLURAL},
+              {GENDER_MASCULINE, GENDER_FEMININE, GENDER_NEUTER},
+              {FORMALITY_FORMAL, FORMALITY_INFORMAL},
+              {CLUSIVITY_INCLUSIVE, CLUSIVITY_EXCLUSIVE},
+              {PERSON_FIRST, PERSON_SECOND, PERSON_THIRD},
+              {TENSE_PAST, TENSE_PRESENT, TENSE_FUTURE},
+              {MOOD_INDICATIVE, MOOD_IMPERATIVE, MOOD_SUBJUNCTIVE}
+          },
+          {},
+          true) 
+{}
 
 static std::u16string guessPluralForm(const std::u16string& token) {
     if (token.ends_with(u"ം")) {
@@ -127,10 +136,7 @@ static std::u16string guessPluralForm(const std::u16string& token) {
     if (token.ends_with(u"ൻ")) {
         return token + u"മാർ";
     }
-    if (token.ends_with(u"ി")) {
-        return token + u"കൾ";
-    }
-    if (token.ends_with(u"ാ")) {
+    if (token.ends_with(u"ി") || token.ends_with(u"ാ")) {
         return token + u"കൾ";
     }
     if (!token.empty() && token.back() != u'്') {
@@ -142,31 +148,20 @@ static std::u16string guessPluralForm(const std::u16string& token) {
 ::inflection::dialog::DisplayValue* MlGrammarSynthesizer_MlDisplayFunction::getDisplayValue(
     const SemanticFeatureModel_DisplayData& displayData,
     const std::map<SemanticFeature, std::u16string>& constraints,
-    bool enableInflectionGuess) const
+    bool enableInflectionGuess) const 
 {
     const auto displayValue = GrammarSynthesizerUtil::getTheBestDisplayValue(displayData, constraints);
-if (displayValue == nullptr) {
-    if (GrammarSynthesizerUtil::getFeatureValue(constraints, posFeature) == u"pronoun") {
-        std::u16string fallback = fallbackMalayalamPronoun(constraints);
-        if (!fallback.empty()) {
-            return new DisplayValue(fallback, constraints);
+    if (displayValue == nullptr || displayValue->getDisplayString().empty()) {
+        if (GrammarSynthesizerUtil::getFeatureValue(constraints, posFeature) == u"pronoun") {
+            std::u16string fallback = fallbackMalayalamPronoun(constraints);
+            if (!fallback.empty()) {
+                return new DisplayValue(fallback, constraints);
+            }
         }
+        return nullptr;
     }
-    return nullptr;
-}
 
     const std::u16string baseForm = displayValue->getDisplayString();
-
-    if (baseForm.empty()) {
-    if (GrammarSynthesizerUtil::getFeatureValue(constraints, posFeature) == u"pronoun") {
-        std::u16string fallback = fallbackMalayalamPronoun(constraints);
-        if (!fallback.empty()) {
-            return new DisplayValue(fallback, constraints);
-        }
-    }
-    return nullptr;
-}
-
     const std::u16string posFeatureValue = GrammarSynthesizerUtil::getFeatureValue(constraints, posFeature);
     const std::u16string numberFeatureValue = GrammarSynthesizerUtil::getFeatureValue(constraints, numberFeature);
     const std::u16string caseValue = GrammarSynthesizerUtil::getFeatureValue(constraints, caseFeature);
@@ -220,7 +215,7 @@ if (displayValue == nullptr) {
         constraintValues.push_back(posFeatureValue);
     }
 
-    if (posFeatureValue == u"adjective" || posFeatureValue == GrammemeConstants::POS_PRONOUN()) {
+    if (posFeatureValue == GrammemeConstants::POS_PRONOUN()) {
         addIfNotEmpty(genderFeature);
     }
 
@@ -239,8 +234,8 @@ if (displayValue == nullptr) {
     }
 
     auto inflectedOpt = dictionaryInflector.inflect(baseForm, wordGrammemes, constraintValues);
-    if (inflectedOpt.has_value() && *inflectedOpt != baseForm) {
 
+    if (inflectedOpt.has_value() && *inflectedOpt != baseForm) {
         std::u16string result = *inflectedOpt;
 
         if (std::find(constraintValues.begin(), constraintValues.end(), u"first") != constraintValues.end() &&
@@ -258,7 +253,6 @@ if (displayValue == nullptr) {
             (result == u"നാം" || baseForm == u"നാം")) {
             return new DisplayValue(u"നമ്മൾ", constraints);
         }
-
         return new DisplayValue(result, constraints);
     }
 
@@ -275,13 +269,18 @@ if (displayValue == nullptr) {
 
         if (posFeatureValue == u"verb") {
             std::u16string stem = baseForm;
-            if (stem.size() >= 3 && stem.compare(stem.size() - 3, 3, u"ക്കുക") == 0) {
-                stem = stem.substr(0, stem.size() - 3);
-            } else if (stem.size() >= 2 && stem.compare(stem.size() - 2, 2, u"കുക") == 0) {
-                stem = stem.substr(0, stem.size() - 2);
+            static const std::vector<std::u16string> infinitiveSuffixes = {u"ക്കുക", u"കുക", u"വിക്കുക", u"പിക്കുക"};
+
+            for (const auto& suffix : infinitiveSuffixes) {
+                if (stem.size() >= suffix.size() &&
+                    stem.compare(stem.size() - suffix.size(), suffix.size(), suffix) == 0) {
+                    stem = stem.substr(0, stem.size() - suffix.size());
+                    break;
+                }
             }
 
             std::u16string conjugatedVerb;
+
             if (moodVal == MOOD_INDICATIVE) {
                 if (tenseVal == TENSE_PRESENT) {
                     conjugatedVerb = stem + u"ിക്കുന്നു";
@@ -291,9 +290,9 @@ if (displayValue == nullptr) {
                     conjugatedVerb = stem + u"ിക്കും";
                 }
             } else if (moodVal == MOOD_IMPERATIVE) {
-                conjugatedVerb = stem + u"ുക";
+                conjugatedVerb = baseForm;
             } else if (moodVal == MOOD_SUBJUNCTIVE) {
-                conjugatedVerb = stem + u"മെന്ന്";
+                conjugatedVerb = stem + u"ക്കുമെന്ന്";
             }
 
             if (!conjugatedVerb.empty()) {
@@ -303,6 +302,7 @@ if (displayValue == nullptr) {
 
         if (!caseValue.empty()) {
             std::u16string result;
+
             if (caseValue == CASE_ACCUSATIVE) {
                 if (baseForm.ends_with(u"ൻ")) {
                     result = baseForm.substr(0, baseForm.size() - 1) + u"നെ";
@@ -329,16 +329,16 @@ if (displayValue == nullptr) {
         }
     }
 
-    // Move this outside so it always runs last
     if (posFeatureValue == u"pronoun") {
         std::u16string fallback = fallbackMalayalamPronoun(constraints);
         if (!fallback.empty()) {
             return new DisplayValue(fallback, constraints);
         }
-    }   
+    }
+
     return nullptr;
 }
 
 MlGrammarSynthesizer_MlDisplayFunction::~MlGrammarSynthesizer_MlDisplayFunction() = default;
 
-} // namespace inflection::grammar::synthesis
+}  // namespace inflection::grammar::synthesis

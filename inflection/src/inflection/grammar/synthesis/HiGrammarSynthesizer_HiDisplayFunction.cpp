@@ -7,6 +7,7 @@
 #include <inflection/dialog/SemanticFeatureModel_DisplayData.hpp>
 #include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
+#include <inflection/dialog/PronounConcept.hpp>
 #include <inflection/grammar/synthesis/GrammarSynthesizerUtil.hpp>
 #include <inflection/grammar/synthesis/GrammemeConstants.hpp>
 #include <inflection/tokenizer/TokenChain.hpp>
@@ -29,6 +30,7 @@ using inflection::tokenizer::TokenizerFactory;
 
 HiGrammarSynthesizer_HiDisplayFunction::HiGrammarSynthesizer_HiDisplayFunction(const SemanticFeatureModel& model)
     : super()
+    , caseFeature(*npc(model.getFeature(GrammemeConstants::CASE)))
     , numberFeature(*npc(model.getFeature(GrammemeConstants::NUMBER)))
     , genderFeature(*npc(model.getFeature(GrammemeConstants::GENDER)))
     , partOfSpeechFeature(*npc(model.getFeature(GrammemeConstants::POS)))
@@ -136,19 +138,25 @@ namespace {
     }
 }
 
-::std::optional<::std::u16string> HiGrammarSynthesizer_HiDisplayFunction::inflectWord(const ::std::u16string& word, const ::std::map<SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess, bool makeOblique) const {
-    int64_t wordProperties = 0;
-    dictionaryInflector.getDictionary().getCombinedBinaryType(&wordProperties, word);
-    auto constraintsVec(
-        ((wordProperties & genderMask) == 0 || makeOblique)
-        ? GrammarSynthesizerUtil::convertToStringConstraints(constraints, {&numberFeature})
-        : GrammarSynthesizerUtil::convertToStringConstraints(constraints, {&numberFeature, &genderFeature})
-    );
+::std::optional<::std::u16string> HiGrammarSynthesizer_HiDisplayFunction::inflectWord(const ::std::u16string& word, int64_t wordProperties, const ::std::map<SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess, bool makeOblique) const {
+    ::std::vector<::std::u16string> constraintsVec;
+    if (const auto constraintString = GrammarSynthesizerUtil::getFeatureValue(constraints, numberFeature); !constraintString.empty()) {
+        constraintsVec.emplace_back(constraintString);
+    }
+    if ((wordProperties & genderMask) != 0 && !makeOblique) {
+        if (const auto constraintString = GrammarSynthesizerUtil::getFeatureValue(constraints, genderFeature); !constraintString.empty()) {
+            constraintsVec.emplace_back(constraintString);
+        }
+    }
+    if (const auto constraintString = GrammarSynthesizerUtil::getFeatureValue(constraints, caseFeature); !constraintString.empty()) {
+        constraintsVec.emplace_back(constraintString);
+    }
+
     if (makeOblique) {
         constraintsVec.emplace_back(GrammemeConstants::CASE_OBLIQUE());
     }
-    const auto dismbiguationGrammemeValues(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {&partOfSpeechFeature}));
-    if (const auto &inflectionResult = dictionaryInflector.inflect(word, wordProperties, constraintsVec, dismbiguationGrammemeValues)) {
+    const auto disambiguationGrammemeValues(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {&partOfSpeechFeature}));
+    if (const auto &inflectionResult = dictionaryInflector.inflect(word, wordProperties, constraintsVec, disambiguationGrammemeValues)) {
         return *inflectionResult;
     }
 
@@ -176,7 +184,7 @@ namespace {
 }
 
 ::std::optional<::std::vector<::std::u16string>> HiGrammarSynthesizer_HiDisplayFunction::inflectSignificantWords(const std::vector<::std::u16string> &words, const ::std::map<SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const {
-    if (words.size() == 0) {
+    if (words.empty()) {
         return {{}};
     }
     const auto &dictionary = dictionaryInflector.getDictionary();
@@ -210,7 +218,9 @@ namespace {
             continue;
         }
 
-        if (const auto &inflectionResult = inflectWord(word, constraints, enableInflectionGuess, makeOblique); inflectionResult) {
+        int64_t wordProperties = 0;
+        dictionaryInflector.getDictionary().getCombinedBinaryType(&wordProperties, word);
+        if (const auto &inflectionResult = inflectWord(word, wordProperties, constraints, enableInflectionGuess, makeOblique); inflectionResult) {
             inflectedWords.emplace_back(*inflectionResult);
         } else if (enableInflectionGuess) {
             inflectedWords.emplace_back(word);
@@ -269,9 +279,17 @@ DisplayValue* HiGrammarSynthesizer_HiDisplayFunction::getDisplayValue(const dial
     }
     const auto displayValueConstraints(GrammarSynthesizerUtil::mergeConstraintsWithDisplayValue(*displayValue, constraints));
 
-    if (GrammarSynthesizerUtil::hasAnyFeatures(constraints, {&numberFeature, &genderFeature})) {
-        const ::std::unique_ptr<TokenChain> tokenChain(npc(npc(tokenizer.get())->createTokenChain(displayString)));
-        if (const auto &inflectionResult = inflectTokenChain(*npc(tokenChain.get()), constraints, enableInflectionGuess)) {
+    if (!constraints.empty()) {
+        ::std::optional<::std::u16string> inflectionResult;
+        int64_t wordProperties = 0;
+        if (dictionaryInflector.getDictionary().getCombinedBinaryType(&wordProperties, displayString) != nullptr) {
+            inflectionResult = inflectWord(displayString, wordProperties, constraints, enableInflectionGuess, false);
+        }
+        else {
+            const ::std::unique_ptr<TokenChain> tokenChain(npc(npc(tokenizer.get())->createTokenChain(displayString)));
+            inflectionResult = inflectTokenChain(*npc(tokenChain.get()), constraints, enableInflectionGuess);
+        }
+        if (inflectionResult) {
             displayString = *inflectionResult;
         } else if (!enableInflectionGuess) {
             return nullptr;

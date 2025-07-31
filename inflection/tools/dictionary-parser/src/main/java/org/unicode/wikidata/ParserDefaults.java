@@ -10,7 +10,6 @@ import java.util.Comparator;
  * Default parser option values.
  */
 final class ParserDefaults {
-    static final String RESOURCES_DIR = "src/main/resources/org/unicode/wikidata/";
     static final String DEFAULT_INFLECTION_FILE_NAME = "inflectional.xml";
     static final String DEFAULT_DICTIONARY_FILE_NAME = "dictionary.lst";
     // Put the rare inflections at the end.

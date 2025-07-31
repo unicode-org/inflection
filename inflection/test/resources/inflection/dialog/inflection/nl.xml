@@ -2,7 +2,7 @@
 <!--
  Copyright 2021-2024 Apple Inc. All rights reserved.
 -->
-<inflectionTest locale="nb">
+<inflectionTest locale="nl">
     <test><source>een huis</source><result definiteness="indefinite"/></test>
     <test><source>de man</source><result definiteness="definite"/></test>
     <test><source>de vrouw</source><result definiteness="definite"/></test>
@@ -185,11 +185,10 @@
     <test><source declension="declined" number="singular">auto oud jong beschonken</source><result>auto oud jong beschonken</result></test>
     <test><source declension="undeclined" number="plural">auto oud jong beschonken</source><result>auto oud jong beschonken</result></test>
 
-    <test><source number="singular">bewillig</source><result>bewillig</result></test>
-    <test><source number="singular">bewilligen</source><result>bewillig</result></test>
-    <test><source number="plural">bewillig</source><result>bewilligen</result></test>
-    <test><source number="plural">bewilligt</source><result>bewilligen</result></test>
-    <test><source number="plural">bewilligen</source><result>bewilligen</result></test>
+    <test><source number="singular">bewilligde</source><result>bewilligde</result></test>
+    <test><source number="singular">bewilligden</source><result>bewilligde</result></test>
+    <test><source number="plural">bewilligde</source><result>bewilligden</result></test>
+    <test><source number="plural">bewilligden</source><result>bewilligden</result></test>
 
     <test><source number="singular">zat</source><result>zat</result></test>
     <test><source number="singular">zaten</source><result>zate</result></test>

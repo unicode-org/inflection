@@ -43,7 +43,7 @@ std::optional<Inflector_InflectionPattern> Inflector::getInflectionPatternByName
 void Inflector::getInflectionPatternsForWord(std::u16string_view word, ::std::vector<Inflector_InflectionPattern> &inflectionPatterns) const {
     std::vector<int32_t> inflectionIdentifiers;
     if (mmappedDictionary.getInflectionPatternIdentifiers(inflectionIdentifiers, word)) {
-        for (const auto identifier: inflectionIdentifiers) {
+        for (const auto identifier : inflectionIdentifiers) {
             inflectionPatterns.push_back(mmappedDictionary.getInflectionPattern(identifier));
         }
     }

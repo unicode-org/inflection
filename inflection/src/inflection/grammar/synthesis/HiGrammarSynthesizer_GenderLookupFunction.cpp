@@ -20,31 +20,20 @@ HiGrammarSynthesizer_GenderLookupFunction::HiGrammarSynthesizer_GenderLookupFunc
     : super(::inflection::util::LocaleUtils::HINDI(), {u"masculine", u"feminine"})
     , tokenizer(::inflection::tokenizer::TokenizerFactory::createTokenizer(::inflection::util::LocaleUtils::HINDI()))
     , dictionary(getDictionary())
+    , feminineSuffixes({
+        u"ी"
+       , u"े" // honorific
+    })
+    , masculineSuffixes({
+        u"ा"
+        , u"े" // honorific
+    })
 {
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&nounProperty, {u"noun"}));
 }
 
 HiGrammarSynthesizer_GenderLookupFunction::~HiGrammarSynthesizer_GenderLookupFunction()
 {
-
-}
-
-static const ::std::set<::std::u16string_view>& FEMININE_SUFFIXES()
-{
-    static auto FEMININE_SUFFIXES_ = new ::std::set<::std::u16string_view>({
-        u"ी"
-       , u"े" //honourific
-    });
-    return *npc(FEMININE_SUFFIXES_);
-}
-
-static const ::std::set<::std::u16string_view>& MASCULINE_SUFFIXES()
-{
-    static auto MASCULINE_SUFFIXES_ = new ::std::set<::std::u16string_view>({
-        u"ा"
-        , u"े" //honourific
-    });
-    return *npc(MASCULINE_SUFFIXES_);
 }
 
 ::std::u16string HiGrammarSynthesizer_GenderLookupFunction::determine(const ::std::u16string& word) const
@@ -72,14 +61,14 @@ static const ::std::set<::std::u16string_view>& MASCULINE_SUFFIXES()
         if (out.empty()) {
             auto token = npc(tokenChain->getHead())->getNext();
             const auto& stringToken = npc(token)->getCleanValue();
-            for (const auto& suffix : MASCULINE_SUFFIXES()) {
+            for (const auto& suffix : masculineSuffixes) {
                 if (stringToken.ends_with(suffix)) {
                     out = GrammemeConstants::GENDER_MASCULINE();
                     break;
                 }
             }
             if (out.empty()) {
-                for (const auto& suffix : FEMININE_SUFFIXES()) {
+                for (const auto& suffix : feminineSuffixes) {
                     if (stringToken.ends_with(suffix)) {
                         out = GrammemeConstants::GENDER_FEMININE();
                         break;

@@ -36,11 +36,24 @@ FrGrammarSynthesizer_CountLookupFunction::~FrGrammarSynthesizer_CountLookupFunct
 
 bool FrGrammarSynthesizer_CountLookupFunction::checkInvariantNouns(::std::u16string_view word, int64_t wordGrammemes) const
 {
-    if ((wordGrammemes & nounProperty) == nounProperty) {
+    if ((wordGrammemes & pluralizeInvProperty) == pluralizeInvProperty) {
         std::vector<dictionary::Inflector_InflectionPattern> inflectionPatterns;
         inflector.getInflectionPatternsForWord(word, inflectionPatterns);
-        if (inflectionPatterns.size() <= 1) {
-            return (wordGrammemes & pluralizeInvProperty) == pluralizeInvProperty;
+        for (const auto& pattern : inflectionPatterns) {
+            auto inflections(pattern.inflectionsForSurfaceForm(word, wordGrammemes));
+            if (inflections.size() <= 1) {
+                return true;
+            }
+            // There are at least 2 inflections to consider.
+            int64_t patternGrammemes = 0;
+            for (const auto& inflection : inflections) {
+                patternGrammemes |= inflection.getGrammemes();
+            }
+            if ((patternGrammemes & pluralizeInvProperty) == pluralizeInvProperty != 0) {
+                // We got patterns where all inflections that match the word suffix are both singular and plural.
+                // Sometimes words can be invariant for one gender, but not another gender.
+                return true;
+            }
         }
     }
     return false;

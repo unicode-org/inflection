@@ -27,6 +27,8 @@ public:
     static ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> mergeConstraintsWithDisplayValue (const ::inflection::dialog::DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints);
     static void mergeConstraintsWithExisting(::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &existingConstraints, const ::std::vector<::std::pair<const ::inflection::dialog::SemanticFeature* const, ::std::u16string>> &newConstraints);
     static void inflectAndAppendArticlePrefix(::std::u16string &displayString, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &displayValueConstraints, const ::inflection::dialog::DefaultArticleLookupFunction *articleLookupFunction, const ::inflection::dialog::DefaultArticleLookupFunction::ArticleDisplayValue* articleDisplayValue);
+    static const inflection::tokenizer::Token* getFirstSignificantToken(const inflection::tokenizer::Token* tok);
+    static const inflection::tokenizer::Token* getLastSignificantToken(const inflection::tokenizer::Token* tok);
 
 private:
     GrammarSynthesizerUtil() = delete;

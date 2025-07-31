@@ -49,23 +49,44 @@ ItGrammarSynthesizer_ItDisplayFunction::ItGrammarSynthesizer_ItDisplayFunction(c
     , indefiniteArticleLookupFunction(model, ItGrammarSynthesizer::ARTICLE_INDEFINITE)
     , definitenessDisplayFunction(model, &definiteArticleLookupFunction, ItGrammarSynthesizer::ARTICLE_DEFINITE, &indefiniteArticleLookupFunction, ItGrammarSynthesizer::ARTICLE_INDEFINITE)
 {
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryPlural, {u"plural"}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryMasculine, {u"masculine"}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryFeminine, {u"feminine"}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryPreposition, {u"adposition"}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryPlural, {GrammemeConstants::NUMBER_PLURAL()}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryMasculine, {GrammemeConstants::GENDER_MASCULINE()}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryFeminine, {GrammemeConstants::GENDER_FEMININE()}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryPreposition, {GrammemeConstants::POS_ADPOSITION()}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryVerb, {GrammemeConstants::POS_VERB()}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&importantVerbMask, {
+        GrammemeConstants::TENSE_PAST(), GrammemeConstants::VERBTYPE_PARTICIPLE()
+    }));
 }
 
 ItGrammarSynthesizer_ItDisplayFunction::~ItGrammarSynthesizer_ItDisplayFunction()
 {
 }
 
+/* This better not be switching from or to a past participle.
+ */
+bool ItGrammarSynthesizer_ItDisplayFunction::isVerbCompatible(::std::u16string_view inflectedWord, int64_t wordGrammemes) const
+{
+    int64_t inflectedWordGrammemes = 0;
+    dictionary.getCombinedBinaryType(&inflectedWordGrammemes, inflectedWord);
+    return (inflectedWordGrammemes & dictionaryVerb) == 0 ||
+        ((wordGrammemes & importantVerbMask) == (inflectedWordGrammemes & importantVerbMask));
+}
+
 ::std::optional<::std::u16string> ItGrammarSynthesizer_ItDisplayFunction::inflectWord(::std::u16string_view word, int64_t wordGrammemes, const std::map<dialog::SemanticFeature, std::u16string> &constraints, bool enableInflectionGuess) const {
     ::std::vector<::std::u16string> constraintsVec(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {countFeature, genderFeature}));
-    ::std::vector<::std::u16string> dismbiguationGrammemeValues(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {partOfSpeechFeature}));
-    const auto inflectedWord(dictionaryInflector.inflect(word, wordGrammemes, constraintsVec, dismbiguationGrammemeValues));
+    ::std::vector<::std::u16string> disambiguationGrammemeValues(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {partOfSpeechFeature}));
+    const auto inflectedWord(dictionaryInflector.inflect(word, wordGrammemes, constraintsVec, disambiguationGrammemeValues));
     if (inflectedWord) {
-        return *inflectedWord;
-    } else if (enableInflectionGuess) {
+        if ((wordGrammemes & dictionaryVerb) == 0 || isVerbCompatible(*inflectedWord, wordGrammemes)) {
+            return *inflectedWord;
+        }
+        /* We've tried to change the grammemes of a known verb incorrectly.
+         * Return the original content instead.
+         */
+        enableInflectionGuess = true;
+    }
+    if (enableInflectionGuess) {
         return ::std::u16string(word);
     }
     return  {};

@@ -4,7 +4,6 @@
 #pragma once
 
 #include <inflection/dialog/fwd.hpp>
-#include <inflection/grammar/synthesis/fwd.hpp>
 #include <inflection/dialog/DefaultArticleLookupFunction.hpp>
 #include <string>
 

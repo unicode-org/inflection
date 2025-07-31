@@ -29,30 +29,30 @@ void NbGrammarSynthesizer::addSemanticFeatures(::inflection::dialog::SemanticFea
     featureModel.putDefaultFeatureFunctionByName(GrammemeConstants::DEFINITENESS, new ::inflection::dialog::DictionaryLookupFunction(::inflection::util::LocaleUtils::NORWEGIAN(), {GrammemeConstants::DEFINITENESS_DEFINITE(), GrammemeConstants::DEFINITENESS_INDEFINITE()}));
 }
 
-NbGrammarSynthesizer::Count NbGrammarSynthesizer::getCount(const ::std::u16string* value) {
-    static auto valueMap = new ::std::map<::std::u16string, NbGrammarSynthesizer::Count>({
-        {GrammemeConstants::NUMBER_SINGULAR(), Count::SINGULAR},
-        {GrammemeConstants::NUMBER_PLURAL(), Count::PLURAL}
-    });
+NbGrammarSynthesizer::Number NbGrammarSynthesizer::getNumber(const ::std::u16string* value) {
     if (value != nullptr) {
-        auto result = npc(valueMap)->find(*npc(value));
-        if (result != npc(valueMap)->end()) {
-            return result->second;
+        const auto& valRef = *value;
+        if (valRef == GrammemeConstants::NUMBER_SINGULAR()) {
+            return Number::SINGULAR;
+        }
+        if (valRef == GrammemeConstants::NUMBER_PLURAL()) {
+            return Number::PLURAL;
         }
     }
-    return Count::UNDEFINED;
+    return Number::UNDEFINED;
 }
 
 NbGrammarSynthesizer::Gender NbGrammarSynthesizer::getGender(const ::std::u16string* value) {
-    static auto valueMap = new ::std::map<::std::u16string, NbGrammarSynthesizer::Gender>({
-        {GrammemeConstants::GENDER_MASCULINE(), Gender::MASCULINE},
-        {GrammemeConstants::GENDER_FEMININE(), Gender::FEMININE},
-        {GrammemeConstants::GENDER_NEUTER(), Gender::NEUTER}
-    });
     if (value != nullptr) {
-        auto result = npc(valueMap)->find(*npc(value));
-        if (result != npc(valueMap)->end()) {
-            return result->second;
+        const auto& valRef = *value;
+        if (valRef == GrammemeConstants::GENDER_MASCULINE()) {
+            return Gender::MASCULINE;
+        }
+        if (valRef == GrammemeConstants::GENDER_FEMININE()) {
+            return Gender::FEMININE;
+        }
+        if (valRef == GrammemeConstants::GENDER_NEUTER()) {
+            return Gender::NEUTER;
         }
     }
     return Gender::UNDEFINED;

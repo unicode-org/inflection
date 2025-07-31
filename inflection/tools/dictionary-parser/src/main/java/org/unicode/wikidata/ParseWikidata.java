@@ -10,7 +10,6 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.Properties;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -35,17 +34,14 @@ import java.util.TreeMap;
 import java.util.HashMap;
 import java.util.TreeSet;
 import java.util.Arrays;
-import java.util.AbstractMap.SimpleEntry;
 import static org.unicode.wikidata.Grammar.Gender;
 import static org.unicode.wikidata.Grammar.Ignorable;
 import static org.unicode.wikidata.Grammar.PartOfSpeech;
-import static org.unicode.wikidata.Grammar.Sound;
 
 /**
  * @see <a href=
  *      "https://dumps.wikimedia.org/wikidatawiki/entities/">https://dumps.wikimedia.org/wikidatawiki/entities/</a>
  */
-
 public final class ParseWikidata {
     static final Set<String> PROPERTIES_WITH_PRONUNCIATION = new TreeSet<>(List.of(
             "P898" // IPA transcription
@@ -65,14 +61,12 @@ public final class ParseWikidata {
     static class Lemma {
         String value;
         boolean isRare = false;
-        Sound soundType = null;
         final TreeSet<Enum<?>> grammemes = new TreeSet<>(EnumComparator.ENUM_COMPARATOR);
         final List<Inflection> inflections = new ArrayList<>(64);
 
         void reset() {
             value = null;
             isRare = false;
-            soundType = null;
             grammemes.clear();
             inflections.clear();
         }
@@ -87,20 +81,23 @@ public final class ParseWikidata {
     private final TreeSet<String> omitLemmas = new TreeSet<>();
     private final Map<String, List<String>> mergeMap = new HashMap<>();
     private final TreeSet<String> deferredLexemes = new TreeSet<>();
-    private final Map<String, SimpleEntry<Lexeme, Integer>> lexemeMap = new HashMap<>();
+    private final Map<String, Lemma> deferredLemmaMap = new HashMap<>();
 
     ParseWikidata(ParserOptions parserOptions) {
         this.parserOptions = parserOptions;
         for (var language : parserOptions.locales) {
             Properties rareLemmasProperties = new Properties();
-            String filePath = Paths.get(ParserDefaults.RESOURCES_DIR + "filter_" + language + ".properties")
-                    .toAbsolutePath().toString();
-            try (var propertiesStream = new InputStreamReader(new FileInputStream(filePath), StandardCharsets.UTF_8)) {
+            var resourceStream = getClass().getResourceAsStream("filter_" + language + ".properties");
+            if (resourceStream == null) {
+                // else oh well. It doesn't matter.
+                continue;
+            }
+            try (var propertiesStream = new InputStreamReader(resourceStream, StandardCharsets.UTF_8)) {
                 rareLemmasProperties.load(propertiesStream);
                 for (var entry : rareLemmasProperties.entrySet()) {
                     String key = entry.getKey().toString();
                     String value = entry.getValue().toString();
-                    if (value.matches("L[0-9]+")) {
+                    if (value.matches("^L[0-9]+")) {
                         var values = Arrays.asList(value.split(","));
                         mergeMap.computeIfAbsent(key, v -> new ArrayList<>()).addAll(values);
                         deferredLexemes.add(key);
@@ -112,7 +109,8 @@ public final class ParseWikidata {
                                 break;
                             }
                             case "omit": {
-                                 omitLemmas.add(key); break;
+                                omitLemmas.add(key);
+                                break;
                             }
                             default: {
                                 throw new IllegalArgumentException(key + ": Unknown key value " + value);
@@ -133,11 +131,6 @@ public final class ParseWikidata {
             // We really don't want this junk.
             return;
         }
-        if (deferredLexemes.contains(lexeme.id)) {
-            deferredLexemes.remove(lexeme.id);
-            lexemeMap.put(lexeme.id, new SimpleEntry<>(lexeme, lineNumber));
-            return;
-        }
         Lemma lemma = new Lemma();
         Set<? extends Enum<?>> partOfSpeechSet = null;
         for (var lemmaEntry : lexeme.lemmas.entrySet()) {
@@ -146,14 +139,6 @@ public final class ParseWikidata {
             documentState.lemmaCount++;
             LexemeRepresentation lemmaRepresentation = lemmaEntry.getValue();
             lemma.value = lemmaRepresentation.value;
-            if (partOfSpeechSet == null) {
-                partOfSpeechSet = Grammar.getMappedGrammemes(lexeme.lexicalCategory);
-                if (partOfSpeechSet == null) {
-                    throw new IllegalArgumentException(lexeme.lexicalCategory
-                            + " is not a known part of speech grammeme for " + lexeme.id + "(" + lemma.value + ")");
-                }
-            }
-            lemma.grammemes.addAll(partOfSpeechSet);
             int qVariantIdx = currentLemmaLanguage.indexOf(VARIANT_SEPARATOR);
             if (qVariantIdx >= 0) {
                 // The languages can have wierd Q entry after the desired language.
@@ -168,19 +153,38 @@ public final class ParseWikidata {
                     }
                     continue;
                 }
+                if (variant.contains(Ignorable.IGNORABLE_INFLECTION)) {
+                    // Variant that we're trying to ignore
+                    continue;
+                }
                 lemma.grammemes.addAll(variant);
             }
+            if (partOfSpeechSet == null) {
+                partOfSpeechSet = Grammar.getMappedGrammemes(lexeme.lexicalCategory);
+                if (partOfSpeechSet == null) {
+                    throw new IllegalArgumentException(lexeme.lexicalCategory
+                            + " is not a known part of speech grammeme for " + lexeme.id + "(" + lemma.value + ")");
+                }
+            }
+            lemma.grammemes.addAll(partOfSpeechSet);
             if (rareLemmas.contains(lexeme.id)) {
                 lemma.grammemes.add(Grammar.Usage.RARE);
             }
-            extractImportantProperties(lexeme.claims, lemma.grammemes, lexeme.id, lemma.value);
+            boolean hasDuplicates = extractImportantProperties(lexeme.claims, lemma.grammemes, lexeme.id, lemma.value);
             if (lemma.grammemes.contains(Ignorable.IGNORABLE_LEMMA)
                     || lemma.grammemes.contains(Ignorable.IGNORABLE_INFLECTION)) {
                 documentState.unusableLemmaCount++;
                 continue;
             }
             lemma.grammemes.remove(Ignorable.IGNORABLE_PROPERTY);
-            removeConflicts(lemma.grammemes, Gender.class);
+            if (hasDuplicates) {
+                removeConflicts(lemma.grammemes, Gender.class);
+            }
+            TreeSet<Enum<?>> genderlessLemmaGrammemes = null;
+            if (countGrammemeType(lemma.grammemes, Gender.class) > 0) {
+                genderlessLemmaGrammemes = new TreeSet<>(lemma.grammemes);
+                removeGrammemeType(genderlessLemmaGrammemes, Gender.class);
+            }
             for (var form : lexeme.forms) {
                 Inflection currentInflection = null;
                 var representation = form.representations.get(currentLemmaLanguage);
@@ -200,7 +204,12 @@ public final class ParseWikidata {
                     }
                 }
                 convertGrammemes(form, currentInflection, lexeme.id, lemma.value);
-                currentInflection.grammemeSet.addAll(lemma.grammemes);
+                if (genderlessLemmaGrammemes == null || countGrammemeType(currentInflection.grammemeSet, Gender.class) == 0) {
+                    currentInflection.grammemeSet.addAll(lemma.grammemes);
+                }
+                else {
+                    currentInflection.grammemeSet.addAll(genderlessLemmaGrammemes);
+                }
                 if (currentInflection.grammemeSet.contains(Ignorable.IGNORABLE_LEMMA)) {
                     documentState.unusableLemmaCount++;
                     return;
@@ -217,12 +226,6 @@ public final class ParseWikidata {
                 var grammemeExpansion = parserOptions.expandGramemes != null
                         ? parserOptions.expandGramemes.get(currentInflection.grammemeSet)
                         : null;
-                if (parserOptions.addSound && form.claims != null && !form.claims.isEmpty()
-                        && currentInflection.inflection.charAt(0) == lemma.value.charAt(0)) {
-                    // We have potential data, and the words aren't mixed together. So this is
-                    // probably accurate.
-                    addSound(form.claims, currentInflection.grammemeSet, lexeme.id, lemma.value);
-                }
                 if (grammemeExpansion == null) {
                     lemma.inflections.add(currentInflection);
                 } else {
@@ -244,41 +247,56 @@ public final class ParseWikidata {
                 documentState.unusableLemmaCount++;
                 return;
             }
-            analyzeLemma(lemma);
+            removeGrammemeType(lemma.grammemes, Gender.class);
+            if (deferredLexemes.contains(lexeme.id)) {
+                if (deferredLemmaMap.put(lexeme.id, lemma) != null) {
+                    throw new IllegalStateException("Duplicate lexeme " + lexeme.id);
+                }
+            }
+            else {
+                analyzeLemma(lemma);
+            }
         }
     }
-    private void moveLexemeClaimsToForms(Lexeme lexeme) {
-         for (LexemeForm form : lexeme.forms) {
-            for (Map.Entry<String, List<String>> entry : lexeme.claims.entrySet()) {
-                String key = entry.getKey();
-                if (form.claims == null) {
-                        form.claims = new HashMap<>();
-                }
-                form.claims.computeIfAbsent(key, k -> new ArrayList<>()).addAll(entry.getValue());
-            }
-         }
-         lexeme.claims.clear();
-    }
-    private Lexeme mergeLexemes(Lexeme lexeme1, Lexeme lexeme2) {
-        moveLexemeClaimsToForms(lexeme2);
-        lexeme1.forms.addAll(lexeme2.forms); // Combine forms
-        return lexeme1;
-    }
+
     // Method to process and merge lexemes
     private void processAndMergeLexemes() {
         for (Map.Entry<String, List<String>> entry : mergeMap.entrySet()) {
-            SimpleEntry<Lexeme, Integer> pair = lexemeMap.computeIfAbsent(entry.getKey(), key -> {
+            Lemma lemma = deferredLemmaMap.computeIfAbsent(entry.getKey(), key -> {
                 throw new IllegalArgumentException(key + ": id not found");
             });
-            Lexeme mergedLexeme = pair.getKey();
-            int lineNumber = pair.getValue();
             for (var value : entry.getValue()) {
-                mergeLexemes(mergedLexeme, lexemeMap.computeIfAbsent(value, key -> {
+                Lemma lemmaToMerge = deferredLemmaMap.computeIfAbsent(value, key -> {
                     throw new IllegalArgumentException(key + ": id not found");
-                }).getKey());
+                });
+                lemma.inflections.addAll(lemmaToMerge.inflections);
+                lemma.isRare |= lemmaToMerge.isRare;
+                // The lemma grammemes should already have the relevant POS data.
             }
-            analyzeLexeme(lineNumber, mergedLexeme);
+            analyzeLemma(lemma);
         }
+    }
+
+    private void removeGrammemeType(TreeSet<Enum<?>> grammemes, Class<?> grammemeType) {
+        var iter = grammemes.iterator();
+        while (iter.hasNext()) {
+            var grammeme = iter.next();
+            if (grammemeType.isInstance(grammeme)) {
+                iter.remove();
+            }
+        }
+    }
+
+    private int countGrammemeType(TreeSet<Enum<?>> grammemes, Class<?> grammemeType) {
+        int count = 0;
+        var iter = grammemes.iterator();
+        while (iter.hasNext()) {
+            var grammeme = iter.next();
+            if (grammemeType.isInstance(grammeme)) {
+                count++;
+            }
+        }
+        return count;
     }
 
     /**
@@ -289,24 +307,8 @@ public final class ParseWikidata {
      * all specified genders.
      */
     private void removeConflicts(TreeSet<Enum<?>> grammemes, Class<?> grammemeType) {
-        if (grammemes.size() > 1) {
-            var iter = grammemes.iterator();
-            int count = 0;
-            while (iter.hasNext()) {
-                var grammeme = iter.next();
-                if (grammemeType.isInstance(grammeme)) {
-                    count++;
-                }
-            }
-            if (count > 1) {
-                iter = grammemes.iterator();
-                while (iter.hasNext()) {
-                    var grammeme = iter.next();
-                    if (grammemeType.isInstance(grammeme)) {
-                        iter.remove();
-                    }
-                }
-            }
+        if (grammemes.size() > 1 && countGrammemeType(grammemes, grammemeType) > 1) {
+            removeGrammemeType(grammemes, grammemeType);
         }
     }
 
@@ -321,46 +323,54 @@ public final class ParseWikidata {
         extractImportantProperties(form.claims, currentInflection.grammemeSet, id, lemma);
     }
 
-    private void extractImportantProperties(Map<String, List<String>> claims, TreeSet<Enum<?>> grammemes, String id,
+    /**
+     * Return true if there are multiple claims
+     */
+    private boolean extractImportantProperties(Map<String, List<String>> claims, TreeSet<Enum<?>> grammemes, String id,
             String lemma) {
+        boolean conflicts = false;
         if (claims == null || claims.isEmpty()) {
-            return;
+            return conflicts;
         }
-        for (String property : IMPORTANT_PROPERTIES) {
-            var claim = claims.get(property);
-            if (claim != null) {
-                for (var grammemeStr : claim) {
-                    var grammemeEnum = Grammar.getMappedGrammemes(grammemeStr);
-                    if (grammemeEnum != null) {
-                        grammemes.addAll(grammemeEnum);
-                    } else if (parserOptions.debug) {
-                        // Most of this is irrelevant non-grammatical information, like that it's a
-                        // trademark, or a study of something,
-                        // but sometimes it contains grammemes that apply to all words, like grammatical
-                        // gender.
-                        System.err.println(grammemeStr + " is not a known grammeme for " + id + "(" + lemma + ")");
-                    }
+        for (var claimEntry : claims.entrySet()) {
+            if (PROPERTIES_WITH_PRONUNCIATION.contains(claimEntry.getKey())) {
+                if (parserOptions.addSound) {
+                    addSound(claimEntry.getKey(), claimEntry.getValue(), grammemes, id, lemma);
+                }
+                continue;
+            }
+            var claim = claimEntry.getValue();
+            conflicts = conflicts || claim.size() > 1;
+            for (var grammemeStr : claim) {
+                var grammemeEnum = Grammar.getMappedGrammemes(grammemeStr);
+                if (grammemeEnum != null) {
+                    grammemes.addAll(grammemeEnum);
+                } else if (parserOptions.debug) {
+                    // Most of this is irrelevant non-grammatical information, like that it's a
+                    // trademark, or a study of something,
+                    // but sometimes it contains grammemes that apply to all words, like grammatical
+                    // gender.
+                    System.err.println(grammemeStr + " is not a known grammeme for " + id + "(" + lemma + ")");
                 }
             }
         }
+        return conflicts;
     }
 
-    private void addSound(Map<String, List<String>> claims, TreeSet<Enum<?>> grammemeSet, String id, String lemma) {
+    private void addSound(String property, List<String> claims, TreeSet<Enum<?>> grammemeSet, String id, String lemma) {
         boolean foundMatch = false;
-        for (var claimRegex : parserOptions.claimsToSound.entrySet()) {
-            var dataForClaim = claims.get(claimRegex.getKey());
-            if (dataForClaim != null && !dataForClaim.isEmpty()) {
-                for (var soundMatcher : claimRegex.getValue().entrySet()) {
-                    for (var claimEntry : dataForClaim) {
-                        if (soundMatcher.getValue().matcher(claimEntry).find()) {
-                            grammemeSet.add(soundMatcher.getKey());
-                            foundMatch = true;
-                        }
+        var dataForClaim = parserOptions.claimsToSound.get(property);
+        if (dataForClaim != null && !dataForClaim.isEmpty()) {
+            for (var soundMatcher : dataForClaim.entrySet()) {
+                for (var claim : claims) {
+                    if (soundMatcher.getValue().matcher(claim).find()) {
+                        grammemeSet.add(soundMatcher.getKey());
+                        foundMatch = true;
                     }
                 }
-                if (!foundMatch) {
-                    System.err.println("Unmatched property: " + id + "(" + lemma + "): \"" + dataForClaim + "\"");
-                }
+            }
+            if (!foundMatch) {
+                System.err.println("Unmatched property: " + id + "(" + lemma + "): \"" + dataForClaim + "\"");
             }
         }
     }

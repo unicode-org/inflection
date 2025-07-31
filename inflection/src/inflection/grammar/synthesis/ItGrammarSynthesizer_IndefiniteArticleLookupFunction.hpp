@@ -14,7 +14,7 @@ public:
     typedef ItGrammarSynthesizer_ArticleLookupFunction super;
 
 public: /* package */
-    ::inflection::dialog::SpeakableString* getArticle(const ::inflection::dialog::DisplayValue& displayValue, bool wantArticle, ItGrammarSynthesizer::Count countValue, ItGrammarSynthesizer::Gender genderValue) const override;
+    ::inflection::dialog::SpeakableString* getArticle(const ::inflection::dialog::DisplayValue& displayValue, bool wantArticle, ItGrammarSynthesizer::Number numberValue, ItGrammarSynthesizer::Gender genderValue) const override;
 
     ItGrammarSynthesizer_IndefiniteArticleLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model, const ::std::u16string& derivedSemanticName);
     ItGrammarSynthesizer_IndefiniteArticleLookupFunction(const ItGrammarSynthesizer_IndefiniteArticleLookupFunction&) = delete;

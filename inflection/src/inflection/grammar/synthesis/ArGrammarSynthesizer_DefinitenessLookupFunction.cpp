@@ -23,18 +23,15 @@ using util::LocaleUtils;
 using util::Validate;
 using dialog::SpeakableString;
 
-static const std::vector<std::u16string>& DEFINITENESS_VALUES() {
-    static std::vector<std::u16string>* _DEFINITENESS_VALUES = new std::vector<std::u16string>({GrammemeConstants::DEFINITENESS_DEFINITE(), GrammemeConstants::DEFINITENESS_INDEFINITE(), GrammemeConstants::DEFINITENESS_CONSTRUCT()});
-    return *_DEFINITENESS_VALUES;
-}
+#define DEFINITENESS_VALUES {GrammemeConstants::DEFINITENESS_DEFINITE(), GrammemeConstants::DEFINITENESS_INDEFINITE(), GrammemeConstants::DEFINITENESS_CONSTRUCT()}
 
 ArGrammarSynthesizer_DefinitenessLookupFunction::ArGrammarSynthesizer_DefinitenessLookupFunction(const ::std::map<int32_t, ::std::u16string_view> &pronounMap)
-    : super(LocaleUtils::ARABIC(), DEFINITENESS_VALUES())
+    : super(LocaleUtils::ARABIC(), DEFINITENESS_VALUES)
     , pronounMap(pronounMap)
 {
     Validate::notNull(getDictionary().getBinaryProperties(&properNounMask, {GrammemeConstants::POS_PROPER_NOUN()}));
     Validate::notNull(getDictionary().getBinaryProperties(&definitePOSMask, {GrammemeConstants::POS_NOUN(), GrammemeConstants::POS_ADJECTIVE(), GrammemeConstants::POS_PARTICLE()}));
-    Validate::notNull(getDictionary().getBinaryProperties(&definitenessMask, DEFINITENESS_VALUES()));
+    Validate::notNull(getDictionary().getBinaryProperties(&definitenessMask, DEFINITENESS_VALUES));
 }
 
 SpeakableString* ArGrammarSynthesizer_DefinitenessLookupFunction::getFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& /*constraints*/) const {

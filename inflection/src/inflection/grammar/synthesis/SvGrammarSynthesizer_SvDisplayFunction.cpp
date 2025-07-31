@@ -64,9 +64,8 @@ SvGrammarSynthesizer_SvDisplayFunction::~SvGrammarSynthesizer_SvDisplayFunction(
     int64_t wordGrammemes = 0;
     dictionary.getCombinedBinaryType(&wordGrammemes, lemma);
 
-    const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> disambiguationConstraints;
-    const auto dismbiguationGrammemeValues(GrammarSynthesizerUtil::convertToStringConstraints(disambiguationConstraints, {&posFeature}));
-    auto inflectionResult = dictionaryInflector.inflect(lemma, wordGrammemes, constraints, dismbiguationGrammemeValues);
+    constexpr std::vector<std::u16string> disambiguationGrammemeValues;
+    auto inflectionResult = dictionaryInflector.inflect(lemma, wordGrammemes, constraints, disambiguationGrammemeValues);
     if (inflectionResult) {
         inflection = *inflectionResult;
     }

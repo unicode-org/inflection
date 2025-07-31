@@ -1,6 +1,6 @@
 #Testing
 
-name: CMake on multiple platforms
+name: CMake on Multiple Platforms
 
 on:
   workflow_dispatch:
@@ -31,16 +31,17 @@ jobs:
         with:
           path: ~/icu
           key: ${{ runner.os }}-icu-${ICU_MAJOR}-${ICU_MINOR}
+
       - name: Download and install ICU (Ubuntu binary)
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
           wget https://github.com/unicode-org/icu/releases/download/release-${ICU_MAJOR}-${ICU_MINOR}/icu4c-${ICU_MAJOR}_${ICU_MINOR}-Ubuntu22.04-x64.tgz
-          export ICU=~/icu/
-          mkdir -p $ICU
-          cp icu4c-${ICU_MAJOR}_${ICU_MINOR}-Ubuntu22.04-x64.tgz $ICU
-          pushd $ICU
+          mkdir -p ~/icu
+          mv icu4c-${ICU_MAJOR}_${ICU_MINOR}-Ubuntu22.04-x64.tgz ~/icu/
+          cd ~/icu
           tar xvfz *.tgz
           rm *.tgz
+
       - uses: actions/cache/save@v4
         with:
           path: ~/icu
@@ -49,7 +50,6 @@ jobs:
   build:
     needs: cache-icu
     runs-on: ${{ matrix.os }}
-
     strategy:
       fail-fast: false
       matrix:
@@ -63,9 +63,13 @@ jobs:
             cpp_compiler: clang++
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
 
-      - name: Install Git LFS (Ubuntu/macOS)
+      - name: Install Git LFS
         run: |
           if [[ "${{ matrix.os }}" == "ubuntu-latest" ]]; then
             sudo apt-get update
@@ -75,33 +79,31 @@ jobs:
           fi
           git lfs install
 
-      - name: Pull LFS files
+      - name: Pull LFS content
         run: git lfs pull
-        working-directory: ${{ github.workspace }}
 
-      - name: Debug Data Directory
-        run: ls -R inflection/resources/org/unicode/inflection/dictionary || true
+      - name: Debug LFS directory
+        run: ls -lhR inflection/resources/org/unicode/inflection/dictionary || true
 
       - name: Fetch Git tags (for versioning)
         run: git fetch --tags
 
-      - name: Set reusable paths
-        id: strings
+      - name: Set build paths
+        id: paths
         shell: bash
         run: |
-          echo "project-root-dir=${{ github.workspace }}/inflection" >> "$GITHUB_OUTPUT"
-          echo "build-output-dir=${{ github.workspace }}/inflection/build" >> "$GITHUB_OUTPUT"
+          echo "project_root=${{ github.workspace }}/inflection" >> $GITHUB_OUTPUT
+          echo "build_dir=${{ github.workspace }}/inflection/build" >> $GITHUB_OUTPUT
 
       - uses: actions/cache/restore@v4
-        id: cache
         with:
           path: ~/icu
           key: ${{ runner.os }}-icu-${ICU_MAJOR}-${ICU_MINOR}
 
-      - name: Install ICU (Ubuntu/macOS)
+      - name: Install ICU
         run: |
           if [[ "${{ matrix.os }}" == "ubuntu-latest" ]]; then
-            echo "ICU_ROOT=~/icu/icu/usr/local" >> $GITHUB_ENV
+            echo "ICU_ROOT=$HOME/icu/icu/usr/local" >> $GITHUB_ENV
           elif [[ "${{ matrix.os }}" == "macos-latest" ]]; then
             brew list icu4c || brew install icu4c
             ICU_PREFIX=$(brew --prefix icu4c)
@@ -115,38 +117,39 @@ jobs:
 
       - name: Configure CMake
         run: >
-          cmake -B ${{ steps.strings.outputs.build-output-dir }}
-          -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
+          cmake -B ${{ steps.paths.outputs.build_dir }}
+          -S ${{ steps.paths.outputs.project_root }}
           -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
+          -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
-          -DICU_ROOT=$ICU_ROOT
           -DCMAKE_PREFIX_PATH=$ICU_ROOT
-          -S ${{ steps.strings.outputs.project-root-dir }}
+          -DICU_ROOT=$ICU_ROOT
 
       - name: Get number of CPU cores
         uses: SimenB/github-actions-cpu-cores@v2
-        id: cpu-cores
+        id: cpu
 
       - name: Build
-        run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }} -j ${{ steps.cpu-cores.outputs.count }}
+        run: |
+          cmake --build ${{ steps.paths.outputs.build_dir }} --config ${{ matrix.build_type }} -j${{ steps.cpu.outputs.count }}
 
       - name: Run tests
-        working-directory: ${{ steps.strings.outputs.build-output-dir }}
-        run: cmake --build . -t check -j ${{ steps.cpu-cores.outputs.count }}
+        working-directory: ${{ steps.paths.outputs.build_dir }}
+        run: ctest --output-on-failure -C ${{ matrix.build_type }}
 
       - name: Package with CPack
-        working-directory: ${{ steps.strings.outputs.build-output-dir }}
+        working-directory: ${{ steps.paths.outputs.build_dir }}
         run: |
           cpack
-          ls -lh ${{ steps.strings.outputs.build-output-dir }}/*.tar.gz ${{ steps.strings.outputs.build-output-dir }}/*.deb || true
+          ls -lh *.deb *.tar.gz || true
 
-      - name: Upload build artifacts
+      - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.os }}-inflection-artifacts
+          name: ${{ matrix.os }}-artifacts
           path: |
-            ${{ steps.strings.outputs.build-output-dir }}/*.deb
-            ${{ steps.strings.outputs.build-output-dir }}/*.tar.gz
+            ${{ steps.paths.outputs.build_dir }}/*.deb
+            ${{ steps.paths.outputs.build_dir }}/*.tar.gz
           retention-days: 30
 
       - name: Upload to GitHub Release
@@ -155,8 +158,8 @@ jobs:
         with:
           name: "Release ${{ github.ref_name }}"
           files: |
-            ${{ steps.strings.outputs.build-output-dir }}/*.deb
-            ${{ steps.strings.outputs.build-output-dir }}/*.tar.gz
+            ${{ steps.paths.outputs.build_dir }}/*.deb
+            ${{ steps.paths.outputs.build_dir }}/*.tar.gz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

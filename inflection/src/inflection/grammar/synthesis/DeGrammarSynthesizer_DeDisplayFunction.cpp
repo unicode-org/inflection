@@ -42,7 +42,7 @@ DeGrammarSynthesizer_DeDisplayFunction::DeGrammarSynthesizer_DeDisplayFunction(c
     , caseFeature(*npc(model.getFeature(GrammemeConstants::CASE)))
     , numberFeature(*npc(model.getFeature(GrammemeConstants::NUMBER)))
     , genderFeature(*npc(model.getFeature(GrammemeConstants::GENDER)))
-    , declensionFeature(*npc(model.getFeature(DeGrammarSynthesizer::DECLENSION())))
+    , declensionFeature(*npc(model.getFeature(DeGrammarSynthesizer::DECLENSION)))
     , partOfSpeechFeature(*npc(model.getFeature(GrammemeConstants::POS)))
     , strongSuffixes(strongSuffixes)
     , weakSuffixes(weakSuffixes)
@@ -50,7 +50,7 @@ DeGrammarSynthesizer_DeDisplayFunction::DeGrammarSynthesizer_DeDisplayFunction(c
     , dictionary(*npc(::inflection::dictionary::DictionaryMetaData::createDictionary(::inflection::util::LocaleUtils::GERMAN())))
     , inflector(::inflection::dictionary::Inflector::getInflector(::inflection::util::LocaleUtils::GERMAN()))
     , dictionaryInflector(::inflection::util::LocaleUtils::GERMAN(), {
-        {GrammemeConstants::POS_DETERMINER(), GrammemeConstants::POS_NOUN(), GrammemeConstants::POS_PROPER_NOUN(), GrammemeConstants::POS_ADJECTIVE()},
+        {GrammemeConstants::POS_ARTICLE(), GrammemeConstants::POS_PRONOUN(), GrammemeConstants::POS_NOUN(), GrammemeConstants::POS_PROPER_NOUN(), GrammemeConstants::POS_ADJECTIVE()},
 
         {GrammemeConstants::CASE_NOMINATIVE(),  GrammemeConstants::CASE_ACCUSATIVE(), GrammemeConstants::CASE_GENITIVE(), GrammemeConstants::CASE_DATIVE()},
         {GrammemeConstants::NUMBER_SINGULAR(),  GrammemeConstants::NUMBER_PLURAL()},
@@ -65,7 +65,7 @@ DeGrammarSynthesizer_DeDisplayFunction::DeGrammarSynthesizer_DeDisplayFunction(c
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryAdjective, {GrammemeConstants::POS_ADJECTIVE()}));
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryNoun, {GrammemeConstants::POS_NOUN()}));
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryVerb, {GrammemeConstants::POS_VERB()}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryDeterminer, {GrammemeConstants::POS_DETERMINER()}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryDeterminer, {GrammemeConstants::POS_ARTICLE(), GrammemeConstants::POS_PRONOUN()}));
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryFeminine, {GrammemeConstants::GENDER_FEMININE()}));
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryMasculine, {GrammemeConstants::GENDER_MASCULINE()}));
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryNeuter, {GrammemeConstants::GENDER_NEUTER()}));
@@ -167,8 +167,8 @@ inflection::dialog::DisplayValue* DeGrammarSynthesizer_DeDisplayFunction::inflec
         constraintsVec = GrammarSynthesizerUtil::convertToStringConstraints(constraints, expectedFeatures);
     }
 
-    const auto dismbiguationGrammemeValues(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {&partOfSpeechFeature}));
-    auto inflectionResult = dictionaryInflector.inflect(displayString, wordGrammemes, constraintsVec, dismbiguationGrammemeValues);
+    const auto disambiguationGrammemeValues(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {&partOfSpeechFeature}));
+    auto inflectionResult = dictionaryInflector.inflect(displayString, wordGrammemes, constraintsVec, disambiguationGrammemeValues);
     if (inflectionResult) {
         return inflectionResult;
     }
@@ -229,14 +229,17 @@ std::optional<::std::pair<::std::u16string, ::std::u16string>> DeGrammarSynthesi
     }
 
     if (bestHeadWord != propertiesHeadWord.end()) {
-
-        const auto bestGender = getFeatureNameFromConstraintsOrBinaryType(constraints, *bestHeadWord, dictionaryGenderMask, genderFeature);
-        if (bestGender) {
-            deducedConstraints.emplace_back(*bestGender);
-        }
         const auto bestCount = getFeatureNameFromConstraintsOrBinaryType(constraints, *bestHeadWord, dictionaryCountMask, numberFeature);
         if (bestCount) {
             deducedConstraints.emplace_back(*bestCount);
+        }
+
+        if (bestCount != GrammemeConstants::NUMBER_PLURAL()) {
+            // plural and gender are mutually exclusive.
+            const auto bestGender = getFeatureNameFromConstraintsOrBinaryType(constraints, *bestHeadWord, dictionaryGenderMask, genderFeature);
+            if (bestGender) {
+                deducedConstraints.emplace_back(*bestGender);
+            }
         }
     }
 
@@ -268,6 +271,7 @@ std::optional<::std::pair<::std::u16string, ::std::u16string>> DeGrammarSynthesi
         int64_t nounAfterInflectionBinaryType = 0;
         dictionary.getCombinedBinaryType(&nounAfterInflectionBinaryType, nounAfterInflection);
         genderString = getGender(constraints, nounAfterInflectionBinaryType);
+        countString = GrammemeConstants::NUMBER_SINGULAR(); // default to singular when not plural.
     }
 
     // We need a declension class for inflecting adjectives when next to nouns. Fill in that grammeme:
@@ -277,9 +281,9 @@ std::optional<::std::pair<::std::u16string, ::std::u16string>> DeGrammarSynthesi
     // With that, the constraints are all set:
     const auto constraintsVec = { caseString, countString, genderString, declensionString };
 
-    const auto dismbiguationGrammemeValues(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {&partOfSpeechFeature}));
+    const auto disambiguationGrammemeValues(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {&partOfSpeechFeature}));
 
-    auto inflectionResult = dictionaryInflector.inflect(adjective, adjectiveType, constraintsVec, dismbiguationGrammemeValues);
+    auto inflectionResult = dictionaryInflector.inflect(adjective, adjectiveType, constraintsVec, disambiguationGrammemeValues);
     if (inflectionResult) {
         return inflectionResult;
     }
@@ -332,9 +336,9 @@ std::optional<::std::u16string> DeGrammarSynthesizer_DeDisplayFunction::getFeatu
             ::std::u16string targetCount(GrammarSynthesizerUtil::getFeatureValue(constraints, numberFeature));
             ::std::u16string targetCase(GrammarSynthesizerUtil::getFeatureValue(constraints, caseFeature));
             auto caseValue = DeGrammarSynthesizer::getCase(&targetCase);
-            auto countValue = DeGrammarSynthesizer::getCount(&targetCount);
+            auto countValue = DeGrammarSynthesizer::getNumber(&targetCount);
             auto genderValue = DeGrammarSynthesizer::getGender(&targetGender);
-            auto key = DeGrammarSynthesizer::makeLookupKey(countValue, genderValue, caseValue).value;
+            auto key = DeGrammarSynthesizer::makeLookupKey(countValue, genderValue, caseValue);
             auto suffix = npc(suffixMap)->find(key);
 
             if (suffix != npc(suffixMap)->end()) {

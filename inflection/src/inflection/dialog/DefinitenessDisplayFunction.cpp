@@ -9,6 +9,7 @@
 #include <inflection/dialog/SpeakableString.hpp>
 #include <inflection/grammar/synthesis/GrammemeConstants.hpp>
 #include <inflection/lang/features/LanguageGrammarFeatures.hpp>
+#include <inflection/util/LocaleUtils.hpp>
 #include <inflection/util/StringViewUtils.hpp>
 #include <inflection/npc.hpp>
 #include <map>
@@ -42,9 +43,9 @@ DefinitenessDisplayFunction::~DefinitenessDisplayFunction()
 {
 }
 
-std::set<std::u16string> DefinitenessDisplayFunction::getArticles(const inflection::util::ULocale& locale, std::u16string_view featureName)
+std::set<std::u16string, std::less<>> DefinitenessDisplayFunction::getArticles(const inflection::util::ULocale& locale, std::u16string_view featureName)
 {
-    std::set<std::u16string> result;
+    std::set<std::u16string, std::less<>> result;
     for (const auto& feature : inflection::lang::features::LanguageGrammarFeatures::getLanguageGrammarFeatures(locale).getFeatures()) {
         if (feature.getName() == featureName) {
             bool hasWhitespaceSuffix = false;
@@ -63,7 +64,7 @@ std::set<std::u16string> DefinitenessDisplayFunction::getArticles(const inflecti
     return result;
 }
 
-int32_t DefinitenessDisplayFunction::getArticlePrefixLength(DisplayValue* originalDisplayValue, const std::set<std::u16string>& articlesToRemove)
+int32_t DefinitenessDisplayFunction::getArticlePrefixLength(DisplayValue* originalDisplayValue, const std::set<std::u16string, std::less<>>& articlesToRemove)
 {
     std::u16string lowerCasedValue;
     // Turkish doesn't have articles. So the language is not important in the following lower casing call.

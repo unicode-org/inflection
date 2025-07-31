@@ -128,6 +128,7 @@ public class InflectionPattern {
         result.put(Grammar.Transitivity.class, "transitivity");
         result.put(Grammar.Sizeness.class, "sizeness");
         result.put(Grammar.Usage.class, "");
+        result.put(Grammar.WordOrder.class, "word-order");
         return result;
     }
 

@@ -77,7 +77,7 @@ inflection::dialog::SpeakableString* DeCommonConceptFactory::quantify(const Numb
     if (formattedNumber.isEmpty()) {
         formattedNumber = number.getAsDigits();
     }
-    return super::quantify(number, formattedNumber, semanticConcept);
+    return super::quantifyFormatted(number, formattedNumber, semanticConcept);
 }
 
 } // namespace inflection::dialog::language

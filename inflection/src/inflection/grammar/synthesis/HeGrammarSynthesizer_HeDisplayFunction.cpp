@@ -211,11 +211,6 @@ static const char16_t FINAL_TO_MEDIAL_SUBSTITUTION[][2] = {
         if (!inflectedChain.empty()) {
             inflectedChain += u" ";
         }
-        // TODO To be removed once it's added into dictionary
-        if (*word == u"הם") {
-             inflectedChain += u"הן";
-             continue;
-        }
 
         const auto isPresentInDictionary = dictionary.getCombinedBinaryType(&wordGrammemes, *word);
         const auto inflectedWord = dictionaryInflector.inflect(*word, wordGrammemes, {count, gender, person}, disambiguationGrammemes);

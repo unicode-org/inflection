@@ -16,6 +16,9 @@ class inflection::grammar::synthesis::RuGrammarSynthesizer_InPrepositionLookupFu
 public:
     typedef RuGrammarSynthesizer_ArticleLookupFunction super;
 
+private:
+    ::std::set<::std::u16string_view> inWords;
+
 public: /* package */
     ::inflection::dialog::SpeakableString* getArticle(const ::inflection::dialog::DisplayValue& displayValue) const override;
 
@@ -25,7 +28,4 @@ public: /* package */
 
 private:
     static const ::icu4cxx::UnicodeSet& IN_FIRST_CHAR();
-
-protected: /* package */
-    static const::std::set<::std::u16string_view>& IN_WORDS();
 };

@@ -30,12 +30,12 @@ NbGrammarSynthesizer_ArticleLookupFunction::NbGrammarSynthesizer_ArticleLookupFu
 
 inflection::dialog::SpeakableString* NbGrammarSynthesizer_ArticleLookupFunction::getFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const
 {
-    auto countValue = NbGrammarSynthesizer::getCount(displayValue.getFeatureValue(*npc(countFeature)));
-    if (NbGrammarSynthesizer::Count::UNDEFINED == countValue) {
+    auto countValue = NbGrammarSynthesizer::getNumber(displayValue.getFeatureValue(*npc(countFeature)));
+    if (NbGrammarSynthesizer::Number::UNDEFINED == countValue) {
         ::std::unique_ptr<inflection::dialog::SpeakableString> countSpeakableString(countLookupFunction.getFeatureValue(displayValue, constraints));
-        countValue = countSpeakableString != nullptr ? NbGrammarSynthesizer::getCount(&countSpeakableString->getPrint()) : NbGrammarSynthesizer::Count::SINGULAR;
+        countValue = countSpeakableString != nullptr ? NbGrammarSynthesizer::getNumber(&countSpeakableString->getPrint()) : NbGrammarSynthesizer::Number::SINGULAR;
     }
-    if (NbGrammarSynthesizer::Count::PLURAL == countValue) {
+    if (NbGrammarSynthesizer::Number::PLURAL == countValue) {
         return createPreposition(displayValue, pluralString);
     }
     auto genderValue = NbGrammarSynthesizer::getGender(displayValue.getFeatureValue(*npc(genderFeature)));

@@ -1,5 +1,6 @@
-build/*
+.DS_Store
+.idea
 .vscode/launch.json
 .vscode/settings.json
+build
 fst/__pycache__/*
-inflection/tools/dictionary-parser/bin/*

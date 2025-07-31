@@ -647,9 +647,9 @@ const ULocale& LocaleUtils::ROOT()
     return *npc(ROOT_);
 }
 
-static std::map<::std::string, ::std::vector<ULocale>, std::greater<>>* createSupportedLocaleMapToBase(const ::std::map<::std::u16string_view, const char16_t*>& config, std::u16string_view group)
+static std::map<::std::string, ::std::vector<ULocale>, std::less<>>* createSupportedLocaleMapToBase(const ::std::map<::std::u16string_view, const char16_t*>& config, std::u16string_view group)
 {
-    auto supportedLocales = new std::map< ::std::string, ::std::vector<ULocale>, std::greater<>>();
+    auto supportedLocales = new std::map< ::std::string, ::std::vector<ULocale>, std::less<>>();
     ::std::string language;
     for (const auto& [key, values] : config) {
         StringViewUtils::convert(&language, key.substr(group.length() + 1));
@@ -660,7 +660,7 @@ static std::map<::std::string, ::std::vector<ULocale>, std::greater<>>* createSu
 
 static constexpr char16_t LOCALE_SUPPORT_GROUP_[] = u"locale.group";
 
-const ::std::map<::std::string, ::std::vector<ULocale>, std::greater<>>& LocaleUtils::BASE_SUPPORTED_LOCALES()
+const ::std::map<::std::string, ::std::vector<ULocale>, std::less<>>& LocaleUtils::BASE_SUPPORTED_LOCALES()
 {
     static auto BASE_SUPPORTED_LOCALES_ = createSupportedLocaleMapToBase(inflection::resources::DataResource::getProperties(u"/org/unicode/inflection/locale/supported-locales.properties"), LOCALE_SUPPORT_GROUP_);
     return *npc(BASE_SUPPORTED_LOCALES_);
@@ -711,9 +711,9 @@ ULocale LocaleUtils::toLocale(const std::u16string &localeString) {
     return toString(locale, u"_");
 }
 
-::std::set<ULocale, std::greater<>> LocaleUtils::getSupportedLocaleList()
+::std::set<ULocale, std::less<>> LocaleUtils::getSupportedLocaleList()
 {
-    ::std::set<ULocale, std::greater<>> supportedLocales;
+    ::std::set<ULocale, std::less<>> supportedLocales;
     for (const auto& keyGroup : getSupportedLocaleMap()) {
         for (const auto& locale : keyGroup.second) {
             supportedLocales.insert(locale);
@@ -722,7 +722,7 @@ ULocale LocaleUtils::toLocale(const std::u16string &localeString) {
     return supportedLocales;
 }
 
-::std::map<::std::string, ::std::vector<ULocale>, std::greater<>> LocaleUtils::getSupportedLocaleMap()
+::std::map<::std::string, ::std::vector<ULocale>, std::less<>> LocaleUtils::getSupportedLocaleMap()
 {
     return BASE_SUPPORTED_LOCALES();
 }

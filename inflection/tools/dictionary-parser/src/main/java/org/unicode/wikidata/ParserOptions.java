@@ -7,11 +7,9 @@ package org.unicode.wikidata;
 import com.ibm.icu.util.ULocale;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumMap;
@@ -45,7 +43,6 @@ final class ParserOptions {
     static final String IGNORE_SURFACE_FORM = "--ignore-entries-with-grammemes";
     static final String LANGUAGE_OPT = "--language";
     static final String TIMESTAMP = "--timestamp";
-    static final String ADD_DEFAULT_GRAMMEME_FOR_CATEGORY = "--add-default-grammeme-for-category";
     static final String ADD_SOUND = "--add-sound";
 
     boolean includeLemmasWithoutWords = false;
@@ -55,7 +52,6 @@ final class ParserOptions {
     EnumSet<Grammar.PartOfSpeech> posToBeInflected;
     TreeMap<TreeSet<Enum<?>>, List<TreeSet<Enum<?>>>> expandGramemes;
     TreeMap<String, TreeSet<String>> additionalGrammemesDict;
-    TreeMap<String, TreeMap<String, String>> defaultGrammemeForCategory;
     TreeMap<String, EnumMap<Grammar.Sound, Pattern>> claimsToSound;
 
     ArrayList<String> sourceFilenames;
@@ -78,7 +74,6 @@ final class ParserOptions {
         System.err.println(INCLUDE_LEMMAS_WITHOUT_WORD + "\tinclude lemma entries which do not have corresponding word-entry. Default: do not include");
         System.err.println(TIMESTAMP + "\ttimestamp of the latest lexicon used. Default: NONE");
         System.err.println(LANGUAGE_OPT + "\tComma separated list of languages to extract to the lexical dictionary. Default: " + ULocale.ENGLISH.getName());
-        System.err.println(ADD_DEFAULT_GRAMMEME_FOR_CATEGORY + "\t[pos=partofSpeech1]category1=grammeme1[,category2=grammeme2.....]\t For each of the provided categories if no grammeme is present then add the default grammeme provided for that category to the word. Only applies for the provided parts of speech if pos= is supplied Default: (NONE)");
         System.err.println(ADD_SOUND + " grammeme1[,grammeme2,...]\tSound properties to check for.");
     }
 
@@ -86,7 +81,6 @@ final class ParserOptions {
         posToBeInflected = EnumSet.of(Grammar.PartOfSpeech.NOUN);
         additionalGrammemesDict = new TreeMap<>();
         sourceFilenames = new ArrayList<>();
-        defaultGrammemeForCategory = new TreeMap<>();
         claimsToSound = new TreeMap<>();
 
         for (int i = 0; i < args.length; i++) {
@@ -97,8 +91,12 @@ final class ParserOptions {
                 lexicalDictionaryFilename = args[++i];
             } else if (ParserOptions.ADD_EXTRA_GRAMMEMES.equals(arg)) {
                 String additionalGrammemeFilename = args[++i];
-                String filePath = Paths.get(ParserDefaults.RESOURCES_DIR + additionalGrammemeFilename).toAbsolutePath().toString();
-                try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(filePath), StandardCharsets.UTF_8))) {
+                var resourceStream = getClass().getResourceAsStream(additionalGrammemeFilename);
+                if (resourceStream == null) {
+                    // else oh well. It doesn't matter.
+                    continue;
+                }
+                try (BufferedReader br = new BufferedReader(new InputStreamReader(resourceStream, StandardCharsets.UTF_8))) {
                     String line;
                     while ((line = br.readLine()) != null) {
                         int colonIdx = line.indexOf(COLON_SEPARATOR);
@@ -163,31 +161,6 @@ final class ParserOptions {
                 locales.addAll(List.of(localeStr.split(",")));
                 optionsUsedToInvoke.add(ParserOptions.LANGUAGE_OPT);
                 optionsUsedToInvoke.add(localeStr);
-            } else if (ParserOptions.ADD_DEFAULT_GRAMMEME_FOR_CATEGORY.equals(arg)) {
-                String categoryDefaultGrammemeString = args[++i];
-                String[] tokens = categoryDefaultGrammemeString.split(",");
-                String posValue = "";
-                for (int idx = 0; idx < tokens.length; idx += 1) {
-                    String token = tokens[idx];
-                    String[] tokenArgs = token.split("=");
-                    if (tokenArgs.length != 2) {
-                        throw new IllegalArgumentException("Default Grammeme for category string does not have entry in the format a=b " + token);
-                    }
-                    String key = tokenArgs[0].toLowerCase();
-                    String value = tokenArgs[1].toLowerCase();
-                    if (key.compareTo("pos") == 0) {
-                        if (idx != 0) {
-                            throw new IllegalArgumentException("pos key is not the first argument for default Grammeme for category string " + categoryDefaultGrammemeString);
-                        }
-                        posValue = value;
-                        continue;
-                    }
-                    defaultGrammemeForCategory.putIfAbsent(posValue, new TreeMap<>());
-                    defaultGrammemeForCategory.get(posValue).put(key, value);
-                }
-
-                optionsUsedToInvoke.add(ParserOptions.ADD_DEFAULT_GRAMMEME_FOR_CATEGORY);
-                optionsUsedToInvoke.add(categoryDefaultGrammemeString);
             } else if (ParserOptions.ADD_SOUND.equals(arg)) {
                 String soundGrammemeTypes = args[++i];
 
@@ -195,8 +168,12 @@ final class ParserOptions {
 
                 for (String claimID : ParseWikidata.PROPERTIES_WITH_PRONUNCIATION) {
                     Properties soundRegexes = new Properties();
-                    String filePath = Paths.get(ParserDefaults.RESOURCES_DIR + claimID + ".properties").toAbsolutePath().toString();
-                    try (var propertiesStream = new InputStreamReader(new FileInputStream(filePath), StandardCharsets.UTF_8)) {
+                    var resourceStream = getClass().getResourceAsStream(claimID + ".properties");
+                    if (resourceStream == null) {
+                        // else oh well. It doesn't matter.
+                        continue;
+                    }
+                    try (var propertiesStream = new InputStreamReader(resourceStream, StandardCharsets.UTF_8)) {
                         soundRegexes.load(propertiesStream);
                         var enumMap = new EnumMap<Grammar.Sound, Pattern>(Grammar.Sound.class);
                         for (var entry : soundRegexes.entrySet()) {

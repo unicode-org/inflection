@@ -35,7 +35,7 @@ public:
     ::inflection::dialog::DisplayValue *getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const override;
 
 private:
-    static ::std::u16string addPossessiveSuffixes(TrGrammarSynthesizer::Count countValue, TrGrammarSynthesizer::Person personValue, TrGrammarSynthesizer::Pronoun pronounValue, bool isPossessiveCompound, TrGrammarSynthesizer::VowelGroup &vowGroup, const ::std::u16string& lastPart);
+    static ::std::u16string addPossessiveSuffixes(TrGrammarSynthesizer::Number numberValue, TrGrammarSynthesizer::Person personValue, TrGrammarSynthesizer::Pronoun pronounValue, bool isPossessiveCompound, TrGrammarSynthesizer::VowelGroup &vowGroup, const ::std::u16string& lastPart);
     static std::u16string addCaseSuffixes(
             inflection::grammar::synthesis::TrGrammarSynthesizer::Case caseValue, bool isPossessive,
             inflection::grammar::synthesis::TrGrammarSynthesizer::VowelGroup &vowGroup, const std::u16string &lastPart);

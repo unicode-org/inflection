@@ -7,7 +7,6 @@
 #include <inflection/lang/features/LanguageGrammarFeatures_Feature.hpp>
 #include <inflection/lang/features/LanguageGrammarFeatures_GrammarCategory.hpp>
 #include <inflection/lang/features/LanguageGrammarFeatures_GrammarFeatures.hpp>
-#include <inflection/util/LocaleUtils.hpp>
 #include <inflection/util/ULocale.hpp>
 #include <inflection/Object.hpp>
 #include <map>

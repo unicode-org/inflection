@@ -3,6 +3,7 @@
  */
 #include "Dictionary.hpp"
 #include <inflection/exception/IllegalStateException.hpp>
+#include <inflection/exception/InvalidConfigurationException.hpp>
 #include <inflection/exception/FileNotFoundException.hpp>
 #include <inflection/util/StringViewUtils.hpp>
 #include <inflection/util/DelimitedStringIterator.hpp>
@@ -135,6 +136,7 @@ static constexpr int32_t DEFAULT_BUFFER_SIZE = 512;
 void
 Dictionary::extractPartsOfSpeech(::std::ifstream& in)
 {
+    bool checkFirstLine = true;
     ::std::u16string endline(u"====");
     ::std::string cline;
     ::std::u16string line;
@@ -147,6 +149,12 @@ Dictionary::extractPartsOfSpeech(::std::ifstream& in)
         ::inflection::util::StringViewUtils::convert(&line, cline);
 
         std::u16string_view lineView(line);
+        if (checkFirstLine) {
+            checkFirstLine = false;
+            if (lineView.starts_with(u"version https://git-lfs.github.com/")) {
+                throw ::inflection::exception::InvalidConfigurationException(u"Malformed file for language " + locale.toString() + u". Did you forget to use git LFS?");
+            }
+        }
         if (lineView.starts_with(endline)) {
             break;
         }

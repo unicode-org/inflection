@@ -52,17 +52,17 @@ inflection::dialog::SpeakableString* EsGrammarSynthesizer_ArticleLookupFunction:
         }
     }
     const auto& displayString = displayValue.getDisplayString();
-    auto countValue = EsGrammarSynthesizer::getCount(displayValue.getFeatureValue(countFeature));
+    auto countValue = EsGrammarSynthesizer::getNumber(displayValue.getFeatureValue(countFeature));
     auto genderValue = EsGrammarSynthesizer::getGender(displayValue.getFeatureValue(genderFeature));
-    if (countValue == EsGrammarSynthesizer::Count::undefined) {
+    if (countValue == EsGrammarSynthesizer::Number::undefined) {
         auto countStr(countLookupFunction.determine(displayString));
-        countValue = EsGrammarSynthesizer::getCount(&countStr);
+        countValue = EsGrammarSynthesizer::getNumber(&countStr);
     }
     if (genderValue == EsGrammarSynthesizer::Gender::undefined) {
         auto genderStr(genderLookupFunction.determine(displayString));
         genderValue = EsGrammarSynthesizer::getGender(&genderStr);
     }
-    if (EsGrammarSynthesizer::Count::singular == countValue) {
+    if (EsGrammarSynthesizer::Number::singular == countValue) {
         if (EsGrammarSynthesizer::Gender::feminine == genderValue
             && (!hasStressedSingularFeminineForm || stressLookupFunction.determine(stressLookupFunction.getFirstWord(displayString)) != STRESSED))
         {
@@ -73,10 +73,10 @@ inflection::dialog::SpeakableString* EsGrammarSynthesizer_ArticleLookupFunction:
             return createPreposition(displayValue, ::std::u16string(singularMasculineString));
         }
     }
-    if (EsGrammarSynthesizer::Count::plural == countValue && EsGrammarSynthesizer::Gender::masculine == genderValue) {
+    if (EsGrammarSynthesizer::Number::plural == countValue && EsGrammarSynthesizer::Gender::masculine == genderValue) {
         return createPreposition(displayValue, ::std::u16string(pluralMasculineString));
     }
-    if (EsGrammarSynthesizer::Count::plural == countValue && EsGrammarSynthesizer::Gender::feminine == genderValue) {
+    if (EsGrammarSynthesizer::Number::plural == countValue && EsGrammarSynthesizer::Gender::feminine == genderValue) {
         return createPreposition(displayValue, ::std::u16string(pluralFeminineString));
     }
     return createPreposition(displayValue, ::std::u16string(defaultString));

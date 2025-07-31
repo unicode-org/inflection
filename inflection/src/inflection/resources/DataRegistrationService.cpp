@@ -19,9 +19,9 @@ static ::std::mutex& CLASS_MUTEX() {
     return *npc(classMutex);
 }
 
-static ::std::map<std::string, std::string>* initLOCALE_FALLTHROUGH_BLACKLIST()
+static ::std::map<std::string, std::string, std::less<>>* initLOCALE_FALLTHROUGH_BLACKLIST()
 {
-    auto result = new std::map<std::string, std::string>();
+    auto result = new std::map<std::string, std::string, std::less<>>();
     auto mappings = inflection::resources::DataResource::getProperties(u"/org/unicode/inflection/locale/registration-locale-list.properties");
     for (auto const & [from, to] : mappings) {
         // Normalize the values as necessary.
@@ -32,15 +32,15 @@ static ::std::map<std::string, std::string>* initLOCALE_FALLTHROUGH_BLACKLIST()
     return result;
 }
 
-static const std::map<std::string, std::string>* LOCALE_FALLTHROUGH_BLACKLIST()
+static const std::map<std::string, std::string, std::less<>>* LOCALE_FALLTHROUGH_BLACKLIST()
 {
     static auto LOCALE_FALLTHROUGH_BLACKLIST_ = initLOCALE_FALLTHROUGH_BLACKLIST();
     return LOCALE_FALLTHROUGH_BLACKLIST_;
 }
 
-static ::std::map<::std::string, ::std::string, std::greater<>>* PATHS_MAP()
+static ::std::map<::std::string, ::std::string, std::less<>>* PATHS_MAP()
 {
-    static auto PATHS_MAP_ = new ::std::map<::std::string, ::std::string, std::greater<>>();
+    static auto PATHS_MAP_ = new ::std::map<::std::string, ::std::string, std::less<>>();
     return PATHS_MAP_;
 }
 

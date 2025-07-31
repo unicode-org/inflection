@@ -19,6 +19,7 @@ public:
     typedef ::inflection::dialog::DefaultDisplayFunction super;
 
 private:
+    const ::inflection::dialog::SemanticFeature& caseFeature;
     const ::inflection::dialog::SemanticFeature& numberFeature;
     const ::inflection::dialog::SemanticFeature& genderFeature;
     const ::inflection::dialog::SemanticFeature& partOfSpeechFeature;
@@ -33,7 +34,7 @@ public:
     ::inflection::dialog::DisplayValue * getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const override;
 
 private:
-    ::std::optional<::std::u16string> inflectWord(const ::std::u16string& word, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess, bool makeOblique) const;
+    ::std::optional<::std::u16string> inflectWord(const ::std::u16string& word, int64_t wordProperties, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess, bool makeOblique) const;
     ::std::optional<::std::vector<::std::u16string>> inflectSignificantWords(const std::vector<::std::u16string> &words, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const;
     ::std::optional<::std::u16string> inflectTokenChain(const ::inflection::tokenizer::TokenChain& tokenChain, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const;
 

@@ -47,7 +47,7 @@ inflection::dialog::SpeakableString* ItCommonConceptFactory::quantify(const infl
     } else {
         formattedNumber = number.asSpokenWords(u"cardinal-masculine");
     }
-    return super::quantify(number, formattedNumber, semanticConcept);
+    return super::quantifyFormatted(number, formattedNumber, semanticConcept);
 }
 
 inflection::dialog::SpeakableString ItCommonConceptFactory::quantifiedJoin(const ::inflection::dialog::SpeakableString& formattedNumber, const ::inflection::dialog::SpeakableString& nounPhrase, const ::std::u16string& /*measureWord*/, Plurality::Rule countType) const

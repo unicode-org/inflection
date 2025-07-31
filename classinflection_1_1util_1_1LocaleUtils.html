@@ -91,10 +91,10 @@ $(function() {
 Public Member Functions</h2></td></tr>
 <tr class="memitem:aa1cbe503755e34df68dda476f07172cc" id="r_aa1cbe503755e34df68dda476f07172cc"><td class="memItemLeft" align="right" valign="top">static ::std::vector&lt;<a class="el" href="classinflection_1_1util_1_1ULocale.html">::inflection::util::ULocale</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classinflection_1_1util_1_1LocaleUtils.html#aa1cbe503755e34df68dda476f07172cc">toLocales</a> (const ::std::u16string &amp;localesString)</td></tr>
 <tr class="separator:aa1cbe503755e34df68dda476f07172cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0716265882e3dff923139bd1e9ec30a6" id="r_a0716265882e3dff923139bd1e9ec30a6"><td class="memItemLeft" align="right" valign="top">static ::std::set&lt;<a class="el" href="classinflection_1_1util_1_1ULocale.html">::inflection::util::ULocale</a>, std::greater&lt;&gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classinflection_1_1util_1_1LocaleUtils.html#a0716265882e3dff923139bd1e9ec30a6">getSupportedLocaleList</a> ()</td></tr>
-<tr class="separator:a0716265882e3dff923139bd1e9ec30a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aec53fa2e1cc0eae40e29ba6bf820230e" id="r_aec53fa2e1cc0eae40e29ba6bf820230e"><td class="memItemLeft" align="right" valign="top">static ::std::map&lt;::std::string, ::std::vector&lt;<a class="el" href="classinflection_1_1util_1_1ULocale.html">::inflection::util::ULocale</a> &gt;, std::greater&lt;&gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classinflection_1_1util_1_1LocaleUtils.html#aec53fa2e1cc0eae40e29ba6bf820230e">getSupportedLocaleMap</a> ()</td></tr>
-<tr class="separator:aec53fa2e1cc0eae40e29ba6bf820230e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a815e647ef65eb0991caebcfb8d449bf3" id="r_a815e647ef65eb0991caebcfb8d449bf3"><td class="memItemLeft" align="right" valign="top">static ::std::set&lt;<a class="el" href="classinflection_1_1util_1_1ULocale.html">::inflection::util::ULocale</a>, std::less&lt;&gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classinflection_1_1util_1_1LocaleUtils.html#a815e647ef65eb0991caebcfb8d449bf3">getSupportedLocaleList</a> ()</td></tr>
+<tr class="separator:a815e647ef65eb0991caebcfb8d449bf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93e9a367510f8fd250c45ada947acfe4" id="r_a93e9a367510f8fd250c45ada947acfe4"><td class="memItemLeft" align="right" valign="top">static ::std::map&lt;::std::string, ::std::vector&lt;<a class="el" href="classinflection_1_1util_1_1ULocale.html">::inflection::util::ULocale</a> &gt;, std::less&lt;&gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classinflection_1_1util_1_1LocaleUtils.html#a93e9a367510f8fd250c45ada947acfe4">getSupportedLocaleMap</a> ()</td></tr>
+<tr class="separator:a93e9a367510f8fd250c45ada947acfe4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae0140530b338992d394dfa17081c3986" id="r_ae0140530b338992d394dfa17081c3986"><td class="memItemLeft" align="right" valign="top">static ::std::pair&lt;<a class="el" href="classinflection_1_1util_1_1ULocale.html">::inflection::util::ULocale</a>, <a class="el" href="classinflection_1_1util_1_1ULocale.html">::inflection::util::ULocale</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classinflection_1_1util_1_1LocaleUtils.html#ae0140530b338992d394dfa17081c3986">getFallbackPair</a> (const <a class="el" href="classinflection_1_1util_1_1ULocale.html">::inflection::util::ULocale</a> &amp;locale)</td></tr>
 <tr class="separator:ae0140530b338992d394dfa17081c3986"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -324,7 +324,7 @@ Static Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Provides utility functions for use with <a class="el" href="classinflection_1_1util_1_1ULocale.html" title="An object that represents a specific geographical, political, or cultural region.">ULocale</a> objects. </p>
 <p>This class contains many static functions that are very useful for manipulation, combination, accessing, and validation of <a class="el" href="classinflection_1_1util_1_1ULocale.html" title="An object that represents a specific geographical, political, or cultural region.">ULocale</a> objects.</p>
-<p>This class also has functions for getting an instance of <a class="el" href="classinflection_1_1util_1_1ULocale.html" title="An object that represents a specific geographical, political, or cultural region.">ULocale</a> for <b>all of Inflection's supported locales</b>, as well as a list of all currently supported locales (<a class="el" href="classinflection_1_1util_1_1LocaleUtils.html#a0716265882e3dff923139bd1e9ec30a6">getSupportedLocaleList()</a>). </p>
+<p>This class also has functions for getting an instance of <a class="el" href="classinflection_1_1util_1_1ULocale.html" title="An object that represents a specific geographical, political, or cultural region.">ULocale</a> for <b>all of Inflection's supported locales</b>, as well as a list of all currently supported locales (<a class="el" href="classinflection_1_1util_1_1LocaleUtils.html#a815e647ef65eb0991caebcfb8d449bf3">getSupportedLocaleList()</a>). </p>
 
 <p class="definition">Definition at line <a class="el" href="LocaleUtils_8hpp_source.html#l00021">21</a> of file <a class="el" href="LocaleUtils_8hpp_source.html">LocaleUtils.hpp</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
@@ -1301,14 +1301,14 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a0716265882e3dff923139bd1e9ec30a6" name="a0716265882e3dff923139bd1e9ec30a6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0716265882e3dff923139bd1e9ec30a6">&#9670;&#160;</a></span>getSupportedLocaleList()</h2>
+<a id="a815e647ef65eb0991caebcfb8d449bf3" name="a815e647ef65eb0991caebcfb8d449bf3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a815e647ef65eb0991caebcfb8d449bf3">&#9670;&#160;</a></span>getSupportedLocaleList()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">static ::std::set&lt;<a class="el" href="classinflection_1_1util_1_1ULocale.html">::inflection::util::ULocale</a>, std::greater&lt;&gt; &gt; inflection::util::LocaleUtils::getSupportedLocaleList </td>
+          <td class="memname">static ::std::set&lt;<a class="el" href="classinflection_1_1util_1_1ULocale.html">::inflection::util::ULocale</a>, std::less&lt;&gt; &gt; inflection::util::LocaleUtils::getSupportedLocaleList </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1319,14 +1319,14 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="aec53fa2e1cc0eae40e29ba6bf820230e" name="aec53fa2e1cc0eae40e29ba6bf820230e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aec53fa2e1cc0eae40e29ba6bf820230e">&#9670;&#160;</a></span>getSupportedLocaleMap()</h2>
+<a id="a93e9a367510f8fd250c45ada947acfe4" name="a93e9a367510f8fd250c45ada947acfe4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93e9a367510f8fd250c45ada947acfe4">&#9670;&#160;</a></span>getSupportedLocaleMap()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">static ::std::map&lt;::std::string, ::std::vector&lt;<a class="el" href="classinflection_1_1util_1_1ULocale.html">::inflection::util::ULocale</a> &gt;, std::greater&lt;&gt; &gt; inflection::util::LocaleUtils::getSupportedLocaleMap </td>
+          <td class="memname">static ::std::map&lt;::std::string, ::std::vector&lt;<a class="el" href="classinflection_1_1util_1_1ULocale.html">::inflection::util::ULocale</a> &gt;, std::less&lt;&gt; &gt; inflection::util::LocaleUtils::getSupportedLocaleMap </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -3116,11 +3116,11 @@ Static Public Member Functions</h2></td></tr>
  %2 = The script<br  />
  %3 = The country<br  />
  %4 = The variant<br  />
- , = The dileanation.</p>
+ , = The field separator.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">locale</td><td>The <a class="el" href="classinflection_1_1util_1_1ULocale.html" title="An object that represents a specific geographical, political, or cultural region.">ULocale</a> object to represent as a <code>std::u16string</code>. </td></tr>
-    <tr><td class="paramname">separator</td><td>The dileantion characters to use. </td></tr>
+    <tr><td class="paramname">separator</td><td>The field separator characters to use. </td></tr>
   </table>
   </dd>
 </dl>
@@ -3368,7 +3368,7 @@ Static Public Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jul 29 2025 02:09:55 for Inflection by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+Generated on Thu Jul 31 2025 20:01:29 for Inflection by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
 </small></address>
 </body>
 </html>

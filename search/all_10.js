@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['quantify_0',['quantify',['../classinflection_1_1dialog_1_1CommonConceptFactory.html#a96df29a2bc58c699548611fa089ff7eb',1,'inflection::dialog::CommonConceptFactory::quantify(const NumberConcept &amp;number, const ::inflection::dialog::SemanticFeatureConceptBase *semanticConcept) const =0'],['../classinflection_1_1dialog_1_1CommonConceptFactory.html#a1c5743dca61a166b93fc33adc4d9121a',1,'inflection::dialog::CommonConceptFactory::quantify(const NumberConcept &amp;number, const ::inflection::dialog::SpeakableString &amp;formattedNumber, const ::inflection::dialog::SemanticFeatureConceptBase *semanticConcept) const =0']]],
-  ['quote_1',['quote',['../classinflection_1_1dialog_1_1CommonConceptFactory.html#a105590601caac7f3b22ac59d5ff74764',1,'inflection::dialog::CommonConceptFactory']]]
+  ['quantify_0',['quantify',['../classinflection_1_1dialog_1_1CommonConceptFactory.html#a96df29a2bc58c699548611fa089ff7eb',1,'inflection::dialog::CommonConceptFactory']]],
+  ['quantifyformatted_1',['quantifyFormatted',['../classinflection_1_1dialog_1_1CommonConceptFactory.html#a141355a4e577aecc91472851e761144a',1,'inflection::dialog::CommonConceptFactory']]],
+  ['quote_2',['quote',['../classinflection_1_1dialog_1_1CommonConceptFactory.html#a105590601caac7f3b22ac59d5ff74764',1,'inflection::dialog::CommonConceptFactory']]]
 ];

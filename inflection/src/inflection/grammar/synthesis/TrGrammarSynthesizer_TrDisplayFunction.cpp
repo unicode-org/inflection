@@ -14,7 +14,6 @@
 #include <inflection/grammar/synthesis/GrammemeConstants.hpp>
 #include <inflection/grammar/synthesis/TrGrammarSynthesizer.hpp>
 #include <inflection/util/LocaleUtils.hpp>
-#include <inflection/util/StringUtils.hpp>
 #include <inflection/util/StringViewUtils.hpp>
 #include <inflection/util/UnicodeSetUtils.hpp>
 #include <inflection/tokenizer/TokenChain.hpp>
@@ -35,10 +34,10 @@ TrGrammarSynthesizer_TrDisplayFunction::TrGrammarSynthesizer_TrDisplayFunction(c
     , caseFeature(*npc(model.getFeature(GrammemeConstants::CASE)))
     , countFeature(*npc(model.getFeature(GrammemeConstants::NUMBER)))
     , personFeature(*npc(model.getFeature(GrammemeConstants::PERSON)))
-    , pronounFeature(*npc(model.getFeature(TrGrammarSynthesizer::PRONOUN())))
-    , pronounNumberFeature(*npc(model.getFeature(TrGrammarSynthesizer::PRONOUN_NUMBER())))
-    , copulaFeature(*npc(model.getFeature(TrGrammarSynthesizer::COPULA())))
-    , tenseFeature(*npc(model.getFeature(TrGrammarSynthesizer::TENSE())))
+    , pronounFeature(*npc(model.getFeature(TrGrammarSynthesizer::PRONOUN)))
+    , pronounNumberFeature(*npc(model.getFeature(TrGrammarSynthesizer::PRONOUN_NUMBER)))
+    , copulaFeature(*npc(model.getFeature(TrGrammarSynthesizer::COPULA)))
+    , tenseFeature(*npc(model.getFeature(GrammemeConstants::TENSE)))
 {
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&frontRoundProperty, {u"front-round"}));
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&frontUnroundProperty, {u"front-unround"}));
@@ -95,7 +94,7 @@ const ::icu4cxx::UnicodeSet& TrGrammarSynthesizer_TrDisplayFunction::DEFAULT_HAR
         }
     }
     auto caseValue = TrGrammarSynthesizer::getCase(::inflection::dialog::DefaultArticleLookupFunction::getFeatureValue(constraints, caseFeature));
-    auto countValue = TrGrammarSynthesizer::getCount(::inflection::dialog::DefaultArticleLookupFunction::getFeatureValue(constraints, countFeature));
+    auto numberValue = TrGrammarSynthesizer::getNumber(::inflection::dialog::DefaultArticleLookupFunction::getFeatureValue(constraints, countFeature));
     auto personValue = TrGrammarSynthesizer::getPerson(::inflection::dialog::DefaultArticleLookupFunction::getFeatureValue(constraints, personFeature));
     auto copulaValue = TrGrammarSynthesizer::getCopula(::inflection::dialog::DefaultArticleLookupFunction::getFeatureValue(constraints, copulaFeature));
     auto tenseValue = TrGrammarSynthesizer::getTense(::inflection::dialog::DefaultArticleLookupFunction::getFeatureValue(constraints, tenseFeature));
@@ -115,7 +114,7 @@ const ::icu4cxx::UnicodeSet& TrGrammarSynthesizer_TrDisplayFunction::DEFAULT_HAR
         isPossessiveCompound = isCompound || (!endsWithNumber && !possessiveCompoundSuffix.empty());
         isPossessive = isPossessiveCompound;
         if (isPossessiveCompound && getLastWord(displayString) == displayStringNormalized
-                && (countValue == TrGrammarSynthesizer::Count::PLURAL || personValue != TrGrammarSynthesizer::Person::undefined || pronounValue != TrGrammarSynthesizer::Pronoun::undefined))
+                && (numberValue == TrGrammarSynthesizer::Number::PLURAL || personValue != TrGrammarSynthesizer::Person::undefined || pronounValue != TrGrammarSynthesizer::Pronoun::undefined))
         {
             displayStringNormalized.resize(displayStringNormalized.length() - possessiveCompoundSuffix.length());
             displayString.resize(displayString.length() - possessiveCompoundSuffix.length());
@@ -130,7 +129,7 @@ const ::icu4cxx::UnicodeSet& TrGrammarSynthesizer_TrDisplayFunction::DEFAULT_HAR
     auto isForeign = isForeignWord(displayStringNormalized);
     auto isException = isExceptionWord(displayStringNormalized);
     auto lastPart = displayStringNormalized;
-    if (countValue == TrGrammarSynthesizer::Count::PLURAL) {
+    if (numberValue == TrGrammarSynthesizer::Number::PLURAL) {
         if (vowGroup == TrGrammarSynthesizer::VowelGroup::BACK_UNROUNDED || vowGroup == TrGrammarSynthesizer::VowelGroup::BACK_ROUNDED) {
             suffixString += u"lar";
             vowGroup = TrGrammarSynthesizer::VowelGroup::BACK_UNROUNDED;
@@ -147,7 +146,7 @@ const ::icu4cxx::UnicodeSet& TrGrammarSynthesizer_TrDisplayFunction::DEFAULT_HAR
         lastPart = suffixString;
     }
     if (personValue != TrGrammarSynthesizer::Person::undefined || pronounValue != TrGrammarSynthesizer::Pronoun::undefined) {
-        lastPart = addPossessiveSuffixes(countValue, personValue, pronounValue, isPossessiveCompound, vowGroup, lastPart);
+        lastPart = addPossessiveSuffixes(numberValue, personValue, pronounValue, isPossessiveCompound, vowGroup, lastPart);
         suffixString += lastPart;
         isPossessive = true;
     }
@@ -225,7 +224,7 @@ std::u16string TrGrammarSynthesizer_TrDisplayFunction::addCaseSuffixes(
     return result;
 }
 
-std::u16string TrGrammarSynthesizer_TrDisplayFunction::addPossessiveSuffixes(TrGrammarSynthesizer::Count countValue, TrGrammarSynthesizer::Person personValue, TrGrammarSynthesizer::Pronoun pronounValue, bool isPossessiveCompound, TrGrammarSynthesizer::VowelGroup& vowGroup, const std::u16string& lastPart)
+std::u16string TrGrammarSynthesizer_TrDisplayFunction::addPossessiveSuffixes(TrGrammarSynthesizer::Number numberValue, TrGrammarSynthesizer::Person personValue, TrGrammarSynthesizer::Pronoun pronounValue, bool isPossessiveCompound, TrGrammarSynthesizer::VowelGroup& vowGroup, const std::u16string& lastPart)
 {
     std::u16string result;
     if (pronounValue == TrGrammarSynthesizer::Pronoun::undefined) {
@@ -238,7 +237,7 @@ std::u16string TrGrammarSynthesizer_TrDisplayFunction::addPossessiveSuffixes(TrG
         }
         result += TrGrammarSynthesizer::getAffix(vowGroup);
     } else if (personValue == TrGrammarSynthesizer::Person::THIRD && pronounValue == TrGrammarSynthesizer::Pronoun::PLURAL) {
-        if (countValue == TrGrammarSynthesizer::Count::PLURAL) {
+        if (numberValue == TrGrammarSynthesizer::Number::PLURAL) {
             if (!isPossessiveCompound) {
                 if (vowGroup == TrGrammarSynthesizer::VowelGroup::BACK_UNROUNDED) {
                     result += u'\u0131';

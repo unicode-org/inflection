@@ -58,29 +58,27 @@ void PtGrammarSynthesizer::addSemanticFeatures(::inflection::dialog::SemanticFea
     featureModel.setDefaultDisplayFunction(new PtGrammarSynthesizer_PtDisplayFunction(featureModel));
 }
 
-PtGrammarSynthesizer::Count PtGrammarSynthesizer::getCount(const ::std::u16string* value) {
-    static auto valueMap = new ::std::map<::std::u16string, PtGrammarSynthesizer::Count>({
-        {GrammemeConstants::NUMBER_SINGULAR(), Count::singular},
-        {GrammemeConstants::NUMBER_PLURAL(), Count::plural}
-    });
+PtGrammarSynthesizer::Number PtGrammarSynthesizer::getNumber(const ::std::u16string* value) {
     if (value != nullptr) {
-        auto result = npc(valueMap)->find(*npc(value));
-        if (result != npc(valueMap)->end()) {
-            return result->second;
+        const auto& valRef = *value;
+        if (valRef == GrammemeConstants::NUMBER_SINGULAR()) {
+            return Number::singular;
+        }
+        if (valRef == GrammemeConstants::NUMBER_PLURAL()) {
+            return Number::plural;
         }
     }
-    return Count::undefined;
+    return Number::undefined;
 }
 
 PtGrammarSynthesizer::Gender PtGrammarSynthesizer::getGender(const ::std::u16string* value) {
-    static auto valueMap = new ::std::map<::std::u16string, PtGrammarSynthesizer::Gender>({
-        {GrammemeConstants::GENDER_MASCULINE(), Gender::masculine},
-        {GrammemeConstants::GENDER_FEMININE(), Gender::feminine},
-    });
     if (value != nullptr) {
-        auto result = npc(valueMap)->find(*npc(value));
-        if (result != npc(valueMap)->end()) {
-            return result->second;
+        const auto& valRef = *value;
+        if (valRef == GrammemeConstants::GENDER_MASCULINE()) {
+            return Gender::masculine;
+        }
+        if (valRef == GrammemeConstants::GENDER_FEMININE()) {
+            return Gender::feminine;
         }
     }
     return Gender::undefined;

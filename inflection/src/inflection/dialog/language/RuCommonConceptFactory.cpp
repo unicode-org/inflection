@@ -112,7 +112,7 @@ inflection::dialog::SpeakableString* RuCommonConceptFactory::quantify(const Numb
         // We don't know what this word is. Default to digits.
         formattedNumber = number.getAsDigits();
     }
-    return super::quantify(number, formattedNumber, semanticConcept);
+    return super::quantifyFormatted(number, formattedNumber, semanticConcept);
 }
 
 } // namespace inflection::dialog::language

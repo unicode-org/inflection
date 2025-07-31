@@ -131,41 +131,41 @@ void DictionaryMetaData_MMappedDictionary::getPropertyMapInternalIdentifiers(std
     }
 }
 
-bool DictionaryMetaData_MMappedDictionary::getWordPropertyInternalIdentifiers(std::vector<int32_t> &propertyIdentifiers, std::u16string_view word, int32_t propertyNameIdentifier) const {
+DictionaryMetaData_MMappedDictionary::ListResultEnum DictionaryMetaData_MMappedDictionary::getWordPropertyInternalIdentifiers(std::vector<int32_t> &propertyIdentifiers, std::u16string_view word, int32_t propertyNameIdentifier) const {
     if (propertyNameIdentifier < 0) {
-        return false;
+        return UNKNOWN;
     }
 
     auto trieResult(wordsToDataTrie.find(word));
-    if (trieResult) {
-        uint64_t dataSingleton = *trieResult;
-        if (isDoubleStageLookup) {
-            dataSingleton = wordsToDataSingletons.read((int32_t) dataSingleton);
-        }
-        auto offset = inflection::dictionary::metadata::CompressedArray<int32_t>::extractValue(dataSingleton, bitsTypesSingletons, bitsPropertyMapId);
-        if (offset != 0) {
-            propertyIdentifiers.clear();
-
-            const auto firstValue = propertyValueMaps.read(offset);
-            int32_t cumulativeOffset = 0;
-            int32_t originalMapSize = inflection::dictionary::metadata::CompressedArray<int32_t>::extractValue(firstValue, bitsPropertyValueMapKey + bitsPropertyValueMapValuesSize, bitsPropertyValueMapKeySize);
-            for (int32_t mapIdx = 0; mapIdx < originalMapSize; mapIdx++) {
-                uint32_t keyEntry = inflection::dictionary::metadata::CompressedArray<int32_t>::extractValue(propertyValueMaps.read(offset + mapIdx), 0, bitsPropertyValueMapKey + bitsPropertyValueMapValuesSize);
-                int32_t key = keyEntry & bitsPropertyValueMapKeyMask;
-                if (key > propertyNameIdentifier) {
-                    // We missed the possible value. It's not going to get better.
-                    break;
-                }
-                int32_t valuesSegmentSize = keyEntry >> bitsPropertyValueMapKey;
-                if (key == propertyNameIdentifier) {
-                    getPropertyMapInternalIdentifiers(propertyIdentifiers, offset + originalMapSize + cumulativeOffset, valuesSegmentSize);
-                    return true;
-                }
-                cumulativeOffset += valuesSegmentSize;
+    if (!trieResult) {
+        return UNKNOWN;
+    }
+    propertyIdentifiers.clear();
+    uint64_t dataSingleton = *trieResult;
+    if (isDoubleStageLookup) {
+        dataSingleton = wordsToDataSingletons.read((int32_t) dataSingleton);
+    }
+    auto offset = inflection::dictionary::metadata::CompressedArray<int32_t>::extractValue(dataSingleton, bitsTypesSingletons, bitsPropertyMapId);
+    if (offset != 0) {
+        const auto firstValue = propertyValueMaps.read(offset);
+        int32_t cumulativeOffset = 0;
+        int32_t originalMapSize = inflection::dictionary::metadata::CompressedArray<int32_t>::extractValue(firstValue, bitsPropertyValueMapKey + bitsPropertyValueMapValuesSize, bitsPropertyValueMapKeySize);
+        for (int32_t mapIdx = 0; mapIdx < originalMapSize; mapIdx++) {
+            uint32_t keyEntry = inflection::dictionary::metadata::CompressedArray<int32_t>::extractValue(propertyValueMaps.read(offset + mapIdx), 0, bitsPropertyValueMapKey + bitsPropertyValueMapValuesSize);
+            int32_t key = keyEntry & bitsPropertyValueMapKeyMask;
+            if (key > propertyNameIdentifier) {
+                // We missed the possible value. It's not going to get better.
+                break;
             }
+            int32_t valuesSegmentSize = keyEntry >> bitsPropertyValueMapKey;
+            if (key == propertyNameIdentifier) {
+                getPropertyMapInternalIdentifiers(propertyIdentifiers, offset + originalMapSize + cumulativeOffset, valuesSegmentSize);
+                return VALUES;
+            }
+            cumulativeOffset += valuesSegmentSize;
         }
     }
-    return false;
+    return EMPTY;
 }
 
 bool DictionaryMetaData_MMappedDictionary::getWordPropertyValues(::std::vector<::std::u16string>* result, std::u16string_view word, std::u16string_view property) const
@@ -177,7 +177,7 @@ bool DictionaryMetaData_MMappedDictionary::getWordPropertyValues(::std::vector<:
     }
 
     std::vector<int32_t> propertyIdentifiers;
-    if (!getWordPropertyInternalIdentifiers(propertyIdentifiers, word, propertyNameIdentifier)) {
+    if (getWordPropertyInternalIdentifiers(propertyIdentifiers, word, propertyNameIdentifier) != VALUES) {
         // Getting identifiers operation failed, return false
         return false;
     }

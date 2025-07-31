@@ -9,7 +9,7 @@
 /**
  * This class is used for finding resource files (not compiled in).
  */
-class INFLECTION_INTERNAL_API inflection::util::ResourceLocator final
+class inflection::util::ResourceLocator final
 {
 public:
     static ::std::u16string getRootForLocale(const inflection::util::ULocale& locale);

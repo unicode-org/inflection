@@ -24,6 +24,7 @@ private:
         ::std::u16string tenseString {  };
         ::std::u16string personString {  };
         ::std::u16string genderString {  };
+        ::std::u16string animacyString {  };
         ::std::u16string definitenessString {  };
         ::std::u16string pronounCountString {  };
         ::std::u16string pronounGenderString {  };
@@ -38,6 +39,7 @@ private:
     const ::inflection::dialog::SemanticFeature& tenseFeature;
     const ::inflection::dialog::SemanticFeature& personFeature;
     const ::inflection::dialog::SemanticFeature& genderFeature;
+    const ::inflection::dialog::SemanticFeature& animacyFeature;
     const ::inflection::dialog::SemanticFeature& partOfSpeechFeature;
     const ::inflection::dialog::SemanticFeature& definitenessFeature;
     const ::inflection::dialog::SemanticFeature& pronounCountFeature;

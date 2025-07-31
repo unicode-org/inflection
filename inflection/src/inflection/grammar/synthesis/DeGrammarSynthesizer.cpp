@@ -14,12 +14,6 @@
 
 namespace inflection::grammar::synthesis {
 
-const ::std::u16string& DeGrammarSynthesizer::DECLENSION()
-{
-    static auto DECLENSION_ = new ::std::u16string(u"declension");
-    return *npc(DECLENSION_);
-}
-
 const ::std::u16string& DeGrammarSynthesizer::DECLENSION_STRONG()
 {
     static auto DECLENSION_STRONG_ = new ::std::u16string(u"strong");
@@ -37,345 +31,347 @@ const ::std::u16string& DeGrammarSynthesizer::DECLENSION_WEAK()
     static auto DECLENSION_WEAK_ = new ::std::u16string(u"weak");
     return *npc(DECLENSION_WEAK_);
 }
+
 void DeGrammarSynthesizer::addSemanticFeatures(::inflection::dialog::SemanticFeatureModel& model)
 {
     ::std::map<int32_t, ::std::u16string_view> pronouns;
-    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative).value, u"er");
-    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive).value, u"seiner");
-    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative).value, u"ihm");
-    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative).value, u"ihn");
-    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative).value, u"sie");
-    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive).value, u"ihrer");
-    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative).value, u"ihr");
-    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative).value, u"sie");
-    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative).value, u"es");
-    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive).value, u"seiner");
-    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative).value, u"ihm");
-    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative).value, u"es");
-    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative).value, u"sie");
-    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive).value, u"ihrer");
-    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative).value, u"ihnen");
-    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative).value, u"sie");
-    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative).value, u"sie");
-    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive).value, u"ihrer");
-    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative).value, u"ihnen");
-    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative).value, u"sie");
-    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative).value, u"sie");
-    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive).value, u"ihrer");
-    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative).value, u"ihnen");
-    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative).value, u"sie");
+    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative), u"er");
+    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive), u"seiner");
+    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative), u"ihm");
+    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative), u"ihn");
+    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative), u"sie");
+    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive), u"ihrer");
+    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative), u"ihr");
+    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative), u"sie");
+    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative), u"es");
+    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive), u"seiner");
+    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative), u"ihm");
+    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative), u"es");
+    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative), u"sie");
+    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive), u"ihrer");
+    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative), u"ihnen");
+    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative), u"sie");
+    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative), u"sie");
+    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive), u"ihrer");
+    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative), u"ihnen");
+    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative), u"sie");
+    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative), u"sie");
+    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive), u"ihrer");
+    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative), u"ihnen");
+    pronouns.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative), u"sie");
     // TODO PRONOUN and WITH_PRONOUN are deprecated because it conflicts with pos('pronoun'). Remove them in the future. Though it would be better to use PronounConcept instead of this feature anyway.
     model.putDefaultFeatureFunctionByName(PRONOUN, new DeGrammarSynthesizer_ArticleLookupFunction(model, false, pronouns));
     model.putDefaultFeatureFunctionByName(WITH_PRONOUN, new DeGrammarSynthesizer_ArticleLookupFunction(model, true, pronouns));
     model.putDefaultFeatureFunctionByName(POSSESSIVE_PRONOUN, new DeGrammarSynthesizer_ArticleLookupFunction(model, false, pronouns));
     model.putDefaultFeatureFunctionByName(WITH_POSSESSIVE_PRONOUN, new DeGrammarSynthesizer_ArticleLookupFunction(model, true, pronouns));
     ::std::map<int32_t, ::std::u16string_view> defArticles;
-    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative).value, u"der");
-    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive).value, u"des");
-    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative).value, u"dem");
-    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative).value, u"den");
-    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative).value, u"die");
-    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive).value, u"der");
-    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative).value, u"der");
-    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative).value, u"die");
-    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative).value, u"das");
-    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive).value, u"des");
-    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative).value, u"dem");
-    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative).value, u"das");
-    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative).value, u"die");
-    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive).value, u"der");
-    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative).value, u"den");
-    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative).value, u"die");
-    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative).value, u"die");
-    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive).value, u"der");
-    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative).value, u"den");
-    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative).value, u"die");
-    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative).value, u"die");
-    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive).value, u"der");
-    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative).value, u"den");
-    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative).value, u"die");
+    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative), u"der");
+    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive), u"des");
+    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative), u"dem");
+    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative), u"den");
+    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative), u"die");
+    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive), u"der");
+    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative), u"der");
+    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative), u"die");
+    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative), u"das");
+    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive), u"des");
+    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative), u"dem");
+    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative), u"das");
+    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative), u"die");
+    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive), u"der");
+    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative), u"den");
+    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative), u"die");
+    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative), u"die");
+    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive), u"der");
+    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative), u"den");
+    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative), u"die");
+    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative), u"die");
+    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive), u"der");
+    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative), u"den");
+    defArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative), u"die");
     model.putDefaultFeatureFunctionByName(DEF_ARTICLE, new DeGrammarSynthesizer_ArticleLookupFunction(model, false, defArticles));
     ::std::map<int32_t, ::std::u16string_view> defArticlesInPreposition;
-    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative).value, u"in der");
-    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive).value, u"in des");
-    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative).value, u"im");
-    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative).value, u"in den");
-    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative).value, u"in die");
-    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive).value, u"in der");
-    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative).value, u"in der");
-    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative).value, u"in die");
-    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative).value, u"ins");
-    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive).value, u"in des");
-    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative).value, u"im");
-    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative).value, u"ins");
-    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative).value, u"in die");
-    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive).value, u"in der");
-    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative).value, u"in den");
-    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative).value, u"in die");
-    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative).value, u"in die");
-    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive).value, u"in der");
-    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative).value, u"in den");
-    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative).value, u"in die");
-    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative).value, u"in die");
-    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive).value, u"in der");
-    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative).value, u"in den");
-    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative).value, u"in die");
+    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative), u"in der");
+    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive), u"in des");
+    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative), u"im");
+    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative), u"in den");
+    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative), u"in die");
+    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive), u"in der");
+    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative), u"in der");
+    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative), u"in die");
+    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative), u"ins");
+    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive), u"in des");
+    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative), u"im");
+    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative), u"ins");
+    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative), u"in die");
+    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive), u"in der");
+    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative), u"in den");
+    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative), u"in die");
+    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative), u"in die");
+    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive), u"in der");
+    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative), u"in den");
+    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative), u"in die");
+    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative), u"in die");
+    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive), u"in der");
+    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative), u"in den");
+    defArticlesInPreposition.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative), u"in die");
     model.putDefaultFeatureFunctionByName(DEF_ARTICLE_IN_PREPOSITION, new DeGrammarSynthesizer_ArticleLookupFunction(model, false, defArticlesInPreposition));
     model.putDefaultFeatureFunctionByName(WITH_DEF_ARTICLE_IN_PREPOSITION, new DeGrammarSynthesizer_ArticleLookupFunction(model, true, defArticlesInPreposition));
 
     ::std::map<int32_t, ::std::u16string_view> indefArticles;
-    indefArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative).value, u"ein");
-    indefArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive).value, u"eines");
-    indefArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative).value, u"einem");
-    indefArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative).value, u"einen");
-    indefArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative).value, u"eine");
-    indefArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive).value, u"einer");
-    indefArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative).value, u"einer");
-    indefArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative).value, u"eine");
-    indefArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative).value, u"ein");
-    indefArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive).value, u"eines");
-    indefArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative).value, u"einem");
-    indefArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative).value, u"ein");
+    indefArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative), u"ein");
+    indefArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive), u"eines");
+    indefArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative), u"einem");
+    indefArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative), u"einen");
+    indefArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative), u"eine");
+    indefArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive), u"einer");
+    indefArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative), u"einer");
+    indefArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative), u"eine");
+    indefArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative), u"ein");
+    indefArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive), u"eines");
+    indefArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative), u"einem");
+    indefArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative), u"ein");
     model.putDefaultFeatureFunctionByName(INDEF_ARTICLE, new DeGrammarSynthesizer_ArticleLookupFunction(model, false, indefArticles));
     ::std::map<int32_t, ::std::u16string_view> demonstrativeArticles;
-    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative).value, u"dieser");
-    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive).value, u"dieses");
-    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative).value, u"diesem");
-    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative).value, u"diesen");
-    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative).value, u"diese");
-    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive).value, u"dieser");
-    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative).value, u"dieser");
-    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative).value, u"diese");
-    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative).value, u"dieses");
-    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive).value, u"dieses");
-    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative).value, u"diesem");
-    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative).value, u"dieses");
-    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative).value, u"diese");
-    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive).value, u"dieser");
-    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative).value, u"diesen");
-    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative).value, u"diesen");
-    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative).value, u"diese");
-    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive).value, u"dieser");
-    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative).value, u"diesen");
-    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative).value, u"diesen");
-    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative).value, u"diese");
-    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive).value, u"dieser");
-    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative).value, u"diesen");
-    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative).value, u"diesen");
+    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative), u"dieser");
+    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive), u"dieses");
+    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative), u"diesem");
+    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative), u"diesen");
+    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative), u"diese");
+    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive), u"dieser");
+    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative), u"dieser");
+    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative), u"diese");
+    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative), u"dieses");
+    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive), u"dieses");
+    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative), u"diesem");
+    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative), u"dieses");
+    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative), u"diese");
+    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive), u"dieser");
+    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative), u"diesen");
+    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative), u"diesen");
+    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative), u"diese");
+    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive), u"dieser");
+    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative), u"diesen");
+    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative), u"diesen");
+    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative), u"diese");
+    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive), u"dieser");
+    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative), u"diesen");
+    demonstrativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative), u"diesen");
     model.putDefaultFeatureFunctionByName(DEMON_ARTICLE, new DeGrammarSynthesizer_ArticleLookupFunction(model, false, demonstrativeArticles));
     model.putDefaultFeatureFunctionByName(WITH_DEMON_ARTICLE, new DeGrammarSynthesizer_ArticleLookupFunction(model, true, demonstrativeArticles));
     ::std::map<int32_t, ::std::u16string_view> negatedArticles;
-    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative).value, u"kein");
-    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive).value, u"keines");
-    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative).value, u"keinem");
-    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative).value, u"keinen");
-    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative).value, u"keine");
-    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive).value, u"keiner");
-    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative).value, u"keiner");
-    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative).value, u"keine");
-    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative).value, u"kein");
-    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive).value, u"keines");
-    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative).value, u"keinem");
-    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative).value, u"kein");
-    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative).value, u"keine");
-    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive).value, u"keiner");
-    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative).value, u"keinen");
-    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative).value, u"keine");
-    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative).value, u"keine");
-    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive).value, u"keiner");
-    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative).value, u"keinen");
-    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative).value, u"keine");
-    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative).value, u"keine");
-    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive).value, u"keiner");
-    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative).value, u"keinen");
-    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative).value, u"keine");
+    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative), u"kein");
+    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive), u"keines");
+    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative), u"keinem");
+    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative), u"keinen");
+    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative), u"keine");
+    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive), u"keiner");
+    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative), u"keiner");
+    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative), u"keine");
+    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative), u"kein");
+    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive), u"keines");
+    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative), u"keinem");
+    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative), u"kein");
+    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative), u"keine");
+    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive), u"keiner");
+    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative), u"keinen");
+    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative), u"keine");
+    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative), u"keine");
+    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive), u"keiner");
+    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative), u"keinen");
+    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative), u"keine");
+    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative), u"keine");
+    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive), u"keiner");
+    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative), u"keinen");
+    negatedArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative), u"keine");
     model.putDefaultFeatureFunctionByName(NEG_ARTICLE, new DeGrammarSynthesizer_ArticleLookupFunction(model, false, negatedArticles));
     model.putDefaultFeatureFunctionByName(WITH_NEG_ARTICLE, new DeGrammarSynthesizer_ArticleLookupFunction(model, true, negatedArticles));
     ::std::map<int32_t, ::std::u16string_view> possessiveArticles;
-    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative).value, u"dein");
-    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive).value, u"deines");
-    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative).value, u"deinem");
-    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative).value, u"deinen");
-    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative).value, u"deine");
-    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive).value, u"deiner");
-    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative).value, u"deiner");
-    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative).value, u"deine");
-    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative).value, u"dein");
-    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive).value, u"deines");
-    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative).value, u"deinem");
-    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative).value, u"dein");
-    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative).value, u"deine");
-    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive).value, u"deiner");
-    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative).value, u"deinen");
-    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative).value, u"deine");
-    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative).value, u"deine");
-    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive).value, u"deiner");
-    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative).value, u"deinen");
-    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative).value, u"deine");
-    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative).value, u"deine");
-    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive).value, u"deiner");
-    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative).value, u"deinen");
-    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative).value, u"deine");
+    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative), u"dein");
+    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive), u"deines");
+    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative), u"deinem");
+    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative), u"deinen");
+    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative), u"deine");
+    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive), u"deiner");
+    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative), u"deiner");
+    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative), u"deine");
+    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative), u"dein");
+    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive), u"deines");
+    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative), u"deinem");
+    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative), u"dein");
+    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative), u"deine");
+    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive), u"deiner");
+    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative), u"deinen");
+    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative), u"deine");
+    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative), u"deine");
+    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive), u"deiner");
+    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative), u"deinen");
+    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative), u"deine");
+    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative), u"deine");
+    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive), u"deiner");
+    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative), u"deinen");
+    possessiveArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative), u"deine");
     model.putDefaultFeatureFunctionByName(POSS_ARTICLE, new DeGrammarSynthesizer_ArticleLookupFunction(model, false, possessiveArticles));
     model.putDefaultFeatureFunctionByName(WITH_POSS_ARTICLE, new DeGrammarSynthesizer_ArticleLookupFunction(model, true, possessiveArticles));
     ::std::map<int32_t, ::std::u16string_view> interrogativeArticles;
-    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative).value, u"welcher");
-    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive).value, u"welches");
-    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative).value, u"welchem");
-    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative).value, u"welchen");
-    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative).value, u"welche");
-    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive).value, u"welcher");
-    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative).value, u"welcher");
-    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative).value, u"welche");
-    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative).value, u"welches");
-    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive).value, u"welches");
-    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative).value, u"welchem");
-    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative).value, u"welches");
-    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative).value, u"welche");
-    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive).value, u"welcher");
-    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative).value, u"welchen");
-    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative).value, u"welche");
-    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative).value, u"welche");
-    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive).value, u"welcher");
-    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative).value, u"welchen");
-    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative).value, u"welche");
-    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative).value, u"welche");
-    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive).value, u"welcher");
-    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative).value, u"welchen");
-    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative).value, u"welche");
+    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative), u"welcher");
+    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive), u"welches");
+    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative), u"welchem");
+    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative), u"welchen");
+    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative), u"welche");
+    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive), u"welcher");
+    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative), u"welcher");
+    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative), u"welche");
+    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative), u"welches");
+    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive), u"welches");
+    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative), u"welchem");
+    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative), u"welches");
+    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative), u"welche");
+    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive), u"welcher");
+    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative), u"welchen");
+    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative), u"welche");
+    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative), u"welche");
+    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive), u"welcher");
+    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative), u"welchen");
+    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative), u"welche");
+    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative), u"welche");
+    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive), u"welcher");
+    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative), u"welchen");
+    interrogativeArticles.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative), u"welche");
     model.putDefaultFeatureFunctionByName(INTERROGATIVE_ARTICLE, new DeGrammarSynthesizer_ArticleLookupFunction(model, false, interrogativeArticles));
     model.putDefaultFeatureFunctionByName(WITH_INTERROGATIVE_ARTICLE, new DeGrammarSynthesizer_ArticleLookupFunction(model, true, interrogativeArticles));
     ::std::map<int32_t, ::std::u16string_view> strongSuffixes;
-    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative).value, u"er");
-    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive).value, u"en");
-    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative).value, u"em");
-    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative).value, u"en");
-    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative).value, u"e");
-    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive).value, u"er");
-    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative).value, u"er");
-    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative).value, u"e");
-    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative).value, u"es");
-    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive).value, u"en");
-    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative).value, u"em");
-    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative).value, u"es");
-    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative).value, u"e");
-    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive).value, u"er");
-    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative).value, u"en");
-    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative).value, u"e");
-    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative).value, u"e");
-    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive).value, u"er");
-    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative).value, u"en");
-    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative).value, u"e");
-    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative).value, u"e");
-    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive).value, u"er");
-    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative).value, u"en");
-    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative).value, u"e");
+    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative), u"er");
+    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive), u"en");
+    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative), u"em");
+    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative), u"en");
+    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative), u"e");
+    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive), u"er");
+    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative), u"er");
+    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative), u"e");
+    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative), u"es");
+    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive), u"en");
+    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative), u"em");
+    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative), u"es");
+    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative), u"e");
+    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive), u"er");
+    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative), u"en");
+    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative), u"e");
+    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative), u"e");
+    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive), u"er");
+    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative), u"en");
+    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative), u"e");
+    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative), u"e");
+    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive), u"er");
+    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative), u"en");
+    strongSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative), u"e");
     ::std::map<int32_t, ::std::u16string_view> weakSuffixes;
-    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative).value, u"e");
-    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive).value, u"en");
-    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative).value, u"en");
-    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative).value, u"en");
-    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative).value, u"e");
-    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive).value, u"en");
-    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative).value, u"en");
-    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative).value, u"e");
-    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative).value, u"e");
-    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive).value, u"en");
-    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative).value, u"en");
-    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative).value, u"e");
-    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative).value, u"en");
-    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive).value, u"en");
-    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative).value, u"en");
-    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative).value, u"en");
-    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative).value, u"en");
-    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive).value, u"en");
-    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative).value, u"en");
-    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative).value, u"en");
-    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative).value, u"en");
-    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive).value, u"en");
-    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative).value, u"en");
-    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative).value, u"en");
+    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative), u"e");
+    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive), u"en");
+    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative), u"en");
+    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative), u"en");
+    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative), u"e");
+    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive), u"en");
+    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative), u"en");
+    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative), u"e");
+    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative), u"e");
+    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive), u"en");
+    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative), u"en");
+    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative), u"e");
+    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative), u"en");
+    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive), u"en");
+    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative), u"en");
+    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative), u"en");
+    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative), u"en");
+    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive), u"en");
+    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative), u"en");
+    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative), u"en");
+    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative), u"en");
+    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive), u"en");
+    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative), u"en");
+    weakSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative), u"en");
     ::std::map<int32_t, ::std::u16string_view> mixedSuffixes;
-    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative).value, u"er");
-    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive).value, u"en");
-    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative).value, u"en");
-    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative).value, u"en");
-    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative).value, u"e");
-    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive).value, u"en");
-    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative).value, u"en");
-    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative).value, u"e");
-    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative).value, u"es");
-    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive).value, u"en");
-    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative).value, u"en");
-    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative).value, u"es");
-    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative).value, u"en");
-    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive).value, u"en");
-    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative).value, u"en");
-    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative).value, u"en");
-    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative).value, u"en");
-    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive).value, u"en");
-    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative).value, u"en");
-    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative).value, u"en");
-    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative).value, u"en");
-    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive).value, u"en");
-    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative).value, u"en");
-    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Count::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative).value, u"en");
+    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative), u"er");
+    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive), u"en");
+    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative), u"en");
+    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative), u"en");
+    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative), u"e");
+    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive), u"en");
+    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative), u"en");
+    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative), u"e");
+    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative), u"es");
+    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive), u"en");
+    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative), u"en");
+    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative), u"es");
+    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative), u"en");
+    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive), u"en");
+    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative), u"en");
+    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative), u"en");
+    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative), u"en");
+    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive), u"en");
+    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative), u"en");
+    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative), u"en");
+    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative), u"en");
+    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive), u"en");
+    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative), u"en");
+    mixedSuffixes.emplace(makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative), u"en");
     model.putDefaultFeatureFunctionByName(GrammemeConstants::GENDER, new ::inflection::dialog::DictionaryLookupFunction(::inflection::util::LocaleUtils::GERMAN(), {GrammemeConstants::GENDER_FEMININE(), GrammemeConstants::GENDER_MASCULINE(), GrammemeConstants::GENDER_NEUTER()}));
     model.putDefaultFeatureFunctionByName(GrammemeConstants::NUMBER, new ::inflection::dialog::DictionaryLookupFunction(::inflection::util::LocaleUtils::GERMAN(), {GrammemeConstants::NUMBER_SINGULAR(), GrammemeConstants::NUMBER_PLURAL()}));
     model.setDefaultDisplayFunction(new DeGrammarSynthesizer_DeDisplayFunction(model, strongSuffixes, weakSuffixes, mixedSuffixes));
 }
 
-DeGrammarSynthesizer::Count DeGrammarSynthesizer::getCount(const ::std::u16string* value) {
-    static auto valueMap = new ::std::map<::std::u16string, DeGrammarSynthesizer::Count>({
-        {GrammemeConstants::NUMBER_SINGULAR(), Count::singular},
-        {GrammemeConstants::NUMBER_PLURAL(), Count::plural}
-    });
+DeGrammarSynthesizer::Number DeGrammarSynthesizer::getNumber(const ::std::u16string* value) {
     if (value != nullptr) {
-        auto result = npc(valueMap)->find(*npc(value));
-        if (result != npc(valueMap)->end()) {
-            return result->second;
+        const auto& valRef = *value;
+        if (valRef == GrammemeConstants::NUMBER_SINGULAR()) {
+            return Number::singular;
+        }
+        if (valRef == GrammemeConstants::NUMBER_PLURAL()) {
+            return Number::plural;
         }
     }
-    return Count::undefined;
+    return Number::undefined;
 }
 
 DeGrammarSynthesizer::Gender DeGrammarSynthesizer::getGender(const ::std::u16string* value) {
-    static auto valueMap = new ::std::map<::std::u16string, DeGrammarSynthesizer::Gender>({
-        {GrammemeConstants::GENDER_MASCULINE(), Gender::masculine},
-        {GrammemeConstants::GENDER_FEMININE(), Gender::feminine},
-        {GrammemeConstants::GENDER_NEUTER(), Gender::neuter}
-    });
     if (value != nullptr) {
-        auto result = npc(valueMap)->find(*npc(value));
-        if (result != npc(valueMap)->end()) {
-            return result->second;
+        const auto& valRef = *value;
+        if (valRef == GrammemeConstants::GENDER_MASCULINE()) {
+            return Gender::masculine;
+        }
+        if (valRef == GrammemeConstants::GENDER_FEMININE()) {
+            return Gender::feminine;
+        }
+        if (valRef == GrammemeConstants::GENDER_NEUTER()) {
+            return Gender::neuter;
         }
     }
     return Gender::undefined;
 }
 
 DeGrammarSynthesizer::Case DeGrammarSynthesizer::getCase(const ::std::u16string* value) {
-    static auto valueMap = new ::std::map<::std::u16string, DeGrammarSynthesizer::Case>({
-        {GrammemeConstants::CASE_NOMINATIVE(), Case::nominative},
-        {GrammemeConstants::CASE_ACCUSATIVE(), Case::accusative},
-        {GrammemeConstants::CASE_DATIVE(), Case::dative},
-        {GrammemeConstants::CASE_GENITIVE(), Case::genitive}
-    });
     if (value != nullptr) {
-        auto result = npc(valueMap)->find(*npc(value));
-        if (result != npc(valueMap)->end()) {
-            return result->second;
+        const auto& valRef = *value;
+        if (valRef == GrammemeConstants::CASE_NOMINATIVE()) {
+            return Case::nominative;
+        }
+        if (valRef == GrammemeConstants::CASE_ACCUSATIVE()) {
+            return Case::accusative;
+        }
+        if (valRef == GrammemeConstants::CASE_DATIVE()) {
+            return Case::dative;
+        }
+        if (valRef == GrammemeConstants::CASE_GENITIVE()) {
+            return Case::genitive;
         }
     }
     return Case::undefined;
 }
 
-DeGrammarSynthesizer::LookupKey DeGrammarSynthesizer::makeLookupKey(Count field0, Gender field1, Case field2) {
-    LookupKey retVal {.value = 0};
-    retVal.fields.field0 = (uint8_t)field0;
-    retVal.fields.field1 = (uint8_t)field1;
-    retVal.fields.field2 = (uint8_t)field2;
-    return retVal;
+DeGrammarSynthesizer::LookupKey DeGrammarSynthesizer::makeLookupKey(Number field0, Gender field1, Case field2) {
+    return (static_cast<LookupKey>(field2) << 8)
+        | (static_cast<LookupKey>(field1) << 4)
+        | static_cast<LookupKey>(field0);
 }
 
 } // namespace inflection::grammar::synthesis

@@ -26,7 +26,7 @@
     <test><source number="singular" definiteness="indefinite">belte</source><result>belte</result></test>
     <test><source number="singular" definiteness="definite">belte</source><result>beltet</result></test>
     <test><source number="plural" definiteness="indefinite">belte</source><result>belter</result></test>
-    <test><source number="plural" definiteness="definite">belte</source><result>beltene</result></test> <!-- beltene or belta -->
+    <test><source number="plural" definiteness="definite">belte</source><result>belta</result></test> <!-- beltene or belta -->
     <test><source number="plural" definiteness="definite">belta</source><result>belta</result></test> <!-- Don't switch belta to the alternative beltene -->
     <test><source number="plural" definiteness="definite">beltene</source><result>beltene</result></test>
     <test><source number="singular" definiteness="indefinite">høyest administrasjon</source><result>høyest administrasjon</result></test>
@@ -36,7 +36,7 @@
     <test><source number="singular" definiteness="indefinite">høyest belte</source><result>høyest belte</result></test>
     <test><source number="singular" definiteness="definite">høyest belte</source><result>høyeste beltet</result></test>
     <test><source number="plural" definiteness="indefinite">høyest belte</source><result>høyeste belter</result></test>
-    <test><source number="plural" definiteness="definite">høyest belte</source><result>høyeste beltene</result></test>
+    <test><source number="plural" definiteness="definite">høyest belte</source><result>høyeste belta</result></test> <!-- beltene or belta -->
     <test><source number="plural">belte</source><result>belter</result></test>
     <test><source definiteness="definite">administrasjon</source><result>administrasjonen</result></test>
     <test><source>belte</source><result>belte</result></test>
@@ -44,7 +44,7 @@
     <test><source number="singular" definiteness="indefinite" case="genitive">belte</source><result>beltes</result></test>
     <test><source number="singular" definiteness="definite" case="genitive">belte</source><result>beltets</result></test>
     <test><source number="plural" definiteness="indefinite" case="genitive">belte</source><result>belters</result></test>
-    <test><source number="plural" definiteness="definite" case="genitive">belte</source><result>beltenes</result></test>
+    <test><source number="plural" definiteness="definite" case="genitive">belte</source><result>beltas</result></test> <!-- beltenes or beltas -->
     <test><source case="genitive">ås</source><result>ås’</result></test>
     <test><source case="genitive">jazz</source><result>jazz’</result></test>
     <test><source case="genitive">crux</source><result>crux’</result></test>
@@ -234,7 +234,7 @@
     <test><source number="singular" definiteness="definite" gender="masculine">mor</source><result>moren</result></test>
     <test><source number="singular" definiteness="definite" gender="masculine">moren</source><result>moren</result></test>
     <test><source number="singular" definiteness="definite" gender="feminine">mor</source><result>mora</result></test>
-    <test><source number="singular" definiteness="definite">mor</source><result>moren</result></test>
+    <test><source number="singular" definiteness="definite">mor</source><result>mora</result></test>
     <test><source number="singular" definiteness="definite">moren</source><result>moren</result></test>
     <test><source number="singular" definiteness="indefinite">mor</source><result>mor</result></test>
     <test><source number="singular" definiteness="indefinite">moren</source><result>mor</result></test>

@@ -50,7 +50,7 @@ DeGrammarSynthesizer_ArticleLookupFunction::~DeGrammarSynthesizer_ArticleLookupF
 inflection::dialog::SpeakableString* DeGrammarSynthesizer_ArticleLookupFunction::getFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& /*constraints*/) const
 {
     auto lookupKey = getArticleKey(&displayValue);
-    auto preposition = articleMap.find(lookupKey.value);
+    auto preposition = articleMap.find(lookupKey);
     if (preposition == articleMap.end()) {
         return createPreposition(displayValue, ::std::u16string());
     }
@@ -60,10 +60,10 @@ inflection::dialog::SpeakableString* DeGrammarSynthesizer_ArticleLookupFunction:
 DeGrammarSynthesizer::LookupKey DeGrammarSynthesizer_ArticleLookupFunction::getArticleKey(const ::inflection::dialog::DisplayValue* displayValue) const
 {
     auto caseValue = DeGrammarSynthesizer::getCase(npc(displayValue)->getFeatureValue(*npc(caseFeature)));
-    auto countValue = DeGrammarSynthesizer::getCount(npc(displayValue)->getFeatureValue(*npc(countFeature)));
+    auto countValue = DeGrammarSynthesizer::getNumber(npc(displayValue)->getFeatureValue(*npc(countFeature)));
     auto genderValue = DeGrammarSynthesizer::getGender(npc(displayValue)->getFeatureValue(*npc(genderFeature)));
     int64_t phraseType = 0;
-    if (countValue == DeGrammarSynthesizer::Count::undefined || genderValue == DeGrammarSynthesizer::Gender::undefined) {
+    if (countValue == DeGrammarSynthesizer::Number::undefined || genderValue == DeGrammarSynthesizer::Gender::undefined) {
         auto displayString = npc(displayValue)->getDisplayString();
         if (dictionary.getCombinedBinaryType(&phraseType, displayString) == nullptr) {
             ::std::unique_ptr<::inflection::tokenizer::TokenChain> words(npc(tokenizer.get())->createTokenChain(displayString));
@@ -75,12 +75,12 @@ DeGrammarSynthesizer::LookupKey DeGrammarSynthesizer_ArticleLookupFunction::getA
     if (caseValue == DeGrammarSynthesizer::Case::undefined) {
         caseValue = DeGrammarSynthesizer::Case::nominative;
     }
-    if (countValue == DeGrammarSynthesizer::Count::undefined) {
+    if (countValue == DeGrammarSynthesizer::Number::undefined) {
         if (phraseType != 0 && (phraseType & dictionaryCount) == dictionaryPlural) {
-            countValue = DeGrammarSynthesizer::Count::plural;
+            countValue = DeGrammarSynthesizer::Number::plural;
         }
         else {
-            countValue = DeGrammarSynthesizer::Count::singular;
+            countValue = DeGrammarSynthesizer::Number::singular;
         }
     }
     if (genderValue == DeGrammarSynthesizer::Gender::undefined && phraseType != 0) {

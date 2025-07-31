@@ -13,12 +13,12 @@ class inflection::grammar::synthesis::DeGrammarSynthesizer final
 public:
     static void addSemanticFeatures(::inflection::dialog::SemanticFeatureModel& model);
 
-    enum class Count {
+    enum class Number {
         undefined,
         singular,
         plural
     };
-    static Count getCount(const ::std::u16string* value);
+    static Number getNumber(const ::std::u16string* value);
 
     enum class Gender {
         undefined,
@@ -37,15 +37,8 @@ public:
     };
     static Case getCase(const ::std::u16string* value);
 
-    union LookupKey {
-        struct {
-            uint8_t field0 : 4;
-            uint8_t field1 : 4;
-            uint8_t field2 : 4;
-        } fields;
-        uint32_t value;
-    };
-    static LookupKey makeLookupKey(Count field0, Gender field1, Case field2);
+    typedef uint32_t LookupKey;
+    static LookupKey makeLookupKey(Number field0, Gender field1, Case field2);
 
 private:
     DeGrammarSynthesizer() = default;
@@ -67,7 +60,7 @@ public:
     static constexpr auto WITH_POSS_ARTICLE = u"withPossArticle";
     static constexpr auto WITH_DEMON_ARTICLE = u"withDemonArticle";
     static constexpr auto WITH_INTERROGATIVE_ARTICLE = u"withInterrogativeArticle";
-    static const ::std::u16string& DECLENSION();
+    static constexpr auto DECLENSION = u"declension";
     static const ::std::u16string& DECLENSION_STRONG();
     static const ::std::u16string& DECLENSION_MIXED();
     static const ::std::u16string& DECLENSION_WEAK();

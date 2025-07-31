@@ -28,6 +28,7 @@ private:
 public:
     ::std::vector<Inflector_Inflection> constrain(const ::std::vector<::std::u16string>& constraints) const;
     ::std::vector<Inflector_Inflection> constrain(const ::std::vector<::std::u16string>& constraints, bool isSuperset) const;
+    void getLemmaSuffixMatches(::std::vector<Inflector_Inflection>& results) const;
 private:
     ::std::optional<Inflector_Inflection> getMatchingLemmaInflection(const ::std::vector<Inflector_Inflection>& inflections) const;
 public:

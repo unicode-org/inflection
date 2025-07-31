@@ -32,12 +32,12 @@ public:
         INSTRUMENTAL
     };
     static Case getCase(const ::std::u16string* str);
-    enum class Count {
+    enum class Number {
         undefined,
         SINGULAR,
         PLURAL
     };
-    static Count getCount(const ::std::u16string* str);
+    static Number getNumber(const ::std::u16string* str);
     enum class Person {
         undefined,
         FIRST,
@@ -69,15 +69,9 @@ private:
     TrGrammarSynthesizer() = delete;
 
 public:
-    static const ::std::u16string& PRONOUN();
-    static const ::std::u16string& PRONOUN_NUMBER();
-    static const ::std::u16string& COPULA();
-    static const ::std::u16string& TENSE();
-    static const ::std::u16string& COPULA_FIRST();
-    static const ::std::u16string& COPULA_SECOND();
-    static const ::std::u16string& COPULA_THIRD();
-    static const ::std::u16string& TENSE_PRESENT();
-    static const ::std::u16string& TENSE_PAST();
+    static constexpr auto PRONOUN = u"pronoun";
+    static constexpr auto PRONOUN_NUMBER = u"pronounNumber";
+    static constexpr auto COPULA = u"copula";
     static constexpr auto INTERROGATIVE_ARTICLE = u"interrogativeArticle";
     static constexpr auto DE_CONJUNCTION = u"deConjunction";
     static const ::icu4cxx::UnicodeSet& SEPARATOR_SPLITTER();

@@ -64,7 +64,7 @@ INFLECTION_CAPI IDSpeakableString* iccf_quantifyCopy(const IDCommonConceptFactor
 INFLECTION_CAPI IDSpeakableString* iccf_quantifyFormattedCopy(const IDCommonConceptFactory* thisObject, const IDNumberConcept* number, const IDSpeakableString* formattedNumber, const IDSemanticFeatureConcept* semanticConcept, UErrorCode* status) {
     if (status != nullptr && U_SUCCESS(*status)) {
         try {
-            return (IDSpeakableString*)(npc((const ::inflection::dialog::CommonConceptFactory*)thisObject)->quantify(*npc((const inflection::dialog::NumberConcept*) number),*npc((const inflection::dialog::SpeakableString*) formattedNumber),(const inflection::dialog::SemanticFeatureConceptBase*) semanticConcept));
+            return (IDSpeakableString*)(npc((const ::inflection::dialog::CommonConceptFactory*)thisObject)->quantifyFormatted(*npc((const inflection::dialog::NumberConcept*) number),*npc((const inflection::dialog::SpeakableString*) formattedNumber),(const inflection::dialog::SemanticFeatureConceptBase*) semanticConcept));
         }
         catch (const ::std::exception& e) {
             inflection::util::TypeConversionUtils::convert(e, status);

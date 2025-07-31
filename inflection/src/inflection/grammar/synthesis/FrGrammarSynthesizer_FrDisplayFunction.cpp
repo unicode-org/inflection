@@ -106,8 +106,8 @@ bool FrGrammarSynthesizer_FrDisplayFunction::canBeInflectedToPlural(::std::u16st
 ::std::optional<::std::u16string> FrGrammarSynthesizer_FrDisplayFunction::inflectWord(::std::u16string_view word, int64_t wordGrammemes, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const
 {
     const auto constraintsVec(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {&numberFeature, &genderFeature}));
-    const auto dismbiguationGrammemeValues(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {&partOfSpeechFeature}));
-    auto inflectionResult = dictionaryInflector.inflect(word, wordGrammemes, constraintsVec, dismbiguationGrammemeValues);
+    const auto disambiguationGrammemeValues(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {&partOfSpeechFeature}));
+    auto inflectionResult = dictionaryInflector.inflect(word, wordGrammemes, constraintsVec, disambiguationGrammemeValues);
     if (inflectionResult) {
         return *inflectionResult;
     }

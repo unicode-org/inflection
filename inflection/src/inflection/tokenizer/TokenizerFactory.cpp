@@ -38,9 +38,9 @@ static std::mutex& CLASS_MUTEX() {
     return *npc(classMutex);
 }
 
-::std::map<::std::string, const Tokenizer*>* TOKENIZER_CACHE()
+::std::map<::std::string, const Tokenizer*, std::less<>>* TOKENIZER_CACHE()
 {
-    static auto TOKENIZER_CACHE_ = new ::std::map<::std::string, const Tokenizer*>();
+    static auto TOKENIZER_CACHE_ = new ::std::map<::std::string, const Tokenizer*, std::less<>>();
     return TOKENIZER_CACHE_;
 }
 

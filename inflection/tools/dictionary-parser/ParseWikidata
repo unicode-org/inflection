@@ -1,4 +1,4 @@
-#
+#!/bin/bash
 # Copyright 2025 Unicode Incorporated and others. All rights reserved.
 # Copyright 2020-2024 Apple Inc. All rights reserved.
 #
@@ -7,4 +7,27 @@ if [ ! -e "$JAR" ]
 then
     ../../gradlew clean fatJar >&2
 fi
-java -Dfile.encoding=UTF-8 -cp $JAR org.unicode.wikidata.ParseWikidata $*
+RUN_COMMAND="java -Dfile.encoding=UTF-8 -cp $JAR org.unicode.wikidata.ParseWikidata"
+if [[ $# -eq 2 && $1 == "--all" ]]; then
+    COMMAND_OPTS_PREFIX="^generated with options: *"
+    LEXEME_FILE=$2
+    if [[ ! "$LEXEME_FILE" =~ \.json$ ]]; then
+        echo "For faster parsing, use the decompressed form of $LEXEME_FILE"
+    fi
+    SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
+    LEXICAL_DIR=$(realpath $SCRIPT_DIR/../..)/resources/org/unicode/inflection/dictionary
+    for DICTIONARY in `ls $LEXICAL_DIR/dictionary*.lst`
+    do
+        LANGUAGE=`echo $DICTIONARY | sed 's/^.*_//;s/\.lst//'`
+        LAST_LINE=`tail -1 $DICTIONARY`
+        if [[ "$LAST_LINE" =~ $COMMAND_OPTS_PREFIX ]]; then
+            OPTIONS=`echo $LAST_LINE | sed "s/$COMMAND_OPTS_PREFIX//"`
+            echo Generating $LANGUAGE from $LEXEME_FILE
+            $RUN_COMMAND $OPTIONS --inflections $LEXICAL_DIR/inflectional_${LANGUAGE}.xml --dictionary $LEXICAL_DIR/dictionary_${LANGUAGE}.lst $LEXEME_FILE
+        else
+            echo skipping $LANGUAGE
+        fi
+    done
+else
+    $RUN_COMMAND $*
+fi

@@ -26,7 +26,7 @@ NlGrammarSynthesizer_ArticleLookupFunction::NlGrammarSynthesizer_ArticleLookupFu
     , tokenizer(npc(::inflection::tokenizer::TokenizerFactory::createTokenizer(::inflection::util::LocaleUtils::DUTCH())))
     , countFeature(*npc(model.getFeature(GrammemeConstants::NUMBER)))
     , genderFeature(*npc(model.getFeature(GrammemeConstants::GENDER)))
-    , sizeFeature(*npc(model.getFeature(NlGrammarSynthesizer::SIZENESS())))
+    , sizeFeature(*npc(model.getFeature(GrammemeConstants::SIZENESS)))
     , defaultString(defaultString)
     , singularNeuterString(singularNeuterString)
 {
@@ -49,7 +49,7 @@ inflection::dialog::SpeakableString* NlGrammarSynthesizer_ArticleLookupFunction:
     auto countValue = NlGrammarSynthesizer::getNumber(getDisplayFeatureValue(displayValue, countFeature));
     auto genderValue = NlGrammarSynthesizer::getGender(getDisplayFeatureValue(displayValue, genderFeature));
     auto diminutiveValue = displayValue.getFeatureValue(sizeFeature);
-    auto isDiminutive = diminutiveValue != nullptr && NlGrammarSynthesizer::SIZENESS_DIMINUTIVE() == *npc(diminutiveValue);
+    auto isDiminutive = diminutiveValue != nullptr && GrammemeConstants::SIZENESS_DIMINUTIVE() == *npc(diminutiveValue);
     if (countValue == NlGrammarSynthesizer::Number::undefined || genderValue == NlGrammarSynthesizer::Gender::undefined) {
         const auto& displayString = displayValue.getDisplayString();
         int64_t phraseType = 0;

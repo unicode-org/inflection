@@ -60,32 +60,32 @@ inflection::dialog::SpeakableString* PtGrammarSynthesizer_ArticleLookupFunction:
         }
     }
     const auto &displayString = displayValue.getDisplayString();
-    auto countValue = PtGrammarSynthesizer::getCount(displayValue.getFeatureValue(*npc(countFeature)));
-    if (countValue == PtGrammarSynthesizer::Count::undefined) {
+    auto countValue = PtGrammarSynthesizer::getNumber(displayValue.getFeatureValue(*npc(countFeature)));
+    if (countValue == PtGrammarSynthesizer::Number::undefined) {
         auto value(countLookupFunction.determine(displayString));
-        countValue = PtGrammarSynthesizer::getCount(&value);
+        countValue = PtGrammarSynthesizer::getNumber(&value);
     }
     auto genderValue = PtGrammarSynthesizer::getGender(displayValue.getFeatureValue(*npc(genderFeature)));
     if (genderValue == PtGrammarSynthesizer::Gender::undefined) {
         auto value(genderLookupFunction.determine(displayString));
         genderValue = PtGrammarSynthesizer::getGender(&value);
     }
-    if (PtGrammarSynthesizer::Count::singular == countValue && PtGrammarSynthesizer::Gender::masculine == genderValue) {
+    if (PtGrammarSynthesizer::Number::singular == countValue && PtGrammarSynthesizer::Gender::masculine == genderValue) {
         return createPreposition(displayValue, singularMasculineString);
     }
-    if (PtGrammarSynthesizer::Count::singular == countValue && PtGrammarSynthesizer::Gender::feminine == genderValue) {
+    if (PtGrammarSynthesizer::Number::singular == countValue && PtGrammarSynthesizer::Gender::feminine == genderValue) {
         return createPreposition(displayValue, singularFeminineString);
     }
-    if (PtGrammarSynthesizer::Count::plural == countValue && PtGrammarSynthesizer::Gender::masculine == genderValue) {
+    if (PtGrammarSynthesizer::Number::plural == countValue && PtGrammarSynthesizer::Gender::masculine == genderValue) {
         return createPreposition(displayValue, pluralMasculineString);
     }
-    if (PtGrammarSynthesizer::Count::plural == countValue && PtGrammarSynthesizer::Gender::feminine == genderValue) {
+    if (PtGrammarSynthesizer::Number::plural == countValue && PtGrammarSynthesizer::Gender::feminine == genderValue) {
         return createPreposition(displayValue, pluralFeminineString);
     }
-    if (PtGrammarSynthesizer::Count::singular == countValue) {
+    if (PtGrammarSynthesizer::Number::singular == countValue) {
         return createPreposition(displayValue, defaultSingularString);
     }
-    if (PtGrammarSynthesizer::Count::plural == countValue) {
+    if (PtGrammarSynthesizer::Number::plural == countValue) {
         return createPreposition(displayValue, defaultPluralString);
     }
     return createPreposition(displayValue, defaultString);

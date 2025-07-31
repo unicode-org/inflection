@@ -13,7 +13,6 @@
 #include <inflection/util/Validate.hpp>
 #include <marisa/trie.h>
 #include <marisa/iostream.h>
-#include <cstring>
 #include <iosfwd>
 #include <map>
 #include <memory>

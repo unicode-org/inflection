@@ -31,7 +31,7 @@ private: /* protected */
     ::std::set<::std::u16string_view> fugenelements_replaceable {  };
     ::std::vector<::std::u16string_view> replacements {  };
     ::std::vector<::std::u16string_view> fugenelements_negative {  };
-    ::std::set<::std::u16string> fugenelements {  };  // TODO:  Make this a set<u16string_view>
+    ::std::set<::std::u16string, std::less<>> fugenelements {  };
 
 public:
     bool isFugenelement(std::u16string_view key) const;

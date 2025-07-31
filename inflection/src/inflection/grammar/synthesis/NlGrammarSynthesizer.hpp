@@ -49,12 +49,9 @@ private:
     NlGrammarSynthesizer() = delete;
 
 public:
-    static const ::std::u16string& SIZENESS();
-    static const ::std::u16string& DECLENSION();
+    static constexpr auto DECLENSION = u"declension";
     static const ::std::u16string& DECLENSION_UNDECLINED();
     static const ::std::u16string& DECLENSION_DECLINED();
-    static const ::std::u16string& SIZENESS_DIMINUTIVE();
-    static const ::std::u16string& SIZENESS_UNSIZED();
     static constexpr auto DE = u"de";
     static constexpr auto DEZE = u"deze";
     static constexpr auto DIE = u"die";

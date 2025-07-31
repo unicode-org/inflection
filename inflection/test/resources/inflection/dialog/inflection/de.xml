@@ -280,7 +280,7 @@
     <test><source case="dative" number="plural">regulärer Zeit</source><result exists="true">regulären Zeiten</result></test>
     <test><source case="genitive" declension="mixed">reguläre Zeit</source><result exists="true">regulären Zeit</result></test>
 
-    <test><source case="nominative">motorisierten Fenstern</source><result exists="true">motorisierte Fenster</result></test>
+    <test><source case="nominative">motorisierten Fenstern</source><result exists="true">motorisiertes Fenster</result></test>
     <test><source number="plural">motorisiertes Fenster</source><result exists="true">motorisierte Fenster</result></test>
 
     <test><source case="accusative" gender="feminine">neuen Benutzer</source><result exists="true">neue Benutzerin</result></test>

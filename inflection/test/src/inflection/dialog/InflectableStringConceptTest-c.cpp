@@ -431,5 +431,5 @@ TEST_CASE("InflectableStringConceptTest-c#testError")
     isfc_toSpeakableStringWithDependencyCopy(nullptr, nullptr, &error);
     checkForFailure(&error);
     iinf_toInflectableStringConcept(nullptr, &error);
-    checkForFailure(&error);}
-
+    checkForFailure(&error);
+}

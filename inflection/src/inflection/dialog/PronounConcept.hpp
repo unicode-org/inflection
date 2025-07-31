@@ -7,6 +7,7 @@
 #include <inflection/dialog/SemanticFeatureConceptBase.hpp>
 #include <inflection/dialog/SemanticFeatureModel_DisplayData.hpp>
 #include <inflection/dialog/DisplayValue.hpp>
+#include <optional>
 #include <memory>
 #include <string>
 #include <vector>
@@ -37,27 +38,22 @@ private:
         GENERIC_MATCH,
         FULL_MATCH
     };
-    template<class T> struct ptr_less {
-        bool operator()(const T* lhs, const T* rhs) const {
-            return *lhs < *rhs;
-        }
-    };
-    typedef std::map<const SemanticFeature*, std::u16string, ptr_less<SemanticFeature>> ConstraintData;
-    typedef std::pair<std::u16string, ConstraintData> PronounEntry;
+    typedef std::map<std::u16string_view, std::u16string_view> ConstraintData;
+    typedef std::pair<std::u16string_view, ConstraintData> PronounEntry;
     struct DefaultPronounData;
     class PronounData;
 
     std::shared_ptr<PronounData> pronounData;
-    ::std::map<SemanticFeature, ::std::u16string> defaultConstraints {  };
+    ::std::map<std::u16string, ::std::u16string> defaultConstraints {  };
     int32_t defaultPronounIndex { -1 };
 
 private: /* protected */
     static std::shared_ptr<PronounConcept::DefaultPronounData> createPronounDataForModel(const SemanticFeatureModel& model, const char16_t* const readerCharArray);
     static std::shared_ptr<PronounConcept::DefaultPronounData> getPronounData(const SemanticFeatureModel& model);
-    static const ::std::u16string* getFeatureValueForPronoun(const PronounConcept::ConstraintData &constraintData, const SemanticFeature& feature);
+    static std::optional<::std::u16string_view> getFeatureValueForPronoun(const PronounConcept::ConstraintData &constraintData, const SemanticFeature& feature);
     bool isMatchingSoundProperty(const ::std::u16string& displayValue, std::u16string_view matchType) const;
     bool isMatchingInitialPronoun() const;
-    static MatchState getMatchState(const PronounConcept::ConstraintData& valueConstraintMap, const SemanticFeature& semanticName, const std::u16string& semanticValue);
+    static MatchState getMatchState(const PronounConcept::ConstraintData& valueConstraintMap, const std::u16string& semanticName, const std::u16string& semanticValue);
     const PronounEntry* getFirstPossibleValue(const inflection::dialog::SemanticFeatureConceptBase* referencedConcept, bool returnDefault, bool matchAll) const;
     const PronounEntry* getCurrentValue(const inflection::dialog::SemanticFeatureConceptBase* referencedConcept, bool returnDefault, bool matchAll) const;
 

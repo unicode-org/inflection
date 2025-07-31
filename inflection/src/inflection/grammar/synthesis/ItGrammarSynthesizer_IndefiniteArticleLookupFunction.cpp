@@ -5,9 +5,7 @@
 
 #include <inflection/dictionary/PhraseProperties.hpp>
 #include <inflection/util/LocaleUtils.hpp>
-#include <inflection/util/ULocale.hpp>
 #include <inflection/dialog/DisplayValue.hpp>
-#include <inflection/dialog/SpeakableString.hpp>
 #include <inflection/grammar/synthesis/ItGrammarSynthesizer.hpp>
 
 namespace inflection::grammar::synthesis {
@@ -18,11 +16,11 @@ ItGrammarSynthesizer_IndefiniteArticleLookupFunction::ItGrammarSynthesizer_Indef
 {
 }
 
-inflection::dialog::SpeakableString* ItGrammarSynthesizer_IndefiniteArticleLookupFunction::getArticle(const ::inflection::dialog::DisplayValue& displayValue, bool /*wantArticle*/, ItGrammarSynthesizer::Count countValue, ItGrammarSynthesizer::Gender genderValue) const
+inflection::dialog::SpeakableString* ItGrammarSynthesizer_IndefiniteArticleLookupFunction::getArticle(const ::inflection::dialog::DisplayValue& displayValue, bool /*wantArticle*/, ItGrammarSynthesizer::Number numberValue, ItGrammarSynthesizer::Gender genderValue) const
 {
     const auto& displayString = displayValue.getDisplayString();
     if (genderValue == ItGrammarSynthesizer::Gender::feminine) {
-        if (countValue == ItGrammarSynthesizer::Count::plural) {
+        if (numberValue == ItGrammarSynthesizer::Number::plural) {
             return createPreposition(displayValue, u"delle ");
         }
         if (::inflection::dictionary::PhraseProperties::isStartsWithVowel(::inflection::util::LocaleUtils::ITALIAN(), displayString)) {
@@ -30,7 +28,7 @@ inflection::dialog::SpeakableString* ItGrammarSynthesizer_IndefiniteArticleLooku
         }
         return createPreposition(displayValue, u"una ");
     }
-    if (countValue == ItGrammarSynthesizer::Count::plural) {
+    if (numberValue == ItGrammarSynthesizer::Number::plural) {
         if (::inflection::dictionary::PhraseProperties::isStartsWithVowel(::inflection::util::LocaleUtils::ITALIAN(), displayString) || ItGrammarSynthesizer::startsWithConsonantSubset(displayString)) {
             return createPreposition(displayValue, u"degli ");
         }
@@ -39,7 +37,7 @@ inflection::dialog::SpeakableString* ItGrammarSynthesizer_IndefiniteArticleLooku
     if (ItGrammarSynthesizer::startsWithConsonantSubset(displayString)) {
         return createPreposition(displayValue, u"uno ");
     }
-    if (countValue == ItGrammarSynthesizer::Count::singular && genderValue == ItGrammarSynthesizer::Gender::masculine) {
+    if (numberValue == ItGrammarSynthesizer::Number::singular && genderValue == ItGrammarSynthesizer::Gender::masculine) {
         return createPreposition(displayValue, u"un ");
     }
     return createPreposition(displayValue, ::std::u16string());

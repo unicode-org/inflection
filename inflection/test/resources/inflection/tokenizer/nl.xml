@@ -216,4 +216,7 @@
     <test>
         <annotatedTokens>thuis|kom| |thuis|komen| |welkom</annotatedTokens>
     </test>
+    <test>
+        <annotatedTokens>documentaires</annotatedTokens>
+    </test>
 </tokenizerTest>

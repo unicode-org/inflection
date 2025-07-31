@@ -95,12 +95,12 @@ Inflector_InflectionPattern Inflector_MMappedDictionary::getInflectionPattern(in
 }
 
 bool Inflector_MMappedDictionary::getInflectionPatternIdentifiers(std::vector<int32_t>& inflectionIdentifiers, std::u16string_view word) const {
-    auto exists = dictionary.getWordPropertyInternalIdentifiers(inflectionIdentifiers, word, dictionary.inflectionKeyIdentifier);
+    auto exists = dictionary.getWordPropertyInternalIdentifiers(inflectionIdentifiers, word, dictionary.inflectionKeyIdentifier) != DictionaryMetaData_MMappedDictionary::UNKNOWN;
     if (!exists && !inflection::util::StringViewUtils::isAllLowerCase(word)) {
         ::std::u16string normalized;
         DictionaryMetaData::transform(&normalized, word, locale);
         if (normalized != word) {
-            exists = dictionary.getWordPropertyInternalIdentifiers(inflectionIdentifiers, normalized, dictionary.inflectionKeyIdentifier);
+            exists = dictionary.getWordPropertyInternalIdentifiers(inflectionIdentifiers, normalized, dictionary.inflectionKeyIdentifier) != DictionaryMetaData_MMappedDictionary::UNKNOWN;
         }
     }
     return exists;

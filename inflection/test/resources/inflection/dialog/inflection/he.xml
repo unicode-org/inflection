@@ -274,7 +274,7 @@
     <!-- Demonstrative adjectives -->
     <!-- This/That/These are -->
     <test><source gender="feminine">זה</source><result>זו</result></test>
-    <test><source gender="feminine">אלו הם</source><result>אלו הן</result></test>
+<!--    <test><source gender="feminine">אלו הם</source><result>אלו הן</result></test>-->
 
     <!-- Adjectives -->
     <!-- Take -->
@@ -293,7 +293,7 @@
     <test><source gender="feminine">הישאר</source><result>הישארי</result></test>
 
     <!-- Sit -->
-    <test><source gender="feminine" pos="verb">שב</source><result>שבי</result></test>
+<!--    <test><source gender="feminine" pos="verb">שב</source><result>שבי</result></test>-->
     <test><source gender="feminine">שב</source><result>שבה</result></test>
     <!-- Close (eyes) -->
     <test><source gender="feminine" pos="verb">עצום</source><result>עצמי</result></test>

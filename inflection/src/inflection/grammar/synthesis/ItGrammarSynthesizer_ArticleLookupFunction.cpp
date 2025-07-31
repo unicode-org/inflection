@@ -29,13 +29,13 @@ inflection::dialog::SpeakableString* ItGrammarSynthesizer_ArticleLookupFunction:
             return createPreposition(displayValue, *npc(featureValue));
         }
     }
-    auto countValue = ItGrammarSynthesizer::getCount(displayValue.getFeatureValue(countFeature));
+    auto countValue = ItGrammarSynthesizer::getNumber(displayValue.getFeatureValue(countFeature));
     auto genderValue = ItGrammarSynthesizer::getGender(displayValue.getFeatureValue(genderFeature));
     const auto& displayString = displayValue.getDisplayString();
-    if (countValue == ItGrammarSynthesizer::Count::undefined || genderValue == ItGrammarSynthesizer::Gender::undefined) {
-        if (countValue == ItGrammarSynthesizer::Count::undefined) {
+    if (countValue == ItGrammarSynthesizer::Number::undefined || genderValue == ItGrammarSynthesizer::Gender::undefined) {
+        if (countValue == ItGrammarSynthesizer::Number::undefined) {
             auto value = countLookupFunction.determine(displayString);
-            countValue = ItGrammarSynthesizer::getCount(&value);
+            countValue = ItGrammarSynthesizer::getNumber(&value);
         }
         if (genderValue == ItGrammarSynthesizer::Gender::undefined) {
             auto value = genderLookupFunction.determine(displayString);

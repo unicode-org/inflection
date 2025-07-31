@@ -9,6 +9,7 @@
 #include <inflection/exception/IllegalArgumentException.hpp>
 #include <inflection/util/AutoFileDescriptor.hpp>
 #include <inflection/util/ResourceLocator.hpp>
+#include <inflection/util/LocaleUtils.hpp>
 #include <inflection/util/Logger.hpp>
 #include <inflection/util/LoggerConfig.hpp>
 #include <inflection/util/StringViewUtils.hpp>
@@ -38,8 +39,7 @@ static constexpr char16_t BASE_PATH[] = { u"/dictionary/" };
 static constexpr char16_t BASE_NAME[] = { u"mmappable" };
 
 static ::std::u16string getResourcePath(const ::inflection::util::ULocale& locale) {
-    auto localeLookup = (locale == inflection::util::LocaleUtils::ARABIC()) ? inflection::util::LocaleUtils::ROOT() : locale;
-    const auto inflectionRoot = ::inflection::util::ResourceLocator::getRootForLocale(localeLookup);
+    const auto inflectionRoot = ::inflection::util::ResourceLocator::getRootForLocale(locale);
     auto dictionaryPath = inflectionRoot + ::std::u16string(BASE_PATH) + ::std::u16string(BASE_NAME)
                 + ::std::u16string(u"_")
                 + ::inflection::util::StringViewUtils::to_u16string(locale.getLanguage())
@@ -48,7 +48,6 @@ static ::std::u16string getResourcePath(const ::inflection::util::ULocale& local
 }
 
 static ::inflection::util::ULocale getLanguageWithFallback(const ::inflection::util::ULocale& locale) {
-    ::inflection::util::ULocale genericLanguage(locale.getLanguage());
     auto localePair = ::inflection::util::LocaleUtils::getFallbackPair(locale);
     // This map isn't needed long term. After it's looked up once, the caching in createDictionary will
     // prevent it from being used again for a given language.
@@ -85,9 +84,9 @@ static DictionaryMetaData_MMappedDictionary* createDictionaryForLocale(const ::i
     }
 }
 
-static ::std::map<::std::string, DictionaryMetaData*, std::greater<>>* DICTIONARY_CACHE()
+static ::std::map<::std::string, DictionaryMetaData*, std::less<>>* DICTIONARY_CACHE()
 {
-    static auto DICTIONARY_CACHE_ = new ::std::map<::std::string, DictionaryMetaData*, std::greater<>>();
+    static auto DICTIONARY_CACHE_ = new ::std::map<::std::string, DictionaryMetaData*, std::less<>>();
     return DICTIONARY_CACHE_;
 }
 

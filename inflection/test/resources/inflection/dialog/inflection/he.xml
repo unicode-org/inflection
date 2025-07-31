@@ -174,50 +174,50 @@
 
     <!-- Adjective -->
     <!-- Open -->
-    <test><source gender="masculine" pos="adjective" number="singular">פתוחה</source><result>פתוח</result></test>
-    <test><source gender="masculine" pos="adjective" number="plural">פתוחות</source><result>פתוחים</result></test>
+    <test><source gender="masculine" number="singular">פתוחה</source><result>פתוח</result></test>
+    <test><source gender="masculine" number="plural">פתוחות</source><result>פתוחים</result></test>
     <!-- New -->
-    <test><source gender="masculine" pos="adjective" number="singular">חדשה</source><result>חדש</result></test>
-    <test><source gender="masculine" pos="adjective" number="plural">חדשות</source><result>חדשים</result></test>
+    <test><source gender="masculine" number="singular">חדשה</source><result>חדש</result></test>
+    <test><source gender="masculine" number="plural">חדשות</source><result>חדשים</result></test>
 
     <!-- Ready -->
-    <test><source gender="masculine" pos="adjective" number="singular">מוכנה</source><result>מוכן</result></test>
-    <test><source gender="masculine" pos="adjective" number="plural">מוכנות</source><result>מוכנים</result></test>
+    <test><source gender="masculine" number="singular">מוכנה</source><result>מוכן</result></test>
+    <test><source gender="masculine" number="plural">מוכנות</source><result>מוכנים</result></test>
     <!-- Active -->
-    <test><source gender="feminine" pos="adjective" number="singular">פעיל</source><result>פעילה</result></test>
-    <test><source gender="feminine" pos="adjective" number="plural">פעילים</source><result>פעילות</result></test>
+    <test><source gender="feminine" number="singular">פעיל</source><result>פעילה</result></test>
+    <test><source gender="feminine" number="plural">פעילים</source><result>פעילות</result></test>
     <!--On -->
-    <test><source gender="feminine" pos="adjective" number="singular">פועל</source><result>פועלת</result></test>
-    <test><source gender="feminine" pos="adjective" number="plural">פועלים</source><result>פועלות</result></test>
+    <test><source gender="feminine" number="singular">פועל</source><result>פועלת</result></test>
+    <test><source gender="feminine" number="plural">פועלים</source><result>פועלות</result></test>
     <!--Off -->
-    <test><source gender="feminine" pos="adjective" number="singular">כבוי</source><result>כבויה</result></test>
-    <test><source gender="feminine" pos="adjective" number="plural">כבויים</source><result>כבויות</result></test>
-    <test><source gender="masculine" pos="adjective" number="singular">מבוטלת</source><result>מבוטל</result></test>
-    <test><source gender="masculine" pos="adjective" number="plural">מבוטלות</source><result>מבוטלים</result></test>
+    <test><source gender="feminine" number="singular">כבוי</source><result>כבויה</result></test>
+    <test><source gender="feminine" number="plural">כבויים</source><result>כבויות</result></test>
+    <test><source gender="masculine" number="singular">מבוטלת</source><result>מבוטל</result></test>
+    <test><source gender="masculine" number="plural">מבוטלות</source><result>מבוטלים</result></test>
 
     <!-- Past particle -->
     <!-- Locked/Unlocked -->
-    <test><source gender="masculine" pos="adjective" number="singular">נעולה</source><result>נעול</result></test>
-    <test><source gender="feminine" pos="adjective" number="plural">נעולים</source><result>נעולות</result></test>
+    <test><source gender="masculine" number="singular">נעולה</source><result>נעול</result></test>
+    <test><source gender="feminine" number="plural">נעולים</source><result>נעולות</result></test>
 
     <!-- Jammed -->
-    <test><source gender="masculine" pos="adjective" number="singular">תקועה</source><result>תקוע</result></test>
-    <test><source gender="feminine" pos="adjective" number="plural">תקועים</source><result>תקועות</result></test>
+    <test><source gender="masculine" number="singular">תקועה</source><result>תקוע</result></test>
+    <test><source gender="feminine" number="plural">תקועים</source><result>תקועות</result></test>
     <!-- Close -->
-    <test><source gender="masculine" pos="adjective" number="singular">סגורה</source><result>סגור</result></test>
-    <test><source gender="masculine" pos="adjective" number="plural">סגורות</source><result>סגורים</result></test>
+    <test><source gender="masculine" number="singular">סגורה</source><result>סגור</result></test>
+    <test><source gender="masculine" number="plural">סגורות</source><result>סגורים</result></test>
 
     <!-- Connected/Disconnected -->
-    <test><source gender="masculine" pos="adjective" number="singular">מנותקת</source><result>מנותק</result></test>
-    <test><source gender="masculine" pos="adjective" number="plural">מנותקות</source><result>מנותקים</result></test>
+    <test><source gender="masculine" number="singular">מנותקת</source><result>מנותק</result></test>
+    <test><source gender="masculine" number="plural">מנותקות</source><result>מנותקים</result></test>
     <!-- Authorized -->
-    <test><source gender="feminine" pos="adjective" number="singular">מאושר</source><result>מאושרת</result></test>
-    <test><source gender="feminine" pos="adjective" number="plural">מאושרים</source><result>מאושרות</result></test>
+    <test><source gender="feminine" number="singular">מאושר</source><result>מאושרת</result></test>
+    <test><source gender="feminine" number="plural">מאושרים</source><result>מאושרות</result></test>
 
     <!-- Obstructed -->
-    <test><source gender="masculine" pos="adjective" number="singular">חסומה</source><result>חסום</result></test>
+    <test><source gender="masculine" number="singular">חסומה</source><result>חסום</result></test>
 
-    <test><source gender="masculine" pos="adjective" number="plural">חסומות</source><result>חסומים</result></test>
+    <test><source gender="masculine" number="plural">חסומות</source><result>חסומים</result></test>
 
     <!-- Editing -->
     <test><source gender="feminine">עורך</source><result>עורכת</result></test>
@@ -274,7 +274,7 @@
     <!-- Demonstrative adjectives -->
     <!-- This/That/These are -->
     <test><source gender="feminine">זה</source><result>זו</result></test>
-    <test><source gender="feminine">אלו הם</source><result>אלו הן</result></test>
+<!--    <test><source gender="feminine">אלו הם</source><result>אלו הן</result></test>-->
 
     <!-- Adjectives -->
     <!-- Take -->
@@ -293,15 +293,14 @@
     <test><source gender="feminine">הישאר</source><result>הישארי</result></test>
 
     <!-- Sit -->
-    <test><source gender="feminine" pos="verb">שב</source><result>שבי</result></test>
+<!--    <test><source gender="feminine" pos="verb">שב</source><result>שבי</result></test>-->
+    <test><source gender="feminine">שב</source><result>שבה</result></test>
     <!-- Close (eyes) -->
     <test><source gender="feminine" pos="verb">עצום</source><result>עצמי</result></test>
     <!-- Move -->
     <test><source gender="feminine">התנועע</source><result>התנועעי</result></test>
     <!-- Begin -->
     <test><source gender="feminine">התחל</source><result>התחילי</result></test>
-    <!-- Sit -->
-    <test><source gender="feminine" pos="verb">שב</source><result>שבי</result></test>
 
     <!-- Focus/Strengthen your focus -->
     <test><source gender="feminine">התרכז</source><result>התרכזי</result></test>
@@ -318,56 +317,57 @@
     <!-- Notice/Be aware -->
     <test><source gender="masculine">שימי לב</source><result>שים לב</result></test>
     <!-- Let -->
-    <test><source gender="masculine">תני</source><result>תן</result></test>
+    <test><source gender="masculine" pos="verb">תני</source><result>תן</result></test>
 
     <!-- Adjective -->
     <!-- Open -->
-    <test><source gender="masculine" pos="adjective" number="singular">פתוחה</source><result>פתוח</result></test>
-    <test><source gender="masculine" pos="adjective" number="plural">פתוחות</source><result>פתוחים</result></test>
+    <test><source gender="masculine" number="singular">פתוחה</source><result>פתוח</result></test>
+    <test><source gender="masculine" number="plural">פתוחות</source><result>פתוחים</result></test>
     <!-- New -->
-    <test><source gender="masculine" pos="adjective" number="singular">חדשה</source><result>חדש</result></test>
-    <test><source gender="masculine" pos="adjective" number="plural">חדשות</source><result>חדשים</result></test>
+    <test><source gender="masculine" number="singular">חדשה</source><result>חדש</result></test>
+    <test><source gender="masculine" number="plural">חדשות</source><result>חדשים</result></test>
 
     <!-- Ready -->
-    <test><source gender="masculine" pos="adjective" number="singular">מוכנה</source><result>מוכן</result></test>
-    <test><source gender="masculine" pos="adjective" number="plural">מוכנות</source><result>מוכנים</result></test>
+    <test><source gender="masculine" number="singular">מוכנה</source><result>מוכן</result></test>
+    <test><source gender="masculine" number="plural">מוכנות</source><result>מוכנים</result></test>
     <!-- Active -->
-    <test><source gender="feminine" pos="adjective" number="singular">פעיל</source><result>פעילה</result></test>
-    <test><source gender="feminine" pos="adjective" number="plural">פעילים</source><result>פעילות</result></test>
+    <test><source gender="feminine" number="singular">פעיל</source><result>פעילה</result></test>
+    <test><source gender="feminine" number="plural">פעילים</source><result>פעילות</result></test>
     <!--On -->
-    <test><source gender="feminine" pos="adjective" number="singular">פועל</source><result>פועלת</result></test>
-    <test><source gender="feminine" pos="adjective" number="plural">פועלים</source><result>פועלות</result></test>
+    <test><source gender="feminine" number="singular">פועל</source><result>פועלת</result></test>
+    <test><source gender="feminine" number="plural">פועלים</source><result>פועלות</result></test>
     <!--Off -->
-    <test><source gender="feminine" pos="adjective" number="singular">כבוי</source><result>כבויה</result></test>
-    <test><source gender="feminine" pos="adjective" number="plural">כבויים</source><result>כבויות</result></test>
-    <test><source gender="masculine" pos="adjective" number="singular">מבוטלת</source><result>מבוטל</result></test>
-    <test><source gender="masculine" pos="adjective" number="plural">מבוטלות</source><result>מבוטלים</result></test>
+    <test><source gender="feminine" number="singular">כבוי</source><result>כבויה</result></test>
+    <test><source gender="feminine" number="plural">כבויים</source><result>כבויות</result></test>
+    <test><source gender="masculine" number="singular">מבוטלת</source><result>מבוטל</result></test>
+    <test><source gender="masculine" number="plural">מבוטלות</source><result>מבוטלים</result></test>
 
     <!-- Past particle -->
     <!-- Locked/Unlocked -->
 
-    <test><source gender="masculine" pos="adjective" number="singular">לא נעולה</source><result>לא נעול</result></test>
+    <test><source gender="masculine" number="singular">לא נעולה</source><result>לא נעול</result></test>
 
-    <test><source gender="feminine" pos="adjective" number="plural">לא נעולים</source><result>לא נעולות</result></test>
+    <test><source gender="feminine" number="plural">לא נעולים</source><result>לא נעולות</result></test>
 
     <!-- Connected/Disconnected -->
-    <test><source gender="masculine" pos="adjective" number="singular">מחוברת</source><result>מחובר</result></test>
-    <test><source gender="masculine" pos="adjective" number="plural">מחוברות</source><result>מחוברים</result></test>
-    <test><source gender="feminine" pos="adjective" number="singular">לא מחובר</source><result>לא מחוברת</result></test>
-    <test><source gender="feminine" pos="adjective" number="plural">לא מחוברים</source><result>לא מחוברות</result></test>
+    <test><source gender="masculine" number="singular">מחוברת</source><result>מחובר</result></test>
+    <test><source gender="masculine" number="plural">מחוברות</source><result>מחוברים</result></test>
+    <test><source gender="feminine" number="singular">לא מחובר</source><result>לא מחוברת</result></test>
+    <test><source gender="feminine" number="plural">לא מחוברים</source><result>לא מחוברות</result></test>
     <!-- Authorized -->
-    <test><source gender="feminine" pos="adjective" number="singular">אושר</source><result>אושרה</result></test>
+    <test><source gender="feminine" number="singular">אושר</source><result>אושרה</result></test>
 
     <!-- Turned on/off -->
-    <test><source gender="masculine" pos="adjective" number="singular">הופעלה</source><result>הופעל</result></test>
-    <test><source gender="feminine" pos="adjective" number="singular">כובה</source><result>כובתה</result></test>
-    <test><source gender="feminine" pos="adjective" number="singular">בוטל</source><result>בוטלה</result></test>
+    <test><source gender="masculine" number="singular">הופעלה</source><result>הופעל</result></test>
+    <test><source gender="feminine" number="singular">כובה</source><result>כובתה</result></test>
+    <test><source gender="feminine" number="singular">בוטל</source><result>בוטלה</result></test>
 
     <!-- Stopped -->
-    <test><source gender="masculine" pos="adjective" number="singular">נעצרה</source><result>נעצר</result></test>
-    <test><source gender="masculine" pos="adjective" number="singular">עצרה</source><result>עצר</result></test>
+    <test><source gender="masculine" number="singular">נעצרה</source><result>נעצר</result></test>
+    <test><source gender="masculine" number="singular">עצרה</source><result>עצר</result></test>
     <!-- Obstructed -->
-    <test><source gender="feminine" pos="adjective" number="singular">נחסם</source><result>נחסמה</result></test>
+    <test><source gender="masculine">נחסמה</source><result>נחסם</result></test>
+    <test><source gender="masculine">נחסמת</source><result>נחסמת</result></test>
 
     <!-- Called -->
     <test><source gender="feminine" pos="verb" person="third">התקשר</source><result>התקשרה</result></test>

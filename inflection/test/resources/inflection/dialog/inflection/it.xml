@@ -170,4 +170,12 @@
     <test><source definiteness="indefinite">casetta</source><result gender="feminine">una casetta</result></test>
     <test><source definiteness="definite">casetta</source><result gender="feminine">la casetta</result></test>
 
+    <!-- valid request because it works on past participle verbs -->
+    <test><source gender="feminine">completato</source><result exists="true">completata</result></test>
+    <test><source number="plural">completato</source><result exists="true">completati</result></test>
+    <!-- This better not be completata -->
+    <test><source gender="feminine">completante</source><result exists="true">completante</result></test>
+    <!-- This better not be completati -->
+    <test><source number="plural">completante</source><result exists="true">completante</result></test>
+    <test><source number="singular">completiate</source><result exists="true">completi</result></test>
 </inflectionTest>

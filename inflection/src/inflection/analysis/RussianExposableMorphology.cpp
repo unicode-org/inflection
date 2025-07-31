@@ -23,6 +23,7 @@ RussianExposableMorphology::RussianExposableMorphology()
         {GrammemeConstants::GENDER_MASCULINE(), GrammemeConstants::GENDER_FEMININE(), GrammemeConstants::GENDER_NEUTER()},
         {GrammemeConstants::NUMBER_SINGULAR(), GrammemeConstants::NUMBER_PLURAL()},
         {GrammemeConstants::ANIMACY_INANIMATE(), GrammemeConstants::ANIMACY_ANIMATE()},
+        {GrammemeConstants::REGISTER_INFORMAL()}
     }, {{GrammemeConstants::POS_PROPER_NOUN(), GrammemeConstants::NUMBER_PLURAL()}}, true)
 {
     const auto &dictionary = getDictionary();

@@ -13,12 +13,12 @@ class inflection::grammar::synthesis::FrGrammarSynthesizer final
 public:
     static void addSemanticFeatures(::inflection::dialog::SemanticFeatureModel& featureModel);
 
-    enum class Count {
+    enum class Number {
         undefined,
         singular,
         plural
     };
-    static Count getCount(const ::std::u16string* value);
+    static Number getNumber(const ::std::u16string* value);
 
     enum class Gender {
         undefined,

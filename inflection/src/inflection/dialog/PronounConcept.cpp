@@ -65,17 +65,27 @@ static std::mutex& CLASS_MUTEX() {
 
 struct PronounConcept::DefaultPronounData {
     std::vector<PronounEntry> data {  };
-    // dependencySemanticFeatures manages memory for the new dependency SemanticFeatures we create for the concept
-    std::map<std::u16string, const SemanticFeature> dependencySemanticFeatures {  };
+    // Any derived values that doesn't have the data stored elsewhere.
+    std::vector<std::unique_ptr<std::u16string>> singletons;
+
+    std::u16string_view getSingleton(std::map<std::u16string_view, std::u16string_view>& allSingletons, std::u16string_view string) {
+        auto foundString = allSingletons.find(string);
+        if (foundString == allSingletons.end()) {
+            auto key = new std::u16string(string);
+            std::u16string_view keyView(*npc(key));
+            allSingletons.emplace(keyView, keyView);
+            return *singletons.emplace_back(key);
+        }
+        return foundString->second;
+    }
 };
 
 std::shared_ptr<PronounConcept::DefaultPronounData> PronounConcept::createPronounDataForModel(const SemanticFeatureModel& model, const char16_t* const readerCharArray) {
     std::u16string_view reader(readerCharArray);
     auto result = std::make_shared<PronounConcept::DefaultPronounData>();
     auto &defaultPronounData = result->data;
-    auto &dependencySemanticFeatures = result->dependencySemanticFeatures;
     PronounConcept::ConstraintData constraints;
-    ::std::u16string constraint;
+    std::map<std::u16string_view, std::u16string_view> singletons;
     defaultPronounData.reserve(std::count(reader.begin(), reader.end(), u'\n'));
     constexpr ::std::u16string_view dependencyPrefix(DEPENDENCY_EQUALS);
     for (DelimitedStringIterator iterator(reader, u"\n"); iterator.hasNext(); ++iterator) {
@@ -85,7 +95,8 @@ std::shared_ptr<PronounConcept::DefaultPronounData> PronounConcept::createPronou
             if (word.empty()) {
                 word = *cell;
             } else {
-                constraint = *cell;
+                ::std::u16string_view constraint = *cell;
+                singletons.emplace(constraint, constraint);
                 auto isDependency = constraint.starts_with(dependencyPrefix);
                 if (isDependency) {
                     constraint = constraint.substr(dependencyPrefix.length());
@@ -100,32 +111,27 @@ std::shared_ptr<PronounConcept::DefaultPronounData> PronounConcept::createPronou
                     // else featureAlias.second will have an empty string to represent all values.
                     semanticFeature = model.getFeature(constraint);
                     if (semanticFeature == nullptr) {
-                        throw exception::InvalidConfigurationException(u"Unknown constraint for PronounConcept: " + constraint);
+                        throw exception::InvalidConfigurationException(u"Unknown constraint for PronounConcept: " + std::u16string(constraint));
                     }
                 } else {
                     semanticFeature = featureAlias;
                 }
+                std::u16string_view featureValueView = result->getSingleton(singletons, featureValue);
                 if (isDependency) {
-                    const auto &semanticFeatureName = semanticFeature->getName();
-                    auto semanticFeatureItr = dependencySemanticFeatures.find(semanticFeatureName);
-                    if (semanticFeatureItr == dependencySemanticFeatures.end()) {
-                        auto [insertedIter, inserted] = dependencySemanticFeatures.emplace(semanticFeatureName, SemanticFeature(std::u16string(dependencyPrefix) + semanticFeature->getName(), SemanticFeature::Type::BoundedValue, {semanticFeature->getName()}, true));
-                        semanticFeatureItr = insertedIter;
-                    }
-                    constraints.emplace(&semanticFeatureItr->second, featureValue);
+                    constraints.emplace(result->getSingleton(singletons, std::u16string(dependencyPrefix) + semanticFeature->getName()), featureValueView);
                 } else {
-                    constraints.emplace(semanticFeature, featureValue);
+                    constraints.emplace(result->getSingleton(singletons, npc(semanticFeature)->getName()), featureValueView);
                 }
             }
         }
-        defaultPronounData.emplace_back(std::u16string(word), constraints);
+        defaultPronounData.emplace_back(word, constraints);
     }
     return result;
 }
 
 std::map<std::u16string, std::shared_ptr<PronounConcept::DefaultPronounData>>* PronounConcept::PRONOUN_DATA_CACHE() {
     static auto PRONOUN_DATA_CACHE_ = new std::map<std::u16string, std::shared_ptr<PronounConcept::DefaultPronounData>>();
-    return PRONOUN_DATA_CACHE_;
+    return npc(PRONOUN_DATA_CACHE_);
 }
 
 std::shared_ptr<PronounConcept::DefaultPronounData> PronounConcept::getPronounData(const SemanticFeatureModel& model) {
@@ -139,28 +145,26 @@ std::shared_ptr<PronounConcept::DefaultPronounData> PronounConcept::getPronounDa
     return pronounDataItr->second;
 }
 
-
 class PronounConcept::PronounData {
     std::shared_ptr<DefaultPronounData> defaultPronounData;
     std::vector<PronounEntry> customizedPronounData {  };
-    // customizedSemanticFeatures manages memory for the new semanticFeatures used in the custom pronoun data
-    std::set<SemanticFeature> customizedSemanticFeatures {  };
+    std::vector<std::unique_ptr<std::u16string>> singletons;
 
 public:
     PronounData(const PronounData&) = delete;
     PronounData& operator=(const PronounData&) = delete;
 
     PronounData(const SemanticFeatureModel& model, const ::std::vector<DisplayValue>& defaultDisplayData)
-    : defaultPronounData(getPronounData(model))
+        : defaultPronounData(getPronounData(model))
     {
         customizedPronounData.reserve(defaultDisplayData.size());
+        std::map<std::u16string_view, std::u16string_view> singletons;
         for (const auto &displayValue: defaultDisplayData) {
             ConstraintData constraintData;
             for (const auto &[semanticFeature, constraint]: displayValue.getConstraintMap()) {
-                const auto &[elementIter, elementInserted] = customizedSemanticFeatures.insert(semanticFeature);
-                constraintData.emplace(&(*elementIter), constraint);
+                constraintData.emplace(getSingleton(singletons, semanticFeature.getName()), getSingleton(singletons, constraint));
             }
-            customizedPronounData.emplace_back(displayValue.getDisplayString(), std::move(constraintData));
+            customizedPronounData.emplace_back(getSingleton(singletons, displayValue.getDisplayString()), std::move(constraintData));
         }
     }
 
@@ -179,25 +183,36 @@ public:
         return defaultPronounData->data.at(idx - customizedPronounData.size());
     }
 
-
+    std::u16string_view getSingleton(std::map<std::u16string_view, std::u16string_view>& allSingletons, std::u16string_view string) {
+        auto foundString = allSingletons.find(string);
+        if (foundString == allSingletons.end()) {
+            auto key = new std::u16string(string);
+            std::u16string_view keyView(*npc(key));
+            allSingletons.emplace(keyView, keyView);
+            return *singletons.emplace_back(key);
+        }
+        return foundString->second;
+    }
 };
 
 // Implementation required to be able to look up into map with const SemanticFeature* as keys
-const ::std::u16string* PronounConcept::getFeatureValueForPronoun(const PronounConcept::ConstraintData &constraintData, const SemanticFeature& feature) {
-    auto result = constraintData.find(&feature);
+std::optional<::std::u16string_view> PronounConcept::getFeatureValueForPronoun(const PronounConcept::ConstraintData &constraintData, const SemanticFeature& feature) {
+    auto result = constraintData.find(feature.getName());
     if (result == constraintData.end()) {
-        return nullptr;
+        return {};
     }
-    return &result->second;
+    return result->second;
 }
 
 PronounConcept::PronounConcept(const SemanticFeatureModel& model, const ::std::vector<::inflection::dialog::DisplayValue>& defaultDisplayData, const ::std::map<SemanticFeature, ::std::u16string>& defaultConstraints)
     : super(&model)
     , pronounData(std::make_shared<PronounData>(model, defaultDisplayData))
-    , defaultConstraints(defaultConstraints)
 {
     if (pronounData->numValues() == 0) {
         throw ::inflection::exception::IllegalArgumentException(u"Display data can not be empty.");
+    }
+    for (const auto &[semanticFeature, grammeme]: defaultConstraints) {
+        this->defaultConstraints.emplace(semanticFeature.getName(), grammeme);
     }
 }
 
@@ -221,7 +236,7 @@ PronounConcept::PronounConcept(const SemanticFeatureModel& model, std::u16string
             && (bool)U_SUCCESS(status))
         {
             for (const auto& [semanticFeature, constraint] : pronounEntry.second) {
-                auto [elementIter, elementInserted] = defaultConstraints.insert({*semanticFeature, constraint});
+                auto [elementIter, elementInserted] = defaultConstraints.insert({std::u16string(semanticFeature), std::u16string(constraint)});
                 if (!elementInserted && elementIter->second != constraint) {
                     // There is some ambiguity. Set the value to an empty string to clear it later.
                     elementIter->second.clear();
@@ -280,7 +295,7 @@ bool PronounConcept::isMatchingInitialPronoun() const
     if (!constraints.empty()) {
         const auto &valueConstraintMap = pronounData->getPronounEntry(defaultPronounIndex).second;
         for (const auto &[semanticName, semanticValue]: constraints) {
-            auto valueConstraint = valueConstraintMap.find(&semanticName);
+            auto valueConstraint = valueConstraintMap.find(semanticName.getName());
             if (valueConstraint == valueConstraintMap.end() || valueConstraint->second != semanticValue) {
                 return false;
             }
@@ -291,13 +306,13 @@ bool PronounConcept::isMatchingInitialPronoun() const
 
 static bool isMatchingFeatureValue(const SemanticFeatureConceptBase *referencedConcept, std::u16string_view semanticValue, std::u16string_view semanticNameView)
 {
-    std::unique_ptr<SpeakableString> featureValue(npc(referencedConcept)->getFeatureValueByName(std::u16string(semanticNameView)));
+    std::unique_ptr<SpeakableString> featureValue(npc(referencedConcept)->getFeatureValueByName(semanticNameView));
     return !((featureValue == nullptr && semanticValue.empty()) || (featureValue != nullptr && featureValue->getPrint() != semanticValue));
 }
 
-PronounConcept::MatchState PronounConcept::getMatchState(const PronounConcept::ConstraintData& valueConstraintMap, const SemanticFeature& semanticName, const std::u16string& semanticValue)
+PronounConcept::MatchState PronounConcept::getMatchState(const PronounConcept::ConstraintData& valueConstraintMap, const std::u16string& semanticName, const std::u16string& semanticValue)
 {
-    auto valueConstraint = valueConstraintMap.find(&semanticName);
+    auto valueConstraint = valueConstraintMap.find(semanticName);
     if (valueConstraint == valueConstraintMap.end()) {
         return NO_MATCH;
     }
@@ -313,7 +328,7 @@ PronounConcept::MatchState PronounConcept::getMatchState(const PronounConcept::C
 
 const PronounConcept::PronounEntry* PronounConcept::getFirstPossibleValue(const inflection::dialog::SemanticFeatureConceptBase* referencedConcept, bool returnDefault, bool matchAll) const
 {
-    if (isMatchingInitialPronoun()) {
+    if (referencedConcept == nullptr && isMatchingInitialPronoun()) {
         return &pronounData->getPronounEntry(defaultPronounIndex);
     }
     const PronounEntry* possibleValue = nullptr;
@@ -333,7 +348,7 @@ const PronounConcept::PronounEntry* PronounConcept::getFirstPossibleValue(const 
         bool fullMatch = true;
         int32_t currGenericConstraintsMatched = 0;
         for (const auto& [semanticName, semanticValue] : constraints) {
-            auto matchResult = getMatchState(valueConstraintMap, semanticName, semanticValue);
+            auto matchResult = getMatchState(valueConstraintMap, semanticName.getName(), semanticValue);
             if (matchResult == NO_MATCH) {
                 fullMatch = false;
                 break;
@@ -345,9 +360,9 @@ const PronounConcept::PronounEntry* PronounConcept::getFirstPossibleValue(const 
         }
         if (fullMatch && referencedConcept != nullptr) {
             for (const auto& [semanticName, semanticValue] : valueConstraintMap) {
-                auto equalsIdx = semanticName->getName().find(u'=');
+                auto equalsIdx = semanticName.find(u'=');
                 if (equalsIdx != std::u16string::npos) {
-                    std::u16string_view semanticNameView(semanticName->getName());
+                    std::u16string_view semanticNameView(semanticName);
                     semanticNameView = semanticNameView.substr(equalsIdx + 1);
                     if (semanticNameView == SOUND) {
                         if (!cachedDisplayValue) {
@@ -397,8 +412,8 @@ SpeakableString* PronounConcept::getFeatureValue(const SemanticFeature& feature)
     auto tempCurrentValue = getCurrentValue(nullptr, true, true);
     if (tempCurrentValue != nullptr) {
         auto featureValue = getFeatureValueForPronoun(npc(tempCurrentValue)->second, feature);
-        if (featureValue != nullptr) {
-            return new SpeakableString(*npc(featureValue));
+        if (featureValue) {
+            return new SpeakableString(*featureValue);
         }
     }
     return nullptr;
@@ -429,13 +444,13 @@ SpeakableString* PronounConcept::toSpeakableString() const
     if (displayValue == nullptr) {
         return nullptr;
     }
-    const ::std::u16string printString = npc(displayValue)->first;
+    const auto printString(npc(displayValue)->first);
     if (printString.empty()) {
         return nullptr;
     }
     const auto speakString = getFeatureValueForPronoun(npc(displayValue)->second, *npc(getSpeakFeature()));
-    if (speakString != nullptr) {
-        return new SpeakableString(printString, *npc(speakString));
+    if (speakString) {
+        return new SpeakableString(printString, *speakString);
     }
     return new SpeakableString(printString);
 }
@@ -446,13 +461,13 @@ SpeakableString* PronounConcept::toSpeakableString(const inflection::dialog::Sem
     if (displayValue == nullptr) {
         return nullptr;
     }
-    const ::std::u16string printString = npc(displayValue)->first;
+    const auto printString(npc(displayValue)->first);
     if (printString.empty()) {
         return nullptr;
     }
     const auto speakString = getFeatureValueForPronoun(npc(displayValue)->second, *npc(getSpeakFeature()));
-    if (speakString != nullptr) {
-        return new SpeakableString(printString, *npc(speakString));
+    if (speakString) {
+        return new SpeakableString(printString, *speakString);
     }
     return new SpeakableString(printString);
 }

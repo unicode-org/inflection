@@ -20,12 +20,12 @@ private:
     const ::inflection::dialog::SemanticFeature* speakFeature { nullptr };
     const ::inflection::dialog::DefaultFeatureFunction* definiteFeatureFunction { nullptr };
     const ::inflection::dialog::DefaultFeatureFunction* indefiniteFeatureFunction { nullptr };
-    std::set<std::u16string> definiteArticles {  };
-    std::set<std::u16string> indefiniteArticles {  };
+    std::set<std::u16string, std::less<>> definiteArticles {  };
+    std::set<std::u16string, std::less<>> indefiniteArticles {  };
 
 private:
-    static std::set<std::u16string> getArticles(const inflection::util::ULocale& locale, std::u16string_view featureName);
-    static int32_t getArticlePrefixLength(DisplayValue* originalDisplayValue, const std::set<std::u16string>& articlesToRemove);
+    static std::set<std::u16string, std::less<>> getArticles(const inflection::util::ULocale& locale, std::u16string_view featureName);
+    static int32_t getArticlePrefixLength(DisplayValue* originalDisplayValue, const std::set<std::u16string, std::less<>>& articlesToRemove);
     DisplayValue* replaceDisplayValue(DisplayValue* originalDisplayValue, const SpeakableString& string) const;
 
 public:

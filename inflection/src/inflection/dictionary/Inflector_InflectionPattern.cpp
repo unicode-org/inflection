@@ -79,6 +79,24 @@ bool Inflector_InflectionPattern::containsSuffix(std::u16string_view suffix) con
     return results;
 }
 
+void Inflector_InflectionPattern::getLemmaSuffixMatches(::std::vector<Inflector_Inflection>& results) const
+{
+    results.clear();
+    for (int16_t i = 0; i < numOfInflections; ++i) {
+        const auto inflection(getInflectionAtPosition(i));
+
+        for (int16_t i = 0; i < lemmaSuffixesLen; ++i) {
+            auto currLemmaSuffixId = static_cast<int32_t>(
+                inflectorDictionary.inflectionsArray.read(lemmaSuffixesOffset + i));
+            if (currLemmaSuffixId == inflection.suffixId) {
+                // We matched a lemma suffix. Add it.
+                results.emplace_back(inflection);
+                break;
+            }
+        }
+    }
+}
+
 ::std::vector<Inflector_Inflection> Inflector_InflectionPattern::inflectionsForSurfaceForm(::std::u16string_view surfaceForm, int64_t fromGrammemes) const {
     ::std::vector<Inflector_Inflection> results;
     int64_t maxLen = -1;

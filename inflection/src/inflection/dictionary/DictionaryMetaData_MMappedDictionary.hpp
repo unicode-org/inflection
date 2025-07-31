@@ -32,7 +32,12 @@ public:
     ::std::vector<::std::u16string> getTypesOfValues(int64_t value) const;
 private:
     void getPropertyMapInternalIdentifiers(std::vector<int32_t> &propertyIdentifiers, int32_t startingOffset, int32_t length) const;
-    bool getWordPropertyInternalIdentifiers(std::vector<int32_t> &propertyIdentifiers, std::u16string_view word, int32_t propertyNameIdentifier) const;
+    typedef enum {
+        UNKNOWN = 0,
+        EMPTY = 1,
+        VALUES = 2,
+    } ListResultEnum;
+    ListResultEnum getWordPropertyInternalIdentifiers(std::vector<int32_t> &propertyIdentifiers, std::u16string_view word, int32_t propertyNameIdentifier) const;
 public:
     bool getWordPropertyValues(::std::vector<::std::u16string>* result, std::u16string_view word, std::u16string_view property) const;
     ::inflection::dictionary::DictionaryKeyIterator getAllWords() const;

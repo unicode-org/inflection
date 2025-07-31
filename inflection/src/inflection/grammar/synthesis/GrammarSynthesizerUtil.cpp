@@ -162,4 +162,26 @@ void GrammarSynthesizerUtil::inflectAndAppendArticlePrefix(::std::u16string &dis
     }
 }
 
+const inflection::tokenizer::Token* GrammarSynthesizerUtil::getFirstSignificantToken(const inflection::tokenizer::Token* tok)
+{
+    while (tok != nullptr) {
+        if (tok->isSignificant()) {
+            return tok;
+        }
+        tok = tok->getNext();
+    }
+    return nullptr;
+}
+
+const inflection::tokenizer::Token* GrammarSynthesizerUtil::getLastSignificantToken(const inflection::tokenizer::Token* tok)
+{
+    while (tok != nullptr) {
+        if (tok->isSignificant()) {
+            return tok;
+        }
+        tok = tok->getPrevious();
+    }
+    return nullptr;
+}
+
 } // namespace inflection::grammar::synthesis

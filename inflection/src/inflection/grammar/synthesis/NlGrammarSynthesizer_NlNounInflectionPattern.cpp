@@ -20,7 +20,7 @@ NlGrammarSynthesizer_NlNounInflectionPattern::NlGrammarSynthesizer_NlNounInflect
     , inflector(::inflection::dictionary::Inflector::getInflector(::inflection::util::LocaleUtils::DUTCH()))
     , numberFeature(*npc(model.getFeature(GrammemeConstants::NUMBER)))
     , caseFeature(*npc(model.getFeature(GrammemeConstants::CASE)))
-    , declensionFeature(*npc(model.getFeature(NlGrammarSynthesizer::DECLENSION())))
+    , declensionFeature(*npc(model.getFeature(NlGrammarSynthesizer::DECLENSION)))
     , posFeature(*npc(model.getFeature(GrammemeConstants::POS)))
     , dictionary(*npc(::inflection::dictionary::DictionaryMetaData::createDictionary(::inflection::util::LocaleUtils::DUTCH())))
     , possessivePronouns({

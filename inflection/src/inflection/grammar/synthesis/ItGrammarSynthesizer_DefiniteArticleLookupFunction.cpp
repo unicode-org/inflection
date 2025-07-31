@@ -30,14 +30,14 @@ ItGrammarSynthesizer_DefiniteArticleLookupFunction::ItGrammarSynthesizer_Definit
 {
 }
 
-inflection::dialog::SpeakableString* ItGrammarSynthesizer_DefiniteArticleLookupFunction::getArticle(const ::inflection::dialog::DisplayValue& displayValue, bool wantArticle, ItGrammarSynthesizer::Count countValue, ItGrammarSynthesizer::Gender genderValue) const
+inflection::dialog::SpeakableString* ItGrammarSynthesizer_DefiniteArticleLookupFunction::getArticle(const ::inflection::dialog::DisplayValue& displayValue, bool wantArticle, ItGrammarSynthesizer::Number numberValue, ItGrammarSynthesizer::Gender genderValue) const
 {
     const auto& displayString = displayValue.getDisplayString();
     if (!wantArticle) {
         return createPreposition(displayValue, simplePreposition);
     }
     if (genderValue == ItGrammarSynthesizer::Gender::feminine) {
-        if (countValue == ItGrammarSynthesizer::Count::plural) {
+        if (numberValue == ItGrammarSynthesizer::Number::plural) {
             return createPreposition(displayValue, pluralFeminine);
         }
         if (ItGrammarSynthesizer::startsWithVowelForElision(displayString)) {
@@ -45,7 +45,7 @@ inflection::dialog::SpeakableString* ItGrammarSynthesizer_DefiniteArticleLookupF
         }
         return createPreposition(displayValue, singularFeminine);
     }
-    if (countValue == ItGrammarSynthesizer::Count::plural) {
+    if (numberValue == ItGrammarSynthesizer::Number::plural) {
         if (::inflection::dictionary::PhraseProperties::isStartsWithVowel(::inflection::util::LocaleUtils::ITALIAN(), displayString) || ItGrammarSynthesizer::startsWithConsonantSubset(displayString)) {
             return createPreposition(displayValue, pluralMasculineWithConst);
         }
@@ -57,7 +57,7 @@ inflection::dialog::SpeakableString* ItGrammarSynthesizer_DefiniteArticleLookupF
     if (ItGrammarSynthesizer::startsWithConsonantSubset(displayString)) {
         return createPreposition(displayValue, singularMasculineWithConst);
     }
-    if (countValue == ItGrammarSynthesizer::Count::singular && genderValue == ItGrammarSynthesizer::Gender::masculine) {
+    if (numberValue == ItGrammarSynthesizer::Number::singular && genderValue == ItGrammarSynthesizer::Gender::masculine) {
         return createPreposition(displayValue, singularMasculine);
     }
     return createPreposition(displayValue, ::std::u16string());

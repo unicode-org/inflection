@@ -28,12 +28,12 @@ SvGrammarSynthesizer_ArticleLookupFunction::SvGrammarSynthesizer_ArticleLookupFu
 
 inflection::dialog::SpeakableString* SvGrammarSynthesizer_ArticleLookupFunction::getFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const
 {
-    auto countValue = SvGrammarSynthesizer::getCount(displayValue.getFeatureValue(*npc(countFeature)));
-    if (SvGrammarSynthesizer::Count::undefined == countValue) {
+    auto countValue = SvGrammarSynthesizer::getNumber(displayValue.getFeatureValue(*npc(countFeature)));
+    if (SvGrammarSynthesizer::Number::undefined == countValue) {
         ::std::unique_ptr<inflection::dialog::SpeakableString> countSpeakableString(countLookupFunction.getFeatureValue(displayValue, constraints));
-        countValue = countSpeakableString != nullptr ? SvGrammarSynthesizer::getCount(&countSpeakableString->getPrint()) : SvGrammarSynthesizer::Count::singular;
+        countValue = countSpeakableString != nullptr ? SvGrammarSynthesizer::getNumber(&countSpeakableString->getPrint()) : SvGrammarSynthesizer::Number::singular;
     }
-    if (SvGrammarSynthesizer::Count::plural == countValue) {
+    if (SvGrammarSynthesizer::Number::plural == countValue) {
         return createPreposition(displayValue, pluralString);
     }
     auto genderValue = SvGrammarSynthesizer::getGender(displayValue.getFeatureValue(*npc(genderFeature)));

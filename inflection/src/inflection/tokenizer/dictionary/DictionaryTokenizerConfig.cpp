@@ -40,18 +40,17 @@ DictionaryTokenizerConfig::DictionaryTokenizerConfig(
 
 bool DictionaryTokenizerConfig::isFugenelement(std::u16string_view key) const
 {
-    // TODO:  Avoid the conversion to string.
-    return fugenelements.find(std::u16string(key)) != fugenelements.end();
+    return fugenelements.contains(key);
 }
 
 bool DictionaryTokenizerConfig::isPositiveFugenelement(std::u16string_view key) const
 {
-    return fugenelements_positive.find(key) != fugenelements_positive.end();
+    return fugenelements_positive.contains(key);
 }
 
 bool DictionaryTokenizerConfig::isReplaceableFugenelement(std::u16string_view key) const
 {
-    return fugenelements_replaceable.find(key) != fugenelements_replaceable.end();
+    return fugenelements_replaceable.contains(key);
 }
 
 const ::std::vector<::std::u16string_view>& DictionaryTokenizerConfig::getNegativeFugenelements() const

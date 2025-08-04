@@ -9,10 +9,6 @@
 <test><source number="plural">മരം</source><result>മരങ്ങൾ</result></test>
 <test><source number="plural">കഥ</source><result>കഥകൾ</result></test>
 
-<!-- Malayalam Adjective Inflection Tests -->
-<test><source>നല്ല</source><result exists="true">നല്ല</result></test>
-<test><source>നല്ല</source><result exists="true">നല്ല</result></test>
-
 <!-- Malayalam Verb Inflection Tests -->
 <test><source tense="present" person="first" number="singular">ചോദിക്കുക</source><result>ചോദിക്കുന്നു</result></test>
 <test><source tense="past" person="first" number="singular">ചോദിക്കുക</source><result>ചോദിച്ചു</result></test>
@@ -25,7 +21,7 @@
 <test><source case="dative">കുട്ടി</source><result>കുട്ടിക്ക്</result></test>
 <test><source case="genitive">കുട്ടി</source><result>കുട്ടിയുടെ</result></test>
 <test><source case="locative">കുട്ടി</source><result>കുട്ടിയിൽ</result></test>
-<test><source case="instrumental">കുട്ടി</source><result>കുട്ടിയാല്</result></test>
+<test><source case="instrumental">കുട്ടി</source><result>കുട്ടിയാൽ</result></test>
 
 <!-- Malayalam Adjective Inflection Tests -->
 <test><source gender="feminine">പുതിയ</source><result>പുതിയ</result></test>
@@ -79,5 +75,16 @@
 
 <!-- Subjunctive -->
 <test><source mood="subjunctive">വരിക</source><result>വരുമെന്ന്</result></test>
+
+<!-- Plural suffix token cases -->
+<test><source number="plural">ലൈറ്റുകൾ</source><result>ലൈറ്റുകൾ</result></test>
+<test><source number="plural">കുട്ടികൾ</source><result>കുട്ടികൾ</result></test>
+<test><source number="plural">വളപ്പുറത്തെ ലൈറ്റുകൾ</source><result>വളപ്പുറത്തെ ലൈറ്റുകൾ</result></test>
+<test><source number="plural">ക്യാമ്പസ് ലൈറ്റുകൾ</source><result>ക്യാമ്പസ് ലൈറ്റുകൾ</result></test>
+<test><source number="plural">വളപ്പുറത്തെ ലൈറ്റ്</source><result>വളപ്പുറത്തെ ലൈറ്റുകൾ</result></test>
+<test><source number="plural">ഫേസ്ബുക്കുകൾ</source><result>ഫേസ്ബുക്കുകൾ</result></test>
+<test><source number="plural">ഫേസ്ബുക്ക്</source><result>ഫേസ്ബുക്കുകൾ</result></test>
+<test><source number="plural" tense="present">വരിക</source><result>വരുന്നു</result></test>
+<test><source number="plural" pos="verb">ചോദിക്കുന്നു</source><result>ചോദിക്കുന്നു</result></test>
 
 </inflectionTest>

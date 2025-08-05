@@ -1,6 +1,6 @@
 # ----------------------------------------------------------------------------------------
 # To update ICU version:
-# 1. Update the ICU_VERSION environment variable below.
+# 1. Update the ICU_ICU_MAJOR and ICU_MINOR environment variable below.
 # 2. Check the ICU binary URL — is the filename still Ubuntu22.04-x64.tgz?
 #    (e.g., icu4c-78_1-Ubuntu22.04-x64.tgz)
 # 3. Update inflection/CMakeLists.txt:
@@ -19,8 +19,8 @@ jobs:
   build-and-package:
     runs-on: ubuntu-latest
     env:
-      ICU_VERSION: 77_1
-
+      ICU_MAJOR: '77'
+      ICU_MINOR: '1'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -41,21 +41,21 @@ jobs:
         uses: actions/cache@v4
         id: cache-icu
         with:
-          path: /usr/local/icu-${{ env.ICU_VERSION }}
-          key: icu-${{ env.ICU_VERSION }}-${{ runner.os }}
+          path: /usr/local/icu-${{ env.ICU_MAJOR }}_${{ env.ICU_MINOR }}
+          key: icu-${{ env.ICU_MAJOR }}_${{ env.ICU_MINOR }}-${{ runner.os }}
           restore-keys: |
-            icu-${{ env.ICU_VERSION }}-
+            icu-${{ env.ICU_MAJOR }}_${{ env.ICU_MINOR }}-
             icu-
 
       - name: Install ICU (Binary)
         if: steps.cache-icu.outputs.cache-hit != 'true'
         run: |
           cd /tmp
-          wget https://github.com/unicode-org/icu/releases/download/release-${ICU_VERSION//_/-}/icu4c-${ICU_VERSION}-Ubuntu22.04-x64.tgz
+          wget https://github.com/unicode-org/icu/releases/download/release-${ICU_MAJOR}-${ICU_MINOR}/icu4c-${ICU_MAJOR}_${ICU_MINOR}-Ubuntu22.04-x64.tgz
           mkdir icu-install
-          tar -xzf icu4c-${ICU_VERSION}-Ubuntu22.04-x64.tgz -C icu-install
-          sudo mkdir -p /usr/local/icu-${ICU_VERSION}
-          sudo cp -r icu-install/icu/usr/local/* /usr/local/icu-${ICU_VERSION}/
+          tar -xzf icu4c-${ICU_MAJOR}_${ICU_MINOR}-Ubuntu22.04-x64.tgz -C icu-install
+          sudo mkdir -p /usr/local/icu-${ICU_MAJOR}_${ICU_MINOR}
+          sudo cp -r icu-install/icu/usr/local/* /usr/local/icu-${ICU_MAJOR}_${ICU_MINOR}/
           sudo ldconfig
 
       - name: Setup ICU (from cache)
@@ -65,22 +65,22 @@ jobs:
 
       - name: Configure & Build
         run: |
-          export PKG_CONFIG_PATH=/usr/local/icu-${ICU_VERSION}/lib/pkgconfig:$PKG_CONFIG_PATH
-          export CPLUS_INCLUDE_PATH=/usr/local/icu-${ICU_VERSION}/include:$CPLUS_INCLUDE_PATH
-          export LD_LIBRARY_PATH=/usr/local/icu-${ICU_VERSION}/lib:$LD_LIBRARY_PATH
+          export PKG_CONFIG_PATH=/usr/local/icu-${ICU_MAJOR}_${ICU_MINOR}/lib/pkgconfig:$PKG_CONFIG_PATH
+          export CPLUS_INCLUDE_PATH=/usr/local/icu-${ICU_MAJOR}_${ICU_MINOR}/include:$CPLUS_INCLUDE_PATH
+          export LD_LIBRARY_PATH=/usr/local/icu-${ICU_MAJOR}_${ICU_MINOR}/lib:$LD_LIBRARY_PATH
           mkdir -p inflection/build
           cd inflection/build
           CC=clang CXX=clang++ cmake .. \
             -DCMAKE_BUILD_TYPE=Release \
-            -DICU_ROOT=/usr/local/icu-${ICU_VERSION} \
-            -DCMAKE_PREFIX_PATH=/usr/local/icu-${ICU_VERSION}
+            -DICU_ROOT=/usr/local/icu-${ICU_MAJOR}_${ICU_MINOR} \
+            -DCMAKE_PREFIX_PATH=/usr/local/icu-${ICU_MAJOR}_${ICU_MINOR}
           make -j$(nproc)
 
       - name: Run tests
         run: |
-          export PKG_CONFIG_PATH=/usr/local/icu-${ICU_VERSION}/lib/pkgconfig:$PKG_CONFIG_PATH
-          export CPLUS_INCLUDE_PATH=/usr/local/icu-${ICU_VERSION}/include:$CPLUS_INCLUDE_PATH
-          export LD_LIBRARY_PATH=/usr/local/icu-${ICU_VERSION}/lib:$LD_LIBRARY_PATH
+          export PKG_CONFIG_PATH=/usr/local/icu-${ICU_MAJOR}_${ICU_MINOR}/lib/pkgconfig:$PKG_CONFIG_PATH
+          export CPLUS_INCLUDE_PATH=/usr/local/icu-${ICU_MAJOR}_${ICU_MINOR}/include:$CPLUS_INCLUDE_PATH
+          export LD_LIBRARY_PATH=/usr/local/icu-${ICU_MAJOR}_${ICU_MINOR}/lib:$LD_LIBRARY_PATH
           cd inflection/build
           make -j$(nproc) check
 

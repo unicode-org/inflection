@@ -1,6 +1,6 @@
 # ----------------------------------------------------------------------------------------
 # To update ICU version:
-# 1. Update the ICU_VERSION environment variable below.
+# 1. Update the ICU_ICU_MAJOR and ICU_MINOR environment variable below.
 # 2. Check the ICU binary URL — is the filename still Ubuntu22.04-x64.tgz?
 #    (e.g., icu4c-78_1-Ubuntu22.04-x64.tgz)
 # 3. Update inflection/CMakeLists.txt:

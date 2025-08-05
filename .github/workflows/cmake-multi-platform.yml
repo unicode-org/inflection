@@ -32,7 +32,7 @@ jobs:
         id: cache
         with:
           path: ~/icu
-          key: ${{ runner.os }}-icu-${{  env.ICU_MAJOR }}-${{ env. ICU_MINOR }}
+          key: ${{ runner.os }}-icu-${{ env.ICU_MAJOR }}-${{ env.ICU_MINOR }}
       - name: Download and install icu
         if: steps.cache.outputs.cache-hit != 'true'
         run: |

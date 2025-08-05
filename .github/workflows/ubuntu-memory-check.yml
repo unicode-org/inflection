@@ -30,7 +30,7 @@ jobs:
         id: cache
         with:
           path: ~/icu
-          key: ${{ runner.os }}-icu-${ICU_MAJOR}-${ICU_MINOR}
+          key: ${{ runner.os }}-icu-${{ env.ICU_MAJOR }}-${{ env.ICU_MINOR }}
       - name: Download and install icu
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
@@ -51,7 +51,7 @@ jobs:
       - uses: actions/cache/save@v4
         with:
           path: ~/icu
-          key: ${{ runner.os }}-icu-${ICU_MAJOR}-${ICU_MINOR}
+          key: ${{ runner.os }}-icu-${{ env.ICU_MAJOR }}-${{ env.ICU_MINOR }}
 
   checkleak:
     needs: cache-icu
@@ -106,7 +106,7 @@ jobs:
       id: cache
       with:
         path: ~/icu
-        key: ${{ runner.os }}-icu-${ICU_MAJOR}-${ICU_MINOR}
+        key: ${{ runner.os }}-icu-${{ env.ICU_MAJOR }}-${{ env.ICU_MINOR }}
 
     - name: Setup ICU_ROOT
       run: |

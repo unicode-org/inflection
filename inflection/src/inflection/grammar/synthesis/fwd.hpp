@@ -69,6 +69,11 @@ namespace inflection
             class NbGrammarSynthesizer;
             class NbGrammarSynthesizer_ArticleLookupFunction;
             class NbGrammarSynthesizer_NbDisplayFunction;
+            class MlGrammarSynthesizer;
+            class MlGrammarSynthesizer_NumberLookupFunction;
+            class MlGrammarSynthesizer_GenderLookupFunction;
+            class MlGrammarSynthesizer_CaseLookupFunction;
+            class MlGrammarSynthesizer_MlDisplayFunction;
             class NlGrammarSynthesizer;
             class NlGrammarSynthesizer_ArticleLookupFunction;
             class NlGrammarSynthesizer_DefinitenessLookupFunction;

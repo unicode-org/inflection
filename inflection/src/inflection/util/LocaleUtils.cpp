@@ -407,6 +407,18 @@ const ULocale& LocaleUtils::MALAYSIA()
     return *npc(MALAYSIA_);
 }
 
+const ULocale& LocaleUtils::MALAYALAM()
+{
+    static auto MALAYALAM_ = new ULocale("ml");
+    return *npc(MALAYALAM_);
+}
+
+const ULocale& LocaleUtils::INDIA_MALAYALAM()
+{
+    static auto INDIA_MALAYALAM_ = new ULocale("ml", "IN");
+    return *npc(INDIA_MALAYALAM_);
+}
+
 const ULocale& LocaleUtils::NORWEGIAN()
 {
     static auto NORWEGIAN_ = new ULocale("nb");

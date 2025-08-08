@@ -134,8 +134,8 @@ std::u16string MlGrammarSynthesizer_MlDisplayFunction::inflectPhrase(
     const std::vector<std::u16string>& constraintValues,
     bool enableInflectionGuess) const
 {
-    std::unique_ptr<inflection::tokenizer::Tokenizer> tokenizer =
-        inflection::tokenizer::TokenizerFactory::createTokenizer(util::LocaleUtils::MALAYALAM());
+    std::unique_ptr<inflection::tokenizer::Tokenizer> tokenizer(
+    inflection::tokenizer::TokenizerFactory::createTokenizer(util::LocaleUtils::MALAYALAM()));
 
     if (!tokenizer)
         return phrase;

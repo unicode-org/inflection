@@ -1,19 +1,19 @@
-/*
- * Copyright 2025 Unicode Incorporated and others. All rights reserved.
- */
 #pragma once
 
-#include <inflection/dialog/DefaultDisplayFunction.hpp>
+#include <inflection/dictionary/fwd.hpp>
+#include <inflection/dictionary/Inflector.hpp>
+#include <inflection/dialog/fwd.hpp>
 #include <inflection/grammar/synthesis/fwd.hpp>
-#include <inflection/dialog/SemanticFeature.hpp>
-#include <inflection/dialog/SemanticFeatureModel.hpp>
-#include <inflection/dialog/DisplayValue.hpp>
+#include <inflection/dialog/DefaultDisplayFunction.hpp>
 #include <inflection/dialog/DictionaryLookupInflector.hpp>
 #include <string>
-#include <map>
+#include <set>
 
-class inflection::grammar::synthesis::MlGrammarSynthesizer_MlDisplayFunction
-    : public virtual ::inflection::dialog::DefaultDisplayFunction {
+namespace inflection::grammar::synthesis {
+
+class MlGrammarSynthesizer_MlDisplayFunction
+    : public virtual ::inflection::dialog::DefaultDisplayFunction
+{
 public:
     using super = ::inflection::dialog::DefaultDisplayFunction;
 
@@ -38,12 +38,20 @@ public:
         const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints,
         bool enableInflectionGuess) const override;
 
+    ::std::u16string inflectPhrase(
+        const ::std::u16string& phrase,
+        const ::std::vector<::std::u16string>& constraintValues,
+        bool enableInflectionGuess) const;
+
+public:
     explicit MlGrammarSynthesizer_MlDisplayFunction(const ::inflection::dialog::SemanticFeatureModel& model);
     ~MlGrammarSynthesizer_MlDisplayFunction() override;
 
     MlGrammarSynthesizer_MlDisplayFunction(MlGrammarSynthesizer_MlDisplayFunction&) = delete;
-    MlGrammarSynthesizer_MlDisplayFunction& operator=(const MlGrammarSynthesizer_MlDisplayFunction&) = delete;
+    MlGrammarSynthesizer_MlDisplayFunction& operator=(MlGrammarSynthesizer_MlDisplayFunction&) = delete;
 
 private:
     friend class MlGrammarSynthesizer;
 };
+
+} // namespace inflection::grammar::synthesis

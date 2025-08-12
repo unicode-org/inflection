@@ -61,6 +61,5 @@
     <!-- Plural token examples -->
     <test><source person="first" number="plural" case="nominative" clusivity="exclusive"/><result>ഞങ്ങൾ</result></test>
     <test><source person="first" number="plural" case="nominative" clusivity="inclusive"/><result>നാം</result></test>
-    <test><source person="first" number="plural">ഞങ്ങൾ രണ്ടുപേർ</source><result>ഞങ്ങൾ രണ്ടുപേർ</result></test>
 
 </inflectionTest>

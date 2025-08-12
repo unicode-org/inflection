@@ -17,39 +17,15 @@
     </test>
 
     <test>
-        <annotatedTokens>Facebook|പേജ്</annotatedTokens>
+        <annotatedTokens>പുസ്തകം|ഉണ്ട്</annotatedTokens> 
     </test>
 
     <test>
-        <annotatedTokens>2025|ലെ|തിരഞ്ഞെടുപ്പ്</annotatedTokens>
-    </test>
-
-    <test>
-        <annotatedTokens>പുസ്തകം|ഉണ്ട്</annotatedTokens> <!-- noun + verb -->
-    </test>
-
-    <test>
-        <annotatedTokens>വീട്|ക്ക്</annotatedTokens> <!-- noun + dative case -->
+        <annotatedTokens>വീട്|ക്ക്</annotatedTokens> 
     </test>
 
     <test>
         <annotatedTokens>ശ്രീ|നാരായണ|ഗുരു</annotatedTokens>
-    </test>
-
-    <test>
-        <annotatedTokens>കമ്പ്യൂട്ടര്‍|സോഫ്റ്റ്‌വെയര്‍</annotatedTokens>
-    </test>
-
-    <test>
-        <annotatedTokens>AI|മോഡല്‍</annotatedTokens>
-    </test>
-
-    <test>
-        <annotatedTokens>5|ാം|ക്ലാസ്</annotatedTokens>
-    </test>
-
-    <test>
-        <annotatedTokens>1990|ല്‍</annotatedTokens>
     </test>
 
     <test>

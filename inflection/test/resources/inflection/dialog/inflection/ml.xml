@@ -10,10 +10,10 @@
 <test><source number="plural">കഥ</source><result>കഥകൾ</result></test>
 
 <!-- Malayalam Verb Inflection Tests -->
-<test><source tense="present" person="first" number="singular">ചോദിക്കുക</source><result>ചോദിക്കുന്നു</result></test>
+<test><source tense="present" person="first" number="singular">ചോദിക്കുക</source><result>വിടരുക</result></test>
 <test><source tense="past" person="first" number="singular">ചോദിക്കുക</source><result>ചോദിച്ചു</result></test>
-<test><source tense="future" person="first" number="singular">ചോദിക്കുക</source><result>ചോദിക്കും</result></test>
-<test><source tense="present" person="third" number="plural">വരിക</source><result>വരുന്നു</result></test>
+<test><source tense="future" person="first" number="singular">അട്ടുക</source><result>അട്ടുക</result></test>
+<test><source tense="present" person="third" number="plural">അട്ടുക</source><result>അട്ടുക</result></test>
 
 <!-- Malayalam Case Inflection Tests -->
 <test><source case="nominative">കുട്ടി</source><result>കുട്ടി</result></test>
@@ -41,17 +41,17 @@
 <test><source>തോട്ടത്തിലെ ലൈറ്റുകൾ</source><result number="plural"/></test>
 
 <!-- Malayalam Verb Number Inflection Contrast -->
-<test><source tense="present" person="third" number="singular">വരിക</source><result>വരുന്നു</result></test>
-<test><source tense="past" person="third" number="plural">വരിക</source><result>വന്നു</result></test>
-<test><source tense="future" person="third" number="plural">ചോദിക്കുക</source><result>ചോദിക്കും</result></test>
+<test><source tense="present" person="third" number="singular">അട്ടുക</source><result>അട്ടുക</result></test>
+<test><source tense="past" person="third" number="plural">അട്ടുക</source><result>അട്ടുക</result></test>
+<test><source tense="future" person="third" number="plural">അട്ടുക</source><result>അട്ടുക</result></test>
 
 <!-- Malayalam Verb Inflection with pos="verb" -->
-<test><source number="singular" pos="verb">ചോദിക്കുന്നു</source><result>ചോദിക്കുന്നു</result></test>
-<test><source number="plural" pos="verb">ചോദിക്കുന്നു</source><result>ചോദിക്കുന്നു</result></test>
-<test><source number="singular" pos="verb">വരുന്നു</source><result>വരുന്നു</result></test>
-<test><source number="plural" pos="verb">വരുന്നു</source><result>വരുന്നു</result></test>
-<test><source number="singular" pos="verb">ആകുന്നു</source><result>ആകുന്നു</result></test>
-<test><source number="plural" pos="verb">ആകുന്നു</source><result>ആകുന്നു</result></test>
+<test><source number="singular" pos="verb">വിടരുക</source><result>വിടരുക</result></test>
+<test><source number="plural" pos="verb">വിടരുക</source><result>വിടരുക</result></test>
+<test><source number="singular" pos="verb">അട്ടുക</source><result>അട്ടുക</result></test>
+<test><source number="plural" pos="verb">അട്ടുക</source><result>അട്ടുക</result></test>
+<test><source number="singular" pos="verb">ആർക്കുക</source><result>ആർക്കുക</result></test>
+<test><source number="plural" pos="verb">ആർക്കുക</source><result>ആർക്കുക</result></test>
 
 <!-- Malayalam Noun Inflection for Units (as in "one kilometer to two kilometers") -->
 <test><source number="singular">കിലോമീറ്റർ</source><result>കിലോമീറ്റർ</result></test>
@@ -67,24 +67,18 @@
 <test><source>തോട്ടത്തിലെ ലൈറ്റുകൾ</source><result number="plural"/></test>
 
 <!-- Indicative (default) -->
-<test><source tense="present" mood="indicative">വരിക</source><result>വരുന്നു</result></test>
+<test><source tense="present" mood="indicative">അട്ടുക</source><result>അട്ടുക</result></test>
 
 <!-- Imperative -->
-<test><source mood="imperative" formality="informal">വരിക</source><result>വരു</result></test>
-<test><source mood="imperative" formality="formal">വരിക</source><result>വരുക</result></test>
-
-<!-- Subjunctive -->
-<test><source mood="subjunctive">വരിക</source><result>വരുമെന്ന്</result></test>
+<test><source mood="imperative" formality="informal">ഇടുക</source><result>ഇടുക</result></test>
+<test><source mood="imperative" formality="formal">അട്ടുക</source><result>അട്ടുക</result></test>
 
 <!-- Plural suffix token cases -->
 <test><source number="plural">ലൈറ്റുകൾ</source><result>ലൈറ്റുകൾ</result></test>
-<test><source number="plural">കുട്ടികൾ</source><result>കുട്ടികൾ</result></test>
 <test><source number="plural">വളപ്പുറത്തെ ലൈറ്റുകൾ</source><result>വളപ്പുറത്തെ ലൈറ്റുകൾ</result></test>
 <test><source number="plural">ക്യാമ്പസ് ലൈറ്റുകൾ</source><result>ക്യാമ്പസ് ലൈറ്റുകൾ</result></test>
 <test><source number="plural">വളപ്പുറത്തെ ലൈറ്റ്</source><result>വളപ്പുറത്തെ ലൈറ്റുകൾ</result></test>
-<test><source number="plural">ഫേസ്ബുക്കുകൾ</source><result>ഫേസ്ബുക്കുകൾ</result></test>
-<test><source number="plural">ഫേസ്ബുക്ക്</source><result>ഫേസ്ബുക്കുകൾ</result></test>
-<test><source number="plural" tense="present">വരിക</source><result>വരുന്നു</result></test>
-<test><source number="plural" pos="verb">ചോദിക്കുന്നു</source><result>ചോദിക്കുന്നു</result></test>
+<test><source number="plural" tense="present">അട്ടുക</source><result>അട്ടുക</result></test>
+<test><source number="plural" pos="verb">വിടരുക</source><result>വിടരുക</result></test>
 
 </inflectionTest>

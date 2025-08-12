@@ -26,8 +26,17 @@ DisplayValue::DisplayValue(const ::std::u16string& value)
 
 DisplayValue::DisplayValue(
     const SpeakableString& value,
+    const SemanticFeature& speakFeature
+)
+    : DisplayValue(value, speakFeature, {})
+{
+}
+
+DisplayValue::DisplayValue(
+    const SpeakableString& value,
     const SemanticFeature& speakFeature, 
-    const ::std::map<SemanticFeature, ::std::u16string> constraintMap)
+    const ::std::map<SemanticFeature, ::std::u16string>& constraintMap
+)
     : DisplayValue(value.getPrint(), constraintMap)
 {
     if (!value.speakEqualsPrint()) {
@@ -35,15 +44,6 @@ DisplayValue::DisplayValue(
     }
 }
 
-DisplayValue::DisplayValue(
-    const SpeakableString& value,
-    const SemanticFeature& speakFeature)
-    : DisplayValue(value.getPrint(), {})
-{
-    if (!value.speakEqualsPrint()) {
-        this->constraintMap.emplace(speakFeature, value.getSpeak());
-    }
-}
 DisplayValue::~DisplayValue()
 {
 }

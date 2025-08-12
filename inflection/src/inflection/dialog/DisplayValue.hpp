@@ -78,7 +78,7 @@ public:
      * @param speakFeature The speakFeature from the SemanticFeatureModel that represents the SemanticFeature for the speak information for a SpeakableString.
      * @param constraintMap The intitial constraint map.
      */
-    DisplayValue(const SpeakableString& value, const SemanticFeature& speakFeature, const ::std::map<SemanticFeature, ::std::u16string> constraintMap);
+    DisplayValue(const SpeakableString& value, const SemanticFeature& speakFeature, const ::std::map<SemanticFeature, ::std::u16string>& constraintMap);
     /**
      * The destructor
      */

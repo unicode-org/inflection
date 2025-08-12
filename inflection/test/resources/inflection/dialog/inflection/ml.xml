@@ -16,12 +16,12 @@
 <test><source tense="present" person="third" number="plural">അട്ടുക</source><result>അട്ടുക</result></test>
 
 <!-- Malayalam Case Inflection Tests -->
-<test><source case="nominative">കുട്ടി</source><result>കുട്ടി</result></test>
-<test><source case="accusative">കുട്ടി</source><result>കുട്ടിയെ</result></test>
-<test><source case="dative">കുട്ടി</source><result>കുട്ടിക്ക്</result></test>
-<test><source case="genitive">കുട്ടി</source><result>കുട്ടിയുടെ</result></test>
-<test><source case="locative">കുട്ടി</source><result>കുട്ടിയിൽ</result></test>
-<test><source case="instrumental">കുട്ടി</source><result>കുട്ടിയാൽ</result></test>
+<test><source case="nominative">പക്ഷി</source><result>പക്ഷി</result></test>
+<test><source case="accusative">പക്ഷി</source><result>പക്ഷിയെ</result></test>
+<test><source case="dative">പക്ഷി</source><result>പക്ഷിക്ക്</result></test>
+<test><source case="genitive">പക്ഷി</source><result>പക്ഷിയുടെ</result></test>
+<test><source case="locative">പക്ഷി</source><result>പക്ഷിയിൽ</result></test>
+<test><source case="instrumental">പക്ഷി</source><result>പക്ഷിയാൽ</result></test>
 
 <!-- Malayalam Adjective Inflection Tests -->
 <test><source gender="feminine">പുതിയ</source><result>പുതിയ</result></test>

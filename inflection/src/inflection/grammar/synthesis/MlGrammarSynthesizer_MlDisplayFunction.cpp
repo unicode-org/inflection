@@ -102,13 +102,45 @@ static int32_t buildSuffixKey(const std::vector<std::u16string>& constraintValue
     return key;
 }
 
+static int32_t buildVerbSuffixKey(const std::vector<std::u16string>& constraintValues) {
+    int32_t key = 0;
+    for (const auto& val : constraintValues) {
+        if (val == PERSON_FIRST)  key |= 0x01;
+        else if (val == PERSON_SECOND) key |= 0x02;
+        else if (val == PERSON_THIRD)  key |= 0x04;
+
+        if (val == NUMBER_SINGULAR) key |= 0x10;
+        else if (val == NUMBER_PLURAL) key |= 0x20;
+
+        if (val == TENSE_PAST)    key |= 0x100;
+        else if (val == TENSE_PRESENT) key |= 0x200;
+        else if (val == TENSE_FUTURE)  key |= 0x400;
+
+        if (val == MOOD_INDICATIVE) key |= 0x1000;
+        else if (val == MOOD_IMPERATIVE) key |= 0x2000;
+        else if (val == MOOD_SUBJUNCTIVE) key |= 0x4000;
+    }
+    return key;
+}
+
 static const std::map<int32_t, std::u16string> malayalamSuffixMap = {
     {0x01 | 0x10, u""},        // nominative singular no suffix
-    {0x01 | 0x20, u"കൾ"},     // nominative plural
+    {0x01 | 0x20, u"കൾ"},     // nominative plural (noun)
     {0x04 | 0x10, u"ക്ക്"},     // dative singular
     {0x04 | 0x20, u"കൾക്ക്"},  // dative plural
     {0x08 | 0x10, u"യുടെ"},   // genitive singular
     {0x08 | 0x20, u"കളുടെ"}, // genitive plural
+};
+
+// Add verb suffixes for pluralization
+static const std::map<int32_t, std::u16string> malayalamVerbSuffixMap = {
+    {0x04 | 0x20 | 0x200 | 0x1000, u"ുന്നു"},   
+    {0x20 | 0x100 | 0x1000, u"ന്നു"},
+    {0x20 | 0x400 | 0x1000, u"ക്കും"},
+    {0x01 | 0x10 | 0x200 | 0x1000, u"ുന്നു"},
+    {0x02 | 0x10 | 0x200 | 0x1000, u"ുന്നു"},
+    {0x20 | 0x2000, u"കൂ"},
+    {0x20 | 0x4000, u"ുക"},
 };
 
 static std::vector<std::u16string> buildConstraintVector(
@@ -149,19 +181,32 @@ static std::vector<std::u16string> buildConstraintVector(
     return vals;
 }
 
-static std::optional<std::u16string> guessFallbackInflection(
+static std::optional<std::u16string> guessFallbackNounInflection(
     const std::u16string& token,
     const std::vector<std::u16string>& constraintValues)
 {
     bool wantsPlural = std::find(constraintValues.begin(), constraintValues.end(), NUMBER_PLURAL) != constraintValues.end();
 
     if (wantsPlural) {
+        // Malayalam noun plural suffix logic
         if (token.ends_with(u"ം")) {
-            // Replace "ം" with "ങ്ങൾ"
             return token.substr(0, token.size() - 1) + u"ങ്ങൾ";
         }
-        // Simple plural suffix addition
         return token + u"കൾ";
+    }
+
+    return std::nullopt;
+}
+
+static std::optional<std::u16string> guessFallbackVerbInflection(
+    const std::u16string& token,
+    const std::vector<std::u16string>& constraintValues)
+{
+    int32_t key = buildVerbSuffixKey(constraintValues);
+
+    auto it = malayalamVerbSuffixMap.find(key);
+    if (it != malayalamVerbSuffixMap.end()) {
+        return token + it->second;
     }
 
     return std::nullopt;
@@ -172,7 +217,6 @@ std::u16string MlGrammarSynthesizer_MlDisplayFunction::inflectPhrase(
     const std::vector<std::u16string>& constraintValues,
     bool enableInflectionGuess) const
 {
-    // Create Malayalam tokenizer
     std::unique_ptr<inflection::tokenizer::Tokenizer> tokenizer(
         inflection::tokenizer::TokenizerFactory::createTokenizer(util::LocaleUtils::MALAYALAM()));
 
@@ -202,12 +246,21 @@ std::u16string MlGrammarSynthesizer_MlDisplayFunction::inflectPhrase(
             auto it = malayalamSuffixMap.find(key);
             if (it != malayalamSuffixMap.end()) {
                 inflectedOpt = headText + it->second;
+            } else {
+                inflectedOpt = guessFallbackNounInflection(headText, constraintValues);
             }
+        } else if (posVal == GrammemeConstants::POS_VERB()) {
+            inflectedOpt = guessFallbackVerbInflection(headText, constraintValues);
         }
     }
 
-    if (!inflectedOpt.has_value() && enableInflectionGuess)
-        inflectedOpt = guessFallbackInflection(headText, constraintValues);
+    if (!inflectedOpt.has_value() && enableInflectionGuess) {
+        if (posVal == GrammemeConstants::POS_VERB()) {
+            inflectedOpt = guessFallbackVerbInflection(headText, constraintValues);
+        } else if (posVal == GrammemeConstants::POS_NOUN() || posVal == GrammemeConstants::POS_PRONOUN()) {
+            inflectedOpt = guessFallbackNounInflection(headText, constraintValues);
+        }
+    }
 
     if (!inflectedOpt.has_value()) return phrase;
 

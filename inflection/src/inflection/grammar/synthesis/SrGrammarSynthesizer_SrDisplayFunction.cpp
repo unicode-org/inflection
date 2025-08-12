@@ -213,8 +213,9 @@ Syllables countSyllables(const ::std::u16string& lemma) {
 
 ::std::u16string inflectByRuleA(const ::std::u16string &lemma, const ::std::u16string &number, const ::std::u16string &targetCase)
 {
-    static constexpr auto suffix_sg = ::std::to_array<::std::u16string>({u"а", u"е", u"и", u"у", u"а", u"ом", u"и"});
-    static constexpr auto suffix_pl = ::std::to_array<::std::u16string>({u"е", u"а", u"ама", u"е", u"е", u"ама", u"ама"});
+    // 2025-08: MacOS doesn't like to_array, so we'll initialize manually.
+    static constexpr ::std::array<::std::u16string, NUMBER_OF_CASES> suffix_sg = {u"а", u"е", u"и", u"у", u"а", u"ом", u"и"};
+    static constexpr ::std::array<::std::u16string, NUMBER_OF_CASES> suffix_pl = {u"е", u"а", u"ама", u"е", u"е", u"ама", u"ама"};
 
     ::std::u16string base = lemma;
     // Remove trailing a and apply suffix.

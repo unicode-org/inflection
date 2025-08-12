@@ -18,7 +18,7 @@
 #include <inflection/util/StringViewUtils.hpp>
 #include <inflection/util/Validate.hpp>
 #include <inflection/util/UnicodeSetUtils.hpp>
-#include <icu4cxx/UnicodeSet.hpp>  // icu4cxx namespace used
+#include <icu4cxx/UnicodeSet.hpp> 
 #include <unicode/uchar.h>
 #include <inflection/npc.hpp>
 #include <memory>
@@ -32,11 +32,9 @@ using dialog::SemanticFeature;
 using dialog::SemanticFeatureModel_DisplayData;
 using dialog::DisplayValue;
 
-// UnicodeSets for Malayalam characters and non-Malayalam characters
 static const icu4cxx::UnicodeSet malayalamInflectableChars(u"[\\u0D00-\\u0D7F]");
 static const icu4cxx::UnicodeSet nonMalayalamChars(u"[\\p{Latin}\\p{Nd}\\p{Punct}]");
 
-// Feature string constants for ease of use
 static constexpr auto CASE_NOMINATIVE   = u"nominative";
 static constexpr auto CASE_ACCUSATIVE   = u"accusative";
 static constexpr auto CASE_DATIVE       = u"dative";
@@ -70,7 +68,6 @@ static constexpr auto MOOD_INDICATIVE  = u"indicative";
 static constexpr auto MOOD_IMPERATIVE  = u"imperative";
 static constexpr auto MOOD_SUBJUNCTIVE = u"subjunctive";
 
-// Helper to get feature value by name from feature map
 static std::u16string getStrFeature(
     const std::u16string& name,
     const std::map<dialog::SemanticFeature, std::u16string>& features)
@@ -81,7 +78,6 @@ static std::u16string getStrFeature(
     return u"";
 }
 
-// TODO: Implement actual Malayalam pronoun fallback logic here
 static std::u16string fallbackMalayalamPronoun(
     const std::map<dialog::SemanticFeature, std::u16string>& features)
 {
@@ -93,7 +89,6 @@ static std::u16string fallbackMalayalamPronoun(
     return u"";
 }
 
-// Build a bitmask key based on case and number features for suffix lookup
 static int32_t buildSuffixKey(const std::vector<std::u16string>& constraintValues) {
     int32_t key = 0;
     for (const auto& val : constraintValues) {
@@ -107,7 +102,6 @@ static int32_t buildSuffixKey(const std::vector<std::u16string>& constraintValue
     return key;
 }
 
-// Malayalam suffixes keyed by case and number (only for nouns/pronouns)
 static const std::map<int32_t, std::u16string> malayalamSuffixMap = {
     {0x01 | 0x10, u""},        // nominative singular no suffix
     {0x01 | 0x20, u"കൾ"},     // nominative plural
@@ -117,7 +111,6 @@ static const std::map<int32_t, std::u16string> malayalamSuffixMap = {
     {0x08 | 0x20, u"കളുടെ"}, // genitive plural
 };
 
-// Build constraint vector from semantic features, preserving order
 static std::vector<std::u16string> buildConstraintVector(
     const std::map<SemanticFeature, std::u16string>& constraints,
     const SemanticFeature& posFeature,
@@ -140,7 +133,6 @@ static std::vector<std::u16string> buildConstraintVector(
 
     const auto posVal = GrammarSynthesizerUtil::getFeatureValue(constraints, posFeature);
 
-    // Add features in prioritized order
     addIfNotEmpty(caseFeature);
     addIfNotEmpty(numberFeature);
     addIfNotEmpty(genderFeature);
@@ -157,7 +149,6 @@ static std::vector<std::u16string> buildConstraintVector(
     return vals;
 }
 
-// Guess fallback plural inflection for nouns ending in "ം"
 static std::optional<std::u16string> guessFallbackInflection(
     const std::u16string& token,
     const std::vector<std::u16string>& constraintValues)
@@ -197,7 +188,6 @@ std::u16string MlGrammarSynthesizer_MlDisplayFunction::inflectPhrase(
 
     auto inflectedOpt = dictionaryInflector.inflect(headText, wordGrammemes, constraintValues);
 
-    // Determine POS from constraints vector (simplified extraction)
     std::u16string posVal;
     for (const auto& val : constraintValues) {
         if (val == GrammemeConstants::POS_NOUN() || val == GrammemeConstants::POS_PRONOUN() || val == GrammemeConstants::POS_VERB()) {
@@ -206,7 +196,6 @@ std::u16string MlGrammarSynthesizer_MlDisplayFunction::inflectPhrase(
         }
     }
 
-    // Only apply noun suffixes if POS is noun or pronoun
     if (!inflectedOpt.has_value()) {
         if (posVal == GrammemeConstants::POS_NOUN() || posVal == GrammemeConstants::POS_PRONOUN()) {
             int32_t key = buildSuffixKey(constraintValues);
@@ -217,13 +206,11 @@ std::u16string MlGrammarSynthesizer_MlDisplayFunction::inflectPhrase(
         }
     }
 
-    // Fallback guess
     if (!inflectedOpt.has_value() && enableInflectionGuess)
         inflectedOpt = guessFallbackInflection(headText, constraintValues);
 
     if (!inflectedOpt.has_value()) return phrase;
 
-    // Reconstruct phrase with any following tokens
     std::u16string result = *inflectedOpt;
     for (int i = 1; i < tokenChain->getWordCount(); ++i) {
         result += u" " + tokenChain->getTokenValue(i);
@@ -263,7 +250,6 @@ MlGrammarSynthesizer_MlDisplayFunction::MlGrammarSynthesizer_MlDisplayFunction(
           true)
 {}
 
-// Return display value with inflection applied when appropriate
 ::inflection::dialog::DisplayValue* MlGrammarSynthesizer_MlDisplayFunction::getDisplayValue(
     const SemanticFeatureModel_DisplayData& displayData,
     const std::map<SemanticFeature, std::u16string>& constraints,
@@ -271,7 +257,6 @@ MlGrammarSynthesizer_MlDisplayFunction::MlGrammarSynthesizer_MlDisplayFunction(
 {
     const auto displayValue = GrammarSynthesizerUtil::getTheBestDisplayValue(displayData, constraints);
     if (!displayValue || displayValue->getDisplayString().empty()) {
-        // Fallback pronoun logic
         if (GrammarSynthesizerUtil::getFeatureValue(constraints, posFeature) == GrammemeConstants::POS_PRONOUN()) {
             std::u16string fallback = fallbackMalayalamPronoun(constraints);
             if (!fallback.empty()) return new DisplayValue(fallback, constraints);
@@ -281,7 +266,6 @@ MlGrammarSynthesizer_MlDisplayFunction::MlGrammarSynthesizer_MlDisplayFunction(
 
     const std::u16string& firstDisplayValue = displayValue->getDisplayString();
 
-    // Early return if constraints empty or string contains no Malayalam or contains disallowed chars
     if (constraints.empty() ||
         !inflection::util::UnicodeSetUtils::containsSome(malayalamInflectableChars, firstDisplayValue) ||
         inflection::util::UnicodeSetUtils::containsSome(nonMalayalamChars, firstDisplayValue))
@@ -289,7 +273,6 @@ MlGrammarSynthesizer_MlDisplayFunction::MlGrammarSynthesizer_MlDisplayFunction(
         return new DisplayValue(firstDisplayValue, constraints);
     }
 
-    // Build constraint values vector
     std::vector<std::u16string> constraintValues = buildConstraintVector(
         constraints, posFeature, caseFeature, numberFeature, genderFeature,
         formalityFeature, clusivityFeature, personFeature, determinationFeature,
@@ -301,7 +284,6 @@ MlGrammarSynthesizer_MlDisplayFunction::MlGrammarSynthesizer_MlDisplayFunction(
         return new DisplayValue(inflected, constraints);
     }
 
-    // Fallback pronoun again if inflection failed
     if (GrammarSynthesizerUtil::getFeatureValue(constraints, posFeature) == GrammemeConstants::POS_PRONOUN()) {
         std::u16string fallback = fallbackMalayalamPronoun(constraints);
         if (!fallback.empty()) return new DisplayValue(fallback, constraints);

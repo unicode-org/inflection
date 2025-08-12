@@ -9,7 +9,10 @@
 namespace inflection::dialog {
 
 
-DisplayValue::DisplayValue(const ::std::u16string& displayString, const ::std::map<SemanticFeature, ::std::u16string>& constraintMap)
+DisplayValue::DisplayValue(
+    const ::std::u16string& displayString,
+    const ::std::map<SemanticFeature, ::std::u16string>& constraintMap
+)
     : super()
     , displayString(displayString)
     , constraintMap(constraintMap)
@@ -21,11 +24,23 @@ DisplayValue::DisplayValue(const ::std::u16string& value)
 {
 }
 
-DisplayValue::DisplayValue(const SpeakableString& value, const SemanticFeature& speakFeature)
-    : DisplayValue(value.getPrint(), {})
+DisplayValue::DisplayValue(
+    const SpeakableString& value,
+    const SemanticFeature& speakFeature
+)
+    : DisplayValue(value, speakFeature, {})
+{
+}
+
+DisplayValue::DisplayValue(
+    const SpeakableString& value,
+    const SemanticFeature& speakFeature, 
+    const ::std::map<SemanticFeature, ::std::u16string>& constraintMap
+)
+    : DisplayValue(value.getPrint(), constraintMap)
 {
     if (!value.speakEqualsPrint()) {
-        constraintMap.emplace(speakFeature, value.getSpeak());
+        this->constraintMap.emplace(speakFeature, value.getSpeak());
     }
 }
 

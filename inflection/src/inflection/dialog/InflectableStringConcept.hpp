@@ -69,6 +69,15 @@ public:
      * @param value - The speakable string to convert to a concept
      */
     InflectableStringConcept(const SemanticFeatureModel* model, const SpeakableString& value);
+
+    /**
+     * Constructs a concept given a semantic feature model and a speakable string
+     *
+     * @param model - The semantic feature model required to initialize the concept.
+     * @param value - The speakable string to convert to a concept
+     * @param intitialConstraints - The intitial constraints for the map.
+     */
+    InflectableStringConcept(const SemanticFeatureModel* model, const SpeakableString& value, const std::map<SemanticFeature, ::std::u16string>& intitialConstraints);
     /**
      * Copy constructor
      */

@@ -96,7 +96,8 @@ namespace {
 static constexpr auto NUMBER_OF_CASES = 7UL;
 
 // Given the table of all suffixes, both for singular and plural, append suffix to lemma, matching the number and case.
-::std::u16string applySuffix(const ::std::u16string&, const ::std::array<::std::u16string, NUMBER_OF_CASES>&, const ::std::array<::std::u16string, NUMBER_OF_CASES>&, const ::std::u16string&, const ::std::u16string&);
+::std::u16string applySuffix(const ::std::u16string&, const ::std::array<::std::u16string_view, NUMBER_OF_CASES>&, const ::std::array<::std::u16string_view, NUMBER_OF_CASES>&, const ::std::u16string&, const ::std::u16string&);
+
 // Check if proper noun by checking the first character is capital letter.
 bool isProperNoun(const ::std::u16string &lemma);
 
@@ -213,9 +214,8 @@ Syllables countSyllables(const ::std::u16string& lemma) {
 
 ::std::u16string inflectByRuleA(const ::std::u16string &lemma, const ::std::u16string &number, const ::std::u16string &targetCase)
 {
-    // 2025-08: MacOS doesn't like to_array, so we'll initialize manually.
-    static constexpr ::std::array<::std::u16string, NUMBER_OF_CASES> suffix_sg = {u"а", u"е", u"и", u"у", u"а", u"ом", u"и"};
-    static constexpr ::std::array<::std::u16string, NUMBER_OF_CASES> suffix_pl = {u"е", u"а", u"ама", u"е", u"е", u"ама", u"ама"};
+    static constexpr auto suffix_sg = ::std::to_array<::std::u16string_view>({u"а", u"е", u"и", u"у", u"а", u"ом", u"и"});
+    static constexpr auto suffix_pl = ::std::to_array<::std::u16string_view>({u"е", u"а", u"ама", u"е", u"е", u"ама", u"ама"});
 
     ::std::u16string base = lemma;
     // Remove trailing a and apply suffix.
@@ -258,7 +258,7 @@ Syllables countSyllables(const ::std::u16string& lemma) {
     return lemma;
 }
 
-::std::u16string applySuffix(const ::std::u16string &lemma, const ::std::array<::std::u16string, NUMBER_OF_CASES>& suffix_sg, const ::std::array<::std::u16string, NUMBER_OF_CASES>& suffix_pl,
+::std::u16string applySuffix(const ::std::u16string &lemma, const ::std::array<::std::u16string_view, NUMBER_OF_CASES>& suffix_sg, const ::std::array<::std::u16string_view, NUMBER_OF_CASES>& suffix_pl,
     const ::std::u16string &number, const ::std::u16string &targetCase)
 {
     const ::std::map<::std::u16string, size_t> case_index = {
@@ -274,9 +274,9 @@ Syllables countSyllables(const ::std::u16string& lemma) {
     auto index = case_index.at(targetCase);
 
     if (number == GrammemeConstants::NUMBER_SINGULAR()) {
-        return lemma + suffix_sg[index];
+        return lemma + ::std::u16string(suffix_sg[index]);
     } else {
-        return lemma + suffix_pl[index];
+        return lemma + ::std::u16string(suffix_pl[index]);
     }
 }
 

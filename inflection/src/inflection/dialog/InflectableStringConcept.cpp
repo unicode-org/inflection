@@ -15,7 +15,21 @@
 
 namespace inflection::dialog {
 
-InflectableStringConcept::InflectableStringConcept(const SemanticFeatureModel* model, const SpeakableString& value)
+InflectableStringConcept::InflectableStringConcept(
+    const SemanticFeatureModel* model,
+    const SpeakableString& value,
+    const ::std::map<SemanticFeature, ::std::u16string> intitialConstraints
+)
+    : super(model)
+    , value(value)
+    , defaultDisplayValue(value, *npc(super::getSpeakFeature()), intitialConstraints)
+{
+}
+
+InflectableStringConcept::InflectableStringConcept(
+    const SemanticFeatureModel* model,
+    const SpeakableString& value
+)
     : super(model)
     , value(value)
     , defaultDisplayValue(value, *npc(super::getSpeakFeature()))
@@ -28,6 +42,8 @@ InflectableStringConcept::InflectableStringConcept(const InflectableStringConcep
     , defaultDisplayValue(other.defaultDisplayValue)
 {
 }
+
+
 
 InflectableStringConcept::~InflectableStringConcept()
 {

@@ -164,7 +164,7 @@ namespace {
 enum class Syllables {
     ONE_SYLLABLE,
     TWO_SYLLABLES,
-    MULTI_SILLABLES,
+    MULTI_SYLLABLES,
 };
 Syllables countSyllables(const ::std::u16string& lemma) {
     static constexpr ::std::u16string_view vowels = u"аеиоуАЕИОУ";
@@ -188,7 +188,7 @@ Syllables countSyllables(const ::std::u16string& lemma) {
     } else if (total == 2) {
         return Syllables::TWO_SYLLABLES;
     } else {
-        return Syllables::MULTI_SILLABLES;
+        return Syllables::MULTI_SYLLABLES;
     }
 }
 
@@ -225,7 +225,7 @@ Syllables countSyllables(const ::std::u16string& lemma) {
     // Vocative singular and genitive plural require special processing in some cases.
     if (number == GrammemeConstants::NUMBER_SINGULAR() && targetCase == GrammemeConstants::CASE_VOCATIVE()) {
         Syllables syllables = countSyllables(lemma);
-        if (lemma.ends_with(u"ица") && syllables == Syllables::MULTI_SILLABLES) {
+        if (lemma.ends_with(u"ица") && syllables == Syllables::MULTI_SYLLABLES) {
             base.back() = u'е';
         }
         if (isProperNoun(lemma) && syllables == Syllables::TWO_SYLLABLES) {

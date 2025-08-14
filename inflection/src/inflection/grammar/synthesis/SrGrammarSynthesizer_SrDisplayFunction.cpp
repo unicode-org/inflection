@@ -168,19 +168,26 @@ enum class Syllables {
 };
 Syllables countSyllables(const ::std::u16string& lemma) {
     static constexpr ::std::u16string_view vowels = u"аеиоуАЕИОУ";
+    static constexpr ::std::u16string_view consonants = u"бвгдђжзјклљмнњпстћфхцчџшБВГДЂЖЗЈКЛЉМНЊПСТЋФХЦЧЏШ";
+
     uint16_t total = 0;
-    // Find vowels.
+    size_t index = 0;
+    const size_t length = lemma.length();
     for (const char16_t ch: lemma) {
         if (vowels.find(ch) != ::std::string::npos) {
             ++total;
         }
-    }
-    // Find r.
-    static constexpr ::std::u16string_view regex = u"([^аеиоу]р[^аеиоу])|(^р[^аеиоу])";
-    ::icu4cxx::RegularExpression re(regex, UREGEX_CASE_INSENSITIVE, nullptr);
-    re.setText(lemma);
-    while (re.findNext()) {
-        ++total;
+        // Check case where R is at the begining followed by a consonant.
+        if ((ch == u'р' || ch == u'Р') && (index == 0 && index + 1 < length)) {
+            if (consonants.find(lemma[index + 1]) != ::std::string::npos) {
+                ++total;
+            }
+        } else if ((ch == u'р' || ch == u'Р') && (index != 0 && index + 1 < length)) {
+            if (consonants.find(lemma[index - 1]) != ::std::string::npos && consonants.find(lemma[index + 1]) != ::std::string::npos) {
+                ++total;
+            }
+        }
+        ++index;
     }
 
     if (total == 1) {

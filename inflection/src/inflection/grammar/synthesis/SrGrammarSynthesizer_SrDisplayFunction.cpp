@@ -17,12 +17,10 @@
 #include <inflection/util/LocaleUtils.hpp>
 #include <inflection/util/UnicodeSetUtils.hpp>
 #include <inflection/npc.hpp>
-#include <icu4cxx/RegularExpression.hpp>
 #include <array>
 #include <iterator>
 #include <memory>
 #include <string>
-#include "SrGrammarSynthesizer_SrDisplayFunction.hpp"
 
 namespace inflection::grammar::synthesis {
 
@@ -236,12 +234,19 @@ Syllables countSyllables(const ::std::u16string& lemma) {
         if (lemma.ends_with(u"тња") || lemma.ends_with(u"дња") || lemma.ends_with(u"пта") || lemma.ends_with(u"лба") || lemma.ends_with(u"рва")) {
             base.back() = u'и';
         }
-        size_t pos = 0;
-        if ((pos = base.rfind(u"јк")) != ::std::u16string::npos) base.replace(pos, 2, u"јак");
-        if ((pos = base.rfind(u"мљ")) != ::std::u16string::npos) base.replace(pos, 2, u"маљ");
-        if ((pos = base.rfind(u"вц")) != ::std::u16string::npos) base.replace(pos, 2, u"вац");
-        if ((pos = base.rfind(u"тк")) != ::std::u16string::npos) base.replace(pos, 2, u"так");
-        if ((pos = base.rfind(u"пк")) != ::std::u16string::npos) base.replace(pos, 2, u"пак");
+        static const char16_t *mappings[][2] = {
+            {u"јка", u"јака"},
+            {u"мља", u"маља"},
+            {u"вца", u"ваца"},
+            {u"тка", u"така"},
+            {u"пка", u"пака"},
+        };
+        for (const auto &[suffix, replacement] : mappings) {
+            if (base.ends_with(suffix)) {
+                auto suffix_length = std::u16string_view(suffix).length();
+                base.replace(base.length() - suffix_length, suffix_length, replacement);
+            }
+        }
     }
 
     return base;

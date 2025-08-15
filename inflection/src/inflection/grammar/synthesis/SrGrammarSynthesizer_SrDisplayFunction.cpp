@@ -199,23 +199,15 @@ Syllables countSyllables(const ::std::u16string& lemma) {
     }
 }
 
-::std::u16string inflectByRuleOE(const ::std::u16string &lemma, const ::std::u16string &number, const ::std::u16string &targetCase, const ::std::u16string &gender)
+::std::u16string inflectByRuleOE(const ::std::u16string &lemma, [[maybe_unused]] const ::std::u16string &number, [[maybe_unused]] const ::std::u16string &targetCase, [[maybe_unused]] const ::std::u16string &gender)
 {
     // TODO(nciric): implement logic.
-    // Silence unused variable warnings
-    auto base = number;
-    base = targetCase;
-    base = gender;
     return lemma;
 }
 
-::std::u16string inflectByRuleE(const ::std::u16string &lemma, const ::std::u16string &number, const ::std::u16string &targetCase, const ::std::u16string &gender)
+::std::u16string inflectByRuleE(const ::std::u16string &lemma, [[maybe_unused]] const ::std::u16string &number, [[maybe_unused]] const ::std::u16string &targetCase, [[maybe_unused]] const ::std::u16string &gender)
 {
     // TODO(nciric): implement logic.
-    // Silence unused variable warnings
-    auto base = number;
-    base = targetCase;
-    base = gender;
     return lemma;
 }
 
@@ -255,13 +247,9 @@ Syllables countSyllables(const ::std::u16string& lemma) {
     return base;
 }
 
-::std::u16string inflectByRuleConsonant(const ::std::u16string &lemma, const ::std::u16string &number, const ::std::u16string &targetCase, const ::std::u16string &gender)
+::std::u16string inflectByRuleConsonant(const ::std::u16string &lemma, [[maybe_unused]] const ::std::u16string &number, [[maybe_unused]] const ::std::u16string &targetCase, [[maybe_unused]] const ::std::u16string & gender)
 {
     // TODO(nciric): implement logic.
-    // Silence unused variable warnings
-    auto base = number;
-    base = targetCase;
-    base = gender;
     return lemma;
 }
 

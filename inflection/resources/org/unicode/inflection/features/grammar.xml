@@ -1624,6 +1624,106 @@
             </category>
         </grammar>
     </language>
+    <language id="ml">
+    <grammar>
+        <category name="case">
+            <grammeme name="nominative"/>      <!-- no explicit marker; subject form -->
+            <grammeme name="accusative"/>      <!-- -യെ, -ായെ, marks direct object -->
+            <grammeme name="genitive"/>        <!-- -ന്റെ, -യുടെ (possessive) -->
+            <grammeme name="dative"/>          <!-- -ക്ക്, -ന് (to/for) -->
+            <grammeme name="instrumental"/>    <!-- -ആല് (by means of) -->
+            <grammeme name="locative"/>        <!-- -യില് (in/at) -->
+            <grammeme name="sociative"/>       <!-- -ഓടു് (along with) -->
+        </category>
+        <category name="number">
+            <grammeme name="singular"/>
+            <grammeme name="plural"/>
+        </category>
+        <category name="animacy">
+                <grammeme name="animate"/>
+                <grammeme name="inanimate"/>
+                <grammeme name="human"/>
+        </category>
+        <category name="pos">
+            <grammeme name="pronoun"/>
+            <grammeme name="verb"/>
+            <grammeme name="noun"/>
+            <grammeme name="adjective"/>
+        </category>
+        <category name="person">
+            <restrictions>
+                <restriction name="pos" value="pronoun"/>
+                <restriction name="pos" value="verb"/>
+            </restrictions>
+            <grammeme name="first"/>
+            <grammeme name="second"/>
+            <grammeme name="third"/>
+        </category>
+        <category name="gender">
+            <restrictions>
+                <restriction name="pos" value="pronoun"/>
+                <restriction name="pos" value="verb"/>
+                <restriction name="pos" value="noun"/>
+            </restrictions>
+            <grammeme name="masculine"/>
+            <grammeme name="feminine"/>
+            <grammeme name="neuter"/> <!-- e.g. for objects or animals -->
+        </category>
+        <category name="tense">
+            <restrictions>
+                <restriction name="pos" value="verb"/>
+            </restrictions>
+            <grammeme name="past"/>
+            <grammeme name="present"/>
+            <grammeme name="future"/>
+        </category>
+        <category name="form">
+                <grammeme name="infinitive"/>
+                <grammeme name="participle"/>
+        </category>
+        <category name="determination">
+            <restrictions>
+                <restriction name="pos" value="pronoun"/>
+                <restriction name="case" value="genitive"/>
+            </restrictions>
+            <grammeme name="independent"/> <!-- e.g. mine -->
+            <grammeme name="dependent"/> <!-- e.g. my {object} -->
+        </category>
+        <category name="mood">
+            <restrictions>
+                <restriction name="pos" value="verb"/>
+            </restrictions>
+            <grammeme name="indicative"/>
+            <grammeme name="imperative"/>
+            <grammeme name="subjunctive"/>
+        </category>
+        <category name="pronounType">
+            <restrictions>
+                <restriction name="pos" value="pronoun"/>
+            </restrictions>
+            <grammeme name="personal"/>    <!-- regular pronouns like ഞാൻ, നീ -->
+            <grammeme name="reflexive"/>   <!-- e.g. താൻ, തങ്ങൾ -->
+            <grammeme name="proximal"/>    <!-- e.g. ഇവൻ, ഇവൾ, ഇത് -->
+            <grammeme name="distal"/>      <!-- e.g. അവൻ, അവൾ, അത് -->
+            <grammeme name="interrogative"/> <!-- e.g. എവൻ, എവൾ, ഏത് -->
+        </category>
+        <category name="formality">
+            <restrictions>
+                <restriction name="pos" value="verb"/>
+                <restriction name="pos" value="pronoun"/>
+            </restrictions>
+            <grammeme name="formal"/>
+            <grammeme name="informal"/>
+        </category>
+        <category name="clusivity">
+            <restrictions>
+                <restriction name="pos" value="pronoun"/>
+            </restrictions>
+            <grammeme name="inclusive"/>
+            <grammeme name="exclusive"/>
+        </category>
+    </grammar>
+    </language>
     <language id="ms">
         <grammar>
             <category name="clusivity">

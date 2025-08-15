@@ -11,10 +11,12 @@
 #include <inflection/dialog/SemanticFeatureModel.hpp>
 #include <inflection/dialog/SemanticFeatureModel_DisplayData.hpp>
 #include <inflection/dialog/DisplayValue.hpp>
+#include <inflection/dictionary/PhraseProperties.hpp>
 #include <inflection/grammar/synthesis/GrammemeConstants.hpp>
 #include <inflection/grammar/synthesis/GrammarSynthesizerUtil.hpp>
 #include <inflection/lang/StringFilterUtil.hpp>
 #include <inflection/util/LocaleUtils.hpp>
+#include <inflection/util/StringViewUtils.hpp>
 #include <inflection/util/UnicodeSetUtils.hpp>
 #include <inflection/npc.hpp>
 #include <array>
@@ -157,6 +159,14 @@ bool isProperNoun(const ::std::u16string &lemma);
 
 namespace {
 
+static bool isConsonant(char16_t ch) {
+    return ::inflection::lang::StringFilterUtil::CYRILLIC_SCRIPT().contains(ch) && !::inflection::dictionary::PhraseProperties::DEFAULT_VOWELS_START().contains(ch);
+}
+
+static bool isVowel(char16_t ch) {
+    return ::inflection::lang::StringFilterUtil::CYRILLIC_SCRIPT().contains(ch) && ::inflection::dictionary::PhraseProperties::DEFAULT_VOWELS_START().contains(ch);
+}
+
 // Some rules require number of syllables in the word. It's counted as all vowels plus r if in between consonants, or if it starts a word followed by a consonant.
 // We care about 1, 2 and more than 2 cases.
 enum class Syllables {
@@ -165,23 +175,20 @@ enum class Syllables {
     MULTI_SYLLABLES,
 };
 Syllables countSyllables(const ::std::u16string& lemma) {
-    static constexpr ::std::u16string_view vowels = u"аеиоуАЕИОУ";
-    static constexpr ::std::u16string_view consonants = u"бвгдђжзјклљмнњпстћфхцчџшБВГДЂЖЗЈКЛЉМНЊПСТЋФХЦЧЏШ";
-
     uint16_t total = 0;
     size_t index = 0;
     const size_t length = lemma.length();
     for (const char16_t ch: lemma) {
-        if (vowels.find(ch) != ::std::string::npos) {
+        if (isVowel(ch)) {
             ++total;
         }
         // Check case where R is at the begining followed by a consonant.
         if ((ch == u'р' || ch == u'Р') && (index == 0 && index + 1 < length)) {
-            if (consonants.find(lemma[index + 1]) != ::std::string::npos) {
+            if (isConsonant(lemma[index + 1])) {
                 ++total;
             }
         } else if ((ch == u'р' || ch == u'Р') && (index != 0 && index + 1 < length)) {
-            if (consonants.find(lemma[index - 1]) != ::std::string::npos && consonants.find(lemma[index + 1]) != ::std::string::npos) {
+            if (isConsonant(lemma[index - 1]) && isConsonant(lemma[index + 1])) {
                 ++total;
             }
         }

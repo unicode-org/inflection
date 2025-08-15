@@ -694,6 +694,7 @@
             <inflection case="instrumental" number="plural"><t><stem/>കൾക്കൊണ്ട്</t></inflection>
             <inflection case="locative" number="plural"><t><stem/>കളിങ്കൽ</t></inflection>
             <inflection case="locative" number="plural"><t><stem/>കളിൽ</t></inflection>
+            <inflection case="nominative" number="singular"><t><stem/></t></inflection>
             <inflection number="singular"><t><stem/></t></inflection>
         </inflections>
     </pattern>

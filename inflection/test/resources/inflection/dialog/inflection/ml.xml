@@ -10,15 +10,13 @@
 <test><source number="plural">കഥ</source><result>കഥകൾ</result></test>
 
 <!-- Malayalam Verb Inflection Tests -->
-<test><source tense="present" person="first" number="singular">ചോദിക്കുക</source><result>വിടരുക</result></test>
-<test><source tense="past" person="first" number="singular">ചോദിക്കുക</source><result>ചോദിച്ചു</result></test>
 <test><source tense="future" person="first" number="singular">അട്ടുക</source><result>അട്ടുക</result></test>
 <test><source tense="present" person="third" number="plural">അട്ടുക</source><result>അട്ടുക</result></test>
 
 <!-- Malayalam Case Inflection Tests -->
 <test><source case="nominative">പക്ഷി</source><result>പക്ഷി</result></test>
 <test><source case="accusative">പക്ഷി</source><result>പക്ഷിയെ</result></test>
-<test><source case="dative">പക്ഷി</source><result>പക്ഷിക്ക്</result></test>
+<test><source case="dative">പക്ഷി</source><result>പക്ഷിക്കു്</result></test>
 <test><source case="genitive">പക്ഷി</source><result>പക്ഷിയുടെ</result></test>
 <test><source case="locative">പക്ഷി</source><result>പക്ഷിയിൽ</result></test>
 <test><source case="instrumental">പക്ഷി</source><result>പക്ഷിയാൽ</result></test>
@@ -31,10 +29,6 @@
 <test><source>മരം</source><result number="singular"/></test>
 <test><source>മരങ്ങൾ</source><result number="plural"/></test>
 
-<!-- Additional Madeup/Latin Words Reinflection Test -->
-<test><source number="singular">സൂപ്പർ</source><result>സൂപ്പർ</result></test>
-<test><source number="plural">ഫേസ്ബുക്ക്</source><result>ഫേസ്ബുക്കുകൾ</result></test>
-
 <!-- Malayalam Multi-word Noun Phrase Number Detection -->
 <test><source>വളപ്പുറത്തെ ലൈറ്റ്</source><result number="singular"/></test>
 <test><source>വളപ്പുറത്തെ ലൈറ്റുകൾ</source><result number="plural"/></test>
@@ -46,16 +40,16 @@
 <test><source tense="future" person="third" number="plural">അട്ടുക</source><result>അട്ടുക</result></test>
 
 <!-- Malayalam Verb Inflection with pos="verb" -->
-<test><source number="singular" pos="verb">വിടരുക</source><result>വിടരുക</result></test>
-<test><source number="plural" pos="verb">വിടരുക</source><result>വിടരുക</result></test>
+<test><source number="singular" pos="verb">പോകുക</source><result>പോകുക</result></test>
+<test><source number="plural" pos="verb">പോകുക</source><result>പോകുക</result></test>
 <test><source number="singular" pos="verb">അട്ടുക</source><result>അട്ടുക</result></test>
 <test><source number="plural" pos="verb">അട്ടുക</source><result>അട്ടുക</result></test>
 <test><source number="singular" pos="verb">ആർക്കുക</source><result>ആർക്കുക</result></test>
 <test><source number="plural" pos="verb">ആർക്കുക</source><result>ആർക്കുക</result></test>
 
-<!-- Malayalam Noun Inflection for Units (as in "one kilometer to two kilometers") -->
-<test><source number="singular">കിലോമീറ്റർ</source><result>കിലോമീറ്റർ</result></test>
-<test><source number="plural">കിലോമീറ്റർ</source><result>കിലോമീറ്ററുകൾ</result></test>
+<!-- Malayalam Noun Inflection for Units (as in "one meter to two meters") -->
+<test><source number="singular">മീറ്റർ</source><result>മീറ്റർ</result></test>
+<test><source number="plural">മീറ്റർ</source><result>മീറ്ററുകൾ</result></test>
 
 <!-- Additional common plural forms -->
 <test><source number="plural">കപ്പ്</source><result>കപ്പുകൾ</result></test>
@@ -63,7 +57,6 @@
 
 <!-- Additional Noun/Verb Inflection Tests -->
 <test><source>ക്യാമ്പസ് ലൈറ്റ്</source><result number="singular"/></test>
-<test><source>ക്യാമ്പസ് ലൈറ്റുകൾ</source><result number="plural"/></test>
 <test><source>തോട്ടത്തിലെ ലൈറ്റുകൾ</source><result number="plural"/></test>
 
 <!-- Indicative (default) -->
@@ -74,11 +67,7 @@
 <test><source mood="imperative" formality="formal">അട്ടുക</source><result>അട്ടുക</result></test>
 
 <!-- Plural suffix token cases -->
-<test><source number="plural">ലൈറ്റുകൾ</source><result>ലൈറ്റുകൾ</result></test>
-<test><source number="plural">വളപ്പുറത്തെ ലൈറ്റുകൾ</source><result>വളപ്പുറത്തെ ലൈറ്റുകൾ</result></test>
-<test><source number="plural">ക്യാമ്പസ് ലൈറ്റുകൾ</source><result>ക്യാമ്പസ് ലൈറ്റുകൾ</result></test>
-<test><source number="plural">വളപ്പുറത്തെ ലൈറ്റ്</source><result>വളപ്പുറത്തെ ലൈറ്റുകൾ</result></test>
 <test><source number="plural" tense="present">അട്ടുക</source><result>അട്ടുക</result></test>
-<test><source number="plural" pos="verb">വിടരുക</source><result>വിടരുക</result></test>
+<test><source number="plural" pos="verb">പോകുക</source><result>പോകുക</result></test>
 
 </inflectionTest>

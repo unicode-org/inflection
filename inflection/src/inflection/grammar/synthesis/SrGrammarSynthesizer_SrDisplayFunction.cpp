@@ -139,7 +139,7 @@ bool isProperNoun(const ::std::u16string &lemma);
     return inflection;
 }
 
-::inflection::dialog::DisplayValue *SrGrammarSynthesizer_SrDisplayFunction::getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool /* enableInflectionGuess */) const
+::inflection::dialog::DisplayValue *SrGrammarSynthesizer_SrDisplayFunction::getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const
 {
     ::std::u16string displayString;
     if (!displayData.getValues().empty()) {
@@ -150,7 +150,7 @@ bool isProperNoun(const ::std::u16string &lemma);
     }
     if (dictionary.isKnownWord(displayString)) {
         displayString = inflectFromDictionary(constraints, displayString);
-    } else {
+    } else if (enableInflectionGuess) {
         // Let's use rule based inflection for nouns. Assume lemma is singular, nominative.
         displayString = inflectWithRule(constraints, displayString);
     }

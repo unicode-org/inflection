@@ -8,6 +8,7 @@ dictionary_he.lst filter=lfs diff=lfs merge=lfs -text
 dictionary_hi.lst filter=lfs diff=lfs merge=lfs -text
 dictionary_it.lst filter=lfs diff=lfs merge=lfs -text
 dictionary_ko.lst filter=lfs diff=lfs merge=lfs -text
+dictionary_ml.lst filter=lfs diff=lfs merge=lfs -text
 dictionary_nb.lst filter=lfs diff=lfs merge=lfs -text
 dictionary_nl.lst filter=lfs diff=lfs merge=lfs -text
 dictionary_pt.lst filter=lfs diff=lfs merge=lfs -text
@@ -23,6 +24,7 @@ inflectional_fr.xml filter=lfs diff=lfs merge=lfs -text
 inflectional_he.xml filter=lfs diff=lfs merge=lfs -text
 inflectional_hi.xml filter=lfs diff=lfs merge=lfs -text
 inflectional_it.xml filter=lfs diff=lfs merge=lfs -text
+inflectional_ml.xml filter=lfs diff=lfs merge=lfs -text
 inflectional_nb.xml filter=lfs diff=lfs merge=lfs -text
 inflectional_nl.xml filter=lfs diff=lfs merge=lfs -text
 inflectional_pt.xml filter=lfs diff=lfs merge=lfs -text

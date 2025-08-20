@@ -1,7 +1,7 @@
 /*
 * Copyright 2025 Unicode Incorporated and others. All rights reserved.
 */
-#include <inflection/grammar/synthesis/MlGrammarSynthesizer_CaseLookupFunction.hpp>
+#include "MlGrammarSynthesizer_CaseLookupFunction.hpp"
 
 #include <inflection/grammar/synthesis/GrammemeConstants.hpp>
 #include <inflection/dialog/SemanticFeature.hpp>
@@ -12,38 +12,43 @@
 
 namespace inflection::grammar::synthesis {
 
-bool ends_with(const std::u16string& str, const std::u16string& suffix) {
-   if (suffix.size() >= str.size()) return false;
-   return std::equal(suffix.rbegin(), suffix.rend(), str.rbegin());
+// Constructor: initialize the member table here (no static locals).
+MlGrammarSynthesizer_CaseLookupFunction::MlGrammarSynthesizer_CaseLookupFunction()
+    : m_suffixToCase_{
+        { u"ന്റെ", GrammemeConstants::CASE_GENITIVE() },
+        { u"യുടെ", GrammemeConstants::CASE_GENITIVE() },
+        { u"ഉടെ", GrammemeConstants::CASE_GENITIVE() },
+        { u"ആയുടെ", GrammemeConstants::CASE_GENITIVE() },
+        { u"ഉടേതു്", GrammemeConstants::CASE_GENITIVE() },
+        { u"ഉടേതു", GrammemeConstants::CASE_GENITIVE() },
+        { u"ഉടെത്", GrammemeConstants::CASE_GENITIVE() },
+        { u"നെ", GrammemeConstants::CASE_ACCUSATIVE() },
+        { u"ക്ക്", GrammemeConstants::CASE_DATIVE() },
+        { u"യ്ക്ക്", GrammemeConstants::CASE_DATIVE() },
+        { u"യിൽ", GrammemeConstants::CASE_LOCATIVE() },
+        { u"ഇൽ", GrammemeConstants::CASE_LOCATIVE() },
+        { u"ആൽ", GrammemeConstants::CASE_INSTRUMENTAL() },
+        { u"വഴി", GrammemeConstants::CASE_INSTRUMENTAL() },
+        { u"ഓടെ", GrammemeConstants::CASE_SOCIATIVE() }
+    }
+{
 }
 
-inflection::dialog::SpeakableString* MlGrammarSynthesizer_CaseLookupFunction::getFeatureValue(
+::inflection::dialog::SpeakableString* MlGrammarSynthesizer_CaseLookupFunction::getFeatureValue(
    const ::inflection::dialog::DisplayValue& displayValue,
    const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& /*constraints*/) const
 {
    std::u16string displayString;
-   ::inflection::util::StringViewUtils::lowercase(&displayString, displayValue.getDisplayString(), ::inflection::util::LocaleUtils::MALAYALAM());
+   ::inflection::util::StringViewUtils::lowercase(
+       &displayString,
+       displayValue.getDisplayString(),
+       ::inflection::util::LocaleUtils::MALAYALAM());
 
-   static const std::vector<std::pair<std::u16string, std::u16string>> suffixToCase = {
-        {u"ന്റെ", GrammemeConstants::CASE_GENITIVE()},
-        {u"യുടെ", GrammemeConstants::CASE_GENITIVE()},
-        {u"ഉടെ", GrammemeConstants::CASE_GENITIVE()},
-        {u"ആയുടെ", GrammemeConstants::CASE_GENITIVE()},
-        {u"ഉടേതു്", GrammemeConstants::CASE_GENITIVE()},
-        {u"ഉടേതു", GrammemeConstants::CASE_GENITIVE()},
-        {u"ഉടെത്", GrammemeConstants::CASE_GENITIVE()},
-        {u"നെ", GrammemeConstants::CASE_ACCUSATIVE()},
-        {u"ക്ക്", GrammemeConstants::CASE_DATIVE()},
-        {u"യ്ക്ക്", GrammemeConstants::CASE_DATIVE()},
-        {u"യിൽ", GrammemeConstants::CASE_LOCATIVE()},
-        {u"ഇൽ", GrammemeConstants::CASE_LOCATIVE()},
-        {u"ആൽ", GrammemeConstants::CASE_INSTRUMENTAL()},
-        {u"വഴി", GrammemeConstants::CASE_INSTRUMENTAL()},
-        {u"ഓടെ", GrammemeConstants::CASE_SOCIATIVE()},
-   };
-
-   for (const auto& [suffix, caseGrammeme] : suffixToCase) {
-       if (ends_with(displayString, suffix)) {
+   // Use std::u16string::ends_with with a u16string_view suffix
+   for (const auto& pair : m_suffixToCase_) {
+       const std::u16string_view suffix = pair.first;
+       const std::u16string& caseGrammeme = pair.second;
+       if (displayString.ends_with(suffix)) {
            return new ::inflection::dialog::SpeakableString(caseGrammeme);
        }
    }
@@ -51,7 +56,4 @@ inflection::dialog::SpeakableString* MlGrammarSynthesizer_CaseLookupFunction::ge
    return nullptr;
 }
 
-MlGrammarSynthesizer_CaseLookupFunction::MlGrammarSynthesizer_CaseLookupFunction() = default;
-
 } // namespace inflection::grammar::synthesis
-

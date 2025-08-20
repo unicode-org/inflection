@@ -10,15 +10,6 @@
 
 namespace inflection::dialog::language {
 
-MlCommonConceptFactory::MlCommonConceptFactory(const ::inflection::util::ULocale& language)
-    : super(language)
-{
-}
-
-MlCommonConceptFactory::~MlCommonConceptFactory()
-{
-}
-
 // Malayalam-specific conjunction for OR
 ::inflection::dialog::SemanticConceptList* MlCommonConceptFactory::createOrList(
     const ::std::vector<const ::inflection::dialog::SemanticFeatureConceptBase*>& concepts) const

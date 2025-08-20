@@ -8,33 +8,33 @@
     
     <!-- First person singular -->
     <test><source person="first" number="singular" case="nominative"/><result>ഞാൻ</result></test>
-    <test><source person="first" number="singular" case="accusative"/><result>എനിക്ക്</result></test>
+    <test><source person="first" number="singular" case="dative"/><result>എനിക്ക്</result></test>
     <test><source person="first" number="singular" case="genitive"/><result>എന്റെ</result></test>
     
     <!-- First person plural (inclusive vs exclusive) -->
-    <test clusivity="inclusive"><source person="first" number="plural" case="nominative"/><result>നാം</result></test>
-    <test clusivity="exclusive"><source person="first" number="plural" case="nominative"/><result>ഞങ്ങൾ</result></test>
-    <test clusivity="inclusive"><source person="first" number="plural" case="accusative"/><result>നമുക്ക്</result></test>
-    <test clusivity="exclusive"><source person="first" number="plural" case="accusative"/><result>ഞങ്ങൾക്ക്</result></test>
-    <test clusivity="inclusive"><source person="first" number="plural" case="genitive"/><result>നമ്മുടെ</result></test>
-    <test clusivity="exclusive"><source person="first" number="plural" case="genitive"/><result>ഞങ്ങളുടെ</result></test>
+    <test><source person="first" number="plural" case="nominative" clusivity="inclusive"/><result>നാം</result></test>
+    <test><source person="first" number="plural" case="nominative" clusivity="exclusive"/><result>ഞങ്ങൾ</result></test>
+    <test><source person="first" number="plural" case="dative" clusivity="inclusive"/><result>നമുക്ക്</result></test>
+    <test><source person="first" number="plural" case="dative" clusivity="exclusive"/><result>ഞങ്ങൾക്ക്</result></test>
+    <test><source person="first" number="plural" case="genitive" clusivity="inclusive"/><result>നമ്മുടെ</result></test>
+    <test><source person="first" number="plural" case="genitive" clusivity="exclusive"/><result>ഞങ്ങളുടെ</result></test>
 
     <!-- Second person singular -->
-    <test person="second" number="singular" case="nominative" formality="informal"><source/><result>നീ</result></test>
-    <test person="second" number="singular" case="nominative" formality="formal"><source/><result>താങ്കൾ</result></test>
-    <test person="second" number="singular" case="accusative" formality="informal"><source/><result>നിനക്കെ</result></test>
-    <test person="second" number="singular" case="accusative" formality="formal"><source/><result>താങ്കളെ</result></test>
-    <test person="second" number="singular" case="genitive" formality="informal"><source/><result>നിന്റെ</result></test>
-    <test person="second" number="singular" case="genitive" formality="formal"><source/><result>താങ്കളുടെ</result></test>
+    <test><source person="second" number="singular" case="nominative" formality="informal"/><result>നീ</result></test>
+    <test><source person="second" number="singular" case="nominative" formality="formal"/><result>താങ്കൾ</result></test>
+    <test><source person="second" number="singular" case="accusative" formality="informal"/><result>നിനെ</result></test>
+    <test><source person="second" number="singular" case="accusative" formality="formal"/><result>താങ്കളെ</result></test>
+    <test><source person="second" number="singular" case="genitive" formality="informal"/><result>നിന്റെ</result></test>
+    <test><source person="second" number="singular" case="genitive" formality="formal"/><result>താങ്കളുടെ</result></test>
 
     <!-- Second person plural -->
-    <test person="second" number="plural" case="nominative"><source/><result>നിങ്ങൾ</result></test>
-    <test person="second" number="plural" case="accusative"><source/><result>നിങ്ങളെ</result></test>
-    <test person="second" number="plural" case="dative"><source/><result>നിങ്ങൾക്ക്</result></test>
-    <test person="second" number="plural" case="genitive"><source/><result>നിങ്ങളുടെ</result></test>
+    <test><source person="second" number="plural" case="nominative"/><result>നിങ്ങൾ</result></test>
+    <test><source person="second" number="plural" case="accusative"/><result>നിങ്ങളെ</result></test>
+    <test><source person="second" number="plural" case="dative"/><result>നിങ്ങൾക്ക്</result></test>
+    <test><source person="second" number="plural" case="genitive"/><result>നിങ്ങളുടെ</result></test>
 
     <!-- Third person singular masculine -->
-    <test><source person="third" number="singular" case="nominative" gender="masculine"/><result>അവൻ</result></test>
+    <test><source pos="pronoun" person="third" number="singular" case="nominative" gender="masculine"/><result>അവൻ</result></test>
     <test><source person="third" number="singular" case="accusative" gender="masculine"/><result>അവനെ</result></test>
     <test><source person="third" number="singular" case="genitive" gender="masculine"/><result>അവന്റെ</result></test>
 
@@ -45,8 +45,8 @@
 
     <!-- Third person singular neuter (it/that) -->
     <test><source person="third" number="singular" case="nominative" gender="neuter"/><result>അത്</result></test>
-    <test><source person="third" number="singular" case="accusative" gender="neuter"/><result>അത്</result></test>
-    <test><source person="third" number="singular" case="genitive" gender="neuter"/><result>അതിന്റേത്</result></test>
+    <test><source person="third" number="singular" case="accusative" gender="neuter"/><result>അതിനെ</result></test>
+    <test><source person="third" number="singular" case="genitive" gender="neuter"/><result>അതിന്റെ</result></test>
 
     <!-- Third person plural -->
     <test><source person="third" number="plural" case="nominative"/><result>അവർ</result></test>
@@ -57,4 +57,9 @@
     <test><source person="third">ഞാൻ</source><result gender="masculine">അവൻ</result></test>
     <test><source person="third" gender="feminine">ഞാൻ</source><result>അവൾ</result></test>
     <test><source person="second" formality="formal">ഞാൻ</source><result>താങ്കൾ</result></test>
+
+    <!-- Plural token examples -->
+    <test><source person="first" number="plural" case="nominative" clusivity="exclusive"/><result>ഞങ്ങൾ</result></test>
+    <test><source person="first" number="plural" case="nominative" clusivity="inclusive"/><result>നാം</result></test>
+
 </inflectionTest>

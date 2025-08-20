@@ -1639,6 +1639,11 @@
             <grammeme name="singular"/>
             <grammeme name="plural"/>
         </category>
+        <category name="animacy">
+                <grammeme name="animate"/>
+                <grammeme name="inanimate"/>
+                <grammeme name="human"/>
+        </category>
         <category name="pos">
             <grammeme name="pronoun"/>
             <grammeme name="verb"/>
@@ -1671,6 +1676,10 @@
             <grammeme name="past"/>
             <grammeme name="present"/>
             <grammeme name="future"/>
+        </category>
+        <category name="form">
+                <grammeme name="infinitive"/>
+                <grammeme name="participle"/>
         </category>
         <category name="determination">
             <restrictions>

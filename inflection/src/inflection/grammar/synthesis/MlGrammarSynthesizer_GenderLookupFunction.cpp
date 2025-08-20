@@ -27,7 +27,6 @@ MlGrammarSynthesizer_GenderLookupFunction::MlGrammarSynthesizer_GenderLookupFunc
              GrammemeConstants::GENDER_FEMININE(),
              GrammemeConstants::GENDER_NEUTER()},
             {GrammemeConstants::POS_NOUN(),
-             GrammemeConstants::POS_ADJECTIVE(),
              GrammemeConstants::POS_PRONOUN()})
     , tokenizer(::inflection::tokenizer::TokenizerFactory::createTokenizer(::inflection::util::LocaleUtils::MALAYALAM()))
     , dictionary(getDictionary())

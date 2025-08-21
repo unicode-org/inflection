@@ -30,7 +30,8 @@ public:
     SrGrammarSynthesizer_SrDisplayFunction& operator=(const SrGrammarSynthesizer_SrDisplayFunction&) = delete;
 
 private:
-    ::std::u16string inflectString(const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, const ::std::u16string& lemma) const;
+    ::std::u16string inflectFromDictionary(const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, const ::std::u16string& lemma) const;
+    ::std::u16string inflectWithRule(const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, const ::std::u16string& lemma) const;
 
     const ::inflection::dictionary::DictionaryMetaData& dictionary;
     const ::inflection::dialog::SemanticFeature& caseFeature;

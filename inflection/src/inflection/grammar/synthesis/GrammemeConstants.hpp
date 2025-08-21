@@ -42,6 +42,7 @@ public:
     static const ::std::u16string& CASE_OBLIQUE();
     static const ::std::u16string& CASE_PARTITIVE();
     static const ::std::u16string& CASE_PREPOSITIONAL();
+    static const ::std::u16string& CASE_SOCIATIVE();
     static const ::std::u16string& CASE_TRANSLATIVE();
     static const ::std::u16string& CASE_VOCATIVE();
 

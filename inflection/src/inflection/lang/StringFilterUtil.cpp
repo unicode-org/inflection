@@ -41,6 +41,13 @@ const icu4cxx::UnicodeSet& StringFilterUtil::HEBREW_SCRIPT()
     return *npc(HEBREW_SCRIPT_);
 }
 
+const icu4cxx::UnicodeSet& StringFilterUtil::MALAYALAM_SCRIPT()
+{
+    static auto MALAYALAM_SCRIPT_ =
+        ::inflection::util::UnicodeSetUtils::freeze(new ::icu4cxx::UnicodeSet(u"[:Malayalam:]"));
+    return *npc(MALAYALAM_SCRIPT_);
+}
+
 const icu4cxx::UnicodeSet& StringFilterUtil::HAN_SCRIPT()
 {
     static auto HAN_SCRIPT_ = ::inflection::util::UnicodeSetUtils::freeze(new ::icu4cxx::UnicodeSet(u"[:Han:]"));

@@ -70,6 +70,10 @@ public:
      */
     static const ::icu4cxx::UnicodeSet& HEBREW_SCRIPT();
     /**
+     * A set of all characters in the Malayalam script.
+     */
+    static const ::icu4cxx::UnicodeSet& MALAYALAM_SCRIPT();
+    /**
      * A set of all characters in the Han script. The Han script is unified between Chinese, Japanese and Korean.
      */
     static const ::icu4cxx::UnicodeSet& HAN_SCRIPT();

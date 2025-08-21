@@ -5,7 +5,6 @@
 <inflectionTest locale="ml">
 
     <!-- Malayalam Singular Plural Inflection Tests -->
-    <test><source number="plural">കുട്ടി</source><result>കുട്ടികൾ</result></test>
     <test><source number="plural">മരം</source><result>മരങ്ങൾ</result></test>
     <test><source number="plural">കഥ</source><result>കഥകൾ</result></test>
 

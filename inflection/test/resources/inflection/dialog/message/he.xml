@@ -1,0 +1,1945 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+ Copyright 2025 Unicode Incorporated and others. All rights reserved.
+-->
+<messagetest locale="he">
+    <test>
+        <params>
+            <param name="source" type="String"><value>אובססיה</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=gender} .match $feature |feminine| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>אגם</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=gender} .match $feature |masculine| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>אחות</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=gender} .match $feature |feminine| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>חברה</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=gender} .match $feature |feminine| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מנהלת</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=gender} .match $feature |feminine| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מלונה</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=gender} .match $feature |feminine| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ידידה</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=gender} .match $feature |feminine| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>אפשרות</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=gender} .match $feature |feminine| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>העדפה</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=gender} .match $feature |feminine| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מכונית</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=gender} .match $feature |feminine| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>חבר</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=gender} .match $feature |masculine| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ידיד</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=gender} .match $feature |masculine| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מנהל</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=gender} .match $feature |masculine| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מלון</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=gender} .match $feature |masculine| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>רעיון</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=gender} .match $feature |masculine| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>אוטו</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=gender} .match $feature |masculine| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>אח</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=gender} .match $feature |masculine| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>תשואה</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=definiteness} .match $feature |indefinite| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>שרבה</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=definiteness} .match $feature || {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>הסטונהנג׳</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=definiteness} .match $feature |definite| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>סטונהנג׳</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=definiteness} .match $feature |indefinite| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>תרומת</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=definiteness} .match $feature |construct| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>תתרענן</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=definiteness} .match $feature || {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>תתתתתתתתתתתת</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=definiteness} .match $feature |definite| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>תתעלל</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=definiteness} .match $feature || {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>word</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=definiteness} .match $feature || {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>דלת</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>דלתות</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ספרים</value></param>
+        </params>
+        <source>{$source :inflection}</source>
+        <print>ספרים</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ספרים</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite}</source>
+        <print>ספרים</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ספרים</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>הספרים</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מחשב</value></param>
+        </params>
+        <source>{$source :inflection}</source>
+        <print>מחשב</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מחשב</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite}</source>
+        <print>מחשב</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מחשב</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>המחשב</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>משרד מכירות</value></param>
+        </params>
+        <source>{$source :inflection}</source>
+        <print>משרד מכירות</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>משרד מכירות</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite}</source>
+        <print>משרד מכירות</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>משרד מכירות</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>משרד המכירות</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>משרד עורכי-דין</value></param>
+        </params>
+        <source>{$source :inflection}</source>
+        <print>משרד עורכי-דין</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>משרד עורכי-דין</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite}</source>
+        <print>משרד עורכי-דין</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>משרד עורכי-דין</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>משרד עורכי-הדין</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>בית-משפט</value></param>
+        </params>
+        <source>{$source :inflection}</source>
+        <print>בית-משפט</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>בית-משפט</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite}</source>
+        <print>בית-משפט</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>בית-משפט</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>בית-המשפט</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>חבר</value></param>
+        </params>
+        <source>{$source :inflection}</source>
+        <print>חבר</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>חבר</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>חבר</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>חבר</value></param>
+        </params>
+        <source>{$source :inflection number=dual}</source>
+        <print>חברים</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>חבר</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>חברים</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מכונית</value></param>
+        </params>
+        <source>{$source :inflection}</source>
+        <print>מכונית</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מכונית</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>מכונית</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מכונית</value></param>
+        </params>
+        <source>{$source :inflection number=dual}</source>
+        <print>מכוניות</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מכונית</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>מכוניות</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>חברה</value></param>
+        </params>
+        <source>{$source :inflection}</source>
+        <print>חברה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>חברה</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>חברה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>חברה</value></param>
+        </params>
+        <source>{$source :inflection number=dual}</source>
+        <print>חברות</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>חברה</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>חברות</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>דרך</value></param>
+        </params>
+        <source>{$source :inflection}</source>
+        <print>דרך</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>דרך</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>דרך</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>דרך</value></param>
+        </params>
+        <source>{$source :inflection number=dual}</source>
+        <print>דרכים</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>דרך</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>דרכים</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מכונית</value></param>
+        </params>
+        <source>{$source :inflection}</source>
+        <print>מכונית</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מכונית</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>מכונית</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מכונית</value></param>
+        </params>
+        <source>{$source :inflection number=dual}</source>
+        <print>מכוניות</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מכונית</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>מכוניות</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>חשבון</value></param>
+        </params>
+        <source>{$source :inflection}</source>
+        <print>חשבון</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>חשבון</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>חשבון</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>חשבון</value></param>
+        </params>
+        <source>{$source :inflection number=dual}</source>
+        <print>חשבונות</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>חשבון</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>חשבונות</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>רעיון</value></param>
+        </params>
+        <source>{$source :inflection}</source>
+        <print>רעיון</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>רעיון</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>רעיון</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>רעיון</value></param>
+        </params>
+        <source>{$source :inflection number=dual}</source>
+        <print>רעיונות</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>רעיון</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>רעיונות</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>צל</value></param>
+        </params>
+        <source>{$source :inflection}</source>
+        <print>צל</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>צל</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>צל</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>צל</value></param>
+        </params>
+        <source>{$source :inflection number=dual}</source>
+        <print>צללים</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>צל</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>צללים</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>אפשרות</value></param>
+        </params>
+        <source>{$source :inflection}</source>
+        <print>אפשרות</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>אפשרות</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>אפשרות</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>אפשרות</value></param>
+        </params>
+        <source>{$source :inflection number=dual}</source>
+        <print>אפשרויות</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>אפשרות</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>אפשרויות</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>חלון</value></param>
+        </params>
+        <source>{$source :inflection}</source>
+        <print>חלון</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>חלון</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>חלון</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>חלון</value></param>
+        </params>
+        <source>{$source :inflection number=dual}</source>
+        <print>חלונות</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>חלון</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>חלונות</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>שבוע</value></param>
+        </params>
+        <source>{$source :inflection}</source>
+        <print>שבוע</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>שבוע</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>שבוע</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>שבוע</value></param>
+        </params>
+        <source>{$source :inflection number=dual}</source>
+        <print>שבועיים</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>שבוע</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>שבועות</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>איש קשר</value></param>
+        </params>
+        <source>{$source :inflection}</source>
+        <print>איש קשר</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>איש קשר</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>איש קשר</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>איש קשר</value></param>
+        </params>
+        <source>{$source :inflection number=dual}</source>
+        <print>אנשי קשר</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>איש קשר</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>אנשי קשר</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>הודעת טקסט</value></param>
+        </params>
+        <source>{$source :inflection}</source>
+        <print>הודעת טקסט</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>הודעת טקסט</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>הודעת טקסט</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>הודעת טקסט</value></param>
+        </params>
+        <source>{$source :inflection number=dual}</source>
+        <print>הודעות טקסט</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>הודעת טקסט</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>הודעות טקסט</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מספר טלפון</value></param>
+        </params>
+        <source>{$source :inflection}</source>
+        <print>מספר טלפון</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מספר טלפון</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>מספר טלפון</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מספר טלפון</value></param>
+        </params>
+        <source>{$source :inflection number=dual}</source>
+        <print>מספרי טלפון</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מספר טלפון</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>מספרי טלפון</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>שעון מעורר</value></param>
+        </params>
+        <source>{$source :inflection}</source>
+        <print>שעון מעורר</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>שעון מעורר</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>שעון מעורר</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>שעון מעורר</value></param>
+        </params>
+        <source>{$source :inflection number=dual}</source>
+        <print>שעונים מעוררים</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>שעון מעורר</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>שעונים מעוררים</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מסעדה צרפתית</value></param>
+        </params>
+        <source>{$source :inflection}</source>
+        <print>מסעדה צרפתית</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מסעדה צרפתית</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>מסעדה צרפתית</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מסעדה צרפתית</value></param>
+        </params>
+        <source>{$source :inflection number=dual}</source>
+        <print>מסעדות צרפתיות</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מסעדה צרפתית</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>מסעדות צרפתיות</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>פרק הבא</value></param>
+        </params>
+        <source>{$source :inflection}</source>
+        <print>פרק הבא</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>פרק הבא</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>פרק הבא</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>פרק הבא</value></param>
+        </params>
+        <source>{$source :inflection number=dual}</source>
+        <print>פרקים הבאים</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>פרק הבא</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>פרקים הבאים</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>אובססיה</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withConditionalHyphen} .match $feature |אובססיה| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>test</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withConditionalHyphen} .match $feature |-test| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>9</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withConditionalHyphen} .match $feature |-9| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>9אובססיה</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withConditionalHyphen} .match $feature |-9אובססיה| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>דלת מוסך</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>דלתות מוסך</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>דלת מוסך</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>דלת המוסך</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>דלת מוסך</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite number=plural}</source>
+        <print>דלתות המוסך</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מארגן</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>מארגנת</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>משתתף</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>משתתפת</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>גדולים</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=plural}</source>
+        <print>גדולות</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>גדולה</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=singular}</source>
+        <print>גדול</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מוכנים</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=plural}</source>
+        <print>מוכנות</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>סגור</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>סגורה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>סגורים</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=plural}</source>
+        <print>סגורות</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>יפים</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=plural}</source>
+        <print>יפות</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>בטוח</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>בטוחה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>עסוק</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>עסוקה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>פתוחה</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=singular pos=adjective}</source>
+        <print>פתוח</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>פתוחות</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=plural pos=adjective}</source>
+        <print>פתוחים</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>חדשה</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=singular pos=adjective}</source>
+        <print>חדש</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>חדשות</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=plural pos=adjective}</source>
+        <print>חדשים</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מוכנה</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=singular pos=adjective}</source>
+        <print>מוכן</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מוכנות</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=plural pos=adjective}</source>
+        <print>מוכנים</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>פעיל</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular pos=adjective}</source>
+        <print>פעילה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>פעילים</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=plural pos=adjective}</source>
+        <print>פעילות</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>פועל</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular pos=adjective}</source>
+        <print>פועלת</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>פועלים</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=plural pos=adjective}</source>
+        <print>פועלות</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>כבוי</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular pos=adjective}</source>
+        <print>כבויה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>כבויים</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=plural pos=adjective}</source>
+        <print>כבויות</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מבוטלת</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=singular pos=adjective}</source>
+        <print>מבוטל</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מבוטלות</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=plural pos=adjective}</source>
+        <print>מבוטלים</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>נעולה</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=singular pos=adjective}</source>
+        <print>נעול</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>נעולים</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=plural pos=adjective}</source>
+        <print>נעולות</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>תקועה</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=singular pos=adjective}</source>
+        <print>תקוע</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>תקועים</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=plural pos=adjective}</source>
+        <print>תקועות</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>סגורה</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=singular pos=adjective}</source>
+        <print>סגור</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>סגורות</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=plural pos=adjective}</source>
+        <print>סגורים</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מנותקת</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=singular pos=adjective}</source>
+        <print>מנותק</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מנותקות</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=plural pos=adjective}</source>
+        <print>מנותקים</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מאושר</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular pos=adjective}</source>
+        <print>מאושרת</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מאושרים</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=plural pos=adjective}</source>
+        <print>מאושרות</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>חסומה</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=singular pos=adjective}</source>
+        <print>חסום</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>חסומות</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=plural pos=adjective}</source>
+        <print>חסומים</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>עורך</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>עורכת</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>משתף</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>משתפת</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מקבלת</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine}</source>
+        <print>מקבל</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מתחילה</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine}</source>
+        <print>מתחיל</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מתחילים</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=plural}</source>
+        <print>מתחילות</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מסכים</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>מסכימה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>לא מסכים</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>לא מסכימה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>לא משתתף</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>לא משתתפת</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>אפשר</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>אפשרי</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>הזן</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>הזיני</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>העתק</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>העתיקי</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מחק</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>מחקי</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ודא</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>ודאי</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>בחר</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>בחרי</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>אשר</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>אשרי</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>התכונן</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>התכונני</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>הקש</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>הקישי</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>לחץ</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>לחצי</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>התחבר</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>התחברי</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>הפעל</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>הפעילי</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>כבה</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine person=second}</source>
+        <print>כבי</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>המשך</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>המשיכי</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>השכירי</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine}</source>
+        <print>השכר</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>בקרי</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine pos=verb}</source>
+        <print>בקר</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>זה</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>זו</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>אלו הם</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>אלו הן</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>קח</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>קחי</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>האט</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>האטי</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>היזכרי</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine}</source>
+        <print>היזכר</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>דמיין</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine person=second}</source>
+        <print>דמייני</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מרגישה</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine}</source>
+        <print>מרגיש</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>תיהני</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine}</source>
+        <print>תיהנה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>הישאר</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>הישארי</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>שב</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine pos=verb}</source>
+        <print>שבי</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>עצום</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine pos=verb}</source>
+        <print>עצמי</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>התנועע</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>התנועעי</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>התחל</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>התחילי</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>שב</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine pos=verb}</source>
+        <print>שבי</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>התרכז</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>התרכזי</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>שואף</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>שואפת</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>נושף</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>נושפת</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>העמק</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>העמיקי</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>נושם</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>נושמת</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מצאי</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine pos=verb}</source>
+        <print>מצא</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>שימי לב</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine}</source>
+        <print>שים לב</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>תני</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine}</source>
+        <print>תן</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>פתוחה</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=singular pos=adjective}</source>
+        <print>פתוח</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>פתוחות</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=plural pos=adjective}</source>
+        <print>פתוחים</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>חדשה</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=singular pos=adjective}</source>
+        <print>חדש</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>חדשות</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=plural pos=adjective}</source>
+        <print>חדשים</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מוכנה</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=singular pos=adjective}</source>
+        <print>מוכן</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מוכנות</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=plural pos=adjective}</source>
+        <print>מוכנים</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>פעיל</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular pos=adjective}</source>
+        <print>פעילה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>פעילים</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=plural pos=adjective}</source>
+        <print>פעילות</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>פועל</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular pos=adjective}</source>
+        <print>פועלת</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>פועלים</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=plural pos=adjective}</source>
+        <print>פועלות</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>כבוי</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular pos=adjective}</source>
+        <print>כבויה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>כבויים</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=plural pos=adjective}</source>
+        <print>כבויות</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מבוטלת</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=singular pos=adjective}</source>
+        <print>מבוטל</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מבוטלות</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=plural pos=adjective}</source>
+        <print>מבוטלים</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>לא נעולה</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=singular pos=adjective}</source>
+        <print>לא נעול</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>לא נעולים</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=plural pos=adjective}</source>
+        <print>לא נעולות</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מחוברת</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=singular pos=adjective}</source>
+        <print>מחובר</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מחוברות</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=plural pos=adjective}</source>
+        <print>מחוברים</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>לא מחובר</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular pos=adjective}</source>
+        <print>לא מחוברת</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>לא מחוברים</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=plural pos=adjective}</source>
+        <print>לא מחוברות</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>אושר</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular pos=adjective}</source>
+        <print>אושרה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>הופעלה</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=singular pos=adjective}</source>
+        <print>הופעל</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>כובה</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular pos=adjective}</source>
+        <print>כובתה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>בוטל</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular pos=adjective}</source>
+        <print>בוטלה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>נעצרה</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=singular pos=adjective}</source>
+        <print>נעצר</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>עצרה</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=singular pos=adjective}</source>
+        <print>עצר</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>נחסם</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular pos=adjective}</source>
+        <print>נחסמה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>התקשר</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine person=third pos=verb}</source>
+        <print>התקשרה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>קיבל</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>קיבלה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>הוסיף</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>הוסיפה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>הקצתה</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine}</source>
+        <print>הקצה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ביטלה</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine}</source>
+        <print>ביטל</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>השלימה</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine}</source>
+        <print>השלים</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>סירב</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>סירבה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>זכה</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine person=third pos=verb}</source>
+        <print>זכתה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>הרוויח</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>הרוויחה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>הזמין</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>הזמינה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ביקשה</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine}</source>
+        <print>ביקש</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>עדכנה</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine}</source>
+        <print>עדכן</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ערך</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>ערכה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>שיתף</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>שיתפה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>אזכר</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine person=third pos=verb}</source>
+        <print>אזכרה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>אוזכר</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>אוזכרה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>העביר</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>העבירה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>בחר</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine person=third pos=verb}</source>
+        <print>בחרה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ניסה</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>ניסתה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>שינה</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine person=third pos=verb}</source>
+        <print>שינתה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>יצרה</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine}</source>
+        <print>יצר</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מחק</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine person=third pos=verb}</source>
+        <print>מחקה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ערך</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>ערכה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ביצע</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>ביצעה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>סיים</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine person=third}</source>
+        <print>סיימה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>השלים</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>השלימה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>חסם</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>חסמה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>אישר</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>אישרה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>הסיר</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>הסירה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>הפסיק</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>הפסיקה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>רכש</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>רכשה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>משדר</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>משדרת</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>אהבה</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine}</source>
+        <print>אהב</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>צחקה</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine}</source>
+        <print>צחק</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>עוצרת</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine}</source>
+        <print>עוצר</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>עוצרים</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=plural}</source>
+        <print>עוצרות</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>עזבה</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine}</source>
+        <print>עזב</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ביצעה</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine}</source>
+        <print>ביצע</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>השהתה</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine}</source>
+        <print>השהה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ביקשה</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine}</source>
+        <print>ביקש</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>מבקשת</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine}</source>
+        <print>מבקש</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>חידשה</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine}</source>
+        <print>חידש</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>שלחה</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine}</source>
+        <print>שלח</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>דילגה</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine}</source>
+        <print>דילג</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>צילמה</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine}</source>
+        <print>צילם</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>העתיק</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>העתיקה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>שכפל</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine person=third}</source>
+        <print>שכפלה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>אוזכר</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>אוזכרה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>שרף</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>שרפה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>השקיע</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>השקיעה</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>הוציא</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>הוציאה</print>
+    </test>
+</messagetest>

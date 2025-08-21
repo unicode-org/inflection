@@ -1,0 +1,1428 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+ Copyright 2025 Unicode Incorporated and others. All rights reserved.
+-->
+<messagetest locale="ar">
+    <test>
+        <params>
+            <param name="source" type="String"><value>أختا</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=definiteness} .match $feature || {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>أيهما</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=definiteness} .match $feature |definite| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ياردتا</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=definiteness} .match $feature |construct| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>طاولتين</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=definiteness} .match $feature |indefinite| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>المطعم</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=definiteness} .match $feature |definite| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مصر</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=definiteness} .match $feature |definite| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>أأنتم</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=definiteness} .match $feature || {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>أأأأأأأأ</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=definiteness} .match $feature || {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مطعم</value></param>
+        </params>
+        <source>{$source :inflection case=nominative number=singular}</source>
+        <print>مطعم</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مطعم</value></param>
+        </params>
+        <source>{$source :inflection case=nominative number=dual}</source>
+        <print>مطعمان</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مطعم</value></param>
+        </params>
+        <source>{$source :inflection case=nominative number=plural}</source>
+        <print>مطاعم</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مطعم</value></param>
+        </params>
+        <source>{$source :inflection case=accusative number=singular}</source>
+        <print>مطعما</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مطعم</value></param>
+        </params>
+        <source>{$source :inflection case=accusative number=dual}</source>
+        <print>مطعمين</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مطعم</value></param>
+        </params>
+        <source>{$source :inflection case=accusative number=plural}</source>
+        <print>مطاعم</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مطعم</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=singular}</source>
+        <print>مطعم</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مطعم</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=dual}</source>
+        <print>مطعمين</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مطعم</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=plural}</source>
+        <print>مطاعم</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>كيلومتر</value></param>
+        </params>
+        <source>{$source :inflection case=nominative number=singular}</source>
+        <print>كيلومتر</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>كيلومتر</value></param>
+        </params>
+        <source>{$source :inflection case=nominative number=dual}</source>
+        <print>كيلومتران</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>كيلومتر</value></param>
+        </params>
+        <source>{$source :inflection case=nominative number=plural}</source>
+        <print>كيلومترات</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>كيلومتر</value></param>
+        </params>
+        <source>{$source :inflection case=accusative number=singular}</source>
+        <print>كيلومترا</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>كيلومتر</value></param>
+        </params>
+        <source>{$source :inflection case=accusative number=dual}</source>
+        <print>كيلومترين</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>كيلومتر</value></param>
+        </params>
+        <source>{$source :inflection case=accusative number=plural}</source>
+        <print>كيلومترات</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>كيلومتر</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=singular}</source>
+        <print>كيلومتر</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>كيلومتر</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=dual}</source>
+        <print>كيلومترين</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>كيلومتر</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=plural}</source>
+        <print>كيلومترات</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>هذا</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=singular}</source>
+        <print>هذا</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>هذا</value></param>
+        </params>
+        <source>{$source :inflection case=genitive gender=masculine number=dual}</source>
+        <print>هذين</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>هذا</value></param>
+        </params>
+        <source>{$source :inflection case=accusative gender=masculine number=dual}</source>
+        <print>هذين</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>هذا</value></param>
+        </params>
+        <source>{$source :inflection case=nominative gender=masculine number=dual}</source>
+        <print>هذان</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>هذا</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular}</source>
+        <print>هذه</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>هذا</value></param>
+        </params>
+        <source>{$source :inflection case=genitive gender=feminine number=dual}</source>
+        <print>هاتين</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>هذا</value></param>
+        </params>
+        <source>{$source :inflection case=nominative gender=feminine number=dual}</source>
+        <print>هاتان</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>هذا</value></param>
+        </params>
+        <source>{$source :inflection case=accusative gender=feminine number=dual}</source>
+        <print>هاتين</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>هذه</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=singular}</source>
+        <print>هذا</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>هذه</value></param>
+        </params>
+        <source>{$source :inflection case=genitive gender=masculine number=dual}</source>
+        <print>هذين</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>هذه</value></param>
+        </params>
+        <source>{$source :inflection case=accusative gender=masculine number=dual}</source>
+        <print>هذين</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>هذه</value></param>
+        </params>
+        <source>{$source :inflection case=nominative gender=masculine number=dual}</source>
+        <print>هذان</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>هذه</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular}</source>
+        <print>هذه</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>هذه</value></param>
+        </params>
+        <source>{$source :inflection case=genitive gender=feminine number=dual}</source>
+        <print>هاتين</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>هذه</value></param>
+        </params>
+        <source>{$source :inflection case=nominative gender=feminine number=dual}</source>
+        <print>هاتان</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>هذه</value></param>
+        </params>
+        <source>{$source :inflection case=accusative gender=feminine number=dual}</source>
+        <print>هاتين</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ذلك</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=singular}</source>
+        <print>ذلك</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ذلك</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular}</source>
+        <print>تلك</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>تلك</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=singular}</source>
+        <print>ذلك</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>تلك</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular}</source>
+        <print>تلك</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ذلك</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>أولئك</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مغلق</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular pos=adjective}</source>
+        <print>مغلقة</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مغلق</value></param>
+        </params>
+        <source>{$source :inflection case=genitive gender=feminine number=dual pos=adjective}</source>
+        <print>مغلقتين</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مغلق</value></param>
+        </params>
+        <source>{$source :inflection case=accusative gender=feminine number=dual pos=adjective}</source>
+        <print>مغلقتين</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مغلق</value></param>
+        </params>
+        <source>{$source :inflection case=nominative gender=feminine number=dual pos=adjective}</source>
+        <print>مغلقتان</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مقفل</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular pos=adjective}</source>
+        <print>مقفلة</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مقفل</value></param>
+        </params>
+        <source>{$source :inflection case=genitive gender=feminine number=dual pos=adjective}</source>
+        <print>مقفلتين</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مقفل</value></param>
+        </params>
+        <source>{$source :inflection case=accusative gender=feminine number=dual pos=adjective}</source>
+        <print>مقفلتين</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مقفل</value></param>
+        </params>
+        <source>{$source :inflection case=nominative gender=feminine number=dual pos=adjective}</source>
+        <print>مقفلتان</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>معطل</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular pos=adjective}</source>
+        <print>معطلة</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>معطل</value></param>
+        </params>
+        <source>{$source :inflection case=genitive gender=feminine number=dual pos=adjective}</source>
+        <print>معطلتين</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>معطل</value></param>
+        </params>
+        <source>{$source :inflection case=accusative gender=feminine number=dual pos=adjective}</source>
+        <print>معطلتين</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>معطل</value></param>
+        </params>
+        <source>{$source :inflection case=nominative gender=feminine number=dual pos=adjective}</source>
+        <print>معطلتان</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>عالق</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular pos=adjective}</source>
+        <print>عالقة</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>عالق</value></param>
+        </params>
+        <source>{$source :inflection case=genitive gender=feminine number=dual pos=adjective}</source>
+        <print>عالقتين</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>عالق</value></param>
+        </params>
+        <source>{$source :inflection case=accusative gender=feminine number=dual pos=adjective}</source>
+        <print>عالقتين</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>عالق</value></param>
+        </params>
+        <source>{$source :inflection case=nominative gender=feminine number=dual pos=adjective}</source>
+        <print>عالقتان</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مفتوح</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular pos=adjective}</source>
+        <print>مفتوحة</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مفتوح</value></param>
+        </params>
+        <source>{$source :inflection case=genitive gender=feminine number=dual pos=adjective}</source>
+        <print>مفتوحتين</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مفتوح</value></param>
+        </params>
+        <source>{$source :inflection case=accusative gender=feminine number=dual pos=adjective}</source>
+        <print>مفتوحتين</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مفتوح</value></param>
+        </params>
+        <source>{$source :inflection case=nominative gender=feminine number=dual pos=adjective}</source>
+        <print>مفتوحتان</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مفعّل</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular}</source>
+        <print>مفعّلة</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مفعّل</value></param>
+        </params>
+        <source>{$source :inflection case=genitive gender=feminine number=dual}</source>
+        <print>مفعّلتين</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مفعّل</value></param>
+        </params>
+        <source>{$source :inflection case=accusative gender=feminine number=dual}</source>
+        <print>مفعّلتين</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مفعّل</value></param>
+        </params>
+        <source>{$source :inflection case=nominative gender=feminine number=dual}</source>
+        <print>مفعّلتان</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مشغول</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular}</source>
+        <print>مشغولة</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مشغول</value></param>
+        </params>
+        <source>{$source :inflection case=genitive gender=feminine number=dual}</source>
+        <print>مشغولتين</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مشغول</value></param>
+        </params>
+        <source>{$source :inflection case=accusative gender=feminine number=dual}</source>
+        <print>مشغولتين</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مشغول</value></param>
+        </params>
+        <source>{$source :inflection case=nominative gender=feminine number=dual}</source>
+        <print>مشغولتان</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>أرسله</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular}</source>
+        <print>أرسلته</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>يرسله</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular}</source>
+        <print>ترسله</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>يعجبه</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular}</source>
+        <print>تعجبه</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>أسند</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular pos=verb tense=past}</source>
+        <print>أسندت</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>أسند</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=dual tense=past}</source>
+        <print>أسندتا</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>أسند</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=plural tense=past}</source>
+        <print>أسندن</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>أسند</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=singular tense=past}</source>
+        <print>أسند</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>أسند</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=dual tense=past}</source>
+        <print>أسندا</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>أسند</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=plural tense=past}</source>
+        <print>أسندوا</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>أرسل</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular tense=past}</source>
+        <print>أرسلت</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>أرسل</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=dual tense=past}</source>
+        <print>أرسلتا</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>أرسل</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=plural tense=past}</source>
+        <print>أرسلن</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>أرسل</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=singular tense=past}</source>
+        <print>أرسل</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>أرسل</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=dual tense=past}</source>
+        <print>أرسلا</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>أرسل</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=plural tense=past}</source>
+        <print>أرسلوا</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>بيت جميل</value></param>
+        </params>
+        <source>{$source :inflection case=nominative number=dual}</source>
+        <print>بيتان جميلان</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value></value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withWithPrep} .match $feature || {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>هاتف</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withWithPrep} .match $feature |بهاتف| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>iPhone</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withWithPrep} .match $feature |بـ iPhone| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value> هاتف</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withWithPrep} .match $feature |بهاتف| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value> iPhone</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withWithPrep} .match $feature |بـ iPhone| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value></value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withToPrep} .match $feature || {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>هاتف</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withToPrep} .match $feature |لهاتف| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>iPhone</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withToPrep} .match $feature |لـ iPhone| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value> هاتف</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withToPrep} .match $feature |لهاتف| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value> iPhone</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withToPrep} .match $feature |لـ iPhone| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>المنزل</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withToPrep} .match $feature |للمنزل| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>احمد</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withToPrep} .match $feature |لاحمد| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value></value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withAsPrep} .match $feature || {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>هاتف</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withAsPrep} .match $feature |كهاتف| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>iPhone</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withAsPrep} .match $feature |كـ iPhone| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value> هاتف</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withAsPrep} .match $feature |كهاتف| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value> iPhone</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withAsPrep} .match $feature |كـ iPhone| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>هاتف</value></param>
+        </params>
+        <source>{$source :inflection}</source>
+        <print>هاتف</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>أخ</value></param>
+        </params>
+        <source>{$source :inflection case=nominative}</source>
+        <print>أخ</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>أب</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>أبا</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>أب</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>أب</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>يعجبه</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=dual}</source>
+        <print>تعجبانه</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>اسحب</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine mood=imperative number=singular person=second}</source>
+        <print>اسحبي</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>انقر</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine mood=imperative number=singular person=second}</source>
+        <print>انقري</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>انتقل</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine mood=imperative number=plural person=second}</source>
+        <print>انتقلن</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>افتح</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine mood=imperative number=singular}</source>
+        <print>افتحي</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مفعّل</value></param>
+        </params>
+        <source>{$source :inflection case=genitive gender=feminine number=dual}</source>
+        <print>مفعّلتين</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مفعّل</value></param>
+        </params>
+        <source>{$source :inflection case=accusative gender=feminine number=dual}</source>
+        <print>مفعّلتين</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مفعّل</value></param>
+        </params>
+        <source>{$source :inflection case=nominative gender=feminine number=dual}</source>
+        <print>مفعّلتان</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مشغول</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular}</source>
+        <print>مشغولة</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مشغول</value></param>
+        </params>
+        <source>{$source :inflection case=genitive gender=feminine number=dual}</source>
+        <print>مشغولتين</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مشغول</value></param>
+        </params>
+        <source>{$source :inflection case=accusative gender=feminine number=dual}</source>
+        <print>مشغولتين</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مشغول</value></param>
+        </params>
+        <source>{$source :inflection case=nominative gender=feminine number=dual}</source>
+        <print>مشغولتان</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>استخدم</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine mood=imperative number=singular}</source>
+        <print>استخدمي</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>استخدم</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine mood=imperative number=plural}</source>
+        <print>استخدمن</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>استخدم</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine mood=imperative number=singular}</source>
+        <print>استخدم</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>استخدم</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine mood=imperative number=plural}</source>
+        <print>استخدموا</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>اتصل</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular person=third tense=past}</source>
+        <print>اتصلت</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>اتصل</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=plural person=third tense=past}</source>
+        <print>اتصلن</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>اتصل</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=plural person=third tense=past}</source>
+        <print>اتصلوا</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>أضاف</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular person=third}</source>
+        <print>أضافت</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>أضاف</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=plural person=third}</source>
+        <print>أضفن</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>أضاف</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=plural person=third}</source>
+        <print>أضافوا</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>أزال</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular person=third pos=verb tense=past}</source>
+        <print>أزالت</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>أزال</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=plural person=third pos=verb tense=past}</source>
+        <print>أزلن</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>أزال</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=plural person=third pos=verb tense=past}</source>
+        <print>أزالوا</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>أشار</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular person=third}</source>
+        <print>أشارت</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>أشار</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=plural person=third}</source>
+        <print>أشرن</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>أشار</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=plural person=third}</source>
+        <print>أشاروا</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>شارك</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular person=third pos=verb tense=past}</source>
+        <print>شاركت</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>شارك</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=plural person=third pos=verb tense=past}</source>
+        <print>شاركن</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>شارك</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=plural person=third pos=verb tense=past}</source>
+        <print>شاركوا</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>باب مغلق</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=dual}</source>
+        <print>بابين مغلقين</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>باب مغلق</value></param>
+        </params>
+        <source>{$source :inflection case=nominative number=dual}</source>
+        <print>بابان مغلقان</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>شغّل</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=plural}</source>
+        <print>شغّلوا</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>شغّل</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=plural}</source>
+        <print>شغّلن</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>اختر</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine mood=imperative number=singular}</source>
+        <print>اختاري</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مضاف</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular person=third}</source>
+        <print>مضافة</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>متوقف</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular person=third}</source>
+        <print>متوقفة</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>اضغط</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular}</source>
+        <print>اضغطي</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>اضغط</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=plural}</source>
+        <print>اضغطن</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>اضغط</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=singular}</source>
+        <print>اضغط</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>اضغط</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=plural}</source>
+        <print>اضغطوا</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>أعجب</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=singular tense=past}</source>
+        <print>أعجب</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>أدخل</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine mood=imperative number=singular person=second}</source>
+        <print>أدخلي</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>انتقل</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine mood=imperative number=singular person=second}</source>
+        <print>انتقلي</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>توقف</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular person=third pos=verb tense=past}</source>
+        <print>توقفت</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>توقف</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=plural person=third pos=verb tense=past}</source>
+        <print>توقفن</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>توقف</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=plural person=third pos=verb tense=past}</source>
+        <print>توقفوا</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>تمرن</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular person=third pos=verb tense=past}</source>
+        <print>تمرنت</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>تمرن</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=plural person=third pos=verb tense=past}</source>
+        <print>تمرنوا</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>كسب</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular person=third pos=verb tense=past}</source>
+        <print>كسبت</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>كسب</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=plural person=third pos=verb tense=past}</source>
+        <print>كسبن</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>كسب</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=plural person=third pos=verb tense=past}</source>
+        <print>كسبوا</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>قبل</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular person=third pos=verb tense=past}</source>
+        <print>قبلت</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>قبل</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=plural person=third pos=verb tense=past}</source>
+        <print>قبلن</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>قبل</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=plural person=third pos=verb tense=past}</source>
+        <print>قبلوا</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>نافذة مفتوحة</value></param>
+        </params>
+        <source>{$source :inflection animacy=nonhuman number=plural}</source>
+        <print>نوافذ مفتوحة</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>تريد</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine number=plural person=second}</source>
+        <print>تريدون</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>تريد</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular person=second}</source>
+        <print>تريدين</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>أوقف</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine mood=imperative number=singular}</source>
+        <print>أوقفي</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>تتذكر</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular person=second}</source>
+        <print>تتذكرين</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>متفائل</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular pos=adjective}</source>
+        <print>متفائلة</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>واثق</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular pos=adjective}</source>
+        <print>واثقة</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>متضايق</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular}</source>
+        <print>متضايقة</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>متفاجئ</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular}</source>
+        <print>متفاجئة</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>خائف</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular}</source>
+        <print>خائفة</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>فخور</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular pos=adjective}</source>
+        <print>فخورة</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>شغوف</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular}</source>
+        <print>شغوفة</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>غيور</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular}</source>
+        <print>غيورة</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مرتاح</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular}</source>
+        <print>مرتاحة</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>يائس</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular pos=adjective}</source>
+        <print>يائسة</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مذنب</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular pos=adjective}</source>
+        <print>مذنبة</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ممتن</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular pos=adjective}</source>
+        <print>ممتنة</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مشمئز</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular}</source>
+        <print>مشمئزة</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>خائب</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular}</source>
+        <print>خائبة</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>هادئ</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular}</source>
+        <print>هادئة</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>شجاع</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular}</source>
+        <print>شجاعة</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مستمتع</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular}</source>
+        <print>مستمتعة</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مندهش</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular}</source>
+        <print>مندهشة</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>متوتر</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular pos=adjective}</source>
+        <print>متوترة</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>حزين</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular pos=adjective}</source>
+        <print>حزينة</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>وحيد</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular}</source>
+        <print>وحيدة</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مرح</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular pos=adjective}</source>
+        <print>مرحة</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>منزعج</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular pos=adjective}</source>
+        <print>منزعجة</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>سعيد</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular}</source>
+        <print>سعيدة</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>محبط</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular}</source>
+        <print>محبطة</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>متحمس</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular pos=adjective}</source>
+        <print>متحمسة</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>فاقد</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular}</source>
+        <print>فاقدة</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>مسرور</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular}</source>
+        <print>مسرورة</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>قلق</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular pos=adjective}</source>
+        <print>قلقة</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>غاضب</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine number=singular pos=adjective}</source>
+        <print>غاضبة</print>
+    </test>
+</messagetest>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>

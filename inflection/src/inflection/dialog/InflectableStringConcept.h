@@ -6,7 +6,7 @@
 #include <inflection/dialog/SpeakableString.h>
 #include <inflection/dialog/SemanticFeatureConcept.h>
 #include <inflection/dialog/SemanticFeatureModel.h>
-
+#include <inflection/dialog/SemanticFeature.hpp>
 /**
  * An object that provides a way to format a word with additional grammatical category values or semantic features of a word for a given language.
  */
@@ -34,6 +34,20 @@ INFLECTION_CAPI IDInflectableStringConcept* iinf_toInflectableStringConcept(IDSe
  *        This is set to a failure when a failure has occurred during execution.
  */
 INFLECTION_CAPI IDInflectableStringConcept* iinf_create(const IDSemanticFeatureModel* model, const IDSpeakableString* value, UErrorCode* status);
+/**
+ * Constructs a concept given a semantic feature model and a speakable string
+ *
+ * @param model - The semantic feature model required to initialize the concept.
+ * @param value - The speakable string to convert to a concept
+ * @param features - The initial semantic features to apply to the concept
+ * @param values - The initial corresponding values for the semantic features
+ * @param SemanticFeaturesLen - The number of semantic features and values provided
+ * @param status Must be a valid pointer to an error code value,
+ *        which must not indicate a failure before the function call.
+ *        This is set to a failure when a failure has occurred during execution.
+ */
+INFLECTION_CAPI IDInflectableStringConcept* iinf_createWithConstraints(const IDSemanticFeatureModel* model, const IDSpeakableString* value, 
+                                                                       const inflection::dialog::SemanticFeature* features, const char16_t** values, int32_t SemanticFeaturesLen, UErrorCode* status);
 /**
  * Destructor
  */

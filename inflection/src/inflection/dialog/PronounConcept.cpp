@@ -211,6 +211,7 @@ PronounConcept::PronounConcept(const SemanticFeatureModel& model, const ::std::v
     if (pronounData->numValues() == 0) {
         throw ::inflection::exception::IllegalArgumentException(u"Display data can not be empty.");
     }
+    
     for (const auto &[semanticFeature, grammeme]: defaultConstraints) {
         this->defaultConstraints.emplace(semanticFeature.getName(), grammeme);
     }

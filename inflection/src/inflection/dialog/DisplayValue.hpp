@@ -73,6 +73,13 @@ public:
      */
     DisplayValue(const SpeakableString& value, const SemanticFeature& speakFeature);
     /**
+     * Construct a display value with a SpeakableString.
+     * @param value A SpeakableString
+     * @param speakFeature The speakFeature from the SemanticFeatureModel that represents the SemanticFeature for the speak information for a SpeakableString.
+     * @param constraintMap The intitial constraint map.
+     */
+    DisplayValue(const SpeakableString& value, const SemanticFeature& speakFeature, const ::std::map<SemanticFeature, ::std::u16string>& constraintMap);
+    /**
      * The destructor
      */
     ~DisplayValue() override;

@@ -1624,6 +1624,89 @@
             </category>
         </grammar>
     </language>
+   <language id="ml">
+    <grammar>
+        <category name="case">
+            <grammeme name="nominative"/>      <!-- no explicit marker; subject form -->
+            <grammeme name="accusative"/>      <!-- -യെ, -ായെ, marks direct object -->
+            <grammeme name="genitive"/>        <!-- -ന്റെ, -യുടെ (possessive) -->
+            <grammeme name="dative"/>          <!-- -ക്ക്, -ന് (to/for) -->
+            <grammeme name="instrumental"/>    <!-- -ആല് (by means of) -->
+            <grammeme name="locative"/>        <!-- -യില് (in/at) -->
+            <grammeme name="ablative"/>        <!-- -യില് നിന്നു് (from) -->
+            <grammeme name="vocative"/>        <!-- used in direct address -->
+        </category>
+        <category name="number">
+            <grammeme name="singular"/>
+            <grammeme name="plural"/>
+        </category>
+        <category name="person">
+            <restrictions>
+                <restriction name="pos" value="pronoun"/>
+                <restriction name="pos" value="verb"/>
+            </restrictions>
+            <grammeme name="first"/>
+            <grammeme name="second"/>
+            <grammeme name="third"/>
+        </category>
+        <category name="gender">
+            <restrictions>
+                <restriction name="pos" value="pronoun"/>
+                <restriction name="pos" value="verb"/>
+            </restrictions>
+            <grammeme name="masculine"/>
+            <grammeme name="feminine"/>
+            <grammeme name="neuter"/> <!-- e.g. for objects or animals -->
+        </category>
+        <category name="tense">
+            <restrictions>
+                <restriction name="pos" value="verb"/>
+            </restrictions>
+            <grammeme name="past"/>
+            <grammeme name="present"/>
+            <grammeme name="future"/>
+        </category>
+        <category name="mood">
+            <restrictions>
+                <restriction name="pos" value="verb"/>
+            </restrictions>
+            <grammeme name="indicative"/>
+            <grammeme name="imperative"/>
+            <grammeme name="subjunctive"/>
+        </category>
+        <category name="voice">
+            <restrictions>
+                <restriction name="pos" value="verb"/>
+            </restrictions>
+            <grammeme name="active"/>
+            <grammeme name="passive"/>
+        </category>
+        <category name="formality">
+            <restrictions>
+                <restriction name="pos" value="pronoun"/>
+                <restriction name="pos" value="verb"/>
+            </restrictions>
+            <grammeme name="intimate"/>
+            <grammeme name="casual"/>
+            <grammeme name="formal"/>
+            <grammeme name="honorific"/>
+        </category>
+        <category name="aspect">
+            <restrictions>
+                <restriction name="pos" value="verb"/>
+            </restrictions>
+            <grammeme name="perfective"/>
+            <grammeme name="imperfective"/>
+        </category>
+        <category name="negation">
+            <restrictions>
+                <restriction name="pos" value="verb"/>
+            </restrictions>
+            <grammeme name="affirmative"/>
+            <grammeme name="negative"/>
+        </category>
+    </grammar>
+    </language>
     <language id="ms">
         <grammar>
             <category name="clusivity">

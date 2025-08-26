@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2024 Apple Inc. All rights reserved.
+ * Copyright 2017-2025 Apple Inc. All rights reserved.
  */
 #include <inflection/grammar/synthesis/GrammarSynthesizerFactory.hpp>
 
@@ -13,6 +13,7 @@
 #include <inflection/grammar/synthesis/HiGrammarSynthesizer.hpp>
 #include <inflection/grammar/synthesis/ItGrammarSynthesizer.hpp>
 #include <inflection/grammar/synthesis/KoGrammarSynthesizer.hpp>
+#include <inflection/grammar/synthesis/MlGrammarSynthesizer.hpp>
 #include <inflection/grammar/synthesis/NbGrammarSynthesizer.hpp>
 #include <inflection/grammar/synthesis/NlGrammarSynthesizer.hpp>
 #include <inflection/grammar/synthesis/PtGrammarSynthesizer.hpp>
@@ -41,6 +42,7 @@ static const ::std::map<::inflection::util::ULocale, addSemanticFeatures>& GRAMM
         {::inflection::util::LocaleUtils::HINDI(), &HiGrammarSynthesizer::addSemanticFeatures},
         {::inflection::util::LocaleUtils::ITALIAN(), &ItGrammarSynthesizer::addSemanticFeatures},
         {::inflection::util::LocaleUtils::KOREAN(), &KoGrammarSynthesizer::addSemanticFeatures},
+        {::inflection::util::LocaleUtils::MALAYALAM(), &MlGrammarSynthesizer::addSemanticFeatures},
         {::inflection::util::LocaleUtils::NORWEGIAN(), &NbGrammarSynthesizer::addSemanticFeatures},
         {::inflection::util::LocaleUtils::DUTCH(), &NlGrammarSynthesizer::addSemanticFeatures},
         {::inflection::util::LocaleUtils::PORTUGUESE(), &PtGrammarSynthesizer::addSemanticFeatures},

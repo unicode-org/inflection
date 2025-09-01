@@ -377,6 +377,14 @@ public:
      */
     static const ::inflection::util::ULocale& MALAYSIA();
     /**
+     * ml: Malayalam
+     */
+    static const ::inflection::util::ULocale& MALAYALAM();
+    /**
+     * ml_IN: Malayalam (India)
+     */
+    static const ::inflection::util::ULocale& INDIA_MALAYALAM();
+    /**
      * nb: Norwegian Bokmål
      */
     static const ::inflection::util::ULocale& NORWEGIAN();

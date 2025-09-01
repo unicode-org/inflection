@@ -1,4 +1,5 @@
 /*
+ * Copyright 2025 Unicode Incorporated and others. All rights reserved.
  * Copyright 2017-2024 Apple Inc. All rights reserved.
  */
 // Forward declarations for inflection.dialog.language
@@ -28,6 +29,7 @@ namespace inflection
             class JaCommonConceptFactory;
             class KoCommonConceptFactory;
             class KoCommonConceptFactory_KoAndList;
+            class MlCommonConceptFactory;
             class MsCommonConceptFactory;
             class NbCommonConceptFactory;
             class NlCommonConceptFactory;

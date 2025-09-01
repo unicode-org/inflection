@@ -228,7 +228,7 @@ PronounConcept::PronounConcept(const SemanticFeatureModel& model, std::u16string
     for (int32_t idx = 0; idx < pronounData->numValues(); idx++) {
         const auto& pronounEntry = pronounData->getPronounEntry(idx);
         std::u16string_view displayString(pronounEntry.first);
-        if (displayString.back() == u' ') {
+        if (!displayString.empty() && displayString.back() == u' ') {
             displayString.remove_suffix(1);
         }
         auto status = U_ZERO_ERROR;

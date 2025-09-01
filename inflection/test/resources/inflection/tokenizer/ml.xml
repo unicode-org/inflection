@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!--
+ Copyright 2025 Unicode Incorporated and others. All rights reserved.
+-->
+<tokenizerTest locale="ml">
+    <!-- Single word -->
+    <test>
+        <annotatedTokens>കേരളം</annotatedTokens>
+    </test>
+
+    <test>
+        <annotatedTokens>കേരളസര്‍ക്കാര്‍</annotatedTokens>
+    </test>
+
+    <test>
+        <annotatedTokens>കേരളം|സര്‍ക്കാര്‍</annotatedTokens>
+    </test>
+
+    <test>
+        <annotatedTokens>പുസ്തകം|ഉണ്ട്</annotatedTokens> 
+    </test>
+
+    <test>
+        <annotatedTokens>വീട്|ക്ക്</annotatedTokens> 
+    </test>
+
+    <test>
+        <annotatedTokens>ശ്രീ|നാരായണ|ഗുരു</annotatedTokens>
+    </test>
+
+    <test>
+        <annotatedTokens>കേരളബ്ലാസ്റ്റേഴ്സ്</annotatedTokens>
+    </test>
+
+    <test>
+        <annotatedTokens>സംഗീതോത്സവം</annotatedTokens>
+    </test>
+
+</tokenizerTest>

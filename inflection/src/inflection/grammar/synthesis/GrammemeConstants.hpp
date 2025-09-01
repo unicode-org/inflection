@@ -42,6 +42,7 @@ public:
     static const ::std::u16string& CASE_OBLIQUE();
     static const ::std::u16string& CASE_PARTITIVE();
     static const ::std::u16string& CASE_PREPOSITIONAL();
+    static const ::std::u16string& CASE_SOCIATIVE();
     static const ::std::u16string& CASE_TRANSLATIVE();
     static const ::std::u16string& CASE_VOCATIVE();
 
@@ -75,6 +76,7 @@ public:
     static constexpr auto MOOD = u"mood";
     static const ::std::u16string& MOOD_IMPERATIVE();
     static const ::std::u16string& MOOD_INDICATIVE();
+    static const ::std::u16string& MOOD_SUBJUNCTIVE();
 
     static constexpr auto TENSE = u"tense";
     static const ::std::u16string& TENSE_PAST();

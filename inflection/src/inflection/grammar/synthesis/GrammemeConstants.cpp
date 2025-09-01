@@ -159,6 +159,12 @@ const ::std::u16string& GrammemeConstants::CASE_PREPOSITIONAL()
     return *npc(CASE_PREPOSITIONAL_);
 }
 
+const ::std::u16string& GrammemeConstants::CASE_SOCIATIVE()
+{
+    static auto CASE_SOCIATIVE_ = new ::std::u16string(u"sociative");
+    return *npc(CASE_SOCIATIVE_);
+}
+
 const ::std::u16string& GrammemeConstants::CASE_TRANSLATIVE()
 {
     static auto CASE_TRANSLATIVE_ = new ::std::u16string(u"translative");
@@ -277,6 +283,12 @@ const ::std::u16string& GrammemeConstants::MOOD_INDICATIVE()
 {
     static auto MOOD_INDICATIVE_ = new ::std::u16string(u"indicative");
     return *npc(MOOD_INDICATIVE_);
+}
+
+const ::std::u16string& GrammemeConstants::MOOD_SUBJUNCTIVE()
+{
+    static auto MOOD_SUBJUNCTIVE_ = new ::std::u16string(u"subjunctive");
+    return *npc(MOOD_SUBJUNCTIVE_);
 }
 
 const ::std::u16string& GrammemeConstants::TENSE_PAST()

@@ -105,15 +105,23 @@ bool isProperNoun(const ::std::u16string &lemma);
 
 ::std::u16string SrGrammarSynthesizer_SrDisplayFunction::inflectWithRule(const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, const ::std::u16string& lemma) const
 {
-    ::std::u16string countString(GrammarSynthesizerUtil::getFeatureValue(constraints, numberFeature));
-    ::std::u16string caseString(GrammarSynthesizerUtil::getFeatureValue(constraints, caseFeature));
+    auto countString = GrammarSynthesizerUtil::getFeatureValue(constraints, numberFeature);
+    auto caseString = GrammarSynthesizerUtil::getFeatureValue(constraints, caseFeature);
     auto genderString = GrammarSynthesizerUtil::getFeatureValue(constraints, genderFeature);
 
     ::std::u16string inflection;
 
-    // If one of singular/plural, case and gender are not specified return lemma.
-    if (countString.empty() || caseString.empty() || genderString.empty()) {
+    if (caseString.empty()) {
         return lemma;
+    }
+
+    // Set defaults for number and gender if missing.
+    if (countString.empty()) {
+        countString = GrammemeConstants::NUMBER_SINGULAR();
+    }
+
+    if (genderString.empty()) {
+        genderString = GrammemeConstants::GENDER_MASCULINE();
     }
 
     // Do nothing for singular, nominative.

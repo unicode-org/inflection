@@ -22,7 +22,7 @@
     <test><source case="instrumental" pos="noun">Италија</source><result>Италијом</result></test>
     <test><source case="instrumental" pos="noun">авенија</source><result>авенијом</result></test>
     <test><source case="locative" number="plural" gender="feminine" pos="noun">авенија</source><result>авенијама</result></test>
-    <test><source case="vocative" number="singular" gender="masculine" pos="noun">кадија</source><result>кадија</result></test>
+    <test><source case="vocative" pos="noun">кадија</source><result>кадија</result></test>
     <test><source case="vocative" pos="noun">уметница</source><result>уметнице</result></test>
     <test><source case="vocative" pos="noun">птица</source><result>птица</result></test>
     <test><source case="vocative" pos="noun">Стана</source><result>Стано</result></test>

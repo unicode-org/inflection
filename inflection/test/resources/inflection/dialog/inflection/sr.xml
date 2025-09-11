@@ -11,32 +11,32 @@
     <test><source case="nominative" number="singular">камен</source><result>камен</result></test>
     <test><source case="nominative" pos="proper-noun">Петар</source><result>Петар</result></test>
     <test><source case="vocative" number="singular" gender="feminine" pos="proper-noun">Љубица</source><result>Љубице</result></test>
-    <test><source case="vocative" number="singular" gender="feminine" pos="noun">Србија</source><result>Србијо</result></test>
-    <test><source case="instrumental" number="plural" gender="masculine" pos="noun">становник</source><result>становницима</result></test>
+    <test><source case="vocative" number="singular" gender="feminine">Србија</source><result>Србијо</result></test>
+    <test><source case="instrumental" number="plural" gender="masculine">становник</source><result>становницима</result></test>
     <test><source case="genitive" number="plural" gender="neuter" pos="adjective">плава</source><result>плавe</result></test>
     <!-- Words not in the dictionary but similar in shape -->
-    <!-- test><source case="vocative" number="singular" gender="masculine" pos="noun">уранак</source><result>уранче</result></test -->
-    <!-- test><source case="vocative" number="singular" gender="masculine" pos="noun">игроказ</source><result>игрокаже</result></test -->
-    <!-- test><source case="vocative" number="singular" gender="masculine" pos="noun">пашњак</source><result>пашњаче</result></test -->
+    <!-- test><source case="vocative" number="singular" gender="masculine">уранак</source><result>уранче</result></test -->
+    <!-- test><source case="vocative" number="singular" gender="masculine">игроказ</source><result>игрокаже</result></test -->
+    <!-- test><source case="vocative" number="singular" gender="masculine">пашњак</source><result>пашњаче</result></test -->
     <!-- Rule based inflection, group 3, all nouns ending with a -->
-    <test><source case="instrumental" pos="noun">Италија</source><result>Италијом</result></test>
-    <test><source case="instrumental" pos="noun">авенија</source><result>авенијом</result></test>
-    <test><source case="locative" number="plural" gender="feminine" pos="noun">авенија</source><result>авенијама</result></test>
-    <test><source case="vocative" pos="noun">кадија</source><result>кадија</result></test>
-    <test><source case="vocative" pos="noun">уметница</source><result>уметнице</result></test>
-    <test><source case="vocative" pos="noun">птица</source><result>птица</result></test>
-    <test><source case="vocative" pos="noun">Стана</source><result>Стано</result></test>
-    <test><source case="vocative" pos="noun">Зора</source><result>Зоро</result></test>
-    <test><source case="vocative" pos="noun">Божа</source><result>Божо</result></test>
-    <test><source case="vocative" pos="noun">Љуба</source><result>Љубо</result></test>
-    <test><source case="genitive" number="plural" pos="noun">пратња</source><result>пратњи</result></test>
-    <test><source case="genitive" number="plural" pos="noun">радња</source><result>радњи</result></test>
-    <test><source case="genitive" number="plural" pos="noun">лопта</source><result>лопти</result></test>
-    <test><source case="genitive" number="plural" pos="noun">молба</source><result>молби</result></test>
-    <test><source case="genitive" number="plural" pos="noun">конзерва</source><result>конзерви</result></test>
-    <test><source case="genitive" number="plural" pos="noun">гошћа</source><result>гошћа</result></test>
-    <test><source case="genitive" number="plural" pos="noun">двојка</source><result>двојака</result></test>
-    <test><source case="genitive" number="plural" pos="noun">битка</source><result>битака</result></test>
+    <test><source case="instrumental">Италија</source><result>Италијом</result></test>
+    <test><source case="instrumental">авенија</source><result>авенијом</result></test>
+    <test><source case="locative" number="plural" gender="feminine">авенија</source><result>авенијама</result></test>
+    <test><source case="vocative">кадија</source><result>кадија</result></test>
+    <test><source case="vocative">уметница</source><result>уметнице</result></test>
+    <test><source case="vocative">птица</source><result>птица</result></test>
+    <test><source case="vocative">Стана</source><result>Стано</result></test>
+    <test><source case="vocative">Зора</source><result>Зоро</result></test>
+    <test><source case="vocative">Божа</source><result>Божо</result></test>
+    <test><source case="vocative">Љуба</source><result>Љубо</result></test>
+    <test><source case="genitive" number="plural">пратња</source><result>пратњи</result></test>
+    <test><source case="genitive" number="plural">радња</source><result>радњи</result></test>
+    <test><source case="genitive" number="plural">лопта</source><result>лопти</result></test>
+    <test><source case="genitive" number="plural">молба</source><result>молби</result></test>
+    <test><source case="genitive" number="plural">конзерва</source><result>конзерви</result></test>
+    <test><source case="genitive" number="plural">гошћа</source><result>гошћа</result></test>
+    <test><source case="genitive" number="plural">двојка</source><result>двојака</result></test>
+    <test><source case="genitive" number="plural">битка</source><result>битака</result></test>
     <!-- There are some exception, like pripovetka where tk -> dak because of the base word. This has to be dictionary exception -->
-    <!-- <test><source case="genitive" number="plural" gender="feminine" pos="noun">приповетка</source><result>приповедака</result></test> -->
+    <!-- <test><source case="genitive" number="plural" gender="feminine">приповетка</source><result>приповедака</result></test> -->
 </inflectionTest>

@@ -2,17 +2,17 @@
  * Copyright 2021-2024 Apple Inc. All rights reserved.
  */
 #include <inflection/dialog/InflectableStringConcept.h>
-#include <inflection/npc.hpp>
+
 #include <inflection/dialog/InflectableStringConcept.hpp>
 #include <inflection/dialog/SemanticFeatureConcept.h>
-#include <inflection/exception/ClassCastException.hpp>
-#include <inflection/util/ULocale.hpp>
 #include <inflection/dialog/SemanticFeature.hpp>
 #include <inflection/dialog/SemanticUtils.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
+#include <inflection/exception/ClassCastException.hpp>
+#include <inflection/util/ULocale.hpp>
 #include <inflection/util/TypeConversionUtils.hpp>
 #include <inflection/util/Validate.hpp>
-
+#include <inflection/npc.hpp>
 
 INFLECTION_CAPI IDSemanticFeatureConcept* iinf_toSemanticFeatureConcept(IDInflectableStringConcept* thisObject, UErrorCode*)
 {

@@ -11,7 +11,7 @@
 #include <inflection/util/ULocale.hpp>
 #include <inflection/util/DelimitedStringIterator.hpp>
 #include "util/StringContainer.hpp"
-
+#include <utility>
 using ::util::StringContainer;
 
 static void checkForFailure(UErrorCode* status)
@@ -179,7 +179,7 @@ TEST_CASE("InflectableStringConceptTest-c#testCreateWithDefaults")
     auto inflectableConcept = iinf_createWithDefaults(model,
                                                       sourceString,
                                                       defaultConstraints,
-                                                      static_cast<int32_t>(sizeof(defaultConstraints) / sizeof(defaultConstraints[0])),
+                                                      static_cast<int32_t>(std::ssize(defaultConstraints)),
                                                       &error);
     iss_destroy(sourceString);
     REQUIRE(U_SUCCESS(error));

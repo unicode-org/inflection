@@ -226,6 +226,6 @@
     <test><source definiteness="definite">cometa</source><initial gender="masculine"/><result number="singular" gender="masculine">el cometa</result></test>
     <test><source definiteness="definite">cometa</source><initial gender="feminine"/><result number="singular" gender="feminine">la cometa</result></test>
     <test><source definiteness="definite">QQQQ</source><initial gender="masculine" number="plural"/><result number="plural" gender="masculine">los QQQQ</result></test>
-    <test><source definiteness="definite">QQQQ</source><initial gender="feminine" number="plural"/><result number="plural" gender="masculine">las QQQQ</result></test>
+    <test><source definiteness="definite">QQQQ</source><initial gender="feminine" number="plural"/><result number="plural" gender="feminine">las QQQQ</result></test>
 
 </inflectionTest>

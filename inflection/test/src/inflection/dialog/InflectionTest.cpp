@@ -2,7 +2,6 @@
  * Copyright 2021-2024 Apple Inc. All rights reserved.
  */
 #include "catch2/catch_test_macros.hpp"
-#include <iostream>
 
 #include <inflection/dialog/InflectableStringConcept.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
@@ -85,7 +84,6 @@ static void compareInflection(const ::inflection::dialog::SemanticFeatureModel& 
             FAIL_CHECK(model.getLocale().getName() + std::string(": feature name is not recognized: ") + inflection::util::StringUtils::to_string(featureName));
         }
         auto result = inflectableConcept.getFeatureValue(*npc(semanticFeature));
-        
         if (result == nullptr && !featureValue.empty()) {
             FAIL_CHECK(model.getLocale().getName() + std::string(": feature value is null for ") + inflection::util::StringUtils::to_string(source.toString()) + ::std::string(" when value was expected: ") + inflection::util::StringUtils::to_string(featureValue));
         }
@@ -94,7 +92,6 @@ static void compareInflection(const ::inflection::dialog::SemanticFeatureModel& 
                 SUCCEED("Pass");
             }
             else {
-                std::cout << inflection::util::StringUtils::to_string(npc(result)->toString()) << std::endl;
                 INFO(model.getLocale().getName() + ", " + inflection::util::StringUtils::to_string(semanticFeature->getName()) + ", " + inflection::util::StringUtils::to_string(source.toString()));
                 CHECK(inflection::util::StringUtils::to_string(inflection::dialog::SpeakableString(featureValue).toString()) == inflection::util::StringUtils::to_string(npc(result)->toString()));
             }
@@ -123,14 +120,12 @@ static void compareInflection(const ::inflection::dialog::SemanticFeatureModel& 
             SUCCEED(model.getLocale().getName() + std::string(": correctly got: ") + inflection::util::StringUtils::to_string(expected.toString()));
         }
         else {
-
             auto expectedStr(inflection::util::StringUtils::to_string(expected.toString()));
             auto resultStr(inflection::util::StringUtils::to_string(npc(result)->toString()));
             std::string constraintsStr;
             if (expectedStr != resultStr) {
                 constraintsStr = getConstraintString(constraints);
             }
-            //std::cout << inflection::util::StringUtils::to_string(expected.toString()) << " != " << inflection::util::StringUtils::to_string(npc(result)->toString()) << std::endl;
             INFO(getInfoStringForTestInput(model, source, constraintsStr));
             CHECK(expectedStr == resultStr);
         }

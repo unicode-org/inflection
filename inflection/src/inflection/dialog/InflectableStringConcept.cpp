@@ -27,11 +27,11 @@ InflectableStringConcept::InflectableStringConcept(
 InflectableStringConcept::InflectableStringConcept(
     const SemanticFeatureModel* model,
     const SpeakableString& value,
-    const ::std::map<SemanticFeature, ::std::u16string>& intitialConstraints
+    const ::std::map<SemanticFeature, ::std::u16string>& initialConstraints
 )   
     : super(model)
     , value(value)
-    , defaultDisplayValue(value, *npc(super::getSpeakFeature()), intitialConstraints)
+    , defaultDisplayValue(value, *npc(super::getSpeakFeature()), initialConstraints)
 {
 }
 
@@ -52,15 +52,11 @@ SpeakableString* InflectableStringConcept::getFeatureValue(const SemanticFeature
     if (constraint != nullptr) {
         return new SpeakableString(*npc(constraint));
     }
-    // auto constraintMap = defaultDisplayValue.getConstraintMap();
-    // if(constraintMap.find(feature) != constraintMap.end()) {
-    //     return new SpeakableString(constraintMap[feature]);
-    // }
     auto defaultFeatureFunction = npc(getModel())->getDefaultFeatureFunction(feature);
     if (defaultFeatureFunction != nullptr) {
         const auto displayValueResult = getDisplayValue(true);
         if (displayValueResult) {
-            return npc(defaultFeatureFunction)->getFeatureValue(*displayValueResult, constraints); 
+            return npc(defaultFeatureFunction)->getFeatureValue(*displayValueResult, constraints);
         }
     }
     return nullptr;

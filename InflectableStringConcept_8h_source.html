@@ -90,18 +90,21 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;inflection/dialog/SpeakableString.h&gt;</span></div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;inflection/dialog/SemanticFeatureConcept.h&gt;</span></div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;inflection/dialog/SemanticFeatureModel.h&gt;</span></div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;inflection/dialog/DisplayValue.h&gt;</span></div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>INFLECTION_CTYPE(IDInflectableStringConcept)</div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>INFLECTION_CAPI IDSemanticFeatureConcept* iinf_toSemanticFeatureConcept(IDInflectableStringConcept* thisObject, UErrorCode* status);</div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>INFLECTION_CAPI IDInflectableStringConcept* iinf_toInflectableStringConcept(IDSemanticFeatureConcept* thisObject, UErrorCode* status);</div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>INFLECTION_CAPI IDInflectableStringConcept* iinf_create(<span class="keyword">const</span> IDSemanticFeatureModel* model, <span class="keyword">const</span> IDSpeakableString* value, UErrorCode* status);</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>INFLECTION_CAPI <span class="keywordtype">void</span> iinf_destroy(IDInflectableStringConcept* thisObject);</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>INFLECTION_CAPI IDInflectableStringConcept* iinf_createWithDefaults(<span class="keyword">const</span> IDSemanticFeatureModel* model, <span class="keyword">const</span> IDSpeakableString* value, </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>                                                                        <span class="keyword">const</span> <a class="code hl_struct" href="structIDDisplayValue__Constraint.html">IDDisplayValue_Constraint</a>* defaultConstraints, int32_t defaultConstraintsLen, UErrorCode* status);</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>INFLECTION_CAPI <span class="keywordtype">void</span> iinf_destroy(IDInflectableStringConcept* thisObject);</div>
+<div class="ttc" id="astructIDDisplayValue__Constraint_html"><div class="ttname"><a href="structIDDisplayValue__Constraint.html">IDDisplayValue_Constraint</a></div><div class="ttdef"><b>Definition</b> <a href="DisplayValue_8h_source.html#l00014">DisplayValue.h:14</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Dec 22 2025 17:44:02 for Inflection by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+Generated on Mon Dec 22 2025 18:19:21 for Inflection by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
 </small></address>
 </body>
 </html>

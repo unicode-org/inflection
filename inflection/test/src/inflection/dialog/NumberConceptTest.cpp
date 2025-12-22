@@ -382,7 +382,7 @@ TEST_CASE("NumberConceptTest#test_es_1")
 
 TEST_CASE("NumberConceptTest#testSwiss")
 {
-    REQUIRE(u"1’000" == ::inflection::dialog::NumberConcept((int64_t)1000, ::inflection::util::LocaleUtils::SWITZERLAND_GERMAN(), ::inflection::util::LocaleUtils::SWITZERLAND_GERMAN()).getAsDigits().getPrint());
+    REQUIRE(u"1'000" == ::inflection::dialog::NumberConcept((int64_t)1000, ::inflection::util::LocaleUtils::SWITZERLAND_GERMAN(), ::inflection::util::LocaleUtils::SWITZERLAND_GERMAN()).getAsDigits().getPrint());
     REQUIRE(u"1.000" == ::inflection::dialog::NumberConcept((int64_t)1000, ::inflection::util::LocaleUtils::SWITZERLAND_GERMAN(), ::inflection::util::LocaleUtils::SWITZERLAND_GERMAN()).getAsDigits().getSpeak());
     REQUIRE(u"1" == ::inflection::dialog::NumberConcept((int64_t)1, ::inflection::util::LocaleUtils::SWITZERLAND_FRENCH(), ::inflection::util::LocaleUtils::SWITZERLAND_FRENCH()).getAsDigits().getSpeak());
     REQUIRE(u"1,1" == ::inflection::dialog::NumberConcept(1.1, ::inflection::util::LocaleUtils::SWITZERLAND_FRENCH(), ::inflection::util::LocaleUtils::SWITZERLAND_FRENCH()).getAsDigits().getSpeak());
@@ -392,7 +392,7 @@ TEST_CASE("NumberConceptTest#testSwiss")
     REQUIRE(u"59" == ::inflection::dialog::NumberConcept((int64_t)59, ::inflection::util::LocaleUtils::SWITZERLAND_FRENCH(), ::inflection::util::LocaleUtils::SWITZERLAND_FRENCH()).getAsDigits().getSpeak());
     REQUIRE(u"59" == ::inflection::dialog::NumberConcept((int64_t)59, ::inflection::util::LocaleUtils::FRENCH(), ::inflection::util::LocaleUtils::FRENCH()).getAsDigits().getPrint());
     REQUIRE(u"59" == ::inflection::dialog::NumberConcept((int64_t)59, ::inflection::util::LocaleUtils::FRENCH(), ::inflection::util::LocaleUtils::FRENCH()).getAsDigits().getSpeak());
-    REQUIRE(u"1’000" == ::inflection::dialog::NumberConcept((int64_t)1000, ::inflection::util::LocaleUtils::SWITZERLAND_ITALIAN(), ::inflection::util::LocaleUtils::SWITZERLAND_ITALIAN()).getAsDigits().getPrint());
+    REQUIRE(u"1'000" == ::inflection::dialog::NumberConcept((int64_t)1000, ::inflection::util::LocaleUtils::SWITZERLAND_ITALIAN(), ::inflection::util::LocaleUtils::SWITZERLAND_ITALIAN()).getAsDigits().getPrint());
     REQUIRE(u"1.000" == ::inflection::dialog::NumberConcept((int64_t)1000, ::inflection::util::LocaleUtils::SWITZERLAND_ITALIAN(), ::inflection::util::LocaleUtils::SWITZERLAND_ITALIAN()).getAsDigits().getSpeak());
 }
 

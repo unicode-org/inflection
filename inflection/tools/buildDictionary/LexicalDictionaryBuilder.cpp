@@ -6,7 +6,6 @@
 
 #include "InflectionDictionary.hpp"
 #include <inflection/dictionary/DictionaryMetaData_MMappedDictionary.hpp>
-#include <inflection/dictionary/Inflector.hpp>
 #include <inflection/dictionary/Inflector_MMappedDictionary.hpp>
 #include <inflection/dictionary/metadata/CompressedArray.hpp>
 #include <inflection/dictionary/metadata/StringArrayContainer.hpp>
@@ -170,6 +169,9 @@ createPropertyValueMap(
                     auto inflectionVal = inflectionContainerMap.find(value);
                     if (inflectionVal == inflectionContainerMap.end()) {
                         auto numID = npc(inflectionDictionary)->getId(value);
+                        if (numID == -1) {
+                            throw inflection::exception::IllegalStateException(std::u16string(value) + u" inflection name not found.");
+                        }
                         inflectionContainerMap.emplace(value, numID);
                     }
                 }

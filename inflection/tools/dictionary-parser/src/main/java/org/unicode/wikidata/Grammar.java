@@ -960,7 +960,7 @@ public final class Grammar {
         TYPEMAP.put("Q5551966", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // phraseme
         TYPEMAP.put("Q3734650", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // adverbial phrase, a phrase the head of which is an adverb
         TYPEMAP.put("Q357760", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // adjectival phrase
-        TYPEMAP.put("Q56042915", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // prepositional phrase
+        TYPEMAP.put("Q3397768", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // prepositional phrase/prepositional syntagma
         TYPEMAP.put("Q1778442", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // verb phrase
         TYPEMAP.put("Q384876", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // set phrase
         TYPEMAP.put("Q3062294", EnumSet.of(Ignorable.IGNORABLE_LEMMA)); // Latin phrase

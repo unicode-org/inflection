@@ -2,7 +2,7 @@
 # To update ICU version:
 # 1. Update the ICU_ICU_MAJOR and ICU_MINOR environment variable below.
 # 2. Check the ICU binary URL — is the filename still Ubuntu22.04-x64.tgz?
-#    (e.g., icu4c-78_1-Ubuntu22.04-x64.tgz)
+#    (e.g., icu4c-78.1-Ubuntu22.04-x64.tgz)
 # 3. Update inflection/CMakeLists.txt:
 #    - Modify `CPACK_DEBIAN_PACKAGE_DEPENDS` to match the new ICU version.
 # ----------------------------------------------------------------------------------------
@@ -19,7 +19,7 @@ jobs:
   build-and-package:
     runs-on: ubuntu-latest
     env:
-      ICU_MAJOR: '77'
+      ICU_MAJOR: '78'
       ICU_MINOR: '1'
     steps:
       - name: Checkout
@@ -51,9 +51,9 @@ jobs:
         if: steps.cache-icu.outputs.cache-hit != 'true'
         run: |
           cd /tmp
-          wget https://github.com/unicode-org/icu/releases/download/release-${ICU_MAJOR}-${ICU_MINOR}/icu4c-${ICU_MAJOR}_${ICU_MINOR}-Ubuntu22.04-x64.tgz
+          wget https://github.com/unicode-org/icu/releases/download/release-${ICU_MAJOR}.${ICU_MINOR}/icu4c-${ICU_MAJOR}.${ICU_MINOR}-Ubuntu22.04-x64.tgz
           mkdir icu-install
-          tar -xzf icu4c-${ICU_MAJOR}_${ICU_MINOR}-Ubuntu22.04-x64.tgz -C icu-install
+          tar -xzf icu4c-${ICU_MAJOR}.${ICU_MINOR}-Ubuntu22.04-x64.tgz -C icu-install
           sudo mkdir -p /usr/local/icu-${ICU_MAJOR}_${ICU_MINOR}
           sudo cp -r icu-install/icu/usr/local/* /usr/local/icu-${ICU_MAJOR}_${ICU_MINOR}/
           sudo ldconfig

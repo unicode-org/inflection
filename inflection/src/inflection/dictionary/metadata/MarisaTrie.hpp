@@ -125,7 +125,7 @@ inflection::dictionary::metadata::MarisaTrie<T>::MarisaTrie(::inflection::util::
     , encodingEnum(encodingEnum)
 {
     if (trieSize > 0) {
-        const char* rawTrieData = npc(mappedFile)->readArray<char>(trieSize);
+        const char* rawTrieData = npc(mappedFile)->readArray<char>(trieSize).data_ptr();
         trie.map(rawTrieData, trieSize);
     }
     else {

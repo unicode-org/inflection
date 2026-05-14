@@ -23,7 +23,8 @@ inflection::dictionary::metadata::StringArrayContainer::StringArrayContainer(::i
 
 inflection::dictionary::metadata::StringArrayContainer::StringArrayContainer(const ::std::set<::std::u16string_view>& strings, ::std::map<::std::u16string_view, int32_t>* mappingResult)
     : arraySize(int32_t(strings.size()))
-    , stringIndexesWithLen(new int32_t[arraySize])
+    , stringIndexesWithLen_owned(new int32_t[arraySize])
+    , stringIndexesWithLen(reinterpret_cast<char*>(stringIndexesWithLen_owned), arraySize)
 {
     if (!npc(mappingResult)->empty()) {
         throw ::inflection::exception::IllegalArgumentException(u"The mapping result should be empty");
@@ -40,7 +41,7 @@ inflection::dictionary::metadata::StringArrayContainer::StringArrayContainer(con
         if (len > LENGTH_MASK || ((offset << LENGTH_BITS) >> LENGTH_BITS) != offset) {
             throw ::inflection::exception::IllegalArgumentException(u"String is too large: " + std::u16string(string));
         }
-        stringIndexesWithLen[stringIndexesIdx] = (offset << LENGTH_BITS) | len;
+        stringIndexesWithLen_owned[stringIndexesIdx] = (offset << LENGTH_BITS) | len;
         allStringsBuffer.append(string);
         allStringsBuffer.push_back(0); // null terminate
         npc(mappingResult)->emplace(string, stringIndexesIdx);
@@ -52,8 +53,9 @@ inflection::dictionary::metadata::StringArrayContainer::StringArrayContainer(con
     allStringsBuffer.append(paddingSize, 0);
 
     allStringsSize = (int32_t)allStringsBuffer.length();
-    allStrings = new char16_t[allStringsSize];
-    memcpy(allStrings, allStringsBuffer.data(), allStringsSize * sizeof(allStrings[0]));
+    allStrings_owned = new char16_t[allStringsSize];
+    allStrings = inflection::util::MemoryMappedFile::UnalignedArray<char16_t>(reinterpret_cast<char*>(allStrings_owned), allStringsSize);
+    memcpy(allStrings_owned, allStringsBuffer.data(), allStringsSize * sizeof(char16_t));
     ownData = true;
 }
 
@@ -65,8 +67,8 @@ inflection::dictionary::metadata::StringArrayContainer::StringArrayContainer()
 inflection::dictionary::metadata::StringArrayContainer::~StringArrayContainer()
 {
     if (ownData) {
-        delete[] stringIndexesWithLen;
-        delete[] allStrings;
+        delete[] stringIndexesWithLen_owned;
+        delete[] allStrings_owned;
     }
 }
 
@@ -75,8 +77,8 @@ void inflection::dictionary::metadata::StringArrayContainer::write(::std::ostrea
     output.write(reinterpret_cast<const char*>(&arraySize), sizeof(arraySize));
     output.write(reinterpret_cast<const char*>(&allStringsSize), sizeof(allStringsSize));
 
-    output.write(reinterpret_cast<const char*>(stringIndexesWithLen), arraySize * sizeof(stringIndexesWithLen[0]));
-    output.write(reinterpret_cast<const char*>(allStrings), allStringsSize * sizeof(allStrings[0]));
+    output.write(reinterpret_cast<const char*>(stringIndexesWithLen.data_ptr()), arraySize * sizeof(int32_t));
+    output.write(reinterpret_cast<const char*>(allStrings.data_ptr()), allStringsSize * sizeof(char16_t));
 }
 
 ::std::u16string inflection::dictionary::metadata::StringArrayContainer::getString(int32_t offset) const
@@ -87,7 +89,7 @@ void inflection::dictionary::metadata::StringArrayContainer::write(::std::ostrea
     int32_t value = stringIndexesWithLen[offset];
     int32_t len = value & LENGTH_MASK;
     int32_t stringStart = value >> LENGTH_BITS;
-    return std::u16string(allStrings + stringStart, len);
+    return std::u16string(allStrings.data_ptr() + stringStart, len);
 }
 
 int32_t inflection::dictionary::metadata::StringArrayContainer::getIdentifierIfAvailable(::std::u16string_view string) const
@@ -101,7 +103,7 @@ int32_t inflection::dictionary::metadata::StringArrayContainer::getIdentifierIfA
         int32_t len = value & LENGTH_MASK;
         int32_t stringStart = uint32_t(value) >> LENGTH_BITS;
 
-        std::u16string_view strToCompare(allStrings + stringStart, len);
+        std::u16string_view strToCompare(allStrings.data_ptr() + stringStart, len);
 
         auto comp = string.compare(strToCompare);
         if (comp < 0) {

@@ -11,6 +11,7 @@
 #include <inflection/npc.hpp>
 #include <icu4cxx/NumberFormat.hpp>
 #include <math.h>
+#include <cstdlib>
 
 namespace inflection::dialog {
 

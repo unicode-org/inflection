@@ -8,6 +8,7 @@
 #include <TargetConditionals.h>
 #endif
 #include <dlfcn.h>
+#include <cstdlib>
 
 namespace inflection::util {
 

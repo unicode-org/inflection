@@ -45,6 +45,11 @@ private:
     CompressedArray& operator=(const CompressedArray& other) = delete;
 };
 
+namespace inflection::dictionary::metadata {
+template <typename T>
+CompressedArray(const ::std::vector<T>&) -> CompressedArray<T>;
+}
+
 template<typename T>
 inflection::dictionary::metadata::CompressedArray<T>::CompressedArray(::inflection::util::MemoryMappedFile* mappedFile)
     : ownData(false)

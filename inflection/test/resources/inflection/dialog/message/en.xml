@@ -1,0 +1,1042 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+ Copyright 2025 Unicode Incorporated and others. All rights reserved.
+-->
+<messagetest locale="en">
+    <test>
+        <params>
+            <param name="source" type="String"><value>qzxyzq</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=number} .match $feature || {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>sheep</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=number} .match $feature || {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>light</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=number} .match $feature |singular| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>lights</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=number} .match $feature |plural| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>qzxyzq lights</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=number} .match $feature |plural| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>patio</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=number} .match $feature |singular| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>patio lights</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=number} .match $feature |plural| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>patio light</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=number} .match $feature |singular| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>lights on the patio</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=number} .match $feature |plural| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>lights around the garden</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=number} .match $feature |plural| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>light between the houses</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=number} .match $feature |singular| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>to the light on the patio</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=number} .match $feature |singular| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>to the lights on the patio</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=number} .match $feature |plural| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>❄️ on the patio</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=number} .match $feature |singular| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>❄️ on the patios</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=number} .match $feature |plural| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>the cat</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=definiteness} .match $feature |definite| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>The Cat</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=definiteness} .match $feature |definite| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>THE CAT</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=definiteness} .match $feature |definite| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>the  cat</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=definiteness} .match $feature |definite| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>a cat</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=definiteness} .match $feature |indefinite| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>an cat</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=definiteness} .match $feature |indefinite| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>an orange</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=definiteness} .match $feature |indefinite| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>thesis</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=definiteness} .match $feature || {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>animal</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=definiteness} .match $feature || {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>QQQQQQ</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=definiteness} .match $feature || {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>the cat</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>the cat</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>The Cat</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>The Cat</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>THE CAT</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>THE CAT</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>the  cat</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>the  cat</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>a</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>the a</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>a </value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>the a </print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>an</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>the an</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>an </value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>the an </print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>the</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite}</source>
+        <print>a the</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>the </value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite}</source>
+        <print>a the </print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>a cat</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite}</source>
+        <print>a cat</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>an cat</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite}</source>
+        <print>an cat</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>an ZZZ</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite}</source>
+        <print>an ZZZ</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>an orange</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite}</source>
+        <print>an orange</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>the cat</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite}</source>
+        <print>a cat</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>a cat</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>the cat</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>cat</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>the cat</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>the cat</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>the cat</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>thesis</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>the thesis</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>cat</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite number=plural}</source>
+        <print>the cats</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>cat</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite}</source>
+        <print>a cat</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>orange</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite}</source>
+        <print>an orange</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>a</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite}</source>
+        <print>an a</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>1</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite}</source>
+        <print>a 1</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>8</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite}</source>
+        <print>an 8</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>plural</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite}</source>
+        <print>a plural</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>plurals</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite}</source>
+        <print>plurals</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>sheep</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite}</source>
+        <print>a sheep</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>qzxyzq</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=case} .match $feature || {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>qzxyzq's</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=case} .match $feature |genitive| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>qzxyzq’s</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=case} .match $feature |genitive| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>qzxyzqs'</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=case} .match $feature |genitive| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>qzxyzqs’</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=case} .match $feature |genitive| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>'s</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=case} .match $feature || {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>’s</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=case} .match $feature || {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>s'</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=case} .match $feature || {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>s’</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=case} .match $feature || {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>A</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>A’s</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>😀</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>😀’s</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>'semantic</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>'semantic’s</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>qzxyzq</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=indefArticle} .match $feature |a| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>aqzxyzq</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=indefArticle} .match $feature |an| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>cat</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=indefArticle} .match $feature |a| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>unicorn</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=indefArticle} .match $feature |a| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>umbrella</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=indefArticle} .match $feature |an| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>umbrella</value></param>
+        </params>
+        <source>{$source :inflection case=genitive definiteness=indefinite}</source>
+        <print>an umbrella’s</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>unicorn</value></param>
+        </params>
+        <source>{$source :inflection case=genitive definiteness=indefinite}</source>
+        <print>a unicorn’s</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>goose</value></param>
+        </params>
+        <source>{$source :inflection}</source>
+        <print>goose</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>goose</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>goose</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>goose</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>geese</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>geese</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>goose</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>noun</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>nouns</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>truss</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>trusses</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>church</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>churches</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>siriology</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>siriologies</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>yen</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>yen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>yen</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>yen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>word phrase</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>word phrases</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>goose</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=singular}</source>
+        <print>goose’s</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>goose</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=plural}</source>
+        <print>geese’s</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Ylkdajhf</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>Ylkdajhf’s</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>it</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>its</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Siri's</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>Siri's</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Siri’s</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>Siri’s</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Cities</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>Cities’</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Spatula City</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>Spatula City’s</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Spatula Cities</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>Spatula Cities’</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>day</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>days</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>boy</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>boys</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>fan</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>fans</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>SAG</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>SAGS</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>bean</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>beans</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>beans</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>beans</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>kidney bean</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>kidney beans</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>kidney beans</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>kidney beans</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>red kidney bean</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>red kidney beans</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>bean of kidney</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>beans of kidney</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>beans of kidney</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>beans of kidney</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>red bean of kidney</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>red beans of kidney</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>red beans of kidney</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>red beans of kidney</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>sheep of a flock</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>sheep of a flock</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>sheep of a flock</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>sheep of a flock</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>leading sheep of a flock</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>leading sheep of a flock</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>leading sheep of a flock</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>leading sheep of a flock</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>good friends</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>good friend</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>pies</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>pie</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>goods qqqqches</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>goods qqqqch</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>goods qqqqes</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>goods qqqqe</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>goods qqqqs</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>goods qqqq</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>goods qqqqies</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>goods qqqqy</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>goods qqqq</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>goods qqqq</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>glutei maximi</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>glutei maximi</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>gluteus maximus</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>glutei maximi</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>sister</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>sisters</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Jose</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>Joses</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Jose</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=plural}</source>
+        <print>Joses’</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Jose</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>Jose’s</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Jesus</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>Jesus’s</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Jose</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>the Jose</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Jose</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite}</source>
+        <print>a Jose</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Jose</value></param>
+        </params>
+        <source>{$source :inflection case=genitive definiteness=definite}</source>
+        <print>the Jose’s</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Jose</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite number=plural}</source>
+        <print>the Joses</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>is</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>are</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>has</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>have</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>creates</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>create</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>create</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>create</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>creates</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>creates</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>works</value></param>
+        </params>
+        <source>{$source :inflection number=plural pos=verb}</source>
+        <print>work</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>work</value></param>
+        </params>
+        <source>{$source :inflection number=plural pos=verb}</source>
+        <print>work</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>works</value></param>
+        </params>
+        <source>{$source :inflection number=singular pos=verb}</source>
+        <print>works</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>work</value></param>
+        </params>
+        <source>{$source :inflection number=singular pos=verb}</source>
+        <print>works</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>work</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>works</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>works</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>works</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>work</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>work</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>works</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>work</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>this</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>these</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>that</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>those</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>these</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>these</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>those</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>those</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>these</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>this</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>those</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>that</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>this</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>this</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>that</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>that</print>
+    </test>
+</messagetest>

@@ -1,0 +1,629 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+ Copyright 2025 Unicode Incorporated and others. All rights reserved.
+-->
+<messagetest locale="ko">
+    <test>
+        <params>
+            <param name="source" type="String"><value>Richard</value></param>
+        </params>
+        <source>{$source :inflection case=nominative}</source>
+        <print>Richard는</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Richard는</value></param>
+        </params>
+        <source>{$source :inflection case=nominative}</source>
+        <print>Richard는</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Richard은</value></param>
+        </params>
+        <source>{$source :inflection case=nominative}</source>
+        <print>Richard는</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Richard</value></param>
+        </params>
+        <source>{$source :inflection case=nominative clusivity=exclusive}</source>
+        <print>Richard는</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Richard는</value></param>
+        </params>
+        <source>{$source :inflection case=nominative clusivity=exclusive}</source>
+        <print>Richard는</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Richard은</value></param>
+        </params>
+        <source>{$source :inflection case=nominative clusivity=exclusive}</source>
+        <print>Richard는</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>리차드</value></param>
+        </params>
+        <source>{$source :inflection case=nominative}</source>
+        <print>리차드는</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>KT</value></param>
+        </params>
+        <source>{$source :inflection case=nominative}</source>
+        <print>KT는</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>케이티</value></param>
+        </params>
+        <source>{$source :inflection case=nominative}</source>
+        <print>케이티는</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>NHN</value></param>
+        </params>
+        <source>{$source :inflection case=nominative}</source>
+        <print>NHN은</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>엔에이치엔</value></param>
+        </params>
+        <source>{$source :inflection case=nominative}</source>
+        <print>엔에이치엔은</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Hans'</value></param>
+        </params>
+        <source>{$source :inflection case=nominative}</source>
+        <print>Hans'는</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>한스'</value></param>
+        </params>
+        <source>{$source :inflection case=nominative}</source>
+        <print>한스'는</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Eric</value></param>
+        </params>
+        <source>{$source :inflection case=nominative}</source>
+        <print>Eric은</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Eric는</value></param>
+        </params>
+        <source>{$source :inflection case=nominative}</source>
+        <print>Eric은</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Eric은</value></param>
+        </params>
+        <source>{$source :inflection case=nominative}</source>
+        <print>Eric은</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>에릭</value></param>
+        </params>
+        <source>{$source :inflection case=nominative}</source>
+        <print>에릭은</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>George</value></param>
+        </params>
+        <source>{$source :inflection case=nominative}</source>
+        <print>George는</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>조지</value></param>
+        </params>
+        <source>{$source :inflection case=nominative}</source>
+        <print>조지는</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Apple</value></param>
+        </params>
+        <source>{$source :inflection case=nominative}</source>
+        <print>Apple은</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>애플</value></param>
+        </params>
+        <source>{$source :inflection case=nominative}</source>
+        <print>애플은</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Richard</value></param>
+        </params>
+        <source>{$source :inflection case=nominative clusivity=inclusive}</source>
+        <print>Richard가</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>리차드</value></param>
+        </params>
+        <source>{$source :inflection case=nominative clusivity=inclusive}</source>
+        <print>리차드가</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>KT</value></param>
+        </params>
+        <source>{$source :inflection case=nominative clusivity=inclusive}</source>
+        <print>KT가</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>케이티</value></param>
+        </params>
+        <source>{$source :inflection case=nominative clusivity=inclusive}</source>
+        <print>케이티가</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>NHN</value></param>
+        </params>
+        <source>{$source :inflection case=nominative clusivity=inclusive}</source>
+        <print>NHN이</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>엔에이치엔</value></param>
+        </params>
+        <source>{$source :inflection case=nominative clusivity=inclusive}</source>
+        <print>엔에이치엔이</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Hans'</value></param>
+        </params>
+        <source>{$source :inflection case=nominative clusivity=inclusive}</source>
+        <print>Hans'가</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>한스'</value></param>
+        </params>
+        <source>{$source :inflection case=nominative clusivity=inclusive}</source>
+        <print>한스'가</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Eric</value></param>
+        </params>
+        <source>{$source :inflection case=nominative clusivity=inclusive}</source>
+        <print>Eric이</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>에릭</value></param>
+        </params>
+        <source>{$source :inflection case=nominative clusivity=inclusive}</source>
+        <print>에릭이</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>George</value></param>
+        </params>
+        <source>{$source :inflection case=nominative clusivity=inclusive}</source>
+        <print>George가</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>조지</value></param>
+        </params>
+        <source>{$source :inflection case=nominative clusivity=inclusive}</source>
+        <print>조지가</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Apple</value></param>
+        </params>
+        <source>{$source :inflection case=nominative clusivity=inclusive}</source>
+        <print>Apple이</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>애플</value></param>
+        </params>
+        <source>{$source :inflection case=nominative clusivity=inclusive}</source>
+        <print>애플이</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Richard</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>Richard를</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>리차드</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>리차드를</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>KT</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>KT를</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>케이티</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>케이티를</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>NHN</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>NHN을</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>엔에이치엔</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>엔에이치엔을</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Hans'</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>Hans'를</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>한스'</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>한스'를</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Eric</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>Eric을</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>에릭</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>에릭을</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>George</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>George를</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>조지</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>조지를</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Apple</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>Apple을</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>애플</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>애플을</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Presents</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>Presents를</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Chris Tall Presents</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>Chris Tall Presents를</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>스페인어(미국)을</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>스페인어(미국)를</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>엔에이치엔(미국)을</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>엔에이치엔(미국)을</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>스페인어{미국}을</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>스페인어{미국}를</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>스페인어〘미국〙을</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>스페인어〘미국〙를</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>(미국)을</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>(미국)을</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Eric(미국)을</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>Eric(미국)을</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Eric(미국)를</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>Eric(미국)을</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>George(미국)을</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>George(미국)를</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>George(미국)를</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>George(미국)를</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Richard</value></param>
+        </params>
+        <source>{$source :inflection case=comitative}</source>
+        <print>Richard와</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>리차드</value></param>
+        </params>
+        <source>{$source :inflection case=comitative}</source>
+        <print>리차드와</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>KT</value></param>
+        </params>
+        <source>{$source :inflection case=comitative}</source>
+        <print>KT와</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>케이티</value></param>
+        </params>
+        <source>{$source :inflection case=comitative}</source>
+        <print>케이티와</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>NHN</value></param>
+        </params>
+        <source>{$source :inflection case=comitative}</source>
+        <print>NHN과</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>엔에이치엔</value></param>
+        </params>
+        <source>{$source :inflection case=comitative}</source>
+        <print>엔에이치엔과</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Hans'</value></param>
+        </params>
+        <source>{$source :inflection case=comitative}</source>
+        <print>Hans'와</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>한스'</value></param>
+        </params>
+        <source>{$source :inflection case=comitative}</source>
+        <print>한스'와</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Eric</value></param>
+        </params>
+        <source>{$source :inflection case=comitative}</source>
+        <print>Eric과</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>에릭</value></param>
+        </params>
+        <source>{$source :inflection case=comitative}</source>
+        <print>에릭과</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>George</value></param>
+        </params>
+        <source>{$source :inflection case=comitative}</source>
+        <print>George와</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>조지</value></param>
+        </params>
+        <source>{$source :inflection case=comitative}</source>
+        <print>조지와</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Apple</value></param>
+        </params>
+        <source>{$source :inflection case=comitative}</source>
+        <print>Apple과</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>애플</value></param>
+        </params>
+        <source>{$source :inflection case=comitative}</source>
+        <print>애플과</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>안타</value></param>
+        </params>
+        <source>{$source :inflection case=instrumental}</source>
+        <print>안타로</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>장타율</value></param>
+        </params>
+        <source>{$source :inflection case=instrumental}</source>
+        <print>장타율로</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>홈런</value></param>
+        </params>
+        <source>{$source :inflection case=instrumental}</source>
+        <print>홈런으로</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Eric</value></param>
+        </params>
+        <source>{$source :inflection case=instrumental}</source>
+        <print>Eric으로</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>George</value></param>
+        </params>
+        <source>{$source :inflection case=instrumental}</source>
+        <print>George로</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ChatGPT</value></param>
+        </params>
+        <source>{$source :inflection case=instrumental}</source>
+        <print>ChatGPT로</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>23</value></param>
+        </params>
+        <source>{$source :inflection case=instrumental}</source>
+        <print>23으로</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>23로</value></param>
+        </params>
+        <source>{$source :inflection case=instrumental}</source>
+        <print>23으로</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>word 23로</value></param>
+        </params>
+        <source>{$source :inflection case=instrumental}</source>
+        <print>word 23으로</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>매출</value></param>
+        </params>
+        <source>{$source :inflection adjectival=predicative}</source>
+        <print>매출이라</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>매출이라</value></param>
+        </params>
+        <source>{$source :inflection adjectival=predicative}</source>
+        <print>매출이라</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>매출라</value></param>
+        </params>
+        <source>{$source :inflection adjectival=predicative}</source>
+        <print>매출이라</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>회의</value></param>
+        </params>
+        <source>{$source :inflection adjectival=predicative}</source>
+        <print>회의라</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>회의이라</value></param>
+        </params>
+        <source>{$source :inflection adjectival=predicative}</source>
+        <print>회의라</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>회의라</value></param>
+        </params>
+        <source>{$source :inflection adjectival=predicative}</source>
+        <print>회의라</print>
+    </test>
+</messagetest>

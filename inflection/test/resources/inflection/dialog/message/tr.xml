@@ -1,0 +1,1273 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+ Copyright 2025 Unicode Incorporated and others. All rights reserved.
+-->
+<messagetest locale="tr">
+    <test>
+        <params>
+            <param name="source" type="String"><value></value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=interrogativeArticle} .match $feature | mi| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>qzxyzq</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=interrogativeArticle} .match $feature |qzxyzq mi| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>kitap</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=interrogativeArticle} .match $feature |kitap mı| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>terlik</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=interrogativeArticle} .match $feature |terlik mi| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>okul</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=interrogativeArticle} .match $feature |okul mu| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>gözlük</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=interrogativeArticle} .match $feature |gözlük mü| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value></value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=deConjunction} .match $feature | de| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>qzxyzq</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=deConjunction} .match $feature |qzxyzq de| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>kitap</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=deConjunction} .match $feature |kitap da| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>terlik</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=deConjunction} .match $feature |terlik de| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>alarm</value></param>
+        </params>
+        <source>{$source :inflection}</source>
+        <print>alarm</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>alarm</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>alarmlar</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>iPhone</value></param>
+        </params>
+        <source>{$source :inflection}</source>
+        <print>iPhone</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Miami’</value></param>
+        </params>
+        <source>{$source :inflection}</source>
+        <print>Miami’</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>alarm</value></param>
+        </params>
+        <source>{$source :inflection case=ablative copula=third number=plural person=first pronounNumber=plural tense=present}</source>
+        <print>alarmlarımızdandır</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>alarm</value></param>
+        </params>
+        <source>{$source :inflection number=plural person=third pronounNumber=singular}</source>
+        <print>alarmları</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>alarm</value></param>
+        </params>
+        <source>{$source :inflection number=singular person=third pronoun=plural}</source>
+        <print>alarmları</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>alarm</value></param>
+        </params>
+        <source>{$source :inflection number=plural person=third pronounNumber=plural}</source>
+        <print>alarmları</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>uçak</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>uçağı</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>küp</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>küpü</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>knot</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>knotu</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>uçak</value></param>
+        </params>
+        <source>{$source :inflection case=locative}</source>
+        <print>uçakta</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>arka</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>arkayı</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>arka</value></param>
+        </params>
+        <source>{$source :inflection case=accusative person=third pronounNumber=singular}</source>
+        <print>arkasını</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Uçak'</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>Uçak'ı</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Uçak’</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>Uçak’ı</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>"Uçak"</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>"Uçak"ı</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Uçak </value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>Uçak ı</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>iPhone</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>iPhone’u</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>iPad'</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>iPad’i</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Domino’s’</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>Domino’s’u</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Domino’s</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>Domino’su</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>IKEA’</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>IKEA’yı</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>6:00’</value></param>
+        </params>
+        <source>{$source :inflection case=dative}</source>
+        <print>6:00’ya</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>6:01’</value></param>
+        </params>
+        <source>{$source :inflection case=dative}</source>
+        <print>6:01’e</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>pazar 6:00’</value></param>
+        </params>
+        <source>{$source :inflection case=locative}</source>
+        <print>pazar 6:00’da</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>pazar ÖS 6’</value></param>
+        </params>
+        <source>{$source :inflection case=locative}</source>
+        <print>pazar ÖS 6’da</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Mart 2013</value></param>
+        </params>
+        <source>{$source :inflection case=locative}</source>
+        <print>Mart 2013’te</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>6,80</value></param>
+        </params>
+        <source>{$source :inflection case=dative}</source>
+        <print>6,80’e</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>2,00</value></param>
+        </params>
+        <source>{$source :inflection case=dative}</source>
+        <print>2,00’ye</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>00:00</value></param>
+        </params>
+        <source>{$source :inflection case=dative}</source>
+        <print>00:00’a</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>3.000</value></param>
+        </params>
+        <source>{$source :inflection case=dative}</source>
+        <print>3.000’e</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>21.12.2009</value></param>
+        </params>
+        <source>{$source :inflection case=dative}</source>
+        <print>21.12.2009’a</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>0 555 333 22 17</value></param>
+        </params>
+        <source>{$source :inflection case=dative}</source>
+        <print>0 555 333 22 17’ye</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Numara 0</value></param>
+        </params>
+        <source>{$source :inflection case=dative}</source>
+        <print>Numara 0’a</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Blink23</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>Blink23’ü</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Blink23”</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>Blink23”ü</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>3.</value></param>
+        </params>
+        <source>{$source :inflection case=dative}</source>
+        <print>3.’ye</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>,'</value></param>
+        </params>
+        <source>{$source :inflection case=dative}</source>
+        <print>,'e</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>😎’</value></param>
+        </params>
+        <source>{$source :inflection case=dative}</source>
+        <print>😎’e</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Sanayi ve Ticaret A.Ş.</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>Sanayi ve Ticaret A.Ş.’nin</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Galata Kulesi</value></param>
+        </params>
+        <source>{$source :inflection case=dative}</source>
+        <print>Galata Kulesine</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Amerika Birleşik Devletleri’</value></param>
+        </params>
+        <source>{$source :inflection case=locative}</source>
+        <print>Amerika Birleşik Devletleri’nde</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Birleşik Arap Emirlikleri’</value></param>
+        </params>
+        <source>{$source :inflection case=locative}</source>
+        <print>Birleşik Arap Emirlikleri’nde</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Apple Watch</value></param>
+        </params>
+        <source>{$source :inflection case=locative person=second pronounNumber=singular}</source>
+        <print>Apple Watch’unda</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>garaj kapısı</value></param>
+        </params>
+        <source>{$source :inflection copula=third tense=present}</source>
+        <print>garaj kapısıdır</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>el feneri</value></param>
+        </params>
+        <source>{$source :inflection person=first pronounNumber=plural}</source>
+        <print>el fenerimiz</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>El Feneri’</value></param>
+        </params>
+        <source>{$source :inflection person=second pronounNumber=singular}</source>
+        <print>El Feneri’n</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>El Feneri’</value></param>
+        </params>
+        <source>{$source :inflection person=third pronounNumber=singular}</source>
+        <print>El Feneri’si</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Merkez Cami’</value></param>
+        </params>
+        <source>{$source :inflection case=dative}</source>
+        <print>Merkez Cami’ye</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Şampiyonlar Ligi’</value></param>
+        </params>
+        <source>{$source :inflection case=locative}</source>
+        <print>Şampiyonlar Ligi’nde</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Avrupa Ligi’</value></param>
+        </params>
+        <source>{$source :inflection case=dative}</source>
+        <print>Avrupa Ligi’ne</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Zlatan Ibrahimović’</value></param>
+        </params>
+        <source>{$source :inflection case=ablative}</source>
+        <print>Zlatan Ibrahimović’ten</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Ousmane Dembélé’</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>Ousmane Dembélé’yi</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Testó’</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>Testó’yu</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Manchester United’</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>Manchester United’ı</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Chelsea’</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>Chelsea’yi</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Lakers’</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>Lakers’ı</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>basket</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>basketi</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>faul</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>faulü</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>NBA Finalleri’</value></param>
+        </params>
+        <source>{$source :inflection case=locative}</source>
+        <print>NBA Finalleri’nde</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Gençlerbirliği’</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>Gençlerbirliği’ni</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Ankaragücü’</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>Ankaragücü’nü</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Kuşadası’</value></param>
+        </params>
+        <source>{$source :inflection case=dative}</source>
+        <print>Kuşadası’na</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Taşucu’</value></param>
+        </params>
+        <source>{$source :inflection case=dative}</source>
+        <print>Taşucu’na</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Atatürk Havalimanı’</value></param>
+        </params>
+        <source>{$source :inflection case=dative}</source>
+        <print>Atatürk Havalimanı’na</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Esenboğa Havaalanı’</value></param>
+        </params>
+        <source>{$source :inflection case=dative}</source>
+        <print>Esenboğa Havaalanı’na</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>alarm</value></param>
+        </params>
+        <source>{$source :inflection person=first}</source>
+        <print>alarmım</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>alarm</value></param>
+        </params>
+        <source>{$source :inflection tense=present}</source>
+        <print>alarmdır</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>gol</value></param>
+        </params>
+        <source>{$source :inflection case=dative}</source>
+        <print>gole</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>avukat</value></param>
+        </params>
+        <source>{$source :inflection case=dative}</source>
+        <print>avukata</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>tuvalet</value></param>
+        </params>
+        <source>{$source :inflection case=dative}</source>
+        <print>tuvalete</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>noter</value></param>
+        </params>
+        <source>{$source :inflection case=dative}</source>
+        <print>notere</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Kemal’</value></param>
+        </params>
+        <source>{$source :inflection case=dative}</source>
+        <print>Kemal’e</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Tom Cruise’</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>Tom Cruise’un</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Stockholm’</value></param>
+        </params>
+        <source>{$source :inflection case=dative}</source>
+        <print>Stockholm’e</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Bilal’</value></param>
+        </params>
+        <source>{$source :inflection case=dative}</source>
+        <print>Bilal’e</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Yasemin Mori’</value></param>
+        </params>
+        <source>{$source :inflection case=dative}</source>
+        <print>Yasemin Mori’ye</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>cep</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>cebi</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>kürk</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>kürkü</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>renk</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>rengi</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>renk</value></param>
+        </params>
+        <source>{$source :inflection case=locative}</source>
+        <print>renkte</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ampul</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>ampulü</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>pist</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>pisti</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>kâr</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>kârı</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>termostat</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>termostatı</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>limit</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>limiti</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>market</value></param>
+        </params>
+        <source>{$source :inflection case=dative}</source>
+        <print>markete</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Xerox’</value></param>
+        </params>
+        <source>{$source :inflection case=locative}</source>
+        <print>Xerox’ta</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Clorox’</value></param>
+        </params>
+        <source>{$source :inflection case=ablative}</source>
+        <print>Clorox’tan</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>iPhone</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>iPhone’u</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>iPhone</value></param>
+        </params>
+        <source>{$source :inflection case=locative}</source>
+        <print>iPhone’da</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>iPad</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>iPad’i</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>iPad</value></param>
+        </params>
+        <source>{$source :inflection case=locative}</source>
+        <print>iPad’de</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>3D touch</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>3D touch’ı</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>3D touch</value></param>
+        </params>
+        <source>{$source :inflection case=locative}</source>
+        <print>3D touch’ta</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>iBooks</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>iBooks’u</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>iBooks</value></param>
+        </params>
+        <source>{$source :inflection case=locative}</source>
+        <print>iBooks’da</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>App Store</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>App Store’u</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>App Store</value></param>
+        </params>
+        <source>{$source :inflection case=locative}</source>
+        <print>App Store’da</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>MacBook</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>MacBook’u</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>MacBook</value></param>
+        </params>
+        <source>{$source :inflection case=locative}</source>
+        <print>MacBook’ta</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>iMac</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>iMac’i</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>iMac</value></param>
+        </params>
+        <source>{$source :inflection case=locative}</source>
+        <print>iMac’te</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Apple Music</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>Apple Music’i</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Apple Music</value></param>
+        </params>
+        <source>{$source :inflection case=locative}</source>
+        <print>Apple Music’te</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>iTunes Match</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>iTunes Match’i</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>iTunes Match</value></param>
+        </params>
+        <source>{$source :inflection case=locative}</source>
+        <print>iTunes Match’te</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>iTunes Pass</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>iTunes Pass’i</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>iTunes Pass</value></param>
+        </params>
+        <source>{$source :inflection case=locative}</source>
+        <print>iTunes Pass’te</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Wallet</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>Wallet’ı</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Wallet</value></param>
+        </params>
+        <source>{$source :inflection case=locative}</source>
+        <print>Wallet’ta</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>iCloud Drive</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>iCloud Drive’ı</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>iCloud Drive</value></param>
+        </params>
+        <source>{$source :inflection case=locative}</source>
+        <print>iCloud Drive’da</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Apple Watch</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>Apple Watch’u</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Apple Watch</value></param>
+        </params>
+        <source>{$source :inflection case=locative}</source>
+        <print>Apple Watch’ta</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Beats</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>Beats’i</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Beats</value></param>
+        </params>
+        <source>{$source :inflection case=locative}</source>
+        <print>Beats’te</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>iPad Pro</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>iPad Pro’yu</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>iPad Pro</value></param>
+        </params>
+        <source>{$source :inflection case=locative}</source>
+        <print>iPad Pro’da</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>iPad Air</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>iPad Air’i</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>iPad Air</value></param>
+        </params>
+        <source>{$source :inflection case=locative}</source>
+        <print>iPad Air’de</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Split View</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>Split View’i</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Split View</value></param>
+        </params>
+        <source>{$source :inflection case=locative}</source>
+        <print>Split View’de</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>GarageBand</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>GarageBand’i</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>GarageBand</value></param>
+        </params>
+        <source>{$source :inflection case=locative}</source>
+        <print>GarageBand’de</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Pages</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>Pages’ı</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Pages</value></param>
+        </params>
+        <source>{$source :inflection case=locative}</source>
+        <print>Pages’da</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Numbers</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>Numbers’ı</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Numbers</value></param>
+        </params>
+        <source>{$source :inflection case=locative}</source>
+        <print>Numbers’da</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>iTunes</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>iTunes’u</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>iTunes</value></param>
+        </params>
+        <source>{$source :inflection case=locative}</source>
+        <print>iTunes’da</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>News</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>News’i</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>News</value></param>
+        </params>
+        <source>{$source :inflection case=locative}</source>
+        <print>News’de</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>iOS</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>iOS’i</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>iOS</value></param>
+        </params>
+        <source>{$source :inflection case=locative}</source>
+        <print>iOS’te</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>TestFlight</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>TestFlight’ı</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>TestFlight</value></param>
+        </params>
+        <source>{$source :inflection case=locative}</source>
+        <print>TestFlight’ta</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>okul</value></param>
+        </params>
+        <source>{$source :inflection case=locative copula=third tense=past}</source>
+        <print>okuldaydı</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Eir Sport’</value></param>
+        </params>
+        <source>{$source :inflection case=locative copula=third tense=past}</source>
+        <print>Eir Sport’taydı</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Country’</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>Country’yi</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Podcasts</value></param>
+        </params>
+        <source>{$source :inflection case=locative}</source>
+        <print>Podcasts’te</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>iPhone 7S’</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>iPhone 7S’yi</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>iPhone XR’</value></param>
+        </params>
+        <source>{$source :inflection case=genitive person=third pronounNumber=singular}</source>
+        <print>iPhone XR’sinin</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Apple TV 4K’</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>Apple TV 4K’yı</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>gece yarısı</value></param>
+        </params>
+        <source>{$source :inflection case=dative}</source>
+        <print>gece yarısına</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>playlist</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>playlist’i</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Wi-Fi</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>Wi-Fi’ı</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Zuhal’</value></param>
+        </params>
+        <source>{$source :inflection case=dative}</source>
+        <print>Zuhal’e</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>müzikal</value></param>
+        </params>
+        <source>{$source :inflection case=locative}</source>
+        <print>müzikalde</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>mail’</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>mail’i</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>mail’</value></param>
+        </params>
+        <source>{$source :inflection case=locative}</source>
+        <print>mail’de</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>artist</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>artisti</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>sohbet</value></param>
+        </params>
+        <source>{$source :inflection case=dative}</source>
+        <print>sohbete</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>cumhuriyet</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>cumhuriyetin</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>sepet</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>sepeti</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>adalet</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>adaleti</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>iki</value></param>
+        </params>
+        <source>{$source :inflection tense=past}</source>
+        <print>ikiydi</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>araba</value></param>
+        </params>
+        <source>{$source :inflection person=third tense=past}</source>
+        <print>arabasıydı</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>sıkıcı</value></param>
+        </params>
+        <source>{$source :inflection copula=first tense=present}</source>
+        <print>sıkıcıyım</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>abla</value></param>
+        </params>
+        <source>{$source :inflection copula=first person=third tense=present}</source>
+        <print>ablasıyım</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>abla</value></param>
+        </params>
+        <source>{$source :inflection case=instrumental}</source>
+        <print>ablayla</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>kalem</value></param>
+        </params>
+        <source>{$source :inflection case=instrumental}</source>
+        <print>kalemle</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>elbise</value></param>
+        </params>
+        <source>{$source :inflection case=instrumental}</source>
+        <print>elbiseyle</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>kaşık</value></param>
+        </params>
+        <source>{$source :inflection case=instrumental}</source>
+        <print>kaşıkla</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>bu</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>bunu</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>şu</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>şunu</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>o</value></param>
+        </params>
+        <source>{$source :inflection case=dative}</source>
+        <print>ona</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>şu</value></param>
+        </params>
+        <source>{$source :inflection case=locative}</source>
+        <print>şunda</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>abla</value></param>
+        </params>
+        <source>{$source :inflection case=instrumental copula=first person=third tense=present}</source>
+        <print>ablasıylayım</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>°C’</value></param>
+        </params>
+        <source>{$source :inflection case=dative}</source>
+        <print>°C’ye</print>
+    </test>
+</messagetest>

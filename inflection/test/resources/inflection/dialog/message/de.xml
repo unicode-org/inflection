@@ -1,0 +1,1973 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+ Copyright 2025 Unicode Incorporated and others. All rights reserved.
+-->
+<messagetest locale="de">
+    <test>
+        <params>
+            <param name="source" type="String"><value>Termin</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=gender} .match $feature |masculine| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Besprechung</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=gender} .match $feature |feminine| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Ereignis</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=gender} .match $feature |neuter| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>qzxyzq</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=indefArticle case=nominative number=singular} .match $feature || {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Alp</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=indefArticle case=nominative number=singular} .match $feature || {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Fundort</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=indefArticle case=nominative number=singular} .match $feature |ein| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Fundort</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=indefArticle case=genitive number=singular} .match $feature |eines| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Fundort</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=indefArticle case=dative number=singular} .match $feature |einem| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Fundort</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=indefArticle case=accusative number=singular} .match $feature |einen| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Bank</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=indefArticle case=nominative number=singular} .match $feature |eine| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Bank</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=indefArticle case=genitive number=singular} .match $feature |einer| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Bank</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=indefArticle case=dative number=singular} .match $feature |einer| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Bank</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=indefArticle case=accusative number=singular} .match $feature |eine| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Wort</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=indefArticle case=nominative number=singular} .match $feature |ein| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Wort</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=indefArticle case=genitive number=singular} .match $feature |eines| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Wort</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=indefArticle case=dative number=singular} .match $feature |einem| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Wort</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=indefArticle case=accusative number=singular} .match $feature |ein| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Spieltisch</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=indefArticle case=genitive number=singular} .match $feature |eines| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Spielbank</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=indefArticle case=genitive number=singular} .match $feature |einer| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Spielzimmer</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=indefArticle case=dative number=singular} .match $feature |einem| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Fundort</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=defArticleInPreposition case=dative number=singular} .match $feature |im| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Bank</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=defArticleInPreposition case=dative number=singular} .match $feature |in der| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Wort</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=defArticleInPreposition case=nominative number=singular} .match $feature |ins| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Fundort</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withDefArticleInPreposition case=dative number=singular} .match $feature |im Fundort| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Bank</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withDefArticleInPreposition case=dative number=singular} .match $feature |in der Bank| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Wort</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withDefArticleInPreposition case=nominative number=singular} .match $feature |ins Wort| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>neu</value></param>
+        </params>
+        <source>{$source :inflection}</source>
+        <print>neu</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>neu</value></param>
+        </params>
+        <source>{$source :inflection case=genitive declension=weak gender=masculine number=plural}</source>
+        <print>neuen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ander</value></param>
+        </params>
+        <source>{$source :inflection case=nominative declension=weak gender=neuter number=singular}</source>
+        <print>andere</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Katze</value></param>
+        </params>
+        <source>{$source :inflection case=nominative number=singular}</source>
+        <print>Katze</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Katze</value></param>
+        </params>
+        <source>{$source :inflection case=accusative number=singular}</source>
+        <print>Katze</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Katze</value></param>
+        </params>
+        <source>{$source :inflection case=dative number=singular}</source>
+        <print>Katze</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Katze</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=singular}</source>
+        <print>Katze</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Katze</value></param>
+        </params>
+        <source>{$source :inflection case=nominative number=plural}</source>
+        <print>Katzen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Katze</value></param>
+        </params>
+        <source>{$source :inflection case=accusative number=plural}</source>
+        <print>Katzen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Katze</value></param>
+        </params>
+        <source>{$source :inflection case=dative number=plural}</source>
+        <print>Katzen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Katze</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=plural}</source>
+        <print>Katzen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>schön Katze</value></param>
+        </params>
+        <source>{$source :inflection case=nominative declension=strong number=singular}</source>
+        <print>schöne Katze</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>schön Katze</value></param>
+        </params>
+        <source>{$source :inflection case=genitive declension=strong number=singular}</source>
+        <print>schöner Katze</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>schön Katze</value></param>
+        </params>
+        <source>{$source :inflection case=dative declension=strong number=singular}</source>
+        <print>schöner Katze</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>schön Katze</value></param>
+        </params>
+        <source>{$source :inflection case=accusative declension=strong number=singular}</source>
+        <print>schöne Katze</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>schön Katze</value></param>
+        </params>
+        <source>{$source :inflection case=nominative declension=strong number=plural}</source>
+        <print>schöne Katzen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>schön Katze</value></param>
+        </params>
+        <source>{$source :inflection case=genitive declension=strong number=plural}</source>
+        <print>schöner Katzen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>schön Katze</value></param>
+        </params>
+        <source>{$source :inflection case=dative declension=strong number=plural}</source>
+        <print>schönen Katzen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>schön Katze</value></param>
+        </params>
+        <source>{$source :inflection case=accusative declension=strong number=plural}</source>
+        <print>schöne Katzen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>regulär Zeit</value></param>
+        </params>
+        <source>{$source :inflection case=nominative declension=strong number=singular}</source>
+        <print>reguläre Zeit</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>regulär Zeit</value></param>
+        </params>
+        <source>{$source :inflection case=genitive declension=strong number=singular}</source>
+        <print>regulärer Zeit</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>regulär Zeit</value></param>
+        </params>
+        <source>{$source :inflection case=dative declension=strong number=singular}</source>
+        <print>regulärer Zeit</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>regulär Zeit</value></param>
+        </params>
+        <source>{$source :inflection case=accusative declension=strong number=singular}</source>
+        <print>reguläre Zeit</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>regulär Zeit</value></param>
+        </params>
+        <source>{$source :inflection case=nominative declension=strong number=plural}</source>
+        <print>reguläre Zeiten</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>regulär Zeit</value></param>
+        </params>
+        <source>{$source :inflection case=genitive declension=strong number=plural}</source>
+        <print>regulärer Zeiten</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>regulär Zeit</value></param>
+        </params>
+        <source>{$source :inflection case=dative declension=strong number=plural}</source>
+        <print>regulären Zeiten</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>regulär Zeit</value></param>
+        </params>
+        <source>{$source :inflection case=accusative declension=strong number=plural}</source>
+        <print>reguläre Zeiten</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>regulär Zeit</value></param>
+        </params>
+        <source>{$source :inflection case=nominative declension=weak number=singular}</source>
+        <print>reguläre Zeit</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>regulär Zeit</value></param>
+        </params>
+        <source>{$source :inflection case=genitive declension=weak number=singular}</source>
+        <print>regulären Zeit</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>regulär Zeit</value></param>
+        </params>
+        <source>{$source :inflection case=dative declension=weak number=singular}</source>
+        <print>regulären Zeit</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>regulär Zeit</value></param>
+        </params>
+        <source>{$source :inflection case=accusative declension=weak number=singular}</source>
+        <print>reguläre Zeit</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>regulär Zeit</value></param>
+        </params>
+        <source>{$source :inflection case=nominative declension=weak number=plural}</source>
+        <print>regulären Zeiten</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>regulär Zeit</value></param>
+        </params>
+        <source>{$source :inflection case=genitive declension=weak number=plural}</source>
+        <print>regulären Zeiten</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>regulär Zeit</value></param>
+        </params>
+        <source>{$source :inflection case=dative declension=weak number=plural}</source>
+        <print>regulären Zeiten</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>regulär Zeit</value></param>
+        </params>
+        <source>{$source :inflection case=accusative declension=weak number=plural}</source>
+        <print>regulären Zeiten</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>regulär Zeit</value></param>
+        </params>
+        <source>{$source :inflection case=nominative declension=mixed number=singular}</source>
+        <print>reguläre Zeit</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>regulär Zeit</value></param>
+        </params>
+        <source>{$source :inflection case=genitive declension=mixed number=singular}</source>
+        <print>regulären Zeit</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>regulär Zeit</value></param>
+        </params>
+        <source>{$source :inflection case=dative declension=mixed number=singular}</source>
+        <print>regulären Zeit</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>regulär Zeit</value></param>
+        </params>
+        <source>{$source :inflection case=accusative declension=mixed number=singular}</source>
+        <print>reguläre Zeit</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>regulär Zeit</value></param>
+        </params>
+        <source>{$source :inflection case=nominative declension=mixed number=plural}</source>
+        <print>regulären Zeiten</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>regulär Zeit</value></param>
+        </params>
+        <source>{$source :inflection case=genitive declension=mixed number=plural}</source>
+        <print>regulären Zeiten</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>regulär Zeit</value></param>
+        </params>
+        <source>{$source :inflection case=dative declension=mixed number=plural}</source>
+        <print>regulären Zeiten</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>regulär Zeit</value></param>
+        </params>
+        <source>{$source :inflection case=accusative declension=mixed number=plural}</source>
+        <print>regulären Zeiten</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>motorisiert Fenster</value></param>
+        </params>
+        <source>{$source :inflection case=nominative declension=weak number=singular}</source>
+        <print>motorisierte Fenster</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>motorisiert Fenster</value></param>
+        </params>
+        <source>{$source :inflection case=genitive declension=weak number=singular}</source>
+        <print>motorisierten Fensters</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>motorisiert Fenster</value></param>
+        </params>
+        <source>{$source :inflection case=dative declension=weak number=singular}</source>
+        <print>motorisierten Fenster</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>motorisiert Fenster</value></param>
+        </params>
+        <source>{$source :inflection case=accusative declension=weak number=singular}</source>
+        <print>motorisierte Fenster</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>motorisiert Fenster</value></param>
+        </params>
+        <source>{$source :inflection case=nominative declension=weak number=plural}</source>
+        <print>motorisierten Fenster</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>motorisiert Fenster</value></param>
+        </params>
+        <source>{$source :inflection case=genitive declension=weak number=plural}</source>
+        <print>motorisierten Fenster</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>motorisiert Fenster</value></param>
+        </params>
+        <source>{$source :inflection case=dative declension=weak number=plural}</source>
+        <print>motorisierten Fenstern</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>motorisiert Fenster</value></param>
+        </params>
+        <source>{$source :inflection case=accusative declension=weak number=plural}</source>
+        <print>motorisierten Fenster</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>motorisiert Fenster</value></param>
+        </params>
+        <source>{$source :inflection case=nominative declension=strong number=singular}</source>
+        <print>motorisiertes Fenster</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>motorisiert Fenster</value></param>
+        </params>
+        <source>{$source :inflection case=accusative declension=strong number=singular}</source>
+        <print>motorisiertes Fenster</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>motorisiert Fenster</value></param>
+        </params>
+        <source>{$source :inflection case=genitive declension=strong number=singular}</source>
+        <print>motorisierten Fensters</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>motorisiert Fenster</value></param>
+        </params>
+        <source>{$source :inflection case=dative declension=strong number=singular}</source>
+        <print>motorisiertem Fenster</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>motorisiert Fenster</value></param>
+        </params>
+        <source>{$source :inflection case=nominative declension=strong number=plural}</source>
+        <print>motorisierte Fenster</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>motorisiert Fenster</value></param>
+        </params>
+        <source>{$source :inflection case=accusative declension=strong number=plural}</source>
+        <print>motorisierte Fenster</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>motorisiert Fenster</value></param>
+        </params>
+        <source>{$source :inflection case=genitive declension=strong number=plural}</source>
+        <print>motorisierter Fenster</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>motorisiert Fenster</value></param>
+        </params>
+        <source>{$source :inflection case=dative declension=strong number=plural}</source>
+        <print>motorisierten Fenstern</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>motorisiert Fenster</value></param>
+        </params>
+        <source>{$source :inflection case=nominative declension=mixed number=singular}</source>
+        <print>motorisiertes Fenster</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>motorisiert Fenster</value></param>
+        </params>
+        <source>{$source :inflection case=accusative declension=mixed number=singular}</source>
+        <print>motorisiertes Fenster</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>motorisiert Fenster</value></param>
+        </params>
+        <source>{$source :inflection case=genitive declension=mixed number=singular}</source>
+        <print>motorisierten Fensters</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>motorisiert Fenster</value></param>
+        </params>
+        <source>{$source :inflection case=dative declension=mixed number=singular}</source>
+        <print>motorisierten Fenster</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>motorisiert Fenster</value></param>
+        </params>
+        <source>{$source :inflection case=nominative declension=mixed number=plural}</source>
+        <print>motorisierten Fenster</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>motorisiert Fenster</value></param>
+        </params>
+        <source>{$source :inflection case=accusative declension=mixed number=plural}</source>
+        <print>motorisierten Fenster</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>motorisiert Fenster</value></param>
+        </params>
+        <source>{$source :inflection case=genitive declension=mixed number=plural}</source>
+        <print>motorisierten Fenster</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>motorisiert Fenster</value></param>
+        </params>
+        <source>{$source :inflection case=dative declension=mixed number=plural}</source>
+        <print>motorisierten Fenstern</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>gefrierend Regen</value></param>
+        </params>
+        <source>{$source :inflection case=nominative declension=strong number=singular}</source>
+        <print>gefrierender Regen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>gefrierend Regen</value></param>
+        </params>
+        <source>{$source :inflection case=genitive declension=strong number=singular}</source>
+        <print>gefrierenden Regens</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>gefrierend Regen</value></param>
+        </params>
+        <source>{$source :inflection case=dative declension=strong number=singular}</source>
+        <print>gefrierendem Regen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>gefrierend Regen</value></param>
+        </params>
+        <source>{$source :inflection case=accusative declension=strong number=singular}</source>
+        <print>gefrierenden Regen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>gefrierend Regen</value></param>
+        </params>
+        <source>{$source :inflection case=nominative declension=strong number=plural}</source>
+        <print>gefrierende Regen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>gefrierend Regen</value></param>
+        </params>
+        <source>{$source :inflection case=genitive declension=strong number=plural}</source>
+        <print>gefrierender Regen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>gefrierend Regen</value></param>
+        </params>
+        <source>{$source :inflection case=dative declension=strong number=plural}</source>
+        <print>gefrierenden Regen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>gefrierend Regen</value></param>
+        </params>
+        <source>{$source :inflection case=accusative declension=strong number=plural}</source>
+        <print>gefrierende Regen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>gefrierend Regen</value></param>
+        </params>
+        <source>{$source :inflection case=nominative declension=weak number=singular}</source>
+        <print>gefrierende Regen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>gefrierend Regen</value></param>
+        </params>
+        <source>{$source :inflection case=genitive declension=weak number=singular}</source>
+        <print>gefrierenden Regens</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>gefrierend Regen</value></param>
+        </params>
+        <source>{$source :inflection case=dative declension=weak number=singular}</source>
+        <print>gefrierenden Regen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>gefrierend Regen</value></param>
+        </params>
+        <source>{$source :inflection case=accusative declension=weak number=singular}</source>
+        <print>gefrierenden Regen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>gefrierend Regen</value></param>
+        </params>
+        <source>{$source :inflection case=nominative declension=weak number=plural}</source>
+        <print>gefrierenden Regen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>gefrierend Regen</value></param>
+        </params>
+        <source>{$source :inflection case=genitive declension=weak number=plural}</source>
+        <print>gefrierenden Regen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>gefrierend Regen</value></param>
+        </params>
+        <source>{$source :inflection case=dative declension=weak number=plural}</source>
+        <print>gefrierenden Regen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>gefrierend Regen</value></param>
+        </params>
+        <source>{$source :inflection case=accusative declension=weak number=plural}</source>
+        <print>gefrierenden Regen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>gefrierend Regen</value></param>
+        </params>
+        <source>{$source :inflection case=nominative declension=mixed number=singular}</source>
+        <print>gefrierender Regen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>gefrierend Regen</value></param>
+        </params>
+        <source>{$source :inflection case=genitive declension=mixed number=singular}</source>
+        <print>gefrierenden Regens</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>gefrierend Regen</value></param>
+        </params>
+        <source>{$source :inflection case=dative declension=mixed number=singular}</source>
+        <print>gefrierenden Regen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>gefrierend Regen</value></param>
+        </params>
+        <source>{$source :inflection case=accusative declension=mixed number=singular}</source>
+        <print>gefrierenden Regen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>gefrierend Regen</value></param>
+        </params>
+        <source>{$source :inflection case=nominative declension=mixed number=plural}</source>
+        <print>gefrierenden Regen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>gefrierend Regen</value></param>
+        </params>
+        <source>{$source :inflection case=genitive declension=mixed number=plural}</source>
+        <print>gefrierenden Regen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>gefrierend Regen</value></param>
+        </params>
+        <source>{$source :inflection case=dative declension=mixed number=plural}</source>
+        <print>gefrierenden Regen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>gefrierend Regen</value></param>
+        </params>
+        <source>{$source :inflection case=accusative declension=mixed number=plural}</source>
+        <print>gefrierenden Regen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>olympisch Spiel</value></param>
+        </params>
+        <source>{$source :inflection case=nominative declension=strong number=singular}</source>
+        <print>olympisches Spiel</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Termin</value></param>
+        </params>
+        <source>{$source :inflection case=nominative number=singular}</source>
+        <print>Termin</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Termin</value></param>
+        </params>
+        <source>{$source :inflection case=accusative number=singular}</source>
+        <print>Termin</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Termin</value></param>
+        </params>
+        <source>{$source :inflection case=dative number=singular}</source>
+        <print>Termin</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Termin</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=singular}</source>
+        <print>Termines</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Termin</value></param>
+        </params>
+        <source>{$source :inflection case=nominative number=plural}</source>
+        <print>Termine</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Termin</value></param>
+        </params>
+        <source>{$source :inflection case=accusative number=plural}</source>
+        <print>Termine</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Termin</value></param>
+        </params>
+        <source>{$source :inflection case=dative number=plural}</source>
+        <print>Terminen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Termin</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=plural}</source>
+        <print>Termine</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Mann</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>der Mann</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Mann</value></param>
+        </params>
+        <source>{$source :inflection case=nominative definiteness=definite}</source>
+        <print>der Mann</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Lampe</value></param>
+        </params>
+        <source>{$source :inflection case=nominative definiteness=definite number=singular}</source>
+        <print>die Lampe</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Mann</value></param>
+        </params>
+        <source>{$source :inflection case=accusative definiteness=definite}</source>
+        <print>den Mann</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Mann</value></param>
+        </params>
+        <source>{$source :inflection case=dative definiteness=definite}</source>
+        <print>dem Mann</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Mann</value></param>
+        </params>
+        <source>{$source :inflection case=genitive definiteness=definite}</source>
+        <print>des Mannes</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Mann</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite}</source>
+        <print>ein Mann</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Mann</value></param>
+        </params>
+        <source>{$source :inflection case=nominative definiteness=indefinite}</source>
+        <print>ein Mann</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Mann</value></param>
+        </params>
+        <source>{$source :inflection case=accusative definiteness=indefinite}</source>
+        <print>einen Mann</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Mann</value></param>
+        </params>
+        <source>{$source :inflection case=dative definiteness=indefinite}</source>
+        <print>einem Mann</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Mann</value></param>
+        </params>
+        <source>{$source :inflection case=genitive definiteness=indefinite}</source>
+        <print>eines Mannes</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Mann</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite number=plural}</source>
+        <print>die Männer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Mann</value></param>
+        </params>
+        <source>{$source :inflection case=nominative definiteness=definite number=plural}</source>
+        <print>die Männer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Mann</value></param>
+        </params>
+        <source>{$source :inflection case=accusative definiteness=definite number=plural}</source>
+        <print>die Männer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Mann</value></param>
+        </params>
+        <source>{$source :inflection case=dative definiteness=definite number=plural}</source>
+        <print>den Männern</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Mann</value></param>
+        </params>
+        <source>{$source :inflection case=genitive definiteness=definite number=plural}</source>
+        <print>der Männer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Frau</value></param>
+        </params>
+        <source>{$source :inflection definiteness=definite}</source>
+        <print>die Frau</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Frau</value></param>
+        </params>
+        <source>{$source :inflection case=nominative definiteness=definite}</source>
+        <print>die Frau</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Frau</value></param>
+        </params>
+        <source>{$source :inflection case=accusative definiteness=definite}</source>
+        <print>die Frau</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Frau</value></param>
+        </params>
+        <source>{$source :inflection case=dative definiteness=definite}</source>
+        <print>der Frau</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Frau</value></param>
+        </params>
+        <source>{$source :inflection case=genitive definiteness=definite}</source>
+        <print>der Frau</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Frau</value></param>
+        </params>
+        <source>{$source :inflection definiteness=indefinite}</source>
+        <print>eine Frau</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Frau</value></param>
+        </params>
+        <source>{$source :inflection case=nominative definiteness=indefinite}</source>
+        <print>eine Frau</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Frau</value></param>
+        </params>
+        <source>{$source :inflection case=accusative definiteness=indefinite}</source>
+        <print>eine Frau</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Frau</value></param>
+        </params>
+        <source>{$source :inflection case=dative definiteness=indefinite}</source>
+        <print>einer Frau</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Frau</value></param>
+        </params>
+        <source>{$source :inflection case=genitive definiteness=indefinite}</source>
+        <print>einer Frau</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Frau</value></param>
+        </params>
+        <source>{$source :inflection case=nominative definiteness=definite number=plural}</source>
+        <print>die Frauen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Frau</value></param>
+        </params>
+        <source>{$source :inflection case=accusative definiteness=definite number=plural}</source>
+        <print>die Frauen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Frau</value></param>
+        </params>
+        <source>{$source :inflection case=dative definiteness=definite number=plural}</source>
+        <print>den Frauen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Frau</value></param>
+        </params>
+        <source>{$source :inflection case=genitive definiteness=definite number=plural}</source>
+        <print>der Frauen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Tim</value></param>
+        </params>
+        <source>{$source :inflection pos=proper-noun}</source>
+        <print>Tim</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Herz</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>Herzens</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Herz</value></param>
+        </params>
+        <source>{$source :inflection case=genitive pos=proper-noun}</source>
+        <print>Herz’</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Herz</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>Herzen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Tim</value></param>
+        </params>
+        <source>{$source :inflection case=genitive pos=proper-noun}</source>
+        <print>Tims</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Bruce</value></param>
+        </params>
+        <source>{$source :inflection case=genitive pos=proper-noun}</source>
+        <print>Bruce’</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Bruce’</value></param>
+        </params>
+        <source>{$source :inflection case=genitive pos=proper-noun}</source>
+        <print>Bruce’</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Klaus</value></param>
+        </params>
+        <source>{$source :inflection case=genitive pos=proper-noun}</source>
+        <print>Klaus’</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Marx</value></param>
+        </params>
+        <source>{$source :inflection case=genitive pos=proper-noun}</source>
+        <print>Marx’</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Peter</value></param>
+        </params>
+        <source>{$source :inflection case=genitive pos=proper-noun}</source>
+        <print>Peters</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Champions League</value></param>
+        </params>
+        <source>{$source :inflection case=genitive pos=proper-noun}</source>
+        <print>Champions Leagues</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Bad boy</value></param>
+        </params>
+        <source>{$source :inflection case=genitive pos=proper-noun}</source>
+        <print>Bad boys</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Peter ❄️</value></param>
+        </params>
+        <source>{$source :inflection case=genitive pos=proper-noun}</source>
+        <print>Peter ❄️s</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>стол</value></param>
+        </params>
+        <source>{$source :inflection case=genitive pos=proper-noun}</source>
+        <print>столs</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Organisator</value></param>
+        </params>
+        <source>{$source :inflection case=nominative gender=masculine number=singular}</source>
+        <print>Organisator</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Organisator</value></param>
+        </params>
+        <source>{$source :inflection case=nominative gender=feminine number=singular}</source>
+        <print>Organisatorin</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Organisatorin</value></param>
+        </params>
+        <source>{$source :inflection case=nominative gender=masculine number=singular}</source>
+        <print>Organisator</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Organisator</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>Organisatorin</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Organisatorin</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine}</source>
+        <print>Organisator</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Organisatorin</value></param>
+        </params>
+        <source>{$source :inflection gender=neuter}</source>
+        <print>Organisatorin</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Organisator</value></param>
+        </params>
+        <source>{$source :inflection case=nominative gender=masculine number=singular}</source>
+        <print>Organisator</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Organisator</value></param>
+        </params>
+        <source>{$source :inflection case=nominative gender=feminine number=singular}</source>
+        <print>Organisatorin</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Organisators</value></param>
+        </params>
+        <source>{$source :inflection case=nominative}</source>
+        <print>Organisator</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Organisators</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>Organisatorin</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Eigentümer</value></param>
+        </params>
+        <source>{$source :inflection case=nominative gender=masculine number=singular}</source>
+        <print>Eigentümer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Eigentümer</value></param>
+        </params>
+        <source>{$source :inflection case=nominative gender=feminine number=singular}</source>
+        <print>Eigentümerin</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Eigentümer</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>Eigentümerin</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Autor</value></param>
+        </params>
+        <source>{$source :inflection case=nominative gender=masculine number=singular}</source>
+        <print>Autor</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Autor</value></param>
+        </params>
+        <source>{$source :inflection case=nominative gender=feminine number=singular}</source>
+        <print>Autorin</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Autor</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>Autorin</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Autors</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>Autorin</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Autoren</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>Autorinnen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Teilnehmer</value></param>
+        </params>
+        <source>{$source :inflection case=nominative gender=masculine number=singular}</source>
+        <print>Teilnehmer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Teilnehmer</value></param>
+        </params>
+        <source>{$source :inflection case=nominative gender=feminine number=singular}</source>
+        <print>Teilnehmerin</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Teilnehmer</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>Teilnehmerin</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Freund</value></param>
+        </params>
+        <source>{$source :inflection case=nominative gender=masculine number=singular}</source>
+        <print>Freund</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Freund</value></param>
+        </params>
+        <source>{$source :inflection case=nominative gender=feminine number=singular}</source>
+        <print>Freundin</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Freundes</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>Freundin</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Ehemann</value></param>
+        </params>
+        <source>{$source :inflection case=nominative gender=feminine number=singular}</source>
+        <print>Ehefrau</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Ehefrau</value></param>
+        </params>
+        <source>{$source :inflection case=nominative gender=feminine number=singular}</source>
+        <print>Ehefrau</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Ehefrau</value></param>
+        </params>
+        <source>{$source :inflection case=nominative gender=feminine number=plural}</source>
+        <print>Ehefrauen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Ehefrauen</value></param>
+        </params>
+        <source>{$source :inflection case=nominative gender=feminine number=singular}</source>
+        <print>Ehefrau</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Ehemann</value></param>
+        </params>
+        <source>{$source :inflection case=nominative gender=feminine number=plural}</source>
+        <print>Ehefrauen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Ehemann</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>Ehefrau</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Ehemänner</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>Ehefrauen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Sängerin</value></param>
+        </params>
+        <source>{$source :inflection case=nominative gender=feminine number=plural}</source>
+        <print>Sängerinnen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Innenhofes</value></param>
+        </params>
+        <source>{$source :inflection case=nominative number=singular}</source>
+        <print>Innenhof</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Innenhofes</value></param>
+        </params>
+        <source>{$source :inflection case=dative number=plural}</source>
+        <print>Innenhöfen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Zeiten</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=plural}</source>
+        <print>Zeiten</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Untersuchungsausschüsse</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=singular}</source>
+        <print>Untersuchungsausschusses</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Decken</value></param>
+        </params>
+        <source>{$source :inflection case=accusative number=singular}</source>
+        <print>Decke</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>decken</value></param>
+        </params>
+        <source>{$source :inflection case=accusative number=singular}</source>
+        <print>decken</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Überschusses</value></param>
+        </params>
+        <source>{$source :inflection case=accusative number=plural}</source>
+        <print>Überschüsse</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Schlosses</value></param>
+        </params>
+        <source>{$source :inflection case=nominative number=plural}</source>
+        <print>Schlösser</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Schlosses</value></param>
+        </params>
+        <source>{$source :inflection case=dative number=plural}</source>
+        <print>Schlössern</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Füße</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=singular}</source>
+        <print>Fußes</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Autos</value></param>
+        </params>
+        <source>{$source :inflection case=nominative number=singular}</source>
+        <print>Auto</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Autos</value></param>
+        </params>
+        <source>{$source :inflection case=accusative number=singular}</source>
+        <print>Auto</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>des Autos</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>der Autos</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Überblick</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>Überblicke</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Überblick</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>Überblicke</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Überblicks</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>Überblick</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Überblicke</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>Überblicke</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Überblicken</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>Überblicke</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Eigentümer</value></param>
+        </params>
+        <source>{$source :inflection gender=neuter}</source>
+        <print>Eigentümer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Eigentümer</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine}</source>
+        <print>Eigentümer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Eigentümer</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>Eigentümerin</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>zyxzyx</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>zyxzyx</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>zyxzyxe</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>zyxzyxe</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>zyxzyxen</value></param>
+        </params>
+        <source>{$source :inflection number=singular}</source>
+        <print>zyxzyxen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>schöne Katze</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>schöne Katzen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>schönen Katzen</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>schöner Katzen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>regulärer Zeit</value></param>
+        </params>
+        <source>{$source :inflection case=dative number=plural}</source>
+        <print>regulären Zeiten</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>reguläre Zeit</value></param>
+        </params>
+        <source>{$source :inflection case=genitive declension=mixed}</source>
+        <print>regulären Zeit</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>motorisierten Fenstern</value></param>
+        </params>
+        <source>{$source :inflection case=nominative}</source>
+        <print>motorisierte Fenster</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>motorisiertes Fenster</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>motorisierte Fenster</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>neuen Benutzer</value></param>
+        </params>
+        <source>{$source :inflection case=accusative gender=feminine}</source>
+        <print>neue Benutzerin</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>hart</value></param>
+        </params>
+        <source>{$source :inflection case=nominative declension=strong gender=masculine}</source>
+        <print>harter</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>harter</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>harte</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>harter</value></param>
+        </params>
+        <source>{$source :inflection case=nominative gender=neuter}</source>
+        <print>hartes</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>harte</value></param>
+        </params>
+        <source>{$source :inflection case=nominative gender=neuter}</source>
+        <print>hartes</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>hartes</value></param>
+        </params>
+        <source>{$source :inflection case=nominative declension=weak gender=neuter}</source>
+        <print>harte</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>schön</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>schöne</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>schönes</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>schöne</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>neuer</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>neue</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>neuer</value></param>
+        </params>
+        <source>{$source :inflection gender=neuter}</source>
+        <print>neues</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>neue</value></param>
+        </params>
+        <source>{$source :inflection gender=neuter}</source>
+        <print>neues</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>schneller</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>schnelle</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>schneller</value></param>
+        </params>
+        <source>{$source :inflection gender=neuter}</source>
+        <print>schnelles</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>schnelle</value></param>
+        </params>
+        <source>{$source :inflection gender=neuter}</source>
+        <print>schnelles</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>dem Überblick</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>den Überblicken</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>der Organisatorin</value></param>
+        </params>
+        <source>{$source :inflection case=genitive gender=masculine number=singular}</source>
+        <print>des Organisators</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>einer Organisatorin</value></param>
+        </params>
+        <source>{$source :inflection case=genitive gender=masculine number=singular}</source>
+        <print>eines Organisators</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>der Organisatorin</value></param>
+        </params>
+        <source>{$source :inflection case=genitive gender=masculine}</source>
+        <print>des Organisators</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>einer Organisatorin</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine}</source>
+        <print>eines Organisators</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Einer Organisatorin</value></param>
+        </params>
+        <source>{$source :inflection gender=masculine}</source>
+        <print>Eines Organisators</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>der</value></param>
+        </params>
+        <source>{$source :inflection case=genitive gender=masculine number=singular}</source>
+        <print>des</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>einer</value></param>
+        </params>
+        <source>{$source :inflection case=genitive gender=masculine number=singular}</source>
+        <print>eines</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ein</value></param>
+        </params>
+        <source>{$source :inflection case=genitive gender=masculine number=singular}</source>
+        <print>eines</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ein</value></param>
+        </params>
+        <source>{$source :inflection case=genitive number=singular}</source>
+        <print>eines</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ein</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>eines</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>den Ehefrauen</value></param>
+        </params>
+        <source>{$source :inflection case=accusative gender=feminine number=singular}</source>
+        <print>die Ehefrau</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>einer Ehefrau</value></param>
+        </params>
+        <source>{$source :inflection case=accusative gender=feminine number=singular}</source>
+        <print>eine Ehefrau</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>den Ehefrauen</value></param>
+        </params>
+        <source>{$source :inflection case=dative number=singular}</source>
+        <print>der Ehefrau</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>den</value></param>
+        </params>
+        <source>{$source :inflection case=accusative gender=feminine number=singular}</source>
+        <print>die</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>einer</value></param>
+        </params>
+        <source>{$source :inflection case=accusative gender=feminine number=singular}</source>
+        <print>eine</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Handy</value></param>
+        </params>
+        <source>{$source :inflection case=dative definiteness=definite gender=neuter number=singular}</source>
+        <print>dem Handy</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>des Handys</value></param>
+        </params>
+        <source>{$source :inflection case=dative gender=neuter number=singular}</source>
+        <print>dem Handy</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>ein Handy</value></param>
+        </params>
+        <source>{$source :inflection case=dative gender=neuter number=singular}</source>
+        <print>einem Handy</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>eines Handys</value></param>
+        </params>
+        <source>{$source :inflection case=dative gender=neuter number=singular}</source>
+        <print>einem Handy</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>eines Handys</value></param>
+        </params>
+        <source>{$source :inflection case=dative number=singular}</source>
+        <print>einem Handy</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>des Vaters</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>der Väter</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>der Ball</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>die Bälle</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>der Holz</value></param>
+        </params>
+        <source>{$source :inflection case=genitive}</source>
+        <print>des Holzes</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>des Zelle</value></param>
+        </params>
+        <source>{$source :inflection number=plural}</source>
+        <print>der Zellen</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>der Ball</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>den Ball</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>der Bälle</value></param>
+        </params>
+        <source>{$source :inflection case=accusative}</source>
+        <print>die Bälle</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>der Domain-Eigentümer</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>die Domain-Eigentümerin</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>den Domain-Eigentümer</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>die Domain-Eigentümerin</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>dem Domain-Eigentümer</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>der Domain-Eigentümerin</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>dieser Freund</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>diese Freundin</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Organspender</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>Organspenderin</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Besucher</value></param>
+        </params>
+        <source>{$source :inflection gender=feminine}</source>
+        <print>Besucherin</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Schwester</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withPossArticle case=nominative number=singular} .match $feature |deine Schwester| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+    <test>
+        <params>
+            <param name="source" type="String"><value>Bruder</value></param>
+        </params>
+        <source>.local $feature = {$source :inflection select=withPossArticle case=nominative number=singular} .match $feature |dein Bruder| {{correct answer}} * {{Wrong}}</source>
+        <print>correct answer</print>
+    </test>
+</messagetest>

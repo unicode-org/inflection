@@ -89,7 +89,7 @@ inline void traceLogSortedInflectionGrammemes(const ::std::vector<::inflection::
             return DictionaryLookupInflector::compareInflectionGrammemes(inflection1, inflection2, disambiguationGrammemes) < 0;
         };
 
-        std::ranges::sort(inflectionGrammemes, inflectionComparator);
+        std::ranges::stable_sort(inflectionGrammemes, inflectionComparator);
         if (LoggerConfig::isTraceEnabled()) {
             traceLogSortedInflectionGrammemes(inflectionGrammemes, dictionary);
         }

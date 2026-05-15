@@ -10,6 +10,7 @@
 #include <inflection/npc.hpp>
 #include <unicode/uchar.h>
 #include <unicode/ustring.h>
+#include <unicode/utf8.h>
 
 namespace inflection::util {
 

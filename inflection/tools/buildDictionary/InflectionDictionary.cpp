@@ -220,7 +220,7 @@ void InflectionDictionary::write(::std::ofstream& writer, DictionaryLogger& logg
     npc(inflection_Suffixes)->write(writer);
     logger.logWithOffset(locale.getName() + " inflection_Suffixes number=" + std::to_string(npc(inflection_Suffixes)->size()));
 
-    inflection::dictionary::metadata::CompressedArray compressedInflectionsArray(inflectionsArray);
+    inflection::dictionary::metadata::CompressedArray<int64_t> compressedInflectionsArray(inflectionsArray);
     compressedInflectionsArray.serialize(writer);
     logger.logWithOffset(locale.getName() + " inflections number=" + std::to_string(inflectionsArray.size()));
 
@@ -245,7 +245,7 @@ void InflectionDictionary::write(::std::ofstream& writer, DictionaryLogger& logg
     npc(suffixToIdentifierRunsTrie)->write(writer);
     logger.logWithOffset(locale.getName() + " suffixToIdentifierRunsTrie");
 
-    inflection::dictionary::metadata::CompressedArray compressedSuffixesToInflectionsArray(suffixesToInflections.getSingletons());
+    inflection::dictionary::metadata::CompressedArray<int64_t> compressedSuffixesToInflectionsArray(suffixesToInflections.getSingletons());
     compressedSuffixesToInflectionsArray.serialize(writer);
     logger.logWithOffset(locale.getName() + " suffixesToInflections");
 

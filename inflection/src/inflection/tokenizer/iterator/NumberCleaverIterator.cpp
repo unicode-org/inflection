@@ -5,6 +5,8 @@
 
 #include <inflection/exception/ICUException.hpp>
 #include <string_view>
+#include <unicode/utf16.h>
+#include <unicode/uchar.h>
 
 namespace inflection::tokenizer::iterator {
 

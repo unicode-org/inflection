@@ -4,6 +4,7 @@
 #include <inflection/util/StringUtils.hpp>
 #include <inflection/util/StringViewUtils.hpp>
 #include <unicode/uchar.h>
+#include <unicode/utf16.h>
 #include <inflection/npc.hpp>
 
 namespace inflection::util {

@@ -69,9 +69,8 @@ static void checkinCachedTokenizer(UBreakIterator* tokenizer)
                 gTokenizerCache->push(tokenizer);
                 tokenizer = nullptr;
             }
-            catch (const std::bad_alloc& e) {
+            catch (const std::bad_alloc&) {
                 // Oh well, delete it below
-                e.what();
             }
         }
         if (tokenizer != nullptr) {

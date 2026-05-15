@@ -45,7 +45,6 @@ private:
     CompressedArray& operator=(const CompressedArray& other) = delete;
 };
 
-
 template<typename T>
 inflection::dictionary::metadata::CompressedArray<T>::CompressedArray(::inflection::util::MemoryMappedFile* mappedFile)
     : ownData(false)

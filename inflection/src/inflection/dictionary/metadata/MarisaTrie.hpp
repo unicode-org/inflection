@@ -87,7 +87,6 @@ private:
     friend class StringContainer;
 };
 
-
 template <typename T>
 inflection::dictionary::metadata::MarisaTrie<T>::MarisaTrie(const ::std::map<::std::u16string_view, T>& input, FieldMetrics fieldMetrics)
     : encoder(getEncodingName(fieldMetrics.keyEncoding))

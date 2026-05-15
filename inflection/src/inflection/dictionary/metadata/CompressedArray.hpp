@@ -37,7 +37,8 @@ public:
 private:
     int32_t dataArrayLength {  };
     int32_t wordWidth {  };
-    uint64_t* data {  };
+    uint64_t* data_owned {  };
+    inflection::util::MemoryMappedFile::UnalignedArray<uint64_t> data;
     uint64_t selectMask {  };
     bool ownData {  };
 
@@ -51,7 +52,7 @@ inflection::dictionary::metadata::CompressedArray<T>::CompressedArray(::inflecti
 {
     npc(mappedFile)->read(&dataArrayLength);
     mappedFile->read(&wordWidth);
-    mappedFile->read(&data, sizeof(data[0]) * dataArrayLength);
+    data = mappedFile->readArray<uint64_t>(dataArrayLength);
     selectMask = ((uint64_t(1) << wordWidth) - 1);
 }
 
@@ -60,11 +61,12 @@ template<typename T>
 inflection::dictionary::metadata::CompressedArray<T>::CompressedArray(int32_t wordWidth, int32_t arraySize)
     : dataArrayLength(((arraySize * wordWidth)+DATAWIDTH-1)/DATAWIDTH)
     , wordWidth(wordWidth)
-    , data(new uint64_t[dataArrayLength])
+    , data_owned(new uint64_t[dataArrayLength])
+    , data(reinterpret_cast<char*>(data_owned), dataArrayLength)
     , selectMask((uint64_t(1) << wordWidth) - 1)
     , ownData(true)
 {
-    memset(data, 0, dataArrayLength * sizeof(data[0]));
+    memset(data_owned, 0, dataArrayLength * sizeof(data_owned[0]));
 }
 
 template<typename T>
@@ -113,7 +115,7 @@ inflection::dictionary::metadata::CompressedArray<T>::CompressedArray(const ::st
 template<typename T>
 inflection::dictionary::metadata::CompressedArray<T>::~CompressedArray() {
     if (ownData) {
-        delete[] data;
+        delete[] data_owned;
     }
 }
 
@@ -127,16 +129,16 @@ template <typename T>
 T inflection::dictionary::metadata::CompressedArray<T>::read(int32_t index) const{
     int32_t startBitPos = index * wordWidth;
     int32_t shiftStart = startBitPos % DATAWIDTH;
-    auto currData = data + (startBitPos / DATAWIDTH);
-    auto endData = data + ((startBitPos + (wordWidth - 1)) / DATAWIDTH);
+    int32_t currIdx = startBitPos / DATAWIDTH;
+    int32_t endIdx = (startBitPos + (wordWidth - 1)) / DATAWIDTH;
 
-    if (index < 0 || endData > data + dataArrayLength) {
+    if (index < 0 || endIdx >= dataArrayLength) {
         throw inflection::exception::IndexOutOfBoundsException(u"Invalid CompressedArray index");
     }
 
-    uint64_t retVal = (selectMask & (*currData >> shiftStart));
-    if (currData++ != endData) {
-        retVal |= (selectMask & (*currData << (DATAWIDTH - shiftStart)));
+    uint64_t retVal = (selectMask & (data[currIdx] >> shiftStart));
+    if (currIdx != endIdx) {
+        retVal |= (selectMask & (data[endIdx] << (DATAWIDTH - shiftStart)));
     }
     return ((T) retVal);
 }
@@ -147,10 +149,10 @@ void inflection::dictionary::metadata::CompressedArray<T>::write(int32_t index, 
 
     int32_t startBitPos = index * wordWidth;
     int32_t shiftStart = startBitPos % DATAWIDTH;
-    auto currData = data + (startBitPos / DATAWIDTH);
-    auto endData = data + ((startBitPos + (wordWidth - 1)) / DATAWIDTH);
+    auto currData = data_owned + (startBitPos / DATAWIDTH);
+    auto endData = data_owned + ((startBitPos + (wordWidth - 1)) / DATAWIDTH);
 
-    if (endData > data + dataArrayLength) {
+    if (endData > data_owned + dataArrayLength) {
         throw inflection::exception::IndexOutOfBoundsException(u"CompressedArray index too big");
     }
 
@@ -165,5 +167,5 @@ void inflection::dictionary::metadata::CompressedArray<T>::serialize(::std::ostr
 {
     writer.write(reinterpret_cast<const char*>(&dataArrayLength), sizeof(dataArrayLength));
     writer.write(reinterpret_cast<const char*>(&wordWidth), sizeof(wordWidth));
-    writer.write(reinterpret_cast<const char*>(data), sizeof(data[0]) * dataArrayLength);
+    writer.write(reinterpret_cast<const char*>(data.data_ptr()), sizeof(uint64_t) * dataArrayLength);
 }

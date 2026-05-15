@@ -26,9 +26,7 @@ StringContainer::StringContainer(::inflection::util::MemoryMappedFile *mappedFil
     mappedFile->read(&trieSize);
     if (trieSize > 0) {
         // non-empty trie to read.
-        char* rawTrieData;
-        mappedFile->read(&rawTrieData, trieSize);
-
+        const char* rawTrieData = mappedFile->readArray<char>(trieSize).data_ptr();
         trie.map(rawTrieData, trieSize);
         _size = (int32_t) trie.num_keys();
     }

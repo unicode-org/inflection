@@ -51,7 +51,7 @@ Inflector_Inflection inflection::dictionary::Inflector_InflectionPattern::getInf
     return {
         *this,
         int32_t(suffixIdx),
-        *(inflectorDictionary.grammemePatterns + grammemesIdx)
+        inflectorDictionary.grammemePatterns[grammemesIdx]
     };
 }
 

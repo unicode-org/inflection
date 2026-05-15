@@ -70,7 +70,7 @@ private:
     int8_t bitsPropertyValueMapValuesSize {  };
     int32_t wordsToTypesSingletonsSize {  };
     ::inflection::dictionary::metadata::MarisaTrie<uint64_t> wordsToDataTrie {::std::map<std::u16string_view, uint64_t>()};
-    const int64_t* const wordsToTypesSingletons {  };
+    inflection::util::MemoryMappedFile::UnalignedArray<int64_t> wordsToTypesSingletons;
     ::inflection::dictionary::metadata::CompressedArray<uint64_t> wordsToDataSingletons {::std::vector<uint64_t>()};
     ::inflection::dictionary::metadata::StringArrayContainer propertyNameToKeyId {  };
     ::inflection::dictionary::metadata::StringContainer propertyValuesStringContainer {  };

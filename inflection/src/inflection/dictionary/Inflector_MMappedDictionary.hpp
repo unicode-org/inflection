@@ -43,7 +43,7 @@ private:
     const inflection::util::ULocale locale;
 
     int32_t grammemePatternsSize {  };
-    const int64_t *grammemePatterns {  };
+    inflection::util::MemoryMappedFile::UnalignedArray<int64_t> grammemePatterns;
 
     // inflectionPatterns - originally a std::map<std::u16string, Inflector_InflectionPattern>
     inflection::dictionary::metadata::StringContainer inflectionSuffixes;
@@ -55,7 +55,7 @@ private:
     int8_t numBitsForSuffixToIdentifierRunsIdx {  };
     int8_t numBitsForSuffixToIdentifierRunsLen {  };
     int32_t frequencyArraySize {  };
-    const int32_t *frequenciesArray {  };
+    inflection::util::MemoryMappedFile::UnalignedArray<int32_t> frequenciesArray;
     inflection::dictionary::metadata::MarisaTrie<int32_t> identifierToInflectionPatternTrie;
 
     /** suffixPatterns - originally a std::map<std::u16string, ::std::map<Inflector_Suffix, ::std::u16string>> */

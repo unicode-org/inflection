@@ -87,10 +87,6 @@ private:
     friend class StringContainer;
 };
 
-namespace inflection::dictionary::metadata {
-template <typename T>
-MarisaTrie(const ::std::map<::std::u16string_view, T>&) -> MarisaTrie<T>;
-}
 
 template <typename T>
 inflection::dictionary::metadata::MarisaTrie<T>::MarisaTrie(const ::std::map<::std::u16string_view, T>& input, FieldMetrics fieldMetrics)

@@ -154,7 +154,7 @@ TEST_CASE("MMappedDictionaryTest#testStringContainer")
 TEST_CASE("MMappedDictionaryTest#testCompressedArray")
 {
     std::vector<int32_t> testData({1,3,2});
-    inflection::dictionary::metadata::CompressedArray compressedArray(testData);
+    inflection::dictionary::metadata::CompressedArray<int32_t> compressedArray(testData);
     CHECK_THROWS(compressedArray.read(-1));
     CHECK(compressedArray.read(0) == 1);
     CHECK(compressedArray.read(1) == 3);

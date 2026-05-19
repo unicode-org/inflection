@@ -47,9 +47,10 @@ static std::pair<SpeakableString, SpeakableString> getDefaultList(const ::inflec
 
     UErrorCode status = U_ZERO_ERROR;
     UListFormatter* listFmt = ulistfmt_openForType(language.getName().c_str(), type, ULISTFMT_WIDTH_WIDE, &status);
-    ::inflection::util::Finally finally([listFmt]() noexcept {
+    auto cleanup = [listFmt]() noexcept {
         ulistfmt_close(listFmt);
-    });
+    };
+    ::inflection::util::Finally<decltype(cleanup)> finally(cleanup);
     ::inflection::exception::ICUException::throwOnFailure(status);
     auto listSize = ulistfmt_format(listFmt, reinterpret_cast<const UChar *const *>(twoItems ? list2Items : listItems), nullptr, twoItems ? list2ItemsSize : listItemsSize,
                     (UChar *)&(formatResult[0]), int32_t(formatResult.length()), &status);
@@ -83,9 +84,10 @@ CommonConceptFactoryImpl::CommonConceptFactoryImpl(const ::inflection::util::ULo
 {
     auto status = U_ZERO_ERROR;
     auto localeData = ulocdata_open(language.getName().c_str(), &status);
-    ::inflection::util::Finally finally([localeData]() noexcept {
+    auto cleanup = [localeData]() noexcept {
         ulocdata_close(localeData);
-    });
+    };
+    ::inflection::util::Finally<decltype(cleanup)> finally(cleanup);
     ::inflection::exception::ICUException::throwOnFailure(status);
     startQuote = getQuote(localeData, ULOCDATA_QUOTATION_START);
     endQuote = getQuote(localeData, ULOCDATA_QUOTATION_END);

@@ -135,7 +135,7 @@ int main(int argc, const char * const argv[]) {
     }
 
     if (errorCount == 0) {
-        ::inflection::dictionary::metadata::MarisaTrie trie(stringToIntegerMap);
+        ::inflection::dictionary::metadata::MarisaTrie<int32_t> trie(stringToIntegerMap);
         out.write(inflection::tokenizer::trie::SerializedTrie::MAGIC_MARKER, sizeof(inflection::tokenizer::trie::SerializedTrie::MAGIC_MARKER));
         out.write(reinterpret_cast<const char*>(&inflection::tokenizer::trie::SerializedTrie::VERSION), sizeof(inflection::tokenizer::trie::SerializedTrie::VERSION));
         out.write(reinterpret_cast<const char*>(&ENDIANNESS_MARKER), sizeof(ENDIANNESS_MARKER));

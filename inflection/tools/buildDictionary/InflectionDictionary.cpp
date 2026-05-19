@@ -381,12 +381,13 @@ Inflector_InflectionDictionary* InflectionDictionary::readXML(const ::inflection
 
     xmlDocPtr xmlDoc = nullptr;
     {
-        ::inflection::util::Finally finally([&xmlDoc]() noexcept {
+        auto cleanup = [&xmlDoc]() noexcept {
             if (xmlDoc != nullptr) {
                 xmlFreeDoc(xmlDoc);
             }
             xmlCleanupParser();
-        });
+        };
+        ::inflection::util::Finally<decltype(cleanup)> finally(cleanup);
         ::std::u16string resourceName = inflection::util::StringUtils::to_u16string(source);
         ::inflection::util::MemoryMappedFile mMapFile(resourceName);
         xmlDoc = xmlParseMemory(mMapFile.getData(), int32_t(mMapFile.getSize()));

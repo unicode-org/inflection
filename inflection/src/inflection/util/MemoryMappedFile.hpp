@@ -6,6 +6,7 @@
 #include <inflection/util/fwd.hpp>
 #include <inflection/exception/IOException.hpp>
 #include <inflection/util/StringUtils.hpp>
+#include <cstring>
 
 // RAII wrapper
 class INFLECTION_INTERNAL_API inflection::util::MemoryMappedFile final
@@ -29,14 +30,12 @@ private:
     template <typename X>
     static void readFromCursor(char* readCursorWrapper, X* out)
     {
-        *out = *((X*) readCursorWrapper);
+        ::std::memcpy(out, readCursorWrapper, sizeof(X));
     }
 
+    // Disallow returning raw pointers to unaligned data
     template <typename X>
-    static void readFromCursor(char* readCursorWrapper, X** out)
-    {
-        *out = (X*) readCursorWrapper;
-    }
+    static void readFromCursor(char* readCursorWrapper, X** out) = delete;
 
 public:
     template <typename X>
@@ -51,12 +50,32 @@ public:
         offset += toRead;
     }
 
+public:
     template <typename X>
-    X* readArray(size_t length)
+    class UnalignedArray {
+        char* data;
+        size_t length;
+    public:
+        UnalignedArray(char* d, size_t l) : data(d), length(l) {}
+        UnalignedArray() : data(nullptr), length(0) {}
+        X operator[](size_t idx) const {
+            X val;
+            ::std::memcpy(&val, data + idx * sizeof(X), sizeof(X));
+            return val;
+        }
+        size_t size() const { return length; }
+        const X* data_ptr() const { return reinterpret_cast<const X*>(data); }
+    };
+
+    template <typename X>
+    UnalignedArray<X> readArray(size_t length)
     {
-        X* out = nullptr;
-        read(&out, sizeof(*out)*length);
-        return out;
+        if ((size - offset) < sizeof(X) * length) {
+            throw inflection::exception::IOException(u"Input too small for array");
+        }
+        char* cursor = data + offset;
+        offset += sizeof(X) * length;
+        return UnalignedArray<X>(cursor, length);
     }
 
     template <typename X>

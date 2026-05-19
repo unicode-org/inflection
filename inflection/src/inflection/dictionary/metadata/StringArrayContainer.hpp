@@ -18,8 +18,10 @@ class INFLECTION_INTERNAL_API inflection::dictionary::metadata::StringArrayConta
 private:
     int32_t arraySize {  };
     int32_t allStringsSize {  };
-    int32_t* stringIndexesWithLen {  };
-    char16_t* allStrings {  };
+    int32_t* stringIndexesWithLen_owned {  };
+    char16_t* allStrings_owned {  };
+    inflection::util::MemoryMappedFile::UnalignedArray<int32_t> stringIndexesWithLen {  };
+    inflection::util::MemoryMappedFile::UnalignedArray<char16_t> allStrings {  };
     bool ownData {  };
 
 public:

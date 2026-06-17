@@ -24,6 +24,7 @@ DictionaryTokenizerConfig::DictionaryTokenizerConfig(
         copy = fuge;
         std::reverse(copy.begin(), copy.end());
         this->fugenelements.insert(copy);
+        this->fugenelements_positive_reversed.insert(copy);
         if (int32_t(fuge.length()) > maxFugenelementLength) {
             maxFugenelementLength = int32_t(fuge.length());
         }
@@ -32,6 +33,7 @@ DictionaryTokenizerConfig::DictionaryTokenizerConfig(
         copy = fuge;
         std::reverse(copy.begin(), copy.end());
         this->fugenelements.insert(copy);
+        this->fugenelements_replaceable_reversed.insert(copy);
         if (int32_t(fuge.length()) > maxFugenelementLength) {
             maxFugenelementLength = int32_t(fuge.length());
         }
@@ -45,12 +47,12 @@ bool DictionaryTokenizerConfig::isFugenelement(std::u16string_view key) const
 
 bool DictionaryTokenizerConfig::isPositiveFugenelement(std::u16string_view key) const
 {
-    return fugenelements_positive.contains(key);
+    return fugenelements_positive_reversed.contains(key);
 }
 
 bool DictionaryTokenizerConfig::isReplaceableFugenelement(std::u16string_view key) const
 {
-    return fugenelements_replaceable.contains(key);
+    return fugenelements_replaceable_reversed.contains(key);
 }
 
 const ::std::vector<::std::u16string_view>& DictionaryTokenizerConfig::getNegativeFugenelements() const

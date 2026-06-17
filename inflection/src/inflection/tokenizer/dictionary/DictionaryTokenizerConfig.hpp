@@ -32,6 +32,9 @@ private: /* protected */
     ::std::vector<::std::u16string_view> replacements {  };
     ::std::vector<::std::u16string_view> fugenelements_negative {  };
     ::std::set<::std::u16string, std::less<>> fugenelements {  };
+    ::std::set<::std::u16string, std::less<>> fugenelements_positive_reversed {  };
+    ::std::set<::std::u16string, std::less<>> fugenelements_replaceable_reversed {  };
+
 
 public:
     bool isFugenelement(std::u16string_view key) const;

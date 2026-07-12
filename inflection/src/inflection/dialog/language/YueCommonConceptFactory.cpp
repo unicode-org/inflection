@@ -15,10 +15,6 @@ YueCommonConceptFactory::YueCommonConceptFactory(const ::inflection::util::ULoca
 {
 }
 
-YueCommonConceptFactory::~YueCommonConceptFactory()
-{
-}
-
 inflection::dialog::SemanticConceptList* YueCommonConceptFactory::createOrList(const ::std::vector<const ::inflection::dialog::SemanticFeatureConceptBase*>& concepts) const
 {
     return npc(npc(npc(super::createOrList(concepts))->setBeforeLast(inflection::dialog::SpeakableString(u"或")))->setItemDelimiter(inflection::dialog::SpeakableString(u"、")));

@@ -17,8 +17,8 @@
 #include <inflection/util/StringViewUtils.hpp>
 #include <inflection/util/ULocale.hpp>
 #include <inflection/npc.hpp>
+#include <unicode/uchar.h>
 #include <util/TestUtils.hpp>
-#include <dirent.h>
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 #include <algorithm>
@@ -31,7 +31,7 @@ static const inflection::dialog::SemanticFeature* getFeature(const ::inflection:
         FAIL_CHECK(std::string("Feature name is not recognized: ") + inflection::util::StringUtils::to_string(semanticName));
     }
     const auto& boundedValues(npc(featureName)->getBoundedValues());
-    if (!boundedValues.empty() && boundedValues.find(semanticValue) == boundedValues.end()) {
+    if (!boundedValues.empty() && !boundedValues.contains(semanticValue)) {
         FAIL_CHECK(std::string("Feature value is not valid: ") + inflection::util::StringUtils::to_string(semanticName) + '=' + inflection::util::StringUtils::to_string(semanticValue));
     }
     return featureName;
@@ -182,29 +182,10 @@ static inflection::dialog::SpeakableString getSpeakableString(xmlNodePtr node) {
     throw ::inflection::exception::XMLParseException(u"Expecting elements <text>, got <" + ::inflection::util::StringUtils::to_u16string(std::string((const char*)(textNode->name))) + u">");
 }
 
-static ::std::vector<::std::string> listDirectoryContents(const std::string& dirPath)
-{
-    ::std::vector<::std::string> files;
-    DIR* dirptr = opendir(dirPath.c_str());
-    if (dirptr == nullptr) {
-        FAIL(std::string("Not a valid path: ") + dirPath);
-    }
-    const struct dirent * dirEnt;
-    while ((dirEnt = readdir(dirptr)) != nullptr) {
-        if (strcmp(dirEnt->d_name, ".") == 0 || strcmp(dirEnt->d_name, "..") == 0) {
-            continue;
-        }
-        files.emplace_back(dirEnt->d_name);
-    }
-    closedir(dirptr);
-    return files;
-}
-
 TEST_CASE("PronounConceptTest#testInflections")
 {
     std::string resourcePath(TestUtils::getTestResourcePath() + "dialog/pronoun/");
-    auto files(listDirectoryContents(resourcePath));
-    sort(files.begin(), files.end());
+    auto files(TestUtils::listDirectoryContents(resourcePath));
     const ::std::u16string dependencyPrefix(u"dependency=");
     int32_t numFiles = 0;
     for (auto const& file : files) {
@@ -291,6 +272,7 @@ TEST_CASE("PronounConceptTest#testExistence")
     CHECK_FALSE(pronounConcept.isExists());
     result.reset(npc(pronounConcept.toSpeakableString()));
     CHECK(*result == inflection::dialog::SpeakableString(u"they")); // There is no definite form.
+    CHECK_FALSE(pronounConcept.isCustomMatch());
 }
 
 TEST_CASE("PronounConceptTest#testCustom")
@@ -304,10 +286,12 @@ TEST_CASE("PronounConceptTest#testCustom")
     pronounConcept.putConstraintByName(u"person", u"second");
     ::std::unique_ptr<inflection::dialog::SpeakableString> result(npc(pronounConcept.toSpeakableString()));
     CHECK(*result == inflection::dialog::SpeakableString(u"y'all")); // This is a little under specified. So we're starting with the plural one.
+    CHECK(pronounConcept.isCustomMatch());
 
     pronounConcept.putConstraintByName(u"number", u"singular");
     result.reset(npc(pronounConcept.toSpeakableString()));
     CHECK(*result == inflection::dialog::SpeakableString(u"you"));
+    CHECK_FALSE(pronounConcept.isCustomMatch());
 
     pronounConcept.putConstraintByName(u"number", u"plural");
     result.reset(npc(pronounConcept.toSpeakableString()));
@@ -351,7 +335,7 @@ TEST_CASE("PronounConceptTest#testFullAccess")
     srcDir = srcDir.substr(0, srcDir.length() - ::std::string("/test/src/inflection/dialog/PronounConceptTest.cpp").length());
     resourcePath = srcDir + "/resources/org/unicode/inflection/inflection/";
 
-    auto files(listDirectoryContents(resourcePath));
+    auto files(TestUtils::listDirectoryContents(resourcePath));
     sort(files.begin(), files.end());
     int32_t numFiles = 0;
     const ::inflection::dialog::SpeakableString empty(u"");
@@ -383,7 +367,11 @@ TEST_CASE("PronounConceptTest#testFullAccess")
         for (::inflection::util::DelimitedStringIterator iterator(reader, u"\n"); iterator.hasNext(); ++iterator) {
             ::std::u16string word;
             constraints.clear();
-            for (::inflection::util::DelimitedStringIterator cell(*iterator, u","); cell.hasNext(); ++cell) {
+            auto line = *iterator;
+            while (!line.empty() && u_isWhitespace(line.back())) {
+                line.remove_suffix(1);
+            }
+            for (::inflection::util::DelimitedStringIterator cell(line, u","); cell.hasNext(); ++cell) {
                 if (word.empty()) {
                     word = *cell;
                 }

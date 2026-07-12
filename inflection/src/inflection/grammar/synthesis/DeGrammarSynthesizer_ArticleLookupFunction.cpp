@@ -19,26 +19,27 @@
 
 namespace inflection::grammar::synthesis {
 
-DeGrammarSynthesizer_ArticleLookupFunction::DeGrammarSynthesizer_ArticleLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model, bool includeSemanticValue, const ::std::map<int32_t, ::std::u16string_view>& articleMap)
+DeGrammarSynthesizer_ArticleLookupFunction::DeGrammarSynthesizer_ArticleLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model, bool includeSemanticValue, ArticleLookup articleLookup)
     : super(model, includeSemanticValue, true)
     , dictionary(*::inflection::util::Validate::notNull(::inflection::dictionary::DictionaryMetaData::createDictionary(::inflection::util::LocaleUtils::GERMAN())))
     , caseFeature(::inflection::util::Validate::notNull(model.getFeature(GrammemeConstants::CASE)))
     , countFeature(::inflection::util::Validate::notNull(model.getFeature(GrammemeConstants::NUMBER)))
     , genderFeature(::inflection::util::Validate::notNull(model.getFeature(GrammemeConstants::GENDER)))
-    , articleMap(articleMap)
+    , articleLookup(npc(articleLookup))
     , tokenizer(::inflection::util::Validate::notNull(::inflection::tokenizer::TokenizerFactory::createTokenizer(::inflection::util::LocaleUtils::GERMAN())))
 {
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryFeminine, {u"feminine"}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryMasculine, {u"masculine"}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryNeuter, {u"neuter"}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryFeminine, {GrammemeConstants::GENDER_FEMININE}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryMasculine, {GrammemeConstants::GENDER_MASCULINE}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryNeuter, {GrammemeConstants::GENDER_NEUTER}));
     dictionaryGenderMask = dictionaryFeminine | dictionaryMasculine | dictionaryNeuter;
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionarySingular, {u"singular"}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryPlural, {u"plural"}));
+    int64_t dictionarySingular = 0;
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionarySingular, {GrammemeConstants::NUMBER_SINGULAR}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryPlural, {GrammemeConstants::NUMBER_PLURAL}));
     dictionaryCount = dictionarySingular | dictionaryPlural;
 }
 
 DeGrammarSynthesizer_ArticleLookupFunction::DeGrammarSynthesizer_ArticleLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model, bool includeSemanticValue, const DeGrammarSynthesizer_ArticleLookupFunction& other)
-    : DeGrammarSynthesizer_ArticleLookupFunction(model, includeSemanticValue, other.articleMap)
+    : DeGrammarSynthesizer_ArticleLookupFunction(model, includeSemanticValue, other.articleLookup)
 {
 }
 
@@ -50,11 +51,11 @@ DeGrammarSynthesizer_ArticleLookupFunction::~DeGrammarSynthesizer_ArticleLookupF
 inflection::dialog::SpeakableString* DeGrammarSynthesizer_ArticleLookupFunction::getFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& /*constraints*/) const
 {
     auto lookupKey = getArticleKey(&displayValue);
-    auto preposition = articleMap.find(lookupKey);
-    if (preposition == articleMap.end()) {
+    auto preposition = articleLookup(lookupKey);
+    if (preposition == nullptr) {
         return createPreposition(displayValue, ::std::u16string());
     }
-    return createPreposition(displayValue, ::std::u16string(preposition->second));
+    return createPreposition(displayValue, ::std::u16string(preposition));
 }
 
 DeGrammarSynthesizer::LookupKey DeGrammarSynthesizer_ArticleLookupFunction::getArticleKey(const ::inflection::dialog::DisplayValue* displayValue) const

@@ -1,8 +1,9 @@
 /*
- * Copyright 2017-2024 Apple Inc. All rights reserved.
+ * Copyright 2017-2026 Apple Inc. All rights reserved.
  */
 #include <inflection/grammar/synthesis/FrGrammarSynthesizer_ArticleLookupFunction.hpp>
 
+#include <inflection/dialog/DictionaryLookupFunction.hpp>
 #include <inflection/dictionary/PhraseProperties.hpp>
 #include <inflection/util/LocaleUtils.hpp>
 #include <inflection/dialog/SemanticFeature.hpp>
@@ -20,9 +21,23 @@
 
 namespace inflection::grammar::synthesis {
 
-FrGrammarSynthesizer_ArticleLookupFunction::FrGrammarSynthesizer_ArticleLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model, bool insertSpace, bool applyContraction, bool applyVowelElisionToBothGenders, const char16_t* derivedSemanticName, const ::std::u16string& defaultString, const ::std::u16string& defaultStartsWithVowelString, const ::std::u16string& singularMasculineString, const ::std::u16string& singularFeminineString, const ::std::u16string& singularStartsWithVowelString, const ::std::u16string& pluralString)
+FrGrammarSynthesizer_ArticleLookupFunction::FrGrammarSynthesizer_ArticleLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model,
+                                               const ::inflection::dialog::DictionaryLookupFunction& numberLookupFunction,
+                                               const ::inflection::dialog::DictionaryLookupFunction& genderLookupFunction,
+                                               bool insertSpace,
+                                               bool applyContraction,
+                                               bool applyVowelElisionToBothGenders,
+                                               const char16_t* derivedSemanticName,
+                                               std::u16string_view defaultString,
+                                               std::u16string_view defaultStartsWithVowelString,
+                                               std::u16string_view singularMasculineString,
+                                               std::u16string_view singularFeminineString,
+                                               std::u16string_view singularStartsWithVowelString,
+                                               std::u16string_view pluralString)
     : super(model, derivedSemanticName != nullptr, insertSpace)
     , tokenizer(applyContraction ? ::inflection::tokenizer::TokenizerFactory::createTokenizer(::inflection::util::LocaleUtils::FRENCH()) : nullptr)
+    , numberLookupFunction(numberLookupFunction)
+    , genderLookupFunction(genderLookupFunction)
     , defaultString(defaultString)
     , defaultStartsWithVowelString(defaultStartsWithVowelString)
     , singularMasculineString(singularMasculineString)
@@ -33,12 +48,12 @@ FrGrammarSynthesizer_ArticleLookupFunction::FrGrammarSynthesizer_ArticleLookupFu
     , applyVowelElisionToBothGenders(applyVowelElisionToBothGenders)
 {
     this->derivedArticleFeature = (derivedSemanticName != nullptr ? model.getFeature(npc(derivedSemanticName)) : nullptr);
-    this->countFeature = model.getFeature(GrammemeConstants::NUMBER);
+    this->numberFeature = model.getFeature(GrammemeConstants::NUMBER);
     this->genderFeature = model.getFeature(GrammemeConstants::GENDER);
 }
 
 FrGrammarSynthesizer_ArticleLookupFunction::FrGrammarSynthesizer_ArticleLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model, bool insertSpace, const char16_t* derivedSemanticName, const FrGrammarSynthesizer_ArticleLookupFunction& other)
-    : FrGrammarSynthesizer_ArticleLookupFunction(model, insertSpace, other.applyContraction, other.applyVowelElisionToBothGenders, derivedSemanticName, other.defaultString, other.defaultStartsWithVowelString, other.singularMasculineString, other.singularFeminineString, other.singularStartsWithVowelString, other.pluralString)
+    : FrGrammarSynthesizer_ArticleLookupFunction(model, other.numberLookupFunction, other.genderLookupFunction, insertSpace, other.applyContraction, other.applyVowelElisionToBothGenders, derivedSemanticName, other.defaultString, other.defaultStartsWithVowelString, other.singularMasculineString, other.singularFeminineString, other.singularStartsWithVowelString, other.pluralString)
 {
 }
 
@@ -60,15 +75,15 @@ inflection::dialog::SpeakableString* FrGrammarSynthesizer_ArticleLookupFunction:
         auto firstToken = npc(tokenChain->getHead())->getNext();
         const auto& firstWord = npc(firstToken)->getCleanValue();
         if (firstWord == u"le") {
-            return new inflection::dialog::SpeakableString(inflection::util::StringViewUtils::trim(singularMasculineString + (displayString.length() > firstWord.length() ? displayString.substr(npc(firstToken)->getEndChar() + 1) : u"")));
+            return new inflection::dialog::SpeakableString(inflection::util::StringViewUtils::trim(std::u16string(singularMasculineString) + (displayString.length() > firstWord.length() ? displayString.substr(npc(firstToken)->getEndChar() + 1) : u"")));
         }
         else if (firstWord == u"les") {
-            return new inflection::dialog::SpeakableString(inflection::util::StringViewUtils::trim(pluralString + (displayString.length() > firstWord.length() ? displayString.substr(npc(firstToken)->getEndChar() + 1) : u"")));
+            return new inflection::dialog::SpeakableString(inflection::util::StringViewUtils::trim(std::u16string(pluralString) + (displayString.length() > firstWord.length() ? displayString.substr(npc(firstToken)->getEndChar() + 1) : u"")));
         }
     }
-    auto countValue = FrGrammarSynthesizer::getNumber(displayValue.getFeatureValue(*npc(countFeature)));
+    auto countValue = FrGrammarSynthesizer::getNumber(displayValue.getFeatureValue(*npc(numberFeature)));
     if (countValue == FrGrammarSynthesizer::Number::undefined) {
-        auto value(countLookupFunction.determine(displayString));
+        auto value(numberLookupFunction.determine(displayString));
         countValue = FrGrammarSynthesizer::getNumber(&value);
     }
     auto genderValue = FrGrammarSynthesizer::getGender(displayValue.getFeatureValue(*npc(genderFeature)));

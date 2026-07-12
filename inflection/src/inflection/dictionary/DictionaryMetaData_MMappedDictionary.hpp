@@ -58,7 +58,7 @@ public:
     static constexpr int16_t ENDIANNESS_MARKER = 1;
     static constexpr int8_t MAX_LANGUAGE_CODE_LENGTH = 4;
     static constexpr char MAGIC_MARKER[8] { "MORPHSD" };
-    static constexpr int64_t VERSION { 7 }; // Bump this version if the binary file format changes.
+    static constexpr int64_t VERSION { 8 }; // Bump this version if the binary file format changes.
 
 private:
     int16_t options {  };
@@ -70,7 +70,7 @@ private:
     int8_t bitsPropertyValueMapValuesSize {  };
     int32_t wordsToTypesSingletonsSize {  };
     ::inflection::dictionary::metadata::MarisaTrie<uint64_t> wordsToDataTrie {::std::map<std::u16string_view, uint64_t>()};
-    inflection::util::MemoryMappedFile::UnalignedArray<int64_t> wordsToTypesSingletons;
+    const int64_t* const wordsToTypesSingletons {  };
     ::inflection::dictionary::metadata::CompressedArray<uint64_t> wordsToDataSingletons {::std::vector<uint64_t>()};
     ::inflection::dictionary::metadata::StringArrayContainer propertyNameToKeyId {  };
     ::inflection::dictionary::metadata::StringContainer propertyValuesStringContainer {  };

@@ -1,0 +1,118 @@
+ kedvesebben: comparative adverb
+ legkedvesebben: superlative adverb
+Bécs: noun inflection=1
+Lengyelország: proper-noun
+Magyarország: proper-noun
+apa: singular nominative noun inflection=2
+augusztus: noun inflection=1
+avokádó: noun inflection=1
+boldogabb: comparative adjective
+békák: plural nominative noun inflection=8
+békát: singular accusative noun inflection=8
+csokoládé: noun inflection=1
+csuka: noun inflection=1
+disznó: noun inflection=1
+dió: noun inflection=1
+egyiptomi: singular adjective
+egyiptomiak: plural adjective
+fa: singular noun inflection=7
+fagylalt: noun inflection=1
+fog: singular simple nominative indicative third present future noun verb inflection=6
+fogak: plural nominative noun inflection=6
+fogakat: plural accusative noun inflection=6
+fogott: singular simple third past verb
+fák: plural noun inflection=7
+homoszexualitás: noun inflection=1
+január: noun inflection=1
+július: noun inflection=1
+június: noun inflection=1
+kedves: positive adjective
+kedvesebb: comparative adjective
+kedvesen: positive adverb
+legkedvesebb: superlative adjective
+macska: singular nominative noun inflection=1 inflection=3
+macskák: plural nominative noun inflection=3
+május: noun inflection=1
+méz: noun inflection=1
+nyelv: noun inflection=1
+négy: numeral
+paradicsom: noun inflection=1
+rendőr: singular nominative noun inflection=4
+rendőrök: plural nominative noun inflection=4
+sajt: noun inflection=1
+szeptember: noun inflection=1
+sétál: singular indefinite indicative third present verb
+sétálnak: plural indefinite indicative third present verb
+sétálni: infinitive verb
+sétálok: singular indefinite indicative first present verb
+sétálsz: singular indefinite indicative second present verb
+sétált: singular indefinite indicative third past verb
+sétáltak: plural indefinite indicative third past verb
+sétáltam: singular indefinite indicative first past verb
+sétáltatok: plural indefinite indicative second past verb
+sétáltok: plural indefinite indicative second present verb
+sétáltunk: plural indefinite indicative first past verb
+sétáltál: singular indefinite indicative second past verb
+sétálunk: plural indefinite indicative first present verb
+vad: noun inflection=1
+vaj: noun inflection=1
+álmok: plural noun inflection=5
+álom: singular noun inflection=5
+április: noun inflection=1
+ökológia: noun inflection=1
+==============================================
+                       Source: wikidata-20260708-lexemes.json 
+                  Lemma terms:     127
+         Unusable lemma terms:      87
+       Incoming surface forms:      65
+                Surface forms:      62
+      Collapsed surface forms:       3  (4.6%)
+       Unusable surface forms:       0
+                 Usable terms:      62  (100%)
+           Unclassified terms:       0    (0%)
+==============================================
+Aspect:
+    simple:                    2  (3.2%)
+
+Case:
+    nominative:                8 (12.9%)
+    accusative:                2  (3.2%)
+
+ComparisonDegree:
+    comparative:               3  (4.8%)
+    superlative:               2  (3.2%)
+    positive:                  2  (3.2%)
+
+Definiteness:
+    indefinite:               12 (19.4%)
+
+Mood:
+    indicative:               13   (21%)
+
+Number:
+    singular:                 15 (24.2%)
+    plural:                   14 (22.6%)
+
+PartOfSpeech:
+    noun:                     36 (58.1%)
+    verb:                     15 (24.2%)
+    adjective:                 6  (9.7%)
+    adverb:                    3  (4.8%)
+    proper-noun:               2  (3.2%)
+    numeral:                   1  (1.6%)
+
+Person:
+    third:                     6  (9.7%)
+    second:                    4  (6.5%)
+    first:                     4  (6.5%)
+
+Tense:
+    present:                   7 (11.3%)
+    past:                      7 (11.3%)
+    future:                    1  (1.6%)
+
+VerbType:
+    infinitive:                1  (1.6%)
+
+License: Creative Commons CC0 License (https://creativecommons.org/publicdomain/zero/1.0/)
+generated with options: --language hu

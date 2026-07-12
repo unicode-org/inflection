@@ -19,4 +19,5 @@ if(ICU_VERSION VERSION_LESS ICU_VERSION_MINIMUM)
     message(FATAL_ERROR "ICU version found ${ICU_VERSION}. Version ${ICU_VERSION_MINIMUM} is the minimum acceptable version.")
 endif()
 
-get_filename_component(ICU_LIB_DIRECTORY ${ICU_UC_LIBRARIES} DIRECTORY)
+get_target_property(ICU_UC_LOCATION ICU::uc LOCATION)
+get_filename_component(ICU_LIB_DIRECTORY ${ICU_UC_LOCATION} DIRECTORY)

@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2024 Apple Inc. All rights reserved.
+ * Copyright 2016-2026 Apple Inc. All rights reserved.
  */
 #pragma once
 
@@ -9,15 +9,11 @@
 #include <inflection/util/ULocale.hpp>
 #include <inflection/Object.hpp>
 #include <inflection/tokenizer/TokenExtractor.hpp>
-#include <icu4cxx/UnicodeSet.hpp>
-#include <icu4cxx/BreakIterator.hpp>
 #include <icu4cxx/RegularExpression.hpp>
 #include <map>
-#include <set>
 #include <string>
 #include <string_view>
 #include <vector>
-#include <string_view>
 
 class inflection::tokenizer::TokenExtractor
     : public virtual ::inflection::Object
@@ -25,24 +21,17 @@ class inflection::tokenizer::TokenExtractor
 public:
     typedef ::inflection::Object super;
 
-protected: /* package */
-    static constexpr char16_t NON_DECOMPOUND_FILE_KEY[] = { u"tokenizer.nonDecompound.file" };
-    static constexpr char16_t DECOMPOUND_KEY[] = { u"tokenizer.decompound" };
-
 private: /* package */
     ::inflection::util::ULocale locale;
+    ::std::vector<::std::u16string_view> wordsToNotSplit {  };
+    icu4cxx::RegularExpression *splitPattern { nullptr };
+    int32_t minLenWordsToSplit {  };
+    int32_t maxLenWordsToSplit {  };
 
-protected: /* protected */
-    std::unique_ptr<::std::set<::std::u16string_view>> const wordsToNotSplit { nullptr };
-
-private:
-    std::unique_ptr<icu4cxx::RegularExpression> splitPattern { nullptr };
-
+protected:
+    void readWordsToNotSplit(const ::std::map<::std::u16string_view, const char16_t*>& config, bool (*isIndivisibleWordNormalized)(std::u16string_view str));
 public:
-    ::std::set<::std::u16string_view>* createWordsToNotSplit(const ::inflection::util::ULocale& locale, const ::std::map<::std::u16string_view, const char16_t*>& config, bool (*isIndivisibleWordNormalized)(::std::u16string& workspace, const ::inflection::util::ULocale& locale, std::u16string_view str)) const;
-private:
-    static bool isIndivisibleWordNormalized(::std::u16string& workspace, const ::inflection::util::ULocale& locale, std::u16string_view str);
-public:
+    bool isWordToNotSplit(std::u16string_view str) const;
     virtual inflection::tokenizer::iterator::TokenExtractorIterator* createIterator(std::u16string_view str) const;
 
 public: /* protected */
@@ -54,7 +43,7 @@ public:
     bool isContainRegex() const;
 
     TokenExtractor(const ::inflection::util::ULocale& locale, const ::std::map<::std::u16string_view, const char16_t*>& config);
-    TokenExtractor(const ::inflection::util::ULocale& locale, const ::std::map<::std::u16string_view, const char16_t*>& config, ::std::set<::std::u16string_view>* wordsToNotSplit);
+    TokenExtractor(const ::inflection::util::ULocale& locale, const ::std::map<::std::u16string_view, const char16_t*>& config, bool (*isIndivisibleWordNormalized)(std::u16string_view str));
     ~TokenExtractor() override;
 
 private:

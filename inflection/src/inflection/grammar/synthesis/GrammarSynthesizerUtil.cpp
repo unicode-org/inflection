@@ -9,6 +9,7 @@
 #include <inflection/dialog/SpeakableString.hpp>
 #include <inflection/tokenizer/TokenChain.hpp>
 #include <inflection/dialog/SemanticFeature.hpp>
+#include <inflection/dictionary/DictionaryMetaData.hpp>
 #include <inflection/npc.hpp>
 #include <algorithm>
 #include <map>
@@ -35,9 +36,9 @@ using ::inflection::dialog::SpeakableString;
     return words;
 }
 
-std::u16string GrammarSynthesizerUtil::getStringFromInflectedSignificantWords(const TokenChain& tokenChain, ::std::vector<::std::u16string> inflectedSignificantWords) {
+std::u16string GrammarSynthesizerUtil::getStringFromInflectedSignificantWords(const TokenChain& tokenChain, const ::std::vector<::std::u16string>& inflectedSignificantWords) {
     ::std::u16string inflectionResult;
-    int idx = 0;
+    int32_t idx = 0;
     for (const auto& token : tokenChain) {
         if (checkSignificantTokenForInflection(token)) {
             inflectionResult += inflectedSignificantWords.at(idx++);
@@ -51,14 +52,17 @@ std::u16string GrammarSynthesizerUtil::getStringFromInflectedSignificantWords(co
 ::std::u16string GrammarSynthesizerUtil::inflectSignificantWords(const ::std::map<SemanticFeature, ::std::u16string>& constraints, const TokenChain& tokenChain, const SignificantTokenInflector& inflector)
 {
     int32_t countI = 0;
-    ::std::vector<::std::u16string> tokens(tokenChain.getSize());
+    const auto expectedSize = tokenChain.getSize() - 2; // Skip the beginning and end empty strings from the token chain.
+    ::std::vector<::std::u16string> tokens(expectedSize);
     ::std::vector<int32_t> indexesOfSignificantWords;
-    indexesOfSignificantWords.reserve(tokenChain.getSize());
+    indexesOfSignificantWords.reserve(expectedSize);
     for (const auto& tNext : tokenChain) {
         const auto& nextValue = tNext.getValue();
+        if (nextValue.empty()) {
+            continue;
+        }
         tokens[countI] = nextValue;
         if (checkSignificantTokenForInflection(tNext)) {
-            // the token is significant
             indexesOfSignificantWords.emplace_back(countI);
         }
         countI++;
@@ -80,7 +84,7 @@ std::u16string GrammarSynthesizerUtil::getStringFromInflectedSignificantWords(co
 }
 
 bool GrammarSynthesizerUtil::hasFeature(const ::std::map<SemanticFeature, ::std::u16string>& constraints, const SemanticFeature* semanticFeature) {
-    return constraints.find(*npc(semanticFeature)) != constraints.end();
+    return constraints.contains(*npc(semanticFeature));
 }
 
 bool GrammarSynthesizerUtil::hasAnyFeatures(const std::map<SemanticFeature, ::std::u16string> &constraints, const std::vector<const SemanticFeature *> &semanticFeatures) {
@@ -182,6 +186,27 @@ const inflection::tokenizer::Token* GrammarSynthesizerUtil::getLastSignificantTo
         tok = tok->getPrevious();
     }
     return nullptr;
+}
+
+int32_t GrammarSynthesizerUtil::splitPrefix(std::u16string_view word, const inflection::dictionary::DictionaryMetaData& dictionary, int64_t& prefixGrammemes, int64_t& wordGrammemes, const std::vector<std::tuple<std::u16string_view, int64_t, int64_t>>& prefixesWithPOS)
+{
+    if (wordGrammemes == 0) {
+        for (const auto& [prefix, matchedPOS, prefixPOS] : prefixesWithPOS) {
+            if (word.length() > prefix.length() && word.starts_with(prefix)) {
+                std::u16string_view wordToLemmatize(word);
+                wordToLemmatize.remove_prefix(prefix.length());
+                int64_t grammemesWithoutPrefix = 0;
+                if (dictionary.getCombinedBinaryType(&grammemesWithoutPrefix, wordToLemmatize) != nullptr
+                    && (grammemesWithoutPrefix & matchedPOS) != 0)
+                {
+                    wordGrammemes = grammemesWithoutPrefix;
+                    prefixGrammemes = prefixPOS;
+                    return static_cast<int32_t>(prefix.length());
+                }
+            }
+        }
+    }
+    return -1;
 }
 
 } // namespace inflection::grammar::synthesis

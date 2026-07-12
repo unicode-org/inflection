@@ -29,7 +29,7 @@ public:
     /**
      * Returns a set of locales Inflection supports for grammar synthesis.
      */
-    static const ::std::set<::inflection::util::ULocale>& getKnownLocales();
+    static ::std::set<::inflection::util::ULocale> getKnownLocales();
 
 private:
     GrammarSynthesizerFactory() = delete;

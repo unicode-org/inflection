@@ -1,12 +1,11 @@
 /*
- * Copyright 2016-2024 Apple Inc. All rights reserved.
+ * Copyright 2016-2026 Apple Inc. All rights reserved.
  */
 #include <inflection/tokenizer/dictionary/ParsingsScorer.hpp>
 
 #include <inflection/tokenizer/dictionary/DictionaryTokenizerConfig.hpp>
 #include <inflection/tokenizer/dictionary/GermanicDecompounder.hpp>
 #include <inflection/tokenizer/dictionary/Segment.hpp>
-#include <inflection/util/StringUtils.hpp>
 #include <inflection/npc.hpp>
 #include <cmath>
 #include <algorithm>
@@ -30,19 +29,15 @@ void ParsingsScorer::getBestOffsets(std::vector<int32_t>* boundaries, int32_t of
 {
     auto segment = _getBestLeaf(leafs);
     Segment::SharedPtr parent;
-    auto compoundLength = segment->getCompoundLength();
     auto compoundStart = offset;
-    int32_t subIndex;
     while ((parent = segment->getParent()) != nullptr) {
         auto segmentOffset = segment->getOffset();
         if (segmentOffset != 0) {
-            auto rootOffset = segment->getRootOffset();
-            if (segmentOffset != rootOffset) {
-                subIndex = compoundLength - segment->getRootOffset();
-                npc(boundaries)->emplace_back(compoundStart + subIndex);
-            }
-            subIndex = compoundLength - segmentOffset;
-            npc(boundaries)->emplace_back(compoundStart + subIndex);
+            npc(boundaries)->emplace_back(compoundStart + segmentOffset);
+        }
+        auto fugeLen = segment->getFugeLen();
+        if (fugeLen > 0) {
+            npc(boundaries)->emplace_back(compoundStart + parent->getOffset() - fugeLen);
         }
         segment = parent;
     }
@@ -50,23 +45,27 @@ void ParsingsScorer::getBestOffsets(std::vector<int32_t>* boundaries, int32_t of
 
 Segment::SharedPtr ParsingsScorer::_getBestLeaf(::std::vector<Segment::SharedPtr>* leafs) const
 {
+    float bestScore = -1.0f;
+    Segment::SharedPtr bestLeaf;
     for (const auto& leaf : *npc(leafs)) {
-        leaf->score();
+        auto score = leaf->score();
+        if (score > bestScore) {
+            bestScore = score;
+            bestLeaf = leaf;
+        }
     }
-    auto defaultParsing = (*npc(leafs))[0];
-    ::std::sort(npc(leafs)->begin(), npc(leafs)->end(),
-                [](const Segment::SharedPtr& first, const Segment::SharedPtr& second)
-                {
-                    return second->getScore() < first->getScore();
-                });
-    auto bestLeaf = (*npc(leafs))[0];
-    if (bestLeaf->getScore() < minScore && bestLeaf->getArithmeticMeanLength() < expectedSegmentLength) {
-        bestLeaf = defaultParsing;
-    } else {
-        auto bestLeafId = _prune(*npc(leafs));
-        bestLeaf = (*npc(leafs))[bestLeafId];
+    if (npc(leafs)->size() == 1
+        || (bestScore < minScore && bestLeaf->getArithmeticMeanLength() < expectedSegmentLength))
+    {
+        return npc(leafs)->front();
     }
-    return bestLeaf;
+    std::ranges::sort(*npc(leafs),
+                      [](const Segment::SharedPtr& first, const Segment::SharedPtr& second)
+                      {
+                          return second->getScore() < first->getScore();
+                      });
+    auto bestLeafId = _prune(*npc(leafs));
+    return (*npc(leafs))[bestLeafId];
 }
 
 int32_t ParsingsScorer::_prune(const ::std::vector<Segment::SharedPtr>& leafs) const
@@ -76,14 +75,14 @@ int32_t ParsingsScorer::_prune(const ::std::vector<Segment::SharedPtr>& leafs) c
 
     while (!stop) {
         stop = true;
-        auto best = leafs[bestLeafId];
+        const auto& best = leafs.at(bestLeafId);
         int32_t numLeafs = int32_t(leafs.size());
         auto bestScore = best->getScore();
         auto bestDepth = static_cast< float >(best->getDepth());
         auto bestGeometricMeanLength = best->getGeometricMeanLength();
         auto bestCredibility = best->getCredibility();
         for (int32_t i = bestLeafId + 1; i < numLeafs; i++) {
-            auto next = leafs[i];
+            const auto& next = leafs.at(i);
             auto diffDepth = bestDepth - next->getDepth();
             auto nextCredibility = next->getCredibility();
             if ((bestDepth > next->getDepth() && bestScore * ::std::pow(upperMinScoreRatio, diffDepth) < next->getScore()) || (next->getDepth() > 1 && bestGeometricMeanLength < next->getGeometricMeanLength() && bestScore * upperMinScoreRatio < next->getScore()) || (best->getCompoundLength() >= minCompoundLengthForCredibility && ((bestCredibility < LOWER_MIN_CREDIBILITY && nextCredibility >= LOWER_MIN_CREDIBILITY) || (bestCredibility < UPPER_MIN_CREDIBILITY && nextCredibility >= UPPER_MIN_CREDIBILITY && bestScore * ::std::pow(lowerMinScoreRatio, diffDepth) < next->getScore()) || (bestScore < minScore && bestCredibility < LOWER_MIN_CREDIBILITY && nextCredibility - bestCredibility >= MIN_CREDIBILITY_DIFF)))) {

@@ -4,10 +4,10 @@
 #include <inflection/dialog/Plurality.hpp>
 
 #include <inflection/exception/ICUException.hpp>
+#include <inflection/util/ArrayUtils.hpp>
 #include <inflection/util/ULocale.hpp>
 #include <inflection/npc.hpp>
 #include <unicode/uenum.h>
-#include <map>
 
 namespace inflection::dialog {
 
@@ -37,17 +37,21 @@ static constexpr int32_t KEYWORD_BUFFER_SIZE = 6;
 
 Plurality::Rule Plurality::convertKeywordToCount(std::u16string_view keyword) const
 {
-    static auto keywordNameMap = new ::std::map<::std::u16string_view, Plurality::Rule>({
-        {u"zero", Plurality::Rule::ZERO},
-        {u"one", Plurality::Rule::ONE},
-        {u"two", Plurality::Rule::TWO},
+    static constexpr struct {
+        const char16_t* keyword;
+        Plurality::Rule enumValue;
+    } KEYWORD_NAME_MAP[] = {
         {u"few", Plurality::Rule::FEW},
         {u"many", Plurality::Rule::MANY},
-        {u"other", Plurality::Rule::OTHER}
-    });
-    auto result = npc(keywordNameMap)->find(keyword);
-    if (result != npc(keywordNameMap)->end()) {
-        return result->second;
+        {u"one", Plurality::Rule::ONE},
+        {u"other", Plurality::Rule::OTHER},
+        {u"two", Plurality::Rule::TWO},
+        {u"zero", Plurality::Rule::ZERO},
+    };
+    auto *result = inflection::util::ArrayUtils::searchSorted<KEYWORD_NAME_MAP>(keyword,
+        [](const auto& item) { return item.keyword; });
+    if (result != nullptr) {
+        return result->enumValue;
     }
     return Plurality::Rule::OTHER;
 }

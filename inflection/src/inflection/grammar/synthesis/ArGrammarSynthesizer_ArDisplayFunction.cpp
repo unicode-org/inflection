@@ -12,23 +12,22 @@
 #include <inflection/dialog/SemanticFeatureModel_DisplayData.hpp>
 #include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
-#include <inflection/lang/StringFilterUtil.hpp>
 #include <inflection/npc.hpp>
 #include <inflection/tokenizer/TokenChain.hpp>
 #include <inflection/tokenizer/Tokenizer.hpp>
 #include <inflection/tokenizer/TokenizerFactory.hpp>
-#include <icu4cxx/UnicodeSet.hpp>
+#include <unicode/uscript.h>
 
 namespace inflection::grammar::synthesis {
 
-ArGrammarSynthesizer_ArDisplayFunction::ArGrammarSynthesizer_ArDisplayFunction(const ::inflection::dialog::SemanticFeatureModel& model, const ::std::map<int32_t, ::std::u16string_view>& personalPronounsMap)
+ArGrammarSynthesizer_ArDisplayFunction::ArGrammarSynthesizer_ArDisplayFunction(const ::inflection::dialog::SemanticFeatureModel& model)
     : super()
     , dictionaryInflector(::inflection::util::LocaleUtils::ARABIC(), {
-            {GrammemeConstants::POS_NOUN(), GrammemeConstants::POS_ADJECTIVE(), GrammemeConstants::POS_VERB()},
-            {GrammemeConstants::PERSON_THIRD(), GrammemeConstants::PERSON_SECOND(), GrammemeConstants::PERSON_FIRST()},
-            {GrammemeConstants::GENDER_MASCULINE(), GrammemeConstants::GENDER_FEMININE()},
-            {GrammemeConstants::NUMBER_SINGULAR(), GrammemeConstants::NUMBER_DUAL(), GrammemeConstants::NUMBER_PLURAL()},
-            {GrammemeConstants::DEFINITENESS_INDEFINITE(), GrammemeConstants::DEFINITENESS_CONSTRUCT(), GrammemeConstants::DEFINITENESS_DEFINITE()}
+            {GrammemeConstants::POS_NOUN, GrammemeConstants::POS_ADJECTIVE, GrammemeConstants::POS_VERB},
+            {GrammemeConstants::PERSON_THIRD, GrammemeConstants::PERSON_SECOND, GrammemeConstants::PERSON_FIRST},
+            {GrammemeConstants::GENDER_MASCULINE, GrammemeConstants::GENDER_FEMININE},
+            {GrammemeConstants::NUMBER_SINGULAR, GrammemeConstants::NUMBER_DUAL, GrammemeConstants::NUMBER_PLURAL},
+            {GrammemeConstants::DEFINITENESS_INDEFINITE, GrammemeConstants::DEFINITENESS_CONSTRUCT, GrammemeConstants::DEFINITENESS_DEFINITE}
     }, {}, false)
     , caseFeature(*npc(model.getFeature(GrammemeConstants::CASE)))
     , moodFeature(*npc(model.getFeature(GrammemeConstants::MOOD)))
@@ -42,14 +41,15 @@ ArGrammarSynthesizer_ArDisplayFunction::ArGrammarSynthesizer_ArDisplayFunction(c
     , pronounCountFeature(*npc(model.getFeature(ArGrammarSynthesizer::PRONOUN_NUMBER)))
     , pronounGenderFeature(*npc(model.getFeature(ArGrammarSynthesizer::PRONOUN_GENDER)))
     , tokenizer(::inflection::tokenizer::TokenizerFactory::createTokenizer(::inflection::util::LocaleUtils::ARABIC()))
-    , personalPronounsMap(personalPronounsMap)
+    , personalPronouns(ArGrammarSynthesizer::getPossessivePronouns())
+    , caseConstraintFallback({
+        {GrammemeConstants::CASE_GENITIVE, GrammemeConstants::CASE_ACCUSATIVE},
+        {GrammemeConstants::CASE_ACCUSATIVE, GrammemeConstants::CASE_NOMINATIVE}
+    })
 {
     ::inflection::util::Validate::notNull(dictionaryInflector.getDictionary().getBinaryProperties(&posMask, {u"noun", u"adjective", u"verb", u"determiner"}));
     ::inflection::util::Validate::notNull(dictionaryInflector.getDictionary().getBinaryProperties(&verbMask, {u"verb"}));
     ::inflection::util::Validate::notNull(dictionaryInflector.getDictionary().getBinaryProperties(&determinerMask, {u"determiner"}));
-    for (auto const& x : personalPronounsMap) {
-        personalPronounsReverseMap[x.second] = x.first;
-    }
 }
 
 static const char16_t* const IRREGULAR_NOUNS[] = {
@@ -58,21 +58,9 @@ static const char16_t* const IRREGULAR_NOUNS[] = {
 };
 
 static constexpr char16_t AL[] = u"ال";
-static constexpr char16_t AL_WITH_KASHEDA[] = u"الـ\u00A0";
+static constexpr char16_t AL_WITH_KASHEDA[] = u"الـ ";
 
 namespace {
-    std::map<std::u16string_view, std::u16string_view>* generateCaseConstraintFallbackMap() {
-        auto* result = new std::map<std::u16string_view, std::u16string_view>();
-        result->insert({GrammemeConstants::CASE_GENITIVE(), GrammemeConstants::CASE_ACCUSATIVE()});
-        result->insert({GrammemeConstants::CASE_ACCUSATIVE(), GrammemeConstants::CASE_NOMINATIVE()});
-        return result;
-    }
-
-    const std::map<std::u16string_view, std::u16string_view>& CASE_CONSTRAINT_FALLBACK() {
-        static auto* result = generateCaseConstraintFallbackMap();
-        return *result;
-    }
-
     void getFeatureValue(::std::u16string* returnValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, const ::inflection::dialog::SemanticFeature& semanticFeature){
         if (const auto result = constraints.find(semanticFeature); result != constraints.end()) {
             *npc(returnValue) = result->second;
@@ -85,27 +73,6 @@ namespace {
     }
 }
 
-::std::u16string ArGrammarSynthesizer_ArDisplayFunction::performPronounInflection(const ::std::u16string &word, const InflectionConstraints &inflectionContraints) const
-{
-    auto possessiveException = personalPronounsReverseMap.find(word);
-    ArGrammarSynthesizer::LookupKey pronounLookupKey {.value = (uint32_t) possessiveException->second};
-
-    if (!inflectionContraints.countString.empty()) {
-        pronounLookupKey = ArGrammarSynthesizer::updateLookupKeyAttribute(pronounLookupKey, GrammemeConstants::NUMBER, &inflectionContraints.countString);
-    }
-    if (!inflectionContraints.genderString.empty()) {
-        pronounLookupKey = ArGrammarSynthesizer::updateLookupKeyAttribute(pronounLookupKey, GrammemeConstants::GENDER, &inflectionContraints.genderString);
-    }
-
-    auto modified_pronoun = personalPronounsMap.find(pronounLookupKey.value);
-
-    if (modified_pronoun != personalPronounsMap.end()) {
-        return modified_pronoun->second.data();
-    }
-
-    return word;
-}
-
 ::std::u16string ArGrammarSynthesizer_ArDisplayFunction::performInflection(const ::std::u16string &word, int64_t wordGrammemes, const InflectionConstraints &inflectionContraints) const
 {
     bool isVerb = (wordGrammemes & posMask) == verbMask;
@@ -115,7 +82,7 @@ namespace {
     if (!inflectionContraints.countString.empty()) {
         constraints.emplace_back(inflectionContraints.countString);
     } else {
-        constraints.emplace_back(GrammemeConstants::NUMBER_SINGULAR());
+        constraints.emplace_back(GrammemeConstants::NUMBER_SINGULAR);
     }
     if (!inflectionContraints.genderString.empty()) {
         constraints.emplace_back(inflectionContraints.genderString);
@@ -123,19 +90,18 @@ namespace {
     if (!inflectionContraints.animacyString.empty()) {
         constraints.emplace_back(inflectionContraints.animacyString);
     }
-    if (!inflectionContraints.definitenessString.empty() && GrammemeConstants::DEFINITENESS_CONSTRUCT() == inflectionContraints.definitenessString) {
+    if (!inflectionContraints.definitenessString.empty() && inflectionContraints.definitenessString == GrammemeConstants::DEFINITENESS_CONSTRUCT) {
         constraints.emplace_back(inflectionContraints.definitenessString);
     }
     if (!inflectionContraints.caseString.empty()) {
         constraints.emplace_back(inflectionContraints.caseString);
     } else if(!isVerb && !isDeterminer && inflectionContraints.partOfSpeechString != u"verb") {
         // We don't add case constraint for verbs by default
-        constraints.emplace_back(GrammemeConstants::CASE_NOMINATIVE());
+        constraints.emplace_back(GrammemeConstants::CASE_NOMINATIVE);
     }
-	if (!inflectionContraints.personString.empty()) {
+    if (!inflectionContraints.personString.empty()) {
         constraints.emplace_back(inflectionContraints.personString);
     }
-    const auto &caseConstraintFallback = CASE_CONSTRAINT_FALLBACK();
     while (true) {
         const auto inflectedWord = dictionaryInflector.inflect(word, wordGrammemes, constraints, inflectionContraints.disambiguationGrammemeValues);
         if (inflectedWord.has_value()) {
@@ -168,7 +134,7 @@ namespace {
 
     for (const auto& token : *tokenChain) {
         const auto& tokenVal = token.getValue();
-        if (token.isSignificant() && !personalPronounsReverseMap.contains(tokenVal)) {
+        if (token.isSignificant() && !personalPronouns.contains(tokenVal)) {
             dictionary.getCombinedBinaryType(&wordGrammemes, tokenVal);
             inflectedChain += performInflection(tokenVal, wordGrammemes, inflectionContraints);
         } else {
@@ -200,11 +166,11 @@ namespace {
 
     auto dialogWord = displayData.getValues()[0].getDisplayString();
     for (const auto& value : displayData.getValues()) {
-        auto valueConstraintMap = value.getConstraintMap();
-        if ((inflectionContraints.caseString.empty() || hasFeature(inflectionContraints.caseString, valueConstraintMap, caseFeature) || valueConstraintMap.find(caseFeature) == valueConstraintMap.end())
+        const auto& valueConstraintMap = value.getConstraintMap();
+        if ((inflectionContraints.caseString.empty() || hasFeature(inflectionContraints.caseString, valueConstraintMap, caseFeature) || !valueConstraintMap.contains(caseFeature))
             && (inflectionContraints.countString.empty() || hasFeature(inflectionContraints.countString, valueConstraintMap, countFeature))
             && (inflectionContraints.genderString.empty() || hasFeature(inflectionContraints.genderString, valueConstraintMap, genderFeature))
-            && (inflectionContraints.definitenessString.empty() || hasFeature(inflectionContraints.definitenessString, valueConstraintMap, definitenessFeature) || (GrammemeConstants::DEFINITENESS_CONSTRUCT() == inflectionContraints.definitenessString && valueConstraintMap.find(definitenessFeature) == valueConstraintMap.end()) || (GrammemeConstants::DEFINITENESS_DEFINITE() == inflectionContraints.definitenessString && valueConstraintMap.find(definitenessFeature) == valueConstraintMap.end())))
+            && (inflectionContraints.definitenessString.empty() || hasFeature(inflectionContraints.definitenessString, valueConstraintMap, definitenessFeature) || (inflectionContraints.definitenessString == GrammemeConstants::DEFINITENESS_CONSTRUCT && !valueConstraintMap.contains(definitenessFeature)) || (inflectionContraints.definitenessString == GrammemeConstants::DEFINITENESS_DEFINITE && !valueConstraintMap.contains(definitenessFeature))))
         {
             dialogWord = value.getDisplayString();
         }
@@ -217,22 +183,22 @@ namespace {
         ::std::u16string displayString;
         displayString = dialogWord;
         if (::inflection::util::StringViewUtils::trim(dialogWord).find(u' ') == ::std::u16string::npos
-            && GrammemeConstants::DEFINITENESS_DEFINITE() == inflectionContraints.definitenessString)
+            && inflectionContraints.definitenessString == GrammemeConstants::DEFINITENESS_DEFINITE)
         {
             displayString = lookupDefiniteArticle(dialogWord);
         }
         if (!inflectionContraints.caseString.empty() && (IRREGULAR_NOUNS[0] == displayString || IRREGULAR_NOUNS[1] == displayString)) {
-            if (GrammemeConstants::CASE_NOMINATIVE() == inflectionContraints.caseString) {
+            if (inflectionContraints.caseString == GrammemeConstants::CASE_NOMINATIVE) {
                 displayString += u"و";
-            } else if (GrammemeConstants::CASE_GENITIVE() == inflectionContraints.caseString) {
+            } else if (inflectionContraints.caseString == GrammemeConstants::CASE_GENITIVE) {
                 displayString += u"ي";
-            } else if (GrammemeConstants::CASE_ACCUSATIVE() == inflectionContraints.caseString) {
+            } else if (inflectionContraints.caseString == GrammemeConstants::CASE_ACCUSATIVE) {
                 displayString += u"ا";
             }
         }
         return new ::inflection::dialog::DisplayValue(displayString);
     }
-    if (GrammemeConstants::DEFINITENESS_DEFINITE() == inflectionContraints.definitenessString && ::inflection::util::StringViewUtils::trim(dialogWord).find(u' ') == ::std::u16string::npos) {
+    if (inflectionContraints.definitenessString == GrammemeConstants::DEFINITENESS_DEFINITE && ::inflection::util::StringViewUtils::trim(dialogWord).find(u' ') == ::std::u16string::npos) {
         inflection = lookupDefiniteArticle(inflection);
     }
     return new ::inflection::dialog::DisplayValue(inflection, constraints);
@@ -248,7 +214,7 @@ namespace {
         return trimmedDisplayString;
     }
     ::std::u16string article;
-    if (::inflection::lang::StringFilterUtil::ARABIC_SCRIPT().contains(trimmedDisplayString[0])) {
+    if (uscript_hasScript(trimmedDisplayString[0], USCRIPT_ARABIC)) {
         article = AL;
     }
     else {

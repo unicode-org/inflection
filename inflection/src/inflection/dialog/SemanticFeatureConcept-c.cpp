@@ -6,11 +6,11 @@
 #include <inflection/dialog/PronounConcept.hpp>
 #include <inflection/dialog/SemanticFeatureConceptBase.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
-#include <inflection/util/ULocale.hpp>
 #include <inflection/util/TypeConversionUtils.hpp>
 #include <inflection/exception/IllegalArgumentException.hpp>
 #include <inflection/npc.hpp>
 #include <unicode/ustring.h>
+
 /**
  * Returns {@code true} if a value exists for the given constraints
  */
@@ -129,7 +129,7 @@ isfc_toSpeakableStringCopy(const IDSemanticFeatureConcept* thisObject, UErrorCod
 {
     if (status != nullptr && U_SUCCESS(*status)) {
         try {
-            return (IDSpeakableString*)(npc((const ::inflection::dialog::SpeakableConcept*)thisObject)->toSpeakableString());
+            return (IDSpeakableString*)(npc((const ::inflection::dialog::SemanticFeatureConceptBase*)thisObject)->toSpeakableString());
         }
         catch (const ::std::exception& e) {
             inflection::util::TypeConversionUtils::convert(e, status);
@@ -143,7 +143,7 @@ isfc_toSpeakableStringWithDependencyCopy(const IDSemanticFeatureConcept* thisObj
 {
     if (status != nullptr && U_SUCCESS(*status)) {
         try {
-            auto thisConcept = reinterpret_cast<const ::inflection::dialog::SpeakableConcept*>(thisObject);
+            auto thisConcept = reinterpret_cast<const ::inflection::dialog::SemanticFeatureConceptBase*>(thisObject);
             if (dynamic_cast<const ::inflection::dialog::PronounConcept*>(thisConcept) != nullptr) {
                 auto referencedConceptBase = reinterpret_cast<const ::inflection::dialog::SemanticFeatureConceptBase*>(referencedConcept);
                 return (IDSpeakableString*)(npc(dynamic_cast<const ::inflection::dialog::PronounConcept*>(thisConcept))->toSpeakableString(*npc(referencedConceptBase)));
@@ -179,4 +179,3 @@ isfc_destroy(IDSemanticFeatureConcept* thisObject)
 {
     delete (::inflection::dialog::SemanticFeatureConceptBase*)thisObject;
 }
-

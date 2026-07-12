@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2024 Apple Inc. All rights reserved.
+ * Copyright 2017-2026 Apple Inc. All rights reserved.
  */
 #include <inflection/dictionary/metadata/StringContainer.hpp>
 
@@ -10,7 +10,7 @@
 #include <inflection/util/Validate.hpp>
 #include <marisa/iostream.h>
 #include <inflection/npc.hpp>
-#include <cstring>
+#include <bit>
 
 namespace inflection::dictionary::metadata {
 
@@ -26,7 +26,9 @@ StringContainer::StringContainer(::inflection::util::MemoryMappedFile *mappedFil
     mappedFile->read(&trieSize);
     if (trieSize > 0) {
         // non-empty trie to read.
-        const char* rawTrieData = mappedFile->readArray<char>(trieSize).data_ptr();
+        char* rawTrieData;
+        mappedFile->read(&rawTrieData, trieSize);
+
         trie.map(rawTrieData, trieSize);
         _size = (int32_t) trie.num_keys();
     }
@@ -110,8 +112,11 @@ void StringContainer::write(::std::ostream& output) const
         std::ostringstream buffer;
         buffer << trie;
         int32_t trieSize = (int32_t)buffer.tellp();
-        output.write(reinterpret_cast<const char*>(&trieSize), sizeof(trieSize));
+        int32_t paddedSize = MarisaTrie<int8_t>::alignedTrieSize(trieSize);
+        output.write(reinterpret_cast<const char*>(&paddedSize), sizeof(paddedSize));
         output.write(buffer.str().c_str(), trieSize);
+        constexpr char padBytes[8] = {};
+        output.write(padBytes, paddedSize - trieSize);
     }
 }
 
@@ -152,13 +157,13 @@ int64_t StringContainer::convertIdentifierToBit(int32_t identifier)
     return int64_t(1) << identifier;
 }
 
-static int8_t getIndexFromBit(uint64_t value)
+static constexpr int8_t getIndexFromBit(uint64_t value)
 {
-    if (value == 0 || ((value - 1) & value) != 0) {
+    if (!std::has_single_bit(value)) {
         // There isn't exactly 1 bit on, which is an error
         return -1;
     }
-    return std::popcount(value - 1);
+    return static_cast<int8_t>(std::popcount(value - 1));
 }
 
 int8_t StringContainer::convertBitToIdentifier(int64_t bit)

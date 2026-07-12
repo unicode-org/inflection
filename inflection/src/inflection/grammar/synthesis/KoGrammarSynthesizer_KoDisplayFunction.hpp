@@ -21,7 +21,7 @@ private:
     const ::inflection::dialog::SemanticFeature& caseFeature;
     const ::inflection::dialog::SemanticFeature& clusivityFeature;
     const ::inflection::dialog::SemanticFeature& adjectivalFeature;
-    std::map<std::u16string, KoGrammarSynthesizer_ParticleResolver> particleMap {  };
+    std::vector<KoGrammarSynthesizer_ParticleResolver> particleResolvers {  };
 
 public:
     ::inflection::dialog::DisplayValue * getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const override;

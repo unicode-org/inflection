@@ -56,6 +56,10 @@ std::set<std::u16string, std::less<>> DefinitenessDisplayFunction::getArticles(c
                 }
             }
             for (const auto& featureValue : feature.getValues()) {
+                if (featureValue.getValue().empty()) {
+                    // Don't compare against the optional definite articles.
+                    continue;
+                }
                 result.emplace(featureValue.getValue() + (hasWhitespaceSuffix ? u"" : u" "));
             }
             break;
@@ -109,13 +113,13 @@ DefinitenessDisplayFunction::addDefiniteness(DisplayValue* displayValue, const :
             }
             DisplayValue baseDisplayValue(displayString, npc(displayValue)->getConstraintMap());
             // We're asking for a specific form of definiteness, and it's not in that form already.
-            if (definitePrefixLength <= 0 && definiteness->second == inflection::grammar::synthesis::GrammemeConstants::DEFINITENESS_DEFINITE()) {
+            if (definitePrefixLength <= 0 && definiteness->second == inflection::grammar::synthesis::GrammemeConstants::DEFINITENESS_DEFINITE) {
                 ::std::unique_ptr<SpeakableString> newDisplayString(npc(definiteFeatureFunction)->getFeatureValue(baseDisplayValue, constraints));
                 if (newDisplayString) {
                     return replaceDisplayValue(displayValue, *newDisplayString);
                 }
             }
-            else if (indefinitePrefixLength <= 0 && definiteness->second == inflection::grammar::synthesis::GrammemeConstants::DEFINITENESS_INDEFINITE()) {
+            else if (indefinitePrefixLength <= 0 && definiteness->second == inflection::grammar::synthesis::GrammemeConstants::DEFINITENESS_INDEFINITE) {
                 ::std::unique_ptr<SpeakableString> newDisplayString(npc(indefiniteFeatureFunction)->getFeatureValue(baseDisplayValue, constraints));
                 if (newDisplayString) {
                     return replaceDisplayValue(displayValue, *newDisplayString);

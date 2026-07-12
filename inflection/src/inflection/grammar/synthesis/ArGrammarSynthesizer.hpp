@@ -6,57 +6,47 @@
 #include <inflection/dialog/fwd.hpp>
 #include <inflection/grammar/synthesis/fwd.hpp>
 #include <cstdint>
+#include <set>
 #include <string>
+#include <string_view>
 
 class inflection::grammar::synthesis::ArGrammarSynthesizer final
 {
 public:
     static void addSemanticFeatures(::inflection::dialog::SemanticFeatureModel& featureModel);
 
-    enum class Count {
+    enum class Number {
         undefined,
-        singular,
         dual,
-        plural
+        plural,
+        singular,
     };
+    static Number getNumber(const ::std::u16string* value);
+
     enum class Gender {
         undefined,
+        feminine,
         masculine,
-        feminine
     };
-    enum class PronounNumber {
-        undefined,
-        singular,
-        dual,
-        plural
-    };
-    static PronounNumber getPronounNumber(const ::std::u16string* value);
-
-    enum class PronounGender {
-        undefined,
-        masculine,
-        feminine
-    };
-    static PronounGender getPronounGender(const ::std::u16string* value);
+    static Gender getGender(const ::std::u16string* value);
 
     enum class Person {
         undefined,
         first,
         second,
-        third
+        third,
     };
     static Person getPerson(const ::std::u16string* value);
 
-    union LookupKey {
-        struct {
-            uint8_t field0 : 4;
-            uint8_t field1 : 4;
-            uint8_t field2 : 4;
-        } fields;
-        uint32_t value;
-    };
-    static LookupKey makeLookupKey(PronounNumber field0, PronounGender field1, Person field2);
-    static LookupKey updateLookupKeyAttribute(LookupKey lookupKey, const ::std::u16string& attribute, const ::std::u16string* value);
+    typedef uint32_t LookupKey;
+    static constexpr LookupKey makeLookupKey(Number field0, Gender field1, Person field2) {
+        return (static_cast<LookupKey>(field0) << 8)
+            | (static_cast<LookupKey>(field1) << 4)
+            | static_cast<LookupKey>(field2);
+    }
+
+    static const char16_t* getPossessivePronoun(LookupKey key);
+    static std::set<std::u16string_view> getPossessivePronouns();
 
 private:
     ArGrammarSynthesizer() = delete;

@@ -18,17 +18,17 @@ public:
     typedef ::inflection::dialog::DictionaryLookupFunction super;
 
 private:
-    ::std::map<int32_t, ::std::u16string_view> pronounMap {  };
+    ::std::set<std::u16string_view> possessivePronouns {  };
 
 public:
     ::inflection::dialog::SpeakableString* getFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const override;
 
-    ArGrammarSynthesizer_DefinitenessLookupFunction(const ::std::map<int32_t, ::std::u16string_view>& pronounMap);
+    explicit ArGrammarSynthesizer_DefinitenessLookupFunction();
     ArGrammarSynthesizer_DefinitenessLookupFunction(const ArGrammarSynthesizer_DefinitenessLookupFunction&) = delete;
     ArGrammarSynthesizer_DefinitenessLookupFunction& operator=(const ArGrammarSynthesizer_DefinitenessLookupFunction&) = delete;
 
 private:
-    int64_t properNounMask = 0;
-    int64_t definitenessMask = 0;
-    int64_t definitePOSMask = 0;
+    int64_t properNounMask {  };
+    int64_t definitenessMask {  };
+    int64_t definitePOSMask {  };
 };

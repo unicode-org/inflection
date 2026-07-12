@@ -51,9 +51,7 @@ MorphologicalAnalyzer::MorphologicalAnalyzer(const inflection::util::ULocale &lo
 {
 }
 
-::std::optional<::inflection::dictionary::Inflector_Inflection> MorphologicalAnalyzer::selectLemmaInflection(const dictionary::Inflector_InflectionPattern &inflectionPattern, int64_t inflectionGrammemes, int64_t /*wordGrammemes*/) const {
-    return inflectionPattern.selectLemmaInflection(inflectionGrammemes, lemmaAttributes);
-}
+MorphologicalAnalyzer::~MorphologicalAnalyzer() = default;
 
 int8_t MorphologicalAnalyzer::compareGrammemes(int64_t grammemes1, int64_t grammemes2) const {
     for (const auto &priorityValues : grammemePriorityTables) {

@@ -23,8 +23,8 @@ ArGrammarSynthesizer_ArticleLookupFunction::ArGrammarSynthesizer_ArticleLookupFu
 
 inflection::dialog::SpeakableString* ArGrammarSynthesizer_ArticleLookupFunction::getFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const
 {
-    auto countValue = ArGrammarSynthesizer::getPronounNumber(DefaultArticleLookupFunction::getFeatureValue(constraints, numberPronounFeature));
-    auto genderValue = ArGrammarSynthesizer::getPronounGender(DefaultArticleLookupFunction::getFeatureValue(constraints, genderPronounFeature));
+    auto countValue = ArGrammarSynthesizer::getNumber(DefaultArticleLookupFunction::getFeatureValue(constraints, numberPronounFeature));
+    auto genderValue = ArGrammarSynthesizer::getGender(DefaultArticleLookupFunction::getFeatureValue(constraints, genderPronounFeature));
     auto personValue = ArGrammarSynthesizer::getPerson(DefaultArticleLookupFunction::getFeatureValue(constraints, personPronounFeature));
     return getArticle(displayValue, countValue, genderValue, personValue);
 }

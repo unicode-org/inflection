@@ -16,7 +16,6 @@ private:
 
 public:
     ::std::u16string inflect(const ::std::u16string& lemma) const;
-    ::std::u16string lemmatize(const ::std::u16string& noun) const;
 
     int64_t getGrammemes() const;
 

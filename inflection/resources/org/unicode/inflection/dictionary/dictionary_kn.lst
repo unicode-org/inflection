@@ -1,0 +1,80 @@
+ಕತ್ತೆ: noun inflection=1
+ಕರೆಯುವುದು : simple second formal present verb
+ಗಂಟೆ: singular nominative vocative neuter noun inflection=9
+ಗಂಟೆಗಳ: plural genitive neuter noun inflection=9
+ಗಂಟೆಗಳು: plural nominative neuter noun inflection=9
+ಗಂಟೆಗಳೆ: plural vocative neuter noun inflection=9
+ಗಂಟೆಯ: singular genitive neuter noun inflection=9
+ಟೀಪುಸುಲ್ತಾನ: singular nominative masculine proper-noun
+ನಾಯಿ: singular nominative noun inflection=1 inflection=3
+ನಿಮಿಷ: singular nominative vocative neuter noun inflection=2
+ನಿಮಿಷಗಳ: plural genitive neuter noun inflection=2
+ನಿಮಿಷಗಳು: plural nominative neuter noun inflection=2
+ನಿಮಿಷದ: singular genitive neuter noun inflection=2
+ಪುಸ್ತಕ: singular nominative vocative neuter noun inflection=2
+ಪುಸ್ತಕಗಳ: plural genitive neuter noun inflection=2
+ಪುಸ್ತಕಗಳು: plural nominative neuter noun inflection=2
+ಪುಸ್ತಕದ: singular genitive neuter noun inflection=2
+ಬೆಕ್ಕು: singular nominative noun inflection=8
+ಬೆಕ್ಕುಗಳು: plural nominative noun inflection=8
+ಮನೆ: singular nominative vocative neuter noun inflection=7
+ಮನೆಗಳ: plural genitive neuter noun inflection=7
+ಮನೆಗಳು: plural nominative neuter noun inflection=7
+ಮನೆಯ: singular genitive neuter noun inflection=7
+ಮೀನು: singular noun inflection=4
+ಮೀನ್: singular noun inflection=4
+ಸೇಬು: noun inflection=1
+ಹಣ: singular nominative noun inflection=3
+ಹುಡುಗ: singular nominative vocative masculine noun inflection=5
+ಹುಡುಗನ: singular genitive masculine noun inflection=5
+ಹುಡುಗರ: plural genitive masculine noun inflection=5
+ಹುಡುಗರು: plural nominative masculine noun inflection=5
+ಹುಡುಗರೇ: plural vocative masculine noun inflection=5
+ಹುಡುಗಿ: singular nominative vocative feminine noun inflection=6
+ಹುಡುಗಿಯ: singular genitive feminine noun inflection=6
+ಹುಡುಗಿಯರ: plural genitive feminine noun inflection=6
+ಹುಡುಗಿಯರು: plural nominative feminine noun inflection=6
+==============================================
+                       Source: wikidata-20260708-lexemes.json 
+                  Lemma terms:      29
+         Unusable lemma terms:      12
+       Incoming surface forms:      44
+                Surface forms:      36
+      Collapsed surface forms:       8 (18.2%)
+       Unusable surface forms:       0
+                 Usable terms:      36  (100%)
+           Unclassified terms:       0    (0%)
+==============================================
+Aspect:
+    simple:                    1  (2.8%)
+
+Case:
+    nominative:               17 (47.2%)
+    genitive:                 12 (33.3%)
+    vocative:                  8 (22.2%)
+
+Gender:
+    neuter:                   17 (47.2%)
+    masculine:                 6 (16.7%)
+    feminine:                  4 (11.1%)
+
+Number:
+    singular:                 18   (50%)
+    plural:                   15 (41.7%)
+
+PartOfSpeech:
+    noun:                     34 (94.4%)
+    verb:                      1  (2.8%)
+    proper-noun:               1  (2.8%)
+
+Person:
+    second:                    1  (2.8%)
+
+Register:
+    formal:                    1  (2.8%)
+
+Tense:
+    present:                   1  (2.8%)
+
+License: Creative Commons CC0 License (https://creativecommons.org/publicdomain/zero/1.0/)
+generated with options: --language kn

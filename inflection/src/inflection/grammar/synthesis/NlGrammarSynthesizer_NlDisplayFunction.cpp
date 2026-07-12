@@ -21,6 +21,7 @@ NlGrammarSynthesizer_NlDisplayFunction::NlGrammarSynthesizer_NlDisplayFunction(c
     : super()
     , tokenizer(::inflection::tokenizer::TokenizerFactory::createTokenizer(model.getLocale()))
     , dictionary(*npc(::inflection::dictionary::DictionaryMetaData::createDictionary(model.getLocale())))
+    , definitenessFeature(*npc(model.getFeature(GrammemeConstants::DEFINITENESS)))
     , adjectiveInflector(model)
     , nounInflector(model)
     , verbInflector(model)
@@ -28,12 +29,12 @@ NlGrammarSynthesizer_NlDisplayFunction::NlGrammarSynthesizer_NlDisplayFunction(c
     , indefiniteArticleLookupFunction(model, nullptr, u"een")
     , definitenessDisplayFunction(model, &definiteArticleLookupFunction, NlGrammarSynthesizer::DE, &indefiniteArticleLookupFunction, NlGrammarSynthesizer::ARTICLE_INDEFINITE)
 {
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryFeminine, {GrammemeConstants::GENDER_FEMININE()}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryMasculine, {GrammemeConstants::GENDER_MASCULINE()}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryNeuter, {GrammemeConstants::GENDER_NEUTER()}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryFeminine, {GrammemeConstants::GENDER_FEMININE}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryMasculine, {GrammemeConstants::GENDER_MASCULINE}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryNeuter, {GrammemeConstants::GENDER_NEUTER}));
     dictionaryGenderMask = dictionaryFeminine | dictionaryMasculine | dictionaryNeuter;
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryAdjective, {GrammemeConstants::POS_ADJECTIVE()}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryNoun, {GrammemeConstants::POS_NOUN()}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryAdjective, {GrammemeConstants::POS_ADJECTIVE}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryNoun, {GrammemeConstants::POS_NOUN}));
 }
 
 NlGrammarSynthesizer_NlDisplayFunction::~NlGrammarSynthesizer_NlDisplayFunction()
@@ -114,17 +115,18 @@ NlGrammarSynthesizer_NlDisplayFunction::~NlGrammarSynthesizer_NlDisplayFunction(
     const auto& headWord = (*tokens)[headWordIndex];
     int64_t headWordGrammemes = 0;
     dictionary.getCombinedBinaryType(&headWordGrammemes, headWord);
-    npc(tokens)->at(headWordIndex) = nounInflector.inflect(headWord, headWordGrammemes, constraints);
-    if ((*tokens)[headWordIndex].empty()) {
-        return {};
+    auto headWordInflection = nounInflector.inflect(headWord, headWordGrammemes, constraints);
+    if (!headWordInflection.empty()) {
+        npc(tokens)->at(headWordIndex) = headWordInflection;
     }
     auto targetCount = nounInflector.getGrammaticalNumber(constraints);
     auto gender = getGender(headWordGrammemes);
-    auto targetDeclension = getAdjectiveDeclension(targetCount, gender);
+    auto definiteness = GrammarSynthesizerUtil::getFeatureValue(constraints, definitenessFeature);
+    auto targetDeclension = getAdjectiveDeclension(targetCount, gender, definiteness);
     int32_t indexesOfSignificantLimit = int32_t(indexesOfSignificant.size() - 1);
     for (int32_t j = 0; j < indexesOfSignificantLimit; j++) {
         auto index = indexesOfSignificant[j];
-        auto inflectedToken = NlGrammarSynthesizer_NlAdjectiveInflectionPattern::inflectWithDeclension((*tokens)[index], targetDeclension);
+        auto inflectedToken = adjectiveInflector.inflectWithDefiniteness((*tokens)[index], gender, definiteness, targetDeclension);
         if (inflectedToken.empty()) {
             return {};
         }
@@ -133,8 +135,17 @@ NlGrammarSynthesizer_NlDisplayFunction::~NlGrammarSynthesizer_NlDisplayFunction(
     return *npc(tokens);
 }
 
-NlGrammarSynthesizer::Declension NlGrammarSynthesizer_NlDisplayFunction::getAdjectiveDeclension(NlGrammarSynthesizer::Number nounCount, NlGrammarSynthesizer::Gender nounGender)
+NlGrammarSynthesizer::Declension NlGrammarSynthesizer_NlDisplayFunction::getAdjectiveDeclension(NlGrammarSynthesizer::Number nounCount, NlGrammarSynthesizer::Gender nounGender, const ::std::u16string& definiteness)
 {
+    if (definiteness == GrammemeConstants::DEFINITENESS_DEFINITE) {
+        return NlGrammarSynthesizer::Declension::declined;
+    }
+    if (definiteness == GrammemeConstants::DEFINITENESS_INDEFINITE) {
+        if (nounGender == NlGrammarSynthesizer::Gender::neuter && nounCount != NlGrammarSynthesizer::Number::plural) {
+            return NlGrammarSynthesizer::Declension::undeclined;
+        }
+        return NlGrammarSynthesizer::Declension::declined;
+    }
     if (nounCount == NlGrammarSynthesizer::Number::undefined) {
         return NlGrammarSynthesizer::Declension::undefined;
     }

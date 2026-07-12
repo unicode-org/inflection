@@ -15,6 +15,7 @@
 #include <inflection/tokenizer/TokenChain.hpp>
 #include <inflection/tokenizer/Tokenizer.hpp>
 #include <inflection/tokenizer/TokenizerFactory.hpp>
+#include <inflection/util/ArrayUtils.hpp>
 #include <inflection/util/Validate.hpp>
 #include <inflection/util/LocaleUtils.hpp>
 #include <inflection/npc.hpp>
@@ -40,13 +41,12 @@ FrGrammarSynthesizer_FrDisplayFunction::FrGrammarSynthesizer_FrDisplayFunction(c
     , definiteArticleLookupFunction(model, false, FrGrammarSynthesizer::ARTICLE_DEFINITE, *npc(java_cast<const FrGrammarSynthesizer_ArticleLookupFunction*>(model.getDefaultFeatureFunction(*npc(model.getFeature(FrGrammarSynthesizer::ARTICLE_DEFINITE))))))
     , indefiniteArticleLookupFunction(model, true, FrGrammarSynthesizer::ARTICLE_INDEFINITE, *npc(java_cast<const FrGrammarSynthesizer_ArticleLookupFunction*>(model.getDefaultFeatureFunction(*npc(model.getFeature(FrGrammarSynthesizer::ARTICLE_INDEFINITE))))))
     , definitenessDisplayFunction(model, &definiteArticleLookupFunction, FrGrammarSynthesizer::ARTICLE_DEFINITE, &indefiniteArticleLookupFunction, FrGrammarSynthesizer::ARTICLE_INDEFINITE)
-    , WORDS_PREVENTING_INFLECTION({u"de", u"d", u"du", u"des", u"en", u"à", u"par"})
     , tokenizer(::inflection::tokenizer::TokenizerFactory::createTokenizer(::inflection::util::LocaleUtils::FRENCH()))
     , dictionaryInflector(::inflection::util::LocaleUtils::FRENCH(),{
-            {GrammemeConstants::POS_NOUN(), GrammemeConstants::POS_ADJECTIVE(), GrammemeConstants::POS_VERB()},
-            {GrammemeConstants::PERSON_THIRD(), GrammemeConstants::PERSON_FIRST(), GrammemeConstants::PERSON_SECOND()},
-            {GrammemeConstants::NUMBER_SINGULAR(), GrammemeConstants::NUMBER_PLURAL()},
-            {GrammemeConstants::GENDER_MASCULINE(), GrammemeConstants::GENDER_FEMININE()}
+            {GrammemeConstants::POS_NOUN, GrammemeConstants::POS_ADJECTIVE, GrammemeConstants::POS_VERB},
+            {GrammemeConstants::PERSON_THIRD, GrammemeConstants::PERSON_FIRST, GrammemeConstants::PERSON_SECOND},
+            {GrammemeConstants::NUMBER_SINGULAR, GrammemeConstants::NUMBER_PLURAL},
+            {GrammemeConstants::GENDER_MASCULINE, GrammemeConstants::GENDER_FEMININE}
     }, {}, true)
 {
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&nounOrAdjectiveProperties, {u"noun", u"adjective"}));
@@ -55,10 +55,7 @@ FrGrammarSynthesizer_FrDisplayFunction::FrGrammarSynthesizer_FrDisplayFunction(c
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&verbProperty, {u"verb"}));
 }
 
-FrGrammarSynthesizer_FrDisplayFunction::~FrGrammarSynthesizer_FrDisplayFunction()
-{
-
-}
+FrGrammarSynthesizer_FrDisplayFunction::~FrGrammarSynthesizer_FrDisplayFunction() = default;
 
 bool FrGrammarSynthesizer_FrDisplayFunction::canBeInflectedToPlural(::std::u16string_view word) const
 {
@@ -117,11 +114,22 @@ bool FrGrammarSynthesizer_FrDisplayFunction::canBeInflectedToPlural(::std::u16st
 
     // Well, dictionary was not able to inflect it. So let's make a guess.
     ::std::u16string inflectedWord(word);
-    if (GrammarSynthesizerUtil::getFeatureValue(constraints, numberFeature) == GrammemeConstants::NUMBER_PLURAL()) {
+    if (GrammarSynthesizerUtil::getFeatureValue(constraints, numberFeature) == GrammemeConstants::NUMBER_PLURAL) {
         inflectedWord = guessPluralInflection(::std::u16string(word));
     }
     return inflectedWord;
 }
+
+static constexpr const char16_t* WORDS_PREVENTING_INFLECTION[] = {
+    // This must be in sorted order.
+    u"d",
+    u"de",
+    u"des",
+    u"du",
+    u"en",
+    u"par",
+    u"à",
+};
 
 ::std::optional<::std::u16string> FrGrammarSynthesizer_FrDisplayFunction::inflectCompoundWord(const ::inflection::tokenizer::TokenChain& tokenChain, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const
 {
@@ -133,7 +141,7 @@ bool FrGrammarSynthesizer_FrDisplayFunction::canBeInflectedToPlural(::std::u16st
             inflectedString += word;
             continue;
         }
-        if (WORDS_PREVENTING_INFLECTION.contains(word)) {
+        if (inflection::util::ArrayUtils::contains<WORDS_PREVENTING_INFLECTION>(word)) {
             preventNextWordFromInflecting = true;
             inflectedString += word;
             continue;
@@ -178,13 +186,13 @@ FrGrammarSynthesizer_FrDisplayFunction::tokenize(::std::unique_ptr<::inflection:
     auto displayValueConstraints(GrammarSynthesizerUtil::mergeConstraintsWithDisplayValue(*displayValue, constraints));
 
     if (GrammarSynthesizerUtil::hasAnyFeatures(constraints, {&numberFeature, &genderFeature})) {
-        ::std::optional<::std::u16string> inflectionResult;
         ::std::unique_ptr<::inflection::tokenizer::TokenChain> tokenChain;
         int64_t wordGrammemes = 0;
+        ::std::optional<::std::u16string> inflectionResult;
         if (dictionary.getCombinedBinaryType(&wordGrammemes, displayString) != nullptr
             || tokenize(tokenChain, displayString).getWordCount() == 1)
         {
-            // Either a known word, or a word to guess.
+            // Either it's a known word, or the word will be guessed.
             inflectionResult = inflectWord(displayString, wordGrammemes, constraints, enableInflectionGuess);
         }
         else {

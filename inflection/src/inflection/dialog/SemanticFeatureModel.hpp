@@ -14,7 +14,6 @@
 #include <set>
 #include <string>
 #include <tuple>
-#include <vector>
 
 /**
  * @brief A semantic model that contains display data for semantic values and provides feature functions for deriving missing data.
@@ -29,7 +28,7 @@ public:
     /// @endcond
 
 private:
-    ::std::map<::std::u16string, ::inflection::dialog::SemanticFeature*, std::less<>> featureMap {  };
+    ::std::map<::std::u16string, ::inflection::dialog::SemanticFeature, std::less<>> featureMap {  };
     ::std::map<::std::u16string, ::std::pair<::inflection::dialog::SemanticFeature*, ::std::u16string>, std::less<>> featuresAliases {  };
     ::std::map<SemanticValue, SemanticFeatureModel_DisplayData> semanticValueMap {  };
     ::std::map<::inflection::dialog::SemanticFeature, DefaultFeatureFunction*> defaultFeatureFunctions {  };
@@ -104,9 +103,6 @@ public:
      * @see getDisplayData
      */
     void setDefaultDisplayFunction(DefaultDisplayFunction* defaultDisplayFunction);
-
-private:
-    static ::std::vector<::inflection::dialog::SemanticFeature*> createDefaultSemanticFeatures(const ::inflection::util::ULocale& locale);
 
 public:
     /**

@@ -1,0 +1,83 @@
+અભિનવ: singular plural direct oblique masculine noun inflection=5
+અલ્પ: adjective inflection=4
+ઇવેન્ટ: singular plural direct oblique feminine noun inflection=2
+ઉક્તિ: singular plural direct oblique feminine noun inflection=2
+એકડો: adjective numeral inflection=d
+કલાક: singular plural direct oblique masculine noun inflection=5
+કિલોમીટર: singular plural direct oblique masculine noun inflection=5
+કેળાં: plural direct neuter noun inflection=b
+ઘર: singular plural direct oblique neuter noun inflection=3
+ચંદરવા: singular plural direct oblique masculine noun inflection=1
+ચંદરવો: singular direct masculine noun inflection=1
+છોકરા: singular plural direct oblique masculine noun inflection=1
+છોકરી: singular direct oblique feminine noun inflection=7
+છોકરીઓ: plural direct oblique feminine noun inflection=7
+છોકરો: singular direct masculine noun inflection=1
+જમા: adjective inflection=4
+જાન્યુઆરી: singular direct masculine noun inflection=6
+ઝબકારા: singular plural direct oblique masculine noun inflection=1
+ઝબકારો: singular direct masculine noun inflection=1
+દીકરા: singular plural direct oblique masculine noun inflection=1
+દીકરો: singular direct masculine noun inflection=1
+દૂધ: singular direct masculine noun inflection=6
+નવા: plural masculine adjective inflection=e
+નવાં: plural neuter adjective inflection=e
+નવી: singular plural feminine adjective inflection=e
+નવું: singular neuter adjective inflection=e
+નવો: singular masculine adjective inflection=e
+પાણી: neuter noun inflection=c
+પુસ્તક: singular plural direct oblique neuter noun inflection=3
+ફોટા: singular plural direct oblique masculine noun inflection=1
+ફોટો: singular direct masculine noun inflection=1
+બારી: singular direct oblique feminine noun inflection=7
+બારીઓ: plural direct oblique feminine noun inflection=7
+ભેડિયા: singular plural direct oblique vocative masculine noun inflection=a
+ભેડિયો: singular direct masculine noun inflection=a
+મને: singular dative pronoun
+મિનિટ: singular plural direct oblique feminine noun inflection=2
+મીટર: singular plural direct oblique neuter noun inflection=3
+મેં: singular ergative pronoun
+રસ્તા: singular plural direct oblique masculine noun inflection=1
+રસ્તો: singular direct masculine noun inflection=1
+વીર: adjective inflection=4
+શાકભાજી: masculine noun inflection=9
+શ્રુતિ: singular plural direct oblique feminine noun inflection=2
+શ્રેય: singular plural direct oblique neuter noun inflection=3
+સફરજન: singular direct neuter noun inflection=8
+હું: singular nominative pronoun
+==============================================
+                       Source: wikidata-20260708-lexemes.json 
+                  Lemma terms:     163
+         Unusable lemma terms:      92
+       Incoming surface forms:     101
+                Surface forms:      47
+      Collapsed surface forms:      55 (54.5%)
+       Unusable surface forms:       0
+                 Usable terms:      47  (100%)
+           Unclassified terms:       0    (0%)
+==============================================
+Case:
+    direct:                   33 (70.2%)
+    oblique:                  22 (46.8%)
+    vocative:                  1  (2.1%)
+    nominative:                1  (2.1%)
+    ergative:                  1  (2.1%)
+    dative:                    1  (2.1%)
+
+Gender:
+    masculine:                22 (46.8%)
+    neuter:                    9 (19.1%)
+    feminine:                  9 (19.1%)
+
+Number:
+    singular:                 36 (76.6%)
+    plural:                   24 (51.1%)
+
+PartOfSpeech:
+    noun:                     35 (74.5%)
+    adjective:                 9 (19.1%)
+    pronoun:                   3  (6.4%)
+    numeral:                   1  (2.1%)
+
+License: Creative Commons CC0 License (https://creativecommons.org/publicdomain/zero/1.0/)
+generated with options: --language gu --inflection-types noun,adjective,adposition

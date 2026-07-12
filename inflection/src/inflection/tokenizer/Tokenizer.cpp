@@ -3,6 +3,7 @@
  */
 #include <inflection/tokenizer/Tokenizer.hpp>
 
+#include <inflection/tokenizer/ControlCleaver.hpp>
 #include <inflection/tokenizer/iterator/ICUTokenExtractorIterator.hpp>
 #include <inflection/tokenizer/iterator/NumberCleaverIterator.hpp>
 #include <inflection/tokenizer/iterator/RegexSplitIterator.hpp>
@@ -76,6 +77,9 @@ TokenChain* Tokenizer::createTokenChain(std::u16string_view charSequence) const
             }
         }
         inflection::tokenizer::TokenUtil::appendToken(tail, tailToken);
+        if (tokenizationType != TokenizationType::UNMODIFIED) {
+            ControlCleaver::modifyTokens(this, charSequence, headToken);
+        }
     }
     else {
         inflection::tokenizer::TokenUtil::appendToken(headToken, tailToken);

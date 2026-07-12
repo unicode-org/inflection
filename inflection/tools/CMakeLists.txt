@@ -16,6 +16,8 @@ target_link_libraries(tool_libraries
 )
 
 add_subdirectory(buildDictionary)
+add_subdirectory(buildStringMap)
 add_subdirectory(buildTokDictionary)
+add_subdirectory(genExemplars)
 add_subdirectory(text2cpp)
 add_subdirectory(xml2cpp)

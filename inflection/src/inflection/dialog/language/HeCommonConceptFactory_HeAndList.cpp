@@ -4,9 +4,8 @@
 #include <inflection/dialog/language/HeCommonConceptFactory_HeAndList.hpp>
 
 #include <inflection/dialog/SpeakableString.hpp>
-#include <inflection/dictionary/PhraseProperties.hpp>
-#include <inflection/lang/StringFilterUtil.hpp>
 #include <inflection/util/UnicodeSetUtils.hpp>
+#include <unicode/uscript.h>
 
 namespace inflection::dialog::language {
 
@@ -32,7 +31,7 @@ HeCommonConceptFactory_HeAndList* HeCommonConceptFactory_HeAndList::clone() cons
 
 inflection::dialog::SpeakableString HeCommonConceptFactory_HeAndList::getBeforeLast(const SemanticFeatureConceptBase& /*secondToLast*/, const SpeakableString& /*formattedSecondToLast*/, const SemanticFeatureConceptBase& /*last*/, const SpeakableString& formattedLast) const
 {
-    if (inflection::util::UnicodeSetUtils::containsSome(inflection::lang::StringFilterUtil::HEBREW_SCRIPT(), formattedLast.getPrint())) {
+    if (inflection::util::UnicodeSetUtils::containsSome(USCRIPT_HEBREW, formattedLast.getPrint())) {
         return inflection::dialog::SpeakableString(u" ו");
     }
     return inflection::dialog::SpeakableString(u" ו-");

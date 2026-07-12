@@ -9,6 +9,7 @@
 #include <inflection/tokenizer/TokenChain.hpp>
 #include <inflection/tokenizer/Tokenizer.hpp>
 #include <inflection/tokenizer/TokenizerFactory.hpp>
+#include <inflection/util/ArrayUtils.hpp>
 #include <inflection/util/Validate.hpp>
 #include <inflection/util/LocaleUtils.hpp>
 #include <inflection/util/StringViewUtils.hpp>
@@ -32,9 +33,9 @@ EnGrammarSynthesizer_EnDisplayFunction::EnGrammarSynthesizer_EnDisplayFunction(c
     , speakFeature(*npc(model.getFeature(::inflection::dialog::SemanticFeatureModel::SPEAK)))
     , partOfSpeechFeature(*npc(model.getFeature(GrammemeConstants::POS)))
     , dictionaryInflector(::inflection::util::LocaleUtils::ENGLISH(), {
-            {GrammemeConstants::POS_NOUN(),  GrammemeConstants::POS_ADJECTIVE(), GrammemeConstants::POS_VERB()},
-            {GrammemeConstants::PERSON_THIRD(), GrammemeConstants::PERSON_FIRST(), GrammemeConstants::PERSON_SECOND()},
-            {GrammemeConstants::NUMBER_SINGULAR(),  GrammemeConstants::NUMBER_PLURAL()}
+            {GrammemeConstants::POS_NOUN,  GrammemeConstants::POS_ADJECTIVE, GrammemeConstants::POS_VERB},
+            {GrammemeConstants::PERSON_THIRD, GrammemeConstants::PERSON_FIRST, GrammemeConstants::PERSON_SECOND},
+            {GrammemeConstants::NUMBER_SINGULAR,  GrammemeConstants::NUMBER_PLURAL}
         }, {}, true
     )
     , dictionary(dictionaryInflector.getDictionary())
@@ -45,22 +46,9 @@ EnGrammarSynthesizer_EnDisplayFunction::EnGrammarSynthesizer_EnDisplayFunction(c
     , definiteArticleLookupFunction(model, EnGrammarSynthesizer::ARTICLE_DEFINITE, u"the")
     , indefiniteArticleLookupFunction(model, EnGrammarSynthesizer::ARTICLE_INDEFINITE)
     , definitenessDisplayFunction(model, &definiteArticleLookupFunction, EnGrammarSynthesizer::ARTICLE_DEFINITE, &indefiniteArticleLookupFunction, EnGrammarSynthesizer::ARTICLE_INDEFINITE)
-    , possessiveDeterminers({
-        {u"i", u"my"},
-        {u"me", u"my"},
-        {u"he", u"his"},
-        {u"him", u"his"},
-        {u"she", u"her"},
-        {u"it", u"its"},
-        {u"we", u"our"},
-        {u"us", u"our"},
-        {u"you", u"your"},
-        {u"they", u"their"},
-        {u"them", u"their"},
-    })
 {
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&pluralProperty, {GrammemeConstants::NUMBER_PLURAL()}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&singularProperty, {GrammemeConstants::NUMBER_SINGULAR()}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&pluralProperty, {GrammemeConstants::NUMBER_PLURAL}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&singularProperty, {GrammemeConstants::NUMBER_SINGULAR}));
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&prepositionProperty, {u"adposition"}));
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&abbreviationProperty, {u"abbreviation"}));
 }
@@ -81,8 +69,8 @@ EnGrammarSynthesizer_EnDisplayFunction::~EnGrammarSynthesizer_EnDisplayFunction(
     }
     auto displayValueConstraints(constraints);
     ::std::u16string countString = GrammarSynthesizerUtil::getFeatureValue(constraints, numberFeature);
-    bool isRequestingPlural = countString == GrammemeConstants::NUMBER_PLURAL();
-    if (isRequestingPlural || countString == GrammemeConstants::NUMBER_SINGULAR()) {
+    bool isRequestingPlural = countString == GrammemeConstants::NUMBER_PLURAL;
+    if (isRequestingPlural || countString == GrammemeConstants::NUMBER_SINGULAR) {
         auto result = inflectPhrase(displayString, constraints, enableInflectionGuess);
         if (!result && !enableInflectionGuess) {
             return nullptr;
@@ -97,7 +85,7 @@ EnGrammarSynthesizer_EnDisplayFunction::~EnGrammarSynthesizer_EnDisplayFunction(
     }
 
     ::std::u16string caseString = GrammarSynthesizerUtil::getFeatureValue(constraints, caseFeature);
-    if (caseString == GrammemeConstants::CASE_GENITIVE()) {
+    if (caseString == GrammemeConstants::CASE_GENITIVE) {
         displayString = inflectPossessive(displayString, displayValueConstraints, isRequestingPlural);
     }
 
@@ -148,7 +136,7 @@ EnGrammarSynthesizer_EnDisplayFunction::~EnGrammarSynthesizer_EnDisplayFunction(
             if (!enableInflectionGuess) {
                 return {};
             }
-            if (GrammarSynthesizerUtil::getFeatureValue(constraints, numberFeature) == GrammemeConstants::NUMBER_PLURAL()) {
+            if (GrammarSynthesizerUtil::getFeatureValue(constraints, numberFeature) == GrammemeConstants::NUMBER_PLURAL) {
                 inflectionResult = guessPluralInflection(significantWord);
             } else {
                 inflectionResult = guessSingularInflection(significantWord);
@@ -196,11 +184,30 @@ EnGrammarSynthesizer_EnDisplayFunction::~EnGrammarSynthesizer_EnDisplayFunction(
 
 ::std::u16string EnGrammarSynthesizer_EnDisplayFunction::inflectPossessive(const ::std::u16string& displayString, ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& valueConstraints, bool isRequestingPlural) const
 {
+    static constexpr struct {
+        const char16_t* pronoun;
+        const char16_t* possessivePronoun;
+    } possessiveDeterminers[] = {
+        // This must be in sorted order, and in lowercase.
+        {u"he", u"his"},
+        {u"him", u"his"},
+        {u"i", u"my"},
+        {u"it", u"its"},
+        {u"me", u"my"},
+        {u"she", u"her"},
+        {u"them", u"their"},
+        {u"they", u"their"},
+        {u"us", u"our"},
+        {u"we", u"our"},
+        {u"you", u"your"},
+    };
+
     ::std::u16string lowercase;
     ::inflection::util::StringViewUtils::lowercase(&lowercase, displayString, ::inflection::util::LocaleUtils::ENGLISH());
-    auto possessiveException = possessiveDeterminers.find(lowercase);
-    if (possessiveException != possessiveDeterminers.end()) {
-        return ::std::u16string(possessiveException->second);
+    auto possessiveException = inflection::util::ArrayUtils::searchSorted<possessiveDeterminers>(lowercase,
+            [](const auto& item) { return item.pronoun; });
+    if (possessiveException != nullptr) {
+        return possessiveException->possessivePronoun;
     }
     else if (!displayString.empty()) {
         ::std::u16string suffixStr(u"’s");

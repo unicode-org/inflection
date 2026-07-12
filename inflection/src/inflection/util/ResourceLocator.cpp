@@ -1,20 +1,32 @@
 /*
- * Copyright 2017-2024 Apple Inc. All rights reserved.
+ * Copyright 2017-2026 Apple Inc. All rights reserved.
  */
 #include <inflection/util/ResourceLocator.hpp>
 #include <inflection/util/StringViewUtils.hpp>
 #include <inflection/resources/DataRegistrationService.hpp>
+#include <inflection/npc.hpp>
 #if defined(__APPLE__) && defined(__MACH__)
 #include <TargetConditionals.h>
 #endif
+#include <filesystem>
+#ifdef _WIN32
+#include <windows.h>
+#else
 #include <dlfcn.h>
+#endif
 #include <cstdlib>
 
 namespace inflection::util {
 
 #ifndef INFLECTION_DATA_ROOT_DIR
+#ifdef _WIN32
+#define INFLECTION_DATA_ROOT_DIR "share"
+#else
 #define INFLECTION_DATA_ROOT_DIR "/usr/share"
 #endif
+#endif
+#define U16_IMPL(x) u ## x
+#define U16(x) U16_IMPL(x)
 
 ::std::u16string ResourceLocator::getDirectoryFromEnvironment(const char* key, const void *dependentLibraryFunction)
 {
@@ -29,35 +41,48 @@ namespace inflection::util {
     }
 #endif
     else if (directory == nullptr) {
-        // Make a guess as if we're in a production style environment instead of a development environment.
+        std::filesystem::path libraryDir;
+#ifdef _WIN32
+        HMODULE hModule = nullptr;
+        if (GetModuleHandleExW(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
+                               reinterpret_cast<LPCWSTR>(dependentLibraryFunction), &hModule) && hModule != nullptr) {
+            wchar_t modulePath[MAX_PATH];
+            DWORD len = GetModuleFileNameW(hModule, modulePath, MAX_PATH);
+            if (len > 0 && len < MAX_PATH) {
+                libraryDir = std::filesystem::path(std::wstring(modulePath, len)).parent_path();
+            }
+        }
+#else
         Dl_info dl_info;
         dladdr(dependentLibraryFunction, &dl_info);
-        auto libraryFilename = dl_info.dli_fname;
-        if (libraryFilename != nullptr && libraryFilename[0] != 0) {
-            auto libraryDirectory(StringViewUtils::to_u16string(libraryFilename));
-            auto libraryDirectoryIdx = libraryDirectory.find_last_of(u'/');
-            if (libraryDirectoryIdx != ::std::u16string::npos) {
-                do {
-                    libraryDirectory.resize(libraryDirectoryIdx--);
+        if (dl_info.dli_fname != nullptr && dl_info.dli_fname[0] != 0) {
+            libraryDir = std::filesystem::path(dl_info.dli_fname).parent_path();
+        }
+#endif
+
+        if (!libraryDir.empty()) {
+            auto lastComponent = libraryDir.filename();
+            if (lastComponent == "lib") {
+#ifdef _WIN32
+                retVal = libraryDir.parent_path().u16string();
+#else
+                auto parent = libraryDir.parent_path();
+                if (parent.filename() == "local" && parent.parent_path().filename() == "usr") {
+                    retVal = parent.parent_path().parent_path().u16string();
+                } else if (parent.filename() == "usr") {
+                    retVal = parent.parent_path().u16string();
                 }
-                while (libraryDirectory.ends_with(u"/"));
-                for (::std::u16string dirSuffix : {u"/usr/local/lib", u"/usr/lib"}) {
-                    if (libraryDirectory.ends_with(dirSuffix)) {
-                        // Assume that we're sharing one big happy root.
-                        retVal.assign(libraryDirectory, 0, libraryDirectory.length() - dirSuffix.length());
-                        break;
-                    }
-                }
+#endif
             }
         }
     }
     return retVal;
 }
 
-const char16_t* ResourceLocator::INFLECTION_ROOT_DIRECTORY()
+const ::std::u16string& ResourceLocator::INFLECTION_ROOT_DIRECTORY()
 {
-    static auto INFLECTION_ROOT_DIRECTORY_ = StringViewUtils::strdup(ResourceLocator::getDirectoryFromEnvironment("INFLECTION_ROOT", (const void *)&ResourceLocator::getDirectoryFromEnvironment).c_str());
-    return INFLECTION_ROOT_DIRECTORY_;
+    static const auto INFLECTION_ROOT_DIRECTORY_ = new ::std::u16string(ResourceLocator::getDirectoryFromEnvironment("INFLECTION_ROOT", (const void *)&ResourceLocator::getDirectoryFromEnvironment));
+    return *npc(INFLECTION_ROOT_DIRECTORY_);
 }
 
 ::std::u16string inflection::util::ResourceLocator::getRootForLocale(const inflection::util::ULocale& locale) {
@@ -65,7 +90,7 @@ const char16_t* ResourceLocator::INFLECTION_ROOT_DIRECTORY()
     if (!dataRegistrationServicePath.empty()) {
         return StringViewUtils::to_u16string(dataRegistrationServicePath);
     }
-    return INFLECTION_ROOT_DIRECTORY() + ::std::u16string(u"" INFLECTION_DATA_ROOT_DIR "/inflection");
+    return INFLECTION_ROOT_DIRECTORY() + u"/" + U16(INFLECTION_DATA_ROOT_DIR) + u"/inflection";
 }
 
 } // namespace inflection::util

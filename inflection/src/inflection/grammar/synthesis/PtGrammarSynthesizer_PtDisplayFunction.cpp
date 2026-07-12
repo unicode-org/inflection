@@ -42,9 +42,9 @@ PtGrammarSynthesizer_PtDisplayFunction::PtGrammarSynthesizer_PtDisplayFunction(c
     , definitenessDisplayFunction(model, &definiteArticleLookupFunction, PtGrammarSynthesizer::ARTICLE_DEFINITE, &indefiniteArticleLookupFunction, PtGrammarSynthesizer::ARTICLE_INDEFINITE)
     , tokenizer(::inflection::tokenizer::TokenizerFactory::createTokenizer(::inflection::util::LocaleUtils::PORTUGUESE()))
     , dictionaryInflector(::inflection::util::LocaleUtils::PORTUGUESE(),{
-        {GrammemeConstants::POS_NOUN(), GrammemeConstants::POS_ADJECTIVE()},
-        {GrammemeConstants::NUMBER_SINGULAR(), GrammemeConstants::NUMBER_PLURAL()},
-        {GrammemeConstants::GENDER_MASCULINE(), GrammemeConstants::GENDER_FEMININE()}
+        {GrammemeConstants::POS_NOUN, GrammemeConstants::POS_ADJECTIVE},
+        {GrammemeConstants::NUMBER_SINGULAR, GrammemeConstants::NUMBER_PLURAL},
+        {GrammemeConstants::GENDER_MASCULINE, GrammemeConstants::GENDER_FEMININE}
     })
 {
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryPlural, {u"plural"}));
@@ -107,7 +107,7 @@ PtGrammarSynthesizer_PtDisplayFunction::~PtGrammarSynthesizer_PtDisplayFunction(
         return {};
     }
 
-    if (GrammarSynthesizerUtil::getFeatureValue(constraints, numberFeature) == GrammemeConstants::NUMBER_PLURAL()) {
+    if (GrammarSynthesizerUtil::getFeatureValue(constraints, numberFeature) == GrammemeConstants::NUMBER_PLURAL) {
         return guessPluralInflection(::std::u16string(word));
     }
     return ::std::u16string(word);

@@ -14,6 +14,7 @@ namespace inflection
     {
         /// @cond FORWARD_DECLARATIONS
         class ClassCastException;
+        class ExcessComplexityException;
         class Exception;
         class FileNotFoundException;
         class ICUException;

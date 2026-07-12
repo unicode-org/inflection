@@ -18,11 +18,8 @@ namespace inflection::grammar::synthesis {
 
 MlGrammarSynthesizer_GenderLookupFunction::MlGrammarSynthesizer_GenderLookupFunction()
     : super(::inflection::util::LocaleUtils::MALAYALAM(),
-            {GrammemeConstants::GENDER_MASCULINE(),
-             GrammemeConstants::GENDER_FEMININE(),
-             GrammemeConstants::GENDER_NEUTER()},
-            {GrammemeConstants::POS_NOUN(),
-             GrammemeConstants::POS_PRONOUN()})
+            {GrammemeConstants::GENDER_MASCULINE, GrammemeConstants::GENDER_FEMININE, GrammemeConstants::GENDER_NEUTER},
+            {GrammemeConstants::POS_NOUN, GrammemeConstants::POS_PRONOUN})
     , tokenizer(npc(::inflection::tokenizer::TokenizerFactory::createTokenizer(::inflection::util::LocaleUtils::MALAYALAM())))
     , dictionary(getDictionary())
 {
@@ -33,33 +30,21 @@ MlGrammarSynthesizer_GenderLookupFunction::~MlGrammarSynthesizer_GenderLookupFun
 {
 }
 
-static const ::std::set<::std::u16string_view>& FEMININE_SUFFIXES()
-{
-    static auto FEMININE_SUFFIXES_ = new ::std::set<::std::u16string_view>({
-        u"ി"   // e.g. പെൺ (pen) endings
-       , u"ാളി"  // common feminine suffix in Malayalam nouns
-    });
-    return *npc(FEMININE_SUFFIXES_);
-}
+static constexpr ::std::u16string_view FEMININE_SUFFIXES[] = {
+    u"ി",
+    u"ാളി",
+};
 
-static const ::std::set<::std::u16string_view>& MASCULINE_SUFFIXES()
-{
-    static auto MASCULINE_SUFFIXES_ = new ::std::set<::std::u16string_view>({
-        u"ൻ"   // e.g. ആൾ (person) endings
-        , u"ർ"  // common masculine suffix in Malayalam nouns
-    });
-    return *npc(MASCULINE_SUFFIXES_);
-}
+static constexpr ::std::u16string_view MASCULINE_SUFFIXES[] = {
+    u"ൻ",
+    u"ർ",
+};
 
-static const ::std::set<::std::u16string_view>& NEUTER_SUFFIXES()
-{
-    static auto NEUTER_SUFFIXES_ = new ::std::set<::std::u16string_view>({
-        u"ത്",
-        u"ം",
-        u"യം"
-    });
-    return *npc(NEUTER_SUFFIXES_);
-}
+static constexpr ::std::u16string_view NEUTER_SUFFIXES[] = {
+    u"ത്",
+    u"ം",
+    u"യം",
+};
 
 ::std::u16string MlGrammarSynthesizer_GenderLookupFunction::determine(const ::std::u16string& word) const
 {
@@ -98,26 +83,26 @@ static const ::std::set<::std::u16string_view>& NEUTER_SUFFIXES()
                 if (token != nullptr) {
                     const auto& stringToken = npc(token)->getCleanValue();
 
-                    for (const auto& suffix : MASCULINE_SUFFIXES()) {
+                    for (const auto& suffix : MASCULINE_SUFFIXES) {
                         if (stringToken.ends_with(suffix)) {
-                            gender = GrammemeConstants::GENDER_MASCULINE();
+                            gender = GrammemeConstants::GENDER_MASCULINE;
                             break;
                         }
                     }
 
                     if (gender.empty()) {
-                        for (const auto& suffix : FEMININE_SUFFIXES()) {
+                        for (const auto& suffix : FEMININE_SUFFIXES) {
                             if (stringToken.ends_with(suffix)) {
-                                gender = GrammemeConstants::GENDER_FEMININE();
+                                gender = GrammemeConstants::GENDER_FEMININE;
                                 break;
                             }
                         }
                     }
 
                     if (gender.empty()) {
-                        for (const auto& suffix : NEUTER_SUFFIXES()) {
+                        for (const auto& suffix : NEUTER_SUFFIXES) {
                             if (stringToken.ends_with(suffix)) {
-                                gender = GrammemeConstants::GENDER_NEUTER();
+                                gender = GrammemeConstants::GENDER_NEUTER;
                                 break;
                             }
                         }
@@ -129,7 +114,7 @@ static const ::std::set<::std::u16string_view>& NEUTER_SUFFIXES()
 
     if (gender.empty()) {
         // Default to masculine if no gender is detected
-        gender = GrammemeConstants::GENDER_MASCULINE();
+        gender = GrammemeConstants::GENDER_MASCULINE;
     }
     return gender;
 }

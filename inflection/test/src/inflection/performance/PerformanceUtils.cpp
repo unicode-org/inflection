@@ -7,19 +7,22 @@
 
 #include "PerformanceUtils.hpp"
 
-#include <inflection/util/StringUtils.hpp>
 #include <iostream>
 #include <fstream>
 #include <limits>
 
 // include headers necessary for measuring heap perf
+#if defined(_WIN32)
+#include <windows.h>
+#include <psapi.h>
+#elif defined(__APPLE__) && defined(__MACH__)
 #include <unistd.h>
 #include <sys/resource.h>
-
-#if defined(__APPLE__) && defined(__MACH__)
 #include <mach/mach.h>
 
 #elif defined(__linux__) || defined(__linux) || defined(linux) || defined(__gnu_linux__)
+#include <unistd.h>
+#include <sys/resource.h>
 #include <stdio.h>
 
 #else
@@ -56,6 +59,12 @@ PerfTable<std::ofstream>::~PerfTable()
  */
 size_t PerformanceUtils_getPeakRSS()
 {
+#if defined(_WIN32)
+    /* Windows ---------------------------------------------------- */
+    PROCESS_MEMORY_COUNTERS pmc;
+    GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc));
+    return (size_t)pmc.PeakWorkingSetSize;
+#else
     /* BSD, Linux, and OSX -------------------------------------- */
     struct rusage rusage;
     getrusage(RUSAGE_SELF, &rusage);
@@ -63,6 +72,7 @@ size_t PerformanceUtils_getPeakRSS()
     return (size_t)rusage.ru_maxrss;
 #else
     return (size_t)(rusage.ru_maxrss * 1024L);
+#endif
 #endif
 }
 
@@ -72,7 +82,13 @@ size_t PerformanceUtils_getPeakRSS()
  */
 size_t PerformanceUtils_getCurrentRSS()
 {
-#if defined(__APPLE__) && defined(__MACH__)
+#if defined(_WIN32)
+    /* Windows ---------------------------------------------------- */
+    PROCESS_MEMORY_COUNTERS pmc;
+    GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc));
+    return (size_t)pmc.WorkingSetSize;
+
+#elif defined(__APPLE__) && defined(__MACH__)
     /* OSX ------------------------------------------------------ */
     struct mach_task_basic_info info;
     mach_msg_type_number_t infoCount = MACH_TASK_BASIC_INFO_COUNT;

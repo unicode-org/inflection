@@ -135,16 +135,6 @@ public:
      */
     static ::std::u16string join(const ::std::vector<::std::u16string>& strings, std::u16string_view delimiter);
 
-    /**
-     * Duplicates the input string.
-     *
-     * The returned pointer is _unmanaged_ and must manually be *deleted*. The use of a smart pointer is recommended.
-     *
-     * @param str The input string.
-     * @return The duplicated string.
-     */
-    static char16_t* strdup(const char16_t *str);
-
 private:
     StringViewUtils() = delete;
 };

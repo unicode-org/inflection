@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2024 Apple Inc. All rights reserved.
+ * Copyright 2016-2026 Apple Inc. All rights reserved.
  */
 #include <inflection/util/AutoCRelease.hpp>
 #include <inflection/util/Logger.hpp>
@@ -8,7 +8,14 @@
 #include <inflection/npc.hpp>
 #include <vector>
 #include <mutex>
+#include <string>
+#ifdef _WIN32
+#include <windows.h>
+#endif
+#if __has_include(<sys/utsname.h>)
 #include <sys/utsname.h>
+#define HAS_UTSNAME
+#endif
 
 #if defined(__APPLE__) && defined(__MACH__)
 #include <os/log.h>
@@ -64,15 +71,44 @@ static ::std::u16string generatePlatformString()
 {
     ::std::u16string result;
 
-    struct utsname sysinfo = {};
+#ifdef _WIN32
+    OSVERSIONINFOW osvi = {};
+    osvi.dwOSVersionInfoSize = sizeof(osvi);
+    using RtlGetVersionFunc = LONG(WINAPI*)(OSVERSIONINFOW*);
+    auto ntdll = GetModuleHandleW(L"ntdll.dll");
+    if (ntdll != nullptr) {
+        auto rtlGetVersion = reinterpret_cast<RtlGetVersionFunc>(GetProcAddress(ntdll, "RtlGetVersion"));
+        if (rtlGetVersion != nullptr && rtlGetVersion(&osvi) == 0) {
+            result = u"Windows-"
+                + StringViewUtils::to_u16string(std::to_string(osvi.dwMajorVersion))
+                + u"." + StringViewUtils::to_u16string(std::to_string(osvi.dwMinorVersion))
+                + u"." + StringViewUtils::to_u16string(std::to_string(osvi.dwBuildNumber));
+        }
+    }
+    SYSTEM_INFO si = {};
+    GetSystemInfo(&si);
+    const char* arch = "Unknown";
+    switch (si.wProcessorArchitecture) {
+        case PROCESSOR_ARCHITECTURE_AMD64: arch = "x86_64"; break;
+        case PROCESSOR_ARCHITECTURE_ARM64: arch = "arm64"; break;
+        default: break;
+    }
+    result += u"-" + StringViewUtils::to_u16string(arch);
+#endif
+#ifdef HAS_UTSNAME
+    struct utsname sysinfo;
     if (uname(&sysinfo) == 0) {
         if (result.empty()) {
-            // The default implementation.
             result = StringViewUtils::to_u16string(sysinfo.sysname)
                     + u"-" + StringViewUtils::to_u16string(sysinfo.release);
         }
         result += u"-" + StringViewUtils::to_u16string(sysinfo.machine);
     }
+#elif !defined(_WIN32)
+#warning "This platform is unknown. No logging capability of the platform type is possible."
+    result = u"?";
+#endif
+
     return ::std::u16string(u"Platform=") + result;
 }
 

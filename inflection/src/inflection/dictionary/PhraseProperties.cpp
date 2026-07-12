@@ -101,10 +101,9 @@ bool PhraseProperties::isStartsWithVowel(const ::inflection::util::ULocale& loc,
             }
         }
     }
-    const auto& lang = loc.getLanguage();
-    if (::inflection::util::LocaleUtils::FRENCH() == lang) {
+    if (::inflection::util::LocaleUtils::FRENCH().getLanguage() == loc.getLanguage()) {
         if (wordTypes != 0 && str.starts_with(u"H")) {
-            // A known word starting with the capital H that doesn't contains vowel-start, which may be a proper noun.
+            // A known word starting with the capital H that doesn't contain vowel-start, which may be a proper noun.
             return false;
         }
         return isStartsWithUnicodeSets(str, DEFAULT_MATCHABLE_SET(), FRENCH_VOWELS_START(), {});

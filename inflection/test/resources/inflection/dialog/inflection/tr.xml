@@ -60,14 +60,37 @@
     <test><source case="dative">Galata Kulesi</source><result>Galata Kulesine</result></test>
     <test><source case="locative">Amerika Birleşik Devletleri’</source><result>Amerika Birleşik Devletleri’nde</result></test>
     <test><source case="locative">Birleşik Arap Emirlikleri’</source><result>Birleşik Arap Emirlikleri’nde</result></test>
+    <!-- FIXME: <test><source case="accusative">Arkeoloji Müzesi</source><result>Arkeoloji Müzesini</result></test> -->
+    <!-- FIXME: <test><source case="accusative">el feneri</source><result>el fenerini</result></test> -->
+    <!-- FIXME: <test><source case="ablative">uçak modu</source><result>uçak modundan</result></test> -->
+    <!-- FIXME: <test><source case="dative">Atatürk Bulvarı’</source><result>Atatürk Bulvarı’na</result></test> -->
+    <!-- FIXME: <test><source case="accusative">Polis Merkezi Amirliği’</source><result>Polis Merkezi Amirliği’ni</result></test> -->
+    <!-- FIXME: <test><source case="dative">Ihlara Vadisi’</source><result>Ihlara Vadisi’ne</result></test> -->
+    <!-- FIXME: <test><source case="dative">Eğlence parkı</source><result>Eğlence parkına</result></test> -->
     <test><source case="locative" person="second" pronounNumber="singular">Apple Watch</source><result>Apple Watch’unda</result></test>
+    <!-- FIXME: <test><source case="accusative">garaj kapısı</source><result>garaj kapısını</result></test> -->
+    <!-- FIXME: <test><source case="genitive" person="second" pronounNumber="singular">garaj kapısı</source><result>garaj kapının</result></test> -->
+    <!-- FIXME: <test><source number="plural">garaj kapısı</source><result>garaj kapıları</result></test> -->
+    <!-- FIXME: <test><source number="plural">çamaşır makinesi</source><result>çamaşır makineleri</result></test> -->
+    <!-- FIXME: <test><source number="singular" person="third" pronounNumber="plural">garaj kapısı</source><result>garaj kapıları</result></test> -->
+    <!-- FIXME: <test><source number="plural" person="third" pronounNumber="plural">garaj kapısı</source><result>garaj kapıları</result></test> -->
+    <!-- FIXME: <test><source number="plural">garaj kapısı</source><result>garaj kapıları</result></test> -->
     <test><source copula="third" tense="present">garaj kapısı</source><result>garaj kapısıdır</result></test>
+    <!-- FIXME: <test><source person="second" pronounNumber="singular" copula="third" tense="past">garaj kapısı</source><result>garaj kapındı</result></test> -->
     <test><source person="first" pronounNumber="plural">el feneri</source><result>el fenerimiz</result></test>
     <test><source person="second" pronounNumber="singular">El Feneri’</source><result>El Feneri’n</result></test>
+    <!-- FIXME: <test><source case="accusative">El Feneri’</source><result>El Feneri’ni</result></test> -->
     <test><source person="third" pronounNumber="singular">El Feneri’</source><result>El Feneri’si</result></test>
+    <!-- FIXME: <test><source person="third" pronounNumber="singular">el feneri</source><result>el feneri</result></test> -->
     <test><source case="dative">Merkez Cami’</source><result>Merkez Cami’ye</result></test>
+    <!-- FIXME: <test><source case="locative">Nil Sokağı’</source><result>Nil Sokağı’nda</result></test> -->
+    <!-- FIXME: <test><source case="accusative">kapı kilidi</source><result>kapı kilidini</result></test> -->
+    <!-- FIXME: <test><source number="plural" case="accusative">kapı kilidi</source><result>kapı kilitlerini</result></test> -->
+    <!-- FIXME: <test><source person="third" pronounNumber="singular">ev telefonu</source><result>ev telefonu</result></test> -->
+    <!-- FIXME: <test><source person="third" pronounNumber="plural">ev telefonu</source><result>ev telefonları</result></test> -->
     <test><source case="locative">Şampiyonlar Ligi’</source><result>Şampiyonlar Ligi’nde</result></test>
     <test><source case="dative">Avrupa Ligi’</source><result>Avrupa Ligi’ne</result></test>
+    <!-- FIXME: <test><source case="locative">Dünya Kupası’</source><result>Dünya Kupası’nda</result></test> -->
     <test><source case="ablative">Zlatan Ibrahimović’</source><result>Zlatan Ibrahimović’ten</result></test>
     <test><source case="accusative">Ousmane Dembélé’</source><result>Ousmane Dembélé’yi</result></test>
     <test><source case="accusative">Testó’</source><result>Testó’yu</result></test>
@@ -77,6 +100,9 @@
     <test><source case="accusative">basket</source><result>basketi</result></test>
     <test><source case="accusative">faul</source><result>faulü</result></test>
     <test><source case="locative">NBA Finalleri’</source><result>NBA Finalleri’nde</result></test>
+    <!-- FIXME: <test><source case="locative">PGA Şampiyonası’</source><result>PGA Şampiyonası’nda</result></test> -->
+    <!-- FIXME: <test><source person="third" pronounNumber="singular">tur liderliği</source><result>tur liderliği</result></test> -->
+    <!-- FIXME: <test><source case="locative">Sepang Uluslararası Pisti’</source><result>Sepang Uluslararası Pisti’nde</result></test> -->
     <test><source case="accusative">Gençlerbirliği’</source><result>Gençlerbirliği’ni</result></test>
     <test><source case="accusative">Ankaragücü’</source><result>Ankaragücü’nü</result></test>
     <test><source case="dative">Kuşadası’</source><result>Kuşadası’na</result></test>
@@ -90,6 +116,7 @@
     <test><source case="dative">tuvalet</source><result>tuvalete</result></test>
     <test><source case="dative">noter</source><result>notere</result></test>
     <test><source case="dative">Kemal’</source><result>Kemal’e</result></test>
+    <!-- FIXME: <test><source case="dative">hücum ribaundu</source><result>hücum ribaunduna</result></test> -->
     <test><source case="genitive">Tom Cruise’</source><result>Tom Cruise’un</result></test>
     <test><source case="dative">Stockholm’</source><result>Stockholm’e</result></test>
     <test><source case="dative">Bilal’</source><result>Bilal’e</result></test>
@@ -102,8 +129,12 @@
     <test><source case="accusative">pist</source><result>pisti</result></test>
     <test><source case="accusative">kâr</source><result>kârı</result></test>
     <test><source case="accusative">termostat</source><result>termostatı</result></test>
+    <!-- FIXME: <test><source case="dative">İsveç kronu</source><result>İsveç kronuna</result></test> -->
+    <!-- FIXME: <test><source case="dative">İngiliz sterlini</source><result>İngiliz sterlinine</result></test> -->
+    <!-- FIXME: <test><source case="dative">Rus rublesi</source><result>Rus rublesine</result></test> -->
     <test><source case="accusative">limit</source><result>limiti</result></test>
     <test><source case="dative">market</source><result>markete</result></test>
+    <!-- FIXME: <test><source case="accusative">soğutma limiti</source><result>soğutma limitini</result></test> -->
     <test><source case="locative">Xerox’</source><result>Xerox’ta</result></test>
     <test><source case="ablative">Clorox’</source><result>Clorox’tan</result></test>
     <test><source case="accusative">iPhone</source><result>iPhone’u</result></test>
@@ -186,5 +217,23 @@
     <test><source case="dative">o</source><result>ona</result></test>
     <test><source case="locative">şu</source><result>şunda</result></test>
     <test><source copula="first" person="third" tense="present" case="instrumental">abla</source><result>ablasıylayım</result></test>
+    <!-- FIXME: <test><source number="plural" person="second" pronounNumber="singular">kapı kilidi</source><result>kapı kilitlerin</result></test> -->
     <test><source case="dative">°C’</source><result>°C’ye</result></test>
+    <test><source number="singular" case="locative">18:55</source><result>18:55’te</result></test>
+
+    <!-- edge cases -->
+    <!-- break when word ends with number before possessive suffix -->
+    <test><source case="accusative">Device 5i</source><result>Device 5iyi</result></test>
+    <!-- assimilate ç to c -->
+    <test><source case="accusative">ağaç</source><result>ağacı</result></test>
+    <!-- assimilate t to d -->
+    <test><source case="accusative">saaaaat</source><result>saaaaadı</result></test>
+    <!-- default case break for non-assimilating consonant -->
+    <test><source case="accusative">efilč</source><result>efilči</result></test>
+    <!-- change b to p -->
+    <!-- FIXME: <test><source case="accusative">ders kitabı</source><result>ders kitabını</result></test> -->
+    <!-- change c to ç -->
+    <!-- FIXME: <test><source case="accusative">bahçe ağacı</source><result>bahçe ağacını</result></test> -->
+    <!-- default case for unknown vowel in vowel group -->
+    <test><source case="dative">qwxyzæ</source><result>qwxyzæye</result></test>
 </inflectionTest>

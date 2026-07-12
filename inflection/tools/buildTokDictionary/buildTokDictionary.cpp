@@ -4,10 +4,23 @@
 #include <inflection/dictionary/metadata/MarisaTrie.hpp>
 #include <inflection/tokenizer/trie/SerializedTrie.hpp>
 #include <inflection/util/StringUtils.hpp>
-#include <icu4cxx/UnicodeSet.hpp>
+#include <unicode/uchar.h>
 #include <unicode/ustring.h>
 #include <iostream>
 #include <fstream>
+
+static std::u16string_view trimWhitespace(std::u16string_view str) {
+    int32_t len = int32_t(str.length());
+    int32_t start = 0;
+    while (start < len && u_isWhitespace(str[start])) {
+        start++;
+    }
+    int32_t end = len;
+    while (end > start && u_isWhitespace(str[end - 1])) {
+        end--;
+    }
+    return str.substr(start, end - start);
+}
 
 static const uint8_t digitInfo[] = {
         0,     0,     0,     0,     0,     0,     0,     0,
@@ -83,7 +96,7 @@ int main(int argc, const char * const argv[]) {
         return -1;
     }
 
-    std::ofstream out(outFileName);
+    std::ofstream out(outFileName, std::ios::binary);
     if (!out) {
         std::cerr << "Unable to open output file: " << outFileName << std::endl;
         in.close();
@@ -96,40 +109,35 @@ int main(int argc, const char * const argv[]) {
     ::std::u16string_view valueStr;
     ::std::map<::std::u16string_view, int32_t> stringToIntegerMap;
     ::std::vector<const char16_t*> stringSingletons;
-    ::icu4cxx::UnicodeSet whitespaceSet(u"[:whitespace:]");
     int32_t errorCount = 0;
 
     stringSingletons.reserve(INITIAL_STRING_SINGLETON_SIZE);
 
     while (std::getline(in, line)) {
         ::inflection::util::StringUtils::convert(&u16Line, line);
-        std::u16string_view u16LineView(u16Line);
-        int32_t startWord = 0;
-        while (whitespaceSet.contains(u16Line[startWord])) {
-            startWord++;
+        auto trimmedLine(trimWhitespace(u16Line));
+        if (trimmedLine.empty()) {
+            continue;
         }
-        int32_t wordLen = whitespaceSet.span(u16LineView.substr(startWord), USET_SPAN_NOT_CONTAINED);
-        word = u16LineView.substr(startWord, wordLen);
+        int32_t wordLen = 0;
+        int32_t trimmedLen = int32_t(trimmedLine.length());
+        while (wordLen < trimmedLen && !u_isWhitespace(trimmedLine[wordLen])) {
+            wordLen++;
+        }
+        word = trimmedLine.substr(0, wordLen);
 
-        int32_t startVal = startWord + wordLen;
-        while (whitespaceSet.contains(u16Line[startVal])) {
-            startVal++;
-        }
-        int32_t valueLen = whitespaceSet.span(u16LineView.substr(startVal), USET_SPAN_NOT_CONTAINED);
-        if (valueLen != 8) {
+        valueStr = trimWhitespace(trimmedLine.substr(wordLen));
+        if (valueStr.length() != 8) {
             errorCount++;
             std::cerr << "Line is does not have expected number of digits: " << line << std::endl;
         }
-        valueStr = u16LineView.substr(startVal, valueLen);
         int32_t value = int32_t(utoi(valueStr, 16));
 
-        inflection::util::StringUtils::reverse(&word); // TODO consider removing the reversing because it slows performance
         auto wordChars = strdup(word);
         stringSingletons.emplace_back(wordChars); // Keep them around for u16string_view
         auto previousEntry = stringToIntegerMap.emplace(wordChars, value);
         if (!previousEntry.second) {
             errorCount++;
-            inflection::util::StringUtils::reverse(&word); // TODO consider removing the reversing because it slows performance
             std::cerr << "Duplicate entry: " << inflection::util::StringUtils::to_string(word) << std::endl;
         }
     }
@@ -139,6 +147,11 @@ int main(int argc, const char * const argv[]) {
         out.write(inflection::tokenizer::trie::SerializedTrie::MAGIC_MARKER, sizeof(inflection::tokenizer::trie::SerializedTrie::MAGIC_MARKER));
         out.write(reinterpret_cast<const char*>(&inflection::tokenizer::trie::SerializedTrie::VERSION), sizeof(inflection::tokenizer::trie::SerializedTrie::VERSION));
         out.write(reinterpret_cast<const char*>(&ENDIANNESS_MARKER), sizeof(ENDIANNESS_MARKER));
+        uint16_t options = 0;
+        out.write(reinterpret_cast<const char*>(&options), sizeof(options));
+        // Space reserved for future use. Also used to align data structures after this header.
+        const char reserved[inflection::tokenizer::trie::SerializedTrie::RESERVED_BYTES] = {};
+        out.write(reserved, sizeof(reserved));
         trie.write(out);
     }
 

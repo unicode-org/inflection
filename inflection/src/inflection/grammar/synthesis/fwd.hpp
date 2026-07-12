@@ -22,6 +22,9 @@ namespace inflection
             class ArGrammarSynthesizer_PronounLookupFunction;
             class ArGrammarSynthesizer_ToPrepositionLookupFunction;
             class ArGrammarSynthesizer_WithPrepositionLookupFunction;
+            class BnGrammarSynthesizer;
+            class BnGrammarSynthesizer_BnDisplayFunction;
+            class CsGrammarSynthesizer;
             class DaGrammarSynthesizer;
             class DaGrammarSynthesizer_ArticleLookupFunction;
             class DaGrammarSynthesizer_DaDisplayFunction;
@@ -37,27 +40,28 @@ namespace inflection
             class EsGrammarSynthesizer_ArticleLookupFunction;
             class EsGrammarSynthesizer_CountGenderLookupFunction;
             class EsGrammarSynthesizer_EsDisplayFunction;
+            class FiGrammarSynthesizer;
+            class FiGrammarSynthesizer_CountLookupFunction;
+            class FiGrammarSynthesizer_FiDisplayFunction;
+            class FiGrammarSynthesizer_LocativeBasedLookupFunction;
+            class FiGrammarSynthesizer_WithHyphenSuffixLookupFunction;
             class FrGrammarSynthesizer;
             class FrGrammarSynthesizer_ArticleElidedFunction;
             class FrGrammarSynthesizer_ArticleLookupFunction;
             class FrGrammarSynthesizer_CountLookupFunction;
             class FrGrammarSynthesizer_FrDisplayFunction;
-            class FrGrammarSynthesizer_GenderLookupFunction;
             class GrammarSynthesizerFactory;
             class GrammarSynthesizerUtil;
             class GrammemeConstants;
+            class GuGrammarSynthesizer;
             class HeGrammarSynthesizer;
             class HeGrammarSynthesizer_DefinitenessLookupFunction;
-            class HeGrammarSynthesizer_GenderLookupFunction;
             class HeGrammarSynthesizer_HeDisplayFunction;
             class HeGrammarSynthesizer_WithConditionalHyphen;
             class HiGrammarSynthesizer;
-            class HiGrammarSynthesizer_GenderLookupFunction;
-            class HiGrammarSynthesizer_CountLookupFunction;
             class HiGrammarSynthesizer_HiDisplayFunction;
             class ItGrammarSynthesizer;
             class ItGrammarSynthesizer_ArticleLookupFunction;
-            class ItGrammarSynthesizer_CountLookupFunction;
             class ItGrammarSynthesizer_DefiniteArticleLookupFunction;
             class ItGrammarSynthesizer_GenderLookupFunction;
             class ItGrammarSynthesizer_IndefiniteArticleLookupFunction;
@@ -66,6 +70,8 @@ namespace inflection
             class KoGrammarSynthesizer_KoDisplayFunction;
             class KoGrammarSynthesizer_ParticleLookupFunction;
             class KoGrammarSynthesizer_ParticleResolver;
+            class KnGrammarSynthesizer;
+            class MrGrammarSynthesizer;
             class NbGrammarSynthesizer;
             class NbGrammarSynthesizer_ArticleLookupFunction;
             class NbGrammarSynthesizer_NbDisplayFunction;
@@ -83,8 +89,11 @@ namespace inflection
             class NlGrammarSynthesizer_NlVerbInflectionPattern;
             class PtGrammarSynthesizer;
             class PtGrammarSynthesizer_ArticleLookupFunction;
-            class PtGrammarSynthesizer_GenericLookupFunction;
             class PtGrammarSynthesizer_PtDisplayFunction;
+            class PlGrammarSynthesizer;
+            class PlGrammarSynthesizer_PlDisplayFunction;
+            class PaGrammarSynthesizer;
+            class RoGrammarSynthesizer;
             class RuGrammarSynthesizer;
             class RuGrammarSynthesizer_AboutPrepositionLookupFunction;
             class RuGrammarSynthesizer_ArticleLookupFunction;
@@ -99,10 +108,15 @@ namespace inflection
             class SvGrammarSynthesizer_ArticleLookupFunction;
             class SvGrammarSynthesizer_GenderLookupFunction;
             class SvGrammarSynthesizer_SvDisplayFunction;
+            class TaGrammarSynthesizer;
+            class TaGrammarSynthesizer_TaDisplayFunction;
+            class TeGrammarSynthesizer;
             class TrGrammarSynthesizer;
             class TrGrammarSynthesizer_DeConjunctionArticleLookupFunction;
             class TrGrammarSynthesizer_InterrogativeArticleLookupFunction;
             class TrGrammarSynthesizer_TrDisplayFunction;
+            class UkGrammarSynthesizer;
+            class UrGrammarSynthesizer;
         } // synthesis
     } // grammar
 } // inflection

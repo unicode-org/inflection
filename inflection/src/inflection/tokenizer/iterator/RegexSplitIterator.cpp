@@ -1,5 +1,5 @@
 /*
- * Copyright 2021-2024 Apple Inc. All rights reserved.
+ * Copyright 2021-2026 Apple Inc. All rights reserved.
  */
 #include <inflection/tokenizer/iterator/RegexSplitIterator.hpp>
 
@@ -54,11 +54,10 @@ int32_t RegexSplitIterator::getNextBoundary()
         utext_openUChars(&text, (const UChar *)str.data() + start, length, &ec);
         ::inflection::exception::ICUException::throwOnFailure(ec);
         matcher.setUText(&text);
-        auto matchFound = matcher.find(0);
-        if (matchFound) {
-            if (tokenExtractor.wordsToNotSplit != nullptr) {
+        if (matcher.find(0)) {
+            if (tokenExtractor.minLenWordsToSplit != 0) {
                 ::inflection::util::StringViewUtils::lowercase(&lowercase, str.substr(start, length), tokenExtractor.locale);
-                if (tokenExtractor.wordsToNotSplit->find(lowercase) != tokenExtractor.wordsToNotSplit->end()) {
+                if (tokenExtractor.isWordToNotSplit(lowercase)) {
                     goto exit;
                 }
             }

@@ -15,7 +15,6 @@ namespace inflection
             class GermanicDecompounder;
             class ParsingsScorer;
             class Segment;
-            class SegmentFuger;
             class SegmentValidator;
         } // dictionary
     } // tokenizer

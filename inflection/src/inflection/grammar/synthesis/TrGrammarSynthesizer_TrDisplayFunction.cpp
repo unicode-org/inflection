@@ -13,13 +13,15 @@
 #include <inflection/dictionary/PhraseProperties.hpp>
 #include <inflection/grammar/synthesis/GrammemeConstants.hpp>
 #include <inflection/grammar/synthesis/TrGrammarSynthesizer.hpp>
+#include <inflection/util/LocaleConstants.hpp>
 #include <inflection/util/LocaleUtils.hpp>
 #include <inflection/util/StringViewUtils.hpp>
-#include <inflection/util/UnicodeSetUtils.hpp>
+#include <inflection/util/Validate.hpp>
 #include <inflection/tokenizer/TokenChain.hpp>
 #include <inflection/tokenizer/Tokenizer.hpp>
 #include <inflection/tokenizer/TokenizerFactory.hpp>
 #include <icu4cxx/NumberFormat.hpp>
+#include <icu4cxx/UnicodeSet.hpp>
 #include <unicode/uchar.h>
 #include <inflection/npc.hpp>
 #include <float.h>
@@ -52,24 +54,6 @@ TrGrammarSynthesizer_TrDisplayFunction::TrGrammarSynthesizer_TrDisplayFunction(c
 
 TrGrammarSynthesizer_TrDisplayFunction::~TrGrammarSynthesizer_TrDisplayFunction()
 {
-}
-
-static constexpr char16_t DEFAULT_DISCONT_HARD_CONS_STR[] = { u"çkptćč" };
-
-const ::icu4cxx::UnicodeSet& TrGrammarSynthesizer_TrDisplayFunction::DEFAULT_DISCONT_HARD_CONSONANTS_END()
-{
-    static auto DEFAULT_DISCONT_HARD_CONSONANTS_END_ = ::inflection::util::UnicodeSetUtils::freeze(
-            ::inflection::util::UnicodeSetUtils::closeOver(
-                    new ::icu4cxx::UnicodeSet(::std::u16string(u"[") + DEFAULT_DISCONT_HARD_CONS_STR + ::std::u16string(u"]")), USET_CASE_INSENSITIVE));
-    return *npc(DEFAULT_DISCONT_HARD_CONSONANTS_END_);
-}
-
-const ::icu4cxx::UnicodeSet& TrGrammarSynthesizer_TrDisplayFunction::DEFAULT_HARD_CONSONANTS_END()
-{
-    static auto DEFAULT_HARD_CONSONANTS_END_ = ::inflection::util::UnicodeSetUtils::freeze(
-            ::inflection::util::UnicodeSetUtils::closeOver(
-                    new ::icu4cxx::UnicodeSet(::std::u16string(u"[") + DEFAULT_DISCONT_HARD_CONS_STR + ::std::u16string(u"fhsşqxš]")), USET_CASE_INSENSITIVE));
-    return *npc(DEFAULT_HARD_CONSONANTS_END_);
 }
 
 ::inflection::dialog::DisplayValue * TrGrammarSynthesizer_TrDisplayFunction::getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool /*enableInflectionGuess*/) const
@@ -273,19 +257,19 @@ std::u16string TrGrammarSynthesizer_TrDisplayFunction::addPossessiveSuffixes(TrG
 }
 
 // The sizes are Tense, Copula and size
-static const char16_t BEFORE_CONSONANT_GROUP[3][4][2] = {
+static constexpr char16_t BEFORE_CONSONANT_GROUP[3][4][2] = {
         {u"", u"", u"", u""}, // undefined
         {u"", u"y", u"", u""}, // present
         {u"", u"y", u"y", u"y"} // past
 };
 // The sizes are Tense, Copula and size
-static const char16_t BEFORE_VOWEL_GROUP[3][4][2] = {
+static constexpr char16_t BEFORE_VOWEL_GROUP[3][4][2] = {
         {u"", u"", u"", u""}, // undefined
         {u"", u"", u"s", u"d"}, // present
         {u"", u"d", u"d", u"d"} // past
 };
 // The sizes are Tense, Copula and size
-static const char16_t AFTER_VOWEL_GROUP[3][4][2] = {
+static constexpr char16_t AFTER_VOWEL_GROUP[3][4][2] = {
         {u"", u"", u"", u""}, // undefined
         {u"", u"m", u"n", u"r"}, // present
         {u"", u"m", u"n", u""} // past
@@ -344,6 +328,21 @@ inflection::dialog::DisplayValue* TrGrammarSynthesizer_TrDisplayFunction::genera
     return new inflection::dialog::DisplayValue(displayString + *npc(suffixString), formConstraints);
 }
 
+static int32_t getIndexBeforeSeparator(std::u16string_view word, int32_t lastIndex) {
+    int32_t firstIndex = lastIndex - 1;
+    int32_t currIdx = firstIndex;
+    char32_t ch = 0;
+    while (currIdx >= 0) {
+        ch = inflection::util::StringViewUtils::codePointAt(word, currIdx);
+        if (ch == u'/' || ch == u':' || static_cast<bool>(u_isWhitespace(static_cast<UChar32>(ch)))) {
+            break;
+        }
+        firstIndex = currIdx;
+        currIdx -= U16_LENGTH(ch);
+    }
+    return firstIndex;
+}
+
 ::std::u16string TrGrammarSynthesizer_TrDisplayFunction::normalizeString(const ::std::u16string& originalWord) const
 {
     ::std::u16string word(originalWord);
@@ -360,11 +359,11 @@ inflection::dialog::DisplayValue* TrGrammarSynthesizer_TrDisplayFunction::genera
         int32_t lastIndex = int32_t(word.length());
         double lastNumber = -DBL_MAX;
         auto status = U_ZERO_ERROR;
-        ::icu4cxx::NumberFormat numberFormat(unum_open(UNUM_DECIMAL, nullptr, -1, ::inflection::util::LocaleUtils::TURKISH().getName().c_str(), nullptr, &status));
+        ::icu4cxx::NumberFormat numberFormat(unum_open(UNUM_DECIMAL, nullptr, -1, ::inflection::util::LocaleConstants::TURKISH, nullptr, &status));
 
         if (U_SUCCESS(status)) {
             while (lastNumber <= 0 && lastIndex > 0) {
-                auto firstIndex = TrGrammarSynthesizer::SEPARATOR_SPLITTER().spanBack(word.substr(0, lastIndex), USET_SPAN_NOT_CONTAINED);
+                auto firstIndex = getIndexBeforeSeparator(word, lastIndex);
                 lastNumber = unum_parseDouble(numberFormat.wrappee_, (const UChar *)word.c_str() + firstIndex, lastIndex - firstIndex, nullptr, &status);
                 if (U_FAILURE(status)) {
                     status = U_ZERO_ERROR;
@@ -424,34 +423,30 @@ bool TrGrammarSynthesizer_TrDisplayFunction::startsWithVowel(const ::std::u16str
     return string.substr(lastIndex + 1);
 }
 
-bool TrGrammarSynthesizer_TrDisplayFunction::endsWithHardConsonant(::std::u16string_view word, bool discontinuous)
-{
-    if (word.length() < 2) {
-        if (word.empty()) {
-            return false;
-        }
-        auto onlyChar = word[0];
-        return (onlyChar == u'\u00e7' || onlyChar == u'k' || onlyChar == u'p' || onlyChar == u't')
-            || (!discontinuous && (onlyChar == u'f' || onlyChar == u'h' || onlyChar == u's' || onlyChar == u'\u015f' || onlyChar == u'q' || onlyChar == u'x'));
+bool TrGrammarSynthesizer_TrDisplayFunction::endsWithHardConsonant(::std::u16string_view word, bool discontinuous) const {
+    if (word.empty()) {
+        return false;
     }
-    if (discontinuous) {
-        return DEFAULT_DISCONT_HARD_CONSONANTS_END().contains(word.back());
-    } else {
-        return DEFAULT_HARD_CONSONANTS_END().contains(word.back());
+    const char16_t lastChar = static_cast<char16_t>(u_tolower(word.back()));
+    if (hardConsonants.find(lastChar) != std::u16string_view::npos
+        || (!discontinuous && additionalContinuousHardConsonants.find(lastChar) != std::u16string_view::npos))
+    {
+        return true;
     }
+    return word.length() >= 2 && (lastChar == u'\u0107' || lastChar == u'\u010d' || (!discontinuous && lastChar == u'\u0161'));
 }
 
-static const char16_t POSSESSIVE_COMPOUND_SUFFIXES[][5] = {
-    u"ları"
-    , u"leri"
-    , u"sı"
-    , u"si"
-    , u"su"
-    , u"sü"
-    , u"ı"
-    , u"i"
-    , u"u"
-    , u"ü"
+static constexpr char16_t POSSESSIVE_COMPOUND_SUFFIXES[][5] = {
+    u"ları",
+    u"leri",
+    u"sı",
+    u"si",
+    u"su",
+    u"sü",
+    u"ı",
+    u"i",
+    u"u",
+    u"ü",
 };
 
 ::std::u16string TrGrammarSynthesizer_TrDisplayFunction::getPossessiveCompoundSuffix(bool isDisplayMultiWord, const ::std::u16string& word) const
@@ -675,7 +670,7 @@ bool TrGrammarSynthesizer_TrDisplayFunction::endsWithNumber(const ::std::u16stri
 ::std::u16string TrGrammarSynthesizer_TrDisplayFunction::trimEnd(const ::std::u16string& originalWord)
 {
     auto word(originalWord);
-    while (!word.empty() && !::inflection::dictionary::PhraseProperties::DEFAULT_MATCHABLE_SET().contains(::inflection::util::StringViewUtils::codePointAt(word, int32_t(word.length() - 1)))) {
+    while (!word.empty() && !::inflection::dictionary::PhraseProperties::DEFAULT_MATCHABLE_SET().contains(static_cast<UChar32>(::inflection::util::StringViewUtils::codePointAt(word, int32_t(word.length() - 1))))) {
         word.resize(word.length() - 1);
     }
     return word;

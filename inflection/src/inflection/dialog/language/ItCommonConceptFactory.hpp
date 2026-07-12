@@ -27,7 +27,6 @@ public: /* package */
 
 public:
     explicit ItCommonConceptFactory(const ::inflection::util::ULocale& language);
-    ~ItCommonConceptFactory() override;
     ItCommonConceptFactory(const ItCommonConceptFactory&) = delete;
     ItCommonConceptFactory& operator=(const ItCommonConceptFactory&) = delete;
 };

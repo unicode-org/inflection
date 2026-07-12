@@ -25,7 +25,6 @@ private:
     const ::inflection::dialog::SemanticFeature& posFeature;
     ::inflection::dialog::DictionaryLookupInflector dictionaryInflector;
     std::unique_ptr<inflection::tokenizer::Tokenizer> tokenizer;
-    const icu4cxx::UnicodeSet& malayalamInflectableChars;
     icu4cxx::UnicodeSet nonMalayalamChars;
 
 private:

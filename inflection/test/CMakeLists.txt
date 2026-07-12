@@ -4,6 +4,10 @@
 file(GLOB_RECURSE TEST_SOURCES CONFIGURE_DEPENDS "*.c" "*.cpp")
 add_executable(itest ${TEST_SOURCES})
 
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    target_link_libraries(itest PRIVATE psapi)
+endif()
+
 target_link_libraries(itest
         PRIVATE
             inflection
@@ -24,12 +28,4 @@ target_include_directories(itest
 fixRuntimePath(itest inflection ../src)
 add_compile_definitions(itest INFLECTION_ROOT=\"${INFLECTION_DATA_ROOT_PREFIX}\")
 add_dependencies(itest inflection-data)
-
-# Runs inflection unit tests: "make check"
-add_custom_target(check
-        DEPENDS itest
-        COMMAND ${CMAKE_COMMAND} -DDYLD_LIBRARY_PATH=${DYLD_LIBRARY_PATH} -DEXECUTABLE=$<TARGET_FILE:itest> -P ${CMAKE_SOURCE_DIR}/cmake/runTests.cmake
-        COMMENT "Running inflection tests"
-        VERBATIM
-)
 #End section

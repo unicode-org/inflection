@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       ICU_MAJOR: '78'
-      ICU_MINOR: '1'
+      ICU_MINOR: '3'
     steps:
       - name: Checkout
         uses: actions/checkout@v4

@@ -5,6 +5,12 @@
 
 #include <inflection/resources/DataRegistrationService.h>
 #include <inflection/util/ULocale.hpp>
+#include <filesystem>
+
+static std::string nativePath(const std::string& posixPath)
+{
+    return std::filesystem::path(posixPath).make_preferred().string();
+}
 
 static void checkForFailure(UErrorCode* status)
 {
@@ -25,13 +31,13 @@ TEST_CASE("DataRegistrationServiceTest-c#testAPI")
     REQUIRE(U_SUCCESS(error));
     idr_getDataPathForLocale(locale, latestPath, sizeof(latestPath), &error);
     REQUIRE(U_SUCCESS(error));
-    REQUIRE(std::string(latestPath) == "/test/path");
+    REQUIRE(std::string(latestPath) == nativePath("/test/path"));
 
     idr_registerDataPathForLocale(locale, originalPath, &error);
     checkForFailure(&error);
     idr_getDataPathForLocale(locale, latestPath, sizeof(latestPath), &error);
     REQUIRE(U_SUCCESS(error));
-    REQUIRE(std::string(latestPath) == "/test/path");
+    REQUIRE(std::string(latestPath) == nativePath("/test/path"));
 }
 
 TEST_CASE("DataRegistrationServiceTest-c#testError") {

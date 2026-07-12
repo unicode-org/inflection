@@ -7,7 +7,6 @@
 #include <inflection/dialog/fwd.hpp>
 #include <inflection/dialog/CommonConceptFactoryImpl.hpp>
 #include <inflection/dialog/SpeakableString.hpp>
-#include <set>
 
 class inflection::dialog::language::HeCommonConceptFactory
     : public inflection::dialog::CommonConceptFactoryImpl
@@ -16,7 +15,6 @@ public:
     typedef CommonConceptFactoryImpl super;
 
 public: /* protected */
-    ::std::set<::std::u16string_view> dontQuantify {  };
     const SemanticFeature& semanticFeatureGender;
     const SemanticFeature& semanticFeatureDefiniteness;
 
@@ -35,5 +33,4 @@ protected: /* package */
 
 public:
     explicit HeCommonConceptFactory(const ::inflection::util::ULocale& language);
-    ~HeCommonConceptFactory() override;
 };

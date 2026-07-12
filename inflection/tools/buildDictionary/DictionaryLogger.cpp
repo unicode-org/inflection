@@ -1,5 +1,5 @@
 /*
- * Copyright 2024-2024 Apple Inc. All rights reserved.
+ * Copyright 2024-2026 Apple Inc. All rights reserved.
  */
 #include "DictionaryLogger.hpp"
 #include <cstdint>
@@ -27,11 +27,11 @@ void DictionaryLogger::logWithOffset(std::string_view message)
 {
     if (verbose) {
         size_t newOffset = writer.tellp();
-        std::ios_base::fmtflags originalFlags(std::cout.flags());
+        const std::ios_base::fmtflags originalFlags(std::cout.flags());
         std::cout << message << ": offset=" << std::uppercase << std::showbase << std::hex << uintptr_t(prevOffset);
         std::cout.flags(originalFlags);
-        auto size = newOffset - prevOffset;
-        std::cout << " size=" << (size) << " bytes (" << ((size) / KILOBYTE) << " KB" << ")" << ::std::endl;
+        const auto size = newOffset - prevOffset;
+        std::cout << " size=" << size << " bytes (" << (size / KILOBYTE) << " KB" << ")" << ::std::endl;
         prevOffset = newOffset;
     }
 }

@@ -23,6 +23,7 @@
 <!ATTLIST feature name CDATA #REQUIRED>
 <!ATTLIST feature default CDATA #IMPLIED>
 <!ATTLIST value result CDATA #REQUIRED>
+<!ATTLIST value case CDATA #IMPLIED>
 <!ATTLIST value number CDATA #IMPLIED>
 <!ATTLIST value gender CDATA #IMPLIED>
 <!ATTLIST value sound CDATA #IMPLIED>

@@ -8,6 +8,11 @@
 
 namespace inflection::dialog::language {
 
+MlCommonConceptFactory::MlCommonConceptFactory(const ::inflection::util::ULocale& language)
+    : super(language)
+{
+}
+
 // In Malayalam, numbers generally follow the noun
 ::inflection::dialog::SpeakableString
 MlCommonConceptFactory::quantifiedJoin(const ::inflection::dialog::SpeakableString& formattedNumber,

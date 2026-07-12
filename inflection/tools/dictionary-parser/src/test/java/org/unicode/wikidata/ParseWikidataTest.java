@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Unicode Incorporated and others. All rights reserved.
+ * Copyright 2025-2026 Unicode Incorporated and others. All rights reserved.
  * Copyright 2020-2024 Apple Inc. All rights reserved.
  */
 package org.unicode.wikidata;
@@ -9,9 +9,10 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Objects;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.xml.sax.SAXException;
 
 class ParseWikidataTest {
     private static final String lexiconSource = Objects
@@ -56,14 +57,16 @@ class ParseWikidataTest {
 
     @Test
     public void fatalErrorHandlerTest() {
+        // Malformed JSON syntax cannot be parsed by the Wikidata reader.
         String[] args = {"--inflections", inflectionalFile, "--dictionary", dictionaryFile, fatalErrorFile};
-        Assertions.assertThrows(SAXException.class,() -> ParseWikidata.main(args));
+        Assertions.assertThrows(JsonParseException.class,() -> ParseWikidata.main(args));
     }
 
     @Test
     public void missingGrammemeTest() {
+        // The grammatical features are not in the expected array form, so the reader rejects the input.
         String[] args = {"--inflections", inflectionalFile, "--dictionary", dictionaryFile, missingGrammemeErrorFile};
-        Assertions.assertThrows(SAXException.class,() -> ParseWikidata.main(args));
+        Assertions.assertThrows(MismatchedInputException.class,() -> ParseWikidata.main(args));
     }
 
     @Test
@@ -74,8 +77,8 @@ class ParseWikidataTest {
 
     @Test
     public void lexiconParserTest() throws Exception {
-        String[] args = {"--inflection-types", "noun,adjective,proper-noun", "--inflections", inflectionalFile,
-                "--dictionary", dictionaryFile, lexiconSource};
+        String[] args = {"--inflection-types", "noun,adjective,proper-noun", "--add-sound", "vowel-start",
+                "--inflections", inflectionalFile, "--dictionary", dictionaryFile, lexiconSource};
         String actual = getParserOutput(args);
         String expected = Files.readString(Paths.get(expectedOutputFile), StandardCharsets.UTF_8);
         compareOutputs(actual, expected);

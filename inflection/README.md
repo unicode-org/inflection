@@ -1,7 +1,7 @@
 <!--
  Copyright 2016-2024 Apple Inc. All rights reserved.
 -->
-# Inflection  {#mainpage}
+# Inflection
 
 ## About Unicode Inflection
 
@@ -29,6 +29,7 @@ Unicode Inflection is currently supported on these operating systems:
 * visionOS
 * UBI Linux 9
 * Ubuntu Linux 22
+<!-- * Windows (the tests fully pass, but more work is needed to complete the port) -->
 
 ## How Unicode Inflection works
 The following sections delve a bit deeper into the low-level functionality of Unicode Inflection, such as how caching,

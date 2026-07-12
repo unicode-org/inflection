@@ -9,10 +9,10 @@
 namespace inflection::grammar::synthesis {
 
 HeGrammarSynthesizer_DefinitenessLookupFunction::HeGrammarSynthesizer_DefinitenessLookupFunction()
-    : super(::inflection::util::LocaleUtils::HEBREW(), {GrammemeConstants::DEFINITENESS_DEFINITE(), GrammemeConstants::DEFINITENESS_INDEFINITE(), GrammemeConstants::DEFINITENESS_CONSTRUCT()})
+    : super(::inflection::util::LocaleUtils::HEBREW(), {GrammemeConstants::DEFINITENESS_DEFINITE, GrammemeConstants::DEFINITENESS_INDEFINITE, GrammemeConstants::DEFINITENESS_CONSTRUCT})
     , dictionary(getDictionary())
 {
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&nounProperty, {GrammemeConstants::POS_NOUN(), GrammemeConstants::POS_PROPER_NOUN()}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&nounProperty, {GrammemeConstants::POS_NOUN, GrammemeConstants::POS_PROPER_NOUN}));
 }
 
 ::std::u16string HeGrammarSynthesizer_DefinitenessLookupFunction::determine(const ::std::u16string& word) const
@@ -26,7 +26,7 @@ HeGrammarSynthesizer_DefinitenessLookupFunction::HeGrammarSynthesizer_Definitene
     if (dictionary.getCombinedBinaryType(&wordProperties, word) != nullptr) {
         if ((wordProperties & nounProperty) != 0) {
             // Nouns are indefinite in the dictionary.
-            return GrammemeConstants::DEFINITENESS_INDEFINITE();
+            return GrammemeConstants::DEFINITENESS_INDEFINITE;
         }
         // Else it's a known word that isn't a noun. Definite forms are not in the dictionary.
         return ::std::u16string();
@@ -34,7 +34,7 @@ HeGrammarSynthesizer_DefinitenessLookupFunction::HeGrammarSynthesizer_Definitene
     // Unknown word
     if (word.starts_with(u"ת") || word.starts_with(u"ה")) {
         // Definite unknown word.
-        return GrammemeConstants::DEFINITENESS_DEFINITE();
+        return GrammemeConstants::DEFINITENESS_DEFINITE;
     }
     return ::std::u16string();
 }

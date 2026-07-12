@@ -1,0 +1,93 @@
+ell ,third,singular,masculine,nominative
+ella ,third,singular,feminine,nominative
+ells ,third,plural,masculine,nominative
+elles ,third,plural,feminine,nominative
+tu ,second,singular,nominative,casual
+vostè ,second,singular,nominative,formal
+vosaltres ,second,plural,gender,nominative,casual
+vostès ,second,plural,gender,nominative,formal
+jo ,first,singular,nominative
+mi,first,singular,nominative,adposition
+nosaltres ,first,plural,nominative,gender
+ho ,third,singular,neuter,accusative,proclitic
+el ,third,singular,masculine,accusative,proclitic,dependency=consonant-start
+l’,third,singular,masculine,accusative,proclitic,dependency=vowel-start
+la ,third,singular,feminine,accusative,proclitic,dependency=consonant-start
+l’,third,singular,feminine,accusative,proclitic,dependency=vowel-start
+-ho,third,singular,neuter,accusative,enclitic
+-lo,third,singular,masculine,accusative,enclitic,dependency=consonant-end
+’l,third,singular,masculine,accusative,enclitic,dependency=vowel-end
+-la,third,singular,feminine,accusative,enclitic
+els ,third,plural,masculine,accusative,proclitic
+les ,third,plural,feminine,accusative,proclitic
+-los,third,plural,masculine,accusative,enclitic,dependency=consonant-end
+’ls,third,plural,masculine,accusative,enclitic,dependency=vowel-end
+-les,third,plural,feminine,accusative,enclitic
+et ,second,singular,accusative,casual,proclitic,dependency=consonant-start
+t’,second,singular,accusative,casual,proclitic,dependency=vowel-start
+el ,second,singular,accusative,formal,proclitic,dependency=consonant-start
+l’,second,singular,accusative,formal,proclitic,dependency=vowel-start
+-te,second,singular,accusative,casual,enclitic,dependency=consonant-end
+’t,second,singular,accusative,casual,enclitic,dependency=vowel-end
+-lo,second,singular,accusative,formal,enclitic,dependency=consonant-end
+’l,second,singular,accusative,formal,enclitic,dependency=vowel-end
+us ,second,plural,gender,accusative,casual
+els ,second,plural,gender,accusative,formal
+em ,first,singular,accusative,proclitic,dependency=consonant-start
+m’,first,singular,accusative,proclitic,dependency=vowel-start
+-me,first,singular,accusative,enclitic,dependency=consonant-end
+’m,first,singular,accusative,enclitic,dependency=vowel-end
+ens ,first,plural,accusative,gender,proclitic
+-nos,first,plural,accusative,gender,enclitic,dependency=consonant-end
+’ns,first,plural,accusative,gender,enclitic,dependency=vowel-end
+li ,third,singular,gender,dative,proclitic
+-li,third,singular,gender,dative,enclitic
+els ,third,plural,gender,dative,proclitic
+-los,third,plural,gender,dative,enclitic,dependency=consonant-end
+’ls,third,plural,gender,dative,enclitic,dependency=vowel-end
+et ,second,singular,gender,dative,casual,proclitic,dependency=consonant-start
+t’,second,singular,gender,dative,casual,proclitic,dependency=vowel-start
+-te,second,singular,gender,dative,casual,enclitic,dependency=consonant-end
+’t,second,singular,gender,dative,casual,enclitic,dependency=vowel-end
+li ,second,singular,gender,dative,formal,proclitic
+-li,second,singular,gender,dative,formal,enclitic
+em ,first,singular,dative,proclitic,dependency=consonant-start
+m’,first,singular,dative,proclitic,dependency=vowel-start
+-me,first,singular,dative,enclitic,dependency=consonant-end
+’m,first,singular,dative,enclitic,dependency=vowel-end
+ens ,first,plural,dative,gender,proclitic
+-nos,first,plural,dative,gender,enclitic,dependency=consonant-end
+’ns,first,plural,dative,gender,enclitic,dependency=vowel-end
+seu ,third,singular,genitive,dependency=singular,dependency=masculine
+seus ,third,singular,genitive,dependency=plural,dependency=masculine
+seva ,third,singular,genitive,dependency=singular,dependency=feminine
+seves ,third,singular,genitive,dependency=plural,dependency=feminine
+llur ,third,plural,genitive,dependency=singular,dependency=neuter
+llurs ,third,plural,genitive,dependency=plural,dependency=neuter
+seu ,third,plural,genitive,dependency=singular,dependency=masculine
+seus ,third,plural,genitive,dependency=plural,dependency=masculine
+seva ,third,plural,genitive,dependency=singular,dependency=feminine
+seves ,third,plural,genitive,dependency=plural,dependency=feminine
+teu ,second,singular,genitive,dependency=singular,dependency=masculine
+teus ,second,singular,genitive,dependency=plural,dependency=masculine
+teva ,second,singular,genitive,dependency=singular,dependency=feminine
+teves ,second,singular,genitive,dependency=plural,dependency=feminine
+vostre ,second,plural,genitive,dependency=singular,dependency=masculine
+vostra ,second,plural,genitive,dependency=singular,dependency=feminine
+vostres ,second,plural,genitive,dependency=plural
+meu ,first,singular,genitive,dependency=singular,dependency=masculine
+meus ,first,singular,genitive,dependency=plural,dependency=masculine
+meva ,first,singular,genitive,dependency=singular,dependency=feminine
+meves ,first,singular,genitive,dependency=plural,dependency=feminine
+nostre ,first,plural,genitive,dependency=singular,dependency=masculine
+nostra ,first,plural,genitive,dependency=singular,dependency=feminine
+nostres ,first,plural,genitive,dependency=plural
+si ,person,number,gender,reflexive,nominative
+es ,person,number,gender,reflexive,accusative,proclitic,dependency=consonant-start
+s’,person,number,gender,reflexive,accusative,proclitic,dependency=vowel-start
+-se,person,number,gender,reflexive,accusative,enclitic,dependency=consonant-end
+’s,person,number,gender,reflexive,accusative,enclitic,dependency=vowel-end
+es ,person,number,gender,reflexive,dative,proclitic,dependency=consonant-start
+s’,person,number,gender,reflexive,dative,proclitic,dependency=vowel-start
+-se,person,number,gender,reflexive,dative,enclitic,dependency=consonant-end
+’s,person,number,gender,reflexive,dative,enclitic,dependency=vowel-end

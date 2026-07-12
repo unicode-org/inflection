@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<patterns>
+    <pattern name="1" words="65">
+        <pos>noun</pos>
+        <suffix>ଟି</suffix>
+        <inflections>
+            <inflection case="ablative"><t><stem/>ଠାରୁ</t></inflection>
+            <inflection case="accusative"><t><stem/>କୁ</t></inflection>
+            <inflection case="dative"><t><stem/>କୁ</t></inflection>
+            <inflection case="genitive"><t><stem/>ର</t></inflection>
+            <inflection case="instrumental"><t><stem/>ଦ୍ୱାରା</t></inflection>
+            <inflection case="locative"><t><stem/>ଠାରେ</t></inflection>
+            <inflection case="nominative"><t><stem/>ଟି</t></inflection>
+            <inflection case="vocative"><t><stem/>ରେ</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="2" words="43">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection case="ablative"><t><stem/>ଙ୍କଠାରୁ</t></inflection>
+            <inflection case="accusative"><t><stem/>ଙ୍କୁ</t></inflection>
+            <inflection case="dative"><t><stem/>ଙ୍କୁ</t></inflection>
+            <inflection case="genitive"><t><stem/>ଙ୍କ</t></inflection>
+            <inflection case="instrumental"><t><stem/>ଙ୍କଦ୍ୱାରା</t></inflection>
+            <inflection case="locative"><t><stem/>ଙ୍କଠାରେ</t></inflection>
+            <inflection case="nominative"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="3" words="21">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection case="ablative"><t><stem/>ଠାରୁ</t></inflection>
+            <inflection case="accusative"><t><stem/>କୁ</t></inflection>
+            <inflection case="dative"><t><stem/>କୁ</t></inflection>
+            <inflection case="genitive"><t><stem/>ର</t></inflection>
+            <inflection case="instrumental"><t><stem/>ଦ୍ୱାରା</t></inflection>
+            <inflection case="locative"><t><stem/>ଠାରେ</t></inflection>
+            <inflection case="nominative"><t><stem/>ଟି</t></inflection>
+            <inflection case="vocative"><t><stem/>ରେ</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="4" words="20">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection case="ablative"><t><stem/>ଠାରୁ</t></inflection>
+            <inflection case="accusative"><t><stem/>କୁ</t></inflection>
+            <inflection case="dative"><t><stem/>କୁ</t></inflection>
+            <inflection case="genitive"><t><stem/>ର</t></inflection>
+            <inflection case="instrumental"><t><stem/>ଦ୍ୱାରା</t></inflection>
+            <inflection case="locative"><t><stem/>ଠାରେ</t></inflection>
+            <inflection case="nominative"><t><stem/></t></inflection>
+            <inflection case="vocative"><t><stem/>ରେ</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="5" words="6">
+        <pos>noun</pos>
+    </pattern>
+    <pattern name="6" words="2">
+        <pos>noun</pos>
+        <suffix>ର</suffix>
+        <inflections>
+            <inflection case="ablative"><t><stem/>ରଠାରୁ</t></inflection>
+            <inflection case="accusative"><t><stem/>ରକୁ</t></inflection>
+            <inflection case="dative"><t><stem/>ରକୁ</t></inflection>
+            <inflection case="genitive"><t><stem/>ରର</t></inflection>
+            <inflection case="instrumental"><t><stem/>ରଦ୍ୱାରା</t></inflection>
+            <inflection case="locative"><t><stem/>ରଠାରେ</t></inflection>
+            <inflection case="nominative"><t><stem/>ର</t></inflection>
+            <inflection case="vocative"><t><stem/>ରରେ</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="7" words="1">
+        <pos>noun</pos>
+        <pos>proper-noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection case="nominative"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="8" words="1">
+        <pos>noun</pos>
+        <suffix>ଟି</suffix>
+        <inflections>
+            <inflection case="ablative"><t><stem/>ଠାରୁ</t></inflection>
+            <inflection case="accusative"><t><stem/>କୁ</t></inflection>
+            <inflection case="dative"><t><stem/>କୁ</t></inflection>
+            <inflection case="genitive"><t><stem/>ର</t></inflection>
+            <inflection case="instrumental"><t><stem/>ଦ୍ୱାରା</t></inflection>
+            <inflection case="locative"><t><stem/>ଠାରେ</t></inflection>
+            <inflection case="nominative"><t><stem/>ଟି</t></inflection>
+            <inflection case="vocative"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="9" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection case="ablative"><t><stem/>ରୁ</t></inflection>
+            <inflection case="accusative"><t><stem/>କୁ</t></inflection>
+            <inflection case="dative"><t><stem/>କୁ</t></inflection>
+            <inflection case="genitive"><t><stem/>ର</t></inflection>
+            <inflection case="instrumental"><t><stem/>ଦ୍ୱାରା</t></inflection>
+            <inflection case="locative"><t><stem/>ରେ</t></inflection>
+            <inflection case="nominative"><t><stem/></t></inflection>
+            <inflection case="vocative"><t><stem/>ରେ</t></inflection>
+        </inflections>
+    </pattern>
+</patterns>

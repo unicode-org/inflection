@@ -14,11 +14,11 @@
 #include <inflection/dictionary/PhraseProperties.hpp>
 #include <inflection/grammar/synthesis/GrammemeConstants.hpp>
 #include <inflection/grammar/synthesis/GrammarSynthesizerUtil.hpp>
-#include <inflection/lang/StringFilterUtil.hpp>
 #include <inflection/util/LocaleUtils.hpp>
 #include <inflection/util/StringViewUtils.hpp>
 #include <inflection/util/UnicodeSetUtils.hpp>
 #include <inflection/npc.hpp>
+#include <unicode/uscript.h>
 #include <array>
 #include <iterator>
 #include <memory>
@@ -35,9 +35,9 @@ SrGrammarSynthesizer_SrDisplayFunction::SrGrammarSynthesizer_SrDisplayFunction(c
     , inflector(::inflection::dictionary::Inflector::getInflector(::inflection::util::LocaleUtils::SERBIAN()))
     , tokenizer(::inflection::tokenizer::TokenizerFactory::createTokenizer(::inflection::util::LocaleUtils::SERBIAN()))
     , dictionaryInflector(::inflection::util::LocaleUtils::SERBIAN(),{
-            {GrammemeConstants::POS_NOUN(), GrammemeConstants::POS_ADJECTIVE()},
-            {GrammemeConstants::NUMBER_SINGULAR(), GrammemeConstants::NUMBER_PLURAL()},
-            {GrammemeConstants::GENDER_MASCULINE(), GrammemeConstants::GENDER_FEMININE(), GrammemeConstants::GENDER_NEUTER()}
+            {GrammemeConstants::POS_NOUN, GrammemeConstants::POS_ADJECTIVE},
+            {GrammemeConstants::NUMBER_SINGULAR, GrammemeConstants::NUMBER_PLURAL},
+            {GrammemeConstants::GENDER_MASCULINE, GrammemeConstants::GENDER_FEMININE, GrammemeConstants::GENDER_NEUTER}
     }, {}, true)
 {
 }
@@ -59,7 +59,7 @@ SrGrammarSynthesizer_SrDisplayFunction::~SrGrammarSynthesizer_SrDisplayFunction(
     if (!countString.empty()) {
         string_constraints.emplace_back(countString);
     }
-    if (!caseString.empty() && caseString != GrammemeConstants::CASE_NOMINATIVE()) {
+    if (!caseString.empty() && caseString != GrammemeConstants::CASE_NOMINATIVE) {
         string_constraints.emplace_back(caseString);
     }
     if (!genderString.empty()) {
@@ -117,22 +117,22 @@ bool isProperNoun(const ::std::u16string &lemma);
 
     // Set defaults for number and gender if missing.
     if (countString.empty()) {
-        countString = GrammemeConstants::NUMBER_SINGULAR();
+        countString = GrammemeConstants::NUMBER_SINGULAR;
     }
 
     if (genderString.empty()) {
-        genderString = GrammemeConstants::GENDER_MASCULINE();
+        genderString = GrammemeConstants::GENDER_MASCULINE;
     }
 
     // Do nothing for singular, nominative.
-    if (countString == GrammemeConstants::NUMBER_SINGULAR() && caseString == GrammemeConstants::CASE_NOMINATIVE()) {
+    if (countString == GrammemeConstants::NUMBER_SINGULAR && caseString == GrammemeConstants::CASE_NOMINATIVE) {
         return lemma;
     }
 
     // These are four declention groups in the language.
-    if ((lemma.ends_with(u'о') || lemma.ends_with(u'е')) && (genderString == GrammemeConstants::GENDER_MASCULINE() || genderString == GrammemeConstants::GENDER_NEUTER())) {
+    if ((lemma.ends_with(u'о') || lemma.ends_with(u'е')) && (genderString == GrammemeConstants::GENDER_MASCULINE || genderString == GrammemeConstants::GENDER_NEUTER)) {
         inflection = inflectByRuleOE(lemma, countString, caseString, genderString);
-    } else if (lemma.ends_with(u'е') && genderString == GrammemeConstants::GENDER_NEUTER()) {
+    } else if (lemma.ends_with(u'е') && genderString == GrammemeConstants::GENDER_NEUTER) {
         inflection = inflectByRuleE(lemma, countString, caseString, genderString);
     } else if (lemma.ends_with(u'а')) {
         inflection = inflectByRuleA(lemma, countString, caseString);
@@ -168,11 +168,11 @@ bool isProperNoun(const ::std::u16string &lemma);
 namespace {
 
 static bool isConsonant(char16_t ch) {
-    return ::inflection::lang::StringFilterUtil::CYRILLIC_SCRIPT().contains(ch) && !::inflection::dictionary::PhraseProperties::DEFAULT_VOWELS_START().contains(ch);
+    return uscript_hasScript(ch, USCRIPT_CYRILLIC) && !::inflection::dictionary::PhraseProperties::DEFAULT_VOWELS_START().contains(ch);
 }
 
 static bool isVowel(char16_t ch) {
-    return ::inflection::lang::StringFilterUtil::CYRILLIC_SCRIPT().contains(ch) && ::inflection::dictionary::PhraseProperties::DEFAULT_VOWELS_START().contains(ch);
+    return uscript_hasScript(ch, USCRIPT_CYRILLIC) && ::inflection::dictionary::PhraseProperties::DEFAULT_VOWELS_START().contains(ch);
 }
 
 // Some rules require number of syllables in the word. It's counted as all vowels plus r if in between consonants, or if it starts a word followed by a consonant.
@@ -235,7 +235,7 @@ Syllables countSyllables(const ::std::u16string& lemma) {
     base = applySuffix(base, suffix_sg, suffix_pl, number, targetCase);
 
     // Vocative singular and genitive plural require special processing in some cases.
-    if (number == GrammemeConstants::NUMBER_SINGULAR() && targetCase == GrammemeConstants::CASE_VOCATIVE()) {
+    if (number == GrammemeConstants::NUMBER_SINGULAR && targetCase == GrammemeConstants::CASE_VOCATIVE) {
         Syllables syllables = countSyllables(lemma);
         if (lemma.ends_with(u"ица") && syllables == Syllables::MULTI_SYLLABLES) {
             base.back() = u'е';
@@ -245,7 +245,7 @@ Syllables countSyllables(const ::std::u16string& lemma) {
         }
     }
 
-    if (number == GrammemeConstants::NUMBER_PLURAL() && targetCase == GrammemeConstants::CASE_GENITIVE()) {
+    if (number == GrammemeConstants::NUMBER_PLURAL && targetCase == GrammemeConstants::CASE_GENITIVE) {
         if (lemma.ends_with(u"тња") || lemma.ends_with(u"дња") || lemma.ends_with(u"пта") || lemma.ends_with(u"лба") || lemma.ends_with(u"рва")) {
             base.back() = u'и';
         }
@@ -277,18 +277,18 @@ Syllables countSyllables(const ::std::u16string& lemma) {
     const ::std::u16string &number, const ::std::u16string &targetCase)
 {
     const ::std::map<::std::u16string, size_t> case_index = {
-        {GrammemeConstants::CASE_NOMINATIVE(), 0},
-        {GrammemeConstants::CASE_GENITIVE(), 1},
-        {GrammemeConstants::CASE_DATIVE(), 2},
-        {GrammemeConstants::CASE_ACCUSATIVE(), 3},
-        {GrammemeConstants::CASE_VOCATIVE(), 4},
-        {GrammemeConstants::CASE_INSTRUMENTAL(), 5},
-        {GrammemeConstants::CASE_LOCATIVE(), 6}
+        {GrammemeConstants::CASE_NOMINATIVE, 0},
+        {GrammemeConstants::CASE_GENITIVE, 1},
+        {GrammemeConstants::CASE_DATIVE, 2},
+        {GrammemeConstants::CASE_ACCUSATIVE, 3},
+        {GrammemeConstants::CASE_VOCATIVE, 4},
+        {GrammemeConstants::CASE_INSTRUMENTAL, 5},
+        {GrammemeConstants::CASE_LOCATIVE, 6}
     };
 
     auto index = case_index.at(targetCase);
 
-    if (number == GrammemeConstants::NUMBER_SINGULAR()) {
+    if (number == GrammemeConstants::NUMBER_SINGULAR) {
         return lemma + ::std::u16string(suffix_sg[index]);
     } else {
         return lemma + ::std::u16string(suffix_pl[index]);

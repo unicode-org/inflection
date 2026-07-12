@@ -6,13 +6,17 @@
 #include <inflection/dictionary/PhraseProperties.hpp>
 #include <inflection/util/LocaleUtils.hpp>
 #include <inflection/dialog/DisplayValue.hpp>
+#include <inflection/dialog/SpeakableString.hpp>
 #include <inflection/grammar/synthesis/ItGrammarSynthesizer.hpp>
 
 namespace inflection::grammar::synthesis {
 
 
-ItGrammarSynthesizer_IndefiniteArticleLookupFunction::ItGrammarSynthesizer_IndefiniteArticleLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model, const ::std::u16string& derivedSemanticName)
-    : super(model, derivedSemanticName)
+ItGrammarSynthesizer_IndefiniteArticleLookupFunction::ItGrammarSynthesizer_IndefiniteArticleLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model,
+                                                         const ::inflection::dialog::DictionaryLookupFunction& numberLookupFunction,
+                                                         const ::inflection::dialog::DictionaryLookupFunction& genderLookupFunction,
+                                                         const char16_t* derivedSemanticName)
+    : super(model, derivedSemanticName, numberLookupFunction, genderLookupFunction)
 {
 }
 

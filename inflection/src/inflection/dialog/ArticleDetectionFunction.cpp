@@ -41,7 +41,7 @@ ArticleDetectionFunction::ArticleDetectionFunction(const ::inflection::util::ULo
     : super()
     , locale(locale)
 {
-    auto features = ::inflection::lang::features::LanguageGrammarFeatures::getLanguageGrammarFeatures(locale.getLanguage());
+    auto features = ::inflection::lang::features::LanguageGrammarFeatures::getLanguageGrammarFeatures(inflection::util::ULocale(locale.getLanguage()));
     for (const auto& feature : features.getFeatures()) {
         std::vector<::inflection::lang::features::LanguageGrammarFeatures_Feature> values(feature.getValues());
         if (values.empty()) {

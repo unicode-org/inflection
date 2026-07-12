@@ -14,6 +14,7 @@ namespace inflection
     {
         /// @cond FORWARD_DECLARATIONS
         class MF2Factory;
+        class SemanticFeatureConceptArgument;
         /// @endcond
     } // message2
 } // inflection

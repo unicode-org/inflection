@@ -94,7 +94,7 @@ int64_t DictionaryPerformanceGetPropertyValues(const inflection::util::ULocale& 
 
 TEST_CASE("TestDictionaryPerformance#testAllLanguages", "[.]")
 {
-    ::std::set<::inflection::util::ULocale, ::std::greater<>> locales;
+    ::std::set<::inflection::util::ULocale, ::std::less<>> locales;
     auto ascendingLocales(::inflection::util::LocaleUtils::getSupportedLocaleList());
     locales.insert(ascendingLocales.begin(), ascendingLocales.end());
     

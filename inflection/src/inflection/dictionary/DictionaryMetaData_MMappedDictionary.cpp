@@ -21,7 +21,7 @@ DictionaryMetaData_MMappedDictionary::DictionaryMetaData_MMappedDictionary(const
 
 DictionaryMetaData_MMappedDictionary::DictionaryMetaData_MMappedDictionary(::inflection::util::MemoryMappedFile* memoryMappedRegion, const ::std::u16string& sourcePath)
     : options(npc(memoryMappedRegion)->read<int16_t>())
-    , locale(npc(memoryMappedRegion)->readArray<char>(MAX_LANGUAGE_CODE_LENGTH).data_ptr())
+    , locale(npc(memoryMappedRegion)->readArray<char>(MAX_LANGUAGE_CODE_LENGTH))
     , typesStringContainer(memoryMappedRegion)
     , bitsTypesSingletons(npc(memoryMappedRegion)->read<int8_t>())
     , bitsPropertyMapId(npc(memoryMappedRegion)->read<int8_t>())
@@ -43,9 +43,7 @@ DictionaryMetaData_MMappedDictionary::DictionaryMetaData_MMappedDictionary(::inf
 {
 }
 
-DictionaryMetaData_MMappedDictionary::~DictionaryMetaData_MMappedDictionary()
-{
-}
+DictionaryMetaData_MMappedDictionary::~DictionaryMetaData_MMappedDictionary() = default;
 
 const ::inflection::util::ULocale& DictionaryMetaData_MMappedDictionary::getLocale() const
 {
@@ -209,7 +207,7 @@ DictionaryMetaData_MMappedDictionary* DictionaryMetaData_MMappedDictionary::crea
     }
 
     // Verify header starts with magic token
-    const char* magicMarker = npc(mappedRegion)->readArray<char>(sizeof(MAGIC_MARKER)).data_ptr();
+    const char* magicMarker = npc(mappedRegion)->readArray<char>(sizeof(MAGIC_MARKER));
     if (strncmp(magicMarker, MAGIC_MARKER, sizeof(MAGIC_MARKER)) != 0) {
         throw ::inflection::exception::IOException(u"Input file " + sourcePath + u" has invalid header");
     }

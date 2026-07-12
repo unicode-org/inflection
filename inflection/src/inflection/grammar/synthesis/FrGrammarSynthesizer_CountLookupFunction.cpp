@@ -70,7 +70,7 @@ bool FrGrammarSynthesizer_CountLookupFunction::checkInvariantNouns(::std::u16str
         return std::u16string{};
     }
     if (checkInvariantNouns(word, wordGrammemes)) {
-        return GrammemeConstants::NUMBER_SINGULAR();
+        return GrammemeConstants::NUMBER_SINGULAR;
     }
     return {};
 }
@@ -95,9 +95,9 @@ bool FrGrammarSynthesizer_CountLookupFunction::checkInvariantNouns(::std::u16str
 
     if (dictionary.hasAllProperties(firstWord, nounProperty)) {
         if (firstWord.ends_with(u"s") || firstWord.ends_with(u"x")) {
-            return GrammemeConstants::NUMBER_PLURAL();
+            return GrammemeConstants::NUMBER_PLURAL;
         } else {
-            return GrammemeConstants::NUMBER_SINGULAR();
+            return GrammemeConstants::NUMBER_SINGULAR;
         }
     }
     return {};

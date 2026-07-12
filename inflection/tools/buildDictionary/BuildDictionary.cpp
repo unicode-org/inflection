@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2024 Apple Inc. All rights reserved.
+ * Copyright 2017-2026 Apple Inc. All rights reserved.
  */
 #include "Dictionary.hpp"
 #include "DictionaryLogger.hpp"
@@ -29,7 +29,6 @@ int main(int argc, const char* const argv[])
     ::std::string additionalSourceFileName;
     ::std::string sourceInflectionFilename;
     bool verbose = false;
-    bool addAffixPatternMappings = false;
 
     for (int32_t i = 1; i < argc; i++) {
         if (std::string("--locale") == argv[i]) {
@@ -52,8 +51,6 @@ int main(int argc, const char* const argv[])
             checkArgument(!sourceInflectionFilename.empty(), "Multiple --inflectionfile parameters defined");
             checkArgument(i >= argc, "Need a file path after --inflectionfile");
             sourceInflectionFilename = argv[++i];
-        } else if (std::string("--affix-patterns-mappings") == argv[i]) {
-            addAffixPatternMappings = true;
         } else if (std::string("--verbose") == argv[i]) {
             verbose = true;
         } else {
@@ -63,7 +60,6 @@ int main(int argc, const char* const argv[])
     checkArgument(locale.getLanguage().empty(), "Required parameter --locale is missing");
     checkArgument(sourceFilename.empty(), "Required parameter --infile is missing");
     checkArgument(targetFilename.empty(), "Required parameter --outfile is missing");
-    checkArgument(addAffixPatternMappings && sourceInflectionFilename.empty(), "The --affix-patterns-mappings requires --inflectionfile");
 
     auto dictionary = Dictionary::setupDictionary(locale, sourceFilename, additionalSourceFileName);
 
@@ -82,7 +78,7 @@ int main(int argc, const char* const argv[])
         exit(-1);
     }
     DictionaryLogger logger(writer, verbose);
-    LexicalDictionaryBuilder::writeDictionary(writer, logger, *npc(dictionary), sourceInflectionFilename, addAffixPatternMappings);
+    LexicalDictionaryBuilder::writeDictionary(writer, logger, *npc(dictionary), sourceInflectionFilename);
     logger.logWithOffset(locale.getName() + " final offset");
 
     delete dictionary;

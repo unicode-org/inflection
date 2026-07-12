@@ -1,12 +1,10 @@
 /*
- * Copyright 2016-2024 Apple Inc. All rights reserved.
+ * Copyright 2016-2025 Apple Inc. All rights reserved.
  */
 #pragma once
 
 #include <inflection/tokenizer/dictionary/fwd.hpp>
 #include <inflection/tokenizer/trie/fwd.hpp>
-#include <inflection/Object.hpp>
-#include <string>
 #include <memory>
 #include <string_view>
 
@@ -46,10 +44,9 @@ public:
     float getGeometricMeanLength() const;
     int32_t getCompoundLength() const;
     float getArithmeticMeanLength() const;
-    void score();
+    float score();
     ::std::u16string_view getCompound() const;
     int32_t getOffset() const;
-    int32_t getRootOffset() const;
     float getFreq() const;
     bool isSegment() const;
     bool isNoAtomic() const;

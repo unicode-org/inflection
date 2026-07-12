@@ -14,32 +14,29 @@ namespace inflection
         namespace language
         {
             class ArCommonConceptFactory;
-            class DaCommonConceptFactory;
+            class CsCommonConceptFactory;
             class DeCommonConceptFactory;
-            class EnCommonConceptFactory;
             class EsCommonConceptFactory;
             class EsCommonConceptFactory_EsAndList;
             class EsCommonConceptFactory_EsOrList;
+            class FiCommonConceptFactory;
             class FrCommonConceptFactory;
             class HeCommonConceptFactory;
             class HeCommonConceptFactory_HeAndList;
-            class HiCommonConceptFactory;
             class ItCommonConceptFactory;
             class ItCommonConceptFactory_ItAndList;
             class JaCommonConceptFactory;
             class KoCommonConceptFactory;
             class KoCommonConceptFactory_KoAndList;
             class MlCommonConceptFactory;
-            class MsCommonConceptFactory;
-            class NbCommonConceptFactory;
-            class NlCommonConceptFactory;
-            class PtCommonConceptFactory;
+            class PlCommonConceptFactory;
             class RuCommonConceptFactory;
-            class SrCommonConceptFactory;
-            class SvCommonConceptFactory;
+            class SerboCroatianCommonConceptFactory;
+            class SkCommonConceptFactory;
+            class SlavicCommonConceptFactory;
             class ThCommonConceptFactory;
             class TrCommonConceptFactory;
-            class ViCommonConceptFactory;
+            class UkCommonConceptFactory;
             class YueCommonConceptFactory;
             class ZhCommonConceptFactory;
         } // language

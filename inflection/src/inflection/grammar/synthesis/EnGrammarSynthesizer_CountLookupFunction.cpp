@@ -17,7 +17,7 @@
 namespace inflection::grammar::synthesis {
 
 EnGrammarSynthesizer_CountLookupFunction::EnGrammarSynthesizer_CountLookupFunction()
-    : super(::inflection::util::LocaleUtils::ENGLISH(), {GrammemeConstants::NUMBER_SINGULAR(), GrammemeConstants::NUMBER_PLURAL()}, {GrammemeConstants::POS_NOUN(), GrammemeConstants::POS_VERB()})
+    : super(::inflection::util::LocaleUtils::ENGLISH(), {GrammemeConstants::NUMBER_SINGULAR, GrammemeConstants::NUMBER_PLURAL}, {GrammemeConstants::POS_NOUN, GrammemeConstants::POS_VERB})
     , tokenizer(::inflection::tokenizer::TokenizerFactory::createTokenizer(::inflection::util::LocaleUtils::ENGLISH()))
     , dictionary(getDictionary())
 {

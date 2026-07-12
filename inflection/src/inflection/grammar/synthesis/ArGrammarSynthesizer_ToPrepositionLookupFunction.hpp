@@ -14,7 +14,7 @@ public:
     typedef ArGrammarSynthesizer_ArticleLookupFunction super;
 
 public: /* package */
-    ::inflection::dialog::SpeakableString* getArticle(const ::inflection::dialog::DisplayValue& displayValue, ArGrammarSynthesizer::PronounNumber countValue, ArGrammarSynthesizer::PronounGender genderValue, ArGrammarSynthesizer::Person personValue) const override;
+    ::inflection::dialog::SpeakableString* getArticle(const ::inflection::dialog::DisplayValue& displayValue, ArGrammarSynthesizer::Number countValue, ArGrammarSynthesizer::Gender genderValue, ArGrammarSynthesizer::Person personValue) const override;
 
     explicit ArGrammarSynthesizer_ToPrepositionLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model);
     ArGrammarSynthesizer_ToPrepositionLookupFunction(const ArGrammarSynthesizer_ToPrepositionLookupFunction&) = delete;

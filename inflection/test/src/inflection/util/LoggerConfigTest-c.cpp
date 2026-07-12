@@ -3,7 +3,9 @@
  */
 #include "catch2/catch_test_macros.hpp"
 
-#include <inflection/dialog/LocalizedCommonConceptFactoryProvider.h>
+#include <inflection/tokenizer/TokenizerFactory.hpp>
+#include <inflection/tokenizer/Tokenizer.hpp>
+#include <inflection/util/ULocale.hpp>
 #include <inflection/util/StringUtils.hpp>
 #include <inflection/util/LoggerConfig.h>
 #include <inflection/npc.hpp>
@@ -27,31 +29,28 @@ static void stringLogger(void *context, ILogLevel logLevel, const char16_t* cate
 }
 INFLECTION_CEND
 
-TEST_CASE("LoggerConfigTest-c#testAPI", "[.]")
+TEST_CASE("LoggerConfigTest-c#testAPI")
 {
     std::vector<std::u16string> logLines;
     auto error = U_ZERO_ERROR;
-    auto locale = "tlh";
+    auto locale = "zxx";
 
     ilogc_registerLogger(&logLines, stringLogger, &error);
     REQUIRE(U_SUCCESS(error));
 
-    IDLocalizedCommonConceptFactoryProvider* localizedCommonConceptFactoryProvider = ilccfp_getDefaultCommonConceptFactoryProvider(&error);
-    REQUIRE(U_SUCCESS(error));
-
-    ilccfp_getCommonConceptFactory(localizedCommonConceptFactoryProvider, locale, &error);
-    REQUIRE(U_SUCCESS(error));
+    // Constructing a tokenizer for an unknown locale falls back to the default and logs a warning.
+    delete ::inflection::tokenizer::TokenizerFactory::createTokenizer(::inflection::util::ULocale(locale));
 
     ilogc_unregisterLogger(&logLines, &error);
     REQUIRE(U_SUCCESS(error));
 
     INFO(logLines.size());
     REQUIRE((logLines.size() == 1 || logLines.size() == 2));
-    CHECK(logLines[0].starts_with(u"[INFO] [LocalizedCommonConceptFactoryProvider] The CommonConceptFactory for he is being constructed for the first time. Platform="));
+    CHECK(logLines[0] == u"[WARNING] The tokenizer for zxx is unknown. The default will be used.");
     if (logLines.size() == 2) {
         // You might get this when running the test in isolation.
         INFO(inflection::util::StringUtils::to_string(logLines[1]));
-        CHECK(logLines[1].starts_with(u"[INFO] [Tokenizer] The tokenizer for he is being constructed for the first time. Platform="));
+        CHECK(logLines[1].starts_with(u"[INFO] [Tokenizer] The tokenizer for zxx is being constructed for the first time."));
     }
 
     logLines.clear();

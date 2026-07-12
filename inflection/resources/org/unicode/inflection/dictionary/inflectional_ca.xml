@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<patterns>
+    <pattern name="1" words="47">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular" gender="masculine"><t><stem/></t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>s</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="2" words="28">
+        <pos>noun</pos>
+        <suffix>a</suffix>
+        <inflections>
+            <inflection number="singular" gender="feminine"><t><stem/>a</t></inflection>
+            <inflection number="plural" gender="feminine"><t><stem/>es</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="3" words="5">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular" gender="masculine"><t><stem/></t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="4" words="4">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular" gender="feminine"><t><stem/></t></inflection>
+            <inflection number="plural" gender="feminine"><t><stem/>s</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="5" words="4">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular" gender="masculine"><t><stem/></t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>os</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="6" words="3">
+        <pos><!-- number="plural" -->noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="plural" gender="masculine"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="7" words="3">
+        <pos>noun</pos>
+        <suffix>ca</suffix>
+        <inflections>
+            <inflection number="singular" gender="feminine"><t><stem/>ca</t></inflection>
+            <inflection number="plural" gender="feminine"><t><stem/>ques</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="8" words="2">
+        <pos>noun</pos>
+        <suffix>ó</suffix>
+        <inflections>
+            <inflection number="singular" gender="masculine"><t><stem/>ó</t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>ons</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="9" words="2">
+        <pos>noun</pos>
+    </pattern>
+    <pattern name="a" words="2">
+        <pos>noun</pos>
+        <suffix>a</suffix>
+        <inflections>
+            <inflection number="singular" gender="feminine"><t><stem/>a</t></inflection>
+            <inflection number="plural" gender="feminine"><t><stem/>ues</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="b" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular" gender="masculine"><t><stem/></t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>ns</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="c" words="1">
+        <pos>noun</pos>
+        <suffix> d'hivernacle</suffix>
+        <inflections>
+            <inflection number="singular" gender="masculine"><t><stem/> d'hivernacle</t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>s d'hivernacle</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="d" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular" gender="masculine"><t><stem/></t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>os</t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>s</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="e" words="1">
+        <pos>noun</pos>
+        <suffix> global</suffix>
+        <inflections>
+            <inflection number="singular" gender="masculine"><t><stem/> global</t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>s globals</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="f" words="1">
+        <pos>noun</pos>
+        <suffix> de carboni</suffix>
+        <inflections>
+            <inflection number="singular" gender="masculine"><t><stem/> de carboni</t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>s de carboni</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="10" words="1">
+        <pos>noun</pos>
+        <suffix>ja</suffix>
+        <inflections>
+            <inflection number="singular" gender="feminine"><t><stem/>ja</t></inflection>
+            <inflection number="plural" gender="feminine"><t><stem/>ges</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="11" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="plural" gender="masculine"><t><stem/>s</t></inflection>
+            <inflection gender="masculine"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="12" words="1">
+        <pos>noun</pos>
+        <suffix>ó</suffix>
+        <inflections>
+            <inflection number="singular" gender="feminine"><t><stem/>ó</t></inflection>
+            <inflection number="plural" gender="feminine"><t><stem/>ons</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="13" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="plural" gender="masculine"><t><stem/>s</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="14" words="1">
+        <pos>noun</pos>
+        <suffix>a</suffix>
+        <inflections>
+            <inflection number="singular" gender="feminine"><t><stem/>a</t></inflection>
+            <inflection number="plural" gender="feminine"><t><stem/>e</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="15" words="1">
+        <pos>noun</pos>
+        <suffix> hivernacle</suffix>
+        <inflections>
+            <inflection number="plural" gender="masculine"><t><stem/>os hivernacle</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="16" words="1">
+        <pos>noun</pos>
+        <suffix> de drets d'emissió</suffix>
+        <inflections>
+            <inflection number="singular" gender="masculine"><t><stem/> de drets d'emissió</t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>os de drets d'emissió</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="17" words="1">
+        <pos>noun</pos>
+        <suffix>iquen</suffix>
+        <inflections>
+            <inflection number="singular" gender="masculine"><t><stem/>iquen</t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>íquens</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="18" words="1">
+        <pos><!-- number="singular" -->noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular" gender="feminine"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="19" words="1">
+        <pos>noun</pos>
+        <suffix>í</suffix>
+        <inflections>
+            <inflection number="singular" gender="masculine"><t><stem/>í</t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>ins</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="1a" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular" gender="masculine"><t><stem/></t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>sos</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="1b" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular" gender="masculine"><t><stem/></t></inflection>
+            <inflection number="singular" gender="feminine"><t><stem/>ssa</t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>s</t></inflection>
+            <inflection number="plural" gender="feminine"><t><stem/>sses</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="1c" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular" gender="masculine"><t><stem/></t></inflection>
+            <inflection number="plural" gender="masculine"><t><stem/>s</t></inflection>
+            <inflection number="plural" gender="feminine"><t><stem/>a</t></inflection>
+            <inflection number="plural" gender="feminine"><t><stem/>es</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="1d" words="1">
+        <pos>noun</pos>
+        <suffix>a cinematogràfica</suffix>
+        <inflections>
+            <inflection number="singular" gender="feminine"><t><stem/>a cinematogràfica</t></inflection>
+            <inflection number="plural" gender="feminine"><t><stem/>es cinematogràfiques</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="1e" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="plural" gender="feminine"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="1f" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection gender="feminine"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+</patterns>

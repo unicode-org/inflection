@@ -187,8 +187,6 @@
     <!--    Words exists in dictionary and we can inflect it-->
     <test><source gender="feminine">Organspender</source><result exists="true"/></test>
 
-
-    <!--  rdar://101503696 (German: Support inflection of words needed for Colorado Wave 1)  -->
     <test><source case="nominative" number="singular" gender="masculine">Organisator</source><result exists="true">Organisator</result></test>
     <test><source case="nominative" number="singular" gender="feminine">Organisator</source><result exists="true">Organisatorin</result></test>
     <test><source case="nominative" number="singular" gender="masculine">Organisatorin</source><result exists="true">Organisator</result></test>
@@ -359,4 +357,19 @@
     <test><source gender="feminine">Besucher</source><result exists="true">Besucherin</result></test>
     <test><source case="nominative" number="singular">Schwester</source><result withPossArticle="deine Schwester"/></test>
     <test><source case="nominative" number="singular">Bruder</source><result withPossArticle="dein Bruder"/></test>
+
+    <!-- Articles &amp; Nouns -->
+    <test><source case="dative" definiteness="definite">Wohnzimmer</source><result exists="true">dem Wohnzimmer</result></test>
+    <test><source case="dative" definiteness="indefinite">Wohnzimmer</source><result exists="true">einem Wohnzimmer</result></test>
+    <test><source case="dative" definiteness="definite">das Wohnzimmer</source><result exists="true">dem Wohnzimmer</result></test>
+    <test><source case="dative" definiteness="indefinite">ein Wohnzimmer</source><result exists="true">einem Wohnzimmer</result></test>
+    <test><source case="dative">mein Wohnzimmer</source><result exists="true">meinem Wohnzimmer</result></test>
+
+    <!-- Adjectives &amp; Nouns -->
+    <test><source case="nominative" number="plural" declension="strong">groß Wohnzimmer</source><result>große Wohnzimmer</result></test>
+    <test><source case="nominative" number="plural" declension="weak">groß Wohnzimmer</source><result>großen Wohnzimmer</result></test>
+    <test><source case="nominative" number="plural" declension="mixed">groß Wohnzimmer</source><result>großen Wohnzimmer</result></test>
+
+    <!-- There is a conflict here. The word Albanischs should go to the noun Albanisch, which is not the same as the adjective albanisch -->
+    <test><source case="nominative">albanischs</source><result>albanisch</result></test>
 </inflectionTest>

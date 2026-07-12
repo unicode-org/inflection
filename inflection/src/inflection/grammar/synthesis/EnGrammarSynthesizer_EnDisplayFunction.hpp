@@ -39,7 +39,6 @@ private:
     ::inflection::dialog::StaticArticleLookupFunction definiteArticleLookupFunction;
     ::inflection::grammar::synthesis::EnGrammarSynthesizer_ArticleLookupFunction indefiniteArticleLookupFunction;
     ::inflection::dialog::DefinitenessDisplayFunction definitenessDisplayFunction;
-    const ::std::map<::std::u16string_view, ::std::u16string_view> possessiveDeterminers;
 
 private:
     ::std::u16string guessPluralInflection(const ::std::u16string& displayString) const;

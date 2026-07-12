@@ -14,56 +14,79 @@
 #include <inflection/util/LocaleUtils.hpp>
 #include <inflection/util/StringUtils.hpp>
 #include <inflection/npc.hpp>
+#include <atomic>
+#include <barrier>
+#include <memory>
 #include <thread>
 
-void testInflection(const inflection::dialog::SemanticFeatureModel* model, const ::std::vector<::std::u16string>& phrases, const ::std::vector<::inflection::dialog::SemanticFeature>& constraints, const ::std::vector<::inflection::dialog::SemanticFeature>& semanticFeatures, int32_t threadID, ::std::vector<::inflection::dialog::SpeakableString*>* results)
+static void testInflection(const inflection::dialog::SemanticFeatureModel** modelPtr, const ::std::vector<::std::u16string>* phrasesPtr, const ::std::vector<::inflection::dialog::SemanticFeature>* constraintsPtr, const ::std::vector<::inflection::dialog::SemanticFeature>* semanticFeaturesPtr, std::barrier<>* barrier, const std::atomic<bool>* finished, int32_t threadID, ::std::vector<::std::unique_ptr<::inflection::dialog::SpeakableString>>* results)
 {
-    try {
-        auto hasDynamicWordInflection = npc(model)->getDefaultDisplayFunction() != nullptr;
-        for (const auto& phrase : phrases) {
-            inflection::dialog::InflectableStringConcept stringConcept(model, inflection::dialog::SpeakableString(phrase));
-            auto result = stringConcept.toSpeakableString();
-            if (result != nullptr) {
-                npc(results)->push_back(result);
-            }
-            if (hasDynamicWordInflection) {
-                for (const auto& constraint : constraints) {
-                    for (const auto& semanticValue : constraint.getBoundedValues()) {
-                        stringConcept.putConstraint(constraint, semanticValue);
-                        result = stringConcept.toSpeakableString();
-                        if (result != nullptr) {
-                            npc(results)->push_back(result);
+    while (true) {
+        barrier->arrive_and_wait();
+        if (finished->load()) {
+            break;
+        }
+        try {
+            const inflection::dialog::SemanticFeatureModel& model = *npc(*npc(modelPtr));
+            auto hasDynamicWordInflection = model.getDefaultDisplayFunction() != nullptr;
+            for (const auto& phrase : *phrasesPtr) {
+                inflection::dialog::InflectableStringConcept stringConcept(&model, inflection::dialog::SpeakableString(phrase));
+                auto result = stringConcept.toSpeakableString();
+                if (result != nullptr) {
+                    results->emplace_back(result);
+                }
+                if (hasDynamicWordInflection) {
+                    for (const auto& constraint : *constraintsPtr) {
+                        for (const auto& semanticValue : constraint.getBoundedValues()) {
+                            stringConcept.putConstraint(constraint, semanticValue);
+                            result = stringConcept.toSpeakableString();
+                            if (result != nullptr) {
+                                results->emplace_back(result);
+                            }
+                            stringConcept.clearConstraint(constraint);
                         }
-                        stringConcept.clearConstraint(constraint);
+                    }
+                }
+                for (const auto& semanticFeature : *semanticFeaturesPtr) {
+                    result = stringConcept.getFeatureValue(semanticFeature);
+                    if (result != nullptr) {
+                        results->emplace_back(result);
                     }
                 }
             }
-            for (const auto& semanticFeature : semanticFeatures) {
-                result = stringConcept.getFeatureValue(semanticFeature);
-                if (result != nullptr) {
-                    npc(results)->push_back(result);
-                }
-            }
         }
-    }
-    catch (const std::exception& e) {
-        npc(results)->push_back(new ::inflection::dialog::SpeakableString(u"Thread exception " + inflection::util::StringUtils::to_u16string(threadID) + u": " + inflection::util::StringUtils::to_u16string(e.what())));
+        catch (const std::exception& e) {
+            results->emplace_back(new ::inflection::dialog::SpeakableString(u"Thread exception " + inflection::util::StringUtils::to_u16string(threadID) + u": " + inflection::util::StringUtils::to_u16string(e.what())));
+        }
+        barrier->arrive_and_wait();
+        barrier->arrive_and_wait();
+        results->clear();
     }
 }
 
 TEST_CASE("DialogThreadSafetyTest#testInflect", "[multithreaded]")
 {
-    const int32_t processorCount = (int32_t)std::thread::hardware_concurrency();
+    const int32_t processorCount = static_cast<int32_t>(std::thread::hardware_concurrency());
     REQUIRE(processorCount > 1); // This test requires at least 2 threads.
     ::std::vector<::std::thread> threads;
     threads.reserve(processorCount);
     ::inflection::util::ULocale previousLocale("");
     ::std::vector<::std::u16string> phrases;
-    ::std::vector<::inflection::dialog::SpeakableString*>* results = new ::std::vector<::inflection::dialog::SpeakableString*>[processorCount];
+    ::std::vector<::std::vector<::std::unique_ptr<::inflection::dialog::SpeakableString>>> results(processorCount);
+    ::std::vector<inflection::dialog::SemanticFeature> constraints;
+    ::std::vector<inflection::dialog::SemanticFeature> semanticFeatures;
     int32_t minimumNumberOfWords = 10;
     if (getenv("INFLECTION_TEST_EXHAUSTIVE") != nullptr) {
         // We do a quick test for development, but we can test more exhaustively if we have plenty of time to test.
         minimumNumberOfWords *= 100;
+    }
+
+    const inflection::dialog::SemanticFeatureModel* currModel = nullptr;
+    std::atomic finished(false);
+    std::barrier barrier(processorCount + 1);
+    for (int32_t count = 0; count < processorCount; count++) {
+        results[count].reserve(minimumNumberOfWords);
+        threads.emplace_back(testInflection, &currModel, &phrases, &constraints, &semanticFeatures, &barrier, &finished, count, &results[count]);
     }
 
     for (const auto& locale : ::inflection::util::LocaleUtils::getSupportedLocaleList()) {
@@ -73,13 +96,13 @@ TEST_CASE("DialogThreadSafetyTest#testInflect", "[multithreaded]")
         }
         previousLocale = locale;
         INFO(locale.getName());
-        threads.clear();
         phrases.clear();
-        inflection::dialog::SemanticFeatureModel model(locale);
+        constraints.clear();
+        semanticFeatures.clear();
 
+        inflection::dialog::SemanticFeatureModel model(locale);
+        currModel = &model;
         auto features = ::inflection::lang::features::LanguageGrammarFeatures::getLanguageGrammarFeatures(locale);
-        ::std::vector<inflection::dialog::SemanticFeature> constraints;
-        ::std::vector<inflection::dialog::SemanticFeature> semanticFeatures;
         bool hasDisplayFunction = model.getDefaultDisplayFunction() != nullptr;
         for (const auto& [featureName, grammarCategory] : features.getCategories()) {
             if (featureName != u"pos" && featureName != u"sound" && grammarCategory.isUniqueValues()) {
@@ -123,40 +146,31 @@ TEST_CASE("DialogThreadSafetyTest#testInflect", "[multithreaded]")
             phrases.emplace_back(*dictionaryIter);
         }
 
-        for (int32_t count = 0; count < processorCount; count++) {
-            results[count].reserve(phrases.size());
-            threads.emplace_back(testInflection, &model, phrases, constraints, semanticFeatures, count, results + count);
-        }
-
-        // Wait for all the threads to finish.
-        for (auto& thread : threads) {
-            thread.join();
-            // Wait for other threads to finish.
-            std::this_thread::yield();
-        }
+        barrier.arrive_and_wait(); // Signal workers to start
+        barrier.arrive_and_wait(); // Wait for workers to finish
 
         // In all the threads that just finished, all the results should be precisely the same.
+        auto numPhrases = phrases.size();
+        REQUIRE(results[0].size() >= numPhrases);
         for (int32_t threadIdx = 1; threadIdx < processorCount; threadIdx++) {
             INFO("Thread=" + std::to_string(threadIdx));
-            int32_t resultsSize = (int32_t)results[0].size();
-            REQUIRE(resultsSize > 0);
-            REQUIRE((int32_t)results[threadIdx].size() == resultsSize);
-            for (int32_t resultIdx = 0; resultIdx < resultsSize; resultIdx++) {
-                const auto result = results[threadIdx].at(resultIdx);
-                const auto expected = results[0].at(resultIdx);
-                if (*npc(result) != *npc(expected)) {
+            auto resultsSize = results[0].size();
+            REQUIRE(results[threadIdx].size() == resultsSize);
+            for (size_t resultIdx = 0; resultIdx < resultsSize; resultIdx++) {
+                const auto& result = results[threadIdx].at(resultIdx);
+                const auto& expected = results[0].at(resultIdx);
+                if (*result != *expected) {
                     INFO(std::string("Failure at index ") + std::to_string(resultIdx));
                     FAIL(inflection::util::StringUtils::to_string(result->toString()) + "!=" + inflection::util::StringUtils::to_string(expected->toString()));
                 }
             }
         }
-
-        for (int32_t threadIdx = 0; threadIdx < processorCount; threadIdx++) {
-            for (auto result : results[threadIdx]) {
-                delete result;
-            }
-            results[threadIdx].clear();
-        }
+        barrier.arrive_and_wait(); // Clear the results
     }
-    delete[] results;
+
+    finished.store(true);
+    barrier.arrive_and_wait();
+    for (auto& thread : threads) {
+        thread.join();
+    }
 }

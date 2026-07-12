@@ -8,7 +8,6 @@
 #include <inflection/dialog/DefaultArticleLookupFunction.hpp>
 #include <inflection/dictionary/DictionaryMetaData.hpp>
 #include <inflection/tokenizer/Tokenizer.hpp>
-#include <icu4cxx/RegularExpression.hpp>
 #include <icu4cxx/UnicodeSet.hpp>
 #include <memory>
 #include <optional>
@@ -18,8 +17,6 @@ class inflection::grammar::synthesis::KoGrammarSynthesizer_ParticleResolver fina
 private:
     const inflection::dictionary::DictionaryMetaData& dictionary;
     const icu4cxx::UnicodeSet& vowelSet;
-    icu4cxx::UnicodeSet openParenthesesSet { u"[:Line_Break=Open_Punctuation:]" };
-    const icu4cxx::RegularExpression parenthesesMatcher { u"[:Line_Break=Open_Punctuation:].*[[:Line_Break=Close_Punctuation:][:Line_Break=Close_Parenthesis:]]", 0, nullptr };
     std::unique_ptr<inflection::tokenizer::Tokenizer> englishTokenizer {  };
     ::std::u16string vowelParticle {  };
     ::std::u16string consonantParticle {  };

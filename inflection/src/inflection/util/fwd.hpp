@@ -13,6 +13,7 @@ namespace inflection
     namespace util
     {
         /// @cond FORWARD_DECLARATIONS
+        class ArrayUtils;
         class AutoFileDescriptor;
         template <class T, auto Destroy>
         class AutoCRelease;
@@ -20,6 +21,7 @@ namespace inflection
         class DelimitedStringIterator;
         template <typename Function>
         class Finally;
+        class LocaleConstants;
         class LocaleUtils;
         class Logger;
         class LoggerConfig;

@@ -26,27 +26,19 @@ private:
     ::std::u16string reinflectImplementation(int64_t fromGrammemes, int64_t toConstraints, const std::vector<int64_t> &toOptionalConstraints, std::u16string_view surfaceForm) const;
 
 public:
-    ::std::vector<Inflector_Inflection> constrain(const ::std::vector<::std::u16string>& constraints) const;
     ::std::vector<Inflector_Inflection> constrain(const ::std::vector<::std::u16string>& constraints, bool isSuperset) const;
-    void getLemmaSuffixMatches(::std::vector<Inflector_Inflection>& results) const;
-private:
-    ::std::optional<Inflector_Inflection> getMatchingLemmaInflection(const ::std::vector<Inflector_Inflection>& inflections) const;
 public:
-    ::std::optional<Inflector_Inflection> selectLemmaInflection(int64_t fromGrammemes, const ::std::vector<int64_t> &lemmaAttributes) const;
     ::std::vector<::inflection::dictionary::Inflector_Inflection> inflectionsForSurfaceForm(::std::u16string_view surfaceForm, int64_t fromGrammemes) const;
     ::std::u16string reinflect(int64_t fromGrammemes, int64_t toConstraints, std::u16string_view surfaceForm) const;
     ::std::u16string reinflectWithOptionalConstraints(int64_t fromGrammemes, int64_t toConstraints, const std::vector<int64_t> &toOptionalConstraints, std::u16string_view surfaceForm) const;
     bool containsSuffix(std::u16string_view suffix) const;
+    bool containsGrammemes(int64_t grammemes) const;
 
     int32_t getFrequency() const;
     ::std::u16string getIdentifier() const;
     int32_t numInflections() const;
 
-    bool containsPartsOfSpeech(const ::std::u16string& pos) const;
-    int64_t firstContainingPartOfSpeech(const ::std::vector<int64_t> &partOfSpeech) const;
     int64_t getPartsOfSpeech() const;
-
-    std::weak_ordering operator<=>(const Inflector_InflectionPattern& other) const;
 
 private:
     Inflector_InflectionPattern() = delete;
@@ -59,6 +51,5 @@ private: /* package */
 private:
     friend class Inflector;
     friend class Inflector_MMappedDictionary;
-    friend class Inflector_Suffix;
     friend class Inflector_Inflection;
 };

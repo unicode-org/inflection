@@ -6,8 +6,6 @@
 #include <inflection/dialog/fwd.hpp>
 #include <inflection/grammar/synthesis/fwd.hpp>
 #include <cstdint>
-#include <map>
-#include <set>
 #include <string>
 
 class inflection::grammar::synthesis::ItGrammarSynthesizer final

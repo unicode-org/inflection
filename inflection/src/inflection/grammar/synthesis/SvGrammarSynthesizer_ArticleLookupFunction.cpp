@@ -22,7 +22,7 @@ SvGrammarSynthesizer_ArticleLookupFunction::SvGrammarSynthesizer_ArticleLookupFu
     , singularCommonString(singularCommonString)
     , singularNeuterString(singularNeuterString)
     , pluralString(pluralString)
-    , countLookupFunction(::inflection::util::LocaleUtils::SWEDISH(), {GrammemeConstants::NUMBER_SINGULAR(), GrammemeConstants::NUMBER_PLURAL()})
+    , countLookupFunction(::inflection::util::LocaleUtils::SWEDISH(), {GrammemeConstants::NUMBER_SINGULAR, GrammemeConstants::NUMBER_PLURAL})
 {
 }
 

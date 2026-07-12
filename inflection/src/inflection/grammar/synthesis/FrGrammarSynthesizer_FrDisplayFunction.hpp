@@ -11,8 +11,6 @@
 #include <inflection/grammar/synthesis/fwd.hpp>
 #include <inflection/grammar/synthesis/FrGrammarSynthesizer_ArticleLookupFunction.hpp>
 #include <string>
-#include <set>
-#include <vector>
 
 class inflection::grammar::synthesis::FrGrammarSynthesizer_FrDisplayFunction
     : public virtual ::inflection::dialog::DefaultDisplayFunction
@@ -29,7 +27,6 @@ private:
     FrGrammarSynthesizer_ArticleLookupFunction definiteArticleLookupFunction;
     FrGrammarSynthesizer_ArticleLookupFunction indefiniteArticleLookupFunction;
     ::inflection::dialog::DefinitenessDisplayFunction definitenessDisplayFunction;
-    ::std::set<::std::u16string> WORDS_PREVENTING_INFLECTION {  };
     int64_t nounOrAdjectiveProperties {  };
     int64_t articlePronounProperNounPrepositionProperties {  };
     int64_t adverbProperty {  };

@@ -10,11 +10,11 @@
 namespace inflection::grammar::synthesis {
 
 SvGrammarSynthesizer_GenderLookupFunction::SvGrammarSynthesizer_GenderLookupFunction()
-: super(::inflection::util::LocaleUtils::SWEDISH(), {GrammemeConstants::GENDER_NEUTER(), GrammemeConstants::GENDER_COMMON()})
+: super(::inflection::util::LocaleUtils::SWEDISH(), {GrammemeConstants::GENDER_NEUTER, GrammemeConstants::GENDER_COMMON})
 , dictionary(getDictionary())
 {
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryCommon, {GrammemeConstants::GENDER_COMMON()}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryNeuter, {GrammemeConstants::GENDER_NEUTER()}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryCommon, {GrammemeConstants::GENDER_COMMON}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryNeuter, {GrammemeConstants::GENDER_NEUTER}));
 }
 
 SvGrammarSynthesizer_GenderLookupFunction::~SvGrammarSynthesizer_GenderLookupFunction()
@@ -28,10 +28,10 @@ SvGrammarSynthesizer_GenderLookupFunction::~SvGrammarSynthesizer_GenderLookupFun
         int64_t binaryType = 0;
         if(dictionary.getCombinedBinaryType(&binaryType, word) != nullptr){
             if ((binaryType & dictionaryCommon) != 0) {
-                out = GrammemeConstants::GENDER_COMMON();
+                out = GrammemeConstants::GENDER_COMMON;
             }
             if ((binaryType & dictionaryNeuter) != 0) {
-                out = GrammemeConstants::GENDER_NEUTER();
+                out = GrammemeConstants::GENDER_NEUTER;
             }
         }
     }

@@ -2,10 +2,11 @@
 # Copyright 2025 Unicode Incorporated and others. All rights reserved.
 # Copyright 2020-2024 Apple Inc. All rights reserved.
 #
-JAR=build/libs/dictionary-parser-all.jar
+SCRIPT_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+JAR="$SCRIPT_DIR/build/libs/dictionary-parser-all.jar"
 if [ ! -e "$JAR" ]
 then
-    ../../gradlew clean fatJar >&2
+    "$SCRIPT_DIR/../../gradlew" -p "$SCRIPT_DIR" clean fatJar >&2
 fi
 RUN_COMMAND="java -Dfile.encoding=UTF-8 -cp $JAR org.unicode.wikidata.ParseWikidata"
 if [[ $# -eq 2 && $1 == "--all" ]]; then
@@ -14,7 +15,6 @@ if [[ $# -eq 2 && $1 == "--all" ]]; then
     if [[ ! "$LEXEME_FILE" =~ \.json$ ]]; then
         echo "For faster parsing, use the decompressed form of $LEXEME_FILE"
     fi
-    SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
     LEXICAL_DIR=$(realpath $SCRIPT_DIR/../..)/resources/org/unicode/inflection/dictionary
     for DICTIONARY in `ls $LEXICAL_DIR/dictionary*.lst`
     do

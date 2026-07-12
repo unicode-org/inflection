@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2024 Apple Inc. All rights reserved.
+ * Copyright 2016-2026 Apple Inc. All rights reserved.
  */
 #include <inflection/tokenizer/locale/SemiticWordAndDelimiterTokenExtractor.hpp>
 
@@ -21,9 +21,9 @@ static constexpr char16_t SUFFIX_KEY[] = { u"tokenizer.suffixes" };
 static constexpr char16_t NORMALIZE_KEY[] = { u"tokenizer.normalize" };
 static constexpr char16_t REPLACE_KEY[] = { u"tokenizer.replace" };
 
-SemiticWordAndDelimiterTokenExtractor::SemiticWordAndDelimiterTokenExtractor(const ::inflection::util::ULocale& locale, const ::icu4cxx::UnicodeSet& nativeSet, const ::std::map<::std::u16string_view, const char16_t*>& config)
+SemiticWordAndDelimiterTokenExtractor::SemiticWordAndDelimiterTokenExtractor(const ::inflection::util::ULocale& locale, UScriptCode nativeScript, const ::std::map<::std::u16string_view, const char16_t*>& config)
     : super(locale, config)
-    , nativeSet(nativeSet)
+    , nativeScript(nativeScript)
 {
     auto prefixSize = getPrefixClasses(config);
     if (prefixSize > 0) {
@@ -46,17 +46,12 @@ inflection::tokenizer::iterator::TokenExtractorIterator* SemiticWordAndDelimiter
     return new inflection::tokenizer::locale::SemiticTokenExtractorIterator(*this, str);
 }
 
-bool SemiticWordAndDelimiterTokenExtractor::isKnownWord(std::u16string_view compoundWord) const
-{
-    return wordsToNotSplit != nullptr && wordsToNotSplit->find(compoundWord) != wordsToNotSplit->end();
-}
-
 void
 SemiticWordAndDelimiterTokenExtractor::decompoundWord(std::vector<int32_t>* boundaries, std::u16string_view charSequence, int32_t start, int32_t end) const
 {
     std::u16string_view compoundWord(charSequence.substr(start, end - start));
     auto originalLength = int32_t(compoundWord.length());
-    if (originalLength <= MINIMUM_WORD_LENGTH || !::inflection::util::UnicodeSetUtils::containsSome(nativeSet, compoundWord) || isKnownWord(compoundWord)) {
+    if (originalLength <= MINIMUM_WORD_LENGTH || !::inflection::util::UnicodeSetUtils::containsSome(nativeScript, compoundWord) || isWordToNotSplit(compoundWord)) {
         return;
     }
     int32_t prefixIdx;
@@ -65,7 +60,7 @@ SemiticWordAndDelimiterTokenExtractor::decompoundWord(std::vector<int32_t>* boun
     auto possibleWord = compoundWord;
     int32_t prefixCount = 0;
     for (const auto& affixRecord : prefixTree) {
-        if (newLength <= MINIMUM_WORD_LENGTH || isKnownWord(possibleWord)) {
+        if (newLength <= MINIMUM_WORD_LENGTH || isWordToNotSplit(possibleWord)) {
             break;
         }
         auto lastGoodNode = &affixRecord;
@@ -88,7 +83,7 @@ SemiticWordAndDelimiterTokenExtractor::decompoundWord(std::vector<int32_t>* boun
             prefixCount++;
         }
     }
-    if (!isKnownWord(possibleWord)) {
+    if (!isWordToNotSplit(possibleWord)) {
         auto lastGoodNode = &suffixTree;
         auto node = &suffixTree;
         auto suffixIdx = originalLength;
@@ -128,7 +123,7 @@ SemiticWordAndDelimiterTokenExtractor::decompoundWord(std::vector<int32_t>* boun
 ::std::u16string* SemiticWordAndDelimiterTokenExtractor::normalize(::std::u16string* dest, std::u16string_view src, std::u16string_view fullCharSequence, int32_t start) const
 {
     if (!toNormalize.empty() && src.ends_with(toNormalize)
-        && (start + src.length()) < fullCharSequence.length() && nativeSet.contains(fullCharSequence[start + src.length()]))
+        && (start + src.length()) < fullCharSequence.length() && static_cast<bool>(uscript_hasScript(fullCharSequence[start + src.length()], nativeScript)))
     {
         npc(dest)->assign(src.substr(0, src.length() - toNormalize.length()));
         npc(dest)->append(replacement);

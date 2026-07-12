@@ -17,11 +17,11 @@
     <test><source number="singular" gender="neuter">value</source><result withInterrogativeArticle="hvilket value"/></test>
     <test><source number="plural">value</source><result withInterrogativeArticle="hvilke value"/></test>
 
-    <test><source number="singular" definiteness="indefinite">torsdag</source><result>torsdag</result></test>
+    <test><source number="singular" definiteness="indefinite">torsdag</source><result>en torsdag</result></test>
     <test><source number="singular" definiteness="definite">torsdag</source><result>torsdagen</result></test>
     <test><source number="plural" definiteness="indefinite">torsdag</source><result>torsdage</result></test>
     <test><source number="plural" definiteness="definite">torsdag</source><result>torsdagene</result></test>
-    <test><source number="singular" definiteness="indefinite" case="genitive">torsdag</source><result>torsdags</result></test>
+    <test><source number="singular" definiteness="indefinite" case="genitive">torsdag</source><result>en torsdags</result></test>
     <test><source number="singular" definiteness="definite" case="genitive">torsdag</source><result>torsdagens</result></test>
     <test><source number="plural" definiteness="indefinite" case="genitive">torsdag</source><result>torsdages</result></test>
     <test><source number="plural" definiteness="definite" case="genitive">torsdag</source><result>torsdagenes</result></test>
@@ -31,30 +31,30 @@
     <test><source definiteness="definite">sarkom</source><result>sarkomet</result></test>
     <test><source number="plural">sarkom</source><result>sarkomer</result></test>
     <test><source case="genitive">sarkom</source><result>sarkoms</result></test>
-    <test><source number="singular" definiteness="indefinite">sarkom</source><result>sarkom</result></test>
+    <test><source number="singular" definiteness="indefinite">sarkom</source><result>et sarkom</result></test>
     <test><source number="singular" definiteness="definite">sarkom</source><result>sarkomet</result></test>
     <test><source number="plural" definiteness="indefinite">sarkom</source><result>sarkomer</result></test>
     <test><source number="plural" definiteness="definite">sarkom</source><result>sarkomerne</result></test>
-    <test><source number="singular" definiteness="indefinite" case="genitive">sarkom</source><result>sarkoms</result></test>
+    <test><source number="singular" definiteness="indefinite" case="genitive">sarkom</source><result>et sarkoms</result></test>
     <test><source number="singular" definiteness="definite" case="genitive">sarkom</source><result>sarkomets</result></test>
     <test><source number="plural" definiteness="indefinite" case="genitive">sarkom</source><result>sarkomers</result></test>
     <test><source number="plural" definiteness="definite" case="genitive">sarkom</source><result>sarkomernes</result></test>
-    <test><source number="singular" definiteness="indefinite">stor torsdag</source><result>stor torsdag</result></test>
-    <test><source number="singular" definiteness="definite">stor torsdag</source><result>store torsdag</result></test>
+    <test><source number="singular" definiteness="indefinite">stor torsdag</source><result>en stor torsdag</result></test>
+    <test><source number="singular" definiteness="definite">stor torsdag</source><result><text print="den store torsdag" speak="dén store torsdag"/></result></test>
     <test><source number="plural" definiteness="indefinite">stor torsdag</source><result>store torsdage</result></test>
-    <test><source number="plural" definiteness="definite">stor torsdag</source><result>store torsdage</result></test>
-    <test><source number="singular" definiteness="indefinite" case="genitive">stor torsdag</source><result>stor torsdags</result></test>
-    <test><source number="singular" definiteness="definite" case="genitive">stor torsdag</source><result>store torsdags</result></test>
+    <test><source number="plural" definiteness="definite">stor torsdag</source><result>de store torsdage</result></test>
+    <test><source number="singular" definiteness="indefinite" case="genitive">stor torsdag</source><result>en stor torsdags</result></test>
+    <test><source number="singular" definiteness="definite" case="genitive">stor torsdag</source><result><text print="den store torsdags" speak="dén store torsdags"/></result></test>
     <test><source number="plural" definiteness="indefinite" case="genitive">stor torsdag</source><result>store torsdages</result></test>
-    <test><source number="plural" definiteness="definite" case="genitive">stor torsdag</source><result>store torsdages</result></test>
-    <test><source number="singular" definiteness="indefinite">stor sarkom</source><result>stort sarkom</result></test>
-    <test><source number="singular" definiteness="definite">stor sarkom</source><result>store sarkom</result></test>
+    <test><source number="plural" definiteness="definite" case="genitive">stor torsdag</source><result>de store torsdages</result></test>
+    <test><source number="singular" definiteness="indefinite">stor sarkom</source><result>et stort sarkom</result></test>
+    <test><source number="singular" definiteness="definite">stor sarkom</source><result>det store sarkom</result></test>
     <test><source number="plural" definiteness="indefinite">stor sarkom</source><result>store sarkomer</result></test>
-    <test><source number="plural" definiteness="definite">stor sarkom</source><result>store sarkomer</result></test>
-    <test><source number="singular" definiteness="indefinite" case="genitive">stor sarkom</source><result>stort sarkoms</result></test>
-    <test><source number="singular" definiteness="definite" case="genitive">stor sarkom</source><result>store sarkoms</result></test>
+    <test><source number="plural" definiteness="definite">stor sarkom</source><result>de store sarkomer</result></test>
+    <test><source number="singular" definiteness="indefinite" case="genitive">stor sarkom</source><result>et stort sarkoms</result></test>
+    <test><source number="singular" definiteness="definite" case="genitive">stor sarkom</source><result>det store sarkoms</result></test>
     <test><source number="plural" definiteness="indefinite" case="genitive">stor sarkom</source><result>store sarkomers</result></test>
-    <test><source number="plural" definiteness="definite" case="genitive">stor sarkom</source><result>store sarkomers</result></test>
+    <test><source number="plural" definiteness="definite" case="genitive">stor sarkom</source><result>de store sarkomers</result></test>
     <test><source number="singular" definiteness="indefinite" gender="common">stor</source><result>stor</result></test>
     <test><source number="singular" definiteness="definite" gender="common">stor</source><result>store</result></test>
     <test><source number="plural" definiteness="indefinite" gender="common">stor</source><result>store</result></test>
@@ -117,9 +117,13 @@
 
     <test><source pos="adjective" definiteness="definite" gender="neuter" number="plural">michael</source><result>michaele</result></test>
     
-    <!-- inflection of .definiteness('definite') sometimes unexpectedly returns definite+genitiv/possessive (lys -> lysets, gods -> godsets)) -->
+    <!-- inflection of .definiteness('definite') sometimes unexpectedly returns definite+genitiv/possessive (lys -> lysets, gods -> godsets) -->
+    <test><source definiteness="definite">lys'</source><result>lysets</result></test>
+    <test><source definiteness="definite">lys</source><result>lyset</result></test>
+    <test><source definiteness="definite" case="genitive">lys</source><result>lysets</result></test>
     <test><source definiteness="definite" case="genitive">lyset</source><result>lysets</result></test>
     <test><source definiteness="definite">gods</source><result>godset</result></test>
+    <test><source definiteness="definite" case="genitive">gods</source><result>godsets</result></test>
     <test><source definiteness="definite" case="genitive">godset</source><result>godsets</result></test>
     
 </inflectionTest>

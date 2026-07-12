@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<patterns>
+    <pattern name="1" words="5">
+        <pos><!-- number="singular" -->noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection gender="masculine" definiteness="definite" case="direct" number="singular"><t><stem/>le</t></inflection>
+            <inflection gender="masculine" definiteness="indefinite" case="direct" number="singular"><t><stem/></t></inflection>
+            <inflection gender="masculine" definiteness="definite" case="oblique" number="singular"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="2" words="3">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection gender="feminine" definiteness="indefinite" case="direct" number="singular"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="3" words="3">
+        <pos>proper-noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection gender="feminine" definiteness="definite" case="direct" number="singular"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="4" words="2">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection gender="neuter" definiteness="indefinite" case="direct" number="plural"><t><stem/>e</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="5" words="2">
+        <pos>proper-noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection gender="neuter" definiteness="indefinite" case="direct" number="singular"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="6" words="2">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection gender="neuter" definiteness="indefinite" case="direct" number="singular"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="7" words="1">
+        <pos>noun</pos>
+    </pattern>
+    <pattern name="8" words="1">
+        <pos>noun</pos>
+        <suffix>at</suffix>
+        <inflections>
+            <inflection gender="masculine" definiteness="definite" case="genitive" number="singular"><t><stem/>atului</t></inflection>
+            <inflection gender="masculine" definiteness="indefinite" case="genitive" number="singular"><t><stem/>at</t></inflection>
+            <inflection gender="masculine" definiteness="definite" case="nominative" number="singular"><t><stem/>atul</t></inflection>
+            <inflection gender="masculine" definiteness="indefinite" case="nominative" number="singular"><t><stem/>at</t></inflection>
+            <inflection gender="masculine" definiteness="definite" case="genitive" number="plural"><t><stem/>eților</t></inflection>
+            <inflection gender="masculine" definiteness="indefinite" case="genitive" number="plural"><t><stem/>eți</t></inflection>
+            <inflection gender="masculine" definiteness="definite" case="nominative" number="plural"><t><stem/>eții</t></inflection>
+            <inflection gender="masculine" definiteness="indefinite" case="nominative" number="plural"><t><stem/>eți</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="9" words="1">
+        <pos><!-- number="singular" -->noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection gender="masculine" definiteness="definite" case="direct" number="singular"><t><stem/>ul</t></inflection>
+            <inflection gender="masculine" definiteness="indefinite" case="direct" number="singular"><t><stem/></t></inflection>
+            <inflection gender="masculine" definiteness="definite" case="oblique" number="singular"><t><stem/>ului</t></inflection>
+            <inflection gender="masculine" definiteness="indefinite" case="oblique" number="singular"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="a" words="1">
+        <pos>proper-noun</pos>
+        <suffix>a</suffix>
+        <inflections>
+            <inflection gender="feminine" definiteness="definite" case="direct" number="singular"><t><stem/>a</t></inflection>
+            <inflection gender="feminine" definiteness="definite" case="oblique" number="singular"><t><stem/>ei</t></inflection>
+            <inflection gender="feminine" definiteness="indefinite" case="oblique" number="singular"><t><stem/>i</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="b" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection gender="masculine" definiteness="definite" case="genitive" number="singular"><t><stem/>ului</t></inflection>
+            <inflection gender="masculine" definiteness="indefinite" case="genitive" number="singular"><t><stem/></t></inflection>
+            <inflection gender="masculine" definiteness="definite" case="nominative" number="singular"><t><stem/>ul</t></inflection>
+            <inflection gender="masculine" definiteness="indefinite" case="nominative" number="singular"><t><stem/></t></inflection>
+            <inflection gender="masculine" definiteness="definite" case="genitive" number="plural"><t><stem/>ilor</t></inflection>
+            <inflection gender="masculine" definiteness="indefinite" case="genitive" number="plural"><t><stem/>i</t></inflection>
+            <inflection gender="masculine" definiteness="definite" case="nominative" number="plural"><t><stem/>ii</t></inflection>
+            <inflection gender="masculine" definiteness="indefinite" case="nominative" number="plural"><t><stem/>i</t></inflection>
+            <inflection gender="masculine" case="vocative" number="singular"><t><stem/>ule</t></inflection>
+            <inflection gender="masculine" case="vocative" number="plural"><t><stem/>ilor</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="c" words="1">
+        <pos>noun</pos>
+        <suffix>astră</suffix>
+        <inflections>
+            <inflection gender="feminine" definiteness="indefinite" case="direct" number="singular"><t><stem/>astră</t></inflection>
+            <inflection gender="feminine" definiteness="definite" case="oblique" number="singular"><t><stem/>strei</t></inflection>
+            <inflection gender="feminine" definiteness="indefinite" case="direct" number="plural"><t><stem/>stre</t></inflection>
+            <inflection gender="feminine" definiteness="definite" case="oblique" number="plural"><t><stem/>strelor</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="d" words="1">
+        <pos>proper-noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection gender="feminine" definiteness="indefinite" case="direct" number="singular"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="e" words="1">
+        <pos><!-- number="singular" -->proper-noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection gender="neuter" definiteness="indefinite" case="direct" number="singular"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="f" words="1">
+        <pos>proper-noun</pos>
+    </pattern>
+    <pattern name="10" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection gender="neuter" definiteness="indefinite" case="direct" number="singular"><t><stem/></t></inflection>
+            <inflection gender="neuter" definiteness="definite" case="oblique" number="singular"><t><stem/>ului</t></inflection>
+            <inflection gender="neuter" definiteness="indefinite" case="direct" number="plural"><t><stem/>e</t></inflection>
+            <inflection gender="neuter" definiteness="definite" case="oblique" number="plural"><t><stem/>elor</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="11" words="1">
+        <pos>adjective</pos>
+        <pos>proper-noun</pos>
+        <suffix>an</suffix>
+        <inflections>
+            <inflection gender="masculine" definiteness="indefinite" case="direct" number="singular"><t><stem/>an</t></inflection>
+            <inflection gender="feminine" definiteness="indefinite" case="direct" number="singular"><t><stem/>ană</t></inflection>
+            <inflection gender="masculine" definiteness="indefinite" case="direct" number="plural"><t><stem/>ni</t></inflection>
+            <inflection gender="feminine" definiteness="indefinite" case="direct" number="plural"><t><stem/>ne</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="12" words="1">
+        <pos>noun</pos>
+        <suffix>artă</suffix>
+        <inflections>
+            <inflection gender="feminine" definiteness="indefinite" case="direct" number="singular"><t><stem/>artă</t></inflection>
+            <inflection gender="feminine" definiteness="indefinite" case="direct" number="plural"><t><stem/>rți</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="13" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection gender="masculine" case="nominative" number="singular"><t><stem/></t></inflection>
+            <inflection gender="feminine" case="nominative" number="singular"><t><stem/>ă</t></inflection>
+            <inflection gender="masculine" case="nominative" number="plural"><t><stem/>i</t></inflection>
+            <inflection gender="feminine" case="nominative" number="plural"><t><stem/>e</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="14" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection gender="neuter" definiteness="definite" case="genitive" number="singular"><t><stem/>ului</t></inflection>
+            <inflection gender="neuter" definiteness="indefinite" case="genitive" number="singular"><t><stem/></t></inflection>
+            <inflection gender="neuter" definiteness="definite" case="nominative" number="singular"><t><stem/>ul</t></inflection>
+            <inflection gender="neuter" definiteness="indefinite" case="nominative" number="singular"><t><stem/></t></inflection>
+            <inflection gender="neuter" definiteness="definite" case="genitive" number="plural"><t><stem/>elor</t></inflection>
+            <inflection gender="neuter" definiteness="indefinite" case="genitive" number="plural"><t><stem/>e</t></inflection>
+            <inflection gender="neuter" definiteness="definite" case="nominative" number="plural"><t><stem/>ele</t></inflection>
+            <inflection gender="neuter" definiteness="indefinite" case="nominative" number="plural"><t><stem/>e</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="15" words="1">
+        <pos>adjective</pos>
+        <suffix>u</suffix>
+        <inflections>
+            <inflection gender="masculine" definiteness="definite" case="genitive" number="singular"><t><stem/>ului</t></inflection>
+            <inflection gender="feminine" definiteness="definite" case="genitive" number="singular"><t><stem/>ii</t></inflection>
+            <inflection gender="neuter" definiteness="definite" case="genitive" number="singular"><t><stem/>ului</t></inflection>
+            <inflection gender="masculine" definiteness="indefinite" case="genitive" number="singular"><t><stem/>u</t></inflection>
+            <inflection gender="feminine" definiteness="indefinite" case="genitive" number="singular"><t><stem/>i</t></inflection>
+            <inflection gender="neuter" definiteness="indefinite" case="genitive" number="singular"><t><stem/>u</t></inflection>
+            <inflection gender="masculine" definiteness="definite" case="nominative" number="singular"><t><stem/>ul</t></inflection>
+            <inflection gender="feminine" definiteness="definite" case="nominative" number="singular"><t><stem/>ua</t></inflection>
+            <inflection gender="neuter" definiteness="definite" case="nominative" number="singular"><t><stem/>ul</t></inflection>
+            <inflection gender="masculine" definiteness="indefinite" case="nominative" number="singular"><t><stem/>u</t></inflection>
+            <inflection gender="feminine" definiteness="indefinite" case="nominative" number="singular"><t><stem/>uă</t></inflection>
+            <inflection gender="neuter" definiteness="indefinite" case="nominative" number="singular"><t><stem/>u</t></inflection>
+            <inflection gender="masculine" definiteness="definite" case="genitive" number="plural"><t><stem/>ilor</t></inflection>
+            <inflection gender="feminine" definiteness="definite" case="genitive" number="plural"><t><stem/>ilor</t></inflection>
+            <inflection gender="neuter" definiteness="definite" case="genitive" number="plural"><t><stem/>ilor</t></inflection>
+            <inflection gender="masculine" definiteness="indefinite" case="genitive" number="plural"><t><stem/>i</t></inflection>
+            <inflection gender="feminine" definiteness="indefinite" case="genitive" number="plural"><t><stem/>i</t></inflection>
+            <inflection gender="neuter" definiteness="indefinite" case="genitive" number="plural"><t><stem/>i</t></inflection>
+            <inflection gender="masculine" definiteness="definite" case="nominative" number="plural"><t><stem/>ii</t></inflection>
+            <inflection gender="feminine" definiteness="definite" case="nominative" number="plural"><t><stem/>ile</t></inflection>
+            <inflection gender="neuter" definiteness="definite" case="nominative" number="plural"><t><stem/>ile</t></inflection>
+            <inflection gender="masculine" definiteness="indefinite" case="nominative" number="plural"><t><stem/>i</t></inflection>
+            <inflection gender="feminine" definiteness="indefinite" case="nominative" number="plural"><t><stem/>i</t></inflection>
+            <inflection gender="neuter" definiteness="indefinite" case="nominative" number="plural"><t><stem/>i</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="16" words="1">
+        <pos>noun</pos>
+        <suffix>apte</suffix>
+        <inflections>
+            <inflection gender="neuter" definiteness="definite" case="direct" number="singular"><t><stem/>aptele</t></inflection>
+            <inflection gender="neuter" definiteness="indefinite" case="direct" number="singular"><t><stem/>apte</t></inflection>
+            <inflection gender="neuter" definiteness="definite" case="oblique" number="singular"><t><stem/>aptelui</t></inflection>
+            <inflection gender="neuter" definiteness="indefinite" case="oblique" number="singular"><t><stem/>apte</t></inflection>
+            <inflection gender="neuter" definiteness="definite" case="direct" number="plural"><t><stem/>ăpturile</t></inflection>
+            <inflection gender="neuter" definiteness="indefinite" case="direct" number="plural"><t><stem/>ăpturi</t></inflection>
+            <inflection gender="neuter" definiteness="definite" case="oblique" number="plural"><t><stem/>ăpturilor</t></inflection>
+            <inflection gender="neuter" definiteness="indefinite" case="oblique" number="plural"><t><stem/>ăpturi</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="17" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection gender="feminine" definiteness="indefinite" case="accusative" number="singular"><t><stem/></t></inflection>
+            <inflection gender="feminine" definiteness="indefinite" case="nominative" number="singular"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="18" words="1">
+        <pos>noun</pos>
+        <suffix>el</suffix>
+        <inflections>
+            <inflection gender="masculine" number="singular"><t><stem/>el</t></inflection>
+            <inflection gender="feminine" number="singular"><t><stem/>a</t></inflection>
+            <inflection gender="masculine" number="plural"><t><stem/>ei</t></inflection>
+            <inflection gender="feminine" number="plural"><t><stem/>ele</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="19" words="1">
+        <pos>noun</pos>
+        <suffix>ă</suffix>
+        <inflections>
+            <inflection gender="feminine" definiteness="definite" case="direct" number="singular"><t><stem/>a</t></inflection>
+            <inflection gender="feminine" definiteness="indefinite" case="direct" number="singular"><t><stem/>e</t></inflection>
+            <inflection gender="feminine" definiteness="indefinite" case="direct" number="singular"><t><stem/>ă</t></inflection>
+            <inflection gender="feminine" definiteness="definite" case="oblique" number="singular"><t><stem/>ei</t></inflection>
+            <inflection gender="feminine" definiteness="indefinite" case="oblique" number="singular"><t><stem/>e</t></inflection>
+            <inflection gender="feminine" definiteness="definite" case="direct" number="plural"><t><stem/>ele</t></inflection>
+            <inflection gender="feminine" definiteness="definite" case="oblique" number="plural"><t><stem/>elor</t></inflection>
+            <inflection gender="feminine" definiteness="indefinite" case="oblique" number="plural"><t><stem/>e</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="1a" words="1">
+        <pos><!-- number="singular" -->noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection gender="neuter" definiteness="definite" case="direct" number="singular"><t><stem/>l</t></inflection>
+            <inflection gender="neuter" definiteness="indefinite" case="direct" number="singular"><t><stem/></t></inflection>
+            <inflection gender="neuter" definiteness="definite" case="oblique" number="singular"><t><stem/>lui</t></inflection>
+            <inflection gender="neuter" definiteness="indefinite" case="oblique" number="singular"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="1b" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection gender="masculine" definiteness="definite" case="direct" number="singular"><t><stem/>ul</t></inflection>
+            <inflection gender="masculine" definiteness="indefinite" case="direct" number="singular"><t><stem/></t></inflection>
+            <inflection gender="masculine" definiteness="definite" case="oblique" number="singular"><t><stem/>ului</t></inflection>
+            <inflection gender="masculine" definiteness="indefinite" case="oblique" number="singular"><t><stem/></t></inflection>
+            <inflection gender="masculine" definiteness="definite" case="direct" number="plural"><t><stem/>ii</t></inflection>
+            <inflection gender="masculine" definiteness="indefinite" case="direct" number="plural"><t><stem/>i</t></inflection>
+            <inflection gender="masculine" definiteness="definite" case="oblique" number="plural"><t><stem/>ilor</t></inflection>
+            <inflection gender="masculine" definiteness="indefinite" case="oblique" number="plural"><t><stem/>i</t></inflection>
+            <inflection gender="masculine" case="vocative" number="singular"><t><stem/>ule</t></inflection>
+            <inflection gender="masculine" case="vocative" number="plural"><t><stem/>ilor</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="1c" words="1">
+        <pos><!-- number="singular" -->noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection gender="feminine" definiteness="indefinite" case="direct" number="singular"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="1d" words="1">
+        <pos>noun</pos>
+        <suffix>ie</suffix>
+        <inflections>
+            <inflection gender="feminine" definiteness="definite" case="genitive" number="singular"><t><stem/>ii</t></inflection>
+            <inflection gender="feminine" definiteness="indefinite" case="genitive" number="singular"><t><stem/>i</t></inflection>
+            <inflection gender="feminine" definiteness="definite" case="nominative" number="singular"><t><stem/>ia</t></inflection>
+            <inflection gender="feminine" definiteness="indefinite" case="nominative" number="singular"><t><stem/>ie</t></inflection>
+            <inflection gender="feminine" definiteness="definite" case="genitive" number="plural"><t><stem/>ilor</t></inflection>
+            <inflection gender="feminine" definiteness="indefinite" case="genitive" number="plural"><t><stem/>i</t></inflection>
+            <inflection gender="feminine" definiteness="definite" case="nominative" number="plural"><t><stem/>ile</t></inflection>
+            <inflection gender="feminine" definiteness="indefinite" case="nominative" number="plural"><t><stem/>i</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="1e" words="1">
+        <pos>noun</pos>
+        <suffix>ă</suffix>
+        <inflections>
+            <inflection gender="feminine" definiteness="indefinite" case="direct" number="singular"><t><stem/>ă</t></inflection>
+            <inflection gender="feminine" definiteness="indefinite" case="direct" number="plural"><t><stem/>i</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="1f" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection gender="masculine" definiteness="indefinite" case="direct" number="singular"><t><stem/></t></inflection>
+            <inflection gender="masculine" definiteness="indefinite" case="direct" number="plural"><t><stem/>i</t></inflection>
+        </inflections>
+    </pattern>
+</patterns>

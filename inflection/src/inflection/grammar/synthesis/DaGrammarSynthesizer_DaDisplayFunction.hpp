@@ -4,10 +4,10 @@
 #pragma once
 
 #include <inflection/grammar/synthesis/fwd.hpp>
-#include <inflection/dictionary/Inflector.hpp>
 #include <inflection/dictionary/fwd.hpp>
 #include <inflection/dialog/fwd.hpp>
 #include <inflection/dialog/DefaultDisplayFunction.hpp>
+#include <inflection/dialog/DefinitenessDisplayFunction.hpp>
 #include <inflection/dialog/DictionaryLookupInflector.hpp>
 #include <inflection/dialog/DictionaryLookupFunction.hpp>
 #include <inflection/grammar/synthesis/SignificantTokenInflector.hpp>
@@ -28,12 +28,12 @@ private:
     const ::inflection::dialog::SemanticFeature& genderFeature;
     const ::inflection::dialog::SemanticFeature& posFeature;
     const ::inflection::dictionary::DictionaryMetaData& dictionary;
-    const ::inflection::dictionary::Inflector& inflector;
     const ::std::unique_ptr<::inflection::tokenizer::Tokenizer> tokenizer;
     int64_t dictionaryAdjective {  };
     int64_t dictionaryNoun {  };
     ::inflection::dialog::DictionaryLookupFunction genderLookupFunction;
     ::inflection::dialog::DictionaryLookupInflector dictionaryInflector;
+    ::inflection::dialog::DefinitenessDisplayFunction definitenessDisplayFunction;
 
 private:
     ::std::u16string inflectString(const ::std::u16string& lemma, int64_t wordGrammemes, const ::std::u16string& targetCount, const ::std::u16string& targetDefiniteness, const ::std::u16string& targetCase, const ::std::u16string& targetGender, bool targetIsANoun) const;

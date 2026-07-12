@@ -31,6 +31,7 @@ private:
     int64_t dictionaryGenderMask {  };
     int64_t dictionaryAdjective {  };
     int64_t dictionaryNoun {  };
+    const ::inflection::dialog::SemanticFeature& definitenessFeature;
     NlGrammarSynthesizer_NlAdjectiveInflectionPattern adjectiveInflector;
     NlGrammarSynthesizer_NlNounInflectionPattern nounInflector;
     NlGrammarSynthesizer_NlVerbInflectionPattern verbInflector;
@@ -44,7 +45,7 @@ public:
     ::std::vector<::std::u16string> inflectSignificantTokens(const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, ::std::vector<::std::u16string>* tokens, const ::std::vector<int32_t>& indexesOfSignificant) const override;
 
 private:
-    static NlGrammarSynthesizer::Declension getAdjectiveDeclension(NlGrammarSynthesizer::Number nounCount, NlGrammarSynthesizer::Gender nounGender);
+    static NlGrammarSynthesizer::Declension getAdjectiveDeclension(NlGrammarSynthesizer::Number nounCount, NlGrammarSynthesizer::Gender nounGender, const ::std::u16string& definiteness);
     NlGrammarSynthesizer::Gender getGender(int64_t wordGrammemes) const;
 
 public: /* package */

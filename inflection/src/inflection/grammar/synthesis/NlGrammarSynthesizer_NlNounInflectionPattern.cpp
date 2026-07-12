@@ -9,6 +9,7 @@
 #include <inflection/grammar/synthesis/NlGrammarSynthesizer.hpp>
 #include <inflection/grammar/synthesis/GrammarSynthesizerUtil.hpp>
 #include <inflection/grammar/synthesis/GrammemeConstants.hpp>
+#include <inflection/util/ArrayUtils.hpp>
 #include <inflection/util/LocaleUtils.hpp>
 #include <inflection/util/Logger.hpp>
 #include <inflection/util/Validate.hpp>
@@ -23,44 +24,49 @@ NlGrammarSynthesizer_NlNounInflectionPattern::NlGrammarSynthesizer_NlNounInflect
     , declensionFeature(*npc(model.getFeature(NlGrammarSynthesizer::DECLENSION)))
     , posFeature(*npc(model.getFeature(GrammemeConstants::POS)))
     , dictionary(*npc(::inflection::dictionary::DictionaryMetaData::createDictionary(::inflection::util::LocaleUtils::DUTCH())))
-    , possessivePronouns({
-            {u"ik", u"mijn"},
-            {u"me", u"mijn"},
-            {u"mij", u"mijn"},
-            {u"je", u"jouw"},
-            {u"jij", u"jouw"},
-            {u"jou", u"jouw"},
-            {u"hij", u"zijn"},
-            {u"hem", u"zijn"},
-            {u"haar", u"haar"},
-            // {u"ze", u"haar"},   // too little information: need count
-            // {u"zij", u"haar"},  // too little information: need count
-            // {u"we", u"ons"},    // too little information: need declension
-            // {u"wij", u"ons"},   // too little information: need declension
-            // {u"ons", u"ons"},   // too little information: need declension
-            // {u"ze", u"hun"},   // too little information: need count
-            // {u"zij", u"hun"},  // too little information: need count
-            {u"hen", u"hun"},
-            {u"hun", u"hun"},
-        })
-    , countConditionalPronouns({u"ze", u"zij"})
-    , declensionConditional({u"we", u"wij", u"ons"})
 {
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryNoun, {GrammemeConstants::POS_NOUN()}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionarySingular, {GrammemeConstants::NUMBER_SINGULAR()}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryPlural, {GrammemeConstants::NUMBER_PLURAL()}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryNoun, {GrammemeConstants::POS_NOUN}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionarySingular, {GrammemeConstants::NUMBER_SINGULAR}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryPlural, {GrammemeConstants::NUMBER_PLURAL}));
 }
 
-NlGrammarSynthesizer_NlNounInflectionPattern::~NlGrammarSynthesizer_NlNounInflectionPattern()
-{
+NlGrammarSynthesizer_NlNounInflectionPattern::~NlGrammarSynthesizer_NlNounInflectionPattern() = default;
+
+static bool isCountConditionalPronoun(std::u16string_view word) {
+    static const char16_t* countConditionalPronouns[] = {
+        u"ze",
+        u"zij",
+    };
+    for (auto pronoun : countConditionalPronouns) {
+        if (word == pronoun) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+static bool isDeclensionConditional(std::u16string_view word) {
+    static const char16_t* declensionConditional[] = {
+        u"ons",
+        u"we",
+        u"wij",
+    };
+    for (auto pronoun : declensionConditional) {
+        if (word == pronoun) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 bool NlGrammarSynthesizer_NlNounInflectionPattern::isGenitiveRequested(const ::std::u16string& displayString, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const
 {
     // Only support nominative --> genitive
     return (NlGrammarSynthesizer::getCase(GrammarSynthesizerUtil::getFeatureValue(constraints, caseFeature)) == NlGrammarSynthesizer::Case::genitive)
-        && (!countConditionalPronouns.contains(displayString) || getGrammaticalNumber(constraints) != NlGrammarSynthesizer::Number::undefined)
-        && (!declensionConditional.contains(displayString) || getDeclension(constraints) != NlGrammarSynthesizer::Declension::undefined);
+        && (!isCountConditionalPronoun(displayString) || getGrammaticalNumber(constraints) != NlGrammarSynthesizer::Number::undefined)
+        && (!isDeclensionConditional(displayString) || getDeclension(constraints) != NlGrammarSynthesizer::Declension::undefined);
 }
 
 ::std::u16string NlGrammarSynthesizer_NlNounInflectionPattern::inflect(const ::std::u16string& displayString, int64_t wordGrammemes, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const
@@ -73,7 +79,7 @@ bool NlGrammarSynthesizer_NlNounInflectionPattern::isGenitiveRequested(const ::s
     auto targetCount = getGrammaticalNumber(constraints);
     if (targetCount == NlGrammarSynthesizer::Number::undefined
         || (wordGrammemes & dictionaryNoun) != dictionaryNoun
-        || (!requestedPOS.empty() && requestedPOS != GrammemeConstants::POS_NOUN()))
+        || (!requestedPOS.empty() && requestedPOS != GrammemeConstants::POS_NOUN))
     {
         return {};
     }
@@ -109,14 +115,41 @@ bool NlGrammarSynthesizer_NlNounInflectionPattern::isGenitiveRequested(const ::s
     return inflection;
 }
 
+static constexpr struct {
+    const char16_t* pronoun;
+    const char16_t* possessivePronoun;
+} possessivePronouns[] = {
+    // This must be in sorted order.
+    {u"haar", u"haar"},
+    {u"hem", u"zijn"},
+    {u"hen", u"hun"},
+    {u"hij", u"zijn"},
+    {u"hun", u"hun"},
+    {u"ik", u"mijn"},
+    {u"je", u"jouw"},
+    {u"jij", u"jouw"},
+    {u"jou", u"jouw"},
+    {u"me", u"mijn"},
+    {u"mij", u"mijn"},
+    // Too little information for the following.
+    // {u"zij", u"hun"},   // need count
+    // {u"zij", u"haar"},  // need count
+    // {u"ze", u"hun"},    // need count
+    // {u"ze", u"haar"},   // need count
+    // {u"we", u"ons"},    // need declension
+    // {u"wij", u"ons"},   // need declension
+    // {u"ons", u"ons"},   // need declension
+};
+
 ::std::u16string NlGrammarSynthesizer_NlNounInflectionPattern::inflectGenitive(const ::std::u16string& displayString, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const
 {
-    auto possivePronoun = possessivePronouns.find(displayString);
-    if (possivePronoun != possessivePronouns.end()) {
-        return ::std::u16string(possivePronoun->second);
+    auto possessiveException = inflection::util::ArrayUtils::searchSorted<possessivePronouns>(displayString,
+        [](const auto& item) { return item.pronoun; });
+    if (possessiveException != nullptr) {
+        return possessiveException->possessivePronoun;
     }
 
-    if (countConditionalPronouns.contains(displayString)) {
+    if (isCountConditionalPronoun(displayString)) {
         switch (getGrammaticalNumber(constraints)) {
             case NlGrammarSynthesizer::Number::singular: return u"haar";
             case NlGrammarSynthesizer::Number::plural: return u"hun";
@@ -124,7 +157,7 @@ bool NlGrammarSynthesizer_NlNounInflectionPattern::isGenitiveRequested(const ::s
         }
     }
 
-    if (declensionConditional.contains(displayString)) {
+    if (isDeclensionConditional(displayString)) {
         switch (getDeclension(constraints)) {
             case NlGrammarSynthesizer::Declension::undeclined: return u"ons";
             case NlGrammarSynthesizer::Declension::declined: return u"onze";

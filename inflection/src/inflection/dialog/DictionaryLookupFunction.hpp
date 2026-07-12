@@ -34,6 +34,7 @@ public:
 
 protected: /* protected */
     const dictionary::DictionaryMetaData & getDictionary() const;
+    const ::inflection::tokenizer::Tokenizer & getTokenizer() const;
 
 private:
     ::std::u16string determineWithDisambiguation(std::u16string_view word) const;

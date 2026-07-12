@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<patterns>
+    <pattern name="1" words="23">
+        <pos>noun</pos>
+    </pattern>
+    <pattern name="2" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection case="nominative" number="singular"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="3" words="1">
+        <pos>noun</pos>
+        <suffix>a</suffix>
+        <inflections>
+            <inflection case="nominative" number="singular"><t><stem/>a</t></inflection>
+            <inflection case="nominative" number="plural"><t><stem/>ák</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="4" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection case="nominative" number="singular"><t><stem/></t></inflection>
+            <inflection case="nominative" number="plural"><t><stem/>ök</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="5" words="1">
+        <pos>noun</pos>
+        <suffix>om</suffix>
+        <inflections>
+            <inflection number="singular"><t><stem/>om</t></inflection>
+            <inflection number="plural"><t><stem/>mok</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="6" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection case="nominative" number="singular"><t><stem/></t></inflection>
+            <inflection case="accusative" number="plural"><t><stem/>akat</t></inflection>
+            <inflection case="nominative" number="plural"><t><stem/>ak</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="7" words="1">
+        <pos>noun</pos>
+        <suffix>a</suffix>
+        <inflections>
+            <inflection number="singular"><t><stem/>a</t></inflection>
+            <inflection number="plural"><t><stem/>ák</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="8" words="1">
+        <pos>noun</pos>
+        <suffix>a</suffix>
+        <inflections>
+            <inflection case="accusative" number="singular"><t><stem/>át</t></inflection>
+            <inflection case="nominative" number="plural"><t><stem/>ák</t></inflection>
+        </inflections>
+    </pattern>
+</patterns>

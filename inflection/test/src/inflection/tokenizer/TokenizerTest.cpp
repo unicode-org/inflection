@@ -22,10 +22,8 @@
 #include <icu4cxx/UnicodeSet.hpp>
 #include <util/TestUtils.hpp>
 #include <unicode/uloc.h>
-#include <dirent.h>
 #include <libxml/parser.h>
 #include <libxml/tree.h>
-#include <algorithm>
 #include <memory>
 #include <list>
 
@@ -88,15 +86,6 @@ void compareCleanTokens(::inflection::tokenizer::TokenChain* tokChain, const ::s
     compareTokens(tokChain, {}, true, expectedResults);
 }
 
-void list_directory_contents(const std::string& dirPath, ::std::vector<::std::string> &files)
-{
-    DIR* dirptr = opendir(dirPath.c_str());
-    struct dirent * dirEnt;
-    while ((dirEnt = readdir(dirptr)) != nullptr) {
-        files.push_back(dirEnt->d_name);
-    }
-    closedir(dirptr);
-}
 static void getContent(::std::u16string* result, xmlNodePtr nodePtr) {
     xmlChar* content = xmlNodeGetContent(nodePtr);
     ::inflection::util::StringUtils::convert(result, (const char*)content);
@@ -286,14 +275,9 @@ TEST_CASE("TokenizerTest#testSingleToken")
 {
     const auto &testLocales = TestUtils::getTestLocaleMap();
     std::string resourcePath = TestUtils::getTestResourcePath() + "tokenizer/";
-    ::std::vector<::std::string> files;
-    list_directory_contents(resourcePath, files);
-    sort(files.begin(), files.end());
+    ::std::vector<::std::string> files = TestUtils::listDirectoryContents(resourcePath);
     int32_t numFiles = 0;
     for (const auto& file : files) {
-        if (file == "." || file == "..") {
-            continue;
-        }
         ::std::u16string resourceFile;
         inflection::util::StringUtils::convert(&resourceFile, resourcePath+file);
         ::inflection::util::MemoryMappedFile mMapFile(resourceFile);

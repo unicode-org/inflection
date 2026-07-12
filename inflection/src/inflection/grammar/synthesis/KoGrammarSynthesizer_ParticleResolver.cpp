@@ -15,6 +15,8 @@
 #include <inflection/tokenizer/TokenizerFactory.hpp>
 #include <inflection/npc.hpp>
 #include <memory>
+#include <unicode/uchar.h>
+#include <unicode/uscript.h>
 
 namespace inflection::grammar::synthesis {
 
@@ -60,26 +62,46 @@ std::optional<std::u16string> KoGrammarSynthesizer_ParticleResolver::switchParti
     return result.append(particle);
 }
 
+static void removeEnclosingPunctuation(std::u16string_view& str) {
+    int32_t strLength = static_cast<int32_t>(str.length());
+    char32_t codePoint = 0;
+    int32_t idx = 0;
+    int32_t startPunctIdx = 0;
+    while (idx < strLength) {
+        codePoint = inflection::util::StringViewUtils::codePointAt(str, idx);
+        if ((U_GET_GC_MASK(static_cast<UChar32>(codePoint)) & (U_GC_PS_MASK)) != 0) {
+            break;
+        }
+        idx += U16_LENGTH(codePoint);
+    }
+    if (idx < strLength) {
+        startPunctIdx = idx;
+        idx += U16_LENGTH(codePoint);
+    }
+    while (idx < strLength) {
+        codePoint = inflection::util::StringViewUtils::codePointAt(str, idx);
+        if ((U_GET_GC_MASK(static_cast<UChar32>(codePoint)) & (U_GC_PS_MASK|U_GC_PE_MASK)) != 0) {
+            break;
+        }
+        idx += U16_LENGTH(codePoint);
+    }
+    if (idx < strLength) {
+        str.remove_suffix(strLength - startPunctIdx);
+    }
+}
+
 std::u16string KoGrammarSynthesizer_ParticleResolver::getRelevantString(std::u16string_view str) const
 {
     ::std::u16string_view strToTokenize(str);
-    if (inflection::util::UnicodeSetUtils::containsSome(openParenthesesSet, strToTokenize)) {
-        icu4cxx::RegularExpression localParenthesesMatcher(parenthesesMatcher);
-        localParenthesesMatcher.setText(strToTokenize);
-        if (localParenthesesMatcher.findNext()) {
-            auto suffixLen = strToTokenize.length() - localParenthesesMatcher.start(0);
-            if (suffixLen > 0) {
-                strToTokenize.remove_suffix(suffixLen);
-            }
-        }
-    }
-    if (!strToTokenize.empty() && !inflection::lang::StringFilterUtil::HANGUL_SCRIPT().contains((UChar32)inflection::util::StringViewUtils::codePointAt(strToTokenize, int32_t(strToTokenize.length() - 1)))) {
-        // We don't care about the strings in the phonetic Hangul script. Return the relevant last word to check without punctuation.
+    removeEnclosingPunctuation(strToTokenize);
+    if (!strToTokenize.empty() && !static_cast<bool>(uscript_hasScript(
+            static_cast<UChar32>(inflection::util::StringViewUtils::codePointAt(strToTokenize, int32_t(strToTokenize.length() - 1))),
+            USCRIPT_HANGUL)))
+    {
         std::unique_ptr<inflection::tokenizer::TokenChain> tokenChain(npc(englishTokenizer->createTokenChain(std::u16string(strToTokenize))));
         for (const inflection::tokenizer::Token *token = tokenChain->getTail(); token != nullptr; token = token->getPrevious()) {
             const auto &value = npc(token)->getValue();
-            if (!value.empty() && bool(u_isalnum((UChar32)inflection::util::StringViewUtils::codePointAt(value, int32_t(value.length() - 1))))) {
-                // Get the relevant word for testing, which ends in an alphanumeric word.
+            if (!value.empty() && static_cast<bool>(u_isalnum(static_cast<UChar32>(inflection::util::StringViewUtils::codePointAt(value, int32_t(value.length() - 1)))))) {
                 strToTokenize = strToTokenize.substr(npc(token)->getStartChar(), npc(token)->getLength());
                 break;
             }

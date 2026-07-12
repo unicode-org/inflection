@@ -117,6 +117,7 @@ public:
         outStringStream <<
                         "namespace inflection::lang::features {" << std::endl <<
                         "struct Value {" << std::endl <<
+                        "\tconst char16_t* const case_;" << std::endl <<
                         "\tconst char16_t* const gender;" << std::endl <<
                         "\tconst char16_t* const number;" << std::endl <<
                         "\tconst char16_t* const result;" << std::endl <<

@@ -1,3 +1,8 @@
+Beograd: singular accusative nominative noun proper-noun inflection=4a
+Beograda: singular genitive noun proper-noun inflection=4a
+Beograde: singular vocative noun proper-noun inflection=4a
+Beogradom: singular instrumental noun proper-noun inflection=4a
+Beogradu: singular dative locative noun proper-noun inflection=4a
 Srbija: singular nominative feminine noun inflection=1f
 Srbije: singular genitive feminine noun inflection=1f
 Srbiji: singular dative locative feminine noun inflection=1f
@@ -575,10 +580,10 @@ vodom: singular instrumental locative noun inflection=37
 мачко: singular vocative feminine noun inflection=41
 мачком: singular instrumental feminine noun inflection=41
 мачку: singular accusative feminine noun inflection=41
-мај: accusative nominative masculine noun inflection=4c
-маја: genitive masculine noun inflection=4c
-мајом: instrumental masculine noun inflection=4c
-мају: dative locative vocative masculine noun inflection=4c
+мај: accusative nominative masculine noun inflection=4d
+маја: genitive masculine noun inflection=4d
+мајом: instrumental masculine noun inflection=4d
+мају: dative locative vocative masculine noun inflection=4d
 међу: adposition inflection=1
 ми: plural nominative pronoun
 младост: singular accusative nominative feminine noun inflection=b
@@ -889,14 +894,14 @@ vodom: singular instrumental locative noun inflection=37
 слуго: singular vocative masculine noun inflection=32
 слугом: singular instrumental masculine noun inflection=32
 слугу: singular plural accusative genitive masculine noun inflection=32
-смер: singular accusative nominative masculine noun inflection=4a
-смера: singular plural genitive masculine noun inflection=4a
-смере: singular plural accusative vocative masculine noun inflection=4a
-смери: plural vocative masculine noun inflection=4a
-смерима: plural dative instrumental locative masculine noun inflection=4a
-смерови: plural nominative masculine noun inflection=4a
-смером: singular instrumental masculine noun inflection=4a
-смеру: singular dative locative masculine noun inflection=4a
+смер: singular accusative nominative masculine noun inflection=4b
+смера: singular plural genitive masculine noun inflection=4b
+смере: singular plural accusative vocative masculine noun inflection=4b
+смери: plural vocative masculine noun inflection=4b
+смерима: plural dative instrumental locative masculine noun inflection=4b
+смерови: plural nominative masculine noun inflection=4b
+смером: singular instrumental masculine noun inflection=4b
+смеру: singular dative locative masculine noun inflection=4b
 смеђа: singular plural nominative vocative feminine neuter adjective inflection=33
 смеђе: singular plural accusative genitive nominative vocative masculine feminine neuter adjective inflection=33
 смеђег: singular accusative genitive masculine neuter adjective inflection=33
@@ -926,10 +931,10 @@ vodom: singular instrumental locative noun inflection=37
 старости: singular plural accusative dative genitive locative nominative vocative feminine noun inflection=b
 старостима: plural dative instrumental locative feminine noun inflection=b
 старошћу: singular instrumental feminine noun inflection=b
-ствар: singular accusative nominative feminine noun inflection=4b
-ствари: singular plural accusative dative genitive locative nominative vocative feminine noun inflection=4b
-стварима: plural dative instrumental locative feminine noun inflection=4b
-стварју: singular instrumental feminine noun inflection=4b
+ствар: singular accusative nominative feminine noun inflection=4c
+ствари: singular plural accusative dative genitive locative nominative vocative feminine noun inflection=4c
+стварима: plural dative instrumental locative feminine noun inflection=4c
+стварју: singular instrumental feminine noun inflection=4c
 стена: singular plural genitive nominative feminine noun inflection=2
 стенама: plural dative instrumental locative feminine noun inflection=2
 стене: singular plural accusative genitive nominative vocative feminine noun inflection=2
@@ -1139,44 +1144,43 @@ vodom: singular instrumental locative noun inflection=37
 љубавима: plural dative instrumental locative feminine noun inflection=2f
 љубављу: singular instrumental feminine noun inflection=2f
 ==============================================
-                       Source: wikidata-20250730-lexemes.json 
-                  Lemma terms:     212
-         Unusable lemma terms:       5
-       Incoming surface forms:    2259
-                Surface forms:    1140
-      Collapsed surface forms:    1119 (49.5%)
+                       Source: wikidata-20260708-lexemes.json 
+                  Lemma terms:     214
+         Unusable lemma terms:       6
+       Incoming surface forms:    2266
+                Surface forms:    1145
+      Collapsed surface forms:    1128 (49.8%)
        Unusable surface forms:       0
-                 Usable terms:    1140  (100%)
+                 Usable terms:    1145  (100%)
            Unclassified terms:       0    (0%)
 ==============================================
 Animacy:
     inanimate:                16  (1.4%)
 
 Case:
-    nominative:              310 (27.2%)
-    accusative:              303 (26.6%)
-    locative:                297 (26.1%)
-    dative:                  296   (26%)
-    vocative:                290 (25.4%)
-    instrumental:            288 (25.3%)
-    genitive:                250 (21.9%)
+    nominative:              311 (27.2%)
+    accusative:              304 (26.6%)
+    locative:                298   (26%)
+    dative:                  297 (25.9%)
+    vocative:                291 (25.4%)
+    instrumental:            289 (25.2%)
+    genitive:                251 (21.9%)
 
 Gender:
-    feminine:                503 (44.1%)
-    masculine:               500 (43.9%)
+    feminine:                503 (43.9%)
+    masculine:               500 (43.7%)
     neuter:                  146 (12.8%)
 
 Number:
-    singular:                821   (72%)
-    plural:                  416 (36.5%)
+    singular:                826 (72.1%)
+    plural:                  416 (36.3%)
 
 PartOfSpeech:
-    noun:                    838 (73.5%)
-    proper-noun:             192 (16.8%)
+    noun:                    843 (73.6%)
+    proper-noun:             197 (17.2%)
     adjective:                72  (6.3%)
     adposition:               30  (2.6%)
     pronoun:                   8  (0.7%)
 
-processed in 13.94 seconds
 License: Creative Commons CC0 License (https://creativecommons.org/publicdomain/zero/1.0/)
 generated with options: --language sr --inflection-types noun,adposition,proper-noun,adjective

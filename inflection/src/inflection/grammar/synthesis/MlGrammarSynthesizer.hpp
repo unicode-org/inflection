@@ -8,7 +8,6 @@
 #include <cstdint>
 #include <string>
 #include <vector>
-#include <map>
 
 class inflection::grammar::synthesis::MlGrammarSynthesizer final
 {
@@ -58,16 +57,19 @@ public:
     static Mood getMood(const ::std::u16string& value);
 
     typedef uint32_t LookupKey;
-    static LookupKey makeLookupKey(Number num, Case kase);
-    static LookupKey makeVerbLookupKey(Person person, Number num, Tense tense, Mood mood);
+    static constexpr LookupKey makeLookupKey(Number num, Case kase) {
+        return (static_cast<LookupKey>(kase) & 0xFF)
+             | ((static_cast<LookupKey>(num)  & 0xFF) << 8);
+    }
+    static constexpr LookupKey makeVerbLookupKey(Person person, Number num, Tense tense, Mood mood) {
+        return (static_cast<LookupKey>(person) & 0xFF)
+             | ((static_cast<LookupKey>(num)    & 0xFF) << 8)
+             | ((static_cast<LookupKey>(tense)  & 0x0F) << 24)
+             | ((static_cast<LookupKey>(mood)   & 0x0F) << 28);
+    }
 
     static LookupKey buildVerbSuffixKey(const std::vector<::std::u16string>& constraintValues);
 
-private:
-    static const std::map<LookupKey, ::std::u16string_view>& MALAYALAM_SUFFIX_MAP();
-    static const std::map<LookupKey, ::std::u16string_view>& MALAYALAM_VERB_SUFFIX_MAP();
-
-public:
     static ::std::u16string_view getSuffix(LookupKey key);
     static ::std::u16string_view getVerbSuffix(LookupKey key);
 

@@ -6,7 +6,6 @@
 #include <inflection/dialog/fwd.hpp>
 #include <inflection/grammar/synthesis/fwd.hpp>
 #include <string>
-#include <set>
 
 class inflection::grammar::synthesis::FrGrammarSynthesizer final
 {

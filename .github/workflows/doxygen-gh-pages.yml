@@ -20,7 +20,7 @@ on:
 
 env:
   ICU_MAJOR: '78'
-  ICU_MINOR: '1'
+  ICU_MINOR: '3'
 
 jobs:
   cache-icu:

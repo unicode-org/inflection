@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2024 Apple Inc. All rights reserved.
+ * Copyright 2017-2026 Apple Inc. All rights reserved.
  */
 #pragma once
 
@@ -8,17 +8,16 @@
 #include "DictionaryLogger.hpp"
 #include <cstdint>
 #include <map>
-#include <vector>
-#include <string_view>
 #include <ostream>
+#include <vector>
 
 class LexicalDictionaryBuilder final
 {
 public:
-    static void writeDictionary(::std::ofstream& writer, DictionaryLogger& logger, const Dictionary& dictionary, const ::std::string& sourceInflectionFilename, bool addAffixPatternMappings);
+    static void writeDictionary(::std::ofstream& writer, DictionaryLogger& logger, const Dictionary& dictionary, const ::std::string& sourceInflectionFilename);
 
     template <typename T1, typename T2>
-    static inline int8_t getNumBitsFromValues(const ::std::map<T1, T2> &wordToData);
+    static int8_t getNumBitsFromValues(const ::std::map<T1, T2> &wordToData);
 
     ~LexicalDictionaryBuilder();
 
@@ -40,7 +39,7 @@ private:
                       bool hasInflectionTable);
 
     template <typename T>
-    static inline void writeValue(uint64_t &valueBase, int32_t start, int32_t len, T valueToWrite);
+    static void writeBits(uint64_t &valueBase, int32_t start, int32_t len, T valueToWrite);
 
     LexicalDictionaryBuilder() = delete;
     LexicalDictionaryBuilder(LexicalDictionaryBuilder&) = delete;
@@ -48,7 +47,7 @@ private:
 };
 
 template <typename T1, typename T2>
-inline int8_t LexicalDictionaryBuilder::getNumBitsFromValues(const ::std::map<T1, T2> &wordToData) {
+int8_t LexicalDictionaryBuilder::getNumBitsFromValues(const ::std::map<T1, T2> &wordToData) {
     uint64_t maxData = 0;
     for (const auto& entry : wordToData) {
         auto value = (uint64_t) entry.second;

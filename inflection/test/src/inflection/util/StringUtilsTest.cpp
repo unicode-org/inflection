@@ -12,8 +12,8 @@
 
 TEST_CASE("StringUtilsTest#codePointAt")
 {
-    REQUIRE(inflection::util::StringViewUtils::codePointAt(u"123", 0) == u'1');
-    REQUIRE(inflection::util::StringViewUtils::codePointAt(u"123", 2) == u'3');
+    REQUIRE(inflection::util::StringViewUtils::codePointAt(u"123", 0) == U'1');
+    REQUIRE(inflection::util::StringViewUtils::codePointAt(u"123", 2) == U'3');
     REQUIRE_THROWS_AS(inflection::util::StringViewUtils::codePointAt(u"123", -1), ::inflection::exception::IndexOutOfBoundsException);
     REQUIRE(inflection::util::StringViewUtils::codePointAt(u"\U00010000", 0) == 0x10000);
     REQUIRE(inflection::util::StringViewUtils::codePointAt(u"\U00010000", 1) == 0x10000);

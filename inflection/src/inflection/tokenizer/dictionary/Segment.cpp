@@ -55,9 +55,7 @@ Segment::Segment(const Segment& other)
 {
 }
 
-Segment::~Segment()
-{
-}
+Segment::~Segment() = default;
 
 void Segment::_parseData(int32_t data)
 {
@@ -111,9 +109,10 @@ float Segment::getArithmeticMeanLength() const
     return (static_cast< float >(compound.length())) / static_cast< float >(depth);
 }
 
-void Segment::score()
+float Segment::score()
 {
     score_ = static_cast< float >(::pow(static_cast< double >(freqProduct), 1.0 / (static_cast< float >(depth) * 1.5f)));
+    return score_;
 }
 
 ::std::u16string_view Segment::getCompound() const
@@ -124,11 +123,6 @@ void Segment::score()
 int32_t Segment::getOffset() const
 {
     return start;
-}
-
-int32_t Segment::getRootOffset() const
-{
-    return rootStart;
 }
 
 float Segment::getFreq() const

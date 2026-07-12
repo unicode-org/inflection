@@ -7,6 +7,7 @@
 #include <inflection/util/DelimitedStringIterator.hpp>
 #include <inflection/util/StringUtils.hpp>
 #include <inflection/util/LocaleUtils.hpp>
+#include <inflection/util/ULocale.hpp>
 #include <inflection/dialog/LocalizedCommonConceptFactoryProvider.hpp>
 #include <inflection/dialog/SpeakableString.hpp>
 #include <inflection/dialog/DefaultDisplayFunction.hpp>
@@ -195,4 +196,11 @@ TEST_CASE("InflectableStringConceptTest#testExistsAPIItalian")
 
     inflectableConcept.reset(createConcept(model, u"benvenuto", {u"gender=common"}));
     CHECK_THROWS(inflectableConcept->isExists()); //It would throw since common is not a defined constraint
+}
+
+TEST_CASE("InflectableStringConceptTest#testHindiVariant")
+{
+    // Verify that locale variants (e.g. with keywords) correctly fall back to the base language
+    auto model = npc(npc(::inflection::dialog::LocalizedCommonConceptFactoryProvider::getDefaultCommonConceptFactoryProvider())->getCommonConceptFactory(inflection::util::ULocale("hi-IN@numbers=deva")))->getSemanticFeatureModel();
+    compareInflection(model, u"पहली", u"पहला", {u"gender=feminine"});
 }

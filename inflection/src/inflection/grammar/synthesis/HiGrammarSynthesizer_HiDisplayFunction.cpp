@@ -36,18 +36,18 @@ HiGrammarSynthesizer_HiDisplayFunction::HiGrammarSynthesizer_HiDisplayFunction(c
     , partOfSpeechFeature(*npc(model.getFeature(GrammemeConstants::POS)))
     , tokenizer(TokenizerFactory::createTokenizer(::inflection::util::LocaleUtils::HINDI()))
     , dictionaryInflector(LocaleUtils::HINDI(),{
-            {GrammemeConstants::POS_NOUN(), GrammemeConstants::POS_ADPOSITION(), GrammemeConstants::POS_ADJECTIVE(), GrammemeConstants::POS_VERB()},
-            {GrammemeConstants::VERBTYPE_PARTICIPLE()},
-            {GrammemeConstants::PERSON_THIRD(), GrammemeConstants::PERSON_SECOND(), GrammemeConstants::PERSON_FIRST()},
-            {GrammemeConstants::CASE_DIRECT(),  GrammemeConstants::CASE_OBLIQUE()},
-            {GrammemeConstants::NUMBER_SINGULAR(), GrammemeConstants::NUMBER_PLURAL()},
-            {GrammemeConstants::GENDER_MASCULINE(), GrammemeConstants::GENDER_FEMININE()}
+            {GrammemeConstants::POS_NOUN, GrammemeConstants::POS_ADPOSITION, GrammemeConstants::POS_ADJECTIVE, GrammemeConstants::POS_VERB},
+            {GrammemeConstants::VERBTYPE_PARTICIPLE},
+            {GrammemeConstants::PERSON_THIRD, GrammemeConstants::PERSON_SECOND, GrammemeConstants::PERSON_FIRST},
+            {GrammemeConstants::CASE_DIRECT,  GrammemeConstants::CASE_OBLIQUE},
+            {GrammemeConstants::NUMBER_SINGULAR, GrammemeConstants::NUMBER_PLURAL},
+            {GrammemeConstants::GENDER_MASCULINE, GrammemeConstants::GENDER_FEMININE}
     }, {}, true)
 {
-    Validate::notNull(dictionaryInflector.getDictionary().getBinaryProperties(&pluralVerbMask, {GrammemeConstants::NUMBER_PLURAL(), GrammemeConstants::POS_VERB()}));
-    Validate::notNull(dictionaryInflector.getDictionary().getBinaryProperties(&pluralFeminineMask, {GrammemeConstants::NUMBER_PLURAL(), GrammemeConstants::GENDER_FEMININE()}));
-    Validate::notNull(dictionaryInflector.getDictionary().getBinaryProperties(&genderMask, {GrammemeConstants::GENDER_MASCULINE(), GrammemeConstants::GENDER_FEMININE()}));
-    Validate::notNull(dictionaryInflector.getDictionary().getBinaryProperties(&adpositionMask, {GrammemeConstants::POS_ADPOSITION()}));
+    Validate::notNull(dictionaryInflector.getDictionary().getBinaryProperties(&pluralVerbMask, {GrammemeConstants::NUMBER_PLURAL, GrammemeConstants::POS_VERB}));
+    Validate::notNull(dictionaryInflector.getDictionary().getBinaryProperties(&pluralFeminineMask, {GrammemeConstants::NUMBER_PLURAL, GrammemeConstants::GENDER_FEMININE}));
+    Validate::notNull(dictionaryInflector.getDictionary().getBinaryProperties(&genderMask, {GrammemeConstants::GENDER_MASCULINE, GrammemeConstants::GENDER_FEMININE}));
+    Validate::notNull(dictionaryInflector.getDictionary().getBinaryProperties(&adpositionMask, {GrammemeConstants::POS_ADPOSITION}));
 }
 
 HiGrammarSynthesizer_HiDisplayFunction::~HiGrammarSynthesizer_HiDisplayFunction() {}
@@ -148,12 +148,13 @@ namespace {
             constraintsVec.emplace_back(constraintString);
         }
     }
-    if (const auto constraintString = GrammarSynthesizerUtil::getFeatureValue(constraints, caseFeature); !constraintString.empty()) {
-        constraintsVec.emplace_back(constraintString);
+    const auto caseConstraintString = GrammarSynthesizerUtil::getFeatureValue(constraints, caseFeature);
+    if (!caseConstraintString.empty()) {
+        constraintsVec.emplace_back(caseConstraintString);
     }
 
-    if (makeOblique) {
-        constraintsVec.emplace_back(GrammemeConstants::CASE_OBLIQUE());
+    if (caseConstraintString.empty() && makeOblique) {
+        constraintsVec.emplace_back(GrammemeConstants::CASE_OBLIQUE);
     }
     const auto disambiguationGrammemeValues(GrammarSynthesizerUtil::convertToStringConstraints(constraints, {&partOfSpeechFeature}));
     if (const auto &inflectionResult = dictionaryInflector.inflect(word, wordProperties, constraintsVec, disambiguationGrammemeValues)) {
@@ -167,17 +168,17 @@ namespace {
     // Well, dictionary was not able to inflect it. So let's make a guess.
     auto inflectedWord(word);
     const auto gender(GrammarSynthesizerUtil::getFeatureValue(constraints, genderFeature));
-    if (gender == GrammemeConstants::GENDER_FEMININE()) {
+    if (gender == GrammemeConstants::GENDER_FEMININE) {
         inflectedWord = guessFeminineInflection(inflectedWord);
     }
-    else if (gender == GrammemeConstants::GENDER_MASCULINE()) {
+    else if (gender == GrammemeConstants::GENDER_MASCULINE) {
         inflectedWord = guessMasculineInflection(inflectedWord);
     }
     const auto count(GrammarSynthesizerUtil::getFeatureValue(constraints, numberFeature));
-    if (count == GrammemeConstants::NUMBER_PLURAL()) {
+    if (count == GrammemeConstants::NUMBER_PLURAL) {
         inflectedWord = guessPluralInflection(inflectedWord);
     }
-    else if (count == GrammemeConstants::NUMBER_SINGULAR()) {
+    else if (count == GrammemeConstants::NUMBER_SINGULAR) {
         inflectedWord = guessSingularInflection(inflectedWord);
     }
     return inflectedWord;
@@ -247,7 +248,7 @@ namespace {
                 continue;
             }
 
-            if (const auto& singularInflectedWord = dictionaryInflector.inflect(inflectedWord, inflectedWordProperties, {GrammemeConstants::NUMBER_SINGULAR()})) {
+            if (const auto& singularInflectedWord = dictionaryInflector.inflect(inflectedWord, inflectedWordProperties, {GrammemeConstants::NUMBER_SINGULAR})) {
                 inflectedWords.at(i) = *singularInflectedWord;
             } else if (enableInflectionGuess) {
                 inflectedWords.at(i) = guessSingularInflection(inflectedWords.at(i));

@@ -32,20 +32,6 @@ Inflector_Inflection::Inflector_Inflection(
     return lemma + suffix;
 }
 
-::std::u16string Inflector_Inflection::lemmatize(const ::std::u16string& noun) const
-{
-    std::u16string suffix = getSuffix();
-    const auto& parent = *npc(inflectionPattern);
-
-    if (parent.lemmaSuffixesLen != 0 && noun.ends_with(suffix)) {
-        return noun.substr(0, noun.size() - suffix.size())
-                + parent.inflectorDictionary.inflectionSuffixes.getString(
-                    parent.inflectorDictionary.inflectionsArray.read(parent.lemmaSuffixesOffset));
-    }
-
-    return noun;
-}
-
 ::std::u16string Inflector_Inflection::getSuffix() const
 {
     return npc(inflectionPattern)->inflectorDictionary.inflectionSuffixes.getString(suffixId);

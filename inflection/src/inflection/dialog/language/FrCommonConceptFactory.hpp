@@ -15,5 +15,4 @@ public:
     ::inflection::dialog::SpeakableString quote(const ::inflection::dialog::SpeakableString& str) const override;
 
     explicit FrCommonConceptFactory(const ::inflection::util::ULocale& language);
-    ~FrCommonConceptFactory() override;
 };

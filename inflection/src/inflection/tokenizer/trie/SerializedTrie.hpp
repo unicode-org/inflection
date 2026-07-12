@@ -20,8 +20,9 @@ private:
 
 public:
     const inflection::dictionary::metadata::MarisaTrie<int32_t> trie;
-    static constexpr int64_t VERSION { 2 }; // Bump this version if the binary file format changes.
+    static constexpr int64_t VERSION { 3 }; // Bump this version if the binary file format changes.
     static constexpr char MAGIC_MARKER[8] { "MORPHTK" };
+    static constexpr int32_t RESERVED_BYTES = 4; // Also used to align data structures after this header.
 
     explicit SerializedTrie(const std::u16string &corpusFile);
     ~SerializedTrie() override;

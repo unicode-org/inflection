@@ -28,17 +28,15 @@ InflectableStringConcept::InflectableStringConcept(
     const SemanticFeatureModel* model,
     const SpeakableString& value,
     const ::std::map<SemanticFeature, ::std::u16string>& initialConstraints
-)   
+)
     : super(model)
-    , value(value)
-    , defaultDisplayValue(value, *npc(super::getSpeakFeature()), initialConstraints)
+    , value(value, *npc(super::getSpeakFeature()), initialConstraints)
 {
 }
 
 InflectableStringConcept::InflectableStringConcept(const InflectableStringConcept& other)
     : super(other)
     , value(other.value)
-    , defaultDisplayValue(other.defaultDisplayValue)
 {
 }
 
@@ -70,22 +68,21 @@ bool InflectableStringConcept::isExists() const
 
 ::std::u16string InflectableStringConcept::toString() const
 {
-    return value.toString();
+    return value.getDisplayString();
 }
 
 ::std::optional<DisplayValue> InflectableStringConcept::getDisplayValue(bool allowInflectionGuess) const
 {
     auto defaultDisplayFunction = npc(getModel())->getDefaultDisplayFunction();
     if (defaultDisplayFunction != nullptr && !constraints.empty()) {
-        ::std::map<SemanticFeature, ::std::u16string> constraintMap = defaultDisplayValue.getConstraintMap();
-        SemanticFeatureModel_DisplayData displayData({DisplayValue(value.getPrint(), constraintMap)});
+        SemanticFeatureModel_DisplayData displayData({value});
         ::std::unique_ptr<DisplayValue> returnVal(npc(defaultDisplayFunction)->getDisplayValue(displayData, constraints, allowInflectionGuess));
         if (returnVal != nullptr) {
             return *returnVal;
         }
     }
     if (allowInflectionGuess) {
-        return defaultDisplayValue;
+        return value;
     }
     return {};
 }

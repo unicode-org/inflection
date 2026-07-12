@@ -12,9 +12,9 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -42,6 +42,7 @@ final class ParserOptions {
     static final String INCLUDE_LEMMAS_WITHOUT_WORD = "--include-lemmas-without-words";
     static final String IGNORE_SURFACE_FORM = "--ignore-entries-with-grammemes";
     static final String LANGUAGE_OPT = "--language";
+    static final String EXCLUDE_LANGUAGE_OPT = "--exclude-language";
     static final String TIMESTAMP = "--timestamp";
     static final String ADD_SOUND = "--add-sound";
 
@@ -52,12 +53,13 @@ final class ParserOptions {
     EnumSet<Grammar.PartOfSpeech> posToBeInflected;
     TreeMap<TreeSet<Enum<?>>, List<TreeSet<Enum<?>>>> expandGramemes;
     TreeMap<String, TreeSet<String>> additionalGrammemesDict;
-    TreeMap<String, EnumMap<Grammar.Sound, Pattern>> claimsToSound;
+    TreeMap<String, LinkedHashMap<Grammar.Sound, Pattern>> claimsToSound;
 
     ArrayList<String> sourceFilenames;
     String inflectionalFilename = ParserDefaults.DEFAULT_INFLECTION_FILE_NAME;
     String lexicalDictionaryFilename = ParserDefaults.DEFAULT_DICTIONARY_FILE_NAME;
     ArrayList<String> locales = new ArrayList<>(List.of(Locale.ENGLISH.getLanguage()));
+    ArrayList<String> excludedLanguages = new ArrayList<>();
     List<String> optionsUsedToInvoke = new ArrayList<>();
 
     private static void printUsage() {
@@ -74,6 +76,7 @@ final class ParserOptions {
         System.err.println(INCLUDE_LEMMAS_WITHOUT_WORD + "\tinclude lemma entries which do not have corresponding word-entry. Default: do not include");
         System.err.println(TIMESTAMP + "\ttimestamp of the latest lexicon used. Default: NONE");
         System.err.println(LANGUAGE_OPT + "\tComma separated list of languages to extract to the lexical dictionary. Default: " + ULocale.ENGLISH.getName());
+        System.err.println(EXCLUDE_LANGUAGE_OPT + " variant1[,variant2,...]\tComma separated list of exact Wikidata language/variant codes to exclude (e.g. ro-md, ar-x-Q775724), even if they would otherwise match " + LANGUAGE_OPT + ". Default: none");
         System.err.println(ADD_SOUND + " grammeme1[,grammeme2,...]\tSound properties to check for.");
     }
 
@@ -161,6 +164,11 @@ final class ParserOptions {
                 locales.addAll(List.of(localeStr.split(",")));
                 optionsUsedToInvoke.add(ParserOptions.LANGUAGE_OPT);
                 optionsUsedToInvoke.add(localeStr);
+            } else if (ParserOptions.EXCLUDE_LANGUAGE_OPT.equals(arg)) {
+                String excludeLanguageStr = args[++i];
+                excludedLanguages.addAll(List.of(excludeLanguageStr.split(",")));
+                optionsUsedToInvoke.add(ParserOptions.EXCLUDE_LANGUAGE_OPT);
+                optionsUsedToInvoke.add(excludeLanguageStr);
             } else if (ParserOptions.ADD_SOUND.equals(arg)) {
                 String soundGrammemeTypes = args[++i];
 
@@ -175,17 +183,19 @@ final class ParserOptions {
                     }
                     try (var propertiesStream = new InputStreamReader(resourceStream, StandardCharsets.UTF_8)) {
                         soundRegexes.load(propertiesStream);
-                        var enumMap = new EnumMap<Grammar.Sound, Pattern>(Grammar.Sound.class);
-                        for (var entry : soundRegexes.entrySet()) {
-                            var key = (String) entry.getKey();
-                            if (additionalSoundProperties.contains(key)) {
-                                enumMap.put(Grammar.Sound.valueOf(key.toUpperCase(Locale.ROOT).replace('-', '_')), Pattern.compile((String) entry.getValue()));
+                        // Preserve the order requested via --add-sound: addSound() stops at the first
+                        // match, so this order is the match priority, not just insertion order.
+                        var orderedMap = new LinkedHashMap<Grammar.Sound, Pattern>();
+                        for (var key : additionalSoundProperties) {
+                            var regex = soundRegexes.getProperty(key);
+                            if (regex != null) {
+                                orderedMap.put(Grammar.Sound.valueOf(key.toUpperCase(Locale.ROOT).replace('-', '_')), Pattern.compile(regex));
                             }
                         }
-                        if (enumMap.size() != additionalSoundProperties.size()) {
+                        if (orderedMap.size() != additionalSoundProperties.size()) {
                             throw new IllegalArgumentException("Not all sound properties were found");
                         }
-                        claimsToSound.put(claimID, enumMap);
+                        claimsToSound.put(claimID, orderedMap);
                     }
                 }
 

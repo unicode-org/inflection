@@ -11,7 +11,7 @@ namespace inflection::util {
 
 ::std::u16string* StringUtils::appendCodePoint(::std::u16string* dest, char32_t codePoint) {
     if (U16_LENGTH(codePoint) == 1) {
-        npc(dest)->push_back(codePoint);
+        npc(dest)->push_back(static_cast<char16_t>(codePoint));
     } else {
         npc(dest)->push_back(U16_LEAD(codePoint));
         npc(dest)->push_back(U16_TRAIL(codePoint));

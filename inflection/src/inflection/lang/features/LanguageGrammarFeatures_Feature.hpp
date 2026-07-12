@@ -4,7 +4,6 @@
 #pragma once
 
 #include <inflection/lang/features/fwd.hpp>
-#include <inflection/lang/features/LanguageGrammarFeatures_GrammarCategory.hpp>
 #include <inflection/Object.hpp>
 #include <string>
 #include <map>

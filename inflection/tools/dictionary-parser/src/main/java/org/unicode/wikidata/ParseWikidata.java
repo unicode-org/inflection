@@ -193,7 +193,7 @@ public final class ParseWikidata {
                 } else {
                     // Couldn't find an exact match. Go to a generic match.
                     for (var rep : form.representations.entrySet()) {
-                        if (isContained(currentLemmaLanguage, lemmaEntry.getKey())) {
+                        if (LexemesJsonDeserializer.isContained(rep.getKey())) {
                             currentInflection = new Inflection(rep.getValue().value);
                             break;
                         }
@@ -358,37 +358,29 @@ public final class ParseWikidata {
     }
 
     private void addSound(String property, List<String> claims, TreeSet<Enum<?>> grammemeSet, String id, String lemma) {
-        boolean foundMatch = false;
         var dataForClaim = parserOptions.claimsToSound.get(property);
         if (dataForClaim != null && !dataForClaim.isEmpty()) {
             for (var soundMatcher : dataForClaim.entrySet()) {
                 for (var claim : claims) {
                     if (soundMatcher.getValue().matcher(claim).find()) {
                         grammemeSet.add(soundMatcher.getKey());
-                        foundMatch = true;
+                        return;
                     }
                 }
             }
-            if (!foundMatch) {
-                System.err.println("Unmatched property: " + id + "(" + lemma + "): \"" + dataForClaim + "\"");
-            }
+            System.err.println("Unmatched property: " + id + "(" + lemma + "): \"" + dataForClaim + "\"");
         }
     }
 
     private static boolean validateStemLength(@Nonnull List<Inflection> inflections, int stemLength) {
-        for (var inflection_outer : inflections) {
-            String suffix = inflection_outer.getInflection().substring(stemLength);
-            boolean invalid = false;
-            for (var inflection_inner : inflections) {
-                var inflectionInnerStr = inflection_inner.getInflection();
+        for (var inflectionOuter : inflections) {
+            String suffix = inflectionOuter.getInflection().substring(stemLength);
+            for (var inflectionInner : inflections) {
+                var inflectionInnerStr = inflectionInner.getInflection();
                 if (inflectionInnerStr.endsWith(suffix)
                         && ((inflectionInnerStr.length() - suffix.length()) < stemLength)) {
-                    invalid = true;
-                    break;
+                    return false;
                 }
-            }
-            if (invalid) {
-                return false;
             }
         }
         return true;
@@ -458,7 +450,16 @@ public final class ParseWikidata {
     // inflection patterns
     private InflectionPattern getInflectionPattern(Lemma lemma, String lemmaSuffix,
             List<Inflection> suffixes) {
+        if (suffixes.isEmpty()) {
+            // If there are no suffixes, the lemma wasn't ignored, but all inflections were ignored.
+            // It's an abandoned lemma that won't be written.
+            return null;
+        }
         TreeSet<Enum<?>> newGrammemeList = new TreeSet<>(lemma.grammemes);
+        // Remove grammemes that are irrelevant for inflection pattern matching.
+        newGrammemeList.removeIf(g -> g instanceof Grammar.Sound
+                || g instanceof Grammar.Ignorable
+                || g instanceof Grammar.Alternate);
 
         InflectionPattern inflectionPattern = new InflectionPattern(
                 documentState.inflectionPatterns.size() + 1,
@@ -597,23 +598,6 @@ public final class ParseWikidata {
         }
     }
 
-    /**
-     * Is the base desired language contained in the variant language?
-     * en, en true
-     * en, en-us true
-     * en-us, en-us true
-     * ko, kok false
-     */
-    public static boolean isContained(String baseLanguage, String variantLanguage) {
-        if (baseLanguage.indexOf('-') < 0) {
-            int dash = variantLanguage.indexOf('-');
-            if (dash >= 0) {
-                variantLanguage = variantLanguage.substring(0, dash);
-            }
-        }
-        return baseLanguage.equals(variantLanguage);
-    }
-
     private void analyzeLemma(Lemma lemma) {
         analyzeInflections(lemma, lemma.inflections);
 
@@ -635,6 +619,7 @@ public final class ParseWikidata {
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         var lexParser = new ParseWikidata(parserOptions);
         LexemesJsonDeserializer.setLanguage(parserOptions.locales);
+        LexemesJsonDeserializer.setExcludedLanguages(parserOptions.excludedLanguages);
 
         // We create InputSource directly due to an occasional bugs with UTF-8 files
         // being interpreted as malformed UTF-8.

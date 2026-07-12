@@ -21,7 +21,7 @@ function(install_build_resources RESOURCES SOURCE_PREFIX DEST_PREFIX INSTALLED_R
         list(APPEND RESOURCE_DIRS ${INSTALLED_RESOURCE_DIR})
         add_custom_command(
             OUTPUT ${INSTALLED_RESOURCE}
-            COMMAND cp ${RESOURCE} ${INSTALLED_RESOURCE}
+            COMMAND ${CMAKE_COMMAND} -E copy ${RESOURCE} ${INSTALLED_RESOURCE}
             DEPENDS ${RESOURCE}
         )
     endforeach()
@@ -30,41 +30,55 @@ function(install_build_resources RESOURCES SOURCE_PREFIX DEST_PREFIX INSTALLED_R
     set(${INSTALLED_RESOURCES} ${_tmp_result} PARENT_SCOPE)
 endfunction()
 
+function(read_mk_variable MK_FILE QUERY_VAR)
+    file(STRINGS ${MK_FILE} _lines REGEX "^${QUERY_VAR}[ \t]*[:?]?=")
+    if (_lines)
+        list(GET _lines 0 _line)
+        string(REGEX REPLACE "^${QUERY_VAR}[ \t]*[:?]?=[ \t]*" "" _value "${_line}")
+        string(STRIP "${_value}" _value)
+        set(${QUERY_VAR} "${_value}" PARENT_SCOPE)
+    endif()
+endfunction()
+
 macro(get_version_from_makefile QUERY_VAR)
-    execute_process(COMMAND
-        sh -c "make -s -f ${VERSIONS_MK_PATH} print-${QUERY_VAR}"
-        OUTPUT_VARIABLE ${QUERY_VAR}
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
+    read_mk_variable(${CMAKE_SOURCE_DIR}/cmake/versions.mk ${QUERY_VAR})
 endmacro()
 
 macro(get_option_from_makefile QUERY_VAR)
-    execute_process(COMMAND
-            sh -c "make -s -f ${OPTIONS_MK_PATH} print-${QUERY_VAR}"
-            OUTPUT_VARIABLE ${QUERY_VAR}
-            OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
-endmacro()
-
-macro(evaluate_command COMMAND_STR)
-    execute_process(COMMAND
-        sh -c "${COMMAND_STR}"
-        OUTPUT_VARIABLE _tmp_result
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
+    if (EXISTS ${CMAKE_SOURCE_DIR}/options.mk)
+        read_mk_variable(${CMAKE_SOURCE_DIR}/options.mk ${QUERY_VAR})
+    endif()
 endmacro()
 
 function(get_inflection_version RET_VAL)
-    evaluate_command("sh ${CMAKE_SOURCE_DIR}/tools/scripts/version.sh")
-    if (NOT _tmp_result)
-        set(_tmp_result snapshot)
+    execute_process(
+        COMMAND git tag --points-at HEAD
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        OUTPUT_VARIABLE _tags
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET
+    )
+    set(_best_version "")
+    if (_tags)
+        string(REPLACE "\n" ";" _tag_list "${_tags}")
+        foreach(_tag IN LISTS _tag_list)
+            if (_tag MATCHES "^Inflection-([0-9.]+)$")
+                set(_ver "${CMAKE_MATCH_1}")
+                if ("${_best_version}" STREQUAL "" OR "${_ver}" VERSION_GREATER "${_best_version}")
+                    set(_best_version "${_ver}")
+                endif()
+            endif()
+        endforeach()
     endif()
-    set(${RET_VAL} ${_tmp_result} PARENT_SCOPE)
+    if (NOT _best_version)
+        set(_best_version snapshot)
+    endif()
+    set(${RET_VAL} ${_best_version} PARENT_SCOPE)
 endfunction()
 
 function(get_num_processors RET_VAL)
-    evaluate_command("(getconf _NPROCESSORS_ONLN || sysctl -n hw.ncpu || nproc --all) 2>/dev/null")
-    set(${RET_VAL} ${_tmp_result} PARENT_SCOPE)
+    cmake_host_system_information(RESULT _num_procs QUERY NUMBER_OF_LOGICAL_CORES)
+    set(${RET_VAL} ${_num_procs} PARENT_SCOPE)
 endfunction()
 
 function(fixRuntimePath TARGET DEPLIB RELATIVE_RUNTIMEPATH)

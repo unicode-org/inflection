@@ -32,18 +32,18 @@ void SvGrammarSynthesizer::addSemanticFeatures(::inflection::dialog::SemanticFea
     featureModel.putDefaultFeatureFunctionByName(WITH_POSS_ARTICLE, new SvGrammarSynthesizer_ArticleLookupFunction(featureModel, true, u"din", u"ditt", u"dina"));
     featureModel.setDefaultDisplayFunction(new SvGrammarSynthesizer_SvDisplayFunction(featureModel));
 
-    featureModel.putDefaultFeatureFunctionByName(GrammemeConstants::NUMBER, new ::inflection::dialog::DictionaryLookupFunction(::inflection::util::LocaleUtils::SWEDISH(), {GrammemeConstants::NUMBER_SINGULAR(), GrammemeConstants::NUMBER_PLURAL()}));
+    featureModel.putDefaultFeatureFunctionByName(GrammemeConstants::NUMBER, new ::inflection::dialog::DictionaryLookupFunction(::inflection::util::LocaleUtils::SWEDISH(), {GrammemeConstants::NUMBER_SINGULAR, GrammemeConstants::NUMBER_PLURAL}));
     featureModel.putDefaultFeatureFunctionByName(GrammemeConstants::GENDER, new SvGrammarSynthesizer_GenderLookupFunction());
-    featureModel.putDefaultFeatureFunctionByName(GrammemeConstants::DEFINITENESS, new ::inflection::dialog::DictionaryLookupFunction(::inflection::util::LocaleUtils::SWEDISH(), {GrammemeConstants::DEFINITENESS_DEFINITE(), GrammemeConstants::DEFINITENESS_INDEFINITE()}));
+    featureModel.putDefaultFeatureFunctionByName(GrammemeConstants::DEFINITENESS, new ::inflection::dialog::DictionaryLookupFunction(::inflection::util::LocaleUtils::SWEDISH(), {GrammemeConstants::DEFINITENESS_DEFINITE, GrammemeConstants::DEFINITENESS_INDEFINITE}));
 }
 
 SvGrammarSynthesizer::Number SvGrammarSynthesizer::getNumber(const ::std::u16string* value) {
     if (value != nullptr) {
         const auto& valRef = *value;
-        if (valRef == GrammemeConstants::NUMBER_SINGULAR()) {
+        if (valRef == GrammemeConstants::NUMBER_SINGULAR) {
             return Number::singular;
         }
-        if (valRef == GrammemeConstants::NUMBER_PLURAL()) {
+        if (valRef == GrammemeConstants::NUMBER_PLURAL) {
             return Number::plural;
         }
     }
@@ -53,10 +53,10 @@ SvGrammarSynthesizer::Number SvGrammarSynthesizer::getNumber(const ::std::u16str
 SvGrammarSynthesizer::Gender SvGrammarSynthesizer::getGender(const ::std::u16string* value) {
     if (value != nullptr) {
         const auto& valRef = *value;
-        if (valRef == GrammemeConstants::GENDER_COMMON()) {
+        if (valRef == GrammemeConstants::GENDER_COMMON) {
             return Gender::common;
         }
-        if (valRef == GrammemeConstants::GENDER_NEUTER()) {
+        if (valRef == GrammemeConstants::GENDER_NEUTER) {
             return Gender::neuter;
         }
     }

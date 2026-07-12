@@ -3,22 +3,27 @@
  */
 #include <inflection/grammar/synthesis/ItGrammarSynthesizer_ArticleLookupFunction.hpp>
 
+#include <inflection/dialog/DictionaryLookupFunction.hpp>
 #include <inflection/dialog/SemanticFeature.hpp>
 #include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
-#include <inflection/dialog/SpeakableString.hpp>
 #include <inflection/grammar/synthesis/GrammemeConstants.hpp>
 #include <inflection/grammar/synthesis/ItGrammarSynthesizer.hpp>
 #include <inflection/npc.hpp>
 
 namespace inflection::grammar::synthesis {
 
-ItGrammarSynthesizer_ArticleLookupFunction::ItGrammarSynthesizer_ArticleLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model, const ::std::u16string& derivedSemanticName)
-    : super(model, !derivedSemanticName.empty(), false)
+ItGrammarSynthesizer_ArticleLookupFunction::ItGrammarSynthesizer_ArticleLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model,
+                                               const char16_t* derivedSemanticName,
+                                               const ::inflection::dialog::DictionaryLookupFunction& numberLookupFunction,
+                                               const ::inflection::dialog::DictionaryLookupFunction& genderLookupFunction)
+    : super(model, derivedSemanticName != nullptr, false)
     , countFeature(*npc(model.getFeature(GrammemeConstants::NUMBER)))
     , genderFeature(*npc(model.getFeature(GrammemeConstants::GENDER)))
+    , numberLookupFunction(numberLookupFunction)
+    , genderLookupFunction(genderLookupFunction)
 {
-    this->derivedArticleFeature = (!derivedSemanticName.empty() ? model.getFeature(derivedSemanticName) : static_cast<const ::inflection::dialog::SemanticFeature* >(nullptr));
+    this->derivedArticleFeature = (derivedSemanticName != nullptr ? model.getFeature(derivedSemanticName) : static_cast<const ::inflection::dialog::SemanticFeature* >(nullptr));
 }
 
 inflection::dialog::SpeakableString* ItGrammarSynthesizer_ArticleLookupFunction::getFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& /*constraints*/) const
@@ -34,7 +39,7 @@ inflection::dialog::SpeakableString* ItGrammarSynthesizer_ArticleLookupFunction:
     const auto& displayString = displayValue.getDisplayString();
     if (countValue == ItGrammarSynthesizer::Number::undefined || genderValue == ItGrammarSynthesizer::Gender::undefined) {
         if (countValue == ItGrammarSynthesizer::Number::undefined) {
-            auto value = countLookupFunction.determine(displayString);
+            auto value = numberLookupFunction.determine(displayString);
             countValue = ItGrammarSynthesizer::getNumber(&value);
         }
         if (genderValue == ItGrammarSynthesizer::Gender::undefined) {

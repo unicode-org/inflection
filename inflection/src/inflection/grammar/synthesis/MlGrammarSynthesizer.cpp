@@ -9,7 +9,7 @@
 #include <inflection/grammar/synthesis/MlGrammarSynthesizer_CaseLookupFunction.hpp>
 #include <inflection/grammar/synthesis/MlGrammarSynthesizer_MlDisplayFunction.hpp>
 #include <inflection/grammar/synthesis/GrammemeConstants.hpp>
-#include <map>
+#include <inflection/util/ArrayUtils.hpp>
 
 namespace inflection::grammar::synthesis {
 
@@ -23,86 +23,74 @@ void MlGrammarSynthesizer::addSemanticFeatures(::inflection::dialog::SemanticFea
 }
 
 MlGrammarSynthesizer::Number MlGrammarSynthesizer::getNumber(const ::std::u16string& value) {
-    if (value == GrammemeConstants::NUMBER_SINGULAR()) {
+    if (value == GrammemeConstants::NUMBER_SINGULAR) {
         return Number::singular;
     }
-    if (value == GrammemeConstants::NUMBER_PLURAL()) {
+    if (value == GrammemeConstants::NUMBER_PLURAL) {
         return Number::plural;
     }
     return Number::undefined;
 }
 
 MlGrammarSynthesizer::Case MlGrammarSynthesizer::getCase(const ::std::u16string& value) {
-    if (value == GrammemeConstants::CASE_NOMINATIVE()) {
+    if (value == GrammemeConstants::CASE_NOMINATIVE) {
         return Case::nominative;
     }
-    if (value == GrammemeConstants::CASE_ACCUSATIVE()) {
+    if (value == GrammemeConstants::CASE_ACCUSATIVE) {
         return Case::accusative;
     }
-    if (value == GrammemeConstants::CASE_DATIVE()) {
+    if (value == GrammemeConstants::CASE_DATIVE) {
         return Case::dative;
     }
-    if (value == GrammemeConstants::CASE_GENITIVE()) {
+    if (value == GrammemeConstants::CASE_GENITIVE) {
         return Case::genitive;
     }
-    if (value == GrammemeConstants::CASE_INSTRUMENTAL()) {
+    if (value == GrammemeConstants::CASE_INSTRUMENTAL) {
         return Case::instrumental;
     }
-    if (value == GrammemeConstants::CASE_LOCATIVE()) {
+    if (value == GrammemeConstants::CASE_LOCATIVE) {
         return Case::locative;
     }
     return Case::undefined;
 }
 
 MlGrammarSynthesizer::Person MlGrammarSynthesizer::getPerson(const ::std::u16string& value) {
-    if (value == GrammemeConstants::PERSON_FIRST()) {
+    if (value == GrammemeConstants::PERSON_FIRST) {
         return Person::first;
     }
-    if (value == GrammemeConstants::PERSON_SECOND()) {
+    if (value == GrammemeConstants::PERSON_SECOND) {
         return Person::second;
     }
-    if (value == GrammemeConstants::PERSON_THIRD()) {
+    if (value == GrammemeConstants::PERSON_THIRD) {
         return Person::third;
     }
     return Person::undefined;
 }
 
 MlGrammarSynthesizer::Tense MlGrammarSynthesizer::getTense(const ::std::u16string& value) {
-    if (value == GrammemeConstants::TENSE_PAST()) {
+    if (value == GrammemeConstants::TENSE_PAST) {
         return Tense::past;
     }
-    if (value == GrammemeConstants::TENSE_PRESENT()) {
+    if (value == GrammemeConstants::TENSE_PRESENT) {
         return Tense::present;
     }
-    if (value == GrammemeConstants::TENSE_FUTURE()) {
+    if (value == GrammemeConstants::TENSE_FUTURE) {
         return Tense::future;
     }
     return Tense::undefined;
 }
 
 MlGrammarSynthesizer::Mood MlGrammarSynthesizer::getMood(const ::std::u16string& value) {
-    if (value == GrammemeConstants::MOOD_INDICATIVE()) {
+    if (value == GrammemeConstants::MOOD_INDICATIVE) {
         return Mood::indicative;
     }
-    if (value == GrammemeConstants::MOOD_IMPERATIVE()) {
+    if (value == GrammemeConstants::MOOD_IMPERATIVE) {
         return Mood::imperative;
     }
-    if (value == GrammemeConstants::MOOD_SUBJUNCTIVE()) {
+    if (value == GrammemeConstants::MOOD_SUBJUNCTIVE) {
         return Mood::subjunctive;
     }
     return Mood::undefined;
-}
-
-MlGrammarSynthesizer::LookupKey MlGrammarSynthesizer::makeLookupKey(Number num, Case kase) {
-    return (static_cast<LookupKey>(kase) & 0xFF)
-         | ((static_cast<LookupKey>(num)  & 0xFF) << 8);
-}
-
-MlGrammarSynthesizer::LookupKey MlGrammarSynthesizer::makeVerbLookupKey(Person person, Number num, Tense tense, Mood mood) {
-    return (static_cast<LookupKey>(person) & 0xFF)
-         | ((static_cast<LookupKey>(num)    & 0xFF) << 8)
-         | ((static_cast<LookupKey>(tense)  & 0x0F) << 24)
-         | ((static_cast<LookupKey>(mood)   & 0x0F) << 28);
 }
 
 MlGrammarSynthesizer::LookupKey MlGrammarSynthesizer::buildVerbSuffixKey(const std::vector<::std::u16string>& constraintValues) {
@@ -129,54 +117,51 @@ MlGrammarSynthesizer::LookupKey MlGrammarSynthesizer::buildVerbSuffixKey(const s
     return makeVerbLookupKey(person, num, tense, mood);
 }
 
-const std::map<MlGrammarSynthesizer::LookupKey, ::std::u16string_view>& MlGrammarSynthesizer::MALAYALAM_SUFFIX_MAP()
-{
-    static auto MALAYALAM_SUFFIX_MAP_ = new ::std::map<MlGrammarSynthesizer::LookupKey, ::std::u16string_view>({
-        {makeLookupKey(Number::singular, Case::nominative), u""},
-        {makeLookupKey(Number::plural,   Case::nominative), u"കൾ"},
-        {makeLookupKey(Number::singular, Case::genitive),   u"യുടെ"},
-        {makeLookupKey(Number::plural,   Case::genitive),   u"കളുടെ"},
-        {makeLookupKey(Number::singular, Case::dative),    u"ക്ക്"},
-        {makeLookupKey(Number::plural,   Case::dative),    u"കൾക്ക്"},
-    });
-    return *npc(MALAYALAM_SUFFIX_MAP_);
+typedef struct {
+    MlGrammarSynthesizer::LookupKey key;
+    const char16_t* suffix;
+} KeyToSuffix;
+
+static constexpr KeyToSuffix MALAYALAM_SUFFIX_MAP[] = {
+    {MlGrammarSynthesizer::makeLookupKey(MlGrammarSynthesizer::Number::singular, MlGrammarSynthesizer::Case::nominative), u""},
+    {MlGrammarSynthesizer::makeLookupKey(MlGrammarSynthesizer::Number::singular, MlGrammarSynthesizer::Case::dative),     u"ക്ക്"},
+    {MlGrammarSynthesizer::makeLookupKey(MlGrammarSynthesizer::Number::singular, MlGrammarSynthesizer::Case::genitive),   u"യുടെ"},
+    {MlGrammarSynthesizer::makeLookupKey(MlGrammarSynthesizer::Number::plural,   MlGrammarSynthesizer::Case::nominative), u"കൾ"},
+    {MlGrammarSynthesizer::makeLookupKey(MlGrammarSynthesizer::Number::plural,   MlGrammarSynthesizer::Case::dative),     u"കൾക്ക്"},
+    {MlGrammarSynthesizer::makeLookupKey(MlGrammarSynthesizer::Number::plural,   MlGrammarSynthesizer::Case::genitive),   u"കളുടെ"},
 };
 
-const std::map<MlGrammarSynthesizer::LookupKey, ::std::u16string_view>& MlGrammarSynthesizer::MALAYALAM_VERB_SUFFIX_MAP()
-{
-    static auto MALAYALAM_VERB_SUFFIX_MAP_ = new ::std::map<MlGrammarSynthesizer::LookupKey, ::std::u16string_view>({
-        {makeVerbLookupKey(Person::first,  Number::singular, Tense::past,    Mood::indicative), u"ച്ചു"},
-        {makeVerbLookupKey(Person::first,  Number::plural,   Tense::past,    Mood::indicative), u"ഞ്ഞു"},
-        {makeVerbLookupKey(Person::second, Number::singular, Tense::past,    Mood::indicative), u"ച്ചു"},
-        {makeVerbLookupKey(Person::second, Number::plural,   Tense::past,    Mood::indicative), u"ന്നു"},
-        {makeVerbLookupKey(Person::third,  Number::singular, Tense::past,    Mood::indicative), u"ച്ചു"},
-        {makeVerbLookupKey(Person::third,  Number::plural,   Tense::past,    Mood::indicative), u"ന്നു"},
+static constexpr KeyToSuffix MALAYALAM_VERB_SUFFIX_MAP[] = {
+    {MlGrammarSynthesizer::makeVerbLookupKey(MlGrammarSynthesizer::Person::first,  MlGrammarSynthesizer::Number::singular, MlGrammarSynthesizer::Tense::past,    MlGrammarSynthesizer::Mood::indicative), u"ച്ചു"},
+    {MlGrammarSynthesizer::makeVerbLookupKey(MlGrammarSynthesizer::Person::second, MlGrammarSynthesizer::Number::singular, MlGrammarSynthesizer::Tense::past,    MlGrammarSynthesizer::Mood::indicative), u"ച്ചു"},
+    {MlGrammarSynthesizer::makeVerbLookupKey(MlGrammarSynthesizer::Person::third,  MlGrammarSynthesizer::Number::singular, MlGrammarSynthesizer::Tense::past,    MlGrammarSynthesizer::Mood::indicative), u"ച്ചു"},
+    {MlGrammarSynthesizer::makeVerbLookupKey(MlGrammarSynthesizer::Person::first,  MlGrammarSynthesizer::Number::plural,   MlGrammarSynthesizer::Tense::past,    MlGrammarSynthesizer::Mood::indicative), u"ഞ്ഞു"},
+    {MlGrammarSynthesizer::makeVerbLookupKey(MlGrammarSynthesizer::Person::second, MlGrammarSynthesizer::Number::plural,   MlGrammarSynthesizer::Tense::past,    MlGrammarSynthesizer::Mood::indicative), u"ന്നു"},
+    {MlGrammarSynthesizer::makeVerbLookupKey(MlGrammarSynthesizer::Person::third,  MlGrammarSynthesizer::Number::plural,   MlGrammarSynthesizer::Tense::past,    MlGrammarSynthesizer::Mood::indicative), u"ന്നു"},
 
-        {makeVerbLookupKey(Person::first,  Number::singular, Tense::present, Mood::indicative), u"ിക്കുന്നു"},
-        {makeVerbLookupKey(Person::first,  Number::plural,   Tense::present, Mood::indicative), u"ിക്കുന്നു"},
-        {makeVerbLookupKey(Person::second, Number::singular, Tense::present, Mood::indicative), u"ിക്കുന്നു"},
-        {makeVerbLookupKey(Person::second, Number::plural,   Tense::present, Mood::indicative), u"ിക്കുന്നു"},
-        {makeVerbLookupKey(Person::third,  Number::singular, Tense::present, Mood::indicative), u"ിക്കുന്നു"},
-        {makeVerbLookupKey(Person::third,  Number::plural,   Tense::present, Mood::indicative), u"ിക്കുന്നു"},
+    {MlGrammarSynthesizer::makeVerbLookupKey(MlGrammarSynthesizer::Person::first,  MlGrammarSynthesizer::Number::singular, MlGrammarSynthesizer::Tense::present, MlGrammarSynthesizer::Mood::indicative), u"ിക്കുന്നു"},
+    {MlGrammarSynthesizer::makeVerbLookupKey(MlGrammarSynthesizer::Person::second, MlGrammarSynthesizer::Number::singular, MlGrammarSynthesizer::Tense::present, MlGrammarSynthesizer::Mood::indicative), u"ിക്കുന്നു"},
+    {MlGrammarSynthesizer::makeVerbLookupKey(MlGrammarSynthesizer::Person::third,  MlGrammarSynthesizer::Number::singular, MlGrammarSynthesizer::Tense::present, MlGrammarSynthesizer::Mood::indicative), u"ിക്കുന്നു"},
+    {MlGrammarSynthesizer::makeVerbLookupKey(MlGrammarSynthesizer::Person::first,  MlGrammarSynthesizer::Number::plural,   MlGrammarSynthesizer::Tense::present, MlGrammarSynthesizer::Mood::indicative), u"ിക്കുന്നു"},
+    {MlGrammarSynthesizer::makeVerbLookupKey(MlGrammarSynthesizer::Person::second, MlGrammarSynthesizer::Number::plural,   MlGrammarSynthesizer::Tense::present, MlGrammarSynthesizer::Mood::indicative), u"ിക്കുന്നു"},
+    {MlGrammarSynthesizer::makeVerbLookupKey(MlGrammarSynthesizer::Person::third,  MlGrammarSynthesizer::Number::plural,   MlGrammarSynthesizer::Tense::present, MlGrammarSynthesizer::Mood::indicative), u"ിക്കുന്നു"},
 
-        {makeVerbLookupKey(Person::first,  Number::singular, Tense::future,  Mood::indicative), u" ചെയ്യും"},
-        {makeVerbLookupKey(Person::first,  Number::plural,   Tense::future,  Mood::indicative), u" ചെയ്യും"},
-        {makeVerbLookupKey(Person::second, Number::singular, Tense::future,  Mood::indicative), u" ചെയ്യും"},
-        {makeVerbLookupKey(Person::second, Number::plural,   Tense::future,  Mood::indicative), u" ചെയ്യും"},
-        {makeVerbLookupKey(Person::third,  Number::singular, Tense::future,  Mood::indicative), u" ചെയ്യും"},
-        {makeVerbLookupKey(Person::third,  Number::plural,   Tense::future,  Mood::indicative), u" ചെയ്യും"},
-    });
-    return *npc(MALAYALAM_VERB_SUFFIX_MAP_);
-}
+    {MlGrammarSynthesizer::makeVerbLookupKey(MlGrammarSynthesizer::Person::first,  MlGrammarSynthesizer::Number::singular, MlGrammarSynthesizer::Tense::future,  MlGrammarSynthesizer::Mood::indicative), u" ചെയ്യും"},
+    {MlGrammarSynthesizer::makeVerbLookupKey(MlGrammarSynthesizer::Person::second, MlGrammarSynthesizer::Number::singular, MlGrammarSynthesizer::Tense::future,  MlGrammarSynthesizer::Mood::indicative), u" ചെയ്യും"},
+    {MlGrammarSynthesizer::makeVerbLookupKey(MlGrammarSynthesizer::Person::third,  MlGrammarSynthesizer::Number::singular, MlGrammarSynthesizer::Tense::future,  MlGrammarSynthesizer::Mood::indicative), u" ചെയ്യും"},
+    {MlGrammarSynthesizer::makeVerbLookupKey(MlGrammarSynthesizer::Person::first,  MlGrammarSynthesizer::Number::plural,   MlGrammarSynthesizer::Tense::future,  MlGrammarSynthesizer::Mood::indicative), u" ചെയ്യും"},
+    {MlGrammarSynthesizer::makeVerbLookupKey(MlGrammarSynthesizer::Person::second, MlGrammarSynthesizer::Number::plural,   MlGrammarSynthesizer::Tense::future,  MlGrammarSynthesizer::Mood::indicative), u" ചെയ്യും"},
+    {MlGrammarSynthesizer::makeVerbLookupKey(MlGrammarSynthesizer::Person::third,  MlGrammarSynthesizer::Number::plural,   MlGrammarSynthesizer::Tense::future,  MlGrammarSynthesizer::Mood::indicative), u" ചെയ്യും"},
+};
 
 std::u16string_view MlGrammarSynthesizer::getSuffix(LookupKey key) {
-    auto it = MALAYALAM_VERB_SUFFIX_MAP().find(key);
-    return it != MALAYALAM_VERB_SUFFIX_MAP().end() ? it->second : std::u16string_view();
+    auto entry = inflection::util::ArrayUtils::searchSorted<MALAYALAM_SUFFIX_MAP>(key, [](const auto& item) { return item.key; });
+    return entry != nullptr ? entry->suffix : std::u16string_view();
 }
 
 std::u16string_view MlGrammarSynthesizer::getVerbSuffix(LookupKey key) {
-    auto it = MALAYALAM_SUFFIX_MAP().find(key);
-    return it != MALAYALAM_SUFFIX_MAP().end() ? it->second : std::u16string_view();
+    auto entry = inflection::util::ArrayUtils::searchSorted<MALAYALAM_VERB_SUFFIX_MAP>(key, [](const auto& item) { return item.key; });
+    return entry != nullptr ? entry->suffix : std::u16string_view();
 }
 
 } // namespace inflection::grammar::synthesis

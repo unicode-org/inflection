@@ -7,10 +7,10 @@ var searchData=
   ['hasproperty_4',['hasProperty',['../classinflection_1_1dictionary_1_1DictionaryMetaData.html#a6f2c68d11b579eccc4f429ebb7474429',1,'inflection::dictionary::DictionaryMetaData']]],
   ['hebrew_5',['HEBREW',['../classinflection_1_1util_1_1LocaleUtils.html#a51e3a39a58996ecc41d71bca88aafca1',1,'inflection::util::LocaleUtils']]],
   ['hindi_6',['HINDI',['../classinflection_1_1util_1_1LocaleUtils.html#a681a782c35746706920d5ab09b18112d',1,'inflection::util::LocaleUtils']]],
-  ['history_7',['History',['../index.html#autotoc_md6',1,'']]],
+  ['history_7',['History',['../index.html#autotoc_md7',1,'']]],
   ['hongkong_5fcantonese_8',['HONGKONG_CANTONESE',['../classinflection_1_1util_1_1LocaleUtils.html#a4dea4a68897fc05d4a5ebb08000d387d',1,'inflection::util::LocaleUtils']]],
   ['hongkong_5fchinese_9',['HONGKONG_CHINESE',['../classinflection_1_1util_1_1LocaleUtils.html#ad0a4aa899ac7e91d4b0cb7daba163571',1,'inflection::util::LocaleUtils']]],
-  ['how_20unicode_20inflection_20works_10',['How Unicode Inflection works',['../index.html#autotoc_md2',1,'']]],
+  ['how_20unicode_20inflection_20works_10',['How Unicode Inflection works',['../index.html#autotoc_md3',1,'']]],
   ['hungarian_11',['HUNGARIAN',['../classinflection_1_1util_1_1LocaleUtils.html#ab5935bfb1255d324f15022630aa92ee1',1,'inflection::util::LocaleUtils']]],
   ['hungary_12',['HUNGARY',['../classinflection_1_1util_1_1LocaleUtils.html#a5f8b29a1c31d2c7d4015eb22c9f44458',1,'inflection::util::LocaleUtils']]]
 ];

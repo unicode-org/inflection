@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['type_0',['Type',['../classinflection_1_1dialog_1_1SemanticFeature.html#af942654a62b07de57e6736ae82b5110c',1,'inflection::dialog::SemanticFeature']]]
+  ['outputmode_0',['OutputMode',['../classinflection_1_1message2_1_1MF2Factory.html#af12f0d6ecf91b38808a934d83df36b5d',1,'inflection::message2::MF2Factory']]]
 ];

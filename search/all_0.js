@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['about_20unicode_20inflection_0',['About Unicode Inflection',['../index.html#autotoc_md0',1,'']]],
+  ['about_20unicode_20inflection_0',['About Unicode Inflection',['../index.html#autotoc_md1',1,'']]],
   ['arabic_1',['ARABIC',['../classinflection_1_1util_1_1LocaleUtils.html#ab4c30acce38b25fbd1db05f61768ba7c',1,'inflection::util::LocaleUtils']]],
   ['arelanguagescriptcompatible_2',['areLanguageScriptCompatible',['../classinflection_1_1util_1_1LocaleUtils.html#aab9d8cb37aeec729e3bc61a168867b89',1,'inflection::util::LocaleUtils']]],
   ['asdigits_3',['asDigits',['../classinflection_1_1dialog_1_1NumberConcept.html#aa6f1a3b4cee5a7bb62ee157784b74304',1,'inflection::dialog::NumberConcept']]],

@@ -3,7 +3,7 @@ var searchData=
   ['registerdatapathforlocale_0',['registerDataPathForLocale',['../classinflection_1_1resources_1_1DataRegistrationService.html#ac1dc87e112a93f4a57eaa0e367d8eb38',1,'inflection::resources::DataRegistrationService']]],
   ['registerlogger_1',['registerLogger',['../classinflection_1_1util_1_1LoggerConfig.html#a4e99a8d28d37b3bf8e3564f1ffc79d98',1,'inflection::util::LoggerConfig']]],
   ['reset_2',['reset',['../classinflection_1_1dialog_1_1SemanticConceptList.html#ad24b722e3f6f3726b3a003d7271540a1',1,'inflection::dialog::SemanticConceptList::reset()'],['../classinflection_1_1dialog_1_1SemanticFeatureConceptBase.html#ab2a552df4eedcb8415c34298f3b4a70b',1,'inflection::dialog::SemanticFeatureConceptBase::reset()']]],
-  ['resolving_20icu4c_20dependancy_3',['Resolving ICU4C dependancy',['../index.html#autotoc_md11',1,'']]],
+  ['resolving_20icu4c_20dependancy_3',['Resolving ICU4C dependancy',['../index.html#autotoc_md12',1,'']]],
   ['romania_4',['ROMANIA',['../classinflection_1_1util_1_1LocaleUtils.html#acb09724ec0c63e1216798a820a94ffb9',1,'inflection::util::LocaleUtils']]],
   ['romanian_5',['ROMANIAN',['../classinflection_1_1util_1_1LocaleUtils.html#a78b0a3462e74c8aa7e96532ca1fb5b64',1,'inflection::util::LocaleUtils']]],
   ['root_6',['ROOT',['../classinflection_1_1util_1_1LocaleUtils.html#a6c43e11c6e506857704fd6f57e8b44e7',1,'inflection::util::LocaleUtils']]],

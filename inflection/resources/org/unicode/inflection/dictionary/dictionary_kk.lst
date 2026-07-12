@@ -1,0 +1,45 @@
+Jüñgo: proper-noun
+Qazaqstan: proper-noun
+Qytai: proper-noun
+Türkia: proper-noun
+adam: noun inflection=1
+jäne: conjunction
+kıtapxana: noun inflection=1
+masa: noun inflection=1
+qañtar: noun inflection=1
+Жұңго: proper-noun
+Түркия: proper-noun
+адам: noun inflection=1
+және: conjunction
+кітапхана: noun inflection=1
+маса: noun inflection=1
+Қазақстан: proper-noun
+Қытай: proper-noun
+қаңтар: noun inflection=1
+ادام: noun inflection=1
+تۇركيا⁩: proper-noun
+جانە‎: conjunction
+جۇڭگو: proper-noun
+قازاقستان⁩: proper-noun
+قاڭتار: noun inflection=1
+كىتاپحانا‎: noun inflection=1
+ماسا‎: noun inflection=1
+⁧قىتاي⁩: proper-noun
+==============================================
+                       Source: wikidata-20260708-lexemes.json 
+                  Lemma terms:      57
+         Unusable lemma terms:      30
+       Incoming surface forms:      27
+                Surface forms:      27
+      Collapsed surface forms:       0    (0%)
+       Unusable surface forms:       0
+                 Usable terms:      27  (100%)
+           Unclassified terms:       0    (0%)
+==============================================
+PartOfSpeech:
+    proper-noun:              12 (44.4%)
+    noun:                     12 (44.4%)
+    conjunction:               3 (11.1%)
+
+License: Creative Commons CC0 License (https://creativecommons.org/publicdomain/zero/1.0/)
+generated with options: --language kk

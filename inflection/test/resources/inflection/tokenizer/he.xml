@@ -61,4 +61,7 @@
     <test>
         <annotatedTokens>מזגנים</annotatedTokens>
     </test>
+    <test>
+        <annotatedTokens>FaceTime|‬| |‬|FaceTime</annotatedTokens>
+    </test>
 </tokenizerTest>

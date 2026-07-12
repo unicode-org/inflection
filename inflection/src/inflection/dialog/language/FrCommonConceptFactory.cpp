@@ -9,12 +9,8 @@ namespace inflection::dialog::language {
 
 FrCommonConceptFactory::FrCommonConceptFactory(const ::inflection::util::ULocale& language)
     : super(language, ::inflection::grammar::synthesis::GrammemeConstants::GENDER, {
-            {::inflection::grammar::synthesis::GrammemeConstants::GENDER_MASCULINE(), u"cardinal-masculine"},
-            {::inflection::grammar::synthesis::GrammemeConstants::GENDER_FEMININE(), u"cardinal-feminine"}})
-{
-}
-
-FrCommonConceptFactory::~FrCommonConceptFactory()
+            {::inflection::grammar::synthesis::GrammemeConstants::GENDER_MASCULINE, u"cardinal-masculine"},
+            {::inflection::grammar::synthesis::GrammemeConstants::GENDER_FEMININE, u"cardinal-feminine"}})
 {
 }
 

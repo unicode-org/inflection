@@ -20,10 +20,10 @@ DefaultArticleLookupFunction::DefaultArticleLookupFunction(const SemanticFeature
 {
 }
 
-SpeakableString* DefaultArticleLookupFunction::createPreposition(const DisplayValue& displayValue, const ::std::u16string& article) const
+SpeakableString* DefaultArticleLookupFunction::createPreposition(const DisplayValue& displayValue, std::u16string_view article) const
 {
     if (!includeSemanticValue) {
-        return new SpeakableString(article);
+        return new SpeakableString(std::u16string(article));
     }
     const auto& displayString = displayValue.getDisplayString();
     auto speakableValue(displayString);
@@ -32,9 +32,9 @@ SpeakableString* DefaultArticleLookupFunction::createPreposition(const DisplayVa
         speakableValue = *npc(speakableValuePtr);
     }
     if (insertSpace && !displayString.empty() && !article.empty()) {
-        return new SpeakableString(SpeakableString(article + u" ") + SpeakableString(displayString, speakableValue));
+        return new SpeakableString(SpeakableString(std::u16string(article) + u" ") + SpeakableString(displayString, speakableValue));
     }
-    return new SpeakableString(SpeakableString(article) + SpeakableString(displayString, speakableValue));
+    return new SpeakableString(SpeakableString(std::u16string(article)) + SpeakableString(displayString, speakableValue));
 }
 
 SpeakableString* DefaultArticleLookupFunction::createPreposition(const DisplayValue& displayValue, const SpeakableString& article) const
@@ -54,10 +54,10 @@ SpeakableString* DefaultArticleLookupFunction::createPreposition(const DisplayVa
     return new SpeakableString(SpeakableString(article) + SpeakableString(displayString, speakableValue));
 }
 
-SpeakableString* DefaultArticleLookupFunction::createPostposition(const DisplayValue& displayValue, const ::std::u16string& article) const
+SpeakableString* DefaultArticleLookupFunction::createPostposition(const DisplayValue& displayValue, std::u16string_view article) const
 {
     if (!includeSemanticValue) {
-        return new SpeakableString(article);
+        return new SpeakableString(std::u16string(article));
     }
     const auto& displayString = displayValue.getDisplayString();
     auto speakableValue(displayString);
@@ -66,9 +66,9 @@ SpeakableString* DefaultArticleLookupFunction::createPostposition(const DisplayV
         speakableValue = *npc(speakableValuePtr);
     }
     if (insertSpace && !displayString.empty() && !article.empty()) {
-        return new SpeakableString(SpeakableString(displayString, speakableValue) + SpeakableString(u" " + article));
+        return new SpeakableString(SpeakableString(displayString, speakableValue) + SpeakableString(std::u16string(u" ").append(article)));
     }
-    return new SpeakableString(SpeakableString(displayString, speakableValue) + SpeakableString(article));
+    return new SpeakableString(SpeakableString(displayString, speakableValue) + SpeakableString(std::u16string(article)));
 }
 
 const ::std::u16string* DefaultArticleLookupFunction::getFeatureValue(const ::std::map<SemanticFeature, ::std::u16string>& constraints, const SemanticFeature& semanticFeature)

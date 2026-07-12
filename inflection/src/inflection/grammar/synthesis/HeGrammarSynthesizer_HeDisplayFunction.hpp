@@ -4,13 +4,14 @@
 #pragma once
 
 #include <inflection/dictionary/fwd.hpp>
-#include <inflection/dictionary/Inflector.hpp>
 #include <inflection/dialog/fwd.hpp>
 #include <inflection/grammar/synthesis/fwd.hpp>
+#include <inflection/tokenizer/fwd.hpp>
 #include <inflection/dialog/DefaultDisplayFunction.hpp>
 #include <inflection/dialog/DictionaryLookupInflector.hpp>
+#include <memory>
+#include <optional>
 #include <string>
-#include <set>
 
 class inflection::grammar::synthesis::HeGrammarSynthesizer_HeDisplayFunction
     : public virtual ::inflection::dialog::DefaultDisplayFunction
@@ -20,7 +21,7 @@ public:
 
 private:
     const ::inflection::dictionary::DictionaryMetaData& dictionary;
-    const ::inflection::dictionary::Inflector &inflector;
+    const ::std::unique_ptr<::inflection::tokenizer::Tokenizer> englishTokenizer;
     ::inflection::dialog::DictionaryLookupInflector dictionaryInflector;
     const ::inflection::dialog::SemanticFeature& countFeature;
     const ::inflection::dialog::SemanticFeature& personFeature;
@@ -47,7 +48,8 @@ public:
     ::inflection::dialog::DisplayValue* getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const override;
 
 private:
-    static ::std::u16string applyDefiniteness(const ::std::u16string& input, ::std::u16string_view definiteness);
+    bool isPreposition(::std::u16string_view word) const;
+    ::std::u16string applyDefiniteness(const ::std::u16string& input, ::std::u16string_view definiteness) const;
 
 public: /* package */
     explicit HeGrammarSynthesizer_HeDisplayFunction(const ::inflection::dialog::SemanticFeatureModel& model);

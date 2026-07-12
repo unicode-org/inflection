@@ -21,5 +21,4 @@ protected: /* package */
 
 public:
     explicit YueCommonConceptFactory(const ::inflection::util::ULocale& language);
-    ~YueCommonConceptFactory() override;
 };

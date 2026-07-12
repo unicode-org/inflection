@@ -12,6 +12,7 @@ namespace inflection
     {
         class CharRange;
         class Chunk;
+        class ControlCleaver;
         class StringTokenizerBridgeProvider;
         class Token;
         class TokenChain;

@@ -49,7 +49,7 @@ inflection::dialog::SpeakableString* NlGrammarSynthesizer_ArticleLookupFunction:
     auto countValue = NlGrammarSynthesizer::getNumber(getDisplayFeatureValue(displayValue, countFeature));
     auto genderValue = NlGrammarSynthesizer::getGender(getDisplayFeatureValue(displayValue, genderFeature));
     auto diminutiveValue = displayValue.getFeatureValue(sizeFeature);
-    auto isDiminutive = diminutiveValue != nullptr && GrammemeConstants::SIZENESS_DIMINUTIVE() == *npc(diminutiveValue);
+    auto isDiminutive = diminutiveValue != nullptr && GrammemeConstants::SIZENESS_DIMINUTIVE == *npc(diminutiveValue);
     if (countValue == NlGrammarSynthesizer::Number::undefined || genderValue == NlGrammarSynthesizer::Gender::undefined) {
         const auto& displayString = displayValue.getDisplayString();
         int64_t phraseType = 0;
@@ -113,7 +113,7 @@ bool NlGrammarSynthesizer_ArticleLookupFunction::isDiminutive(const ::std::u16st
         i++;
     }
     while (i < tokensSize &&
-           (dictionary.hasAllProperties(tokens[i], dictionaryNoun) || fugenElements.contains(tokens[i])))
+           (dictionary.hasAllProperties(tokens[i], dictionaryNoun) || tokens[i] == u"s")) // "s" is a fugen element
     {
         i++;
     }

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+ Copyright 2026 Unicode Incorporated and others. All rights reserved.
+-->
+<!DOCTYPE message2test SYSTEM "message2test.xsd">
+<message2test locale="de">
+    <test>
+        <params>
+            <param name="name" type="String"><value>Bank</value></param>
+        </params>
+        <source>.local $defArticleInPreposition = {$name :inflect number=singular case=accusative to=defArticleInPreposition} .match $defArticleInPreposition
+|in die| {{The defArticleInPreposition of '{$name}' is 'in die'.}}
+* {{The defArticleInPreposition of '{$name}' is unexpectedly '$defArticleInPreposition'.}}
+</source>
+        <print>The defArticleInPreposition of 'Bank' is 'in die'.</print>
+    </test>
+    <test>
+        <params>
+            <param name="name" type="String"><value>Fundort</value></param>
+        </params>
+        <source>.local $withDefArticleInPreposition = {$name :inflect number=singular case=dative to=withDefArticleInPreposition} .match $withDefArticleInPreposition
+|im Fundort| {{The withDefArticleInPreposition of '{$name}' is 'im Fundort'.}}
+* {{The withDefArticleInPreposition of '{$name}' is something else.}}
+</source>
+        <print>The withDefArticleInPreposition of 'Fundort' is 'im Fundort'.</print>
+    </test>
+    <test>
+        <params>
+            <param name="name" type="String"><value>Bank</value></param>
+        </params>
+        <source>The defArticleInPreposition is {$name :inflect number=singular case=accusative to=defArticleInPreposition}.</source>
+        <print>The defArticleInPreposition is in die.</print>
+    </test>
+</message2test>

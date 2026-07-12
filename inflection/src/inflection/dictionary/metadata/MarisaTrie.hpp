@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2024 Apple Inc. All rights reserved.
+ * Copyright 2017-2026 Apple Inc. All rights reserved.
  */
 #pragma once
 
@@ -56,6 +56,10 @@ public:
 
     int32_t getSize() const;
 
+    static constexpr int32_t alignedTrieSize(int32_t size) {
+        return size + ((sizeof(int64_t) - (size % sizeof(int64_t))) % sizeof(int64_t));
+    }
+
     void write(::std::ostream& writer) const;
 
     explicit MarisaTrie(const ::std::map<::std::u16string_view, T>& input);
@@ -66,7 +70,8 @@ private:
     ::marisa::Trie trie {  };
     ::inflection::dictionary::metadata::CharsetConverter encoder;
     CompressedArray<T> data;
-    int8_t encodingEnum {  };
+    int16_t encodingEnum {  };
+    uint16_t options {  };
 
     typedef struct FieldMetrics {
         EncodingEnum keyEncoding {  };
@@ -78,6 +83,7 @@ private:
     MarisaTrie(const ::std::map<::std::u16string_view, T>& input, FieldMetrics fieldMetrics);
     MarisaTrie(::inflection::util::MemoryMappedFile* mappedFile, int32_t trieSize);
     MarisaTrie(::inflection::util::MemoryMappedFile* mappedFile, int32_t trieSize, EncodingEnum encodingEnum);
+    MarisaTrie(::inflection::util::MemoryMappedFile* mappedFile, int32_t trieSize, EncodingEnum encodingEnum, uint16_t options);
     MarisaTrie(const MarisaTrie& other) = delete;
     MarisaTrie& operator=(const MarisaTrie& other) = delete;
 
@@ -95,12 +101,10 @@ inflection::dictionary::metadata::MarisaTrie<T>::MarisaTrie(const ::std::map<::s
 {
     ::marisa::Keyset keyset;
     ::std::string encoded;
-    ::std::u16string_view keyString;
 
     // Create the encoded keys
     for (auto entry : input) {
-        keyString = entry.first;
-        encoder.encode(&encoded, keyString);
+        encoder.encode(&encoded, entry.first);
         keyset.push_back(encoded.data(), encoded.length());
     }
     trie.build(keyset);
@@ -119,13 +123,14 @@ inflection::dictionary::metadata::MarisaTrie<T>::MarisaTrie(const ::std::map<::s
 }
 
 template <typename T>
-inflection::dictionary::metadata::MarisaTrie<T>::MarisaTrie(::inflection::util::MemoryMappedFile* mappedFile, int32_t trieSize, EncodingEnum encodingEnum)
+inflection::dictionary::metadata::MarisaTrie<T>::MarisaTrie(::inflection::util::MemoryMappedFile* mappedFile, int32_t trieSize, EncodingEnum encodingEnum, uint16_t options)
     : encoder(getEncodingName(encodingEnum))
     , data(mappedFile)
     , encodingEnum(encodingEnum)
+    , options(options)
 {
     if (trieSize > 0) {
-        const char* rawTrieData = npc(mappedFile)->readArray<char>(trieSize).data_ptr();
+        const char* rawTrieData = npc(mappedFile)->readArray<char>(trieSize);
         trie.map(rawTrieData, trieSize);
     }
     else {
@@ -133,6 +138,12 @@ inflection::dictionary::metadata::MarisaTrie<T>::MarisaTrie(::inflection::util::
         ::marisa::Keyset keyset;
         trie.build(keyset);
     }
+}
+
+template <typename T>
+inflection::dictionary::metadata::MarisaTrie<T>::MarisaTrie(::inflection::util::MemoryMappedFile* mappedFile, int32_t trieSize, EncodingEnum encodingEnum)
+    : MarisaTrie(mappedFile, trieSize, encodingEnum, util::Validate::notNull(mappedFile)->read<uint16_t>())
+{
 }
 
 template <typename T>
@@ -255,11 +266,15 @@ void inflection::dictionary::metadata::MarisaTrie<T>::write(::std::ostream& writ
         trieSize = (int32_t)buffer.tellp();
     }
 
-    writer.write(reinterpret_cast<const char*>(&trieSize), sizeof(trieSize));
+    int32_t paddedSize = alignedTrieSize(trieSize);
+    writer.write(reinterpret_cast<const char*>(&paddedSize), sizeof(paddedSize));
     writer.write(reinterpret_cast<const char*>(&encodingEnumValue), sizeof(encodingEnumValue));
+    writer.write(reinterpret_cast<const char*>(&options), sizeof(options));
     data.serialize(writer);
     if (trieSize > 0) {
         writer.write(buffer.str().data(), trieSize);
+        const char padBytes[8] {};
+        writer.write(padBytes, paddedSize - trieSize);
     }
 }
 

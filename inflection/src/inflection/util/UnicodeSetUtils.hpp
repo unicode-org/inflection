@@ -6,6 +6,7 @@
 #include <inflection/util/fwd.hpp>
 #include <inflection/util/Validate.hpp>
 #include <icu4cxx/UnicodeSet.hpp>
+#include <unicode/uscript.h>
 #include <string>
 #include <string_view>
 
@@ -16,6 +17,7 @@ public:
      * Equivalent to uset_containsSomeCodePoints
      */
     static bool containsSome(const ::icu4cxx::UnicodeSet &set, std::u16string_view string);
+    static bool containsSome(UScriptCode script, std::u16string_view string);
     static const ::icu4cxx::UnicodeSet *freeze(::icu4cxx::UnicodeSet *set);
     static ::icu4cxx::UnicodeSet *closeOver(::icu4cxx::UnicodeSet *set, int32_t attributes);
 

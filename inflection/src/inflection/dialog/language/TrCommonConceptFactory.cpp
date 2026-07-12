@@ -13,10 +13,6 @@ TrCommonConceptFactory::TrCommonConceptFactory(const ::inflection::util::ULocale
 {
 }
 
-TrCommonConceptFactory::~TrCommonConceptFactory()
-{
-}
-
 inflection::dialog::SemanticConceptList* TrCommonConceptFactory::createOrList(const ::std::vector<const ::inflection::dialog::SemanticFeatureConceptBase*>& concepts) const
 {
     return npc(super::createOrList(concepts))->setBeforeLast(inflection::dialog::SpeakableString(u" ya da "));

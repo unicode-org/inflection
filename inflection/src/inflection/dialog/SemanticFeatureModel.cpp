@@ -10,7 +10,6 @@
 #include <inflection/dialog/SemanticFeatureModel_DisplayData.hpp>
 #include <inflection/grammar/synthesis/GrammarSynthesizerFactory.hpp>
 #include <inflection/lang/features/LanguageGrammarFeatures.hpp>
-#include <inflection/npc.hpp>
 
 namespace inflection::dialog {
 
@@ -24,13 +23,21 @@ SemanticFeatureModel::SemanticFeatureModel(const ::inflection::util::ULocale& lo
     , semanticValueMap(semanticValueMap)
     , locale(locale)
 {
-    for (auto feature : createDefaultSemanticFeatures(locale)) {
-        featureMap.emplace(npc(feature)->getName(), feature);
-        if (npc(feature)->isAliased()) {
-            for (const auto& val : npc(feature)->getBoundedValues()) {
-                featuresAliases.emplace(val, ::std::make_pair(feature, val));
+    auto features = ::inflection::lang::features::LanguageGrammarFeatures::getLanguageGrammarFeatures(locale);
+    for (const auto&[catName, category] : features.getCategories()) {
+        auto [featureItr, inserted] = featureMap.emplace(category.getName(), SemanticFeature(category.getName(), SemanticFeature::Type::BoundedValue, category.getValues(), category.isUniqueValues()));
+        if (featureItr->second.isAliased()) {
+            for (const auto& val : category.getValues()) {
+                featuresAliases.emplace(val, ::std::make_pair(&featureItr->second, val));
             }
         }
+    }
+    for (const auto& grammarFeatures : features.getFeatures()) {
+        ::std::set<::std::u16string> knownValues;
+        for (const auto& feature : grammarFeatures.getValues()) {
+            knownValues.insert(feature.getValue());
+        }
+        featureMap.emplace(grammarFeatures.getName(), SemanticFeature(grammarFeatures.getName(), !knownValues.empty() ? SemanticFeature::Type::BoundedValue : SemanticFeature::Type::UnboundedValue, knownValues, false));
     }
     ::inflection::grammar::synthesis::GrammarSynthesizerFactory::addSemanticFeatures(locale, *this);
 }
@@ -39,9 +46,6 @@ SemanticFeatureModel::~SemanticFeatureModel()
 {
     for (const auto& defaultFeatureFunction : defaultFeatureFunctions) {
         delete defaultFeatureFunction.second;
-    }
-    for (const auto& semanticFeatureEntry : featureMap) {
-        delete semanticFeatureEntry.second;
     }
 }
 
@@ -69,7 +73,7 @@ const SemanticFeature* SemanticFeatureModel::getFeature(::std::u16string_view na
     if (result == featureMap.end()) {
         return nullptr;
     }
-    return result->second;
+    return &result->second;
 }
 
 ::std::pair<SemanticFeature*, ::std::u16string> SemanticFeatureModel::getFeatureAlias(::std::u16string_view name) const
@@ -113,7 +117,7 @@ void SemanticFeatureModel::putDefaultFeatureFunctionByName(::std::u16string_view
     if (semanticFeature == nullptr) {
         throw ::inflection::exception::IllegalArgumentException(std::u16string(feature) + u" is not a valid SemanticFeature for language " + locale.toString());
     }
-    putDefaultFeatureFunction(*npc(semanticFeature), function);
+    putDefaultFeatureFunction(*semanticFeature, function);
 }
 
 const DefaultDisplayFunction* SemanticFeatureModel::getDefaultDisplayFunction() const
@@ -124,24 +128,6 @@ const DefaultDisplayFunction* SemanticFeatureModel::getDefaultDisplayFunction() 
 void SemanticFeatureModel::setDefaultDisplayFunction(DefaultDisplayFunction* defaultDisplayFunction)
 {
     this->defaultDisplayFunction.reset(defaultDisplayFunction);
-}
-
-::std::vector<SemanticFeature*> SemanticFeatureModel::createDefaultSemanticFeatures(const ::inflection::util::ULocale& locale)
-{
-    auto features = ::inflection::lang::features::LanguageGrammarFeatures::getLanguageGrammarFeatures(locale);
-    ::std::vector<SemanticFeature*> semanticFeatures;
-    semanticFeatures.reserve(features.getCategoriesCount() + features.getFeaturesCount());
-    for (const auto& grammarCategory : features.getCategories()) {
-        semanticFeatures.push_back(new SemanticFeature(grammarCategory.second.getName(), SemanticFeature::Type::BoundedValue, grammarCategory.second.getValues(), grammarCategory.second.isUniqueValues()));
-    }
-    for (const auto& grammarFeatures : features.getFeatures()) {
-        ::std::set<::std::u16string> constraints;
-        for (const auto& feature : grammarFeatures.getValues()) {
-            constraints.insert(feature.getValue());
-        }
-        semanticFeatures.push_back(new SemanticFeature(grammarFeatures.getName(), !constraints.empty() ? SemanticFeature::Type::BoundedValue : SemanticFeature::Type::UnboundedValue, constraints, false));
-    }
-    return semanticFeatures;
 }
 
 } // namespace inflection::dialog

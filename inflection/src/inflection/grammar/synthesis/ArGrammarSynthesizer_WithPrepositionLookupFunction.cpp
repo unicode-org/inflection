@@ -7,8 +7,7 @@
 #include <inflection/dialog/SpeakableString.hpp>
 #include <inflection/grammar/synthesis/ArGrammarSynthesizer.hpp>
 #include <inflection/util/StringViewUtils.hpp>
-#include <inflection/lang/StringFilterUtil.hpp>
-#include <icu4cxx/UnicodeSet.hpp>
+#include <unicode/uscript.h>
 
 namespace inflection::grammar::synthesis {
 
@@ -20,12 +19,12 @@ ArGrammarSynthesizer_WithPrepositionLookupFunction::ArGrammarSynthesizer_WithPre
 static constexpr char16_t BA[] = u"ب";
 static constexpr char16_t BA_WITH_KASHEDA[] = u"بـ\u00A0";
 
-inflection::dialog::SpeakableString* ArGrammarSynthesizer_WithPrepositionLookupFunction::getArticle(const ::inflection::dialog::DisplayValue& displayValue, ArGrammarSynthesizer::PronounNumber /*countValue*/, ArGrammarSynthesizer::PronounGender /*genderValue*/, ArGrammarSynthesizer::Person /*personValue*/) const
+inflection::dialog::SpeakableString* ArGrammarSynthesizer_WithPrepositionLookupFunction::getArticle(const ::inflection::dialog::DisplayValue& displayValue, ArGrammarSynthesizer::Number /*countValue*/, ArGrammarSynthesizer::Gender /*genderValue*/, ArGrammarSynthesizer::Person /*personValue*/) const
 {
     ::std::u16string article;
     std::u16string displayString(::inflection::util::StringViewUtils::trim(displayValue.getDisplayString()));
     if (!displayString.empty()) {
-        if (::inflection::lang::StringFilterUtil::ARABIC_SCRIPT().contains(displayString[0])) {
+        if (uscript_hasScript(displayString[0], USCRIPT_ARABIC)) {
             article = BA;
         }
         else {

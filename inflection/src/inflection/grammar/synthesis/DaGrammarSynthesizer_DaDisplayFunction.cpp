@@ -4,6 +4,7 @@
  */
 #include <inflection/grammar/synthesis/DaGrammarSynthesizer_DaDisplayFunction.hpp>
 
+#include <inflection/grammar/synthesis/DaGrammarSynthesizer.hpp>
 #include <inflection/grammar/synthesis/GrammarSynthesizerUtil.hpp>
 #include <inflection/dictionary/DictionaryMetaData.hpp>
 #include <inflection/dialog/SemanticFeature.hpp>
@@ -33,17 +34,21 @@ DaGrammarSynthesizer_DaDisplayFunction::DaGrammarSynthesizer_DaDisplayFunction(c
     , genderFeature(*npc(model.getFeature(GrammemeConstants::GENDER)))
     , posFeature(*npc(model.getFeature(GrammemeConstants::POS)))
     , dictionary(*npc(::inflection::dictionary::DictionaryMetaData::createDictionary(::inflection::util::LocaleUtils::DANISH())))
-    , inflector(::inflection::dictionary::Inflector::getInflector(::inflection::util::LocaleUtils::DANISH()))
     , tokenizer(::inflection::tokenizer::TokenizerFactory::createTokenizer(::inflection::util::LocaleUtils::DANISH()))
-    , genderLookupFunction(::inflection::util::LocaleUtils::DANISH(), {GrammemeConstants::GENDER_COMMON(), GrammemeConstants::GENDER_NEUTER()}),
+    , genderLookupFunction(::inflection::util::LocaleUtils::DANISH(), {GrammemeConstants::GENDER_COMMON, GrammemeConstants::GENDER_NEUTER}),
     dictionaryInflector(::inflection::util::LocaleUtils::DANISH(), {
-        {GrammemeConstants::POS_NOUN(), GrammemeConstants::POS_ADJECTIVE(), GrammemeConstants::POS_VERB()},
-        {GrammemeConstants::NUMBER_SINGULAR(), GrammemeConstants::NUMBER_PLURAL()},
-        {GrammemeConstants::CASE_NOMINATIVE(), GrammemeConstants::CASE_GENITIVE()}
-        }, {}, true)
+        {GrammemeConstants::POS_NOUN, GrammemeConstants::POS_ADJECTIVE, GrammemeConstants::POS_VERB},
+        {GrammemeConstants::NUMBER_SINGULAR, GrammemeConstants::NUMBER_PLURAL},
+        {GrammemeConstants::CASE_NOMINATIVE, GrammemeConstants::CASE_GENITIVE}
+        }, {}, true),
+    definitenessDisplayFunction(model,
+        DaGrammarSynthesizer::WITH_ARTICLE_DEFINITE,
+        DaGrammarSynthesizer::ARTICLE_DEFINITE,
+        DaGrammarSynthesizer::WITH_ARTICLE_INDEFINITE,
+        DaGrammarSynthesizer::ARTICLE_INDEFINITE)
 {
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryAdjective, {u"adjective"}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryNoun, {u"noun"}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryAdjective, {GrammemeConstants::POS_ADJECTIVE}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryNoun, {GrammemeConstants::POS_NOUN}));
 }
 
 DaGrammarSynthesizer_DaDisplayFunction::~DaGrammarSynthesizer_DaDisplayFunction()
@@ -57,10 +62,10 @@ DaGrammarSynthesizer_DaDisplayFunction::~DaGrammarSynthesizer_DaDisplayFunction(
     ::std::u16string definiteness(targetDefiniteness);
 
     if (count.empty()) {
-        count = GrammemeConstants::NUMBER_SINGULAR();
+        count = GrammemeConstants::NUMBER_SINGULAR;
     }
     if (definiteness.empty()) {
-        definiteness = GrammemeConstants::DEFINITENESS_INDEFINITE();
+        definiteness = GrammemeConstants::DEFINITENESS_INDEFINITE;
     }
     if (!targetIsANoun) {
         return inflectAdjective(lemma, definiteness, targetGender, count);
@@ -71,14 +76,14 @@ DaGrammarSynthesizer_DaDisplayFunction::~DaGrammarSynthesizer_DaDisplayFunction(
     if (!targetDefiniteness.empty()) {
         constraints.emplace_back(targetDefiniteness);
     }
-    if (!targetCase.empty() && targetCase != GrammemeConstants::CASE_NOMINATIVE()) {
+    if (!targetCase.empty() && targetCase != GrammemeConstants::CASE_NOMINATIVE) {
         constraints.emplace_back(targetCase);
     }
     if (!targetGender.empty()) {
         constraints.emplace_back(targetGender);
     }
 
-    constexpr std::vector<std::u16string> disambiguationGrammemeValues;
+    std::vector<std::u16string> disambiguationGrammemeValues;
     auto inflectionResult = dictionaryInflector.inflect(lemma, wordGrammemes, constraints, disambiguationGrammemeValues);
     if (inflectionResult) {
         inflection = *inflectionResult;
@@ -103,6 +108,8 @@ DaGrammarSynthesizer_DaDisplayFunction::~DaGrammarSynthesizer_DaDisplayFunction(
     }
     if (!constraints.empty()) {
         int64_t wordGrammemes = 0;
+        bool isMultiWord = false;
+        ::std::u16string headWordGender;
         if (displayString.ends_with(u".")) {
             // These abbreviations don't change definiteness nor change grammatical number.
             displayString = makeGenitiveWhenRequested(constraints, displayString);
@@ -111,8 +118,33 @@ DaGrammarSynthesizer_DaDisplayFunction::~DaGrammarSynthesizer_DaDisplayFunction(
             displayString = inflectWord(constraints, displayString, wordGrammemes);
         }
         else {
+            isMultiWord = true;
             ::std::unique_ptr<::inflection::tokenizer::TokenChain> tokenChain(npc(npc(tokenizer.get())->createTokenChain(displayString)));
+            if (GrammarSynthesizerUtil::getFeatureValue(constraints, genderFeature).empty()) {
+                for (const auto& token : *npc(tokenChain.get())) {
+                    if (token.isSignificant()) {
+                        auto gender = genderLookupFunction.determine(token.getValue());
+                        if (!gender.empty()) {
+                            headWordGender = gender;
+                        }
+                    }
+                }
+            }
             displayString = inflectTokenChain(constraints, *npc(tokenChain.get()));
+        }
+        auto definitenessString = GrammarSynthesizerUtil::getFeatureValue(constraints, definitenessFeature);
+        auto countString = GrammarSynthesizerUtil::getFeatureValue(constraints, numberFeature);
+        bool isSingular = countString.empty() || countString == GrammemeConstants::NUMBER_SINGULAR;
+        bool isNoun = isMultiWord || ((wordGrammemes & dictionaryNoun) != 0 && GrammarSynthesizerUtil::getFeatureValue(constraints, posFeature) != GrammemeConstants::POS_ADJECTIVE);
+        if (isNoun && ((definitenessString == GrammemeConstants::DEFINITENESS_INDEFINITE && isSingular)
+            || (definitenessString == GrammemeConstants::DEFINITENESS_DEFINITE && isMultiWord)))
+        {
+            auto displayValueConstraints(constraints);
+            if (!headWordGender.empty()) {
+                displayValueConstraints[genderFeature] = headWordGender;
+            }
+            return definitenessDisplayFunction.addDefiniteness(
+                new ::inflection::dialog::DisplayValue(displayString, displayValueConstraints), displayValueConstraints);
         }
     }
     return new ::inflection::dialog::DisplayValue(displayString, constraints);
@@ -171,7 +203,7 @@ DaGrammarSynthesizer_DaDisplayFunction::inflectWord(const ::std::map<::inflectio
     ::std::u16string countString(GrammarSynthesizerUtil::getFeatureValue(constraints, numberFeature));
     ::std::u16string definitenessString;
     if (isHeadWordWithAttribute) {
-        definitenessString = GrammemeConstants::DEFINITENESS_INDEFINITE();
+        definitenessString = GrammemeConstants::DEFINITENESS_INDEFINITE;
     } else {
         definitenessString = GrammarSynthesizerUtil::getFeatureValue(constraints, definitenessFeature);
     }
@@ -181,7 +213,7 @@ DaGrammarSynthesizer_DaDisplayFunction::inflectWord(const ::std::map<::inflectio
         genderString = genderLookupFunction.determine(headDisplayString);
     }
     ::std::u16string posString(GrammarSynthesizerUtil::getFeatureValue(constraints, posFeature));
-    auto isAdjective = GrammemeConstants::POS_ADJECTIVE() == posString || (((headGrammemes & dictionaryAdjective) != 0) && ((headGrammemes & dictionaryNoun) == 0));
+    auto isAdjective = GrammemeConstants::POS_ADJECTIVE == posString || (((headGrammemes & dictionaryAdjective) != 0) && ((headGrammemes & dictionaryNoun) == 0));
     auto inflectedString = inflectString(attributeDisplayString, attributeGrammemes, countString, definitenessString, caseString, genderString, !isAdjective && isSuspectedToBeANoun);
     if (isSuspectedToBeANoun && inflectedString.empty()) {
         return makeGenitiveWhenRequested(constraints, attributeDisplayString);
@@ -196,7 +228,7 @@ DaGrammarSynthesizer_DaDisplayFunction::inflectWord(const ::std::map<::inflectio
 ::std::u16string DaGrammarSynthesizer_DaDisplayFunction::makeGenitiveWhenRequested(const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, const ::std::u16string& displayString) const
 {
     ::std::u16string caseString(GrammarSynthesizerUtil::getFeatureValue(constraints, caseFeature));
-    if (GrammemeConstants::CASE_GENITIVE() == caseString && displayString.length() > 1) {
+    if (GrammemeConstants::CASE_GENITIVE == caseString && displayString.length() > 1) {
         // See https://sproget.dk/raad-og-regler/typiske-problemer/genitiv-ejefald/genitiv/ for more information
         auto suffix = u_tolower(displayString.back());
         if (suffix == u's' || suffix == u'z' || suffix == u'x') {
@@ -224,7 +256,7 @@ DaGrammarSynthesizer_DaDisplayFunction::inflectWord(const ::std::map<::inflectio
     auto charAtM1 = lemma[length - 1];
     auto endsInIAA = charAtM1 == u'i' || charAtM1 == u'\u00e5';
     auto endsInConsonant = !(endsInIAA || charAtM1 == u'e' || charAtM1 == u'a' || charAtM1 == u'u' || charAtM1 == u'o' || charAtM1 == u'y' || charAtM1 == u'\u00f8' || charAtM1 == u'\u00e6');
-    if (GrammemeConstants::NUMBER_PLURAL() == targetCount || GrammemeConstants::DEFINITENESS_DEFINITE() == targetDefiniteness) {
+    if (GrammemeConstants::NUMBER_PLURAL == targetCount || GrammemeConstants::DEFINITENESS_DEFINITE == targetDefiniteness) {
         if (length > 4) {
             auto charAtM3 = lemma[length - 3];
             if (lemma[length - 2] == u'e' && (charAtM1 == u'n' || charAtM1 == u'l' || charAtM1 == u'r') && charAtM3 == lemma[length - 4] && !(charAtM3 == u'i' || charAtM3 == u'\u00e5' || charAtM3 == u'e' || charAtM3 == u'a' || charAtM3 == u'u' || charAtM3 == u'o' || charAtM3 == u'y' || charAtM3 == u'\u00f8' || charAtM3 == u'\u00e6')) {
@@ -235,8 +267,8 @@ DaGrammarSynthesizer_DaDisplayFunction::inflectWord(const ::std::map<::inflectio
             return lemma + u"e";
         }
     }
-    if (GrammemeConstants::NUMBER_SINGULAR() == targetCount
-        && GrammemeConstants::GENDER_NEUTER() == targetGender && (endsInIAA || endsInConsonant) && charAtM1 != u't')
+    if (GrammemeConstants::NUMBER_SINGULAR == targetCount
+        && GrammemeConstants::GENDER_NEUTER == targetGender && (endsInIAA || endsInConsonant) && charAtM1 != u't')
     {
         return lemma + u"t";
     }

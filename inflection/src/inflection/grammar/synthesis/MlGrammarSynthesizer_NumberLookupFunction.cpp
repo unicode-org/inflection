@@ -16,8 +16,8 @@ namespace inflection::grammar::synthesis {
 
 MlGrammarSynthesizer_NumberLookupFunction::MlGrammarSynthesizer_NumberLookupFunction()
     : super(::inflection::util::LocaleUtils::MALAYALAM(),
-            {GrammemeConstants::NUMBER_SINGULAR(), GrammemeConstants::NUMBER_PLURAL()},
-            {GrammemeConstants::POS_NOUN(), GrammemeConstants::POS_VERB()})
+            {GrammemeConstants::NUMBER_SINGULAR, GrammemeConstants::NUMBER_PLURAL},
+            {GrammemeConstants::POS_NOUN, GrammemeConstants::POS_VERB})
     , tokenizer(npc(::inflection::tokenizer::TokenizerFactory::createTokenizer(::inflection::util::LocaleUtils::MALAYALAM())))
     , dictionary(getDictionary())
 {
@@ -57,11 +57,11 @@ MlGrammarSynthesizer_NumberLookupFunction::~MlGrammarSynthesizer_NumberLookupFun
     const auto& lastToken = npc(npc(tokenChain->getEnd())->getPrevious())->getValue();
     for (const auto& suffix : {u"കൾ", u"ങ്ങൾ", u"മാർ", u"വർ", u"കളുടെ", u"ങ്ങൾക്ക്"}) {
         if (lastToken.ends_with(suffix)) {
-            return GrammemeConstants::NUMBER_PLURAL();
+            return GrammemeConstants::NUMBER_PLURAL;
         }
     }
 
-    return GrammemeConstants::NUMBER_SINGULAR();
+    return GrammemeConstants::NUMBER_SINGULAR;
 }
 
 } // namespace inflection::grammar::synthesis

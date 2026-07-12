@@ -29,16 +29,14 @@ DictionaryLookupInflector::~DictionaryLookupInflector()
 
 namespace {
 
-inline void traceLogInflectCall(const std::u16string &funcName, std::u16string_view word, const std::vector<::std::u16string> &constraints, const std::vector<std::u16string> &optionalConstraints, const std::vector<::std::u16string> &disambiguationGrammemeValues) {
-    Logger::trace(funcName + u"("
-        + u"word=" + std::u16string(word) + u", "
+static void traceLogInflectCall(const std::u16string &funcName, std::u16string_view word, const std::vector<::std::u16string> &constraints, const std::vector<std::u16string> &optionalConstraints, const std::vector<::std::u16string> &disambiguationGrammemeValues) {
+    Logger::trace(funcName + u"(word=" + std::u16string(word) + u", "
         + u"constraints = [" + inflection::util::StringViewUtils::join(constraints, u", ") + u"], "
         + u"optionalConstraints = [" + inflection::util::StringViewUtils::join(optionalConstraints, u", ") + u"], "
-        + u"disambiguationGrammemeValues = [" + inflection::util::StringViewUtils::join(disambiguationGrammemeValues, u", ") + u"]"
-        + u")\n");
+        + u"disambiguationGrammemeValues = [" + inflection::util::StringViewUtils::join(disambiguationGrammemeValues, u", ") + u"])\n");
 }
 
-inline void traceLogSortedInflectionGrammemes(const ::std::vector<::inflection::analysis::DictionaryExposableMorphology::InflectionGrammemes> &inflectionGrammemes, const dictionary::DictionaryMetaData& dictionary) {
+static void traceLogSortedInflectionGrammemes(const ::std::vector<::inflection::analysis::DictionaryExposableMorphology::InflectionGrammemes> &inflectionGrammemes, const dictionary::DictionaryMetaData& dictionary) {
     std::u16string logStream(u"Sorted Inflection Grammemes:\n");
     for (const auto& inflectionCandidate: inflectionGrammemes) {
         logStream.append(u"\t\t").append(inflectionCandidate.getDescription(dictionary)).append(u"\n");
@@ -131,7 +129,11 @@ inline void traceLogSortedInflectionGrammemes(const ::std::vector<::inflection::
     return {};
 }
 
-::std::optional<::std::u16string> DictionaryLookupInflector::inflectImplementation(std::u16string_view word, int64_t wordGrammemes, const std::vector<::std::u16string> &constraints, const std::vector<std::u16string> &optionalConstraints, const std::vector<::std::u16string> &disambiguationGrammemeValues) const {
+::std::optional<::std::u16string> DictionaryLookupInflector::inflect(std::u16string_view word, int64_t wordGrammemes, const std::vector<::std::u16string> &constraints, const std::vector<::std::u16string> &disambiguationGrammemeValues) const {
+    return inflectWithOptionalConstraints(word, wordGrammemes, constraints, {}, disambiguationGrammemeValues);
+}
+
+::std::optional<::std::u16string> DictionaryLookupInflector::inflectWithOptionalConstraints(std::u16string_view word, int64_t wordGrammemes, const std::vector<::std::u16string> &constraints, const std::vector<::std::u16string> &optionalConstraints, const std::vector<::std::u16string> &disambiguationGrammemeValues) const {
     if (LoggerConfig::isTraceEnabled()) {
         traceLogInflectCall(u"DictionaryLookupInflector::inflect", word, constraints, optionalConstraints, disambiguationGrammemeValues);
     }
@@ -165,14 +167,6 @@ inline void traceLogSortedInflectionGrammemes(const ::std::vector<::inflection::
         return inflectedWord;
     }
     return {};
-}
-
-::std::optional<::std::u16string> DictionaryLookupInflector::inflect(std::u16string_view word, int64_t wordGrammemes, const std::vector<::std::u16string> &constraints, const std::vector<::std::u16string> &disambiguationGrammemeValues) const {
-    return inflectImplementation(word, wordGrammemes, constraints, {}, disambiguationGrammemeValues);
-}
-
-::std::optional<::std::u16string> DictionaryLookupInflector::inflectWithOptionalConstraints(std::u16string_view word, int64_t wordGrammemes, const std::vector<::std::u16string> &constraints, const std::vector<::std::u16string> &optionalConstraints, const std::vector<::std::u16string> &disambiguationGrammemeValues) const {
-    return inflectImplementation(word, wordGrammemes, constraints, optionalConstraints, disambiguationGrammemeValues);
 }
 
 ::std::optional<::std::u16string> DictionaryLookupInflector::inflectWord(std::u16string_view word, int64_t wordGrammemes, const ::std::vector<::std::u16string> &constraints, const std::vector<::std::u16string> &disambiguationGrammemeValues) const {
@@ -224,6 +218,24 @@ int8_t DictionaryLookupInflector::compareInflectionGrammemes(const ::inflection:
         return (cnt1 < cnt2) ? 1 : -1;
     }
     return 0;
+}
+
+::std::optional<::std::u16string> DictionaryLookupInflector::inflectExemplar(std::u16string_view word, std::u16string_view exemplar, int64_t wordGrammemes, const std::vector<::std::u16string> &constraints, const std::vector<::std::u16string> &disambiguationGrammemeValues) const {
+    auto inflectionResult = inflectWithOptionalConstraints(exemplar.empty() ? word : exemplar, wordGrammemes, constraints, {}, disambiguationGrammemeValues);
+    if (inflectionResult.has_value()) {
+        if (!exemplar.empty() && word == exemplar) {
+            return inflectionResult;
+        }
+        std::u16string inflection = inflectionResult.value();
+        const auto inflectionLength = static_cast<int32_t>(inflection.length());
+        const auto exemplarLength = static_cast<int32_t>(exemplar.length());
+        int32_t indexDiff;
+        for (indexDiff = 0; indexDiff < inflectionLength && indexDiff < exemplarLength && inflection[indexDiff] == exemplar[indexDiff]; ++indexDiff) {
+        }
+        inflection.replace(0, indexDiff, word, 0, word.length() - (exemplarLength - indexDiff));
+        return inflection;
+    }
+    return std::nullopt;
 }
 
 } // namespace inflection::dialog

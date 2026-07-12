@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<patterns>
+    <pattern name="1" words="36">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection gender="masculine"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="2" words="29">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection gender="feminine" definiteness="indefinite" number="singular"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="3" words="22">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection gender="feminine"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="4" words="16">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection gender="masculine" definiteness="indefinite" number="singular"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="5" words="9">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection gender="neuter"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="6" words="8">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection gender="neuter" definiteness="indefinite" number="singular"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="7" words="5">
+        <pos>noun</pos>
+        <suffix>а</suffix>
+        <inflections>
+            <inflection gender="feminine" definiteness="definite" number="singular"><t><stem/>ата</t></inflection>
+            <inflection gender="feminine" definiteness="indefinite" number="singular"><t><stem/>а</t></inflection>
+            <inflection gender="feminine" definiteness="definite" number="plural"><t><stem/>ите</t></inflection>
+            <inflection gender="feminine" definiteness="indefinite" number="plural"><t><stem/>и</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="8" words="2">
+        <pos>noun</pos>
+        <suffix>а</suffix>
+        <inflections>
+            <inflection gender="feminine" definiteness="indefinite" number="singular"><t><stem/>а</t></inflection>
+            <inflection gender="feminine" definiteness="indefinite" number="plural"><t><stem/>и</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="9" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection gender="masculine" number="plural"><t><stem/>ите</t></inflection>
+            <inflection gender="masculine" number="plural"><t><stem/>и</t></inflection>
+            <inflection gender="masculine" number="plural"><t><stem/>ите</t></inflection>
+            <inflection gender="masculine"><t><stem/>а</t></inflection>
+            <inflection gender="masculine"><t><stem/>ът</t></inflection>
+            <inflection gender="masculine"><t><stem/>а</t></inflection>
+            <inflection gender="masculine"><t><stem/>ът</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="a" words="1">
+        <pos>noun</pos>
+        <suffix>о</suffix>
+        <inflections>
+            <inflection gender="neuter" definiteness="definite" number="singular"><t><stem/>ото</t></inflection>
+            <inflection gender="neuter" definiteness="indefinite" number="singular"><t><stem/>о</t></inflection>
+            <inflection gender="neuter" definiteness="definite" number="plural"><t><stem/>ата</t></inflection>
+            <inflection gender="neuter" definiteness="indefinite" number="plural"><t><stem/>а</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="b" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection gender="masculine" definiteness="indefinite" number="singular"><t><stem/></t></inflection>
+            <inflection gender="masculine" definiteness="indefinite" number="plural"><t><stem/>и</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="c" words="1">
+        <pos>noun</pos>
+        <suffix>а</suffix>
+        <inflections>
+            <inflection gender="feminine" definiteness="indefinite" number="singular"><t><stem/>а</t></inflection>
+            <inflection gender="feminine" definiteness="indefinite" number="plural"><t><stem/>и</t></inflection>
+            <inflection gender="feminine"><t><stem/>ата</t></inflection>
+            <inflection gender="feminine"><t><stem/>ите</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="d" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection case="nominative" number="singular"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="e" words="1">
+        <pos>noun</pos>
+        <suffix>а</suffix>
+        <inflections>
+            <inflection gender="feminine" case="vocative" number="singular"><t><stem/>е</t></inflection>
+            <inflection gender="feminine" definiteness="definite" number="singular"><t><stem/>ата</t></inflection>
+            <inflection gender="feminine" definiteness="indefinite" number="singular"><t><stem/>а</t></inflection>
+            <inflection gender="feminine" definiteness="definite" number="plural"><t><stem/>ите</t></inflection>
+            <inflection gender="feminine" definiteness="indefinite" number="plural"><t><stem/>и</t></inflection>
+        </inflections>
+    </pattern>
+</patterns>

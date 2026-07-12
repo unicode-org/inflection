@@ -11,6 +11,7 @@
 #include "inflection/tokenizer/TokenChain.hpp"
 #include "inflection/tokenizer/Token_Word.hpp"
 #include "inflection/tokenizer/TokenizerFactory.hpp"
+#include <bit>
 
 namespace inflection::dialog {
 
@@ -132,6 +133,11 @@ SpeakableString* DictionaryLookupFunction::getFeatureValue(const DisplayValue& d
 const dictionary::DictionaryMetaData& DictionaryLookupFunction::getDictionary() const
 {
     return dictionaryMorphology.getDictionary();
+}
+
+const ::inflection::tokenizer::Tokenizer& DictionaryLookupFunction::getTokenizer() const
+{
+    return *npc(tokenizer.get());
 }
 
 ::std::u16string DictionaryLookupFunction::determineWithDisambiguation(std::u16string_view word) const {

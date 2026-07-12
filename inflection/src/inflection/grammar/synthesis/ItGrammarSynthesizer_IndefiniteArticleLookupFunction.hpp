@@ -16,7 +16,10 @@ public:
 public: /* package */
     ::inflection::dialog::SpeakableString* getArticle(const ::inflection::dialog::DisplayValue& displayValue, bool wantArticle, ItGrammarSynthesizer::Number numberValue, ItGrammarSynthesizer::Gender genderValue) const override;
 
-    ItGrammarSynthesizer_IndefiniteArticleLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model, const ::std::u16string& derivedSemanticName);
+    ItGrammarSynthesizer_IndefiniteArticleLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model,
+                                                         const ::inflection::dialog::DictionaryLookupFunction& numberLookupFunction,
+                                                         const ::inflection::dialog::DictionaryLookupFunction& genderLookupFunction,
+                                                         const char16_t* derivedSemanticName);
     ItGrammarSynthesizer_IndefiniteArticleLookupFunction(const ItGrammarSynthesizer_IndefiniteArticleLookupFunction&) = delete;
     ItGrammarSynthesizer_IndefiniteArticleLookupFunction& operator=(const ItGrammarSynthesizer_IndefiniteArticleLookupFunction&) = delete;
 };

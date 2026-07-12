@@ -26,9 +26,6 @@ private:
     int64_t dictionarySingular {  };
     int64_t dictionaryPlural {  };
     ::std::u16string_view apostrophes { u"‘’‛'′´❛❜" };
-    const ::std::map<::std::u16string_view, ::std::u16string_view> possessivePronouns {  };
-    const ::std::set<::std::u16string_view> countConditionalPronouns {  };
-    const ::std::set<::std::u16string_view> declensionConditional {  };
 
 public:
     bool isGenitiveRequested(const ::std::u16string& displayString, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const;

@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<patterns>
+    <pattern name="1" words="16">
+        <pos>adjective</pos>
+    </pattern>
+    <pattern name="2" words="12">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection case="direct" gender="masculine" number="singular"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="3" words="9">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection case="direct" gender="masculine" number="singular"><t><stem/></t></inflection>
+            <inflection case="oblique" gender="masculine" number="singular"><t><stem/>ा</t></inflection>
+            <inflection case="direct" gender="masculine" number="plural"><t><stem/></t></inflection>
+            <inflection case="oblique" gender="masculine" number="plural"><t><stem/>ां</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="4" words="9">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection case="direct" gender="masculine" number="singular"><t><stem/></t></inflection>
+            <inflection case="oblique" gender="masculine" number="singular"><t><stem/>𑘰</t></inflection>
+            <inflection case="direct" gender="masculine" number="plural"><t><stem/></t></inflection>
+            <inflection case="oblique" gender="masculine" number="plural"><t><stem/>𑘰𑘽</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="5" words="7">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection case="direct" gender="neuter" number="singular"><t><stem/></t></inflection>
+            <inflection case="oblique" gender="neuter" number="singular"><t><stem/>ा</t></inflection>
+            <inflection case="direct" gender="neuter" number="plural"><t><stem/>े</t></inflection>
+            <inflection case="oblique" gender="neuter" number="plural"><t><stem/>ां</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="6" words="6">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection case="direct" gender="neuter" number="singular"><t><stem/></t></inflection>
+            <inflection case="oblique" gender="neuter" number="singular"><t><stem/>𑘰</t></inflection>
+            <inflection case="direct" gender="neuter" number="plural"><t><stem/>𑘹</t></inflection>
+            <inflection case="oblique" gender="neuter" number="plural"><t><stem/>𑘰𑘽</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="7" words="4">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection case="direct" gender="masculine" number="singular"><t><stem/></t></inflection>
+            <inflection case="direct" gender="masculine" number="plural"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="8" words="2">
+        <pos>adposition</pos>
+    </pattern>
+    <pattern name="9" words="2">
+        <pos>adposition</pos>
+        <suffix/>
+        <inflections>
+            <inflection case="instrumental"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="a" words="2">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection case="direct" gender="feminine" number="singular"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="b" words="2">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection case="direct" gender="neuter" number="singular"><t><stem/></t></inflection>
+            <inflection case="direct" gender="neuter" number="plural"><t><stem/>े</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="c" words="2">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection case="direct" gender="neuter" number="singular"><t><stem/></t></inflection>
+            <inflection case="direct" gender="neuter" number="plural"><t><stem/>𑘹</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="d" words="2">
+        <pos>noun</pos>
+        <suffix>ी</suffix>
+        <inflections>
+            <inflection case="direct" gender="feminine" number="singular"><t><stem/>ी</t></inflection>
+            <inflection case="oblique" gender="feminine" number="singular"><t><stem/>ी</t></inflection>
+            <inflection case="direct" gender="feminine" number="plural"><t><stem/>्या</t></inflection>
+            <inflection case="oblique" gender="feminine" number="plural"><t><stem/>्यां</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="e" words="2">
+        <pos>adjective</pos>
+        <suffix>ा</suffix>
+        <inflections>
+            <inflection case="direct" gender="masculine" number="singular"><t><stem/>ा</t></inflection>
+            <inflection case="direct" gender="feminine" number="singular"><t><stem/>ी</t></inflection>
+            <inflection case="direct" gender="neuter" number="singular"><t><stem/>ें</t></inflection>
+            <inflection case="oblique" gender="masculine" number="singular"><t><stem/>्या</t></inflection>
+            <inflection case="oblique" gender="feminine" number="singular"><t><stem/>्या</t></inflection>
+            <inflection case="oblique" gender="neuter" number="singular"><t><stem/>्या</t></inflection>
+            <inflection case="direct" gender="masculine" number="plural"><t><stem/>ी</t></inflection>
+            <inflection case="direct" gender="feminine" number="plural"><t><stem/>्या</t></inflection>
+            <inflection case="direct" gender="neuter" number="plural"><t><stem/>ी</t></inflection>
+            <inflection case="oblique" gender="masculine" number="plural"><t><stem/>्या</t></inflection>
+            <inflection case="oblique" gender="feminine" number="plural"><t><stem/>्या</t></inflection>
+            <inflection case="oblique" gender="neuter" number="plural"><t><stem/>्या</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="f" words="2">
+        <pos>adjective</pos>
+        <suffix>?</suffix>
+        <inflections>
+            <inflection case="direct" gender="masculine" number="singular"><t><stem/>?</t></inflection>
+            <inflection case="direct" gender="feminine" number="singular"><t><stem/>?</t></inflection>
+            <inflection case="direct" gender="neuter" number="singular"><t><stem/>?𑘽</t></inflection>
+            <inflection case="oblique" gender="masculine" number="singular"><t><stem/>?𑘧𑘰</t></inflection>
+            <inflection case="oblique" gender="feminine" number="singular"><t><stem/>?𑘧𑘰</t></inflection>
+            <inflection case="oblique" gender="neuter" number="singular"><t><stem/>?𑘧𑘰</t></inflection>
+            <inflection case="direct" gender="masculine" number="plural"><t><stem/>?</t></inflection>
+            <inflection case="direct" gender="feminine" number="plural"><t><stem/>?𑘧𑘰</t></inflection>
+            <inflection case="direct" gender="neuter" number="plural"><t><stem/>?</t></inflection>
+            <inflection case="oblique" gender="masculine" number="plural"><t><stem/>?𑘧𑘰</t></inflection>
+            <inflection case="oblique" gender="feminine" number="plural"><t><stem/>?𑘧𑘰</t></inflection>
+            <inflection case="oblique" gender="neuter" number="plural"><t><stem/>?𑘧𑘰</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="10" words="2">
+        <pos>adposition</pos>
+        <suffix/>
+        <inflections>
+            <inflection case="locative"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="11" words="2">
+        <pos>noun</pos>
+        <suffix>ी</suffix>
+        <inflections>
+            <inflection case="direct" gender="feminine" number="singular"><t><stem/>ी</t></inflection>
+            <inflection case="direct" gender="feminine" number="plural"><t><stem/>्या</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="12" words="2">
+        <pos>noun</pos>
+        <suffix>?</suffix>
+        <inflections>
+            <inflection case="direct" gender="feminine" number="singular"><t><stem/>?</t></inflection>
+            <inflection case="direct" gender="feminine" number="plural"><t><stem/>?𑘧𑘰</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="13" words="2">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection case="direct" gender="neuter" number="singular"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="14" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection case="direct" gender="feminine" number="singular"><t><stem/></t></inflection>
+            <inflection case="direct" gender="feminine" number="plural"><t><stem/>ा</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="15" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection case="direct" gender="feminine" number="singular"><t><stem/></t></inflection>
+            <inflection case="direct" gender="feminine" number="plural"><t><stem/>𑘰</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="16" words="1">
+        <pos>adposition</pos>
+        <suffix>ला</suffix>
+        <inflections>
+            <inflection case="dative" number="singular"><t><stem/>ला</t></inflection>
+            <inflection case="dative" number="plural"><t><stem/>ना</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="17" words="1">
+        <pos>adposition</pos>
+        <suffix>?𑘰</suffix>
+        <inflections>
+            <inflection case="dative" number="singular"><t><stem/>?𑘰</t></inflection>
+            <inflection case="dative" number="plural"><t><stem/>?𑘰</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="18" words="1">
+        <pos>adposition</pos>
+        <suffix>े</suffix>
+        <inflections>
+            <inflection case="ergative" number="singular"><t><stem/>े</t></inflection>
+            <inflection case="ergative" number="plural"><t><stem/>ी</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="19" words="1">
+        <pos>adposition</pos>
+        <suffix>?</suffix>
+        <inflections>
+            <inflection case="ergative" number="singular"><t><stem/>?</t></inflection>
+            <inflection case="ergative" number="plural"><t><stem/>?</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="1a" words="1">
+        <pos>adposition</pos>
+        <suffix>ा</suffix>
+        <inflections>
+            <inflection case="direct" gender="masculine" number="singular"><t><stem/>ा</t></inflection>
+            <inflection case="direct" gender="feminine" number="singular"><t><stem/>ी</t></inflection>
+            <inflection case="direct" gender="neuter" number="singular"><t><stem/>ें</t></inflection>
+            <inflection case="oblique" gender="masculine" number="singular"><t><stem/>्या</t></inflection>
+            <inflection case="oblique" gender="feminine" number="singular"><t><stem/>्या</t></inflection>
+            <inflection case="oblique" gender="neuter" number="singular"><t><stem/>्या</t></inflection>
+            <inflection case="direct" gender="masculine" number="plural"><t><stem/>े</t></inflection>
+            <inflection case="direct" gender="feminine" number="plural"><t><stem/>्या</t></inflection>
+            <inflection case="direct" gender="neuter" number="plural"><t><stem/>ी</t></inflection>
+            <inflection case="oblique" gender="masculine" number="plural"><t><stem/>्या</t></inflection>
+            <inflection case="oblique" gender="feminine" number="plural"><t><stem/>्या</t></inflection>
+            <inflection case="oblique" gender="neuter" number="plural"><t><stem/>्या</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="1b" words="1">
+        <pos>adposition</pos>
+        <suffix>?</suffix>
+        <inflections>
+            <inflection case="direct" gender="masculine" number="singular"><t><stem/>?</t></inflection>
+            <inflection case="direct" gender="feminine" number="singular"><t><stem/>?</t></inflection>
+            <inflection case="direct" gender="neuter" number="singular"><t><stem/>?𑘽</t></inflection>
+            <inflection case="oblique" gender="masculine" number="singular"><t><stem/>?𑘧𑘰</t></inflection>
+            <inflection case="oblique" gender="feminine" number="singular"><t><stem/>?𑘧𑘰</t></inflection>
+            <inflection case="oblique" gender="neuter" number="singular"><t><stem/>?𑘧𑘰</t></inflection>
+            <inflection case="direct" gender="masculine" number="plural"><t><stem/>?</t></inflection>
+            <inflection case="direct" gender="feminine" number="plural"><t><stem/>?𑘧𑘰</t></inflection>
+            <inflection case="direct" gender="neuter" number="plural"><t><stem/>?</t></inflection>
+            <inflection case="oblique" gender="masculine" number="plural"><t><stem/>?𑘧𑘰</t></inflection>
+            <inflection case="oblique" gender="feminine" number="plural"><t><stem/>?𑘧𑘰</t></inflection>
+            <inflection case="oblique" gender="neuter" number="plural"><t><stem/>?𑘧𑘰</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="1c" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection case="direct" gender="neuter" number="singular"><t><stem/></t></inflection>
+            <inflection case="oblique" gender="neuter" number="singular"><t><stem/>ा</t></inflection>
+            <inflection case="direct" gender="neuter" number="plural"><t><stem/>ां</t></inflection>
+            <inflection case="direct" gender="neuter" number="plural"><t><stem/>े</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="1d" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection case="direct" gender="neuter" number="singular"><t><stem/></t></inflection>
+            <inflection case="oblique" gender="neuter" number="singular"><t><stem/>𑘰</t></inflection>
+            <inflection case="direct" gender="neuter" number="plural"><t><stem/>𑘰𑘽</t></inflection>
+            <inflection case="direct" gender="neuter" number="plural"><t><stem/>𑘹</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="1e" words="1">
+        <pos>noun</pos>
+        <suffix>गी</suffix>
+        <inflections>
+            <inflection case="direct" gender="feminine" number="singular"><t><stem/>गी</t></inflection>
+            <inflection case="oblique" gender="feminine" number="singular"><t><stem/>ी</t></inflection>
+            <inflection case="vocative" gender="feminine" number="singular"><t><stem/>ी</t></inflection>
+            <inflection case="direct" gender="feminine" number="plural"><t><stem/>ी</t></inflection>
+            <inflection case="oblique" gender="feminine" number="plural"><t><stem/>ीं</t></inflection>
+            <inflection case="vocative" gender="feminine" number="plural"><t><stem/>ींनो</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="1f" words="1">
+        <pos>noun</pos>
+        <suffix>?𑘲</suffix>
+        <inflections>
+            <inflection case="direct" gender="feminine" number="singular"><t><stem/>?𑘲</t></inflection>
+            <inflection case="oblique" gender="feminine" number="singular"><t><stem/>?</t></inflection>
+            <inflection case="vocative" gender="feminine" number="singular"><t><stem/>?</t></inflection>
+            <inflection case="direct" gender="feminine" number="plural"><t><stem/>?</t></inflection>
+            <inflection case="oblique" gender="feminine" number="plural"><t><stem/>?𑘽</t></inflection>
+            <inflection case="vocative" gender="feminine" number="plural"><t><stem/>?𑘽𑘡𑘻</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="20" words="1">
+        <pos>adjective</pos>
+        <suffix>ा</suffix>
+        <inflections>
+            <inflection case="direct" gender="masculine" number="singular"><t><stem/>ा</t></inflection>
+            <inflection case="direct" gender="feminine" number="singular"><t><stem/>ी</t></inflection>
+            <inflection case="direct" gender="neuter" number="singular"><t><stem/>ेंं</t></inflection>
+            <inflection case="oblique" gender="masculine" number="singular"><t><stem/>्या</t></inflection>
+            <inflection case="oblique" gender="feminine" number="singular"><t><stem/>्या</t></inflection>
+            <inflection case="oblique" gender="neuter" number="singular"><t><stem/>्या</t></inflection>
+            <inflection case="direct" gender="masculine" number="plural"><t><stem/>ी</t></inflection>
+            <inflection case="direct" gender="feminine" number="plural"><t><stem/>्या</t></inflection>
+            <inflection case="direct" gender="neuter" number="plural"><t><stem/>ी</t></inflection>
+            <inflection case="oblique" gender="masculine" number="plural"><t><stem/>्या</t></inflection>
+            <inflection case="oblique" gender="feminine" number="plural"><t><stem/>्या</t></inflection>
+            <inflection case="oblique" gender="neuter" number="plural"><t><stem/>्या</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="21" words="1">
+        <pos>adjective</pos>
+        <suffix>?</suffix>
+        <inflections>
+            <inflection case="direct" gender="masculine" number="singular"><t><stem/>?</t></inflection>
+            <inflection case="direct" gender="feminine" number="singular"><t><stem/>?</t></inflection>
+            <inflection case="direct" gender="neuter" number="singular"><t><stem/>?𑘽𑘽</t></inflection>
+            <inflection case="oblique" gender="masculine" number="singular"><t><stem/>?𑘧𑘰</t></inflection>
+            <inflection case="oblique" gender="feminine" number="singular"><t><stem/>?𑘧𑘰</t></inflection>
+            <inflection case="oblique" gender="neuter" number="singular"><t><stem/>?𑘧𑘰</t></inflection>
+            <inflection case="direct" gender="masculine" number="plural"><t><stem/>?</t></inflection>
+            <inflection case="direct" gender="feminine" number="plural"><t><stem/>?𑘧𑘰</t></inflection>
+            <inflection case="direct" gender="neuter" number="plural"><t><stem/>?</t></inflection>
+            <inflection case="oblique" gender="masculine" number="plural"><t><stem/>?𑘧𑘰</t></inflection>
+            <inflection case="oblique" gender="feminine" number="plural"><t><stem/>?𑘧𑘰</t></inflection>
+            <inflection case="oblique" gender="neuter" number="plural"><t><stem/>?𑘧𑘰</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="22" words="1">
+        <pos>verb</pos>
+        <suffix>े</suffix>
+        <inflections>
+            <inflection transitivity="transitive" verb-type="gerund" case="direct"><t><stem/>े</t></inflection>
+            <inflection transitivity="transitive" verb-type="gerund" case="oblique"><t><stem/>्या</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="23" words="1">
+        <pos>verb</pos>
+        <suffix>?</suffix>
+        <inflections>
+            <inflection transitivity="transitive" verb-type="gerund" case="direct"><t><stem/>?</t></inflection>
+            <inflection transitivity="transitive" verb-type="gerund" case="oblique"><t><stem/>?𑘧𑘰</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="24" words="1">
+        <pos>noun</pos>
+        <suffix>ा</suffix>
+        <inflections>
+            <inflection case="direct" gender="masculine" number="singular"><t><stem/>ा</t></inflection>
+            <inflection case="oblique" gender="masculine" number="singular"><t><stem/>्या</t></inflection>
+            <inflection case="vocative" gender="masculine" number="singular"><t><stem/>्या</t></inflection>
+            <inflection case="direct" gender="masculine" number="plural"><t><stem/>े</t></inflection>
+            <inflection case="oblique" gender="masculine" number="plural"><t><stem/>्यां</t></inflection>
+            <inflection case="vocative" gender="masculine" number="plural"><t><stem/>्यांनो</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="25" words="1">
+        <pos>noun</pos>
+        <suffix>?</suffix>
+        <inflections>
+            <inflection case="direct" gender="masculine" number="singular"><t><stem/>?</t></inflection>
+            <inflection case="oblique" gender="masculine" number="singular"><t><stem/>?𑘧𑘰</t></inflection>
+            <inflection case="vocative" gender="masculine" number="singular"><t><stem/>?𑘧𑘰</t></inflection>
+            <inflection case="direct" gender="masculine" number="plural"><t><stem/>?</t></inflection>
+            <inflection case="oblique" gender="masculine" number="plural"><t><stem/>?𑘧𑘰𑘽</t></inflection>
+            <inflection case="vocative" gender="masculine" number="plural"><t><stem/>?𑘧𑘰𑘽𑘡𑘻</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="26" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection case="direct" gender="masculine" number="singular"><t><stem/></t></inflection>
+            <inflection case="direct" gender="feminine" number="singular"><t><stem/></t></inflection>
+            <inflection case="oblique" gender="masculine" number="singular"><t><stem/>ा</t></inflection>
+            <inflection case="oblique" gender="feminine" number="singular"><t><stem/></t></inflection>
+            <inflection case="direct" gender="masculine" number="plural"><t><stem/></t></inflection>
+            <inflection case="direct" gender="feminine" number="plural"><t><stem/>ी</t></inflection>
+            <inflection case="oblique" gender="masculine" number="plural"><t><stem/>ां</t></inflection>
+            <inflection case="oblique" gender="feminine" number="plural"><t><stem/>्यां</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="27" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection case="direct" gender="masculine" number="singular"><t><stem/></t></inflection>
+            <inflection case="direct" gender="feminine" number="singular"><t><stem/></t></inflection>
+            <inflection case="oblique" gender="masculine" number="singular"><t><stem/>𑘰</t></inflection>
+            <inflection case="oblique" gender="feminine" number="singular"><t><stem/></t></inflection>
+            <inflection case="direct" gender="masculine" number="plural"><t><stem/></t></inflection>
+            <inflection case="direct" gender="feminine" number="plural"><t><stem/>𑘲</t></inflection>
+            <inflection case="oblique" gender="masculine" number="plural"><t><stem/>𑘰𑘽</t></inflection>
+            <inflection case="oblique" gender="feminine" number="plural"><t><stem/>𑘿𑘧𑘰𑘽</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="28" words="1">
+        <pos>noun</pos>
+        <suffix>गा</suffix>
+        <inflections>
+            <inflection case="direct" gender="masculine" number="singular"><t><stem/>गा</t></inflection>
+            <inflection case="direct" gender="masculine" number="plural"><t><stem/>े</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="29" words="1">
+        <pos>noun</pos>
+        <suffix>?𑘰</suffix>
+        <inflections>
+            <inflection case="direct" gender="masculine" number="singular"><t><stem/>?𑘰</t></inflection>
+            <inflection case="direct" gender="masculine" number="plural"><t><stem/>?</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="2a" words="1">
+        <pos>noun</pos>
+        <suffix>?</suffix>
+        <inflections>
+            <inflection case="direct" gender="feminine" number="singular"><t><stem/>?</t></inflection>
+            <inflection case="oblique" gender="feminine" number="singular"><t><stem/>?</t></inflection>
+            <inflection case="direct" gender="feminine" number="plural"><t><stem/>?𑘧𑘰</t></inflection>
+            <inflection case="oblique" gender="feminine" number="plural"><t><stem/>?𑘧𑘰𑘽</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="2b" words="1">
+        <pos>noun</pos>
+        <suffix>ा</suffix>
+        <inflections>
+            <inflection case="direct" gender="masculine" number="singular"><t><stem/>ा</t></inflection>
+            <inflection case="oblique" gender="masculine" number="singular"><t><stem/>्या</t></inflection>
+            <inflection case="direct" gender="masculine" number="plural"><t><stem/>े</t></inflection>
+            <inflection case="oblique" gender="masculine" number="plural"><t><stem/>्यां</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="2c" words="1">
+        <pos>noun</pos>
+        <suffix>?</suffix>
+        <inflections>
+            <inflection case="direct" gender="masculine" number="singular"><t><stem/>?</t></inflection>
+            <inflection case="oblique" gender="masculine" number="singular"><t><stem/>?𑘧𑘰</t></inflection>
+            <inflection case="direct" gender="masculine" number="plural"><t><stem/>?</t></inflection>
+            <inflection case="oblique" gender="masculine" number="plural"><t><stem/>?𑘧𑘰𑘽</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="2d" words="1">
+        <pos>noun</pos>
+        <suffix>ी</suffix>
+        <inflections>
+            <inflection case="direct" gender="neuter" number="singular"><t><stem/>ी</t></inflection>
+            <inflection case="oblique" gender="neuter" number="singular"><t><stem/>्या</t></inflection>
+            <inflection case="direct" gender="neuter" number="plural"><t><stem/>ी</t></inflection>
+            <inflection case="oblique" gender="neuter" number="plural"><t><stem/>्यां</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="2e" words="1">
+        <pos>noun</pos>
+        <suffix>?</suffix>
+        <inflections>
+            <inflection case="direct" gender="neuter" number="singular"><t><stem/>?</t></inflection>
+            <inflection case="oblique" gender="neuter" number="singular"><t><stem/>?𑘧𑘰</t></inflection>
+            <inflection case="direct" gender="neuter" number="plural"><t><stem/>?</t></inflection>
+            <inflection case="oblique" gender="neuter" number="plural"><t><stem/>?𑘧𑘰𑘽</t></inflection>
+        </inflections>
+    </pattern>
+</patterns>

@@ -25,8 +25,8 @@ DaGrammarSynthesizer_ArticleLookupFunction::DaGrammarSynthesizer_ArticleLookupFu
     , singularCommonString(singularCommonString)
     , singularNeuterString(singularNeuterString)
     , pluralString(pluralString)
-    , countLookupFunction(::inflection::util::LocaleUtils::DANISH(), {GrammemeConstants::NUMBER_SINGULAR(), GrammemeConstants::NUMBER_PLURAL()})
-    , genderLookupFunction(::inflection::util::LocaleUtils::DANISH(), {GrammemeConstants::GENDER_COMMON(), GrammemeConstants::GENDER_NEUTER()})
+    , countLookupFunction(::inflection::util::LocaleUtils::DANISH(), {GrammemeConstants::NUMBER_SINGULAR, GrammemeConstants::NUMBER_PLURAL})
+    , genderLookupFunction(::inflection::util::LocaleUtils::DANISH(), {GrammemeConstants::GENDER_COMMON, GrammemeConstants::GENDER_NEUTER})
 {
     this->genderFeature = model.getFeature(GrammemeConstants::GENDER);
     this->countFeature = model.getFeature(GrammemeConstants::NUMBER);

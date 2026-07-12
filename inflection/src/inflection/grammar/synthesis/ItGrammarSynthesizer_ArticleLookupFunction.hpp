@@ -7,8 +7,6 @@
 #include <inflection/grammar/synthesis/fwd.hpp>
 #include <inflection/dialog/DefaultArticleLookupFunction.hpp>
 #include <inflection/grammar/synthesis/ItGrammarSynthesizer.hpp>
-#include <inflection/grammar/synthesis/ItGrammarSynthesizer_CountLookupFunction.hpp>
-#include <inflection/grammar/synthesis/ItGrammarSynthesizer_GenderLookupFunction.hpp>
 
 class inflection::grammar::synthesis::ItGrammarSynthesizer_ArticleLookupFunction
     : public ::inflection::dialog::DefaultArticleLookupFunction
@@ -20,8 +18,8 @@ private:
     const ::inflection::dialog::SemanticFeature* derivedArticleFeature {  };
     const ::inflection::dialog::SemanticFeature& countFeature;
     const ::inflection::dialog::SemanticFeature& genderFeature;
-    ItGrammarSynthesizer_CountLookupFunction countLookupFunction {  };
-    ItGrammarSynthesizer_GenderLookupFunction genderLookupFunction {  };
+    const ::inflection::dialog::DictionaryLookupFunction& numberLookupFunction;
+    const ::inflection::dialog::DictionaryLookupFunction& genderLookupFunction;
 
 public:
     ::inflection::dialog::SpeakableString* getFeatureValue(const ::inflection::dialog::DisplayValue& displayValue, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const override;
@@ -29,7 +27,12 @@ public:
 public: /* package */
     virtual ::inflection::dialog::SpeakableString* getArticle(const ::inflection::dialog::DisplayValue& displayValue, bool wantArticle, ItGrammarSynthesizer::Number numberValue, ItGrammarSynthesizer::Gender genderValue) const = 0;
 
-    ItGrammarSynthesizer_ArticleLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model, const ::std::u16string& derivedSemanticName);
+    ItGrammarSynthesizer_ArticleLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model,
+                                               const char16_t* derivedSemanticName,
+                                               const ::inflection::dialog::DictionaryLookupFunction& numberLookupFunction,
+                                               const ::inflection::dialog::DictionaryLookupFunction& genderLookupFunction);
     ItGrammarSynthesizer_ArticleLookupFunction(const ItGrammarSynthesizer_ArticleLookupFunction&) = delete;
     ItGrammarSynthesizer_ArticleLookupFunction& operator=(const ItGrammarSynthesizer_ArticleLookupFunction&) = delete;
+
+    friend ItGrammarSynthesizer_DefiniteArticleLookupFunction;
 };

@@ -5,15 +5,24 @@
 
 #include <inflection/dictionary/PhraseProperties.hpp>
 #include <inflection/util/LocaleUtils.hpp>
-#include <inflection/util/ULocale.hpp>
 #include <inflection/dialog/DisplayValue.hpp>
-#include <inflection/dialog/SpeakableString.hpp>
 #include <inflection/grammar/synthesis/ItGrammarSynthesizer.hpp>
 
 namespace inflection::grammar::synthesis {
 
-ItGrammarSynthesizer_DefiniteArticleLookupFunction::ItGrammarSynthesizer_DefiniteArticleLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model, const ::std::u16string& derivedSemanticName, const ::std::u16string& simplePreposition, const ::std::u16string& singularMasculine, const ::std::u16string& singularMasculineWithConst, const ::std::u16string& singularFeminine, const ::std::u16string& singularWithVowel, const ::std::u16string& pluralMasculine, const ::std::u16string& pluralMasculineWithConst, const ::std::u16string& pluralFeminine)
-    : super(model, derivedSemanticName)
+ItGrammarSynthesizer_DefiniteArticleLookupFunction::ItGrammarSynthesizer_DefiniteArticleLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model,
+                                                       const ::inflection::dialog::DictionaryLookupFunction& numberLookupFunction,
+                                                       const ::inflection::dialog::DictionaryLookupFunction& genderLookupFunction,
+                                                       const char16_t* derivedSemanticName,
+                                                       std::u16string_view simplePreposition,
+                                                       std::u16string_view singularMasculine,
+                                                       std::u16string_view singularMasculineWithConst,
+                                                       std::u16string_view singularFeminine,
+                                                       std::u16string_view singularWithVowel,
+                                                       std::u16string_view pluralMasculine,
+                                                       std::u16string_view pluralMasculineWithConst,
+                                                       std::u16string_view pluralFeminine)
+    : super(model, derivedSemanticName, numberLookupFunction, genderLookupFunction)
     , simplePreposition(simplePreposition)
     , singularMasculine(singularMasculine)
     , singularMasculineWithConst(singularMasculineWithConst)
@@ -25,8 +34,8 @@ ItGrammarSynthesizer_DefiniteArticleLookupFunction::ItGrammarSynthesizer_Definit
 {
 }
 
-ItGrammarSynthesizer_DefiniteArticleLookupFunction::ItGrammarSynthesizer_DefiniteArticleLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model, const ::std::u16string& derivedSemanticName, const ItGrammarSynthesizer_DefiniteArticleLookupFunction& other)
-    : ItGrammarSynthesizer_DefiniteArticleLookupFunction(model, derivedSemanticName, other.simplePreposition, other.singularMasculine, other.singularMasculineWithConst, other.singularFeminine, other.singularWithVowel, other.pluralMasculine, other.pluralMasculineWithConst, other.pluralFeminine)
+ItGrammarSynthesizer_DefiniteArticleLookupFunction::ItGrammarSynthesizer_DefiniteArticleLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model, const char16_t* derivedSemanticName, const ItGrammarSynthesizer_DefiniteArticleLookupFunction& other)
+    : ItGrammarSynthesizer_DefiniteArticleLookupFunction(model, other.numberLookupFunction, other.genderLookupFunction, derivedSemanticName, other.simplePreposition, other.singularMasculine, other.singularMasculineWithConst, other.singularFeminine, other.singularWithVowel, other.pluralMasculine, other.pluralMasculineWithConst, other.pluralFeminine)
 {
 }
 

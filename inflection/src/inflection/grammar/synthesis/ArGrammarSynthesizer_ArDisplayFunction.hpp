@@ -5,6 +5,7 @@
 
 #include <inflection/dialog/fwd.hpp>
 #include <inflection/grammar/synthesis/fwd.hpp>
+#include <inflection/grammar/synthesis/ArGrammarSynthesizer.hpp>
 #include <inflection/dialog/DefaultDisplayFunction.hpp>
 #include <inflection/dialog/DictionaryLookupInflector.hpp>
 #include <inflection/tokenizer/fwd.hpp>
@@ -45,8 +46,8 @@ private:
     const ::inflection::dialog::SemanticFeature& pronounCountFeature;
     const ::inflection::dialog::SemanticFeature& pronounGenderFeature;
     const ::std::unique_ptr<::inflection::tokenizer::Tokenizer> tokenizer;
-    ::std::map<int32_t, ::std::u16string_view> personalPronounsMap {  };
-    ::std::map<::std::u16string_view, int32_t> personalPronounsReverseMap {  };
+    ::std::set<::std::u16string_view> personalPronouns {  };
+    const ::std::map<std::u16string_view, std::u16string_view> caseConstraintFallback {  };
     int64_t posMask {  };
     int64_t verbMask {  };
     int64_t determinerMask {  };
@@ -60,10 +61,9 @@ public:
 private:
     static ::std::u16string lookupDefiniteArticle(const ::std::u16string& displayString);
     ::std::u16string performInflection(const ::std::u16string &word, int64_t wordGrammemes, const InflectionConstraints &inflectionContraints) const;
-    ::std::u16string performPronounInflection(const ::std::u16string &word, const InflectionConstraints &inflectionContraints) const;
 
 public: /* package */
-    explicit ArGrammarSynthesizer_ArDisplayFunction(const ::inflection::dialog::SemanticFeatureModel& model, const ::std::map<int32_t, ::std::u16string_view>& personalPronounsMap);
+    explicit ArGrammarSynthesizer_ArDisplayFunction(const ::inflection::dialog::SemanticFeatureModel& model);
     ArGrammarSynthesizer_ArDisplayFunction(const ArGrammarSynthesizer_ArDisplayFunction&) = delete;
     ArGrammarSynthesizer_ArDisplayFunction& operator=(const ArGrammarSynthesizer_ArDisplayFunction&) = delete;
 };

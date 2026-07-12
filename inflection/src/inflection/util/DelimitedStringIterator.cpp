@@ -3,27 +3,17 @@
  */
 #include <inflection/util/DelimitedStringIterator.hpp>
 #include <inflection/exception/IndexOutOfBoundsException.hpp>
-#include <unicode/ustring.h>
 
 namespace inflection::util {
-
 
 DelimitedStringIterator::DelimitedStringIterator(std::u16string_view str, std::u16string_view delimiterString)
     : delimiterString(delimiterString)
     , originalString(str)
-    , length(int32_t(str.length()))
+    , length(static_cast<int32_t>(str.length()))
 {
     if (hasNext()) {
         getNext();
     }
-}
-
-DelimitedStringIterator::DelimitedStringIterator(const DelimitedStringIterator& other)
-    : delimiterString(other.delimiterString)
-    , originalString(other.originalString)
-    , length(other.length)
-    , currentIndex(other.currentIndex)
-{
 }
 
 DelimitedStringIterator::~DelimitedStringIterator()
@@ -32,7 +22,7 @@ DelimitedStringIterator::~DelimitedStringIterator()
 
 bool
 DelimitedStringIterator::hasNext() const {
-    return currentIndex < length || currentString.length() != 0;
+    return currentIndex < length || !currentString.empty();
 }
 
 std::u16string_view
@@ -47,11 +37,10 @@ DelimitedStringIterator::getNext()
         currentString = u"";
         return;
     }
-    auto strStart = originalString.data() + currentIndex;
-    const char16_t* result = (const char16_t *)u_strFindFirst((const UChar *)strStart, length - currentIndex, (const UChar *)delimiterString.data(), int32_t(delimiterString.length()));
-    if (result != nullptr) {
-        currentString = originalString.substr(currentIndex, (uint32_t)(result - strStart));
-        currentIndex = int32_t(result - originalString.data() + delimiterString.length());
+    const auto firstOccurrence = originalString.find(delimiterString, currentIndex);
+    if (firstOccurrence != std::u16string_view::npos) {
+        currentString = originalString.substr(currentIndex, firstOccurrence - currentIndex);
+        currentIndex = static_cast<int32_t>(firstOccurrence + delimiterString.length());
     }
     else {
         currentString = originalString.substr(currentIndex, length - currentIndex);

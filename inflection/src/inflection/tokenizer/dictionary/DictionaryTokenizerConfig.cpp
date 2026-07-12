@@ -3,8 +3,6 @@
  */
 #include <inflection/tokenizer/dictionary/DictionaryTokenizerConfig.hpp>
 
-#include <algorithm>
-
 namespace inflection::tokenizer::dictionary {
 
 DictionaryTokenizerConfig::DictionaryTokenizerConfig(
@@ -22,7 +20,6 @@ DictionaryTokenizerConfig::DictionaryTokenizerConfig(
 
     for (const auto& fuge : fugenelements_positive) {
         copy = fuge;
-        std::reverse(copy.begin(), copy.end());
         this->fugenelements.insert(copy);
         if (int32_t(fuge.length()) > maxFugenelementLength) {
             maxFugenelementLength = int32_t(fuge.length());
@@ -30,7 +27,6 @@ DictionaryTokenizerConfig::DictionaryTokenizerConfig(
     }
     for (const auto& fuge : fugenelements_replaceable) {
         copy = fuge;
-        std::reverse(copy.begin(), copy.end());
         this->fugenelements.insert(copy);
         if (int32_t(fuge.length()) > maxFugenelementLength) {
             maxFugenelementLength = int32_t(fuge.length());

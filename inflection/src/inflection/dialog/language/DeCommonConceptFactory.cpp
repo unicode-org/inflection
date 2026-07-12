@@ -45,32 +45,32 @@ inflection::dialog::SpeakableString* DeCommonConceptFactory::quantify(const Numb
         caseString = caseSpeakableString->getPrint();
     }
     ::inflection::dialog::SpeakableString formattedNumber({});
-    if (caseString.empty() || ::inflection::grammar::synthesis::GrammemeConstants::CASE_NOMINATIVE() == caseString) {
-        if (::inflection::grammar::synthesis::GrammemeConstants::GENDER_MASCULINE() == gender) {
+    if (caseString.empty() || ::inflection::grammar::synthesis::GrammemeConstants::CASE_NOMINATIVE == caseString) {
+        if (::inflection::grammar::synthesis::GrammemeConstants::GENDER_MASCULINE == gender) {
             formattedNumber = number.asSpokenWords(u"cardinal-masculine");
-        } else if (::inflection::grammar::synthesis::GrammemeConstants::GENDER_FEMININE() == gender) {
+        } else if (::inflection::grammar::synthesis::GrammemeConstants::GENDER_FEMININE == gender) {
             formattedNumber = number.asSpokenWords(u"cardinal-feminine");
-        } else if (::inflection::grammar::synthesis::GrammemeConstants::GENDER_NEUTER() == gender) {
+        } else if (::inflection::grammar::synthesis::GrammemeConstants::GENDER_NEUTER == gender) {
             formattedNumber = number.asSpokenWords(u"cardinal-neuter");
         }
-    } else if (::inflection::grammar::synthesis::GrammemeConstants::CASE_GENITIVE() == caseString) {
-        if (::inflection::grammar::synthesis::GrammemeConstants::GENDER_MASCULINE() == gender || ::inflection::grammar::synthesis::GrammemeConstants::GENDER_NEUTER() == gender) {
+    } else if (::inflection::grammar::synthesis::GrammemeConstants::CASE_GENITIVE == caseString) {
+        if (::inflection::grammar::synthesis::GrammemeConstants::GENDER_MASCULINE == gender || ::inflection::grammar::synthesis::GrammemeConstants::GENDER_NEUTER == gender) {
             formattedNumber = number.asSpokenWords(u"cardinal-s");
-        } else if (::inflection::grammar::synthesis::GrammemeConstants::GENDER_FEMININE() == gender) {
+        } else if (::inflection::grammar::synthesis::GrammemeConstants::GENDER_FEMININE == gender) {
             formattedNumber = number.asSpokenWords(u"cardinal-r");
         }
-    } else if (::inflection::grammar::synthesis::GrammemeConstants::CASE_DATIVE() == caseString) {
-        if (::inflection::grammar::synthesis::GrammemeConstants::GENDER_MASCULINE() == gender || ::inflection::grammar::synthesis::GrammemeConstants::GENDER_NEUTER() == gender) {
+    } else if (::inflection::grammar::synthesis::GrammemeConstants::CASE_DATIVE == caseString) {
+        if (::inflection::grammar::synthesis::GrammemeConstants::GENDER_MASCULINE == gender || ::inflection::grammar::synthesis::GrammemeConstants::GENDER_NEUTER == gender) {
             formattedNumber = number.asSpokenWords(u"cardinal-m");
-        } else if (::inflection::grammar::synthesis::GrammemeConstants::GENDER_FEMININE() == gender) {
+        } else if (::inflection::grammar::synthesis::GrammemeConstants::GENDER_FEMININE == gender) {
             formattedNumber = number.asSpokenWords(u"cardinal-r");
         }
-    } else if (::inflection::grammar::synthesis::GrammemeConstants::CASE_ACCUSATIVE() == caseString) {
-        if (::inflection::grammar::synthesis::GrammemeConstants::GENDER_MASCULINE() == gender) {
+    } else if (::inflection::grammar::synthesis::GrammemeConstants::CASE_ACCUSATIVE == caseString) {
+        if (::inflection::grammar::synthesis::GrammemeConstants::GENDER_MASCULINE == gender) {
             formattedNumber = number.asSpokenWords(u"cardinal-n");
-        } else if (::inflection::grammar::synthesis::GrammemeConstants::GENDER_FEMININE() == gender) {
+        } else if (::inflection::grammar::synthesis::GrammemeConstants::GENDER_FEMININE == gender) {
             formattedNumber = number.asSpokenWords(u"cardinal-feminine");
-        } else if (::inflection::grammar::synthesis::GrammemeConstants::GENDER_NEUTER() == gender) {
+        } else if (::inflection::grammar::synthesis::GrammemeConstants::GENDER_NEUTER == gender) {
             formattedNumber = number.asSpokenWords(u"cardinal-neuter");
         }
     }

@@ -3,11 +3,13 @@
  */
 #include <inflection/grammar/synthesis/HeGrammarSynthesizer_HeDisplayFunction.hpp>
 
+#include <inflection/tokenizer/TokenChain.hpp>
+#include <inflection/tokenizer/Tokenizer.hpp>
+#include <inflection/tokenizer/TokenizerFactory.hpp>
 #include <inflection/dictionary/DictionaryMetaData.hpp>
 #include <inflection/util/Validate.hpp>
 #include <inflection/util/DelimitedStringIterator.hpp>
 #include <inflection/util/LocaleUtils.hpp>
-#include <inflection/util/UnicodeSetUtils.hpp>
 #include <inflection/dialog/SemanticFeature.hpp>
 #include <inflection/dialog/SemanticFeatureModel_DisplayData.hpp>
 #include <inflection/dialog/DisplayValue.hpp>
@@ -18,19 +20,14 @@
 
 namespace inflection::grammar::synthesis {
 
-static const ::icu4cxx::UnicodeSet& DEFINITENESS_COMPOUND_SPLITTER() {
-    static auto DEFINITENESS_COMPOUND_SPLITTER_ = ::inflection::util::UnicodeSetUtils::freeze(new ::icu4cxx::UnicodeSet(u"[[:whitespace:]-]"));
-    return *npc(DEFINITENESS_COMPOUND_SPLITTER_);
-}
-
 HeGrammarSynthesizer_HeDisplayFunction::HeGrammarSynthesizer_HeDisplayFunction(const ::inflection::dialog::SemanticFeatureModel& model)
     : super()
     , dictionary(*npc(::inflection::dictionary::DictionaryMetaData::createDictionary(::inflection::util::LocaleUtils::HEBREW())))
-    , inflector(::inflection::dictionary::Inflector::getInflector(::inflection::util::LocaleUtils::HEBREW()))
+    , englishTokenizer(::inflection::tokenizer::TokenizerFactory::createTokenizer(::inflection::util::LocaleUtils::ENGLISH()))
     , dictionaryInflector(::inflection::util::LocaleUtils::HEBREW(), {
-            {GrammemeConstants::POS_NOUN(), GrammemeConstants::POS_ADJECTIVE(), GrammemeConstants::POS_VERB()},
-            {GrammemeConstants::NUMBER_SINGULAR(),  GrammemeConstants::NUMBER_PLURAL()},
-            {GrammemeConstants::GENDER_MASCULINE(), GrammemeConstants::GENDER_FEMININE()}
+            {GrammemeConstants::POS_NOUN, GrammemeConstants::POS_ADJECTIVE, GrammemeConstants::POS_VERB},
+            {GrammemeConstants::NUMBER_SINGULAR,  GrammemeConstants::NUMBER_PLURAL},
+            {GrammemeConstants::GENDER_MASCULINE, GrammemeConstants::GENDER_FEMININE}
     }, {}, true)
     , countFeature(*npc(model.getFeature(GrammemeConstants::NUMBER)))
     , personFeature(*npc(model.getFeature(GrammemeConstants::PERSON)))
@@ -41,8 +38,8 @@ HeGrammarSynthesizer_HeDisplayFunction::HeGrammarSynthesizer_HeDisplayFunction(c
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&nounProperty, {u"noun"}));
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&adjectiveProperty,{u"adjective"}));
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&genderMask,
-                                                                            {GrammemeConstants::GENDER_MASCULINE(),
-                                                                             GrammemeConstants::GENDER_FEMININE()}));
+                                                                            {GrammemeConstants::GENDER_MASCULINE,
+                                                                             GrammemeConstants::GENDER_FEMININE}));
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryPreposition, {u"adposition"}));
 }
 
@@ -50,7 +47,7 @@ std::optional<::std::u16string> HeGrammarSynthesizer_HeDisplayFunction::pluraliz
 {
     int64_t wordGrammemes = 0;
     dictionary.getCombinedBinaryType(&wordGrammemes, firstWord);
-    return dictionaryInflector.inflectWithOptionalConstraints(firstWord, wordGrammemes, {GrammemeConstants::NUMBER_PLURAL()}, {GrammemeConstants::DEFINITENESS_CONSTRUCT()});
+    return dictionaryInflector.inflectWithOptionalConstraints(firstWord, wordGrammemes, {GrammemeConstants::NUMBER_PLURAL}, {GrammemeConstants::DEFINITENESS_CONSTRUCT});
 }
 
 ::std::u16string HeGrammarSynthesizer_HeDisplayFunction::pluralizeFirstWordOfCompoundWithHeuristics(const ::std::u16string& firstWord) const
@@ -193,14 +190,24 @@ static const char16_t FINAL_TO_MEDIAL_SUBSTITUTION[][2] = {
     int64_t wordGrammemes = 0;
 
     if (dictionary.getCombinedBinaryType(&wordGrammemes, displayString) != nullptr) {
-        const auto inflectedWord = dictionaryInflector.inflect(displayString, wordGrammemes, {count, gender, person}, disambiguationGrammemes);
+        std::vector<::std::u16string> constraints;
+        if (!count.empty()) {
+            constraints.emplace_back(count);
+        }
+        if (!gender.empty()) {
+            constraints.emplace_back(gender);
+        }
+        if (!person.empty()) {
+            constraints.emplace_back(person);
+        }
+        const auto inflectedWord = dictionaryInflector.inflect(displayString, wordGrammemes, constraints, disambiguationGrammemes);
         if (inflectedWord.has_value()) {
             return *inflectedWord;
         }
     }
 
     // Well, dictionary was not able to inflect it. So let's make a guess.
-    if (gender.empty() && (count == GrammemeConstants::NUMBER_DUAL() || count == GrammemeConstants::NUMBER_PLURAL())) {
+    if (gender.empty() && (count == GrammemeConstants::NUMBER_DUAL || count == GrammemeConstants::NUMBER_PLURAL)) {
         return inflectCompoundToPlural(displayString);
     }
 
@@ -258,26 +265,75 @@ static const char16_t FINAL_TO_MEDIAL_SUBSTITUTION[][2] = {
     return new ::inflection::dialog::DisplayValue(displayString, constraints);
 }
 
-::std::u16string HeGrammarSynthesizer_HeDisplayFunction::applyDefiniteness(const ::std::u16string& input, ::std::u16string_view definiteness)
+::std::u16string HeGrammarSynthesizer_HeDisplayFunction::applyDefiniteness(const ::std::u16string& input, ::std::u16string_view definiteness) const
 {
-    if (!input.empty() && GrammemeConstants::DEFINITENESS_DEFINITE() == definiteness) {
-        ::std::u16string output;
-        auto beforeTailStartIndex = DEFINITENESS_COMPOUND_SPLITTER().spanBack(input, USET_SPAN_NOT_CONTAINED);
-        ::std::u16string tail;
-        if (beforeTailStartIndex >= 0) {
-            output.append(input, 0, beforeTailStartIndex);
-            tail = input.substr(beforeTailStartIndex);
+    if (!input.empty() && definiteness == GrammemeConstants::DEFINITENESS_DEFINITE) {
+        ::std::unique_ptr<::inflection::tokenizer::TokenChain> tokenChain(npc(npc(englishTokenizer.get())->createTokenChain(input)));
+
+        bool pastFirstWord = false;
+        bool inWord = false;
+        int32_t wordStart = 0;
+        int32_t wordEnd = 0;
+
+        for (const auto& token : *tokenChain) {
+            if (token.isSignificant()) {
+                if (!inWord) {
+                    wordStart = token.getStartChar();
+                    inWord = true;
+                }
+                wordEnd = token.getEndChar();
+            } else if (inWord) {
+                if (pastFirstWord) {
+                    auto word = ::std::u16string_view(input).substr(wordStart, wordEnd - wordStart);
+                    if (isPreposition(word)) {
+                        if (input.starts_with(u"ה")) {
+                            return input;
+                        }
+                        return u"ה" + input;
+                    }
+                }
+                pastFirstWord = true;
+                inWord = false;
+            }
         }
-        else {
-            tail = input;
+
+        if (pastFirstWord) {
+            ::std::u16string output;
+            output.append(input, 0, wordStart);
+            auto tail = ::std::u16string_view(input).substr(wordStart);
+            if (!tail.starts_with(u"ה")) {
+                output += u"ה";
+            }
+            output += tail;
+            return output;
         }
-        if (!tail.starts_with(u"ה")) {
-            output += u"ה";
+
+        if (!input.starts_with(u"ה")) {
+            return u"ה" + input;
         }
-        output += tail;
-        return output;
     }
     return input;
+}
+
+bool HeGrammarSynthesizer_HeDisplayFunction::isPreposition(::std::u16string_view word) const
+{
+    int64_t wordGrammemes = 0;
+    if (dictionary.getCombinedBinaryType(&wordGrammemes, word) != nullptr) {
+        return (wordGrammemes & dictionaryPreposition) != 0;
+    }
+
+    if (word.length() > 1) {
+        auto firstChar = word.front();
+        if (firstChar == u'ב' || firstChar == u'ל' || firstChar == u'מ' || firstChar == u'כ') {
+            wordGrammemes = 0;
+            auto remainder(std::u16string_view(word).substr(1));
+            if (dictionary.getCombinedBinaryType(&wordGrammemes, remainder) != nullptr) {
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
 
 } // namespace inflection::grammar::synthesis

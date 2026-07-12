@@ -52,6 +52,7 @@
     <test><source>dskhjgf</source><result gender="masculine"/></test>
     <test><source>Apple Watch</source><result gender="feminine"/></test>
     <test><source>Apple TV</source><result gender="feminine"/></test>
+    <test><source>café</source><result gender="masculine"/></test>
     <test><source/><result gender=""/></test>
 
     <test><source>chat</source><result definiteness=""/></test>
@@ -341,6 +342,9 @@
     <test><source definiteness="definite">spiritueux</source><result>le spiritueux</result></test> <!-- ambiguous, but invariant as masculine -->
     <test><source definiteness="definite">spiritueuse</source><result>la spiritueuse</result></test> <!-- not ambiguous as feminine, but part of a pattern that could be considered invariant -->
     <test><source definiteness="definite">spiritueuses</source><result>les spiritueuses</result></test> <!-- not ambiguous as feminine, but part of a pattern that could be considered invariant -->
+    <test><source definiteness="definite">le Havre</source><result>le Havre</result></test> <!-- Already definite -->
+    <test><source definiteness="definite">Le Havre</source><result>Le Havre</result></test> <!-- Already definite -->
+    <test><source definiteness="definite">Havre</source><result>le Havre</result></test>
 
     <!--    Able to inflect to masculine using dictionary-->
     <test><source gender="masculine">bienvenu</source><result exists="true"/></test>
@@ -450,4 +454,14 @@
     <test><source gender="feminine" number="plural">mien</source><result>miennes</result></test>
     <test><source gender="masculine" number="plural">mienne</source><result>miens</result></test>
     <test><source gender="feminine" number="plural">mienne</source><result>miennes</result></test>
+
+    <test><source gender="masculine">quel</source><result>quel</result></test>
+    <test><source gender="feminine">quel</source><result>quelle</result></test>
+    <test><source gender="masculine" number="plural">quel</source><result>quels</result></test>
+    <test><source gender="feminine" number="plural">quel</source><result>quelles</result></test>
+
+    <test><source gender="masculine">tout</source><result>tout</result></test>
+    <test><source gender="feminine">tout</source><result>toute</result></test>
+    <test><source gender="masculine" number="plural" pos="adjective">tout</source><result>tous</result></test>
+    <test><source gender="feminine" number="plural">tout</source><result>toutes</result></test>
 </inflectionTest>

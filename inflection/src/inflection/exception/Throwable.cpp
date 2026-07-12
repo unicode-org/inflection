@@ -4,7 +4,6 @@
 
 #include <inflection/exception/Throwable.hpp>
 #include <inflection/util/StringViewUtils.hpp>
-#include <typeinfo>
 
 namespace inflection::exception {
 

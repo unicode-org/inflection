@@ -731,6 +731,91 @@ TEST_CASE("ListTest#testListHi")
     REQUIRE(orList(factory, {u"Joe", u"John Junior", u"Jane", u"Joan"}) == u"Joe, John Junior, Jane या Joan");
 }
 
+TEST_CASE("ListTest#testListFi")
+{
+    auto factory = getCommonConceptFactory(inflection::util::LocaleUtils::FINNISH());
+
+    REQUIRE(andList(factory, {u"1"}) == u"1");
+    REQUIRE(andList(factory, {u"1", u"2"}) == u"1 ja 2");
+    REQUIRE(andList(factory, {u"1", u"2", u"3"}) == u"1, 2 ja 3");
+    REQUIRE(andList(factory, {u"1", u"2", u"3", u"4"}) == u"1, 2, 3 ja 4");
+    REQUIRE(andList(factory, {u"Joe", u"John Junior", u"Jane", u"Joan"}) == u"Joe, John Junior, Jane ja Joan");
+
+    REQUIRE(orList(factory, {u"1"}) == u"1");
+    REQUIRE(orList(factory, {u"1", u"2"}) == u"1 tai 2");
+    REQUIRE(orList(factory, {u"1", u"2", u"3"}) == u"1, 2 tai 3");
+    REQUIRE(orList(factory, {u"1", u"2", u"3", u"4"}) == u"1, 2, 3 tai 4");
+    REQUIRE(orList(factory, {u"Joe", u"John Junior", u"Jane", u"Joan"}) == u"Joe, John Junior, Jane tai Joan");
+}
+
+TEST_CASE("ListTest#testListPl")
+{
+    auto factory = getCommonConceptFactory(inflection::util::LocaleUtils::POLISH());
+
+    REQUIRE(andList(factory, {u"1"}) == u"1");
+    REQUIRE(andList(factory, {u"1", u"2"}) == u"1 i 2");
+    REQUIRE(andList(factory, {u"1", u"2", u"3"}) == u"1, 2 i 3");
+    REQUIRE(andList(factory, {u"1", u"2", u"3", u"4"}) == u"1, 2, 3 i 4");
+    REQUIRE(andList(factory, {u"Joe", u"John Junior", u"Jane", u"Joan"}) == u"Joe, John Junior, Jane i Joan");
+
+    REQUIRE(orList(factory, {u"1"}) == u"1");
+    REQUIRE(orList(factory, {u"1", u"2"}) == u"1 lub 2");
+    REQUIRE(orList(factory, {u"1", u"2", u"3"}) == u"1, 2 lub 3");
+    REQUIRE(orList(factory, {u"1", u"2", u"3", u"4"}) == u"1, 2, 3 lub 4");
+    REQUIRE(orList(factory, {u"Joe", u"John Junior", u"Jane", u"Joan"}) == u"Joe, John Junior, Jane lub Joan");
+}
+
+TEST_CASE("ListTest#testListVi")
+{
+    auto factory = getCommonConceptFactory(inflection::util::LocaleUtils::VIETNAMESE());
+
+    REQUIRE(andList(factory, {u"1"}) == u"1");
+    REQUIRE(andList(factory, {u"1", u"2"}) == u"1 và 2");
+    REQUIRE(andList(factory, {u"1", u"2", u"3"}) == u"1, 2 và 3");
+    REQUIRE(andList(factory, {u"1", u"2", u"3", u"4"}) == u"1, 2, 3 và 4");
+    REQUIRE(andList(factory, {u"Joe", u"John Junior", u"Jane", u"Joan"}) == u"Joe, John Junior, Jane và Joan");
+
+    REQUIRE(orList(factory, {u"1"}) == u"1");
+    REQUIRE(orList(factory, {u"1", u"2"}) == u"1 hoặc 2");
+    REQUIRE(orList(factory, {u"1", u"2", u"3"}) == u"1, 2 hoặc 3");
+    REQUIRE(orList(factory, {u"1", u"2", u"3", u"4"}) == u"1, 2, 3 hoặc 4");
+    REQUIRE(orList(factory, {u"Joe", u"John Junior", u"Jane", u"Joan"}) == u"Joe, John Junior, Jane hoặc Joan");
+}
+
+TEST_CASE("ListTest#testListHiLatn")
+{
+    auto factory = getCommonConceptFactory(inflection::util::ULocale("hi", "Latn"));
+
+    REQUIRE(andList(factory, {u"1"}) == u"1");
+    REQUIRE(andList(factory, {u"1", u"2"}) == u"1 aur 2");
+    REQUIRE(andList(factory, {u"1", u"2", u"3"}) == u"1, 2, aur 3");
+    REQUIRE(andList(factory, {u"1", u"2", u"3", u"4"}) == u"1, 2, 3, aur 4");
+    REQUIRE(andList(factory, {u"Joe", u"John Junior", u"Jane", u"Joan"}) == u"Joe, John Junior, Jane, aur Joan");
+
+    REQUIRE(orList(factory, {u"1"}) == u"1");
+    REQUIRE(orList(factory, {u"1", u"2"}) == u"1 yaa 2");
+    REQUIRE(orList(factory, {u"1", u"2", u"3"}) == u"1, 2 yaa 3");
+    REQUIRE(orList(factory, {u"1", u"2", u"3", u"4"}) == u"1, 2, 3 yaa 4");
+    REQUIRE(orList(factory, {u"Joe", u"John Junior", u"Jane", u"Joan"}) == u"Joe, John Junior, Jane yaa Joan");
+}
+
+TEST_CASE("ListTest#testListUk")
+{
+    auto factory = getCommonConceptFactory(inflection::util::LocaleUtils::UKRAINIAN());
+
+    REQUIRE(andList(factory, {u"1"}) == u"1");
+    REQUIRE(andList(factory, {u"1", u"2"}) == u"1 і 2");
+    REQUIRE(andList(factory, {u"1", u"2", u"3"}) == u"1, 2 і 3");
+    REQUIRE(andList(factory, {u"1", u"2", u"3", u"4"}) == u"1, 2, 3 і 4");
+    REQUIRE(andList(factory, {u"Joe", u"John Junior", u"Jane", u"Joan"}) == u"Joe, John Junior, Jane і Joan");
+
+    REQUIRE(orList(factory, {u"1"}) == u"1");
+    REQUIRE(orList(factory, {u"1", u"2"}) == u"1 або 2");
+    REQUIRE(orList(factory, {u"1", u"2", u"3"}) == u"1, 2 або 3");
+    REQUIRE(orList(factory, {u"1", u"2", u"3", u"4"}) == u"1, 2, 3 або 4");
+    REQUIRE(orList(factory, {u"Joe", u"John Junior", u"Jane", u"Joan"}) == u"Joe, John Junior, Jane або Joan");
+}
+
 TEST_CASE("ListTest#testClone")
 {
     static constexpr int32_t MAXIMUM_WORDS_TO_TEST { 3 };

@@ -7,8 +7,10 @@
 #include <inflection/grammar/synthesis/fwd.hpp>
 #include <inflection/dialog/DefaultArticleLookupFunction.hpp>
 #include <inflection/dialog/fwd.hpp>
+#include <inflection/dictionary/fwd.hpp>
 #include <string>
 #include <map>
+#include <tuple>
 #include <vector>
 
 class inflection::grammar::synthesis::GrammarSynthesizerUtil final
@@ -16,7 +18,7 @@ class inflection::grammar::synthesis::GrammarSynthesizerUtil final
 public:
     static bool checkSignificantTokenForInflection(const ::inflection::tokenizer::Token &token);
     static ::std::vector<::std::u16string> getSignificantWords(const ::inflection::tokenizer::TokenChain& tokenChain);
-    static std::u16string getStringFromInflectedSignificantWords(const inflection::tokenizer::TokenChain& tokenChain, ::std::vector<::std::u16string> inflectedSignificantWords);
+    static std::u16string getStringFromInflectedSignificantWords(const inflection::tokenizer::TokenChain& tokenChain, const ::std::vector<::std::u16string>& inflectedSignificantWords);
     static ::std::u16string inflectSignificantWords(const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, const ::inflection::tokenizer::TokenChain& tokenChain, const ::inflection::grammar::synthesis::SignificantTokenInflector& inflector);
     static ::std::u16string getFeatureValue(const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, const ::inflection::dialog::SemanticFeature& semanticFeature);
     static bool hasFeature(const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, const ::inflection::dialog::SemanticFeature* semanticFeature);
@@ -29,6 +31,7 @@ public:
     static void inflectAndAppendArticlePrefix(::std::u16string &displayString, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &displayValueConstraints, const ::inflection::dialog::DefaultArticleLookupFunction *articleLookupFunction, const ::inflection::dialog::DefaultArticleLookupFunction::ArticleDisplayValue* articleDisplayValue);
     static const inflection::tokenizer::Token* getFirstSignificantToken(const inflection::tokenizer::Token* tok);
     static const inflection::tokenizer::Token* getLastSignificantToken(const inflection::tokenizer::Token* tok);
+    static int32_t splitPrefix(std::u16string_view word, const inflection::dictionary::DictionaryMetaData& dictionary, int64_t& prefixGrammemes, int64_t& wordGrammemes, const std::vector<std::tuple<std::u16string_view, int64_t, int64_t>>& prefixesWithPOS);
 
 private:
     GrammarSynthesizerUtil() = delete;

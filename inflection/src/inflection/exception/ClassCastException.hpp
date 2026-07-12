@@ -20,6 +20,20 @@ public:
 
 public:
     /**
+     * Verifies that a non-null object pointer can be cast to the target type.
+     * There is no error if the pointer is null.
+     */
+    template<typename T, typename U>
+    static T verifyCast(U* u)
+    {
+        if (!u) return static_cast<T>(nullptr);
+        auto t = dynamic_cast<T>(u);
+        if (!t) throw ClassCastException();
+        return t;
+    }
+
+public:
+    /**
      * Default constructor
      */
     ClassCastException();

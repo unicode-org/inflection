@@ -36,18 +36,18 @@ void DaGrammarSynthesizer::addSemanticFeatures(::inflection::dialog::SemanticFea
     featureModel.putDefaultFeatureFunctionByName(WITH_PRONOUN_DEMONSTRATIVE, new DaGrammarSynthesizer_ArticleLookupFunction(featureModel, true, u"denne", u"dette", u"disse"));
     featureModel.setDefaultDisplayFunction(new DaGrammarSynthesizer_DaDisplayFunction(featureModel));
 
-    featureModel.putDefaultFeatureFunctionByName(GrammemeConstants::NUMBER, new ::inflection::dialog::DictionaryLookupFunction(::inflection::util::LocaleUtils::DANISH(), {GrammemeConstants::NUMBER_SINGULAR(), GrammemeConstants::NUMBER_PLURAL()}));
-    featureModel.putDefaultFeatureFunctionByName(GrammemeConstants::GENDER, new ::inflection::dialog::DictionaryLookupFunction(::inflection::util::LocaleUtils::DANISH(), {GrammemeConstants::GENDER_COMMON(), GrammemeConstants::GENDER_NEUTER()}));
-    featureModel.putDefaultFeatureFunctionByName(GrammemeConstants::DEFINITENESS, new ::inflection::dialog::DictionaryLookupFunction(::inflection::util::LocaleUtils::DANISH(), {GrammemeConstants::DEFINITENESS_DEFINITE(), GrammemeConstants::DEFINITENESS_INDEFINITE()}));
+    featureModel.putDefaultFeatureFunctionByName(GrammemeConstants::NUMBER, new ::inflection::dialog::DictionaryLookupFunction(::inflection::util::LocaleUtils::DANISH(), {GrammemeConstants::NUMBER_SINGULAR, GrammemeConstants::NUMBER_PLURAL}));
+    featureModel.putDefaultFeatureFunctionByName(GrammemeConstants::GENDER, new ::inflection::dialog::DictionaryLookupFunction(::inflection::util::LocaleUtils::DANISH(), {GrammemeConstants::GENDER_COMMON, GrammemeConstants::GENDER_NEUTER}));
+    featureModel.putDefaultFeatureFunctionByName(GrammemeConstants::DEFINITENESS, new ::inflection::dialog::DictionaryLookupFunction(::inflection::util::LocaleUtils::DANISH(), {GrammemeConstants::DEFINITENESS_DEFINITE, GrammemeConstants::DEFINITENESS_INDEFINITE}));
 }
 
 DaGrammarSynthesizer::Number DaGrammarSynthesizer::getNumber(const ::std::u16string* value) {
     if (value != nullptr) {
         const auto& valRef = *value;
-        if (valRef == GrammemeConstants::NUMBER_SINGULAR()) {
+        if (valRef == GrammemeConstants::NUMBER_SINGULAR) {
             return Number::singular;
         }
-        if (valRef == GrammemeConstants::NUMBER_PLURAL()) {
+        if (valRef == GrammemeConstants::NUMBER_PLURAL) {
             return Number::plural;
         }
     }
@@ -57,10 +57,10 @@ DaGrammarSynthesizer::Number DaGrammarSynthesizer::getNumber(const ::std::u16str
 DaGrammarSynthesizer::Gender DaGrammarSynthesizer::getGender(const ::std::u16string* value) {
     if (value != nullptr) {
         const auto& valRef = *value;
-        if (valRef == GrammemeConstants::GENDER_COMMON()) {
+        if (valRef == GrammemeConstants::GENDER_COMMON) {
             return Gender::common;
         }
-        if (valRef == GrammemeConstants::GENDER_NEUTER()) {
+        if (valRef == GrammemeConstants::GENDER_NEUTER) {
             return Gender::neuter;
         }
     }

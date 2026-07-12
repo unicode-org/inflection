@@ -1,0 +1,22 @@
+[
+  {
+    "type": "lexeme",
+    "id": "L705b1bf6",
+    "lemmas": {
+      "en": { "language": "en", "value": "Абердинский" }
+    },
+    "lexicalCategory": "Q34698",
+    "claims": {},
+    "forms": [
+      {
+        "id": "L705b1bf6-F1",
+        "representations": {
+          "en": { "language": "en", "value": "Абердинская" }
+        },
+        "grammaticalFeatures": { "case": "RandomWord" },
+        "claims": {}
+      }
+    ],
+    "senses": []
+  }
+]

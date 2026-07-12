@@ -3,6 +3,7 @@
  */
 #include <inflection/grammar/synthesis/ItGrammarSynthesizer_ItDisplayFunction.hpp>
 
+#include <inflection/dialog/DictionaryLookupFunction.hpp>
 #include <inflection/dialog/SemanticFeature.hpp>
 #include <inflection/dialog/SemanticFeatureModel_DisplayData.hpp>
 #include <inflection/dialog/DisplayValue.hpp>
@@ -39,23 +40,23 @@ ItGrammarSynthesizer_ItDisplayFunction::ItGrammarSynthesizer_ItDisplayFunction(c
     , partOfSpeechFeature(model.getFeature(GrammemeConstants::POS))
     , dictionary(*npc(::inflection::dictionary::DictionaryMetaData::createDictionary(::inflection::util::LocaleUtils::ITALIAN())))
     , dictionaryInflector(::inflection::util::LocaleUtils::ITALIAN(), {
-                {GrammemeConstants::POS_NOUN(),  GrammemeConstants::POS_ADJECTIVE(), GrammemeConstants::POS_VERB()},
-                {GrammemeConstants::PERSON_THIRD(), GrammemeConstants::PERSON_FIRST(), GrammemeConstants::PERSON_SECOND()},
-                {GrammemeConstants::NUMBER_SINGULAR(),  GrammemeConstants::NUMBER_PLURAL()},
-                {GrammemeConstants::GENDER_MASCULINE(), GrammemeConstants::GENDER_FEMININE()}
+                {GrammemeConstants::POS_NOUN,  GrammemeConstants::POS_ADJECTIVE, GrammemeConstants::POS_ARTICLE, GrammemeConstants::POS_VERB},
+                {GrammemeConstants::PERSON_THIRD, GrammemeConstants::PERSON_FIRST, GrammemeConstants::PERSON_SECOND},
+                {GrammemeConstants::NUMBER_SINGULAR,  GrammemeConstants::NUMBER_PLURAL},
+                {GrammemeConstants::GENDER_MASCULINE, GrammemeConstants::GENDER_FEMININE}
         }, {}, true)
     , tokenizer(::inflection::tokenizer::TokenizerFactory::createTokenizer(::inflection::util::LocaleUtils::ITALIAN()))
     , definiteArticleLookupFunction(model, ItGrammarSynthesizer::ARTICLE_DEFINITE, *npc(java_cast<const ItGrammarSynthesizer_DefiniteArticleLookupFunction*>(model.getDefaultFeatureFunction(*npc(model.getFeature(ItGrammarSynthesizer::ARTICLE_DEFINITE))))))
-    , indefiniteArticleLookupFunction(model, ItGrammarSynthesizer::ARTICLE_INDEFINITE)
+    , indefiniteArticleLookupFunction(model, *npc(java_cast<const inflection::dialog::DictionaryLookupFunction*>(model.getDefaultFeatureFunction(*npc(model.getFeature(GrammemeConstants::NUMBER))))), *npc(java_cast<const inflection::dialog::DictionaryLookupFunction*>(model.getDefaultFeatureFunction(*npc(model.getFeature(GrammemeConstants::GENDER))))), ItGrammarSynthesizer::ARTICLE_INDEFINITE)
     , definitenessDisplayFunction(model, &definiteArticleLookupFunction, ItGrammarSynthesizer::ARTICLE_DEFINITE, &indefiniteArticleLookupFunction, ItGrammarSynthesizer::ARTICLE_INDEFINITE)
 {
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryPlural, {GrammemeConstants::NUMBER_PLURAL()}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryMasculine, {GrammemeConstants::GENDER_MASCULINE()}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryFeminine, {GrammemeConstants::GENDER_FEMININE()}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryPreposition, {GrammemeConstants::POS_ADPOSITION()}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryVerb, {GrammemeConstants::POS_VERB()}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryPlural, {GrammemeConstants::NUMBER_PLURAL}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryMasculine, {GrammemeConstants::GENDER_MASCULINE}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryFeminine, {GrammemeConstants::GENDER_FEMININE}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryPreposition, {GrammemeConstants::POS_ADPOSITION}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryVerb, {GrammemeConstants::POS_VERB}));
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&importantVerbMask, {
-        GrammemeConstants::TENSE_PAST(), GrammemeConstants::VERBTYPE_PARTICIPLE()
+        GrammemeConstants::TENSE_PAST, GrammemeConstants::VERBTYPE_PARTICIPLE
     }));
 }
 

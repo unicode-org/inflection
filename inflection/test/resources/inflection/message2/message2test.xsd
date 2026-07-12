@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2026 Unicode Incorporated and others. All rights reserved.
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:element name="message2test">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="test"/>
+            </xs:sequence>
+            <xs:attribute name="locale" use="required" type="xs:NCName"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="test">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="params"/>
+                <xs:element ref="source"/>
+                <xs:element ref="print"/>
+                <xs:element minOccurs="0" ref="speak"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="params">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="param"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="param">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="value"/>
+            </xs:sequence>
+            <xs:attribute name="name" use="required" type="xs:NCName"/>
+            <!-- The accepted "type" values are "String", "Number", "String[]"
+                 and "SemanticConcept".
+                 "String[]" is not an xs:NCName, so the attribute type is xs:string.
+                 A "String[]" param carries one or more <value> children.
+                 A "SemanticConcept" param carries one or more <value> children, each
+                 optionally bearing a "constraint" attribute (space-delimited grammemes). -->
+            <xs:attribute name="type" use="required" type="xs:string"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="value">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:string">
+                    <xs:attribute name="constraint" use="optional" type="xs:string"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="source" type="xs:string"/>
+    <!-- <print> holds the expected formatted output as text, OR is empty with an
+         "error" attribute naming the expected UErrorCode (e.g. U_MF_FORMATTING_ERROR). -->
+    <xs:element name="print">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:string">
+                    <xs:attribute name="error" use="optional" type="xs:string"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="speak" type="xs:string"/>
+</xs:schema>

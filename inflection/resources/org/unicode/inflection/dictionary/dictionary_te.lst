@@ -1,0 +1,108 @@
+అక: singular nominative noun inflection=19
+అక్షరము: singular noun inflection=7
+అబ్బాయి: singular direct oblique masculine noun inflection=b
+అబ్బాయిల: plural oblique masculine noun inflection=b
+అబ్బాయిలు: plural direct masculine noun inflection=b
+అమ్మ: nominative noun inflection=3
+అమ్మాయి: singular direct oblique feminine noun inflection=d
+అమ్మాయిల: plural oblique feminine noun inflection=d
+అమ్మాయిలు: plural direct feminine noun inflection=d
+ఉత్తరము: singular neuter noun inflection=6
+ఉత్తరములు: plural neuter noun inflection=6
+ఉత్తరలు: plural feminine noun inflection=12
+ఉత్తరాలు: plural noun inflection=8
+కిలోమీటరు: singular direct oblique neuter noun inflection=18
+కిలోమీటర్లు: plural direct neuter noun inflection=18
+కీర్తన: singular neuter noun inflection=6
+కీర్తనలు: plural neuter noun inflection=6
+కూర: noun inflection=a
+కొత్త: positive adjective inflection=4
+ఖైదీ: singular noun inflection=1
+ఖైదీలు: plural noun inflection=1
+గంట: singular direct oblique neuter noun inflection=15
+గంటల: plural oblique neuter noun inflection=15
+గంటలు: plural direct neuter noun inflection=15
+గడ్డము: singular noun inflection=1
+గడ్డములు: plural noun inflection=1
+గ్రంథము: singular noun inflection=1
+గ్రంథములు: plural noun inflection=1
+గ్రహము: singular masculine noun inflection=10
+గ్రహములు: plural masculine noun inflection=10
+చతుర్భుజి: singular noun inflection=7
+డిగ్రీ: singular direct oblique neuter noun inflection=1a
+డిగ్రీలు: plural direct neuter noun inflection=1a
+తల్లి: singular feminine noun inflection=9
+తల్లులు: plural feminine noun inflection=9
+తాబేలు: nominative noun inflection=3
+దక్షిణములు: plural neuter noun inflection=13
+దక్షిణలు: plural noun inflection=14
+దక్షిణాలు: plural noun inflection=8
+దిక్సూచులు: plural noun inflection=c
+నక్షత్రము: singular noun inflection=1
+నక్షత్రములు: plural noun inflection=1
+నిమిషం: singular direct oblique neuter noun inflection=5
+నిమిషాల: plural oblique neuter noun inflection=5
+నిమిషాలు: plural direct neuter noun inflection=5
+నీరు: singular neuter noun inflection=e
+నీళ్లు: plural neuter noun inflection=e
+పక్షి: singular nominative noun inflection=1b
+పక్షులు: plural nominative noun inflection=1b
+పాత: positive adjective inflection=4
+పాల: plural genitive neuter noun inflection=16
+పాలు: plural nominative neuter noun inflection=16
+పిల్లి: singular noun inflection=2
+పిల్లులు: plural noun inflection=2
+పుస్తకం: singular direct oblique neuter noun inflection=5
+పుస్తకాల: plural oblique neuter noun inflection=5
+పుస్తకాలు: plural direct neuter noun inflection=5
+బంతి: singular noun inflection=2
+బంతులు: plural noun inflection=2
+బిడాలము: singular noun inflection=1
+బిడాలములు: plural noun inflection=1
+భాష: singular noun inflection=1
+భాషలు: plural noun inflection=1
+మనిషి: singular neuter noun inflection=f
+మనుషులు : plural neuter noun inflection=f
+మార్జారము: singular nominative noun inflection=11
+మార్జారములు: plural nominative noun inflection=11
+మార్జాలము: singular noun inflection=1
+మార్జాలములు: plural noun inflection=1
+మున్నగువారు: adjective inflection=17
+యముడు: singular proper-noun
+సత్యనారాయణ: singular nominative proper-noun
+==============================================
+                       Source: wikidata-20260708-lexemes.json 
+                  Lemma terms:      86
+         Unusable lemma terms:      44
+       Incoming surface forms:      79
+                Surface forms:      72
+      Collapsed surface forms:       7  (8.9%)
+       Unusable surface forms:       0
+                 Usable terms:      72  (100%)
+           Unclassified terms:       0    (0%)
+==============================================
+Case:
+    direct:                   14 (19.4%)
+    oblique:                  12 (16.7%)
+    nominative:                9 (12.5%)
+    genitive:                  1  (1.4%)
+
+ComparisonDegree:
+    positive:                  2  (2.8%)
+
+Gender:
+    neuter:                   24 (33.3%)
+    feminine:                  6  (8.3%)
+    masculine:                 5  (6.9%)
+
+Number:
+    plural:                   37 (51.4%)
+    singular:                 29 (40.3%)
+
+PartOfSpeech:
+    noun:                     67 (93.1%)
+    adjective:                 3  (4.2%)
+    proper-noun:               2  (2.8%)
+
+License: Creative Commons CC0 License (https://creativecommons.org/publicdomain/zero/1.0/)
+generated with options: --language te --inflection-types noun,adjective

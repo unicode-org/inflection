@@ -7,7 +7,6 @@
 #include <inflection/resources/fwd.hpp>
 #include <inflection/util/ULocale.hpp>
 #include <string>
-#include <map>
 
 /**
  * @brief Provides registration capabilities for registering data for Inflection to utilize.

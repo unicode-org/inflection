@@ -8,7 +8,6 @@
 #include <inflection/dictionary/DictionaryMetaData_MMappedDictionary.hpp>
 #include <inflection/npc.hpp>
 #include <string>
-#include <map>
 
 namespace inflection::dictionary {
 
@@ -26,9 +25,7 @@ Inflector::Inflector(inflection::util::MemoryMappedFile& memoryMappedFile, const
 {
 }
 
-Inflector::~Inflector()
-{
-}
+Inflector::~Inflector() = default;
 
 std::optional<Inflector_InflectionPattern> Inflector::getInflectionPatternByName(std::u16string_view name) const
 {
@@ -47,11 +44,6 @@ void Inflector::getInflectionPatternsForWord(std::u16string_view word, ::std::ve
             inflectionPatterns.push_back(mmappedDictionary.getInflectionPattern(identifier));
         }
     }
-}
-
-::std::vector<Inflector_InflectionPattern> Inflector::getInflectionPatternsBySuffix(std::u16string_view suffix) const
-{
-    return mmappedDictionary.getInflectionPatternsFromSuffix(suffix);
 }
 
 } // namespace inflection::dictionary

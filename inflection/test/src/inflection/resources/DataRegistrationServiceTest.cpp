@@ -6,6 +6,12 @@
 
 #include <inflection/resources/DataRegistrationService.hpp>
 #include <inflection/util/ULocale.hpp>
+#include <filesystem>
+
+static std::string nativePath(const std::string& posixPath)
+{
+    return std::filesystem::path(posixPath).make_preferred().string();
+}
 
 TEST_CASE("DataRegistrationServiceTest#testEmpty")
 {
@@ -27,9 +33,9 @@ TEST_CASE("DataRegistrationServiceTest#testSomeLanguagesPopulated")
     
     REQUIRE(enPath == ::inflection::resources::DataRegistrationService::getDataPathForLocale(inflection::util::ULocale("en")));
 
-    REQUIRE(::inflection::resources::DataRegistrationService::getDataPathForLocale(latin) == "/test/path");
-    REQUIRE(::inflection::resources::DataRegistrationService::getDataPathForLocale(churchSlavic) == "/test/path2");
-    REQUIRE(::inflection::resources::DataRegistrationService::getDataPathForLocale(ancientGreek) == "/test/path3");
+    REQUIRE(::inflection::resources::DataRegistrationService::getDataPathForLocale(latin) == nativePath("/test/path"));
+    REQUIRE(::inflection::resources::DataRegistrationService::getDataPathForLocale(churchSlavic) == nativePath("/test/path2"));
+    REQUIRE(::inflection::resources::DataRegistrationService::getDataPathForLocale(ancientGreek) == nativePath("/test/path3"));
 
     // reset
     CHECK_THROWS(::inflection::resources::DataRegistrationService::registerDataPathForLocale(latin, la));
@@ -39,9 +45,9 @@ TEST_CASE("DataRegistrationServiceTest#testSomeLanguagesPopulated")
     CHECK_THROWS(::inflection::resources::DataRegistrationService::registerDataPathForLocale(ancientGreek, grc));
     CHECK_NOTHROW(::inflection::resources::DataRegistrationService::registerDataPathForLocale(ancientGreek, "/test/path3"));
 
-    REQUIRE("/test/path" == ::inflection::resources::DataRegistrationService::getDataPathForLocale(latin));
-    REQUIRE("/test/path2" == ::inflection::resources::DataRegistrationService::getDataPathForLocale(churchSlavic));
-    REQUIRE("/test/path3" == ::inflection::resources::DataRegistrationService::getDataPathForLocale(ancientGreek));
+    REQUIRE(nativePath("/test/path") == ::inflection::resources::DataRegistrationService::getDataPathForLocale(latin));
+    REQUIRE(nativePath("/test/path2") == ::inflection::resources::DataRegistrationService::getDataPathForLocale(churchSlavic));
+    REQUIRE(nativePath("/test/path3") == ::inflection::resources::DataRegistrationService::getDataPathForLocale(ancientGreek));
 }
 
 TEST_CASE("DataRegistrationServiceTest#testSomeLocalesPopulated")
@@ -57,16 +63,16 @@ TEST_CASE("DataRegistrationServiceTest#testSomeLocalesPopulated")
     
     REQUIRE(en == ::inflection::resources::DataRegistrationService::getDataPathForLocale(inflection::util::ULocale("en_US")));
 
-    REQUIRE(::inflection::resources::DataRegistrationService::getDataPathForLocale(inflection::util::ULocale("ia_US")) == "/test/path");
-    REQUIRE(::inflection::resources::DataRegistrationService::getDataPathForLocale(inflection::util::ULocale("arc_IQ")) == "/test/path2");
-    REQUIRE(::inflection::resources::DataRegistrationService::getDataPathForLocale(inflection::util::ULocale("egy_EG")) == "/test/path3");
+    REQUIRE(::inflection::resources::DataRegistrationService::getDataPathForLocale(inflection::util::ULocale("ia_US")) == nativePath("/test/path"));
+    REQUIRE(::inflection::resources::DataRegistrationService::getDataPathForLocale(inflection::util::ULocale("arc_IQ")) == nativePath("/test/path2"));
+    REQUIRE(::inflection::resources::DataRegistrationService::getDataPathForLocale(inflection::util::ULocale("egy_EG")) == nativePath("/test/path3"));
 
     // reset
     CHECK_THROWS(::inflection::resources::DataRegistrationService::registerDataPathForLocale(inflection::util::ULocale("ia_US"), ia));
     CHECK_THROWS(::inflection::resources::DataRegistrationService::registerDataPathForLocale(inflection::util::ULocale("arc_IQ"), cu));
     CHECK_THROWS(::inflection::resources::DataRegistrationService::registerDataPathForLocale(inflection::util::ULocale("egy_EG"), egy));
 
-    REQUIRE("/test/path" == ::inflection::resources::DataRegistrationService::getDataPathForLocale(inflection::util::ULocale("ia_US")));
-    REQUIRE("/test/path2" == ::inflection::resources::DataRegistrationService::getDataPathForLocale(inflection::util::ULocale("arc_IQ")));
-    REQUIRE("/test/path3" == ::inflection::resources::DataRegistrationService::getDataPathForLocale(inflection::util::ULocale("egy_EG")));
+    REQUIRE(nativePath("/test/path") == ::inflection::resources::DataRegistrationService::getDataPathForLocale(inflection::util::ULocale("ia_US")));
+    REQUIRE(nativePath("/test/path2") == ::inflection::resources::DataRegistrationService::getDataPathForLocale(inflection::util::ULocale("arc_IQ")));
+    REQUIRE(nativePath("/test/path3") == ::inflection::resources::DataRegistrationService::getDataPathForLocale(inflection::util::ULocale("egy_EG")));
 }

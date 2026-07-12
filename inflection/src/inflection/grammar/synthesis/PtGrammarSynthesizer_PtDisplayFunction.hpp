@@ -7,7 +7,6 @@
 #include <inflection/dialog/DefinitenessDisplayFunction.hpp>
 #include <inflection/dialog/DictionaryLookupInflector.hpp>
 #include <inflection/dictionary/fwd.hpp>
-#include <inflection/dictionary/Inflector.hpp>
 #include <inflection/fwd.hpp>
 #include <inflection/grammar/synthesis/fwd.hpp>
 #include <inflection/grammar/synthesis/PtGrammarSynthesizer_ArticleLookupFunction.hpp>

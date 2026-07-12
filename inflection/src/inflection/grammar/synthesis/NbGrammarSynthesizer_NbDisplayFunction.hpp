@@ -1,18 +1,17 @@
 /*
- * Copyright 2019-2024 Apple Inc. All rights reserved.
+ * Copyright 2019-2026 Apple Inc. All rights reserved.
  */
 #pragma once
 
 #include <inflection/grammar/synthesis/fwd.hpp>
 #include <inflection/dictionary/fwd.hpp>
-#include <inflection/dictionary/Inflector.hpp>
 #include <inflection/dialog/fwd.hpp>
 #include <inflection/dialog/DefaultDisplayFunction.hpp>
 #include <inflection/dialog/DictionaryLookupInflector.hpp>
 #include <inflection/grammar/synthesis/SignificantTokenInflector.hpp>
+#include <inflection/tokenizer/Tokenizer.hpp>
 #include <string>
 #include <vector>
-#include <inflection/dialog/DictionaryLookupFunction.hpp>
 
 class inflection::grammar::synthesis::NbGrammarSynthesizer_NbDisplayFunction
     : public virtual ::inflection::dialog::DefaultDisplayFunction
@@ -28,11 +27,11 @@ private:
     const ::inflection::dialog::SemanticFeature& caseFeature;
     const ::inflection::dialog::SemanticFeature& posFeature;
     const ::inflection::dictionary::DictionaryMetaData& dictionary;
-    const ::inflection::dictionary::Inflector &inflector;
     const ::std::unique_ptr<::inflection::tokenizer::Tokenizer> tokenizer;
     int64_t dictionaryAdjective {  };
     int64_t dictionaryNoun {  };
-    ::inflection::dialog::DictionaryLookupFunction genderLookupFunction;
+    int64_t ignoreGender {  };
+    const ::inflection::dialog::DictionaryLookupFunction& genderLookupFunction;
     ::inflection::dialog::DictionaryLookupInflector dictionaryInflector;
 
 private:
@@ -53,9 +52,9 @@ private:
     static ::std::u16string inflectGenitive(const ::std::u16string& string);
 
 public: /* package */
-    static ::std::u16string inflectAdjective(const ::std::u16string& lemma, const ::std::u16string& targetDefiniteness, const ::std::u16string& targetGender, const ::std::u16string& targetCount);
+    ::std::u16string inflectAdjective(const ::std::u16string& lemma, const ::std::u16string& targetDefiniteness, const ::std::u16string& targetGender, const ::std::u16string& targetCount) const;
 
-    explicit NbGrammarSynthesizer_NbDisplayFunction(const ::inflection::dialog::SemanticFeatureModel& model);
+    explicit NbGrammarSynthesizer_NbDisplayFunction(const ::inflection::dialog::SemanticFeatureModel& model, const ::inflection::dialog::DictionaryLookupFunction& genderLookupFunction);
     ~NbGrammarSynthesizer_NbDisplayFunction() override;
     NbGrammarSynthesizer_NbDisplayFunction(const NbGrammarSynthesizer_NbDisplayFunction&) = delete;
     NbGrammarSynthesizer_NbDisplayFunction& operator=(const NbGrammarSynthesizer_NbDisplayFunction&) = delete;

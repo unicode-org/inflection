@@ -1,15 +1,11 @@
 /*
- * Copyright 2017-2024 Apple Inc. All rights reserved.
+ * Copyright 2017-2026 Apple Inc. All rights reserved.
  */
 #pragma once
 
 #include <inflection/dialog/fwd.hpp>
-#include <inflection/dialog/SemanticFeature.hpp>
 #include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/Object.hpp>
-#include <map>
-#include <string>
-#include <utility>
 #include <vector>
 
 /**
@@ -54,6 +50,5 @@ public:
     ~SemanticFeatureModel_DisplayData() override;
 
 private:
-    friend class SemanticFeatureModel;
-    friend class DisplayValue;
+    SemanticFeatureModel_DisplayData& operator=(const SemanticFeatureModel_DisplayData& other) = delete;
 };

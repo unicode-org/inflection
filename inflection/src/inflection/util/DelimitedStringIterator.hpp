@@ -4,7 +4,7 @@
 #pragma once
 
 #include <inflection/util/fwd.hpp>
-#include <string>
+#include <cstdint>
 #include <string_view>
 
 class INFLECTION_INTERNAL_API inflection::util::DelimitedStringIterator
@@ -17,8 +17,10 @@ public:
     DelimitedStringIterator&    operator++();
 
     DelimitedStringIterator(std::u16string_view str, std::u16string_view delimiterString);
-    DelimitedStringIterator(const DelimitedStringIterator& other);
     ~DelimitedStringIterator();
+
+    DelimitedStringIterator(const DelimitedStringIterator& other) = delete;
+    DelimitedStringIterator& operator=(const DelimitedStringIterator&) = delete;
 
 private:
     void getNext();
@@ -28,6 +30,4 @@ private:
     std::u16string_view originalString {  };
     int32_t length {  };
     int32_t currentIndex {  };
-
-    DelimitedStringIterator& operator=(const DelimitedStringIterator&) = delete;
 };

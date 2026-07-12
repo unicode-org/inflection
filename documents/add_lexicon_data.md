@@ -26,6 +26,6 @@ Once you upload/enter data, it may take a few days for it to show up in the regu
 
 ### Preparing data
 
-Wikidata and directory-parser expect data in a specific format. A minimal set of JSON keys to add a noun is proveded [in this file](../data/tools/wikidata_sample.json). Full file specification is available at [Wikidata](https://www.wikidata.org/wiki/Wikidata:Lexicographical_data/Documentation).
+Wikidata and directory-parser expect data in a specific format. A minimal set of JSON keys to add a noun is provided [in this file](../data/tools/wikidata_sample.json). Full file specification is available at [Wikidata](https://www.wikidata.org/wiki/Wikidata:Lexicographical_data/Documentation).
 
 Category values, e.g. Q1084, are defined in [Grammar file](../inflection/tools/dictionary-parser/src/main/java/org/unicode/wikidata/Grammar.java).

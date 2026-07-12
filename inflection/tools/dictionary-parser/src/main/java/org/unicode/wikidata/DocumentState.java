@@ -132,7 +132,7 @@ final class DocumentState {
             }
             long endTime = System.currentTimeMillis();
             long elapsedTime = (endTime - startTime);
-            lexicalDictionaryStream.println("processed in " + (elapsedTime / 1000) + '.' + (elapsedTime % 1000) + " seconds");
+            System.out.println("processed in " + (elapsedTime / 1000) + '.' + (elapsedTime % 1000) + " seconds");
             lexicalDictionaryStream.println("License: Creative Commons CC0 License (https://creativecommons.org/publicdomain/zero/1.0/)");
             lexicalDictionaryStream.println("generated with options: " + String.join(" ", parserOptions.optionsUsedToInvoke));
         }

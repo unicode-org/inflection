@@ -1,0 +1,5 @@
+da/tokenizer.dictionary filter=lfs diff=lfs merge=lfs -text
+fi/tokenizer.dictionary filter=lfs diff=lfs merge=lfs -text
+nl/tokenizer.dictionary filter=lfs diff=lfs merge=lfs -text
+no/tokenizer.dictionary filter=lfs diff=lfs merge=lfs -text
+sv/tokenizer.dictionary filter=lfs diff=lfs merge=lfs -text

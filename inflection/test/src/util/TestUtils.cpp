@@ -12,7 +12,7 @@
 #include <inflection/npc.hpp>
 
 #include <stdlib.h>
-#include <dirent.h>
+#include <filesystem>
 #include <string>
 #include <sstream>
 #include <iostream>
@@ -60,7 +60,11 @@ std::tuple<std::unique_ptr<Catch::Session>, int, int> TestUtils::createSession(i
     } else {
 #ifdef INFLECTION_ROOT
         // Setting inflection root from compiler defintion
+#ifdef _WIN32
+        _putenv_s("INFLECTION_ROOT", INFLECTION_ROOT);
+#else
         setenv("INFLECTION_ROOT", INFLECTION_ROOT, 0);
+#endif
 #endif
     }
 
@@ -189,17 +193,13 @@ TestUtils::getTestResourcePath()
 ::std::vector<::std::string> TestUtils::listDirectoryContents(const std::string& dirPath)
 {
     ::std::vector<::std::string> files;
-    DIR* dirptr = opendir(dirPath.c_str());
-    if (dirptr == nullptr) {
+    std::error_code errorCode;
+    auto dirIter = std::filesystem::directory_iterator(dirPath, errorCode);
+    if (errorCode) {
         throw std::runtime_error(std::string("Not a valid path: ") + dirPath);
     }
-    struct dirent * dirEnt;
-    while ((dirEnt = readdir(dirptr)) != nullptr) {
-        if (strcmp(dirEnt->d_name, ".") == 0 || strcmp(dirEnt->d_name, "..") == 0) {
-            continue;
-        }
-        files.emplace_back(dirEnt->d_name);
+    for (const auto& entry : dirIter) {
+        files.emplace_back(entry.path().filename().string());
     }
-    closedir(dirptr);
     return files;
 }

@@ -51,6 +51,9 @@ public:
     typedef ::inflection::Object super;
 
 public:
+    /**
+     * Specifies the style of tokenization to use.
+     */
     enum TokenizationType {
         /**
          * This is the default tokenization style. This includes parsing of Siri specific explicit tokens,

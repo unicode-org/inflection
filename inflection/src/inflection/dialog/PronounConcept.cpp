@@ -11,13 +11,13 @@
 #include <inflection/exception/IllegalArgumentException.hpp>
 #include <inflection/exception/InvalidConfigurationException.hpp>
 #include <inflection/resources/DataResource.hpp>
+#include <inflection/util/ArrayUtils.hpp>
 #include <inflection/util/DelimitedStringIterator.hpp>
 #include <inflection/util/StringViewUtils.hpp>
 #include <inflection/npc.hpp>
 #include <unicode/ustring.h>
 #include <unicode/stringoptions.h>
 #include <algorithm>
-#include <map>
 #include <mutex>
 
 namespace inflection::dialog {
@@ -32,21 +32,27 @@ static constexpr char16_t CONSONANT_START[] = u"consonant-start";
 static constexpr char16_t VOWEL_END[] = u"vowel-end";
 static constexpr char16_t CONSONANT_END[] = u"consonant-end";
 
-const ::std::map<::std::u16string_view, const char16_t*>& LOCALE_FALLBACK_PAIRS() {
-    static auto LOCALE_FALLBACK_PAIRS_ = new ::std::map<::std::u16string_view, const char16_t*>(::inflection::resources::DataResource::getProperties(u"/org/unicode/inflection/inflection/pronoun.properties"));
-    return *npc(LOCALE_FALLBACK_PAIRS_);
-}
+static constexpr struct {
+    const char* from;
+    const char* to;
+} LOCALE_FALLBACK_PAIRS[] = {
+    {"wuu_CN", "zh"},
+    {"yue_HK", "yue_Hant"},
+    {"zh_HK", "yue_Hant"},
+    {"zh_TW", "zh_Hant"},
+};
 
 static std::pair<std::u16string, const char16_t *> getPronounTable(const inflection::util::ULocale& locale) {
     const char16_t * reader;
     auto localeItr(locale);
-    const auto& localeFallbackPairs(LOCALE_FALLBACK_PAIRS());
     while ((reader = ::inflection::resources::DataResource::getString(u"/org/unicode/inflection/inflection/pronoun_" + localeItr.toString() + u".csv", true)) == nullptr
            && !localeItr.getLanguage().empty())
     {
-        // We're falling back so that we can have es_ES and es_MX --> es and zh_TW --> zh_Hant.
-        if (const auto fallbackResult = localeFallbackPairs.find(localeItr.toString()); fallbackResult != localeFallbackPairs.end()) {
-            localeItr = util::ULocale(util::StringViewUtils::to_string(fallbackResult->second));
+        auto *fallbackResult = inflection::util::ArrayUtils::searchSorted<LOCALE_FALLBACK_PAIRS>(localeItr.getName(),
+            [](const auto& item) { return item.from; });
+
+        if (fallbackResult != nullptr) {
+            localeItr = util::ULocale(fallbackResult->to);
         }
         else {
             localeItr = localeItr.getFallback();

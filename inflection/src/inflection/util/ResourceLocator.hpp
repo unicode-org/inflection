@@ -15,7 +15,7 @@ public:
     static ::std::u16string getRootForLocale(const inflection::util::ULocale& locale);
 
 private:
-    static const char16_t* INFLECTION_ROOT_DIRECTORY();
+    static const ::std::u16string& INFLECTION_ROOT_DIRECTORY();
 
     static ::std::u16string getDirectoryFromEnvironment(const char* key, const void *dependentLibraryFunction);
 };

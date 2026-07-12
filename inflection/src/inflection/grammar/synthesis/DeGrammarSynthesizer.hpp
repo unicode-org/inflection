@@ -15,30 +15,34 @@ public:
 
     enum class Number {
         undefined,
+        plural,
         singular,
-        plural
     };
     static Number getNumber(const ::std::u16string* value);
 
     enum class Gender {
         undefined,
-        masculine,
         feminine,
-        neuter
+        masculine,
+        neuter,
     };
     static Gender getGender(const ::std::u16string* value);
 
     enum class Case {
         undefined,
-        nominative,
         accusative,
         dative,
-        genitive
+        genitive,
+        nominative,
     };
     static Case getCase(const ::std::u16string* value);
 
     typedef uint32_t LookupKey;
-    static LookupKey makeLookupKey(Number field0, Gender field1, Case field2);
+    static constexpr LookupKey makeLookupKey(Number field0, Gender field1, Case field2) {
+        return (static_cast<LookupKey>(field0) << 8)
+            | (static_cast<LookupKey>(field1) << 4)
+            | static_cast<LookupKey>(field2);
+    }
 
 private:
     DeGrammarSynthesizer() = default;
@@ -61,7 +65,7 @@ public:
     static constexpr auto WITH_DEMON_ARTICLE = u"withDemonArticle";
     static constexpr auto WITH_INTERROGATIVE_ARTICLE = u"withInterrogativeArticle";
     static constexpr auto DECLENSION = u"declension";
-    static const ::std::u16string& DECLENSION_STRONG();
-    static const ::std::u16string& DECLENSION_MIXED();
-    static const ::std::u16string& DECLENSION_WEAK();
+    static constexpr auto DECLENSION_STRONG = u"strong";
+    static constexpr auto DECLENSION_MIXED = u"mixed";
+    static constexpr auto DECLENSION_WEAK = u"weak";
 };

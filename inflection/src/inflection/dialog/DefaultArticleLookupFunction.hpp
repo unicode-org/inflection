@@ -6,6 +6,7 @@
 #include <inflection/dialog/fwd.hpp>
 #include <inflection/dialog/DefaultFeatureFunction.hpp>
 #include <string>
+#include <string_view>
 #include <vector>
 
 class inflection::dialog::DefaultArticleLookupFunction
@@ -22,9 +23,9 @@ private:
     const SemanticFeature* speakFeature {  };
 
 public: /* protected */
-    virtual SpeakableString* createPreposition(const ::inflection::dialog::DisplayValue& displayValue, const ::std::u16string& article) const;
+    virtual SpeakableString* createPreposition(const ::inflection::dialog::DisplayValue& displayValue, std::u16string_view article) const;
     virtual SpeakableString* createPreposition(const ::inflection::dialog::DisplayValue& displayValue, const SpeakableString& article) const;
-    virtual SpeakableString* createPostposition(const ::inflection::dialog::DisplayValue& displayValue, const ::std::u16string& article) const;
+    virtual SpeakableString* createPostposition(const ::inflection::dialog::DisplayValue& displayValue, std::u16string_view article) const;
     // Returns displayData for the articles with their constraints used in the article lookup function, needs to overriden in the derived class to be able to use it
     virtual ArticleDisplayData getPossibleArticles(const SemanticFeatureModel& model) const;
     virtual const char16_t* getDerivedSemanticName() const;

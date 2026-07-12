@@ -16,7 +16,7 @@ idr_registerDataPathForLocale(const char* locale, const char* path, UErrorCode* 
 {
     if (status != nullptr && U_SUCCESS(*status)) {
         try {
-            DataRegistrationService::registerDataPathForLocale(inflection::util::ULocale(npc(locale)), path);
+            DataRegistrationService::registerDataPathForLocale(inflection::util::ULocale(npc(locale)), npc(path));
         }
         catch (const ::std::exception& e) {
             inflection::util::TypeConversionUtils::convert(e, status);

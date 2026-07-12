@@ -29,33 +29,19 @@ const ::std::u16string& NlGrammarSynthesizer::DECLENSION_DECLINED()
 void NlGrammarSynthesizer::addSemanticFeatures(::inflection::dialog::SemanticFeatureModel& featureModel)
 {
     featureModel.putDefaultFeatureFunctionByName(ARTICLE_DEFINITE, new NlGrammarSynthesizer_ArticleLookupFunction(featureModel, false, u"de", u"het"));
-    featureModel.putDefaultFeatureFunctionByName(GrammemeConstants::NUMBER, new inflection::dialog::DictionaryLookupFunction(::inflection::util::LocaleUtils::DUTCH(), {GrammemeConstants::NUMBER_SINGULAR(), GrammemeConstants::NUMBER_PLURAL()}));
-    featureModel.putDefaultFeatureFunctionByName(GrammemeConstants::GENDER, new inflection::dialog::DictionaryLookupFunction(::inflection::util::LocaleUtils::DUTCH(), {GrammemeConstants::GENDER_MASCULINE(), GrammemeConstants::GENDER_FEMININE(), GrammemeConstants::GENDER_NEUTER()}));
+    featureModel.putDefaultFeatureFunctionByName(GrammemeConstants::NUMBER, new inflection::dialog::DictionaryLookupFunction(::inflection::util::LocaleUtils::DUTCH(), {GrammemeConstants::NUMBER_SINGULAR, GrammemeConstants::NUMBER_PLURAL}));
+    featureModel.putDefaultFeatureFunctionByName(GrammemeConstants::GENDER, new inflection::dialog::DictionaryLookupFunction(::inflection::util::LocaleUtils::DUTCH(), {GrammemeConstants::GENDER_MASCULINE, GrammemeConstants::GENDER_FEMININE, GrammemeConstants::GENDER_NEUTER}));
     featureModel.putDefaultFeatureFunctionByName(GrammemeConstants::DEFINITENESS, new NlGrammarSynthesizer_DefinitenessLookupFunction());
     featureModel.setDefaultDisplayFunction(new NlGrammarSynthesizer_NlDisplayFunction(featureModel));
 }
 
-static std::u16string_view AEIOU_SET()
-{
-    static auto AEIOU_SET_ = new std::u16string_view(u"aeiou");
-    return *npc(AEIOU_SET_);
-}
-
-static std::u16string_view BLNMRP_SET()
-{
-    static auto BLNMRP_SET_ = new std::u16string_view(u"blnmrpg");
-    return *npc(BLNMRP_SET_);
-}
-
-static std::u16string_view LRN_SET()
-{
-    static auto LRN_SET_ = new std::u16string_view(u"lrn");
-    return *npc(LRN_SET_);
-}
+static constexpr std::u16string_view AEIOU_SET(u"aeiou");
+static constexpr std::u16string_view BLNMRP_SET(u"blnmrpg");
+static constexpr std::u16string_view LRN_SET(u"lrn");
 
 bool NlGrammarSynthesizer::isVowelAtIndex(std::u16string_view str, int32_t index)
 {
-    return (AEIOU_SET().find(str[index])) != std::u16string_view::npos || (index > 0 && str[index] == u'j' && str[index - 1] == u'i');
+    return (AEIOU_SET.find(str[index])) != std::u16string_view::npos || (index > 0 && str[index] == u'j' && str[index - 1] == u'i');
 }
 
 void NlGrammarSynthesizer::guessDiminutive(::std::u16string* result, std::u16string_view word) {
@@ -72,7 +58,7 @@ void NlGrammarSynthesizer::guessDiminutive(::std::u16string* result, std::u16str
         } else if (len > 3 && guess[len - 3] == u't') {
             if (guess[len - 4] == u'\'') {
                 npc(result)->assign(guess, 0, len - 4);
-            } else if (len > 7 && guess[len - 4] == u'e' && (BLNMRP_SET().find(guess[len - 5]) != std::u16string_view::npos || (guess[len - 5] == u'g' && guess[len - 6] == u'n'))) {
+            } else if (len > 7 && guess[len - 4] == u'e' && (BLNMRP_SET.find(guess[len - 5]) != std::u16string_view::npos || (guess[len - 5] == u'g' && guess[len - 6] == u'n'))) {
                 if (guess[len - 6] == guess[len - 5] && isVowelAtIndex(guess, len - 7)) {
                     npc(result)->assign(guess, 0, len - 5);
                 } else {
@@ -84,7 +70,7 @@ void NlGrammarSynthesizer::guessDiminutive(::std::u16string* result, std::u16str
                 } else {
                     npc(result)->assign(guess, 0, len - 3);
                 }
-            } else if (LRN_SET().find(guess[len - 4]) != std::u16string_view::npos) {
+            } else if (LRN_SET.find(guess[len - 4]) != std::u16string_view::npos) {
                 npc(result)->assign(guess, 0, len - 3);
             }
         } else if (guess[len - 3] == u'\'') {
@@ -99,10 +85,10 @@ void NlGrammarSynthesizer::guessDiminutive(::std::u16string* result, std::u16str
 
 NlGrammarSynthesizer::Number NlGrammarSynthesizer::getNumber(const ::std::u16string& value) {
     if (!value.empty()) {
-        if (value == GrammemeConstants::NUMBER_SINGULAR()) {
+        if (value == GrammemeConstants::NUMBER_SINGULAR) {
             return Number::singular;
         }
-        if (value == GrammemeConstants::NUMBER_PLURAL()) {
+        if (value == GrammemeConstants::NUMBER_PLURAL) {
             return Number::plural;
         }
     }
@@ -111,13 +97,13 @@ NlGrammarSynthesizer::Number NlGrammarSynthesizer::getNumber(const ::std::u16str
 
 NlGrammarSynthesizer::Gender NlGrammarSynthesizer::getGender(const ::std::u16string& value) {
     if (!value.empty()) {
-        if (value == GrammemeConstants::GENDER_MASCULINE()) {
+        if (value == GrammemeConstants::GENDER_MASCULINE) {
             return Gender::masculine;
         }
-        if (value == GrammemeConstants::GENDER_FEMININE()) {
+        if (value == GrammemeConstants::GENDER_FEMININE) {
             return Gender::feminine;
         }
-        if (value == GrammemeConstants::GENDER_NEUTER()) {
+        if (value == GrammemeConstants::GENDER_NEUTER) {
             return Gender::neuter;
         }
     }
@@ -138,10 +124,10 @@ NlGrammarSynthesizer::Declension NlGrammarSynthesizer::getDeclension(const ::std
 
 NlGrammarSynthesizer::Case NlGrammarSynthesizer::getCase(const ::std::u16string& value) {
     if (!value.empty()) {
-        if (value == GrammemeConstants::CASE_GENITIVE()) {
+        if (value == GrammemeConstants::CASE_GENITIVE) {
             return Case::genitive;
         }
-        if (value == GrammemeConstants::CASE_NOMINATIVE()) {
+        if (value == GrammemeConstants::CASE_NOMINATIVE) {
             return Case::nominative;
         }
     }

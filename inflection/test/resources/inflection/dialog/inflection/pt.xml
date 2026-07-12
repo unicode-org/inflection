@@ -293,4 +293,14 @@
     <test><source gender="feminine">a</source><result exists="true">a</result></test>
     <test><source gender="feminine">os</source><result exists="true">as</result></test>
     <test><source gender="feminine">as</source><result exists="true">as</result></test>
+
+    <!-- edge cases -->
+    <!-- adjective-noun phrase returns unchanged -->
+    <test><source number="plural">grande casa</source><result>grande casa</result></test>
+    <!-- adverb-adjective phrase inflects only adjective -->
+    <test><source number="plural">muito grande</source><result>muito grandes</result></test>
+    <!-- adjective-adjective phrase inflects only second adjective -->
+    <test><source number="plural">verde escuro</source><result>verde escuros</result></test>
+    <!-- Guessing -->
+    <test><source number="plural">casa grande de qwxyz</source><result exists="false">casas grandes de qwxyzes</result></test>
 </inflectionTest>

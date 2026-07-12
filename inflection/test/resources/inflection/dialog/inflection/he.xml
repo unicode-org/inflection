@@ -148,6 +148,18 @@
     <test><source definiteness="definite">דלת מוסך</source><result>דלת המוסך</result></test>
     <test><source number="plural" definiteness="definite">דלת מוסך</source><result>דלתות המוסך</result></test>  <!-- several doors single garage -->
 
+    <!-- Test definiteness of prepositional phrases -->
+    <test><source definiteness="definite">מודעות לשיחות</source><result>המודעות לשיחות</result></test>
+    <test><source definiteness="definite">המודעות לשיחות</source><result>המודעות לשיחות</result></test> <!-- already definite -->
+    <test><source definiteness="definite">הזמנות לאירועים גדולים</source><result>הזמנות לאירועים גדולים</result></test> <!-- already definite, 3+ words -->
+
+    <!-- Test heuristic plurals via noun+adjective compounds (forces singleWordStemToPlural) -->
+    <test><source number="plural">אישה חדשה</source><result>נשים חדשות</result></test>
+    <test><source number="plural">שנה טובה</source><result>שנים טובות</result></test>
+    <test><source number="plural">מילה חדשה</source><result>מילים חדשות</result></test>
+    <test><source number="plural">תקווה חדשה</source><result>תקוות חדשות</result></test> <!-- ends in וה -->
+    <test><source number="plural">ספורטאי מקצועי</source><result>ספורטאים מקצועיים</result></test> <!-- ends in אי -->
+
     <!-- Organizer -->
     <test><source gender="feminine">מארגן</source><result>מארגנת</result></test>
 
@@ -239,6 +251,7 @@
     <test><source gender="feminine">לא משתתף</source><result>לא משתתפת</result></test>
     <!-- Allow/Don't Allow -->
     <test><source gender="feminine">אפשר</source><result>אפשרי</result></test>
+    <test><source gender="feminine" person="second">אל תאפשר</source><result>אל תאפשרי</result></test>
 
     <!-- Enter -->
     <test><source gender="feminine">הזן</source><result>הזיני</result></test>
@@ -274,7 +287,7 @@
     <!-- Demonstrative adjectives -->
     <!-- This/That/These are -->
     <test><source gender="feminine">זה</source><result>זו</result></test>
-<!--    <test><source gender="feminine">אלו הם</source><result>אלו הן</result></test>-->
+<!--     <test><source gender="feminine">אלו הם</source><result>אלו הן</result></test> -->
 
     <!-- Adjectives -->
     <!-- Take -->
@@ -293,7 +306,7 @@
     <test><source gender="feminine">הישאר</source><result>הישארי</result></test>
 
     <!-- Sit -->
-<!--    <test><source gender="feminine" pos="verb">שב</source><result>שבי</result></test>-->
+    <test><source gender="feminine" pos="verb" person="second">שב</source><result>שבי</result></test>
     <test><source gender="feminine">שב</source><result>שבה</result></test>
     <!-- Close (eyes) -->
     <test><source gender="feminine" pos="verb">עצום</source><result>עצמי</result></test>
@@ -433,6 +446,8 @@
     <test><source gender="feminine">הסיר</source><result>הסירה</result></test>
     <!-- Stopped -->
     <test><source gender="feminine">הפסיק</source><result>הפסיקה</result></test>
+    <!-- Suspended -->
+    <test><source gender="feminine" person="third">השעה</source><result>השעתה</result></test>
     <!-- Purchased -->
     <test><source gender="feminine">רכש</source><result>רכשה</result></test>
 
@@ -463,9 +478,13 @@
     <test><source gender="masculine">שלחה</source><result>שלח</result></test>
     <!-- Skipped -->
     <test><source gender="masculine">דילגה</source><result>דילג</result></test>
+    <!-- Started -->
+    <test><source gender="masculine">התחילה</source><result>התחיל</result></test>
 
     <!-- Took (a photo) -->
     <test><source gender="masculine">צילמה</source><result>צילם</result></test>
+    <!-- Went (for a walk/run) -->
+    <test><source gender="masculine" person="third">יצאה</source><result>יצא</result></test>
     <!-- Copied -->
     <test><source gender="feminine">העתיק</source><result>העתיקה</result></test>
     <!-- Duplicated -->

@@ -27,7 +27,8 @@ SerializedTrie::~SerializedTrie()
 ::inflection::util::MemoryMappedFile& SerializedTrie::validateHeader(::inflection::util::MemoryMappedFile& mappedFile, const std::u16string &corpusFile)
 {
     // Verify header starts with magic token
-    const char* magicMarker = mappedFile.readArray<char>(MAGIC_MARKER_LEN).data_ptr();
+    const char* magicMarker;
+    mappedFile.read(&magicMarker, MAGIC_MARKER_LEN);
     if (strncmp(magicMarker, MAGIC_MARKER, MAGIC_MARKER_LEN) != 0) {
         throw ::inflection::exception::IOException(u"Input file " + corpusFile + u" has an invalid header");
     }
@@ -39,6 +40,8 @@ SerializedTrie::~SerializedTrie()
     if (mappedFile.read<int16_t>() != ENDIANNESS_MARKER) {
         throw ::inflection::exception::IOException(u"Input file " + corpusFile + u" was built for a different architecture");
     }
+    mappedFile.read<uint16_t>(); // OPTIONS: currently unused.
+    mappedFile.readArray<char>(RESERVED_BYTES);
     return mappedFile;
 }
 

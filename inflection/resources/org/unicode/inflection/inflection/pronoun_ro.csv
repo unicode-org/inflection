@@ -1,0 +1,99 @@
+el,third,singular,masculine,nominative
+ea,third,singular,feminine,nominative
+ei,third,plural,masculine,nominative
+ele,third,plural,feminine,nominative
+tu,second,singular,gender,nominative
+voi,second,plural,gender,nominative
+eu,first,singular,gender,nominative
+noi,first,plural,gender,nominative
+îl,third,singular,masculine,accusative,unstressed
+o,third,singular,feminine,accusative,unstressed
+îi,third,plural,masculine,accusative,unstressed
+le,third,plural,feminine,accusative,unstressed
+te,second,singular,gender,accusative,unstressed
+vă,second,plural,gender,accusative,unstressed
+mă,first,singular,gender,accusative,unstressed
+ne,first,plural,gender,accusative,unstressed
+el,third,singular,masculine,accusative,stressed
+ea,third,singular,feminine,accusative,stressed
+ei,third,plural,masculine,accusative,stressed
+ele,third,plural,feminine,accusative,stressed
+tine,second,singular,gender,accusative,stressed
+voi,second,plural,gender,accusative,stressed
+mine,first,singular,gender,accusative,stressed
+noi,first,plural,gender,accusative,stressed
+îi,third,singular,gender,dative,unstressed
+le,third,plural,gender,dative,unstressed
+îți,second,singular,gender,dative,unstressed
+vă,second,plural,gender,dative,unstressed
+îmi,first,singular,gender,dative,unstressed
+ne,first,plural,gender,dative,unstressed
+lui,third,singular,masculine,dative,stressed
+ei,third,singular,feminine,dative,stressed
+lor,third,plural,gender,dative,stressed
+ție,second,singular,gender,dative,stressed
+vouă,second,plural,gender,dative,stressed
+mie,first,singular,gender,dative,stressed
+nouă,first,plural,gender,dative,stressed
+al lui,third,singular,masculine,genitive,dependency=singular,dependency=masculine
+al lui,third,singular,masculine,genitive,dependency=singular,dependency=neuter
+a lui,third,singular,masculine,genitive,dependency=singular,dependency=feminine
+al ei,third,singular,feminine,genitive,dependency=singular,dependency=masculine
+al ei,third,singular,feminine,genitive,dependency=singular,dependency=neuter
+a ei,third,singular,feminine,genitive,dependency=singular,dependency=feminine
+ai lui,third,singular,masculine,genitive,dependency=plural,dependency=masculine
+ale lui,third,singular,masculine,genitive,dependency=plural,dependency=neuter
+ale lui,third,singular,masculine,genitive,dependency=plural,dependency=feminine
+ai ei,third,singular,feminine,genitive,dependency=plural,dependency=masculine
+ale ei,third,singular,feminine,genitive,dependency=plural,dependency=neuter
+ale ei,third,singular,feminine,genitive,dependency=plural,dependency=feminine
+al lor,third,plural,gender,genitive,dependency=singular,dependency=masculine
+al lor,third,plural,gender,genitive,dependency=singular,dependency=neuter
+a lor,third,plural,gender,genitive,dependency=singular,dependency=feminine
+ai lor,third,plural,gender,genitive,dependency=plural,dependency=masculine
+ale lor,third,plural,gender,genitive,dependency=plural,dependency=neuter
+ale lor,third,plural,gender,genitive,dependency=plural,dependency=feminine
+al tău,second,singular,gender,genitive,dependency=singular,dependency=masculine
+al tău,second,singular,gender,genitive,dependency=singular,dependency=neuter
+a ta,second,singular,gender,genitive,dependency=singular,dependency=feminine
+ai tăi,second,singular,gender,genitive,dependency=plural,dependency=masculine
+ale tale,second,singular,gender,genitive,dependency=plural,dependency=neuter
+ale tale,second,singular,gender,genitive,dependency=plural,dependency=feminine
+al vostru,second,plural,gender,genitive,dependency=singular,dependency=masculine
+al vostru,second,plural,gender,genitive,dependency=singular,dependency=neuter
+a voastră,second,plural,gender,genitive,dependency=singular,dependency=feminine
+ai voștri,second,plural,gender,genitive,dependency=plural,dependency=masculine
+ale voastre,second,plural,gender,genitive,dependency=plural,dependency=neuter
+ale voastre,second,plural,gender,genitive,dependency=plural,dependency=feminine
+al meu,first,singular,gender,genitive,dependency=singular,dependency=masculine
+al meu,first,singular,gender,genitive,dependency=singular,dependency=neuter
+a mea,first,singular,gender,genitive,dependency=singular,dependency=feminine
+ai mei,first,singular,gender,genitive,dependency=plural,dependency=masculine
+ale mele,first,singular,gender,genitive,dependency=plural,dependency=neuter
+ale mele,first,singular,gender,genitive,dependency=plural,dependency=feminine
+al nostru,first,plural,gender,genitive,dependency=singular,dependency=masculine
+al nostru,first,plural,gender,genitive,dependency=singular,dependency=neuter
+a noastră,first,plural,gender,genitive,dependency=singular,dependency=feminine
+ai noștri,first,plural,gender,genitive,dependency=plural,dependency=masculine
+ale noastre,first,plural,gender,genitive,dependency=plural,dependency=neuter
+ale noastre,first,plural,gender,genitive,dependency=plural,dependency=feminine
+se,third,number,gender,accusative,unstressed,reflexive
+te,second,singular,gender,accusative,unstressed,reflexive
+vă,second,plural,gender,accusative,unstressed,reflexive
+mă,first,singular,gender,accusative,unstressed,reflexive
+ne,first,plural,gender,accusative,unstressed,reflexive
+pe sine,third,number,gender,accusative,stressed,reflexive
+pe tine,second,singular,gender,accusative,stressed,reflexive
+pe voi,second,plural,gender,accusative,stressed,reflexive
+pe mine,first,singular,gender,accusative,stressed,reflexive
+pe noi,first,plural,gender,accusative,stressed,reflexive
+își,third,number,gender,dative,unstressed,reflexive
+îți,second,singular,gender,dative,unstressed,reflexive
+vă,second,plural,gender,dative,unstressed,reflexive
+îmi,first,singular,gender,dative,unstressed,reflexive
+ne,first,plural,gender,dative,unstressed,reflexive
+sieși,third,number,gender,dative,stressed,reflexive
+ție,second,singular,gender,dative,stressed,reflexive
+vouă,second,plural,gender,dative,stressed,reflexive
+mie,first,singular,gender,dative,stressed,reflexive
+nouă,first,plural,gender,dative,stressed,reflexive

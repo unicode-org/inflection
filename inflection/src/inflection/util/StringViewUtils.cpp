@@ -34,15 +34,16 @@ std::u16string* StringViewUtils::replace(std::u16string* dest, std::u16string_vi
 
 ::std::u16string_view StringViewUtils::trim(std::u16string_view string)
 {
-    int32_t origLen = int32_t(string.length());
-    int32_t len = origLen;
+    int32_t len = int32_t(string.length());
     int32_t st = 0;
 
     while ((st < len) && (string[st] <= u' ')) {
         st++;
     }
-    while ((st < len) && (string[len - 1] <= u' ')) {
-        len--;
+    if (st < len) {
+        while (string[len - 1] <= u' ') {
+            len--;
+        }
     }
     return string.substr(st, len - st);
 }
@@ -50,35 +51,33 @@ std::u16string* StringViewUtils::replace(std::u16string* dest, std::u16string_vi
 bool StringViewUtils::isAllLowerCase(std::u16string_view string)
 {
     if (!string.empty()) {
-        int32_t size = int32_t(string.length());
-        char32_t cp;
+        auto size = static_cast<int32_t>(string.length());
+        UChar32 cp;
         for (int32_t i = 0; i < size; i += U16_LENGTH(cp)) {
-            cp = codePointAt(string, i);
-            if (cp != (char32_t)u_tolower(cp)) {
+            U16_GET(string, 0, i, size, cp);
+            if (cp != u_tolower(cp)) {
                 return false;
             }
         }
         return true;
-    } else {
-        return false;
     }
+    return false;
 }
 
 bool StringViewUtils::isAllUpperCase(std::u16string_view string)
 {
     if (!string.empty()) {
-        int32_t size = int32_t(string.length());
-        char32_t cp;
+        auto size = static_cast<int32_t>(string.length());
+        UChar32 cp;
         for (int32_t i = 0; i < size; i += U16_LENGTH(cp)) {
-            cp = codePointAt(string, i);
-            if (cp != char32_t(u_toupper(cp))) {
+            U16_GET(string, 0, i, size, cp);
+            if (cp != u_toupper(cp)) {
                 return false;
             }
         }
         return true;
-    } else {
-        return false;
     }
+    return false;
 }
 
 std::u16string StringViewUtils::capitalizeFirst(std::u16string_view string, const ULocale &locale)
@@ -239,13 +238,6 @@ StringViewUtils::join(const ::std::vector<::std::u16string>& strings, std::u16st
         }
         result.append(string);
     }
-    return result;
-}
-
-char16_t *StringViewUtils::strdup(const char16_t *str) {
-    auto len = u_strlen((const UChar *)str) + 1;
-    auto result = new char16_t[len];
-    u_memcpy((UChar *)result, (const UChar *)str, len);
     return result;
 }
 

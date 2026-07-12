@@ -3,6 +3,7 @@
  */
 #include <iostream>
 #include <fstream>
+#include <string>
 #include <vector>
 
 // A flushless endl. The std::endl flushes when it's not needed.

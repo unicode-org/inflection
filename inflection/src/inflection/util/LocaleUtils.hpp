@@ -124,6 +124,14 @@ public:
      */
     static const ::inflection::util::ULocale& SAUDI_ARABIA();
     /**
+     * bn: Bengali (Bangla)
+     */
+    static const ::inflection::util::ULocale& BANGLA();
+    /**
+     * bn_IN: Bengali (India)
+     */
+    static const ::inflection::util::ULocale& INDIA_BANGLA();
+    /**
      * bg: Bulgarian
      */
     static const ::inflection::util::ULocale& BULGARIAN();
@@ -211,7 +219,7 @@ public:
     /**
      * en_IN: English (India)
      */
-    static const ::inflection::util::ULocale& INDIAN_ENGLISH();
+    static const ::inflection::util::ULocale& INDIA_ENGLISH();
     /**
      * en_ZA: English (South Africa)
      */
@@ -276,6 +284,14 @@ public:
      * fr_CA: French (Canada)
      */
     static const ::inflection::util::ULocale& CANADIAN_FRENCH();
+    /**
+     * gu: Gujarati
+     */
+    static const ::inflection::util::ULocale& GUJARATI();
+    /**
+     * gu_IN: Gujarati (India)
+     */
+    static const ::inflection::util::ULocale& INDIA_GUJARATI();
     /**
      * he: Hebrew
      */
@@ -361,6 +377,14 @@ public:
      */
     static const ::inflection::util::ULocale& KOREA();
     /**
+     * kn: Kannada
+     */
+    static const ::inflection::util::ULocale& KANNADA();
+    /**
+     * kn_IN: Kannada (India)
+     */
+    static const ::inflection::util::ULocale& INDIA_KANNADA();
+    /**
      * lt: Lithuanian
      */
     static const ::inflection::util::ULocale& LITHUANIAN();
@@ -385,6 +409,14 @@ public:
      */
     static const ::inflection::util::ULocale& INDIA_MALAYALAM();
     /**
+     * mr: Marathi
+     */
+    static const ::inflection::util::ULocale& MARATHI();
+    /**
+     * mr_IN: Marathi (India)
+     */
+    static const ::inflection::util::ULocale& INDIA_MARATHI();
+    /**
      * nb: Norwegian Bokmål
      */
     static const ::inflection::util::ULocale& NORWEGIAN();
@@ -404,6 +436,22 @@ public:
      * nl_BE: Dutch (Belgium)
      */
     static const ::inflection::util::ULocale& BELGIUM_DUTCH();
+    /**
+     * or: Odia
+     */
+    static const ::inflection::util::ULocale& ODIA();
+    /**
+     * or_IN: Odia (India)
+     */
+    static const ::inflection::util::ULocale& INDIA_ODIA();
+    /**
+     * pa: Punjabi
+     */
+    static const ::inflection::util::ULocale& PUNJABI();
+    /**
+     * pa_IN: Punjabi (India)
+     */
+    static const ::inflection::util::ULocale& INDIA_PUNJABI();
     /**
      * pl: Polish
      */
@@ -465,6 +513,22 @@ public:
      */
     static const ::inflection::util::ULocale& SWEDEN();
     /**
+     * ta: Tamil
+     */
+    static const ::inflection::util::ULocale& TAMIL();
+    /**
+     * ta_IN: Tamil (India)
+     */
+    static const ::inflection::util::ULocale& INDIA_TAMIL();
+    /**
+     * te: Telugu
+     */
+    static const ::inflection::util::ULocale& TELUGU();
+    /**
+     * te_IN: Telugu (India)
+     */
+    static const ::inflection::util::ULocale& INDIA_TELUGU();
+    /**
      * th: Thai
      */
     static const ::inflection::util::ULocale& THAI();
@@ -488,6 +552,18 @@ public:
      * uk_UA: Ukrainian (Ukraine)
      */
     static const ::inflection::util::ULocale& UKRAINE();
+    /**
+     * ur: Urdu
+     */
+    static const ::inflection::util::ULocale& URDU();
+    /**
+     * ur_IN: Urdu (India)
+     */
+    static const ::inflection::util::ULocale& INDIA_URDU();
+    /**
+     * ur_PK: Urdu (Pakistan)
+     */
+    static const ::inflection::util::ULocale& PAKISTAN_URDU();
     /**
      * vi: Vietnamese
      */

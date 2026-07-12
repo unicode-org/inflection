@@ -39,6 +39,7 @@ static ::std::map<inflection::dialog::SemanticFeature, ::std::u16string> createC
 TEST_CASE("SemanticFeatureModelTest#testEquality")
 {
     ::inflection::dialog::SemanticFeatureModel originalModel(::inflection::util::LocaleUtils::ENGLISH());
+    auto speakFeature = originalModel.getFeature(inflection::dialog::SemanticFeatureModel::SPEAK);
     ::std::map<::inflection::dialog::SemanticValue, ::inflection::dialog::SemanticFeatureModel_DisplayData> semanticValueMap({
         {::inflection::dialog::SemanticValue(u"default", u"val1"), ::inflection::dialog::SemanticFeatureModel_DisplayData({})},
         {::inflection::dialog::SemanticValue(u"default", u"val2"), ::inflection::dialog::SemanticFeatureModel_DisplayData({
@@ -53,6 +54,10 @@ TEST_CASE("SemanticFeatureModelTest#testEquality")
             ::inflection::dialog::DisplayValue(u"val2.1", createConstraints(&originalModel, {})),
             ::inflection::dialog::DisplayValue(u"val2.2", createConstraints(&originalModel, {}))
         })},
+        {::inflection::dialog::SemanticValue(u"default", u"val5"), ::inflection::dialog::SemanticFeatureModel_DisplayData({
+            ::inflection::dialog::DisplayValue(inflection::dialog::SpeakableString(u"val5.1"), *npc(speakFeature), createConstraints(&originalModel, {u"speak=speak5.1"})),
+            ::inflection::dialog::DisplayValue(inflection::dialog::SpeakableString(u"val5.1", u"speak5.1"), *npc(speakFeature))
+        })},
     });
     REQUIRE(semanticValueMap.find(::inflection::dialog::SemanticValue(u"default", u"val1"))->second == semanticValueMap.find(::inflection::dialog::SemanticValue(u"default", u"val1"))->second);
     REQUIRE_FALSE(semanticValueMap.find(::inflection::dialog::SemanticValue(u"default", u"val1"))->second != semanticValueMap.find(::inflection::dialog::SemanticValue(u"default", u"val1"))->second);
@@ -64,6 +69,7 @@ TEST_CASE("SemanticFeatureModelTest#testEquality")
     REQUIRE_FALSE(semanticValueMap.find(::inflection::dialog::SemanticValue(u"default", u"val2"))->second.getValues()[0] != semanticValueMap.find(::inflection::dialog::SemanticValue(u"default", u"val3"))->second.getValues()[0]);
     REQUIRE(semanticValueMap.find(::inflection::dialog::SemanticValue(u"default", u"val2"))->second.getValues()[0] != semanticValueMap.find(::inflection::dialog::SemanticValue(u"default", u"val3"))->second.getValues()[1]);
     REQUIRE_FALSE(semanticValueMap.find(::inflection::dialog::SemanticValue(u"default", u"val2"))->second.getValues()[0] == semanticValueMap.find(::inflection::dialog::SemanticValue(u"default", u"val3"))->second.getValues()[1]);
+    REQUIRE(semanticValueMap.find(::inflection::dialog::SemanticValue(u"default", u"val5"))->second.getValues()[0] == semanticValueMap.find(::inflection::dialog::SemanticValue(u"default", u"val5"))->second.getValues()[1]);
 }
 
 TEST_CASE("SemanticFeatureModelTest#testSemanticFeature")

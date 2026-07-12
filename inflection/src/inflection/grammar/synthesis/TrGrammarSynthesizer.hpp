@@ -4,7 +4,6 @@
 #pragma once
 
 #include <inflection/dictionary/fwd.hpp>
-#include <icu4cxx/UnicodeSet.hpp>
 #include <inflection/dialog/fwd.hpp>
 #include <inflection/grammar/synthesis/fwd.hpp>
 #include <string>
@@ -74,5 +73,4 @@ public:
     static constexpr auto COPULA = u"copula";
     static constexpr auto INTERROGATIVE_ARTICLE = u"interrogativeArticle";
     static constexpr auto DE_CONJUNCTION = u"deConjunction";
-    static const ::icu4cxx::UnicodeSet& SEPARATOR_SPLITTER();
 };

@@ -27,7 +27,6 @@ private:
     int64_t dictionaryDiminutive {  };
     int64_t dictionaryNoun {  };
     int64_t dictionaryAdjective {  };
-    ::std::set<::std::u16string> fugenElements { u"s" };
     const ::inflection::dialog::SemanticFeature& countFeature;
     const ::inflection::dialog::SemanticFeature& genderFeature;
     const ::inflection::dialog::SemanticFeature& sizeFeature;

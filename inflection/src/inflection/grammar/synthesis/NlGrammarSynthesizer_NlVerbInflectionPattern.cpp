@@ -23,9 +23,9 @@ NlGrammarSynthesizer_NlVerbInflectionPattern::NlGrammarSynthesizer_NlVerbInflect
     , posFeature(*npc(model.getFeature(GrammemeConstants::POS)))
     , dictionary(*npc(::inflection::dictionary::DictionaryMetaData::createDictionary(::inflection::util::LocaleUtils::DUTCH())))
 {
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryVerb, {GrammemeConstants::POS_VERB()}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionarySingular, {GrammemeConstants::NUMBER_SINGULAR()}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryPlural, {GrammemeConstants::NUMBER_PLURAL()}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryVerb, {GrammemeConstants::POS_VERB}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionarySingular, {GrammemeConstants::NUMBER_SINGULAR}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryPlural, {GrammemeConstants::NUMBER_PLURAL}));
 }
 
 NlGrammarSynthesizer_NlVerbInflectionPattern::~NlGrammarSynthesizer_NlVerbInflectionPattern()
@@ -38,7 +38,7 @@ NlGrammarSynthesizer_NlVerbInflectionPattern::~NlGrammarSynthesizer_NlVerbInflec
     auto targetCount = getGrammaticalNumber(constraints);
     if (targetCount == NlGrammarSynthesizer::Number::undefined
         || (wordGrammemes & dictionaryVerb) == 0
-        || (!requestedPOS.empty() && requestedPOS != GrammemeConstants::POS_VERB()))
+        || (!requestedPOS.empty() && requestedPOS != GrammemeConstants::POS_VERB))
     {
         // Can't inflect
         return {};

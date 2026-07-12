@@ -21,6 +21,19 @@ UnicodeSetUtils::containsSome(const ::icu4cxx::UnicodeSet &set, std::u16string_v
     return false;
 }
 
+bool
+UnicodeSetUtils::containsSome(UScriptCode script, std::u16string_view string) {
+    auto length = (int32_t) string.length();
+    UChar32 cp;
+    for (int32_t i = 0; i < length; ) {
+        U16_NEXT(string, i, length, cp);
+        if (uscript_hasScript(cp, script)) {
+            return true;
+        }
+    }
+    return false;
+}
+
 ::std::u16string* UnicodeSetUtils::removeSetFromString(::std::u16string* dest, const ::icu4cxx::UnicodeSet &setToRemove, std::u16string_view str)
 {
     return replaceSetFromString(dest, setToRemove, str, ::std::u16string_view());

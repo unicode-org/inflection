@@ -10,6 +10,7 @@
 #include <inflection/exception/IllegalStateException.hpp>
 #include <inflection/grammar/synthesis/GrammemeConstants.hpp>
 #include <inflection/resources/DataResource.hpp>
+#include <inflection/util/ArrayUtils.hpp>
 #include <inflection/util/StringViewUtils.hpp>
 #include <inflection/npc.hpp>
 #include <memory>
@@ -18,17 +19,8 @@ namespace inflection::dialog::language {
 
 HeCommonConceptFactory::HeCommonConceptFactory(const ::inflection::util::ULocale& language)
     : super(language)
-    , dontQuantify({
-        u"חודש",
-        u"חודשיים",
-        u"יומיים"
-    })
     , semanticFeatureGender(*npc(semanticFeatureModel.getFeature(inflection::grammar::synthesis::GrammemeConstants::GENDER)))
     , semanticFeatureDefiniteness(*npc(semanticFeatureModel.getFeature(inflection::grammar::synthesis::GrammemeConstants::DEFINITENESS)))
-{
-}
-
-HeCommonConceptFactory::~HeCommonConceptFactory()
 {
 }
 
@@ -45,14 +37,14 @@ inflection::dialog::SemanticConceptList* HeCommonConceptFactory::createAndList(c
 bool HeCommonConceptFactory::isDefinite(const SemanticFeatureConceptBase* semanticConcept) const
 {
     auto definiteness = npc(semanticConcept)->getConstraint(semanticFeatureDefiniteness);
-    return definiteness != nullptr && ::inflection::grammar::synthesis::GrammemeConstants::DEFINITENESS_DEFINITE() == *npc(definiteness);
+    return definiteness != nullptr && ::inflection::grammar::synthesis::GrammemeConstants::DEFINITENESS_DEFINITE == *npc(definiteness);
 }
 
 inflection::dialog::SpeakableString* HeCommonConceptFactory::quantify(const inflection::dialog::NumberConcept& number, const SemanticFeatureConceptBase* semanticConcept) const
 {
     ::std::unique_ptr<::inflection::dialog::SpeakableString> gender(npc(semanticConcept)->getFeatureValue(semanticFeatureGender));
     ::inflection::dialog::SpeakableString newFormattedNumber({});
-    if (gender != nullptr && gender->getPrint() == ::inflection::grammar::synthesis::GrammemeConstants::GENDER_MASCULINE()) {
+    if (gender != nullptr && gender->getPrint() == ::inflection::grammar::synthesis::GrammemeConstants::GENDER_MASCULINE) {
         if (isDefinite(semanticConcept)) {
             if (number.longValue() == 1){
                 newFormattedNumber = ::inflection::dialog::SpeakableString(u"1", u"היחיד");
@@ -65,7 +57,7 @@ inflection::dialog::SpeakableString* HeCommonConceptFactory::quantify(const infl
             newFormattedNumber = number.asSpokenWords(u"cardinal-masculine");
         }
     }
-    else if (gender != nullptr && gender->getPrint() == ::inflection::grammar::synthesis::GrammemeConstants::GENDER_FEMININE()) {
+    else if (gender != nullptr && gender->getPrint() == ::inflection::grammar::synthesis::GrammemeConstants::GENDER_FEMININE) {
         if (isDefinite(semanticConcept)) {
             if (number.longValue() == 1){
                 newFormattedNumber = ::inflection::dialog::SpeakableString(u"1", u"היחידה");
@@ -88,9 +80,16 @@ inflection::dialog::SpeakableString* HeCommonConceptFactory::quantify(const infl
     return super::quantifyFormatted(number, newFormattedNumber, semanticConcept);
 }
 
+static constexpr const char16_t* DONT_QUANTIFY[] = {
+    // This must be in sorted order.
+    u"חודש",
+    u"חודשיים",
+    u"יומיים"
+};
+
 inflection::dialog::SpeakableString HeCommonConceptFactory::quantifiedJoin(const inflection::dialog::SpeakableString& formattedNumber, const inflection::dialog::SpeakableString& nounPhrase, const ::std::u16string& /*measureWord*/, Plurality::Rule countType) const
 {
-    if (dontQuantify.find(nounPhrase.getPrint()) != dontQuantify.end()) {
+    if (inflection::util::ArrayUtils::contains<DONT_QUANTIFY>(nounPhrase.getPrint())) {
         return nounPhrase;
     }
     if (countType == Plurality::Rule::ONE) {

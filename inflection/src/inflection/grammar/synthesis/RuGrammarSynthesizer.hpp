@@ -1,12 +1,12 @@
 /*
- * Copyright 2017-2024 Apple Inc. All rights reserved.
+ * Copyright 2017-2026 Apple Inc. All rights reserved.
  */
 #pragma once
 
-#include <icu4cxx/UnicodeSet.hpp>
 #include <inflection/dialog/fwd.hpp>
 #include <inflection/grammar/synthesis/fwd.hpp>
 #include <string>
+#include <string_view>
 
 class inflection::grammar::synthesis::RuGrammarSynthesizer final
 {
@@ -14,7 +14,7 @@ public:
     static void addSemanticFeatures(::inflection::dialog::SemanticFeatureModel& featureModel);
 
 public:
-    static bool startsWith2Consonant(const ::std::u16string& word, const ::icu4cxx::UnicodeSet& firstLetters);
+    static bool startsWith2Consonant(const ::std::u16string& word, std::u16string_view firstLowercaseLetters);
 
 private:
     RuGrammarSynthesizer() = delete;

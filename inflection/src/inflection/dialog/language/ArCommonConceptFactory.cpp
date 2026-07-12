@@ -15,8 +15,8 @@ namespace inflection::dialog::language {
 
 ArCommonConceptFactory::ArCommonConceptFactory(const ::inflection::util::ULocale& language)
     : super(language, ::inflection::grammar::synthesis::GrammemeConstants::GENDER, {
-            {::inflection::grammar::synthesis::GrammemeConstants::GENDER_MASCULINE(), u"cardinal-masculine"},
-            {::inflection::grammar::synthesis::GrammemeConstants::GENDER_FEMININE(), u"cardinal-feminine"}})
+            {::inflection::grammar::synthesis::GrammemeConstants::GENDER_MASCULINE, u"cardinal-masculine"},
+            {::inflection::grammar::synthesis::GrammemeConstants::GENDER_FEMININE, u"cardinal-feminine"}})
     , semanticFeatureCase(*npc(semanticFeatureModel.getFeature(::inflection::grammar::synthesis::GrammemeConstants::CASE)))
 {
 }
@@ -88,21 +88,21 @@ inflection::dialog::SpeakableString ArCommonConceptFactory::quantifyType(const :
     if (!useDefault) {
         ::std::unique_ptr<SemanticFeatureConceptBase> semanticConceptClone(npc(semanticConcept.clone()));
         if (Plurality::Rule::TWO == countType) {
-            semanticConceptClone->putConstraint(*npc(semanticFeatureCount), ::inflection::grammar::synthesis::GrammemeConstants::NUMBER_DUAL());
+            semanticConceptClone->putConstraint(*npc(semanticFeatureCount), ::inflection::grammar::synthesis::GrammemeConstants::NUMBER_DUAL);
         }
         else if (Plurality::Rule::FEW == countType) {
-            semanticConceptClone->putConstraint(*npc(semanticFeatureCount), ::inflection::grammar::synthesis::GrammemeConstants::NUMBER_PLURAL());
+            semanticConceptClone->putConstraint(*npc(semanticFeatureCount), ::inflection::grammar::synthesis::GrammemeConstants::NUMBER_PLURAL);
         }
         else {
-            semanticConceptClone->putConstraint(*npc(semanticFeatureCount), ::inflection::grammar::synthesis::GrammemeConstants::NUMBER_SINGULAR());
+            semanticConceptClone->putConstraint(*npc(semanticFeatureCount), ::inflection::grammar::synthesis::GrammemeConstants::NUMBER_SINGULAR);
         }
         auto caseStr = semanticConcept.getConstraint(semanticFeatureCase);
         auto caseEnum = Case::nominative; // This is the assumed default case.
         if (caseStr != nullptr) {
-            if (*npc(caseStr) == GrammemeConstants::CASE_GENITIVE()) {
+            if (*npc(caseStr) == GrammemeConstants::CASE_GENITIVE) {
                 caseEnum = Case::genitive;
             }
-            else if (*npc(caseStr) == GrammemeConstants::CASE_ACCUSATIVE()) {
+            else if (*npc(caseStr) == GrammemeConstants::CASE_ACCUSATIVE) {
                 caseEnum = Case::accusative;
             }
         }

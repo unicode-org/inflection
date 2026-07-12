@@ -30,6 +30,8 @@ private:
     const ::inflection::dialog::SemanticFeature& tenseFeature;
     ::std::u16string_view endingSingleQuote { u"'’" };
     ::std::u16string_view endingDoubleQuote { u"\"”" };
+    ::std::u16string_view hardConsonants { u"çkpt" };
+    ::std::u16string_view additionalContinuousHardConsonants { u"fhsşqx" };
 
 public:
     ::inflection::dialog::DisplayValue *getDisplayValue(const dialog::SemanticFeatureModel_DisplayData &displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string> &constraints, bool enableInflectionGuess) const override;
@@ -50,7 +52,7 @@ private:
     static bool endsWithVowel(const ::std::u16string& word);
     static bool startsWithVowel(const ::std::u16string& word);
     static ::std::u16string getLastWord(const ::std::u16string& str);
-    static bool endsWithHardConsonant(::std::u16string_view word, bool discontinuous);
+    bool endsWithHardConsonant(::std::u16string_view word, bool discontinuous) const;
     ::std::u16string getPossessiveCompoundSuffix(bool isDisplayMultiWord, const ::std::u16string& word) const;
     bool isOneToken(const ::std::u16string& word) const;
     char16_t getLastVowel(const ::std::u16string& word) const;
@@ -82,10 +84,6 @@ public: /* package */
     ~TrGrammarSynthesizer_TrDisplayFunction() override;
     TrGrammarSynthesizer_TrDisplayFunction(const TrGrammarSynthesizer_TrDisplayFunction&) = delete;
     TrGrammarSynthesizer_TrDisplayFunction& operator=(const TrGrammarSynthesizer_TrDisplayFunction&) = delete;
-
-private:
-    static const ::icu4cxx::UnicodeSet& DEFAULT_DISCONT_HARD_CONSONANTS_END();
-    static const ::icu4cxx::UnicodeSet& DEFAULT_HARD_CONSONANTS_END();
 
 private:
     friend class TrGrammarSynthesizer_InterrogativeArticleLookupFunction;

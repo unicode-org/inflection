@@ -4,12 +4,13 @@
 //
 #include <inflection/resources/DataRegistrationService.hpp>
 
-#include <inflection/resources/DataResource.hpp>
+#include <inflection/util/ArrayUtils.hpp>
 #include <inflection/util/StringViewUtils.hpp>
 #include <inflection/util/ULocale.hpp>
 #include <inflection/util/Validate.hpp>
 #include <inflection/npc.hpp>
 #include <filesystem>
+#include <map>
 #include <mutex>
 
 namespace inflection::resources {
@@ -17,25 +18,6 @@ namespace inflection::resources {
 static ::std::mutex& CLASS_MUTEX() {
     static auto classMutex = new ::std::mutex();
     return *npc(classMutex);
-}
-
-static ::std::map<std::string, std::string, std::less<>>* initLOCALE_FALLTHROUGH_BLACKLIST()
-{
-    auto result = new std::map<std::string, std::string, std::less<>>();
-    auto mappings = inflection::resources::DataResource::getProperties(u"/org/unicode/inflection/locale/registration-locale-list.properties");
-    for (auto const & [from, to] : mappings) {
-        // Normalize the values as necessary.
-        inflection::util::ULocale key(inflection::util::StringViewUtils::to_string(from));
-        inflection::util::ULocale value(inflection::util::StringViewUtils::to_string(to));
-        npc(result)->emplace(key.getName(), value.getName());
-    }
-    return result;
-}
-
-static const std::map<std::string, std::string, std::less<>>* LOCALE_FALLTHROUGH_BLACKLIST()
-{
-    static auto LOCALE_FALLTHROUGH_BLACKLIST_ = initLOCALE_FALLTHROUGH_BLACKLIST();
-    return LOCALE_FALLTHROUGH_BLACKLIST_;
 }
 
 static ::std::map<::std::string, ::std::string, std::less<>>* PATHS_MAP()
@@ -46,15 +28,44 @@ static ::std::map<::std::string, ::std::string, std::less<>>* PATHS_MAP()
 
 static std::string_view fallthroughLocaleString(const inflection::util::ULocale& locale)
 {
-    auto fallthroughMap = LOCALE_FALLTHROUGH_BLACKLIST();
+    static constexpr struct {
+        const char* from;
+        const char* to;
+    } fallthroughMap[] = {
+        /*
+        This list describes how Unicode inflection will register and lookup data through it's DataRegistration API.
+
+        It is written as a deny list. Locales that are listed here will either not be altered when registered,
+        or be altered to match a specific locale identifier.
+        All other locales will be registered and looked up through their language code.
+        */
+
+        // It's very important to keep this in sorted order for the binary search
+        {"cmn", "zh_CN"},
+        {"cmn_Hant", "zh_TW"},
+        {"cmn_TW", "zh_TW"},
+        {"iw", "he"},
+        {"no", "nb"},
+        {"wuu", "zh_CN"},
+        {"yue", "yue_CN"},
+        {"yue_CN", "yue_CN"},
+        {"yue_HK", "zh_HK"},
+        {"yue_Hant", "zh_HK"},
+        {"zh", "zh_TW"}, // The base tokenizer uses the zh_Hant tokenizer for the unified Chinese tokenizer
+        {"zh_CN", "zh_CN"},
+        {"zh_HK", "zh_HK"},
+        {"zh_Hans", "zh_CN"},
+        {"zh_Hans_CN", "zh_CN"},
+        {"zh_TW", "zh_TW"},
+    };
 
     // Iteratively remove components until we find a match
     for (::inflection::util::ULocale localeItr = locale; !localeItr.getLanguage().empty(); localeItr = localeItr.getFallback())
     {
-        auto itr = fallthroughMap->find(localeItr.getName());
-        if (itr != fallthroughMap->end())
-        {
-            return itr->second;
+        auto *entry = inflection::util::ArrayUtils::searchSorted<fallthroughMap>(localeItr.getName(),
+            [](const auto& item) { return item.from; });
+        if (entry != nullptr) {
+            return entry->to;
         }
     }
 

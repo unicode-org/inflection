@@ -1,0 +1,110 @@
+egle: singular instrumental vocative feminine noun inflection=7
+eglei: singular dative feminine noun inflection=7
+egles: plural accusative feminine noun inflection=7
+eglių: plural genitive feminine noun inflection=7
+eglė: singular nominative feminine noun inflection=7
+eglėje: singular locative feminine noun inflection=7
+eglėmis: plural instrumental feminine noun inflection=7
+eglėms: plural dative feminine noun inflection=7
+eglės: singular plural genitive nominative vocative feminine noun inflection=7
+eglėse: plural locative feminine noun inflection=7
+eglę: singular accusative feminine noun inflection=7
+filmas: masculine noun inflection=1
+katė: noun inflection=3
+litas: masculine noun inflection=1
+matai: singular second present verb
+matau: singular first present verb
+mato: singular plural third present verb
+matom: plural first present verb
+matomai: adverb
+matome: plural first present verb
+matot: plural second present verb
+matote: plural second present verb
+miestai: plural nominative vocative masculine noun inflection=2
+miestais: plural instrumental masculine noun inflection=2
+miestams: plural dative masculine noun inflection=2
+miestas: singular nominative masculine noun inflection=2
+mieste: singular locative vocative masculine noun inflection=2
+miesto: singular genitive masculine noun inflection=2
+miestu: singular instrumental masculine noun inflection=2
+miestui: singular dative masculine noun inflection=2
+miestuose: plural locative masculine noun inflection=2
+miestus: plural accusative masculine noun inflection=2
+miestą: singular accusative masculine noun inflection=2
+miestų: plural genitive masculine noun inflection=2
+sausi: singular nominative vocative masculine noun inflection=4
+sausiai: plural nominative vocative masculine noun inflection=4
+sausiais: plural instrumental masculine noun inflection=4
+sausiams: plural dative masculine noun inflection=4
+sausio: singular genitive masculine noun inflection=4
+sausiu: singular instrumental masculine noun inflection=4
+sausiui: singular dative masculine noun inflection=4
+sausiuose: plural locative masculine noun inflection=4
+sausius: plural accusative masculine noun inflection=4
+sausių: plural genitive masculine noun inflection=4
+sausyje: singular locative masculine noun inflection=4
+sausį: singular accusative masculine noun inflection=4
+telefonas: singular nominative masculine noun inflection=8
+telefono: singular genitive masculine noun inflection=8
+vasari: singular vocative masculine noun inflection=5
+vasariai: plural nominative vocative masculine noun inflection=5
+vasariais: plural instrumental masculine noun inflection=5
+vasariams: plural dative masculine noun inflection=5
+vasario: singular genitive masculine noun inflection=5
+vasaris: singular nominative masculine noun inflection=5
+vasariu: singular instrumental masculine noun inflection=5
+vasariui: singular dative masculine noun inflection=5
+vasariuose: plural locative masculine noun inflection=5
+vasarius: plural accusative masculine noun inflection=5
+vasarių: plural genitive masculine noun inflection=5
+vasaryje: singular locative masculine noun inflection=5
+vasarį: singular accusative masculine noun inflection=5
+žemėlapi: singular vocative masculine noun inflection=6
+žemėlapio: singular genitive masculine noun inflection=6
+žemėlapiu: singular instrumental masculine noun inflection=6
+žemėlapiui: singular dative masculine noun inflection=6
+žemėlapyje: singular locative masculine noun inflection=6
+žemėlapį: singular accusative masculine noun inflection=6
+==============================================
+                       Source: wikidata-20260708-lexemes.json 
+                  Lemma terms:      23
+         Unusable lemma terms:      12
+       Incoming surface forms:      76
+                Surface forms:      67
+      Collapsed surface forms:       9 (11.8%)
+       Unusable surface forms:       0
+                 Usable terms:      67  (100%)
+           Unclassified terms:       0    (0%)
+==============================================
+Case:
+    genitive:                 10 (14.9%)
+    vocative:                  9 (13.4%)
+    nominative:                9 (13.4%)
+    locative:                  9 (13.4%)
+    instrumental:              9 (13.4%)
+    dative:                    9 (13.4%)
+    accusative:                9 (13.4%)
+
+Gender:
+    masculine:                47 (70.1%)
+    feminine:                 11 (16.4%)
+
+Number:
+    singular:                 36 (53.7%)
+    plural:                   29 (43.3%)
+
+PartOfSpeech:
+    noun:                     59 (88.1%)
+    verb:                      7 (10.4%)
+    adverb:                    1  (1.5%)
+
+Person:
+    second:                    3  (4.5%)
+    first:                     3  (4.5%)
+    third:                     1  (1.5%)
+
+Tense:
+    present:                   7 (10.4%)
+
+License: Creative Commons CC0 License (https://creativecommons.org/publicdomain/zero/1.0/)
+generated with options: --language lt

@@ -1,5 +1,5 @@
 /*
- * Copyright 2021-2024 Apple Inc. All rights reserved.
+ * Copyright 2021-2026 Apple Inc. All rights reserved.
  */
 // This is the writable portion of DictionaryMetaData_MMappedDictionary.
 #include "LexicalDictionaryBuilder.hpp"
@@ -11,11 +11,13 @@
 #include <inflection/dictionary/metadata/StringArrayContainer.hpp>
 #include <inflection/dictionary/metadata/MarisaTrie.hpp>
 #include <inflection/exception/IOException.hpp>
+#include <inflection/util/StringViewUtils.hpp>
 #include <inflection/npc.hpp>
 
 #include <string>
 #include <memory>
 #include <fstream>
+#include <ranges>
 
 using inflection::dictionary::DictionaryMetaData_MMappedDictionary;
 using inflection::dictionary::metadata::CompressedArray;
@@ -24,13 +26,18 @@ using inflection::dictionary::metadata::StringArrayContainer;
 using inflection::dictionary::metadata::StringContainer;
 
 template <typename T>
-inline void LexicalDictionaryBuilder::writeValue(uint64_t &valueBase, int32_t start, int32_t len, T valueToWrite) {
+inline void LexicalDictionaryBuilder::writeBits(uint64_t &valueBase, int32_t start, int32_t len, T valueToWrite) {
     if (!(0 <= start && (start+len) < 64)) {
         throw inflection::exception::IndexOutOfBoundsException(u"Illegal start or length value");
     }
     auto unsignedValueWrite = (uint64_t) valueToWrite;
     unsignedValueWrite &= ((uint64_t(1) << len) - 1);
     valueBase |= (unsignedValueWrite << start);
+}
+
+template<typename T>
+static void writeVal(::std::ofstream& writer, const T& value) {
+    writer.write(reinterpret_cast<const char*>(&value), sizeof(value));
 }
 
 void LexicalDictionaryBuilder::write(::std::ofstream& writer,
@@ -50,14 +57,14 @@ void LexicalDictionaryBuilder::write(::std::ofstream& writer,
                                      bool hasInflectionTable)
 {
     writer.write(DictionaryMetaData_MMappedDictionary::MAGIC_MARKER, sizeof(DictionaryMetaData_MMappedDictionary::MAGIC_MARKER));
-    writer.write(reinterpret_cast<const char*>(&DictionaryMetaData_MMappedDictionary::VERSION), sizeof(DictionaryMetaData_MMappedDictionary::VERSION));
-    writer.write(reinterpret_cast<const char*>(&DictionaryMetaData_MMappedDictionary::ENDIANNESS_MARKER), sizeof(DictionaryMetaData_MMappedDictionary::ENDIANNESS_MARKER));
+    writeVal(writer, DictionaryMetaData_MMappedDictionary::VERSION);
+    writeVal(writer, DictionaryMetaData_MMappedDictionary::ENDIANNESS_MARKER);
     // Write structure options. Currently unused.
     int16_t options = 0;
     if (hasInflectionTable) {
         options |= int16_t(DictionaryMetaData_MMappedDictionary::OptionBits::HAS_INFLECTION_TABLE);
     }
-    writer.write(reinterpret_cast<const char*>(&options), sizeof(DictionaryMetaData_MMappedDictionary::OPTIONS));
+    writeVal(writer, options);
 
     const auto& language = locale.getLanguage();
     if (language.length() >= DictionaryMetaData_MMappedDictionary::MAX_LANGUAGE_CODE_LENGTH) {
@@ -65,23 +72,23 @@ void LexicalDictionaryBuilder::write(::std::ofstream& writer,
     }
     writer.write(language.data(), language.length());
     for (int32_t i = int32_t(language.length()); i < DictionaryMetaData_MMappedDictionary::MAX_LANGUAGE_CODE_LENGTH; ++i) {
-        writer.write("\0", sizeof(char));
+        writer.put('\0');
     }
     logger.logWithOffset(locale.getName() + " header");
 
     typesStringContainer.write(writer);
     logger.logWithOffset(locale.getName() + " typesStringContainer");
-    writer.write(reinterpret_cast<const char*>(&bitsTypesSingletons), sizeof(bitsTypesSingletons));
+    writeVal(writer, bitsTypesSingletons);
     logger.logWithOffset(locale.getName() + " bitsTypesSingletons");
-    writer.write(reinterpret_cast<const char*>(&bitsPropertyMapId), sizeof(bitsPropertyMapId));
+    writeVal(writer, bitsPropertyMapId);
     logger.logWithOffset(locale.getName() + " bitsPropertyMapId");
-    writer.write(reinterpret_cast<const char*>(&bitsPropertyMapKeyId), sizeof(bitsPropertyMapKeyId));
+    writeVal(writer, bitsPropertyMapKeyId);
     logger.logWithOffset(locale.getName() + " bitsPropertyMapKeyId");
-    writer.write(reinterpret_cast<const char*>(&bitsPropertyMapValuesSize), sizeof(bitsPropertyMapValuesSize));
+    writeVal(writer, bitsPropertyMapValuesSize);
     logger.logWithOffset(locale.getName() + " bitsPropertyMapValuesSize");
 
     int32_t wordsToTypesSingletonsSize = int32_t(typeSingletons.size());
-    writer.write(reinterpret_cast<const char*>(&wordsToTypesSingletonsSize), sizeof(wordsToTypesSingletonsSize));
+    writeVal(writer, wordsToTypesSingletonsSize);
     logger.logWithOffset(locale.getName() + " wordsToTypesSingletonsSize");
     wordsToDataTrie.write(writer);
     logger.logWithOffset(locale.getName() + " wordsToDataTrie");
@@ -153,7 +160,7 @@ createPropertyValueMap(
     ::std::set<::std::u16string_view> knownValues;
     int32_t expectedLength = 0;
     int32_t valuesSizeMask = 0;
-    for (const auto& [word, maps] : data) {
+    for (const auto &maps: data | std::views::values) {
         expectedLength += maps.size();
         for (const auto& [key, values] : maps) {
             auto valuesSize = values.size();
@@ -268,55 +275,112 @@ createPropertyValueMap(
 }
 
 
+struct CompressedTypeSingletons {
+    ::std::map<::std::u16string_view, int16_t> wordsToTypesSingletons;
+    ::std::vector<int64_t> typeSingletons;
+    int64_t usedProperties = 0;
+};
+
+static CompressedTypeSingletons compressTypeSingletons(
+        ::std::map<::std::u16string_view, int32_t>& typeStringIndices,
+        const ::std::map<int64_t, ::std::u16string_view>& valueToType,
+        const ::std::map<::std::u16string_view, int64_t>& wordsToTypes,
+        size_t numTypeStrings)
+{
+    CompressedTypeSingletons result;
+    ::std::map<int64_t, int16_t> typeSingletonsMapToIndex;
+    std::map<int64_t, int64_t> valueBitsToContainerBitsMap(createBitsToContainerBitsMap(typeStringIndices, valueToType));
+    typeStringIndices.clear();
+    result.typeSingletons.reserve((numTypeStrings * 2) + 1);
+
+    //Adding a dummy element to enforce the mapping to start from 1
+    result.typeSingletons.emplace_back((int64_t) 0);
+    for (const auto& [word, properties] : wordsToTypes) {
+        result.usedProperties |= properties;
+        auto previousIndex = typeSingletonsMapToIndex.find(properties);
+        if (previousIndex == typeSingletonsMapToIndex.end()) {
+            typeSingletonsMapToIndex.emplace(properties, (int16_t)result.typeSingletons.size());
+            result.wordsToTypesSingletons.emplace(word, (int16_t)result.typeSingletons.size());
+            result.typeSingletons.emplace_back(mapValueToContainerBits(properties, valueBitsToContainerBitsMap));
+        }
+        else {
+            result.wordsToTypesSingletons.emplace(word, previousIndex->second);
+        }
+    }
+    return result;
+}
+
+struct CompressedDataSingletons {
+    ::std::map<::std::u16string_view, uint64_t> wordsToDataSingletons;
+    ::std::vector<uint64_t> dataSingletons;
+    bool use2Stage;
+};
+
+static CompressedDataSingletons compressDataSingletons(
+        const ::std::map<::std::u16string_view, uint64_t>& wordsToData,
+        DictionaryLogger& logger,
+        const ::inflection::util::ULocale& locale)
+{
+    CompressedDataSingletons result;
+    uint64_t wordsToDataTrieBitMask = 0;
+    {
+        ::std::map<uint64_t, uint64_t> dataSingletonsMapToIndex;
+        for (auto [word, data] : wordsToData) {
+            auto [index, inserted](dataSingletonsMapToIndex.emplace(data, (uint64_t)result.dataSingletons.size()));
+            if (inserted) {
+                result.dataSingletons.emplace_back(data);
+            }
+            result.wordsToDataSingletons.emplace(word, index->second);
+            wordsToDataTrieBitMask |= data;
+        }
+    }
+
+    // Estimate which data configuration will be smaller
+    int8_t numBitsWordsToDataTrieArray = inflection::dictionary::metadata::CompressedArray<int64_t>::calculateBitWidth(wordsToDataTrieBitMask);
+    int8_t numBitsDataSingletonsMapToIndexArray = inflection::dictionary::metadata::CompressedArray<int64_t>::calculateBitWidth(result.dataSingletons.size());
+    int64_t estimated1Stage = wordsToData.size() * int64_t(numBitsWordsToDataTrieArray);
+    int64_t estimated2Stage = result.dataSingletons.size() * int64_t(numBitsWordsToDataTrieArray) + wordsToData.size() * numBitsDataSingletonsMapToIndexArray;
+    result.use2Stage = estimated1Stage > estimated2Stage;
+    if (logger.isVerbose()) {
+        logger.log(locale.getName() + " use2Stage=" + (result.use2Stage ? "true" : "false") + " " + std::to_string((estimated1Stage - estimated2Stage)/8) + " estimated byte difference");
+    }
+    if (!result.use2Stage) {
+        // It will be smaller as a 2 stage lookup instead of a single stage lookup.
+        result.dataSingletons.clear();
+    }
+    return result;
+}
+
 void LexicalDictionaryBuilder::writeDictionary(::std::ofstream& writer,
                                                DictionaryLogger& logger,
                                                const Dictionary &dictionary,
-                                               const ::std::string& sourceInflectionFilename,
-                                               bool addAffixPatternMappings)
+                                               const ::std::string& sourceInflectionFilename)
 {
     ::std::set<::std::u16string_view> typeStrings;
-    for (auto [bits, name] : dictionary.getType()) {
+    for (auto name: dictionary.getValueToType() | std::views::values) {
         typeStrings.insert(name);
     }
 
     ::std::map<::std::u16string_view, int32_t> typeStringIndices;
     StringArrayContainer stringContainer(typeStrings, &typeStringIndices);
+    size_t numTypeStrings = typeStrings.size();
+    typeStrings.clear();
 
     bool hasInflectionTable = !sourceInflectionFilename.empty();
     InflectionDictionary* inflectionDictionary = nullptr;
     if (hasInflectionTable) {
-        Inflector_InflectionDictionary* parsedDictionary = InflectionDictionary::readXML(dictionary.getLocale(), sourceInflectionFilename, typeStringIndices);
-        inflectionDictionary = new InflectionDictionary(dictionary.getLocale(), *parsedDictionary, addAffixPatternMappings);
-        delete parsedDictionary;
+        inflectionDictionary = InflectionDictionary::fromXML(dictionary.getLocale(), sourceInflectionFilename, typeStringIndices, dictionary.getStringPool());
     }
 
     // Compress the data structure
-    ::std::map<::std::u16string_view, int16_t> wordsToTypesSingletons;
-    ::std::map<int64_t, int16_t> typeSingletonsMapToIndex;
-    ::std::vector<int64_t> typeSingletons;
-    std::map<int64_t, int64_t> valueBitsToContainerBitsMap(createBitsToContainerBitsMap(typeStringIndices, dictionary.getValueToType()));
-    int64_t usedProperties = 0;
+    auto compressed = compressTypeSingletons(typeStringIndices, dictionary.getValueToType(), dictionary.getWordsToTypes(), numTypeStrings);
 
-    //Adding a dummy element to enforce the mapping to start from 1
-    typeSingletons.emplace_back((int64_t) 0);
-    for (const auto& [word, properties] : dictionary.getWordsToTypes()) {
-        usedProperties |= properties;
-        auto previousIndex = typeSingletonsMapToIndex.find(properties);
-        if (previousIndex == typeSingletonsMapToIndex.end()) {
-            typeSingletonsMapToIndex.emplace(properties, (int16_t)typeSingletons.size());
-            wordsToTypesSingletons.emplace(word, (int16_t)typeSingletons.size());
-            typeSingletons.emplace_back(mapValueToContainerBits(properties, valueBitsToContainerBitsMap));
-        }
-        else {
-            wordsToTypesSingletons.emplace(word, previousIndex->second);
-        }
-    }
-    if (typeSingletons.size() >= INT16_MAX) {
+    if (compressed.typeSingletons.size() >= INT16_MAX) {
         throw inflection::exception::IllegalArgumentException(u"Too many type singletons");
     }
-    if (logger.isVerbose() && !typeStrings.empty()) {
-        for (uint64_t bit = (uint64_t(1) << (typeStrings.size() - 1)); bit; bit >>= 1) {
-            if ((bit & usedProperties) == 0) {
+    if (logger.isVerbose() && numTypeStrings > 0) {
+        for (uint64_t bit = (uint64_t(1) << (numTypeStrings - 1)); bit; bit >>= 1) {
+            if ((bit & compressed.usedProperties) == 0) {
                 logger.log(dictionary.getLocale().getName() + " " + inflection::util::StringViewUtils::to_string(dictionary.getValueToType().find(bit)->second) + " is unreferenced in the dictionary");
             }
         }
@@ -325,9 +389,9 @@ void LexicalDictionaryBuilder::writeDictionary(::std::ofstream& writer,
     ::std::map<::std::u16string_view, int32_t> wordToPropertyMapId;
     StringArrayContainer* propertyNameToKeyId = nullptr;
     StringContainer* propertyValuesStringContainer = nullptr;
-    std::vector<int32_t> propertyValueMapsVector;
     int8_t bitsPropertyMapKeyId = 0;
     int8_t bitsPropertyMapValuesSize = 0;
+    std::vector<int32_t> propertyValueMapsVector;
     createPropertyValueMap(dictionary.getWordToPropertyValue(),
                            inflectionDictionary,
                            bitsPropertyMapKeyId,
@@ -336,71 +400,56 @@ void LexicalDictionaryBuilder::writeDictionary(::std::ofstream& writer,
                            propertyNameToKeyId,
                            propertyValuesStringContainer,
                            propertyValueMapsVector);
-    inflection::dictionary::metadata::CompressedArray<int32_t> propertyValueMaps(propertyValueMapsVector);
+    inflection::dictionary::metadata::CompressedArray propertyValueMaps(propertyValueMapsVector);
+    propertyValueMapsVector.clear();
+    propertyValueMapsVector.shrink_to_fit();
 
-    auto bitsTypesSingletons = getNumBitsFromValues(wordsToTypesSingletons);
+    auto bitsTypesSingletons = getNumBitsFromValues(compressed.wordsToTypesSingletons);
     auto bitsPropertyMapId = getNumBitsFromValues(wordToPropertyMapId);
     ::std::map<::std::u16string_view, uint64_t> wordsToData;
-    for (const auto& [word, type] : wordsToTypesSingletons) {
-        writeValue(wordsToData[word], 0, bitsTypesSingletons, type);
+    for (const auto& [word, type] : compressed.wordsToTypesSingletons) {
+        writeBits(wordsToData[word], 0, bitsTypesSingletons, type);
     }
     for (const auto& [word, property] : wordToPropertyMapId) {
-        writeValue(wordsToData[word], bitsTypesSingletons, bitsPropertyMapId, property);
+        writeBits(wordsToData[word], bitsTypesSingletons, bitsPropertyMapId, property);
     }
+    compressed.wordsToTypesSingletons.clear();
+    wordToPropertyMapId.clear();
 
     // Compress the data structure
-    ::std::map<::std::u16string_view, uint64_t> wordsToDataSingletons;
-    ::std::map<uint64_t, uint64_t> dataSingletonsMapToIndex;
-    ::std::vector<uint64_t> dataSingletons;
-    uint64_t wordsToDataTrieBitMask = 0;
-    for (auto [word, data] : wordsToData) {
-        auto [index, inserted](dataSingletonsMapToIndex.emplace(data, (uint64_t)dataSingletons.size()));
-        if (inserted) {
-            dataSingletons.emplace_back(data);
-        }
-        wordsToDataSingletons.emplace(word, index->second);
-        wordsToDataTrieBitMask |= data;
+    auto dataSingletonsResult = compressDataSingletons(wordsToData, logger, dictionary.getLocale());
+
+    {
+        CompressedArray dataSingletonsRaw(dataSingletonsResult.dataSingletons);
+        dataSingletonsResult.dataSingletons.clear();
+        dataSingletonsResult.dataSingletons.shrink_to_fit();
+
+        MarisaTrie wordsToDataTrie(dataSingletonsResult.use2Stage ? dataSingletonsResult.wordsToDataSingletons : wordsToData);
+        dataSingletonsResult.wordsToDataSingletons.clear();
+        wordsToData.clear();
+
+        write(writer,
+              logger,
+              dictionary.getLocale(),
+              bitsTypesSingletons,
+              bitsPropertyMapId,
+              bitsPropertyMapKeyId,
+              bitsPropertyMapValuesSize,
+              wordsToDataTrie,
+              compressed.typeSingletons,
+              dataSingletonsRaw,
+              *npc(propertyNameToKeyId),
+              *npc(propertyValuesStringContainer),
+              propertyValueMaps,
+              stringContainer,
+              hasInflectionTable);
+
+        delete propertyNameToKeyId;
+        delete propertyValuesStringContainer;
     }
-
-    // Estimate which data configuration will be smaller
-    int8_t numBitsWordsToDataTrieArray = inflection::dictionary::metadata::CompressedArray<int64_t>::calculateBitWidth(wordsToDataTrieBitMask);
-    int8_t numBitsDataSingletonsMapToIndexArray = inflection::dictionary::metadata::CompressedArray<int64_t>::calculateBitWidth(dataSingletons.size());
-    int64_t estimated1Stage = wordsToData.size() * int64_t(numBitsWordsToDataTrieArray);
-    int64_t estimated2Stage = dataSingletons.size() * int64_t(numBitsWordsToDataTrieArray) + wordsToData.size() * numBitsDataSingletonsMapToIndexArray;
-    bool use2Stage = estimated1Stage > estimated2Stage;
-    if (logger.isVerbose()) {
-        logger.log(dictionary.getLocale().getName() + " use2Stage=" + (use2Stage ? "true" : "false") + " " + std::to_string((estimated1Stage - estimated2Stage)/8) + " estimated byte difference");
-    }
-    if (!use2Stage) {
-        // It will be smaller as a 2 stage lookup instead of a single stage lookup.
-        dataSingletons.clear();
-    }
-
-    CompressedArray<uint64_t> dataSingletonsRaw(dataSingletons);
-
-    MarisaTrie<uint64_t> wordsToDataTrie(use2Stage ? wordsToDataSingletons : wordsToData);
-
-    write(writer,
-          logger,
-          dictionary.getLocale(),
-          bitsTypesSingletons,
-          bitsPropertyMapId,
-          bitsPropertyMapKeyId,
-          bitsPropertyMapValuesSize,
-          wordsToDataTrie,
-          typeSingletons,
-          dataSingletonsRaw,
-          *npc(propertyNameToKeyId),
-          *npc(propertyValuesStringContainer),
-          propertyValueMaps,
-          stringContainer,
-          hasInflectionTable);
 
     if (inflectionDictionary != nullptr) {
         inflectionDictionary->write(writer, logger);
         delete inflectionDictionary;
     }
-
-    delete propertyNameToKeyId;
-    delete propertyValuesStringContainer;
 }

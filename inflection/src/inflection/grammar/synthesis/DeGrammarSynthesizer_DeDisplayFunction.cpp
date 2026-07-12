@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2024 Apple Inc. All rights reserved.
+ * Copyright 2017-2025 Apple Inc. All rights reserved.
  */
 #include <inflection/grammar/synthesis/DeGrammarSynthesizer_DeDisplayFunction.hpp>
 
@@ -12,6 +12,7 @@
 #include <inflection/grammar/synthesis/DeGrammarSynthesizer.hpp>
 #include <inflection/grammar/synthesis/GrammarSynthesizerUtil.hpp>
 #include <inflection/grammar/synthesis/GrammemeConstants.hpp>
+#include <inflection/util/ArrayUtils.hpp>
 #include <inflection/util/LocaleUtils.hpp>
 #include <inflection/util/Logger.hpp>
 #include <inflection/util/LoggerConfig.hpp>
@@ -36,7 +37,7 @@ static T java_cast(U* u)
 
 namespace inflection::grammar::synthesis {
 
-DeGrammarSynthesizer_DeDisplayFunction::DeGrammarSynthesizer_DeDisplayFunction(const ::inflection::dialog::SemanticFeatureModel& model, const ::std::map<int32_t, ::std::u16string_view>& strongSuffixes, const ::std::map<int32_t, ::std::u16string_view>& weakSuffixes, const ::std::map<int32_t, ::std::u16string_view>& mixedSuffixes)
+DeGrammarSynthesizer_DeDisplayFunction::DeGrammarSynthesizer_DeDisplayFunction(const ::inflection::dialog::SemanticFeatureModel& model)
     : super()
     , stemFeature(*npc(model.getFeature(u"stem")))
     , caseFeature(*npc(model.getFeature(GrammemeConstants::CASE)))
@@ -44,39 +45,35 @@ DeGrammarSynthesizer_DeDisplayFunction::DeGrammarSynthesizer_DeDisplayFunction(c
     , genderFeature(*npc(model.getFeature(GrammemeConstants::GENDER)))
     , declensionFeature(*npc(model.getFeature(DeGrammarSynthesizer::DECLENSION)))
     , partOfSpeechFeature(*npc(model.getFeature(GrammemeConstants::POS)))
-    , strongSuffixes(strongSuffixes)
-    , weakSuffixes(weakSuffixes)
-    , mixedSuffixes(mixedSuffixes)
     , dictionary(*npc(::inflection::dictionary::DictionaryMetaData::createDictionary(::inflection::util::LocaleUtils::GERMAN())))
-    , inflector(::inflection::dictionary::Inflector::getInflector(::inflection::util::LocaleUtils::GERMAN()))
     , dictionaryInflector(::inflection::util::LocaleUtils::GERMAN(), {
-        {GrammemeConstants::POS_ARTICLE(), GrammemeConstants::POS_PRONOUN(), GrammemeConstants::POS_NOUN(), GrammemeConstants::POS_PROPER_NOUN(), GrammemeConstants::POS_ADJECTIVE()},
+        {GrammemeConstants::POS_ARTICLE, GrammemeConstants::POS_PRONOUN, GrammemeConstants::POS_NOUN, GrammemeConstants::POS_PROPER_NOUN, GrammemeConstants::POS_ADJECTIVE},
 
-        {GrammemeConstants::CASE_NOMINATIVE(),  GrammemeConstants::CASE_ACCUSATIVE(), GrammemeConstants::CASE_GENITIVE(), GrammemeConstants::CASE_DATIVE()},
-        {GrammemeConstants::NUMBER_SINGULAR(),  GrammemeConstants::NUMBER_PLURAL()},
-        {DeGrammarSynthesizer::DECLENSION_STRONG(), DeGrammarSynthesizer::DECLENSION_MIXED(), DeGrammarSynthesizer::DECLENSION_WEAK()},
-        {GrammemeConstants::GENDER_MASCULINE(), GrammemeConstants::GENDER_FEMININE()}
+        {GrammemeConstants::CASE_NOMINATIVE,  GrammemeConstants::CASE_ACCUSATIVE, GrammemeConstants::CASE_GENITIVE, GrammemeConstants::CASE_DATIVE},
+        {GrammemeConstants::NUMBER_SINGULAR,  GrammemeConstants::NUMBER_PLURAL},
+        {DeGrammarSynthesizer::DECLENSION_STRONG, DeGrammarSynthesizer::DECLENSION_MIXED, DeGrammarSynthesizer::DECLENSION_WEAK},
+        {GrammemeConstants::GENDER_MASCULINE, GrammemeConstants::GENDER_FEMININE}
     }, {}, true)
     , definiteArticleLookupFunction(model, true, *npc(java_cast<const DeGrammarSynthesizer_ArticleLookupFunction*>(model.getDefaultFeatureFunction(*npc(model.getFeature(DeGrammarSynthesizer::DEF_ARTICLE))))))
     , indefiniteArticleLookupFunction(model, true, *npc(java_cast<const DeGrammarSynthesizer_ArticleLookupFunction*>(model.getDefaultFeatureFunction(*npc(model.getFeature(DeGrammarSynthesizer::INDEF_ARTICLE))))))
     , definitenessDisplayFunction(model, &definiteArticleLookupFunction, DeGrammarSynthesizer::DEF_ARTICLE, &indefiniteArticleLookupFunction, DeGrammarSynthesizer::INDEF_ARTICLE)
     , tokenizer(::inflection::tokenizer::TokenizerFactory::createTokenizer(::inflection::util::LocaleUtils::GERMAN()))
 {
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryAdjective, {GrammemeConstants::POS_ADJECTIVE()}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryNoun, {GrammemeConstants::POS_NOUN()}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryVerb, {GrammemeConstants::POS_VERB()}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryDeterminer, {GrammemeConstants::POS_ARTICLE(), GrammemeConstants::POS_PRONOUN()}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryFeminine, {GrammemeConstants::GENDER_FEMININE()}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryMasculine, {GrammemeConstants::GENDER_MASCULINE()}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryNeuter, {GrammemeConstants::GENDER_NEUTER()}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryAdjective, {GrammemeConstants::POS_ADJECTIVE}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryNoun, {GrammemeConstants::POS_NOUN}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryVerb, {GrammemeConstants::POS_VERB}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryDeterminer, {GrammemeConstants::POS_ARTICLE, GrammemeConstants::POS_PRONOUN}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryFeminine, {GrammemeConstants::GENDER_FEMININE}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryMasculine, {GrammemeConstants::GENDER_MASCULINE}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryNeuter, {GrammemeConstants::GENDER_NEUTER}));
 
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryNominative, {GrammemeConstants::CASE_NOMINATIVE()}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryGenitive, {GrammemeConstants::CASE_GENITIVE()}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryDative, {GrammemeConstants::CASE_DATIVE()}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryAccusative, {GrammemeConstants::CASE_ACCUSATIVE()}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryNominative, {GrammemeConstants::CASE_NOMINATIVE}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryGenitive, {GrammemeConstants::CASE_GENITIVE}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryDative, {GrammemeConstants::CASE_DATIVE}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryAccusative, {GrammemeConstants::CASE_ACCUSATIVE}));
 
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionarySingular, {GrammemeConstants::NUMBER_SINGULAR()}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryPlural, {GrammemeConstants::NUMBER_PLURAL()}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionarySingular, {GrammemeConstants::NUMBER_SINGULAR}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryPlural, {GrammemeConstants::NUMBER_PLURAL}));
 
     dictionaryGenderMask = dictionaryFeminine | dictionaryMasculine | dictionaryNeuter;
     dictionaryCaseMask = dictionaryNominative | dictionaryGenitive | dictionaryDative | dictionaryAccusative;
@@ -84,28 +81,104 @@ DeGrammarSynthesizer_DeDisplayFunction::DeGrammarSynthesizer_DeDisplayFunction(c
 
 }
 
-DeGrammarSynthesizer_DeDisplayFunction::~DeGrammarSynthesizer_DeDisplayFunction()
-{
-}
+DeGrammarSynthesizer_DeDisplayFunction::~DeGrammarSynthesizer_DeDisplayFunction() = default;
 
-const ::std::map<int32_t, ::std::u16string_view>* DeGrammarSynthesizer_DeDisplayFunction::getSuffixMap(::std::u16string_view declensionClass) const
-{
-    if (declensionClass == DeGrammarSynthesizer::DECLENSION_STRONG()) {
-        return &strongSuffixes;
-    }
-    else if (declensionClass == DeGrammarSynthesizer::DECLENSION_WEAK()) {
-        return &weakSuffixes;
-    }
-    else if (declensionClass == DeGrammarSynthesizer::DECLENSION_MIXED()) {
-        return &mixedSuffixes;
-    }
-    return nullptr;
-}
+static constexpr int32_t DECLENSION_TABLE_SIZE = 24;
+typedef struct {
+    DeGrammarSynthesizer::LookupKey key;
+    const char16_t* suffix;
+} DeclensionSuffix;
+
+static constexpr DeclensionSuffix STRONG_SUFFIXES[DECLENSION_TABLE_SIZE] = {
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative), u"e"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive), u"er"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative), u"e"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative), u"e"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive), u"er"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative), u"e"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative), u"e"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive), u"er"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative), u"e"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative), u"e"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative), u"er"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive), u"er"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative), u"e"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative), u"em"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative), u"er"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative), u"es"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative), u"em"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative), u"es"},
+};
+
+static constexpr DeclensionSuffix WEAK_SUFFIXES[DECLENSION_TABLE_SIZE] = {
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative), u"e"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative), u"e"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative), u"e"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative), u"e"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative), u"e"},
+};
+
+static constexpr DeclensionSuffix MIXED_SUFFIXES[DECLENSION_TABLE_SIZE] = {
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::plural, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::accusative), u"e"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::dative), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::genitive), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::feminine, DeGrammarSynthesizer::Case::nominative), u"e"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::accusative), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::dative), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::genitive), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::masculine, DeGrammarSynthesizer::Case::nominative), u"er"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::accusative), u"es"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::dative), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::genitive), u"en"},
+    {DeGrammarSynthesizer::makeLookupKey(DeGrammarSynthesizer::Number::singular, DeGrammarSynthesizer::Gender::neuter, DeGrammarSynthesizer::Case::nominative), u"es"},
+};
+
+static constexpr const char16_t* VALID_DECLENSION[] = {
+    DeGrammarSynthesizer::DECLENSION_MIXED,
+    DeGrammarSynthesizer::DECLENSION_STRONG,
+    DeGrammarSynthesizer::DECLENSION_WEAK,
+};
 
 inflection::dialog::DisplayValue* DeGrammarSynthesizer_DeDisplayFunction::inflectByDeclension(const ::inflection::dialog::SemanticFeatureModel_DisplayData& displayData, const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, const ::std::u16string& declensionString) const
 {
-    auto const suffixMap = getSuffixMap(declensionString);
-    if (suffixMap == nullptr) {
+    if (!inflection::util::ArrayUtils::contains<VALID_DECLENSION>(declensionString)) {
         return nullptr;
     }
     ::std::u16string caseString(GrammarSynthesizerUtil::getFeatureValue(constraints, caseFeature));
@@ -114,17 +187,17 @@ inflection::dialog::DisplayValue* DeGrammarSynthesizer_DeDisplayFunction::inflec
     const ::inflection::dialog::DisplayValue* stemmedValue = nullptr;
 
     for (const auto& value : displayData.getValues()) {
-        auto valueConstraintMap = value.getConstraintMap();
+        auto const& valueConstraintMap = value.getConstraintMap();
         // Exact match is preferred over stem
         if ((caseString.empty() || caseString == GrammarSynthesizerUtil::getFeatureValue(valueConstraintMap, caseFeature))
             && (countString.empty() || countString == GrammarSynthesizerUtil::getFeatureValue(valueConstraintMap, numberFeature))
             && (genderString.empty() || genderString == GrammarSynthesizerUtil::getFeatureValue(valueConstraintMap, genderFeature))
-            && valueConstraintMap.find(declensionFeature) == valueConstraintMap.end())
+            && !valueConstraintMap.contains(declensionFeature))
         {
             return new ::inflection::dialog::DisplayValue(value.getDisplayString(), value.getConstraintMap());
         }
 
-        if (valueConstraintMap.find(stemFeature) != valueConstraintMap.end() && stemmedValue == nullptr) {
+        if (valueConstraintMap.contains(stemFeature) && stemmedValue == nullptr) {
             stemmedValue = &value;
         }
     }
@@ -215,8 +288,8 @@ std::optional<::std::pair<::std::u16string, ::std::u16string>> DeGrammarSynthesi
         return dictionaryInflector.compareGrammemes(lhs, rhs) < 0;
     };
 
-    const auto bestDependent = ::std::min_element(propertiesDependentWord.begin(), propertiesDependentWord.end(), grammemesComparator);
-    const auto bestHeadWord = ::std::min_element(propertiesHeadWord.begin(), propertiesHeadWord.end(), grammemesComparator);
+    const auto bestDependent = std::ranges::min_element(propertiesDependentWord, grammemesComparator);
+    const auto bestHeadWord = std::ranges::min_element(propertiesHeadWord, grammemesComparator);
 
     // Use the best options to extract constraints:
     ::std::vector<::std::u16string> deducedConstraints;
@@ -234,7 +307,7 @@ std::optional<::std::pair<::std::u16string, ::std::u16string>> DeGrammarSynthesi
             deducedConstraints.emplace_back(*bestCount);
         }
 
-        if (bestCount != GrammemeConstants::NUMBER_PLURAL()) {
+        if (bestCount != GrammemeConstants::NUMBER_PLURAL) {
             // plural and gender are mutually exclusive.
             const auto bestGender = getFeatureNameFromConstraintsOrBinaryType(constraints, *bestHeadWord, dictionaryGenderMask, genderFeature);
             if (bestGender) {
@@ -264,19 +337,19 @@ std::optional<::std::pair<::std::u16string, ::std::u16string>> DeGrammarSynthesi
 
 
     // Plural takes the role of a forth gender in declension, and takes precedence over grammatical gender of the noun.
-    if (countString == GrammemeConstants::NUMBER_PLURAL()) {
+    if (countString == GrammemeConstants::NUMBER_PLURAL) {
         genderString = u"";
     } else {
         // Use gender of the noun to avoid grammatical disagreements (should match gender of the constraints):
         int64_t nounAfterInflectionBinaryType = 0;
         dictionary.getCombinedBinaryType(&nounAfterInflectionBinaryType, nounAfterInflection);
         genderString = getGender(constraints, nounAfterInflectionBinaryType);
-        countString = GrammemeConstants::NUMBER_SINGULAR(); // default to singular when not plural.
+        countString = GrammemeConstants::NUMBER_SINGULAR; // default to singular when not plural.
     }
 
     // We need a declension class for inflecting adjectives when next to nouns. Fill in that grammeme:
     if (declensionString.empty()) {
-        declensionString = DeGrammarSynthesizer::DECLENSION_STRONG();
+        declensionString = DeGrammarSynthesizer::DECLENSION_STRONG;
     }
     // With that, the constraints are all set:
     const auto constraintsVec = { caseString, countString, genderString, declensionString };
@@ -296,11 +369,11 @@ std::optional<::std::pair<::std::u16string, ::std::u16string>> DeGrammarSynthesi
     ::std::u16string genderString;
     if (binaryType != 0) {
         if ((binaryType & dictionaryGenderMask) == dictionaryFeminine) {
-            genderString = GrammemeConstants::GENDER_FEMININE();
+            genderString = GrammemeConstants::GENDER_FEMININE;
         } else if ((binaryType & dictionaryGenderMask) == dictionaryMasculine) {
-            genderString = GrammemeConstants::GENDER_MASCULINE();
+            genderString = GrammemeConstants::GENDER_MASCULINE;
         } else if ((binaryType & dictionaryGenderMask) == dictionaryNeuter) {
-            genderString = GrammemeConstants::GENDER_NEUTER();
+            genderString = GrammemeConstants::GENDER_NEUTER;
         }
     }
     if (genderString.empty()) {
@@ -312,7 +385,7 @@ std::optional<::std::pair<::std::u16string, ::std::u16string>> DeGrammarSynthesi
 std::optional<::std::u16string> DeGrammarSynthesizer_DeDisplayFunction::getFeatureNameFromConstraintsOrBinaryType(const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, int64_t binaryType, int64_t mask, const ::inflection::dialog::SemanticFeature& semanticFeature) const
 {
     // Constraints take priority
-    const auto featureString = GrammarSynthesizerUtil::getFeatureValue(constraints, semanticFeature);
+    auto featureString = GrammarSynthesizerUtil::getFeatureValue(constraints, semanticFeature);
     if (!featureString.empty()) {
         return featureString;
     }
@@ -331,27 +404,36 @@ std::optional<::std::u16string> DeGrammarSynthesizer_DeDisplayFunction::getFeatu
 {
     const auto targetDeclension(GrammarSynthesizerUtil::getFeatureValue(constraints, declensionFeature));
     if (!targetDeclension.empty()) {
-        auto const suffixMap = getSuffixMap(targetDeclension);
-        if (suffixMap != nullptr) {
-            ::std::u16string targetCount(GrammarSynthesizerUtil::getFeatureValue(constraints, numberFeature));
-            ::std::u16string targetCase(GrammarSynthesizerUtil::getFeatureValue(constraints, caseFeature));
-            auto caseValue = DeGrammarSynthesizer::getCase(&targetCase);
-            auto countValue = DeGrammarSynthesizer::getNumber(&targetCount);
-            auto genderValue = DeGrammarSynthesizer::getGender(&targetGender);
-            auto key = DeGrammarSynthesizer::makeLookupKey(countValue, genderValue, caseValue);
-            auto suffix = npc(suffixMap)->find(key);
+        ::std::u16string targetCount(GrammarSynthesizerUtil::getFeatureValue(constraints, numberFeature));
+        ::std::u16string targetCase(GrammarSynthesizerUtil::getFeatureValue(constraints, caseFeature));
+        auto caseValue = DeGrammarSynthesizer::getCase(&targetCase);
+        auto countValue = DeGrammarSynthesizer::getNumber(&targetCount);
+        auto genderValue = DeGrammarSynthesizer::getGender(&targetGender);
+        auto key = DeGrammarSynthesizer::makeLookupKey(countValue, genderValue, caseValue);
 
-            if (suffix != npc(suffixMap)->end()) {
-                ::std::u16string result(lemma);
-                result.append(suffix->second);
-                return result;
-            }
+        const DeclensionSuffix* suffixEntry = nullptr;
+        if (targetDeclension == DeGrammarSynthesizer::DECLENSION_STRONG) {
+            suffixEntry = inflection::util::ArrayUtils::searchSorted<STRONG_SUFFIXES>(key,
+                [](const auto& item) { return item.key; });
+        }
+        else if (targetDeclension == DeGrammarSynthesizer::DECLENSION_WEAK) {
+            suffixEntry = inflection::util::ArrayUtils::searchSorted<WEAK_SUFFIXES>(key,
+                [](const auto& item) { return item.key; });
+        }
+        else if (targetDeclension == DeGrammarSynthesizer::DECLENSION_MIXED) {
+            suffixEntry = inflection::util::ArrayUtils::searchSorted<MIXED_SUFFIXES>(key,
+                [](const auto& item) { return item.key; });
+        }
+        if (suffixEntry != nullptr) {
+            ::std::u16string result(lemma);
+            result.append(suffixEntry->suffix);
+            return result;
         }
     }
     return lemma;
 }
 
-::std::u16string DeGrammarSynthesizer_DeDisplayFunction::inflectGenitiveProperNoun(const std::u16string &displayString) const{
+::std::u16string DeGrammarSynthesizer_DeDisplayFunction::inflectGenitiveProperNoun(const std::u16string &displayString) {
     auto length = displayString.length();
     auto suffix = u_tolower(displayString[length - 1]);
     auto two_letter_suffix = u_tolower(displayString[length - 2]);
@@ -387,7 +469,7 @@ std::optional<::std::u16string> DeGrammarSynthesizer_DeDisplayFunction::getFeatu
         auto length = displayString.length();
         int64_t wordGrammemes = 0;
         ::std::optional<::std::u16string> inflectionResult;
-        if (GrammemeConstants::CASE_GENITIVE() == caseString && posString == GrammemeConstants::POS_PROPER_NOUN() && length > 1) {
+        if (caseString == GrammemeConstants::CASE_GENITIVE && posString == GrammemeConstants::POS_PROPER_NOUN && length > 1) {
             inflectionResult = inflectGenitiveProperNoun(displayString);
         } else if (dictionary.getCombinedBinaryType(&wordGrammemes, displayString) != nullptr) {
             inflectionResult = inflectWord(displayString, wordGrammemes, constraints, {}, enableInflectionGuess);
@@ -486,8 +568,8 @@ std::optional<::std::pair<::std::u16string, ::std::u16string>> DeGrammarSynthesi
             return {};
         }
 
-        inflectedHeadWord = (*inflectionResult).first;
-        inflectedDependentWord = (*inflectionResult).second;
+        inflectedHeadWord = inflectionResult->first;
+        inflectedDependentWord = inflectionResult->second;
     } else {
         int64_t wordGrammemes = 0;
         dictionary.getCombinedBinaryType(&wordGrammemes, headWord);
@@ -497,7 +579,7 @@ std::optional<::std::pair<::std::u16string, ::std::u16string>> DeGrammarSynthesi
             return { };
         }
     }
-    
+
 
     // Postflight: put all tokens back together:
     ::std::u16string inflectedResult;

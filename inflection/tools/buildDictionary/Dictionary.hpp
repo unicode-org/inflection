@@ -1,11 +1,11 @@
 /*
- * Copyright 2017-2024 Apple Inc. All rights reserved.
+ * Copyright 2017-2026 Apple Inc. All rights reserved.
  */
 #pragma once
 #include <inflection/util/ULocale.hpp>
+#include "StringPool.hpp"
 #include <cstdint>
 #include <map>
-#include <unordered_map>
 #include <vector>
 
 class Dictionary
@@ -17,26 +17,24 @@ public:
     const ::std::map<std::u16string_view, int64_t>& getTypeToValue() const;
     const ::std::map<std::u16string_view, int64_t>& getWordsToTypes() const;
     const ::std::map<int64_t, ::std::u16string_view>& getValueToType() const;
-    const ::std::map<int64_t, std::u16string_view>& getType() const;
     const ::std::map<std::u16string_view, ::std::map<std::u16string_view, ::std::vector<std::u16string_view>>>& getWordToPropertyValue() const;
+    const StringPool& getStringPool() const;
 
     int64_t createGrammemeTypeIfNonExistant(::std::u16string_view type);
-    std::u16string_view getStringSingleton(::std::u16string_view view);
 
 private:
     ::inflection::util::ULocale locale;
-    ::std::map<int64_t, ::std::u16string_view> types {  };
     ::std::map<::std::u16string_view, int64_t> typeToValue {  };
     ::std::map<int64_t, ::std::u16string_view> valueToType {  };
     ::std::map<std::u16string_view, int64_t> wordsToTypes {  };
     ::std::map<::std::u16string_view, ::std::map<::std::u16string_view, ::std::vector<::std::u16string_view>>> wordToPropertyValue {  };
-    ::std::unordered_map<::std::u16string_view, char16_t*> stringSingletons {  };
+    StringPool stringSingletons;
 
     /**
-     * The first prime below an order of magnitude of 2^n that is a reasonable default starting size for a hash map.
-     * Right now we have 128K-1.3M entries.
+     * Provides an estimated ratio of file size to number of entries to reduce rehashing of an unordered map.
+     * Average ~50 bytes per line including the word + lowercase variant.
      */
-    static constexpr uint32_t DEFAULT_SINGLETON_MAP_SIZE = 262139;
+    static constexpr uint32_t APPROXIMATE_BYTES_PER_LINE = 50;
 
     ::std::u16string* transform(::std::u16string* dest, ::std::u16string_view str);
 
@@ -46,6 +44,8 @@ private:
     Dictionary(const ::inflection::util::ULocale& locale);
 public:
     ~Dictionary();
+    Dictionary(const Dictionary&) = delete;
+    Dictionary& operator=(const Dictionary&) = delete;
 };
 
 

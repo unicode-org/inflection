@@ -4,12 +4,10 @@
 #pragma once
 
 #include <inflection/dictionary/fwd.hpp>
-#include <inflection/dictionary/Inflector.hpp>
 #include <inflection/dialog/fwd.hpp>
 #include <inflection/grammar/synthesis/fwd.hpp>
 #include <inflection/grammar/synthesis/SvGrammarSynthesizer_GenderLookupFunction.hpp>
 #include <inflection/dialog/DefaultDisplayFunction.hpp>
-#include <inflection/dialog/DictionaryLookupFunction.hpp>
 #include <inflection/dialog/DictionaryLookupInflector.hpp>
 #include <inflection/grammar/synthesis/SignificantTokenInflector.hpp>
 #include <string>
@@ -30,7 +28,6 @@ private:
     const ::inflection::dialog::SemanticFeature& genderFeature;
     const ::inflection::dialog::SemanticFeature& posFeature;
     const ::inflection::dictionary::DictionaryMetaData& dictionary;
-    const ::inflection::dictionary::Inflector &inflector;
     const ::std::unique_ptr<::inflection::tokenizer::Tokenizer> tokenizer;
     int64_t dictionaryAdjective {  };
     int64_t dictionaryNoun {  };

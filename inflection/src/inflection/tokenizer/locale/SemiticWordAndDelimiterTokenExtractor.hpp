@@ -8,7 +8,7 @@
 #include <inflection/util/fwd.hpp>
 #include <inflection/tokenizer/TokenExtractor.hpp>
 #include <inflection/tokenizer/locale/SemiticWordAndDelimiterTokenExtractor_AffixRecord.hpp>
-#include <icu4cxx/UnicodeSet.hpp>
+#include <unicode/uscript.h>
 #include <vector>
 #include <string_view>
 
@@ -19,7 +19,7 @@ public:
     typedef TokenExtractor super;
 
 private:
-    const ::icu4cxx::UnicodeSet nativeSet;
+    UScriptCode nativeScript;
     SemiticWordAndDelimiterTokenExtractor_AffixRecord suffixTree {  };
     ::std::vector<SemiticWordAndDelimiterTokenExtractor_AffixRecord> prefixTree {  };
     ::std::u16string_view toNormalize {  };
@@ -27,9 +27,6 @@ private:
 
 public:
     inflection::tokenizer::iterator::TokenExtractorIterator* createIterator(std::u16string_view str) const override;
-
-private:
-    bool isKnownWord(std::u16string_view compoundWord) const;
 
 public: /* protected */
     void decompoundWord(std::vector<int32_t>* boundaries, std::u16string_view phrase, int32_t start, int32_t end) const;
@@ -44,7 +41,7 @@ private:
 
 
 public:
-    SemiticWordAndDelimiterTokenExtractor(const ::inflection::util::ULocale& locale, const ::icu4cxx::UnicodeSet& nativeSet, const ::std::map<::std::u16string_view, const char16_t*>& config);
+    SemiticWordAndDelimiterTokenExtractor(const ::inflection::util::ULocale& locale, UScriptCode nativeScript, const ::std::map<::std::u16string_view, const char16_t*>& config);
 
     static constexpr int32_t MINIMUM_WORD_LENGTH { 2 };
 };

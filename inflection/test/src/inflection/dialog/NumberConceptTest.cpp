@@ -10,7 +10,7 @@
 #include <inflection/util/StringUtils.hpp>
 #include <inflection/npc.hpp>
 #include <memory>
-#include <math.h>
+#include <cmath>
 
 TEST_CASE("NumberConceptTest#test_en_US_1")
 {
@@ -378,6 +378,30 @@ TEST_CASE("NumberConceptTest#test_es_1")
     REQUIRE(u"una" == one.asWords(u"cardinal-feminine"));
     REQUIRE(u"primero" == one.asWords(u"ordinal-masculine"));
     REQUIRE(u"primera" == one.asWords(u"ordinal-feminine"));
+}
+
+TEST_CASE("NumberConceptTest#test_es_decimal")
+{
+    ::inflection::dialog::NumberConcept thousandMXES(1001.25, ::inflection::util::LocaleUtils::MEXICO_SPANISH(), ::inflection::util::LocaleUtils::SPAIN_SPANISH());
+    CHECK("1.001,25" == inflection::util::StringUtils::to_string(thousandMXES.getAsDigits().getPrint()));
+    CHECK("1,001.25" == inflection::util::StringUtils::to_string(thousandMXES.getAsDigits().getSpeak()));
+    CHECK("mil uno punto dos cinco" == inflection::util::StringUtils::to_string(thousandMXES.getAsWords()));
+    CHECK("mil un punto dos cinco" == inflection::util::StringUtils::to_string(thousandMXES.asWords(u"cardinal-masculine")));
+    CHECK("mil una punto dos cinco" == inflection::util::StringUtils::to_string(thousandMXES.asWords(u"cardinal-feminine")));
+
+    ::inflection::dialog::NumberConcept thousandMXMX(1001.25, ::inflection::util::LocaleUtils::MEXICO_SPANISH(), ::inflection::util::LocaleUtils::MEXICO_SPANISH());
+    CHECK("1,001.25" == inflection::util::StringUtils::to_string(thousandMXMX.getAsDigits().getPrint()));
+    CHECK("1,001.25" == inflection::util::StringUtils::to_string(thousandMXMX.getAsDigits().getSpeak()));
+    CHECK("mil uno punto dos cinco" == inflection::util::StringUtils::to_string(thousandMXMX.getAsWords()));
+    CHECK("mil un punto dos cinco" == inflection::util::StringUtils::to_string(thousandMXMX.asWords(u"cardinal-masculine")));
+    CHECK("mil una punto dos cinco" == inflection::util::StringUtils::to_string(thousandMXMX.asWords(u"cardinal-feminine")));
+
+    ::inflection::dialog::NumberConcept thousandESMX(1001.25, ::inflection::util::LocaleUtils::SPAIN_SPANISH(), ::inflection::util::LocaleUtils::MEXICO_SPANISH());
+    CHECK("1,001.25" == inflection::util::StringUtils::to_string(thousandESMX.getAsDigits().getPrint()));
+    CHECK("1.001,25" == inflection::util::StringUtils::to_string(thousandESMX.getAsDigits().getSpeak()));
+    CHECK("mil uno coma dos cinco" == inflection::util::StringUtils::to_string(thousandESMX.getAsWords()));
+    CHECK("mil un coma dos cinco" == inflection::util::StringUtils::to_string(thousandESMX.asWords(u"cardinal-masculine")));
+    CHECK("mil una coma dos cinco" == inflection::util::StringUtils::to_string(thousandESMX.asWords(u"cardinal-feminine")));
 }
 
 TEST_CASE("NumberConceptTest#testSwiss")
@@ -871,4 +895,14 @@ TEST_CASE("NumberConceptTest#testUnrealNumbers")
     ::inflection::dialog::NumberConcept numberConcept2(NAN, ::inflection::util::LocaleUtils::US(), ::inflection::util::LocaleUtils::US());
     REQUIRE(::inflection::dialog::SpeakableString(u"NaN") == numberConcept2.getAsDigits());
     REQUIRE(u"not a number" == numberConcept2.getAsWords());
+}
+
+TEST_CASE("NumberConceptTest#testComparison") {
+    ::inflection::dialog::NumberConcept one(static_cast<int64_t>(1), ::inflection::util::LocaleUtils::US(), ::inflection::util::LocaleUtils::US());
+    ::inflection::dialog::NumberConcept oneAlso(static_cast<int64_t>(1), ::inflection::util::LocaleUtils::SPANISH(), ::inflection::util::LocaleUtils::SPANISH());
+    REQUIRE(one == oneAlso);
+    REQUIRE_FALSE(one < oneAlso);
+    ::inflection::dialog::NumberConcept minusOne(static_cast<int64_t>(-1), ::inflection::util::LocaleUtils::US(), ::inflection::util::LocaleUtils::US());
+    REQUIRE(one != minusOne);
+    REQUIRE(minusOne < one);
 }

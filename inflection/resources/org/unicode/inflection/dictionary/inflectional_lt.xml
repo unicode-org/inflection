@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<patterns>
+    <pattern name="1" words="2">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection gender="masculine"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="2" words="1">
+        <pos>noun</pos>
+        <suffix>as</suffix>
+        <inflections>
+            <inflection case="accusative" gender="masculine" number="singular"><t><stem/>ą</t></inflection>
+            <inflection case="dative" gender="masculine" number="singular"><t><stem/>ui</t></inflection>
+            <inflection case="genitive" gender="masculine" number="singular"><t><stem/>o</t></inflection>
+            <inflection case="instrumental" gender="masculine" number="singular"><t><stem/>u</t></inflection>
+            <inflection case="locative" gender="masculine" number="singular"><t><stem/>e</t></inflection>
+            <inflection case="nominative" gender="masculine" number="singular"><t><stem/>as</t></inflection>
+            <inflection case="vocative" gender="masculine" number="singular"><t><stem/>e</t></inflection>
+            <inflection case="accusative" gender="masculine" number="plural"><t><stem/>us</t></inflection>
+            <inflection case="dative" gender="masculine" number="plural"><t><stem/>ams</t></inflection>
+            <inflection case="genitive" gender="masculine" number="plural"><t><stem/>ų</t></inflection>
+            <inflection case="instrumental" gender="masculine" number="plural"><t><stem/>ais</t></inflection>
+            <inflection case="locative" gender="masculine" number="plural"><t><stem/>uose</t></inflection>
+            <inflection case="nominative" gender="masculine" number="plural"><t><stem/>ai</t></inflection>
+            <inflection case="vocative" gender="masculine" number="plural"><t><stem/>ai</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="3" words="1">
+        <pos>noun</pos>
+    </pattern>
+    <pattern name="4" words="1">
+        <pos>noun</pos>
+        <suffix>is</suffix>
+        <inflections>
+            <inflection case="accusative" gender="masculine" number="singular"><t><stem/>į</t></inflection>
+            <inflection case="dative" gender="masculine" number="singular"><t><stem/>iui</t></inflection>
+            <inflection case="genitive" gender="masculine" number="singular"><t><stem/>io</t></inflection>
+            <inflection case="instrumental" gender="masculine" number="singular"><t><stem/>iu</t></inflection>
+            <inflection case="locative" gender="masculine" number="singular"><t><stem/>yje</t></inflection>
+            <inflection case="nominative" gender="masculine" number="singular"><t><stem/>i</t></inflection>
+            <inflection case="vocative" gender="masculine" number="singular"><t><stem/>i</t></inflection>
+            <inflection case="accusative" gender="masculine" number="plural"><t><stem/>ius</t></inflection>
+            <inflection case="dative" gender="masculine" number="plural"><t><stem/>iams</t></inflection>
+            <inflection case="genitive" gender="masculine" number="plural"><t><stem/>ių</t></inflection>
+            <inflection case="instrumental" gender="masculine" number="plural"><t><stem/>iais</t></inflection>
+            <inflection case="locative" gender="masculine" number="plural"><t><stem/>iuose</t></inflection>
+            <inflection case="nominative" gender="masculine" number="plural"><t><stem/>iai</t></inflection>
+            <inflection case="vocative" gender="masculine" number="plural"><t><stem/>iai</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="5" words="1">
+        <pos>noun</pos>
+        <suffix>is</suffix>
+        <inflections>
+            <inflection case="accusative" gender="masculine" number="singular"><t><stem/>į</t></inflection>
+            <inflection case="dative" gender="masculine" number="singular"><t><stem/>iui</t></inflection>
+            <inflection case="genitive" gender="masculine" number="singular"><t><stem/>io</t></inflection>
+            <inflection case="instrumental" gender="masculine" number="singular"><t><stem/>iu</t></inflection>
+            <inflection case="locative" gender="masculine" number="singular"><t><stem/>yje</t></inflection>
+            <inflection case="nominative" gender="masculine" number="singular"><t><stem/>is</t></inflection>
+            <inflection case="vocative" gender="masculine" number="singular"><t><stem/>i</t></inflection>
+            <inflection case="accusative" gender="masculine" number="plural"><t><stem/>ius</t></inflection>
+            <inflection case="dative" gender="masculine" number="plural"><t><stem/>iams</t></inflection>
+            <inflection case="genitive" gender="masculine" number="plural"><t><stem/>ių</t></inflection>
+            <inflection case="instrumental" gender="masculine" number="plural"><t><stem/>iais</t></inflection>
+            <inflection case="locative" gender="masculine" number="plural"><t><stem/>iuose</t></inflection>
+            <inflection case="nominative" gender="masculine" number="plural"><t><stem/>iai</t></inflection>
+            <inflection case="vocative" gender="masculine" number="plural"><t><stem/>iai</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="6" words="1">
+        <pos>noun</pos>
+        <suffix>is</suffix>
+        <inflections>
+            <inflection case="accusative" gender="masculine" number="singular"><t><stem/>į</t></inflection>
+            <inflection case="dative" gender="masculine" number="singular"><t><stem/>iui</t></inflection>
+            <inflection case="genitive" gender="masculine" number="singular"><t><stem/>io</t></inflection>
+            <inflection case="instrumental" gender="masculine" number="singular"><t><stem/>iu</t></inflection>
+            <inflection case="locative" gender="masculine" number="singular"><t><stem/>yje</t></inflection>
+            <inflection case="vocative" gender="masculine" number="singular"><t><stem/>i</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="7" words="1">
+        <pos>noun</pos>
+        <suffix>ė</suffix>
+        <inflections>
+            <inflection case="accusative" gender="feminine" number="singular"><t><stem/>ę</t></inflection>
+            <inflection case="dative" gender="feminine" number="singular"><t><stem/>ei</t></inflection>
+            <inflection case="genitive" gender="feminine" number="singular"><t><stem/>ės</t></inflection>
+            <inflection case="instrumental" gender="feminine" number="singular"><t><stem/>e</t></inflection>
+            <inflection case="locative" gender="feminine" number="singular"><t><stem/>ėje</t></inflection>
+            <inflection case="nominative" gender="feminine" number="singular"><t><stem/>ė</t></inflection>
+            <inflection case="vocative" gender="feminine" number="singular"><t><stem/>e</t></inflection>
+            <inflection case="accusative" gender="feminine" number="plural"><t><stem/>es</t></inflection>
+            <inflection case="dative" gender="feminine" number="plural"><t><stem/>ėms</t></inflection>
+            <inflection case="genitive" gender="feminine" number="plural"><t><stem/>ių</t></inflection>
+            <inflection case="instrumental" gender="feminine" number="plural"><t><stem/>ėmis</t></inflection>
+            <inflection case="locative" gender="feminine" number="plural"><t><stem/>ėse</t></inflection>
+            <inflection case="nominative" gender="feminine" number="plural"><t><stem/>ės</t></inflection>
+            <inflection case="vocative" gender="feminine" number="plural"><t><stem/>ės</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="8" words="1">
+        <pos>noun</pos>
+        <suffix>as</suffix>
+        <inflections>
+            <inflection case="genitive" gender="masculine" number="singular"><t><stem/>o</t></inflection>
+            <inflection case="nominative" gender="masculine" number="singular"><t><stem/>as</t></inflection>
+        </inflections>
+    </pattern>
+</patterns>

@@ -1,12 +1,12 @@
 #
-# Copyright 2021-2024 Apple Inc. All rights reserved.
+# Copyright 2021-2026 Apple Inc. All rights reserved.
 #
 set(RESOURCE_GRAMMAR_DATA_HPP ${CMAKE_BINARY_DIR}/resources/inflection/lang/features/LanguageGrammarFeatures_Data.hpp)
 set(RESOURCE_VERSION_H ${CMAKE_BINARY_DIR}/resources/inflection/version.h)
 
-file(GLOB_RECURSE RESOURCE_PROPS ${CMAKE_CURRENT_SOURCE_DIR}/org/*.properties)
-file(GLOB_RECURSE RESOURCE_DICTS CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/org/*)
-foreach (FILTER_REGEX IN ITEMS "\\.properties$" "\\.dtd$" "\\.xml$" "\\.lst$" "tokenizer\\.dictionary" "CMakeLists\\.txt" "/\\.")
+file(GLOB_RECURSE RESOURCE_PROPS ${CMAKE_CURRENT_SOURCE_DIR}/org/[^.]*.properties)
+file(GLOB_RECURSE RESOURCE_DICTS CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/org/[^.]*)
+foreach (FILTER_REGEX IN ITEMS "\\.(properties|dtd|xml|lst)$" "tokenizer\\.dictionary$" "transliteration_map_.+\\.csv$" "suffix_.+\\.csv$")
     list(FILTER RESOURCE_DICTS EXCLUDE REGEX ${FILTER_REGEX})
 endforeach ()
 
@@ -38,10 +38,10 @@ foreach (RESOURCE_ITEM IN LISTS RESOURCE_DICTS_WITH_TYPE RESOURCE_PROPS_WITH_TYP
 endforeach ()
 
 set(DATA_RESOURCE_CPP ${CMAKE_CURRENT_BINARY_DIR}/inflection/resources/DataResource.cpp)
-set(DATA_RESOURCE_GEN ${CMAKE_SOURCE_DIR}/tools/text2cpp/Generate_DataResource.cpp.sh)
+set(DATA_RESOURCE_GEN ${CMAKE_SOURCE_DIR}/cmake/GenerateDataResource.cmake)
 add_custom_command(
     OUTPUT ${DATA_RESOURCE_CPP}
-    COMMAND ${DATA_RESOURCE_GEN} ${DATA_RESOURCE_CPP} ${CMAKE_SOURCE_DIR}
+    COMMAND ${CMAKE_COMMAND} -DDATA_RESOURCE_PATH="${DATA_RESOURCE_CPP}" -DRESOURCES="${CMAKE_SOURCE_DIR}/resources" -P  "${DATA_RESOURCE_GEN}"
     DEPENDS ${DATA_RESOURCE_GEN} ${RESOURCES_HPP}
 )
 get_filename_component(DATA_RESOURCE_DIR ${DATA_RESOURCE_CPP} DIRECTORY)
@@ -61,27 +61,20 @@ message(DEBUG "Grammar hpp: ${RESOURCE_GRAMMAR_DATA_HPP}")
 set(RESOURCE_CONFIGURATION_FILE ${CMAKE_CURRENT_SOURCE_DIR}/share/inflection/config.properties)
 add_custom_command(
     OUTPUT ${RESOURCE_VERSION_H}
-    COMMAND echo "\\#pragma once" > ${RESOURCE_VERSION_H}
-    COMMAND echo "/* INFLECTION_CAPI */" >> ${RESOURCE_VERSION_H}
-    COMMAND sed -n "'s/^library\\.version=\\([0-9]*\\)\\.\\([0-9]*\\)/#define INFLECTION_MAJOR_VERSION \\1/p'" ${RESOURCE_CONFIGURATION_FILE} >> ${RESOURCE_VERSION_H}
-    COMMAND sed -n "'s/^library\\.version=\\([0-9]*\\)\\.\\([0-9]*\\)/#define INFLECTION_MINOR_VERSION \\2/p'" ${RESOURCE_CONFIGURATION_FILE} >> ${RESOURCE_VERSION_H}
-    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/share/inflection/config.properties
+    COMMAND ${CMAKE_COMMAND}
+        -D "CONFIG_FILE=${RESOURCE_CONFIGURATION_FILE}"
+        -D "OUTPUT_FILE=${RESOURCE_VERSION_H}"
+        -P ${CMAKE_SOURCE_DIR}/cmake/GenerateVersionHeader.cmake
+    DEPENDS ${RESOURCE_CONFIGURATION_FILE}
 )
 
-if(XCODE)
-    add_library(resource_objs INTERFACE)
-    target_sources(resource_objs INTERFACE ${RESOURCES_CPP} ${DATA_RESOURCE_CPP})
-    target_include_directories(resource_objs INTERFACE ${CMAKE_CURRENT_BINARY_DIR})
-    source_group(TREE ${CMAKE_CURRENT_BINARY_DIR} FILES ${RESOURCES_CPP} ${DATA_RESOURCE_CPP})
-else()
-    add_library(resource_objs OBJECT)
-    target_sources(resource_objs PRIVATE ${RESOURCES_CPP} ${DATA_RESOURCE_CPP})
-    set_property(TARGET resource_objs PROPERTY POSITION_INDEPENDENT_CODE ON)
-    target_include_directories(resource_objs
-        PRIVATE ${CMAKE_SOURCE_DIR}/src
-        PUBLIC ${CMAKE_CURRENT_BINARY_DIR}
-    )
-endif()
+add_library(resource_objs OBJECT)
+target_sources(resource_objs PRIVATE ${RESOURCES_CPP} ${DATA_RESOURCE_CPP})
+set_property(TARGET resource_objs PROPERTY POSITION_INDEPENDENT_CODE ON)
+target_include_directories(resource_objs
+    PRIVATE ${CMAKE_SOURCE_DIR}/src
+    PUBLIC ${CMAKE_CURRENT_BINARY_DIR}
+)
 
 add_custom_target(generated_src DEPENDS ${RESOURCES_CPP} ${DATA_RESOURCE_CPP} ${RESOURCE_GRAMMAR_DATA_HPP})
 add_custom_target(generated_version_header DEPENDS ${RESOURCE_VERSION_H})
@@ -97,13 +90,15 @@ file(GLOB_RECURSE BINARY_DICTS_SRC CONFIGURE_DEPENDS ${DICTIONARY_ROOT}/dictiona
 file(GLOB_RECURSE INFLECTIONAL_XML_SRC CONFIGURE_DEPENDS ${DICTIONARY_ROOT}/inflectional_*.xml)
 
 list(TRANSFORM BINARY_DICTS_SRC REPLACE ".*/dictionary_(.*)\\.lst" "\\1" OUTPUT_VARIABLE BINARY_DICT_LOCALES)
-set(AFFIX_PATTERN_MAPPING_LOCALES fi)
 
 print_debug_list(BINARY_DICT_LOCALES "Locales having dictionary in inflection = ")
 
-set(LIBRARY_PATH_NAME LD_LIBRARY_PATH)
 if (APPLE)
     set(LIBRARY_PATH_NAME DYLD_LIBRARY_PATH)
+elseif (WIN32)
+    set(LIBRARY_PATH_NAME PATH)
+else()
+    set(LIBRARY_PATH_NAME LD_LIBRARY_PATH)
 endif()
 
 foreach (LOCALE IN LISTS BINARY_DICT_LOCALES)
@@ -113,19 +108,16 @@ foreach (LOCALE IN LISTS BINARY_DICT_LOCALES)
     set(BINARY_INFLECTIONAL_SRC "${INFLECTIONAL_XML_SRC}")
     list(FILTER BINARY_INFLECTIONAL_SRC INCLUDE REGEX "inflectional_${LOCALE}\\.xml")
 
-    set(BINARY_SUPP_SRC          ${DICTIONARY_ROOT}/supplemental_${LOCALE}.lst)
-    set(BINARY_SUPP_SRC_ARG      "")
     set(BINARY_DICT              ${BINARY_DICTS_DIR}/mmappable_${LOCALE}.sdict)
-    set(AFFIX_PATTERN_MAPPING_ARG "")
+    list(APPEND BINARY_DICTS ${BINARY_DICT})
 
-    if (NOT EXISTS ${BINARY_SUPP_SRC})
+    set(BINARY_SUPP_SRC ${DICTIONARY_ROOT}/supplemental_${LOCALE}.lst)
+    if (EXISTS ${BINARY_SUPP_SRC})
+        set(BINARY_SUPP_SRC_ARG --supplementalfile ${BINARY_SUPP_SRC})
+    else ()
         set(BINARY_SUPP_SRC "")
         set(BINARY_SUPP_SRC_ARG "")
-    else ()
-        set(BINARY_SUPP_SRC_ARG --supplementalfile ${BINARY_SUPP_SRC})
     endif ()
-
-    list(APPEND BINARY_DICTS ${BINARY_DICT})
 
     if (BINARY_INFLECTIONAL_SRC)
         set(BINARY_INFLECTIONAL_SRC_ARG --inflectionfile ${BINARY_INFLECTIONAL_SRC})
@@ -134,14 +126,9 @@ foreach (LOCALE IN LISTS BINARY_DICT_LOCALES)
         set(BINARY_INFLECTIONAL_SRC_ARG "")
     endif ()
 
-    list (FIND AFFIX_PATTERN_MAPPING_LOCALES ${LOCALE} FOUND_LOCALE_INDEX)
-    if (${FOUND_LOCALE_INDEX} GREATER -1)
-        set(AFFIX_PATTERN_MAPPING_ARG "--affix-patterns-mappings")
-    endif()
-
     add_custom_command(
             OUTPUT ${BINARY_DICT}
-            COMMAND ${LIBRARY_PATH_NAME}=${ICU_LIB_DIRECTORY} ${CMAKE_CURRENT_BINARY_DIR}/../tools/buildDictionary/buildDictionary --locale ${LOCALE} --outfile ${BINARY_DICT} --infile ${BINARY_DICT_SRC} ${BINARY_SUPP_SRC_ARG} ${BINARY_INFLECTIONAL_SRC_ARG} ${AFFIX_PATTERN_MAPPING_ARG}
+            COMMAND ${CMAKE_COMMAND} -E env "${LIBRARY_PATH_NAME}=${ICU_LIB_DIRECTORY}" $<TARGET_FILE:buildDictionary> --locale ${LOCALE} --outfile ${BINARY_DICT} --infile ${BINARY_DICT_SRC} ${BINARY_SUPP_SRC_ARG} ${BINARY_INFLECTIONAL_SRC_ARG}
             DEPENDS buildDictionary ${BINARY_DICT_SRC} ${BINARY_SUPP_SRC} ${BINARY_INFLECTIONAL_SRC}
     )
 endforeach ()
@@ -161,11 +148,31 @@ foreach (BINARY_TOK_DICT_SRC IN LISTS BINARY_TOK_DICT_SRCS)
 
     add_custom_command(
         OUTPUT ${BINARY_TOK_DICT}
-        COMMAND ${LIBRARY_PATH_NAME}=${ICU_LIB_DIRECTORY} ${CMAKE_CURRENT_BINARY_DIR}/../tools/buildTokDictionary/buildTokDictionary ${BINARY_TOK_DICT_SRC} ${BINARY_TOK_DICT}
+        COMMAND ${CMAKE_COMMAND} -E env "${LIBRARY_PATH_NAME}=${ICU_LIB_DIRECTORY}" $<TARGET_FILE:buildTokDictionary> ${BINARY_TOK_DICT_SRC} ${BINARY_TOK_DICT}
         DEPENDS buildTokDictionary ${BINARY_TOK_DICT_SRC}
     )
 endforeach()
 # -------- End tok dictionary section
+
+# -------- Begin suffix exemplar section
+set(SUFFIX_EXEMPLAR_MAP_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/org/unicode/inflection/exemplar)
+set(SUFFIX_EXEMPLAR_MAP_DIR_ROOT ${INFLECTION_DATA_ROOT}/inflection/exemplar)
+file(GLOB_RECURSE SUFFIX_EXEMPLAR_CSVS CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/org/unicode/inflection/exemplar/*.csv)
+file(MAKE_DIRECTORY ${SUFFIX_EXEMPLAR_MAP_DIR_ROOT})
+foreach (SUFFIX_EXEMPLAR_CSV IN LISTS SUFFIX_EXEMPLAR_CSVS)
+    string(REGEX REPLACE "^${SUFFIX_EXEMPLAR_MAP_SRC_DIR}/(.*)\\.csv" "${SUFFIX_EXEMPLAR_MAP_DIR_ROOT}/\\1.bist" SUFFIX_EXEMPLAR_BIST ${SUFFIX_EXEMPLAR_CSV})
+    get_filename_component(SUFFIX_EXEMPLAR_MAP_DIR ${SUFFIX_EXEMPLAR_BIST} DIRECTORY)
+    list(APPEND RESOURCE_DIRS ${SUFFIX_EXEMPLAR_MAP_DIR})
+    list(APPEND SUFFIX_EXEMPLAR_MAPS ${SUFFIX_EXEMPLAR_BIST})
+
+    add_custom_command(
+            OUTPUT ${SUFFIX_EXEMPLAR_BIST}
+            COMMAND ${CMAKE_COMMAND} -E env "${LIBRARY_PATH_NAME}=${ICU_LIB_DIRECTORY}" $<TARGET_FILE:buildStringMap> ${SUFFIX_EXEMPLAR_CSV} ${SUFFIX_EXEMPLAR_BIST}
+            DEPENDS buildStringMap ${SUFFIX_EXEMPLAR_CSV}
+    )
+endforeach()
+
+# -------- End suffix exemplar section
 
 file(GLOB_RECURSE RESOURCE_BINARIES ${CMAKE_CURRENT_SOURCE_DIR}/share/*)
 install_build_resources(
@@ -175,7 +182,7 @@ install_build_resources(
         RESOURCE_BINARIES_DIST
 )
 
-add_custom_target(inflection-data ALL DEPENDS ${BINARY_DICTS} ${BINARY_TOK_DICTS} ${RESOURCE_BINARIES_DIST})
+add_custom_target(inflection-data ALL DEPENDS ${BINARY_DICTS} ${BINARY_TOK_DICTS} ${SUFFIX_EXEMPLAR_MAPS} ${RESOURCE_BINARIES_DIST})
 
 #Make directories for all generated resource files
 list(REMOVE_DUPLICATES RESOURCE_DIRS)

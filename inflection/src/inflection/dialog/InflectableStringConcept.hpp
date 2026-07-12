@@ -22,8 +22,7 @@ public:
     /// @endcond
 
 private:
-    SpeakableString value;
-    DisplayValue defaultDisplayValue;
+    DisplayValue value;
 
 public: /* protected */
     /**

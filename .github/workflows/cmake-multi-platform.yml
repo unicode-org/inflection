@@ -22,7 +22,7 @@ on:
       - '.github/workflows/**'
 env:
   ICU_MAJOR: '78'
-  ICU_MINOR: '1'
+  ICU_MINOR: '3'
 
 jobs:
   cache-icu:
@@ -88,21 +88,24 @@ jobs:
       run: git lfs ls-files -l |cut -d' ' -f1 |sort >.git/lfs-hashes.txt
 
     - name: Restore Git LFS object cache
+      # Cache the local LFS object store (all LFS-tracked paths in the repo), not just one
+      # smudged output directory, so objects outside that directory still get checked out below.
       uses: actions/cache@v4
       id: lfscache
       with:
-        path: inflection/resources/org/unicode/inflection/dictionary
+        path: .git/lfs
         key: ${{ runner.os }}-lfsdata-v1-${{ hashFiles('.git/lfs-hashes.txt') }}
         restore-keys: |
           ${{ runner.os }}-lfsdata-v1-
           ${{ runner.os }}-lfsdata
 
     - name: Fetch any needed Git LFS objects and prune extraneous ones
-      if: steps.lfscache.outputs.cache-hit != 'true'
       run: git lfs fetch --prune
 
     - name: Check out Git LFS content
-      if: steps.lfscache.outputs.cache-hit != 'true'
+      # Always run, even on a cache hit, so every LFS-tracked file gets smudged from the
+      # local object store. Skipping this on cache-hit previously left LFS files outside
+      # the cached path (e.g. tokenizer/*/tokenizer.dictionary) as unresolved pointer text.
       run: git lfs checkout
 
     - name: Check LFS restore the files or not after checkout
@@ -131,6 +134,11 @@ jobs:
             brew list icu4c || brew install icu4c
             echo "ICU_ROOT=$(brew --prefix icu4c)" >> $GITHUB_ENV
         fi
+
+    - name: Install lld (Ubuntu)
+      # Linux Release builds link with -fuse-ld=lld to avoid gold-plugin LTO version mismatches.
+      if: matrix.os == 'ubuntu-latest'
+      run: sudo apt-get update && sudo apt-get install -y lld
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.

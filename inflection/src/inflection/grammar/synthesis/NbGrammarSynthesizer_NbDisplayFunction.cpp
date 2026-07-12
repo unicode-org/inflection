@@ -1,26 +1,26 @@
 /*
- * Copyright 2019-2024 Apple Inc. All rights reserved.
+ * Copyright 2019-2026 Apple Inc. All rights reserved.
  */
 #include <inflection/grammar/synthesis/NbGrammarSynthesizer_NbDisplayFunction.hpp>
 
 #include <inflection/grammar/synthesis/GrammarSynthesizerUtil.hpp>
 #include <inflection/grammar/synthesis/GrammemeConstants.hpp>
-#include <inflection/util/LocaleUtils.hpp>
+#include <inflection/dialog/DictionaryLookupFunction.hpp>
 #include <inflection/dictionary/DictionaryMetaData.hpp>
 #include <inflection/tokenizer/TokenChain.hpp>
-#include <inflection/tokenizer/Tokenizer.hpp>
 #include <inflection/tokenizer/TokenizerFactory.hpp>
 #include <inflection/dialog/SemanticFeature.hpp>
 #include <inflection/dialog/SemanticFeatureModel_DisplayData.hpp>
 #include <inflection/dialog/DisplayValue.hpp>
 #include <inflection/dialog/SemanticFeatureModel.hpp>
 #include <inflection/util/Validate.hpp>
+#include <inflection/util/LocaleUtils.hpp>
 #include <inflection/npc.hpp>
 #include <memory>
 
 namespace inflection::grammar::synthesis {
 
-NbGrammarSynthesizer_NbDisplayFunction::NbGrammarSynthesizer_NbDisplayFunction(const ::inflection::dialog::SemanticFeatureModel& model)
+NbGrammarSynthesizer_NbDisplayFunction::NbGrammarSynthesizer_NbDisplayFunction(const ::inflection::dialog::SemanticFeatureModel& model, const ::inflection::dialog::DictionaryLookupFunction& genderLookupFunction)
     : super()
     , definitenessFeature(*npc(model.getFeature(GrammemeConstants::DEFINITENESS)))
     , numberFeature(*npc(model.getFeature(GrammemeConstants::NUMBER)))
@@ -28,21 +28,21 @@ NbGrammarSynthesizer_NbDisplayFunction::NbGrammarSynthesizer_NbDisplayFunction(c
     , caseFeature(*npc(model.getFeature(GrammemeConstants::CASE)))
     , posFeature(*npc(model.getFeature(GrammemeConstants::POS)))
     , dictionary(*npc(::inflection::dictionary::DictionaryMetaData::createDictionary(::inflection::util::LocaleUtils::NORWEGIAN())))
-    , inflector(::inflection::dictionary::Inflector::getInflector(::inflection::util::LocaleUtils::NORWEGIAN()))
     , tokenizer(::inflection::tokenizer::TokenizerFactory::createTokenizer(::inflection::util::LocaleUtils::NORWEGIAN()))
-    , genderLookupFunction(::inflection::util::LocaleUtils::NORWEGIAN(), {GrammemeConstants::GENDER_MASCULINE(), GrammemeConstants::GENDER_FEMININE(), GrammemeConstants::GENDER_NEUTER()})
+    , genderLookupFunction(genderLookupFunction)
     , dictionaryInflector(::inflection::util::LocaleUtils::NORWEGIAN(), {
-        {GrammemeConstants::POS_NOUN(), GrammemeConstants::POS_ADJECTIVE()},
-        {GrammemeConstants::NUMBER_SINGULAR(), GrammemeConstants::NUMBER_PLURAL()}
+        {GrammemeConstants::POS_NOUN, GrammemeConstants::POS_ADJECTIVE},
+        {GrammemeConstants::NUMBER_SINGULAR, GrammemeConstants::NUMBER_PLURAL},
+        {GrammemeConstants::COMPARISON_COMPARATIVE, GrammemeConstants::COMPARISON_SUPERLATIVE},
+        {GrammemeConstants::DEFINITENESS_INDEFINITE, GrammemeConstants::DEFINITENESS_DEFINITE},
         }, {}, true)
 {
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryAdjective, {u"adjective"}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryNoun, {u"noun"}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryAdjective, {GrammemeConstants::POS_ADJECTIVE}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryNoun, {GrammemeConstants::POS_NOUN}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&ignoreGender, {GrammemeConstants::COMPARISON_COMPARATIVE, GrammemeConstants::COMPARISON_SUPERLATIVE}));
 }
 
-NbGrammarSynthesizer_NbDisplayFunction::~NbGrammarSynthesizer_NbDisplayFunction()
-{
-}
+NbGrammarSynthesizer_NbDisplayFunction::~NbGrammarSynthesizer_NbDisplayFunction() = default;
 
 ::std::u16string NbGrammarSynthesizer_NbDisplayFunction::inflectNoun(const ::std::u16string& word, int64_t existingWordGrammemes, const ::std::u16string& count, const ::std::u16string& definiteness, const ::std::u16string& targetGender) const
 {
@@ -53,11 +53,11 @@ NbGrammarSynthesizer_NbDisplayFunction::~NbGrammarSynthesizer_NbDisplayFunction(
     if (!definiteness.empty()) {
         constraints.emplace_back(definiteness);
     }
-    if (GrammemeConstants::NUMBER_PLURAL() != count && !targetGender.empty()) {
+    if (GrammemeConstants::NUMBER_PLURAL != count && !targetGender.empty()) {
         constraints.emplace_back(targetGender);
     }
 
-    constexpr std::vector<std::u16string> disambiguationGrammemeValues;
+    std::vector<std::u16string> disambiguationGrammemeValues;
     return dictionaryInflector.inflect(word, existingWordGrammemes, constraints, disambiguationGrammemeValues).value_or(word);
 }
 
@@ -94,7 +94,7 @@ NbGrammarSynthesizer_NbDisplayFunction::~NbGrammarSynthesizer_NbDisplayFunction(
     auto significantWord((*npc(tokens))[indexOfLastSignificant]);
     if (dictionary.getCombinedBinaryType(&significantWordType, significantWord) == nullptr) {
         ::std::u16string caseString(GrammarSynthesizerUtil::getFeatureValue(constraints, caseFeature));
-        if (GrammemeConstants::CASE_GENITIVE() == caseString) {
+        if (caseString == GrammemeConstants::CASE_GENITIVE) {
             npc(tokens)->at(indexOfLastSignificant) = inflectGenitive((*tokens)[indexOfLastSignificant]);
             return *npc(tokens);
         }
@@ -107,7 +107,7 @@ NbGrammarSynthesizer_NbDisplayFunction::~NbGrammarSynthesizer_NbDisplayFunction(
         dictionary.getCombinedBinaryType(&wordType0, word0);
         int64_t wordType1 = 0;
         dictionary.getCombinedBinaryType(&wordType1, word1);
-        if ((wordType0 & (dictionaryAdjective | dictionaryNoun)) == dictionaryAdjective && (wordType1 & dictionaryNoun) != 0) {
+        if ((wordType0 & dictionaryAdjective) != 0 && (wordType1 & dictionaryNoun) != 0) {
             npc(tokens)->at(indexesOfSignificant[0]) = inflectWord(constraints, word0, wordType0, word1, false);
             npc(tokens)->at(indexesOfSignificant[1]) = inflectWord(constraints, word1, wordType1, word1, true);
         } else {
@@ -136,7 +136,7 @@ NbGrammarSynthesizer_NbDisplayFunction::~NbGrammarSynthesizer_NbDisplayFunction(
     else {
         dictionary.getCombinedBinaryType(&headBinaryType, headDisplayString);
     }
-    auto isAdjective = (GrammemeConstants::POS_ADJECTIVE() == GrammarSynthesizerUtil::getFeatureValue(constraints, posFeature)) || ((headBinaryType & dictionaryAdjective) != 0 && (headBinaryType & dictionaryNoun) == 0);
+    auto isAdjective = (GrammarSynthesizerUtil::getFeatureValue(constraints, posFeature) == GrammemeConstants::POS_ADJECTIVE) || ((headBinaryType & dictionaryAdjective) != 0 && (headBinaryType & dictionaryNoun) == 0);
     auto genderString(GrammarSynthesizerUtil::getFeatureValue(constraints, genderFeature));
 
     std::u16string inflectedString;
@@ -150,7 +150,7 @@ NbGrammarSynthesizer_NbDisplayFunction::~NbGrammarSynthesizer_NbDisplayFunction(
         inflectedString = inflectNoun(attributeDisplayString, attributeDisplayStringGrammemes, countString, definitenessString, genderString);
     }
 
-    if (GrammemeConstants::CASE_GENITIVE() == caseString && isSuspectedToBeANoun && inflectedString.length() > 1) {
+    if (caseString == GrammemeConstants::CASE_GENITIVE && isSuspectedToBeANoun && inflectedString.length() > 1) {
         inflectedString = inflectGenitive(inflectedString);
     }
     return inflectedString;
@@ -169,15 +169,44 @@ NbGrammarSynthesizer_NbDisplayFunction::~NbGrammarSynthesizer_NbDisplayFunction(
     return inflectedString;
 }
 
-::std::u16string NbGrammarSynthesizer_NbDisplayFunction::inflectAdjective(const ::std::u16string& lemma, const ::std::u16string& targetDefiniteness, const ::std::u16string& targetGender, const ::std::u16string& targetCount)
+::std::u16string NbGrammarSynthesizer_NbDisplayFunction::inflectAdjective(const ::std::u16string& lemma, const ::std::u16string& targetDefiniteness, const ::std::u16string& targetGender, const ::std::u16string& targetCount) const
 {
+    int64_t adjectiveProperties = 0;
+    if (dictionary.getCombinedBinaryType(&adjectiveProperties, lemma) != nullptr && (adjectiveProperties & dictionaryAdjective) != 0) {
+        ::std::vector<::std::u16string> constraints;
+        if ((adjectiveProperties & ignoreGender) != 0) {
+            // Comparative/superlative adjectives are invariant for number and gender in Norwegian
+            if (!targetDefiniteness.empty()) {
+                constraints.emplace_back(targetDefiniteness);
+            }
+        }
+        else {
+            if (!targetCount.empty()) {
+                constraints.emplace_back(targetCount);
+            }
+            if (GrammemeConstants::NUMBER_PLURAL != targetCount && !targetDefiniteness.empty()) {
+                constraints.emplace_back(targetDefiniteness);
+            }
+            if (GrammemeConstants::NUMBER_PLURAL != targetCount && GrammemeConstants::DEFINITENESS_DEFINITE != targetDefiniteness && !targetGender.empty()) {
+                constraints.emplace_back(targetGender);
+            }
+        }
+        std::vector<std::u16string> disambiguationGrammemeValues({GrammemeConstants::POS_ADJECTIVE});
+
+        auto result = dictionaryInflector.inflect(lemma, adjectiveProperties, constraints, disambiguationGrammemeValues);
+        if (result.has_value()) {
+            return result.value();
+        }
+        // else it's a known adjective that didn't inflect. That's unexpected. Perhaps it's bad data?
+    }
+
     auto length = lemma.length();
     if (length < 1) {
         return lemma;
     }
     auto charAtM1 = lemma[length - 1];
     auto endsInConsonant = !(charAtM1 == u'i' || charAtM1 == u'\u00e5' || charAtM1 == u'e' || charAtM1 == u'a' || charAtM1 == u'u' || charAtM1 == u'o' || charAtM1 == u'y' || charAtM1 == u'\u00f8' || charAtM1 == u'\u00e6');
-    if (GrammemeConstants::NUMBER_PLURAL() == targetCount || GrammemeConstants::DEFINITENESS_DEFINITE() == targetDefiniteness) {
+    if (targetCount == GrammemeConstants::NUMBER_PLURAL || targetDefiniteness == GrammemeConstants::DEFINITENESS_DEFINITE) {
         if (length > 3) {
             auto charAtM3 = lemma[length - 3];
             if (lemma[length - 2] == u'e' && (charAtM1 == u'n' || charAtM1 == u'l' || charAtM1 == u'r') && charAtM3 == lemma[length - 4] && !(charAtM3 == u'i' || charAtM3 == u'\u00e5' || charAtM3 == u'e' || charAtM3 == u'a' || charAtM3 == u'u' || charAtM3 == u'o' || charAtM3 == u'y' || charAtM3 == u'\u00f8' || charAtM3 == u'\u00e6')) {
@@ -191,7 +220,7 @@ NbGrammarSynthesizer_NbDisplayFunction::~NbGrammarSynthesizer_NbDisplayFunction(
             return lemma + u"e";
         }
     }
-    if (GrammemeConstants::NUMBER_SINGULAR() == targetCount && GrammemeConstants::GENDER_NEUTER() == targetGender && endsInConsonant) {
+    if (targetCount == GrammemeConstants::NUMBER_SINGULAR && targetGender == GrammemeConstants::GENDER_NEUTER && endsInConsonant) {
         if (length > 2) {
             auto charAtM2 = lemma[length - 2];
             if ((charAtM2 == u's' && charAtM1 == u'k') || (charAtM2 == u'i' && charAtM1 == u'g') || (charAtM2 == u'e' && charAtM1 == u't')) {

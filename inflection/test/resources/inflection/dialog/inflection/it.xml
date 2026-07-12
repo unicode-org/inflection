@@ -97,7 +97,7 @@
     <test><source definiteness="definite">prima</source><result>la prima</result></test>
     <test><source definiteness="definite">una</source><result>l’una</result></test>
 
-    <!--    isExists() checks-->
+    <!-- isExists() checks-->
     <!--    Able to inflect to masculine using dictionary-->
     <test><source gender="masculine">benvenuto</source><result exists="true"/></test>
     <!--    Able to inflect to feminine using dictionary-->
@@ -178,4 +178,45 @@
     <!-- This better not be completati -->
     <test><source number="plural">completante</source><result exists="true">completante</result></test>
     <test><source number="singular">completiate</source><result exists="true">completi</result></test>
+
+    <test><source>0%</source><result aPrepArticle="allo " gender="masculine"/></test>
+    <test><source>1%</source><result aPrepArticle="all’"/></test>
+    <test><source>1</source><result aPrepArticle="all’"/></test>
+    <test><source>2%</source><result aPrepArticle="al "/></test>
+    <test><source>2</source><result aPrepArticle="al "/></test>
+    <test><source>3%</source><result aPrepArticle="al "/></test>
+    <test><source>4%</source><result aPrepArticle="al "/></test>
+    <test><source>5%</source><result aPrepArticle="al " gender="masculine" number="singular"/></test>
+    <test><source>6%</source><result aPrepArticle="al "/></test>
+    <test><source>7%</source><result aPrepArticle="al "/></test>
+    <test><source>8%</source><result aPrepArticle="all’"/></test>
+    <test><source>9%</source><result aPrepArticle="al "/></test>
+    <test><source>10%</source><result aPrepArticle="al "/></test>
+    <test><source>11%</source><result aPrepArticle="all’"/></test>
+    <test><source>12%</source><result aPrepArticle="al "/></test>
+    <test><source>80%</source><result aPrepArticle="all’"/></test>
+    <test><source>89%</source><result aPrepArticle="all’"/></test>
+    <test><source>90%</source><result aPrepArticle="al "/></test>
+    <test><source>93%</source><result aPrepArticle="al " gender="masculine" number="singular"/></test>
+    <test><source>100%</source><result aPrepArticle="al "/></test>
+    <test><source>79%</source><result aPrepArticle="al "/></test>
+    <test><source>199</source><result aPrepArticle="al "/></test>
+    <test><source>200</source><result aPrepArticle="al "/></test>
+    <test><source>800</source><result aPrepArticle="all’"/></test>
+    <test><source>1000</source><result aPrepArticle="al "/></test>
+    <test><source>1100</source><result aPrepArticle="al "/></test>
+    <test><source>1999</source><result aPrepArticle="al "/></test>
+    <test><source>2000</source><result aPrepArticle="al "/></test>
+    <test><source>8000</source><result aPrepArticle="all’"/></test>
+    <test><source>11000</source><result aPrepArticle="all’"/></test>
+    <test><source>80000</source><result aPrepArticle="all’"/></test>
+    <test><source>1000000</source><result aPrepArticle="all’"/></test>
+    <test><source>2000000</source><result aPrepArticle="al "/></test>
+    <test><source>8000000</source><result aPrepArticle="all’"/></test>
+    <test><source>1º</source><result aPrepArticle="al "/></test>
+    <test><source>8º</source><result aPrepArticle="all’"/></test>
+    <test><source>8ª</source><result aPrepArticle="all’"/></test>
+    <test><source>11º</source><result aPrepArticle="all’"/></test>
+    <test><source>0º</source><result aPrepArticle="allo "/></test>
+
 </inflectionTest>

@@ -11,11 +11,11 @@
 namespace inflection::grammar::synthesis {
 
 EsGrammarSynthesizer_CountGenderLookupFunction::EsGrammarSynthesizer_CountGenderLookupFunction(GrammarCategoryType categoryType, const ::std::vector<::std::u16string>& properties)
-    : super(::inflection::util::LocaleUtils::SPANISH(), properties, {GrammemeConstants::POS_NOUN(), GrammemeConstants::POS_ADJECTIVE()})
+    : super(::inflection::util::LocaleUtils::SPANISH(), properties, {GrammemeConstants::POS_NOUN, GrammemeConstants::POS_ADJECTIVE})
     , dictionary(getDictionary())
     , grammarCategoryType(categoryType)
 {
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&nounProperty, {GrammemeConstants::POS_NOUN()}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&nounProperty, {GrammemeConstants::POS_NOUN}));
     ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&propertiesMask, properties));
 }
 
@@ -26,30 +26,30 @@ EsGrammarSynthesizer_CountGenderLookupFunction::~EsGrammarSynthesizer_CountGende
 ::std::u16string guessGender(::std::u16string_view word, bool knownWord) {
     for (const ::std::u16string_view ending: {u"is", u"iones", u"ie", u"ción", u"sión", u"umbre"}) {
         if (word.ends_with(ending)) {
-            return GrammemeConstants::GENDER_FEMININE();
+            return GrammemeConstants::GENDER_FEMININE;
         }
     }
     // There is a strong bias in the words ending with -a and -as to be feminine
     if (!knownWord) {
         for (const ::std::u16string_view ending: {u"as", u"a"}) {
             if (word.ends_with(ending)) {
-                return GrammemeConstants::GENDER_FEMININE();
+                return GrammemeConstants::GENDER_FEMININE;
             }
         }
     }
-    return GrammemeConstants::GENDER_MASCULINE();
+    return GrammemeConstants::GENDER_MASCULINE;
 }
 
 ::std::u16string guessCount(::std::u16string_view word) {
     for (const ::std::u16string_view ending: {u"ís", u"és", u"ás"}) {
         if (word.ends_with(ending)) {
-            return GrammemeConstants::NUMBER_SINGULAR();
+            return GrammemeConstants::NUMBER_SINGULAR;
         }
     }
     if (word.ends_with(u"s")) {
-        return GrammemeConstants::NUMBER_PLURAL();
+        return GrammemeConstants::NUMBER_PLURAL;
     }
-    return GrammemeConstants::NUMBER_SINGULAR();
+    return GrammemeConstants::NUMBER_SINGULAR;
 }
 
 ::std::u16string EsGrammarSynthesizer_CountGenderLookupFunction::determine(const ::std::u16string& word) const

@@ -14,10 +14,6 @@ JaCommonConceptFactory::JaCommonConceptFactory(const ::inflection::util::ULocale
 {
 }
 
-JaCommonConceptFactory::~JaCommonConceptFactory()
-{
-}
-
 inflection::dialog::SemanticConceptList* JaCommonConceptFactory::createOrList(const ::std::vector<const ::inflection::dialog::SemanticFeatureConceptBase*>& concepts) const
 {
     return npc(npc(npc(super::createOrList(concepts))->setAfterFirst(inflection::dialog::SpeakableString(u"または")))->setItemDelimiter(inflection::dialog::SpeakableString(u"、"))->setBeforeLast(inflection::dialog::SpeakableString(u"")));

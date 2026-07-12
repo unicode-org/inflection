@@ -25,8 +25,8 @@ void EsGrammarSynthesizer::addSemanticFeatures(::inflection::dialog::SemanticFea
     featureModel.putDefaultFeatureFunctionByName(DEMONSTRATIVE_ADJECTIVE, new EsGrammarSynthesizer_ArticleLookupFunction(featureModel, nullptr, u"", u"este", u"esta", u"estos", u"estas"));
     featureModel.putDefaultFeatureFunctionByName(WITH_DEMONSTRATIVE_ADJECTIVE, new EsGrammarSynthesizer_ArticleLookupFunction(featureModel, DEMONSTRATIVE_ADJECTIVE, u"", u"este", u"esta", u"estos", u"estas"));
 
-    featureModel.putDefaultFeatureFunctionByName(GrammemeConstants::NUMBER, new EsGrammarSynthesizer_CountGenderLookupFunction(EsGrammarSynthesizer_CountGenderLookupFunction::NUMBER_CATEGORY, {GrammemeConstants::NUMBER_SINGULAR(), GrammemeConstants::NUMBER_PLURAL()}));
-    featureModel.putDefaultFeatureFunctionByName(GrammemeConstants::GENDER, new EsGrammarSynthesizer_CountGenderLookupFunction(EsGrammarSynthesizer_CountGenderLookupFunction::GENDER_CATEGORY, {GrammemeConstants::GENDER_FEMININE(), GrammemeConstants::GENDER_MASCULINE()}));
+    featureModel.putDefaultFeatureFunctionByName(GrammemeConstants::NUMBER, new EsGrammarSynthesizer_CountGenderLookupFunction(EsGrammarSynthesizer_CountGenderLookupFunction::NUMBER_CATEGORY, {GrammemeConstants::NUMBER_SINGULAR, GrammemeConstants::NUMBER_PLURAL}));
+    featureModel.putDefaultFeatureFunctionByName(GrammemeConstants::GENDER, new EsGrammarSynthesizer_CountGenderLookupFunction(EsGrammarSynthesizer_CountGenderLookupFunction::GENDER_CATEGORY, {GrammemeConstants::GENDER_FEMININE, GrammemeConstants::GENDER_MASCULINE}));
     featureModel.putDefaultFeatureFunctionByName(GrammemeConstants::DEFINITENESS, new inflection::dialog::ArticleDetectionFunction(inflection::util::LocaleUtils::SPANISH(),
         {ARTICLE_DEFINITE, ARTICLE_DE_PREPOSITION, ARTICLE_A_PREPOSITION}, {u"a", u"de"}, {ARTICLE_INDEFINITE}, {}));
 
@@ -36,10 +36,10 @@ void EsGrammarSynthesizer::addSemanticFeatures(::inflection::dialog::SemanticFea
 EsGrammarSynthesizer::Number EsGrammarSynthesizer::getNumber(const ::std::u16string* value) {
     if (value != nullptr) {
         const auto& valRef = *value;
-        if (valRef == GrammemeConstants::NUMBER_SINGULAR()) {
+        if (valRef == GrammemeConstants::NUMBER_SINGULAR) {
             return Number::singular;
         }
-        if (valRef == GrammemeConstants::NUMBER_PLURAL()) {
+        if (valRef == GrammemeConstants::NUMBER_PLURAL) {
             return Number::plural;
         }
     }
@@ -49,10 +49,10 @@ EsGrammarSynthesizer::Number EsGrammarSynthesizer::getNumber(const ::std::u16str
 EsGrammarSynthesizer::Gender EsGrammarSynthesizer::getGender(const ::std::u16string* value) {
     if (value != nullptr) {
         const auto& valRef = *value;
-        if (valRef == GrammemeConstants::GENDER_MASCULINE()) {
+        if (valRef == GrammemeConstants::GENDER_MASCULINE) {
             return Gender::masculine;
         }
-        if (valRef == GrammemeConstants::GENDER_FEMININE()) {
+        if (valRef == GrammemeConstants::GENDER_FEMININE) {
             return Gender::feminine;
         }
     }

@@ -27,6 +27,12 @@ TEST_CASE("QuoteTest#testQuoteFr")
     REQUIRE(::inflection::dialog::SpeakableString(u"“example”") == npc(factory)->quote(::inflection::dialog::SpeakableString(u"example")));
 }
 
+TEST_CASE("QuoteTest#testQuoteFi")
+{
+    auto factory = npc(::inflection::dialog::LocalizedCommonConceptFactoryProvider::getDefaultCommonConceptFactoryProvider())->getCommonConceptFactory(::inflection::util::LocaleUtils::FINNISH());
+    REQUIRE(::inflection::dialog::SpeakableString(u"”example”") == npc(factory)->quote(::inflection::dialog::SpeakableString(u"example")));
+}
+
 TEST_CASE("QuoteTest#testQuoteIt")
 {
     auto factory = npc(::inflection::dialog::LocalizedCommonConceptFactoryProvider::getDefaultCommonConceptFactoryProvider())->getCommonConceptFactory(::inflection::util::LocaleUtils::ITALIAN());

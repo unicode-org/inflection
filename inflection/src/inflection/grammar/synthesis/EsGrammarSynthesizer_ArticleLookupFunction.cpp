@@ -18,8 +18,8 @@ static constexpr auto STRESSED = u"stressed";
 
 EsGrammarSynthesizer_ArticleLookupFunction::EsGrammarSynthesizer_ArticleLookupFunction(const ::inflection::dialog::SemanticFeatureModel& model, const char16_t* derivedSemanticName, ::std::u16string_view defaultString, ::std::u16string_view singularMasculineString, ::std::u16string_view singularFeminineString, ::std::u16string_view pluralMasculineString, ::std::u16string_view pluralFeminineString, bool hasStressedSingularFeminineForm)
     : super(model, derivedSemanticName != nullptr, true)
-    , countLookupFunction(EsGrammarSynthesizer_CountGenderLookupFunction::GrammarCategoryType::NUMBER_CATEGORY, {GrammemeConstants::NUMBER_SINGULAR(), GrammemeConstants::NUMBER_PLURAL()})
-    , genderLookupFunction(EsGrammarSynthesizer_CountGenderLookupFunction::GrammarCategoryType::GENDER_CATEGORY, {GrammemeConstants::GENDER_FEMININE(), GrammemeConstants::GENDER_MASCULINE()})
+    , countLookupFunction(EsGrammarSynthesizer_CountGenderLookupFunction::GrammarCategoryType::NUMBER_CATEGORY, {GrammemeConstants::NUMBER_SINGULAR, GrammemeConstants::NUMBER_PLURAL})
+    , genderLookupFunction(EsGrammarSynthesizer_CountGenderLookupFunction::GrammarCategoryType::GENDER_CATEGORY, {GrammemeConstants::GENDER_FEMININE, GrammemeConstants::GENDER_MASCULINE})
     , stressLookupFunction(::inflection::util::LocaleUtils::SPANISH(), {STRESSED})
     , countFeature(*npc(model.getFeature(GrammemeConstants::NUMBER)))
     , genderFeature(*npc(model.getFeature(GrammemeConstants::GENDER)))

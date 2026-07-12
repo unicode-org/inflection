@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<patterns>
+    <pattern name="1" words="4">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection definiteness="indefinite" case="nominative" gender="masculine" number="singular"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="2" words="2">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection definiteness="indefinite" case="nominative" gender="feminine" number="singular"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="3" words="1">
+        <pos>noun</pos>
+        <suffix>ösp</suffix>
+        <inflections>
+            <inflection definiteness="definite" case="nominative" gender="feminine" number="singular"><t><stem/>öspin</t></inflection>
+            <inflection definiteness="indefinite" case="nominative" gender="feminine" number="singular"><t><stem/>ösp</t></inflection>
+            <inflection definiteness="definite" case="nominative" gender="feminine" number="plural"><t><stem/>aspirnar</t></inflection>
+            <inflection definiteness="indefinite" case="nominative" gender="feminine" number="plural"><t><stem/>aspir</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="4" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection case="nominative" gender="neuter" number="singular"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="5" words="1">
+        <pos>noun</pos>
+        <suffix>ur</suffix>
+        <inflections>
+            <inflection definiteness="indefinite" case="accusative" gender="masculine" number="singular"><t><stem/></t></inflection>
+            <inflection definiteness="indefinite" case="nominative" gender="masculine" number="singular"><t><stem/>ur</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="6" words="1">
+        <pos><!-- number="singular" count="uncountable" -->noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection definiteness="definite" case="accusative" count="uncountable" gender="feminine" number="singular"><t><stem/>ina</t></inflection>
+            <inflection definiteness="indefinite" case="accusative" count="uncountable" gender="feminine" number="singular"><t><stem/></t></inflection>
+            <inflection definiteness="definite" case="dative" count="uncountable" gender="feminine" number="singular"><t><stem/>inni</t></inflection>
+            <inflection definiteness="indefinite" case="dative" count="uncountable" gender="feminine" number="singular"><t><stem/></t></inflection>
+            <inflection definiteness="definite" case="genitive" count="uncountable" gender="feminine" number="singular"><t><stem/>urinnar</t></inflection>
+            <inflection definiteness="indefinite" case="genitive" count="uncountable" gender="feminine" number="singular"><t><stem/>ur</t></inflection>
+            <inflection definiteness="definite" case="nominative" count="uncountable" gender="feminine" number="singular"><t><stem/>in</t></inflection>
+            <inflection definiteness="indefinite" case="nominative" count="uncountable" gender="feminine" number="singular"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="7" words="1">
+        <pos>noun</pos>
+        <suffix>l</suffix>
+        <inflections>
+            <inflection definiteness="definite" case="nominative" gender="masculine" number="singular"><t><stem/>linn</t></inflection>
+            <inflection definiteness="indefinite" case="nominative" gender="masculine" number="singular"><t><stem/>l</t></inflection>
+            <inflection definiteness="indefinite" case="nominative" gender="masculine" number="plural"><t><stem/>ar</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="8" words="1">
+        <pos>noun</pos>
+        <suffix>onur</suffix>
+        <inflections>
+            <inflection definiteness="indefinite" case="nominative" gender="masculine" number="singular"><t><stem/>onur</t></inflection>
+            <inflection definiteness="indefinite" case="nominative" gender="masculine" number="plural"><t><stem/>ynir</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="9" words="1">
+        <pos>noun</pos>
+        <suffix>ur</suffix>
+        <inflections>
+            <inflection case="accusative" count="uncountable" gender="masculine" number="singular"><t><stem/></t></inflection>
+            <inflection definiteness="indefinite" case="nominative" gender="masculine" number="singular"><t><stem/>ur</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="a" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection definiteness="indefinite" case="genitive" gender="feminine" number="singular"><t><stem/>ar</t></inflection>
+            <inflection definiteness="indefinite" case="nominative" gender="feminine" number="singular"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+</patterns>

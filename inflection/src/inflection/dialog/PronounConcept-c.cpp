@@ -20,7 +20,7 @@ INFLECTION_CAPI IDPronounConcept* ipron_toPronounConcept(IDSemanticFeatureConcep
 {
     if (status != nullptr && U_SUCCESS(*status)) {
         try {
-            auto thisConcept = reinterpret_cast<::inflection::dialog::SpeakableConcept*>(thisObject);
+            auto thisConcept = reinterpret_cast<::inflection::dialog::SemanticFeatureConceptBase*>(thisObject);
             auto pronounConcept = dynamic_cast<::inflection::dialog::PronounConcept*>(thisConcept);
             if (pronounConcept != nullptr) {
                 return (IDPronounConcept*)pronounConcept;
@@ -91,8 +91,8 @@ ipron_createFromInitialPronoun(const IDSemanticFeatureModel* model, const char16
         try {
             return (IDPronounConcept*)new inflection::dialog::PronounConcept(*npc((const inflection::dialog::SemanticFeatureModel*)model),
                                                                              initialPronounLen < 0
-                                                                             ? ::std::u16string(initialPronoun)
-                                                                             : ::std::u16string(initialPronoun, initialPronounLen));
+                                                                             ? ::std::u16string(npc(initialPronoun))
+                                                                             : ::std::u16string(npc(initialPronoun), initialPronounLen));
         }
         catch (const ::std::exception& e) {
             inflection::util::TypeConversionUtils::convert(e, status);

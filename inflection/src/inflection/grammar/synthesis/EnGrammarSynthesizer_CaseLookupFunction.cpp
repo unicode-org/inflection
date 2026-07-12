@@ -43,7 +43,7 @@ inflection::dialog::SpeakableString* EnGrammarSynthesizer_CaseLookupFunction::ge
         if ((normalizedString.ends_with(u"'s") || normalizedString.ends_with(u"s'") || normalizedString == u"its")
             && contractions.find(normalizedString) == contractions.end())
         {
-            return new ::inflection::dialog::SpeakableString(GrammemeConstants::CASE_GENITIVE());
+            return new ::inflection::dialog::SpeakableString(GrammemeConstants::CASE_GENITIVE);
         }
     }
     return nullptr;

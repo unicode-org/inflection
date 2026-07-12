@@ -8,11 +8,6 @@
 #include <inflection/grammar/synthesis/fwd.hpp>
 #include <inflection/dialog/DefaultFeatureFunction.hpp>
 
-#include <vector>
-#include <string>
-#include <string_view>
-#include <utility>
-
 namespace inflection::grammar::synthesis {
 
 class MlGrammarSynthesizer_CaseLookupFunction
@@ -22,7 +17,7 @@ public:
     typedef ::inflection::dialog::DefaultFeatureFunction super;
 
 public:
-    MlGrammarSynthesizer_CaseLookupFunction();
+    MlGrammarSynthesizer_CaseLookupFunction() = default;
     ~MlGrammarSynthesizer_CaseLookupFunction() override = default;
 
     MlGrammarSynthesizer_CaseLookupFunction(const MlGrammarSynthesizer_CaseLookupFunction&) = delete;
@@ -31,9 +26,6 @@ public:
     ::inflection::dialog::SpeakableString* getFeatureValue(
         const ::inflection::dialog::DisplayValue& displayValue,
         const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints) const override;
-
-private:
-    const std::vector<std::pair<std::u16string_view, std::u16string>> m_suffixToCase_;
 };
 
 } // namespace inflection::grammar::synthesis

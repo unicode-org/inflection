@@ -16,8 +16,6 @@ public:
     SemanticConceptList* createOrList(const ::std::vector<const ::inflection::dialog::SemanticFeatureConceptBase*>& concepts) const override;
     SemanticConceptList* createAndList(const ::std::vector<const ::inflection::dialog::SemanticFeatureConceptBase*>& concepts) const override;
 
-
 public:
     explicit TrCommonConceptFactory(const ::inflection::util::ULocale& language);
-    ~TrCommonConceptFactory() override;
 };

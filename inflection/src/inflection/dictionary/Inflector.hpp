@@ -8,7 +8,6 @@
 #include <inflection/dictionary/fwd.hpp>
 #include <inflection/util/fwd.hpp>
 #include <inflection/Object.hpp>
-#include <map>
 #include <optional>
 #include <string>
 
@@ -20,7 +19,6 @@ public:
 
 public:
     std::optional<inflection::dictionary::Inflector_InflectionPattern> getInflectionPatternByName(std::u16string_view name) const;
-    std::vector<inflection::dictionary::Inflector_InflectionPattern> getInflectionPatternsBySuffix(std::u16string_view suffix) const;
     void getInflectionPatternsForWord(std::u16string_view word, ::std::vector<Inflector_InflectionPattern> &inflectionPatterns) const;
 
     /**

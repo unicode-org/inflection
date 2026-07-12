@@ -13,7 +13,6 @@
 #include <inflection/tokenizer/Tokenizer.hpp>
 #include <inflection/tokenizer/TokenChain.hpp>
 #include <inflection/tokenizer/TokenizerFactory.hpp>
-#include <inflection/lang/StringFilterUtil.hpp>
 #include <inflection/util/UnicodeSetUtils.hpp>
 #include <memory>
 #include <optional>
@@ -39,34 +38,19 @@ MlGrammarSynthesizer_MlDisplayFunction::MlGrammarSynthesizer_MlDisplayFunction(
       dictionaryInflector(
           util::LocaleUtils::MALAYALAM(),
           {
-              {GrammemeConstants::POS_NOUN(), GrammemeConstants::POS_VERB(), GrammemeConstants::POS_PRONOUN()},
-              {
-                  GrammemeConstants::CASE_NOMINATIVE(), GrammemeConstants::CASE_ACCUSATIVE(),
-                  GrammemeConstants::CASE_DATIVE(),
-                  GrammemeConstants::CASE_GENITIVE(), GrammemeConstants::CASE_LOCATIVE(),
-                  GrammemeConstants::CASE_INSTRUMENTAL(),
-                  GrammemeConstants::CASE_SOCIATIVE()
-              },
-              {GrammemeConstants::NUMBER_SINGULAR(), GrammemeConstants::NUMBER_PLURAL()},
-              {
-                  GrammemeConstants::GENDER_MASCULINE(), GrammemeConstants::GENDER_FEMININE(),
-                  GrammemeConstants::GENDER_NEUTER()
-              },
+              {GrammemeConstants::POS_NOUN, GrammemeConstants::POS_VERB, GrammemeConstants::POS_PRONOUN},
+              {GrammemeConstants::CASE_NOMINATIVE, GrammemeConstants::CASE_ACCUSATIVE, GrammemeConstants::CASE_DATIVE, GrammemeConstants::CASE_GENITIVE, GrammemeConstants::CASE_LOCATIVE, GrammemeConstants::CASE_INSTRUMENTAL, GrammemeConstants::CASE_SOCIATIVE},
+              {GrammemeConstants::NUMBER_SINGULAR, GrammemeConstants::NUMBER_PLURAL},
+              {GrammemeConstants::GENDER_MASCULINE, GrammemeConstants::GENDER_FEMININE, GrammemeConstants::GENDER_NEUTER},
               {FORMALITY_FORMAL, FORMALITY_INFORMAL},
               {CLUSIVITY_INCLUSIVE, CLUSIVITY_EXCLUSIVE},
-              {
-                  GrammemeConstants::PERSON_FIRST(), GrammemeConstants::PERSON_SECOND(),
-                  GrammemeConstants::PERSON_THIRD()
-              },
-              {GrammemeConstants::TENSE_PAST(), GrammemeConstants::TENSE_PRESENT(), GrammemeConstants::TENSE_FUTURE()},
-              {
-                  GrammemeConstants::MOOD_INDICATIVE(), GrammemeConstants::MOOD_IMPERATIVE(), GrammemeConstants::MOOD_SUBJUNCTIVE()
-              } // local constant
+              {GrammemeConstants::PERSON_FIRST, GrammemeConstants::PERSON_SECOND, GrammemeConstants::PERSON_THIRD},
+              {GrammemeConstants::TENSE_PAST, GrammemeConstants::TENSE_PRESENT, GrammemeConstants::TENSE_FUTURE},
+              {GrammemeConstants::MOOD_INDICATIVE, GrammemeConstants::MOOD_IMPERATIVE, GrammemeConstants::MOOD_SUBJUNCTIVE}
           },
           {},
           true)
     , tokenizer(npc(inflection::tokenizer::TokenizerFactory::createTokenizer(util::LocaleUtils::MALAYALAM())))
-    , malayalamInflectableChars(::inflection::lang::StringFilterUtil::MALAYALAM_SCRIPT())
     , nonMalayalamChars(u"[\\p{Latin}\\p{Nd}\\p{Punct}]")
 {
     inflection::util::UnicodeSetUtils::freeze(&nonMalayalamChars);
@@ -118,7 +102,7 @@ std::optional<std::u16string> MlGrammarSynthesizer_MlDisplayFunction::guessFallb
         int64_t combinedType = 0;
         dictionaryInflector.getDictionary().getCombinedBinaryType(&combinedType, token.getValue());
 
-        if (inflection::util::UnicodeSetUtils::containsSome(malayalamInflectableChars, token.getValue())) {
+        if (inflection::util::UnicodeSetUtils::containsSome(USCRIPT_MALAYALAM, token.getValue())) {
             lastSignificantToken = &token;
             lastTokenGrammemes = combinedType;
         }
@@ -182,9 +166,9 @@ std::u16string MlGrammarSynthesizer_MlDisplayFunction::inflectPhrase(
 
     std::u16string posVal;
     for (const auto &val: constraintValues) {
-        if (val == GrammemeConstants::POS_NOUN() ||
-            val == GrammemeConstants::POS_PRONOUN() ||
-            val == GrammemeConstants::POS_VERB())
+        if (val == GrammemeConstants::POS_NOUN ||
+            val == GrammemeConstants::POS_PRONOUN ||
+            val == GrammemeConstants::POS_VERB)
         {
             posVal = val;
             break;
@@ -212,14 +196,14 @@ std::u16string MlGrammarSynthesizer_MlDisplayFunction::inflectPhrase(
             auto inflectedOpt = dictionaryInflector.inflect(tokenVal, lastTokenGrammemes, constraintValues);
 
             if (!inflectedOpt.has_value() && enableInflectionGuess) {
-                if (posVal == GrammemeConstants::POS_NOUN() || posVal == GrammemeConstants::POS_PRONOUN()) {
+                if (posVal == GrammemeConstants::POS_NOUN || posVal == GrammemeConstants::POS_PRONOUN) {
                     std::u16string fullPhrase;
                     for (const auto &t: *tokenChain) {
                         fullPhrase += t.getValue();
                     }
                     inflectedOpt = guessFallbackNounInflection(fullPhrase, constraintValues);
                 }
-                else if (posVal == GrammemeConstants::POS_VERB()) {
+                else if (posVal == GrammemeConstants::POS_VERB) {
                     inflectedOpt = guessFallbackVerbInflection(tokenVal, constraintValues);
                 }
             }
@@ -264,7 +248,7 @@ std::u16string MlGrammarSynthesizer_MlDisplayFunction::inflectPhrase(
 
     const std::u16string &firstDisplayValue = displayValue->getDisplayString();
     if (constraints.empty() ||
-        !inflection::util::UnicodeSetUtils::containsSome(malayalamInflectableChars, firstDisplayValue) ||
+        !inflection::util::UnicodeSetUtils::containsSome(USCRIPT_MALAYALAM, firstDisplayValue) ||
         inflection::util::UnicodeSetUtils::containsSome(nonMalayalamChars, firstDisplayValue))
     {
         return new DisplayValue(firstDisplayValue, constraints);

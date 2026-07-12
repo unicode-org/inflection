@@ -48,18 +48,18 @@ EsGrammarSynthesizer_EsDisplayFunction::EsGrammarSynthesizer_EsDisplayFunction(c
     )
     , dictionary(*npc(::inflection::dictionary::DictionaryMetaData::createDictionary(::inflection::util::LocaleUtils::SPANISH())))
     , dictionaryInflector(::inflection::util::LocaleUtils::SPANISH(), {
-                {GrammemeConstants::POS_NOUN(),  GrammemeConstants::POS_ADJECTIVE(), GrammemeConstants::POS_VERB()},
-                {GrammemeConstants::PERSON_THIRD(), GrammemeConstants::PERSON_FIRST(), GrammemeConstants::PERSON_SECOND()},
-                {GrammemeConstants::NUMBER_SINGULAR(),  GrammemeConstants::NUMBER_PLURAL()},
-                {GrammemeConstants::GENDER_MASCULINE(), GrammemeConstants::GENDER_FEMININE()}
+                {GrammemeConstants::POS_NOUN,  GrammemeConstants::POS_ADJECTIVE, GrammemeConstants::POS_VERB},
+                {GrammemeConstants::PERSON_THIRD, GrammemeConstants::PERSON_FIRST, GrammemeConstants::PERSON_SECOND},
+                {GrammemeConstants::NUMBER_SINGULAR,  GrammemeConstants::NUMBER_PLURAL},
+                {GrammemeConstants::GENDER_MASCULINE, GrammemeConstants::GENDER_FEMININE}
     }, {}, true)
     , tokenizer(::inflection::tokenizer::TokenizerFactory::createTokenizer(::inflection::util::LocaleUtils::SPANISH()))
 {
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionarySingular, {GrammemeConstants::NUMBER_SINGULAR()}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryPlural, {GrammemeConstants::NUMBER_PLURAL()}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryMasculine, {GrammemeConstants::GENDER_MASCULINE()}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryFeminine, {GrammemeConstants::GENDER_FEMININE()}));
-    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryPreposition, {GrammemeConstants::POS_ADPOSITION()}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionarySingular, {GrammemeConstants::NUMBER_SINGULAR}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryPlural, {GrammemeConstants::NUMBER_PLURAL}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryMasculine, {GrammemeConstants::GENDER_MASCULINE}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryFeminine, {GrammemeConstants::GENDER_FEMININE}));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryPreposition, {GrammemeConstants::POS_ADPOSITION}));
 }
 
 EsGrammarSynthesizer_EsDisplayFunction::~EsGrammarSynthesizer_EsDisplayFunction()
@@ -69,7 +69,7 @@ EsGrammarSynthesizer_EsDisplayFunction::~EsGrammarSynthesizer_EsDisplayFunction(
 
 ::std::u16string EsGrammarSynthesizer_EsDisplayFunction::guessGenderedInflection(const ::std::u16string& word, ::std::u16string_view gender) const
 {
-    if (gender == GrammemeConstants::GENDER_MASCULINE() && !(word.ends_with(u"o") || word.ends_with(u"os"))) {
+    if (gender == GrammemeConstants::GENDER_MASCULINE && !(word.ends_with(u"o") || word.ends_with(u"os"))) {
         if (word.ends_with(u"a")) {
             return word.substr(0, word.length() - 1) + u"o";
         }
@@ -77,7 +77,7 @@ EsGrammarSynthesizer_EsDisplayFunction::~EsGrammarSynthesizer_EsDisplayFunction(
             return word.substr(0, word.length() - 2) + u"os";
         }
     }
-    if (gender == GrammemeConstants::GENDER_FEMININE() && !(word.ends_with(u"a") || word.ends_with(u"as"))) {
+    if (gender == GrammemeConstants::GENDER_FEMININE && !(word.ends_with(u"a") || word.ends_with(u"as"))) {
         if (word.ends_with(u"o")) {
             return word.substr(0, word.length() - 1) + u"a";
         }
@@ -133,7 +133,7 @@ EsGrammarSynthesizer_EsDisplayFunction::~EsGrammarSynthesizer_EsDisplayFunction(
         // We requested a gender, but it's not a known word. Make a guess.
         inflectedWord = guessGenderedInflection(inflectedWord, GrammarSynthesizerUtil::getFeatureValue(constraints, genderFeature));
     }
-    if (GrammarSynthesizerUtil::getFeatureValue(constraints, numberFeature) == GrammemeConstants::NUMBER_PLURAL()) {
+    if (GrammarSynthesizerUtil::getFeatureValue(constraints, numberFeature) == GrammemeConstants::NUMBER_PLURAL) {
         inflectedWord = guessPluralInflection(inflectedWord);
     }
     return inflectedWord;

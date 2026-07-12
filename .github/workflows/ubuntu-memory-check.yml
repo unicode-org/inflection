@@ -20,7 +20,7 @@ on:
       - 'inflection/**'
 env:
   ICU_MAJOR: '78'
-  ICU_MINOR: '1'
+  ICU_MINOR: '3'
 
 jobs:
   cache-icu:
@@ -68,21 +68,24 @@ jobs:
       run: git lfs ls-files -l |cut -d' ' -f1 |sort >.git/lfs-hashes.txt
 
     - name: Restore Git LFS object cache
+      # Cache the local LFS object store (all LFS-tracked paths in the repo), not just one
+      # smudged output directory, so objects outside that directory still get checked out below.
       id: lfscache
       uses: actions/cache@v4
       with:
-        path: inflection/resources/org/unicode/inflection/dictionary
+        path: .git/lfs
         key: ${{ runner.os }}-lfsdata-v1-${{ hashFiles('.git/lfs-hashes.txt') }}
         restore-keys: |
           ${{ runner.os }}-lfsdata-v1-
           ${{ runner.os }}-lfsdata
 
     - name: Fetch any needed Git LFS objects and prune extraneous ones
-      if: steps.lfscache.outputs.cache-hit != 'true'
       run: git lfs fetch --prune
 
     - name: Check out Git LFS content
-      if: steps.lfscache.outputs.cache-hit != 'true'
+      # Always run, even on a cache hit, so every LFS-tracked file gets smudged from the
+      # local object store. Skipping this on cache-hit previously left LFS files outside
+      # the cached path (e.g. tokenizer/*/tokenizer.dictionary) as unresolved pointer text.
       run: git lfs checkout
 
     - name: Check LFS restore the files or not after checkout

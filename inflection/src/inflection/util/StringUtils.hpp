@@ -5,7 +5,6 @@
 
 #include <inflection/util/fwd.hpp>
 #include <string>
-#include <vector>
 
 /**
  * @brief Provides utility functions for use with <code>std::u16string</code> objects.

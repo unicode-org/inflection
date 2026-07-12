@@ -1,7 +1,8 @@
 #
 # Copyright 2021-2024 Apple Inc. All rights reserved.
 #
-set(inflection_compile_definitions INFLECTION_DATA_ROOT_DIR=\"${CMAKE_INSTALL_FULL_DATAROOTDIR}\" ENABLE_ALL_FEATURES=1)
+cmake_path(APPEND INFLECTION_DATA_ROOT_INSTALL_PREFIX "${CMAKE_INSTALL_DATADIR}" OUTPUT_VARIABLE INFLECTION_DATA_ROOT_DIR_RELATIVE)
+set(inflection_compile_definitions INFLECTION_DATA_ROOT_DIR=\"${INFLECTION_DATA_ROOT_DIR_RELATIVE}\" ENABLE_ALL_FEATURES=1)
 
 # inflection and icu4cxx definitions
 set(ICU4CXX_INCLUDE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
@@ -27,19 +28,12 @@ foreach(TOOL_SOURCE IN LISTS TOOLS_SUBSET)
 endforeach()
 
 # Inflection tool objects target
-if(XCODE)
-	add_library(inflection_tool_objs INTERFACE)
-	target_sources(inflection_tool_objs INTERFACE ${TOOLS_SUBSET})
-	target_include_directories(inflection_tool_objs INTERFACE ${INFLECTION_INCLUDE_PATH} ${ICU_INCLUDE_DIR})
-	target_compile_definitions(inflection_tool_objs INTERFACE ${inflection_compile_definitions})
-else()
-	add_library(inflection_tool_objs OBJECT)
-	target_sources(inflection_tool_objs PRIVATE ${TOOLS_SUBSET})
-	set_property(TARGET inflection_tool_objs PROPERTY POSITION_INDEPENDENT_CODE ON)
-	target_include_directories(inflection_tool_objs PUBLIC ${INFLECTION_INCLUDE_PATH} ${ICU_INCLUDE_DIR})
-	target_link_libraries(inflection_tool_objs PRIVATE resource_objs marisa_objs ICU::uc ICU::i18n)
-	target_compile_definitions(inflection_tool_objs PUBLIC ${inflection_compile_definitions})
-endif()
+add_library(inflection_tool_objs OBJECT)
+target_sources(inflection_tool_objs PRIVATE ${TOOLS_SUBSET})
+set_property(TARGET inflection_tool_objs PROPERTY POSITION_INDEPENDENT_CODE ON)
+target_include_directories(inflection_tool_objs PUBLIC ${INFLECTION_INCLUDE_PATH} ${ICU_INCLUDE_DIR})
+target_link_libraries(inflection_tool_objs PRIVATE resource_objs marisa_objs ICU::uc ICU::i18n)
+target_compile_definitions(inflection_tool_objs PUBLIC ${inflection_compile_definitions})
 add_dependencies(inflection_tool_objs generated_src)
 #End section
 
@@ -53,13 +47,21 @@ target_link_libraries(inflection
 			ICU::uc ICU::i18n
 			marisa_objs resource_objs inflection_tool_objs
 )
-add_link_options(-no_inits)
+if(APPLE)
+    add_link_options(-no_inits)
+endif()
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 	set_target_properties(inflection PROPERTIES
 		BUILD_WITH_INSTALL_RPATH TRUE
 		BUILD_WITH_INSTALL_NAME_DIR TRUE
 		INSTALL_NAME_DIR ${CMAKE_INSTALL_FULL_LIBDIR}
+	)
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+	target_compile_definitions(inflection PRIVATE "INFLECTION_EXPORT_API=__declspec(dllexport)")
+	target_compile_definitions(inflection_tool_objs PRIVATE "INFLECTION_EXPORT_API=__declspec(dllexport)")
+	set_target_properties(inflection PROPERTIES
+		WINDOWS_EXPORT_ALL_SYMBOLS OFF
 	)
 else()
 	set_target_properties(inflection PROPERTIES

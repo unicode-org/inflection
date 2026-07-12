@@ -5,8 +5,6 @@
 
 #include <inflection/tokenizer/dictionary/DictionaryTokenizerConfig.hpp>
 #include <inflection/tokenizer/dictionary/Segment.hpp>
-#include <inflection/util/ULocale.hpp>
-#include <inflection/util/StringUtils.hpp>
 #include <inflection/npc.hpp>
 #include <unicode/uchar.h>
 #include <memory>
@@ -25,15 +23,15 @@ GermanicDecompounder::GermanicDecompounder(const DictionaryTokenizerConfig& conf
 {
 }
 
-GermanicDecompounder::~GermanicDecompounder()
-{
-}
+GermanicDecompounder::~GermanicDecompounder() = default;
 
-void GermanicDecompounder::analyze(Segment::SharedPtr parent,
-                                   Segment::SharedPtr word,
+void GermanicDecompounder::analyze(const Segment::SharedPtr& parent,
+                                   const Segment::SharedPtr& word,
                                    int32_t offset,
+                                   int32_t wordEnd,
                                    bool isStringTail,
-                                   ::std::vector<Segment::SharedPtr>* leafs) const
+                                   ::std::vector<Segment::SharedPtr>* leafs,
+                                   int32_t trailingFugeLen) const
 {
     word->tie(parent);
     npc(leafs)->push_back(word);
@@ -43,32 +41,33 @@ void GermanicDecompounder::analyze(Segment::SharedPtr parent,
     auto compound = word->getCompound();
     Segment::SharedPtr prev = nullptr;
     Segment::SharedPtr next = nullptr;
-    auto wordLength = word->getLength();
+    auto wordLength = wordEnd - offset;
     auto upperBoundary = wordLength - minCandidateLength;
     for (auto k = minCandidateLength; k <= upperBoundary && k < maxCompoundLengthMinusOne; k++) {
-        auto currentOffset = offset + k;
-        auto first = next != nullptr ? next : _newSegment(compound, offset, currentOffset, word->getRootOffset(), word->getFugeLen());
-        // TODO This check for the next segment is probably wrong for long segments.
-        next = k < upperBoundary ? _newSegment(compound, offset, currentOffset + 1) : nullptr;
+        auto splitPoint = wordEnd - k;
+        auto first = next != nullptr ? next : _newSegment(compound, splitPoint, wordEnd, trailingFugeLen);
+        next = k < upperBoundary ? _newSegment(compound, splitPoint - 1, wordEnd, trailingFugeLen) : nullptr;
         if (segmentValidator.validateFirst(first.get(), prev.get(), next.get(), isStringTail)) {
-            auto second(_newSegment(compound, currentOffset, word->getCompoundLength()));
-            if (segmentValidator.validateSecond(second.get())) {
+            auto second(_newSegment(compound, offset, splitPoint));
+            if (segmentValidator.validateSecond(second.get()) && !(isStringTail && first->isNoHead())) {
+                auto secondFugeLen = second->getFugeLen();
+                auto effectiveEnd = splitPoint - (secondFugeLen > 0 ? secondFugeLen : 0);
                 first->tie(parent);
-                analyze(first, second, currentOffset, false, leafs);
+                analyze(first, second, offset, effectiveEnd, false, leafs, secondFugeLen > 0 ? secondFugeLen : 0);
             }
         }
         prev = first;
     }
 }
 
-Segment::SharedPtr GermanicDecompounder::_newSegment(::std::u16string_view compound, int32_t currentOffset, int32_t compoundLength) const
+Segment::SharedPtr GermanicDecompounder::_newSegment(::std::u16string_view compound, int32_t start, int32_t end) const
 {
-    return ::std::make_shared<Segment>(config, corpus, compound, currentOffset, compoundLength);
+    return ::std::make_shared<Segment>(config, corpus, compound, start, end);
 }
 
-Segment::SharedPtr GermanicDecompounder::_newSegment(::std::u16string_view compound, int32_t offset, int32_t currentOffset, int32_t rootOffset, int32_t fuge) const
+Segment::SharedPtr GermanicDecompounder::_newSegment(::std::u16string_view compound, int32_t start, int32_t end, int32_t trailingFugeLen) const
 {
-    return ::std::make_shared<Segment>(config, corpus, compound, offset, currentOffset, rootOffset, fuge);
+    return ::std::make_shared<Segment>(config, corpus, compound, start, end + trailingFugeLen);
 }
 
 void GermanicDecompounder::decompound(std::vector<int32_t>* boundaries, std::u16string_view phrase, int32_t start, int32_t length) const
@@ -82,12 +81,10 @@ void GermanicDecompounder::decompound(std::vector<int32_t>* boundaries, std::u16
          */
         compound.push_back(static_cast<char16_t>(u_tolower(ch)));
     }
-    ::inflection::util::StringUtils::reverse(&compound);
-
     ::std::vector<Segment::SharedPtr> segments;
     auto root = _newSegment(compound, 0, int32_t(compound.length()));
     Segment::SharedPtr wordSegment(::std::make_shared<Segment>(*npc(root.get())));
-    analyze(root, wordSegment, 0, true, &segments);
+    analyze(root, wordSegment, 0, int32_t(compound.length()), true, &segments);
 
     parsingsScorer.getBestOffsets(boundaries, start, &segments);
 }

@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!--
- Copyright 2021-2024 Apple Inc. All rights reserved.
+ Copyright 2021-2026 Apple Inc. All rights reserved.
 -->
 <inflectionTest locale="es">
     <test><source>farola</source><result number="singular"/></test>
@@ -222,10 +222,10 @@
     <test><source definiteness="definite">añeja álgebra</source><result>la añeja álgebra</result></test>
     <test><source>área</source><result withDemAdj="esta área"/></test>
 
-    <!-- New Tests for stating initial grammemes -->
-    <test><source definiteness="definite">cometa</source><initial gender="masculine"/><result number="singular" gender="masculine">el cometa</result></test>
-    <test><source definiteness="definite">cometa</source><initial gender="feminine"/><result number="singular" gender="feminine">la cometa</result></test>
-    <test><source definiteness="definite">QQQQ</source><initial gender="masculine" number="plural"/><result number="plural" gender="masculine">los QQQQ</result></test>
-    <test><source definiteness="definite">QQQQ</source><initial gender="feminine" number="plural"/><result number="plural" gender="feminine">las QQQQ</result></test>
+    <!-- Tests for stating initial grammemes -->
+    <test><source definiteness="definite"><meta gender="masculine">cometa</meta></source><result number="singular" gender="masculine">el cometa</result></test>
+    <test><source definiteness="definite"><meta gender="feminine">cometa</meta></source><result number="singular" gender="feminine">la cometa</result></test>
+    <test><source definiteness="definite"><meta gender="masculine" number="plural">QQQQ</meta></source><result number="plural" gender="masculine">los QQQQ</result></test>
+    <test><source definiteness="definite"><meta gender="feminine" number="plural">QQQQ</meta></source><result number="plural" gender="feminine">las QQQQ</result></test>
 
 </inflectionTest>

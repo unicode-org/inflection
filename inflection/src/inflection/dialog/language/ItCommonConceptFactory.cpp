@@ -19,10 +19,6 @@ ItCommonConceptFactory::ItCommonConceptFactory(const ::inflection::util::ULocale
     semanticFeatureIndefiniteArticle = semanticFeatureModel.getFeature(::inflection::grammar::synthesis::ItGrammarSynthesizer::ARTICLE_INDEFINITE);
 }
 
-ItCommonConceptFactory::~ItCommonConceptFactory()
-{
-}
-
 inflection::dialog::SemanticConceptList* ItCommonConceptFactory::createOrList(const ::std::vector<const ::inflection::dialog::SemanticFeatureConceptBase*>& concepts) const
 {
     return npc(super::createOrList(concepts))->setBeforeLast(inflection::dialog::SpeakableString(u" o "));

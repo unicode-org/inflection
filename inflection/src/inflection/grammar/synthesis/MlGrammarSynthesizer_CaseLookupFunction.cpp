@@ -10,27 +10,26 @@
 
 namespace inflection::grammar::synthesis {
 
-// Constructor: initialize the member table here (no static locals).
-MlGrammarSynthesizer_CaseLookupFunction::MlGrammarSynthesizer_CaseLookupFunction()
-    : m_suffixToCase_{
-        { u"ന്റെ", GrammemeConstants::CASE_GENITIVE() },
-        { u"യുടെ", GrammemeConstants::CASE_GENITIVE() },
-        { u"ഉടെ", GrammemeConstants::CASE_GENITIVE() },
-        { u"ആയുടെ", GrammemeConstants::CASE_GENITIVE() },
-        { u"ഉടേതു്", GrammemeConstants::CASE_GENITIVE() },
-        { u"ഉടേതു", GrammemeConstants::CASE_GENITIVE() },
-        { u"ഉടെത്", GrammemeConstants::CASE_GENITIVE() },
-        { u"നെ", GrammemeConstants::CASE_ACCUSATIVE() },
-        { u"ക്ക്", GrammemeConstants::CASE_DATIVE() },
-        { u"യ്ക്ക്", GrammemeConstants::CASE_DATIVE() },
-        { u"യിൽ", GrammemeConstants::CASE_LOCATIVE() },
-        { u"ഇൽ", GrammemeConstants::CASE_LOCATIVE() },
-        { u"ആൽ", GrammemeConstants::CASE_INSTRUMENTAL() },
-        { u"വഴി", GrammemeConstants::CASE_INSTRUMENTAL() },
-        { u"ഓടെ", GrammemeConstants::CASE_SOCIATIVE() }
-    }
-{
-}
+static constexpr struct {
+    const char16_t* suffix;
+    const char16_t* caseGrammeme;
+} SUFFIX_TO_CASE[] = {
+    { u"ന്റെ", GrammemeConstants::CASE_GENITIVE },
+    { u"യുടെ", GrammemeConstants::CASE_GENITIVE },
+    { u"ഉടെ", GrammemeConstants::CASE_GENITIVE },
+    { u"ആയുടെ", GrammemeConstants::CASE_GENITIVE },
+    { u"ഉടേതു്", GrammemeConstants::CASE_GENITIVE },
+    { u"ഉടേതു", GrammemeConstants::CASE_GENITIVE },
+    { u"ഉടെത്", GrammemeConstants::CASE_GENITIVE },
+    { u"നെ", GrammemeConstants::CASE_ACCUSATIVE },
+    { u"ക്ക്", GrammemeConstants::CASE_DATIVE },
+    { u"യ്ക്ക്", GrammemeConstants::CASE_DATIVE },
+    { u"യിൽ", GrammemeConstants::CASE_LOCATIVE },
+    { u"ഇൽ", GrammemeConstants::CASE_LOCATIVE },
+    { u"ആൽ", GrammemeConstants::CASE_INSTRUMENTAL },
+    { u"വഴി", GrammemeConstants::CASE_INSTRUMENTAL },
+    { u"ഓടെ", GrammemeConstants::CASE_SOCIATIVE },
+};
 
 ::inflection::dialog::SpeakableString* MlGrammarSynthesizer_CaseLookupFunction::getFeatureValue(
    const ::inflection::dialog::DisplayValue& displayValue,
@@ -38,7 +37,7 @@ MlGrammarSynthesizer_CaseLookupFunction::MlGrammarSynthesizer_CaseLookupFunction
 {
    const std::u16string& displayString(displayValue.getDisplayString());
 
-   for (const auto& [suffix, caseGrammeme] : m_suffixToCase_) {
+   for (const auto& [suffix, caseGrammeme] : SUFFIX_TO_CASE) {
        if (displayString.ends_with(suffix)) {
            return new ::inflection::dialog::SpeakableString(caseGrammeme);
        }

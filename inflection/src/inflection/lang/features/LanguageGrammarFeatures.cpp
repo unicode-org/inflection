@@ -8,7 +8,6 @@
 #include <inflection/lang/features/LanguageGrammarFeatures_GrammarCategory.hpp>
 #include <inflection/lang/features/LanguageGrammarFeatures_GrammarFeatures.hpp>
 #include <inflection/exception/IllegalArgumentException.hpp>
-#include <inflection/resources/DataResource.hpp>
 #include <inflection/util/ULocale.hpp>
 #include <inflection/util/LocaleUtils.hpp>
 #include <inflection/util/StringViewUtils.hpp>
@@ -141,6 +140,9 @@ std::set<LanguageGrammarFeatures_GrammarFeatures> LanguageGrammarFeatures::getFe
                 std::map<std::u16string, std::u16string> constraints;
 
                 const auto &value = feature.value[j];
+                if (value.case_ != nullptr) {
+                    constraints[u"case"] = value.case_;
+                }
                 if (value.number != nullptr) {
                     constraints[u"number"] = value.number;
                 }

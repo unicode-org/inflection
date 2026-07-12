@@ -27,11 +27,11 @@ private:
     int32_t maxCompoundFreq {  };
 
 public: /* protected */
-    void analyze(inflection::tokenizer::dictionary::Segment::SharedPtr parent, inflection::tokenizer::dictionary::Segment::SharedPtr word, int32_t offset, bool isStringTail, ::std::vector<inflection::tokenizer::dictionary::Segment::SharedPtr>* leaves) const;
+    void analyze(const inflection::tokenizer::dictionary::Segment::SharedPtr& parent, const inflection::tokenizer::dictionary::Segment::SharedPtr& word, int32_t offset, int32_t wordEnd, bool isStringTail, ::std::vector<inflection::tokenizer::dictionary::Segment::SharedPtr>* leaves, int32_t trailingFugeLen = 0) const;
 
 private:
-    inflection::tokenizer::dictionary::Segment::SharedPtr _newSegment(::std::u16string_view compound, int32_t currentOffset, int32_t compoundLength) const;
-    inflection::tokenizer::dictionary::Segment::SharedPtr _newSegment(::std::u16string_view compound, int32_t offset, int32_t currentOffset, int32_t rootOffset, int32_t fuge) const;
+    inflection::tokenizer::dictionary::Segment::SharedPtr _newSegment(::std::u16string_view compound, int32_t start, int32_t end) const;
+    inflection::tokenizer::dictionary::Segment::SharedPtr _newSegment(::std::u16string_view compound, int32_t start, int32_t end, int32_t trailingFugeLen) const;
 
 public:
     void decompound(std::vector<int32_t>* boundaries, std::u16string_view phrase, int32_t start, int32_t length) const;

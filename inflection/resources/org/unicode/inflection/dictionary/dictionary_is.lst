@@ -1,0 +1,127 @@
+Guðna: accusative dative genitive proper-noun
+Guðni: nominative proper-noun
+aspir: plural nominative indefinite feminine noun inflection=3
+aspirnar: plural nominative definite feminine noun inflection=3
+beit: singular indicative first past active verb
+bitið: supine active verb
+bíta: infinitive active verb
+bítum: plural indicative first past active verb
+fjörður: singular nominative indefinite masculine noun inflection=1
+hest: singular accusative uncountable masculine noun inflection=9
+hestur: singular nominative indefinite masculine noun inflection=9
+já: interjection
+kæling: singular nominative indefinite feminine noun inflection=a
+kælingar: singular genitive indefinite feminine noun inflection=a
+kött: singular accusative indefinite masculine noun inflection=5
+köttur: singular nominative indefinite masculine noun inflection=5
+ljár: singular nominative indefinite masculine noun inflection=1
+mig: singular accusative pronoun
+mjólk: singular accusative dative nominative uncountable indefinite feminine noun inflection=6
+mjólkin: singular nominative uncountable definite feminine noun inflection=6
+mjólkina: singular accusative uncountable definite feminine noun inflection=6
+mjólkinni: singular dative uncountable definite feminine noun inflection=6
+mjólkur: singular genitive uncountable indefinite feminine noun inflection=6
+mjólkurinnar: singular genitive uncountable definite feminine noun inflection=6
+mér: singular dative pronoun
+mín: singular genitive pronoun
+rautt: singular accusative nominative positive strong neuter adjective
+rauð: singular plural accusative nominative positive strong feminine neuter adjective
+rauða: singular plural accusative positive strong masculine feminine adjective
+rauðan: singular accusative positive strong masculine adjective
+rauðar: plural accusative nominative positive strong feminine adjective
+rauðir: plural nominative positive strong masculine adjective
+rauðra: plural genitive positive strong masculine feminine neuter adjective
+rauðrar: singular genitive positive strong feminine adjective
+rauðri: singular dative positive strong feminine adjective
+rauðs: singular genitive positive strong masculine neuter adjective
+rauðu: singular dative positive strong neuter adjective
+rauðum: singular plural dative positive strong masculine feminine neuter adjective
+rauður: singular nominative positive strong masculine adjective
+sonur: singular nominative indefinite masculine noun inflection=8
+synir: plural nominative indefinite masculine noun inflection=8
+te: singular nominative neuter noun inflection=4
+álar: plural nominative indefinite masculine noun inflection=7
+áll: singular nominative indefinite masculine noun inflection=7
+állinn: singular nominative definite masculine noun inflection=7
+ég: singular nominative pronoun
+öskur: singular nominative indefinite masculine noun inflection=1
+ösla: singular plural indicative first third present infinitive active verb
+öslandi: present participle verb
+öslar: singular indicative second third present active verb
+öslað: supine verb
+öslið: plural indicative second present active verb
+öslum: plural indicative first present active verb
+ösp: singular nominative indefinite feminine noun inflection=3
+öspin: singular nominative definite feminine noun inflection=3
+öxi: singular nominative indefinite feminine noun inflection=2
+öxl: singular nominative indefinite feminine noun inflection=2
+öxull: singular nominative indefinite masculine noun inflection=1
+==============================================
+                       Source: wikidata-20260708-lexemes.json 
+                  Lemma terms:      43
+         Unusable lemma terms:      23
+       Incoming surface forms:      76
+                Surface forms:      58
+      Collapsed surface forms:      18 (23.7%)
+       Unusable surface forms:       0
+                 Usable terms:      58  (100%)
+           Unclassified terms:       0    (0%)
+==============================================
+Case:
+    nominative:               28 (48.3%)
+    accusative:               11   (19%)
+    genitive:                  8 (13.8%)
+    dative:                    7 (12.1%)
+
+ComparisonDegree:
+    positive:                 13 (22.4%)
+
+Count:
+    uncountable:               7 (12.1%)
+
+DeclensionClass:
+    strong:                   13 (22.4%)
+
+Definiteness:
+    indefinite:               19 (32.8%)
+    definite:                  7 (12.1%)
+
+Gender:
+    feminine:                 21 (36.2%)
+    masculine:                20 (34.5%)
+    neuter:                    7 (12.1%)
+
+Mood:
+    indicative:                6 (10.3%)
+
+Number:
+    singular:                 41 (70.7%)
+    plural:                   14 (24.1%)
+
+PartOfSpeech:
+    noun:                     28 (48.3%)
+    adjective:                13 (22.4%)
+    verb:                     10 (17.2%)
+    pronoun:                   4  (6.9%)
+    proper-noun:               2  (3.4%)
+    interjection:              1  (1.7%)
+
+Person:
+    first:                     4  (6.9%)
+    third:                     2  (3.4%)
+    second:                    2  (3.4%)
+
+Tense:
+    present:                   5  (8.6%)
+    past:                      2  (3.4%)
+
+VerbType:
+    supine:                    2  (3.4%)
+    infinitive:                2  (3.4%)
+    participle:                1  (1.7%)
+
+Voice:
+    active:                    8 (13.8%)
+
+License: Creative Commons CC0 License (https://creativecommons.org/publicdomain/zero/1.0/)
+generated with options: --language is

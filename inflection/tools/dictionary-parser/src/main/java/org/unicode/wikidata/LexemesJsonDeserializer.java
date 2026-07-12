@@ -9,8 +9,10 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 /**
@@ -18,6 +20,7 @@ import java.util.TreeMap;
  */
 public class LexemesJsonDeserializer extends JsonDeserializer<Map<String, LexemeRepresentation>> {
     private static String[] languages;
+    private static Set<String> excludedLanguages;
 
     public static void setLanguage(List<String> languagesArray) {
         if (languagesArray != null && !languagesArray.isEmpty()) {
@@ -29,6 +32,19 @@ public class LexemesJsonDeserializer extends JsonDeserializer<Map<String, Lexeme
     }
 
     /**
+     * Configures exact Wikidata language/variant codes (e.g. "ro-md", "ar-x-Q775724") to always
+     * exclude, regardless of whether they'd otherwise be considered contained in a desired language.
+     */
+    public static void setExcludedLanguages(List<String> excludedLanguagesList) {
+        if (excludedLanguagesList != null && !excludedLanguagesList.isEmpty()) {
+            excludedLanguages = new HashSet<>(excludedLanguagesList);
+        }
+        else {
+            excludedLanguages = null;
+        }
+    }
+
+    /**
      * Is the base desired language contained in the variant language?
      * en, en true
      * en, en-us true
@@ -36,6 +52,9 @@ public class LexemesJsonDeserializer extends JsonDeserializer<Map<String, Lexeme
      * ko, kok false
      */
     public static boolean isContained(String currentLanguage) {
+        if (excludedLanguages != null && excludedLanguages.contains(currentLanguage)) {
+            return false;
+        }
         if (languages == null) {
             return true;
         }

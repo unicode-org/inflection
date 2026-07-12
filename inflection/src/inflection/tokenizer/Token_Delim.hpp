@@ -3,7 +3,6 @@
  */
 #pragma once
 
-#include <inflection/tokenizer/fwd.hpp>
 #include <inflection/tokenizer/Token.hpp>
 #include <string_view>
 

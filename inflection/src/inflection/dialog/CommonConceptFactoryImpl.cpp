@@ -93,9 +93,7 @@ CommonConceptFactoryImpl::CommonConceptFactoryImpl(const ::inflection::util::ULo
     endQuote = getQuote(localeData, ULOCDATA_QUOTATION_END);
 }
 
-CommonConceptFactoryImpl::~CommonConceptFactoryImpl()
-{
-}
+CommonConceptFactoryImpl::~CommonConceptFactoryImpl() = default;
 
 const SemanticFeatureModel* CommonConceptFactoryImpl::getSemanticFeatureModel() const
 {
@@ -224,6 +222,11 @@ SpeakableString* CommonConceptFactoryImpl::quantify(const NumberConcept& number,
         formattedNumber.reset(number.toSpeakableString());
     }
     return quantifyFormatted(number, *formattedNumber, semanticConcept);
+}
+
+Plurality::Rule CommonConceptFactoryImpl::selectCount(double number) const
+{
+    return plurality.select(number);
 }
 
 SpeakableString* CommonConceptFactoryImpl::quantifyFormatted(const NumberConcept& number, const SpeakableString& formattedNumber, const SemanticFeatureConceptBase* semanticConcept) const

@@ -1,0 +1,38 @@
+میں,first,singular,direct
+میں نے,first,singular,ergative
+مجھے,first,singular,dative
+ہم,first,plural,direct
+ہم نے,first,plural,ergative
+ہمیں,first,plural,dative
+میرا,first,singular,genitive,dependency=singular,dependency=masculine
+میرے,first,singular,genitive,dependency=plural,dependency=masculine
+میری,first,singular,genitive,dependency=singular,dependency=feminine
+میری,first,singular,genitive,dependency=plural,dependency=feminine
+ہمارا,first,plural,genitive,dependency=singular,dependency=masculine
+ہمارے,first,plural,genitive,dependency=plural,dependency=masculine
+ہماری,first,plural,genitive,dependency=singular,dependency=feminine
+ہماری,first,plural,genitive,dependency=plural,dependency=feminine
+تو,second,singular,direct,intimate
+تو نے,second,singular,ergative,intimate
+تجھے,second,singular,dative,intimate
+تم,second,number,direct,informal
+تم,second,plural,direct,intimate
+تم نے,second,number,ergative,informal
+تم نے,second,plural,ergative,intimate
+تمہیں,second,number,dative,informal
+تمہیں,second,plural,dative,intimate
+آپ,second,number,direct,formal
+آپ نے,second,number,ergative,formal
+آپ کو,second,number,dative,formal
+تیرا,second,singular,genitive,dependency=singular,dependency=masculine,intimate
+تیرے,second,singular,genitive,dependency=plural,dependency=masculine,intimate
+تیری,second,singular,genitive,dependency=singular,dependency=feminine,intimate
+تیری,second,singular,genitive,dependency=plural,dependency=feminine,intimate
+تمہارا,second,number,genitive,dependency=singular,dependency=masculine,informal
+تمہارے,second,number,genitive,dependency=plural,dependency=masculine,informal
+تمہاری,second,number,genitive,dependency=singular,dependency=feminine,informal
+تمہاری,second,number,genitive,dependency=plural,dependency=feminine,informal
+آپ کا,second,number,genitive,dependency=singular,dependency=masculine,formal
+آپ کے,second,number,genitive,dependency=plural,dependency=masculine,formal
+آپ کی,second,number,genitive,dependency=singular,dependency=feminine,formal
+آپ کی,second,number,genitive,dependency=plural,dependency=feminine,formal

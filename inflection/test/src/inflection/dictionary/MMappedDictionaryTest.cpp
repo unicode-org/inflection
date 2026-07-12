@@ -11,11 +11,13 @@
 #include <inflection/util/StringUtils.hpp>
 #include <inflection/exception/IncompatibleVersionException.hpp>
 #include <inflection/exception/IOException.hpp>
+#include <inflection/util/Finally.hpp>
 #include <inflection/util/MemoryMappedFile.hpp>
 
+#include <cstring>
+#include <filesystem>
+#include <fstream>
 #include <map>
-#include <unistd.h>
-#include <string.h>
 
 template<typename A, typename B>
 bool compare(A a, B b) {
@@ -61,20 +63,9 @@ void ensureEquivalence(A mapA, B mapB)
     }
 }
 
-::std::string createTemporaryFileTemplate()
+static ::std::filesystem::path createTemporaryFilePath()
 {
-    const char* tmpDir = nullptr;
-    // temporary folder lookup according to ISO/IEC 9945
-    for (auto reference : ::std::vector<const char*> { "TMPDIR", "TMP", "TEMP", "TEMPDIR" }) {
-        tmpDir = ::std::getenv(reference);
-        if (tmpDir != nullptr) {
-            break;
-        }
-    }
-    if (tmpDir == nullptr) {
-        tmpDir = "/tmp";
-    }
-    return ::std::string(tmpDir) + "/marisaTrieTestXXXXXX";
+    return ::std::filesystem::temp_directory_path() / "marisaTrieTest";
 }
 
 TEST_CASE("MMappedDictionaryTest#testTrie")
@@ -164,41 +155,50 @@ TEST_CASE("MMappedDictionaryTest#testCompressedArray")
 
 TEST_CASE("MMappedDictionaryTest#readInvalidFiles")
 {
-    auto temporaryPath = createTemporaryFileTemplate();
-    int temporaryFile = mkstemp(&temporaryPath[0]);
-    REQUIRE(temporaryFile > 0);
-    ::std::u16string uPath;
-    ::inflection::util::StringUtils::convert(&uPath, temporaryPath);
+    auto temporaryPath = createTemporaryFilePath();
+    ::inflection::util::Finally finally([&temporaryPath]() noexcept {
+        ::std::filesystem::remove(temporaryPath);
+    });
 
-    REQUIRE(sizeof(::inflection::dictionary::DictionaryMetaData_MMappedDictionary::MAGIC_MARKER)
-            == write(temporaryFile, ::inflection::dictionary::DictionaryMetaData_MMappedDictionary::MAGIC_MARKER,
-            sizeof(::inflection::dictionary::DictionaryMetaData_MMappedDictionary::MAGIC_MARKER)));
-    fsync(temporaryFile);
+    ::std::u16string uPath;
+    ::inflection::util::StringUtils::convert(&uPath, temporaryPath.string());
+
+    // Write the full file contents and close the handle before each createDictionary() call below,
+    // since a still-open writer handle causes CreateFileW to fail with a sharing violation on Windows.
+    ::std::string contents(::inflection::dictionary::DictionaryMetaData_MMappedDictionary::MAGIC_MARKER,
+            sizeof(::inflection::dictionary::DictionaryMetaData_MMappedDictionary::MAGIC_MARKER));
+    auto writeContents = [&]() {
+        ::std::ofstream file(temporaryPath, ::std::ios::binary | ::std::ios::trunc);
+        REQUIRE(file.is_open());
+        file.write(contents.data(), (std::streamsize)contents.size());
+        REQUIRE(file.good());
+    };
+
+    writeContents();
     REQUIRE_THROWS_AS(inflection::dictionary::DictionaryMetaData_MMappedDictionary::createDictionary(uPath),
             inflection::exception::IOException);
 
     // version off by 1
     int16_t endiannessMarker = 1;
     auto incompatibleVersion = inflection::dictionary::DictionaryMetaData_MMappedDictionary::VERSION + 1;
-    REQUIRE(sizeof(endiannessMarker) == write(temporaryFile, &endiannessMarker, sizeof(endiannessMarker)));
-    REQUIRE(sizeof(incompatibleVersion) == write(temporaryFile, &incompatibleVersion, sizeof(incompatibleVersion)));
-    fsync(temporaryFile);
+    contents.append(reinterpret_cast<const char*>(&incompatibleVersion), sizeof(incompatibleVersion));
+    contents.append(reinterpret_cast<const char*>(&endiannessMarker), sizeof(endiannessMarker));
+    writeContents();
 
     // header now valid, but version incompatible
     REQUIRE_THROWS_AS(inflection::dictionary::DictionaryMetaData_MMappedDictionary::createDictionary(uPath),
             inflection::exception::IncompatibleVersionException);
 
     // invalid endianness marker
-    lseek(temporaryFile, strlen(::inflection::dictionary::DictionaryMetaData_MMappedDictionary::MAGIC_MARKER), SEEK_SET);
+    auto validVersion = inflection::dictionary::DictionaryMetaData_MMappedDictionary::VERSION;
+    auto versionOffset = sizeof(::inflection::dictionary::DictionaryMetaData_MMappedDictionary::MAGIC_MARKER);
+    ::std::memcpy(&contents[versionOffset], &validVersion, sizeof(validVersion));
     int16_t invalidEndiannessMarker = 0xFF;
-    REQUIRE(sizeof(invalidEndiannessMarker) == write(temporaryFile, &invalidEndiannessMarker, sizeof(invalidEndiannessMarker)));
-    fsync(temporaryFile);
+    ::std::memcpy(&contents[versionOffset + sizeof(validVersion)], &invalidEndiannessMarker, sizeof(invalidEndiannessMarker));
+    writeContents();
 
     REQUIRE_THROWS_AS(inflection::dictionary::DictionaryMetaData_MMappedDictionary::createDictionary(uPath),
                       inflection::exception::IOException);
     REQUIRE_THROWS_AS(inflection::dictionary::DictionaryMetaData_MMappedDictionary::createDictionary(u"."),
                       inflection::exception::IOException);
-
-    close(temporaryFile);
-    unlink(temporaryPath.c_str());
 }

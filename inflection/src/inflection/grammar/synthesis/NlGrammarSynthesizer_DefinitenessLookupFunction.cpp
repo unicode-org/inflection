@@ -14,7 +14,7 @@
 namespace inflection::grammar::synthesis {
 
 NlGrammarSynthesizer_DefinitenessLookupFunction::NlGrammarSynthesizer_DefinitenessLookupFunction()
-    : super(::inflection::util::LocaleUtils::DUTCH(), {GrammemeConstants::DEFINITENESS_DEFINITE(), GrammemeConstants::DEFINITENESS_INDEFINITE()})
+    : super(::inflection::util::LocaleUtils::DUTCH(), {GrammemeConstants::DEFINITENESS_DEFINITE, GrammemeConstants::DEFINITENESS_INDEFINITE})
 {
 }
 
@@ -25,10 +25,10 @@ inflection::dialog::SpeakableString* NlGrammarSynthesizer_DefinitenessLookupFunc
         ::std::u16string lowercaseStr;
         ::inflection::util::StringViewUtils::lowercase(&lowercaseStr, displayString, inflection::util::LocaleUtils::ENGLISH());
         if (lowercaseStr.starts_with(u"de ") || lowercaseStr.starts_with(u"het ")) {
-            return new inflection::dialog::SpeakableString(GrammemeConstants::DEFINITENESS_DEFINITE());
+            return new inflection::dialog::SpeakableString(GrammemeConstants::DEFINITENESS_DEFINITE);
         }
         if (lowercaseStr.starts_with(u"een ")) {
-            return new inflection::dialog::SpeakableString(GrammemeConstants::DEFINITENESS_INDEFINITE());
+            return new inflection::dialog::SpeakableString(GrammemeConstants::DEFINITENESS_INDEFINITE);
         }
     }
     auto result = determine(displayString);

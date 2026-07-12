@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2024 Apple Inc. All rights reserved.
+ * Copyright 2019-2026 Apple Inc. All rights reserved.
  */
 #include <inflection/dictionary/Inflector_MMappedDictionary.hpp>
 
@@ -9,6 +9,7 @@
 #include <inflection/exception/IncompatibleVersionException.hpp>
 #include <inflection/util/StringUtils.hpp>
 #include <inflection/util/StringViewUtils.hpp>
+#include <inflection/util/Validate.hpp>
 
 namespace inflection::dictionary {
 
@@ -32,6 +33,13 @@ static const ::inflection::dictionary::DictionaryMetaData_MMappedDictionary& ver
     return dictionary;
 }
 
+static auto skipPadding(inflection::util::MemoryMappedFile& memoryMappedFile) {
+    auto value = memoryMappedFile.read<int8_t>();
+    memoryMappedFile.read<int8_t>(); // padding
+    // return the first field.
+    return value;
+}
+
 Inflector_MMappedDictionary::Inflector_MMappedDictionary(inflection::util::MemoryMappedFile& memoryMappedFile, const std::u16string &sourcePath, const ::inflection::dictionary::DictionaryMetaData_MMappedDictionary &dictionary)
     : locale(verifyMemoryMappedFileHeader(memoryMappedFile, sourcePath, dictionary).getLocale())
     , grammemePatternsSize(memoryMappedFile.read<int32_t>())
@@ -39,27 +47,22 @@ Inflector_MMappedDictionary::Inflector_MMappedDictionary(inflection::util::Memor
     , inflectionSuffixes(&memoryMappedFile)
     , dictionary(dictionary)
     , inflectionsArray(&memoryMappedFile)
+    , numBitsForNumOfInflections(memoryMappedFile.read<int8_t>())
+    , numBitsForLemmaSuffixesLen(memoryMappedFile.read<int8_t>())
+    , numBitsForPOSIdx(memoryMappedFile.read<int8_t>())
+    , numBitsForFrequencyIdx(memoryMappedFile.read<int8_t>())
     , numBitsForGrammemesIdx(memoryMappedFile.read<int8_t>())
     , numBitsForSuffixIdx(memoryMappedFile.read<int8_t>())
-    , numBitsForSuffixToIdentifierRunsIdx(memoryMappedFile.read<int8_t>())
-    , numBitsForSuffixToIdentifierRunsLen(memoryMappedFile.read<int8_t>())
+    , numBitsForPrefixIdx(skipPadding(memoryMappedFile))
+    , inflectionPrefixes(&memoryMappedFile)
     , frequencyArraySize(memoryMappedFile.read<int32_t>())
     , frequenciesArray(memoryMappedFile.readArray<int32_t>(frequencyArraySize))
     , identifierToInflectionPatternTrie(&memoryMappedFile)
-    , suffixToIdentifierRunsTrie(&memoryMappedFile)
-    , suffixesToInflectionsIDArray(&memoryMappedFile)
-    , numBitsForFrequencyIdx(memoryMappedFile.read<int8_t>())
-    , numBitsForPOSIdx(memoryMappedFile.read<int8_t>())
-    , numBitsForLemmaSuffixesLen(memoryMappedFile.read<int8_t>())
-    , numBitsForNumOfInflections(memoryMappedFile.read<int8_t>())
-    , numBitsForPrefixIdx(memoryMappedFile.read<int8_t>())
-    , hasSuffixToIdentifiersMapping(!suffixesToInflectionsIDArray.isEmpty())
 {
+    inflection::util::Validate::isTrue(numBitsForLemmaSuffixesLen <= 1, u"Multiple lemma suffixes are not supported.");
 }
 
-Inflector_MMappedDictionary::~Inflector_MMappedDictionary()
-{
-}
+Inflector_MMappedDictionary::~Inflector_MMappedDictionary() = default;
 
 std::optional<int16_t> Inflector_MMappedDictionary::getInflectionPatternIndexFromName(std::u16string_view name) const {
     return identifierToInflectionPatternTrie.getKeyId(name);
@@ -78,6 +81,9 @@ Inflector_InflectionPattern Inflector_MMappedDictionary::getInflectionPattern(in
     inflectionPatternPrefix >>= numBitsForPOSIdx;
 
     int32_t frequencyIdx = inflection::dictionary::metadata::CompressedArray<int32_t>::extractValue(inflectionPatternPrefix, 0, numBitsForFrequencyIdx);
+
+    inflection::util::Validate::isTrue(frequencyIdx < frequencyArraySize, u"Invalid file format: frequencyIdx >= frequencyArraySize");
+    inflection::util::Validate::isTrue(posIndex < grammemePatternsSize, u"Invalid file format: posIndex >= grammemePatternsSize");
 
     int64_t partsOfSpeech = grammemePatterns[posIndex];
 
@@ -106,26 +112,4 @@ bool Inflector_MMappedDictionary::getInflectionPatternIdentifiers(std::vector<in
     return exists;
 }
 
-std::vector<Inflector_InflectionPattern> Inflector_MMappedDictionary::getInflectionPatternsFromSuffix(std::u16string_view suffix) const {
-    inflection::util::Validate::isTrue(hasSuffixToIdentifiersMapping, u"Inflection dictionary is missing suffix to identifiers mappings");
-    auto searchResult(suffixToIdentifierRunsTrie.find(suffix));
-    if (!searchResult) {
-        return {};
-    }
-    auto suffixPatternVal = uint32_t(*searchResult);
-
-    // resolve suffixes offsets and counts
-    auto suffixesOffset = inflection::dictionary::metadata::CompressedArray<int32_t>::extractValue(suffixPatternVal, numBitsForSuffixToIdentifierRunsLen, numBitsForSuffixToIdentifierRunsIdx);
-    auto suffixCount = inflection::dictionary::metadata::CompressedArray<int32_t>::extractValue(suffixPatternVal, 0, numBitsForSuffixToIdentifierRunsLen);
-
-    // resolve inflection identifiers for suffix
-    std::vector<Inflector_InflectionPattern> result;
-    result.reserve(suffixCount);
-    for (int16_t i = 0; i < suffixCount; ++i) {
-        auto id = suffixesToInflectionsIDArray.read(suffixesOffset + i);
-        result.emplace_back(getInflectionPattern(id));
-    }
-
-    return result;
-}
 } // namespace inflection::dictionary

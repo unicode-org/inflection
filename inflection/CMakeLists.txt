@@ -6,8 +6,6 @@ include(ExternalProject)
 include(CheckCXXCompilerFlag)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
-set(VERSIONS_MK_PATH ${CMAKE_SOURCE_DIR}/cmake/query_versions.mk)
-set(OPTIONS_MK_PATH ${CMAKE_SOURCE_DIR}/cmake/build_options.mk)
 include(inflectionMacros)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -27,6 +25,7 @@ inflection_debug_vars(NUM_PROCESSORS_VAL)
 set(NUM_PROCESSORS             ${NUM_PROCESSORS_VAL} CACHE STRING   "Number of cores to be used in make")
 
 option(PROFILING "Turn on code profiling" OFF)
+option(ALIGNMENT_TEST "Turn on data alignment testing" OFF)
 
 add_compile_options(${CXX_STD_LIB_FLAG})
 add_link_options(${CXX_STD_LIB_FLAG})
@@ -59,29 +58,59 @@ if(PROFILING)
 endif()
 
 # Set these warning properties on a project level
-add_compile_options(-Wall -Weffc++ -Wextra)
-if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-    add_compile_options(-Wglobal-constructors -Wexit-time-destructors -Wweak-vtables -Wvla-extension)
-endif()
+if(MSVC)
+    add_compile_options(/W4 /utf-8)
+    add_compile_options($<$<COMPILE_LANGUAGE:CXX>:/Zc:__cplusplus>)
+else()
+    add_compile_options(-Wall -Weffc++ -Wextra)
+    if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+        add_compile_options(-Wglobal-constructors -Wexit-time-destructors -Wweak-vtables -Wvla-extension)
+    endif()
 
-# Improve code security
-add_compile_options(-Werror=format-security -fstack-protector-strong)
+    # Improve code security
+    add_compile_options(-Werror=format-security -fstack-protector-strong)
+endif()
 add_compile_definitions(_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE)
 
-# Add link time optimization for release build types for macOS
-if(APPLE AND ("${CMAKE_BUILD_TYPE}" MATCHES "MinSizeRel" OR "${CMAKE_BUILD_TYPE}" MATCHES "Release"))
-    add_compile_options(-flto)
-    add_link_options(-flto)
+# Add link time optimization for release build types
+if("${CMAKE_BUILD_TYPE}" MATCHES "MinSizeRel" OR "${CMAKE_BUILD_TYPE}" MATCHES "Release")
+    if(MSVC)
+        set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /GL")
+        set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} /GL")
+        set(CMAKE_EXE_LINKER_FLAGS_RELEASE "${CMAKE_EXE_LINKER_FLAGS_RELEASE} /LTCG")
+        set(CMAKE_SHARED_LINKER_FLAGS_RELEASE "${CMAKE_SHARED_LINKER_FLAGS_RELEASE} /LTCG")
+    else()
+        add_compile_options(-flto)
+        add_link_options(-flto)
+    endif()
     if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
         # Improve code security
         add_compile_definitions(_FORTIFY_SOURCE=2)
+        # lld has native LTO support, unlike the gold/bfd plugin path, whose separately
+        # versioned LLVMgold.so can drift out of sync with the compiler and break LTO linking.
+        add_link_options(-fuse-ld=lld)
+    endif()
+endif()
+
+if(ALIGNMENT_TEST)
+    if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+        message("-- ALIGNMENT_TEST turned on")
+        # Data alignment of data structures isn't normally an issue for ARM CPUs.
+        # Some CPU configurations can cause SIGBUS or SIGILL to occur, like x86-64 with -O3 -march=native optimization turned on.
+        # Such configurations are hard for ARM CPUs to natively emulate.
+        # So we add this alignment flag for testing such configurations in debug mode.
+        add_compile_options(-fsanitize=alignment)
+        add_link_options(-fsanitize=alignment)
+    else()
+        message("-- ALIGNMENT_TEST not valid for current compiler configuration: " ${CMAKE_CXX_COMPILER_ID})
     endif()
 endif()
 
 # Set Unicode Inflection include, data directories
 set(INFLECTION_INCLUDE_ROOT ${CMAKE_BINARY_DIR}/inflection_headers)
 set(INFLECTION_DATA_ROOT_PREFIX ${CMAKE_BINARY_DIR}/inflection_data)
-set(INFLECTION_DATA_ROOT ${INFLECTION_DATA_ROOT_PREFIX}${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_DATADIR})
+cmake_path(GET CMAKE_INSTALL_PREFIX RELATIVE_PART INFLECTION_DATA_ROOT_INSTALL_PREFIX)
+cmake_path(APPEND INFLECTION_DATA_ROOT_PREFIX "${INFLECTION_DATA_ROOT_INSTALL_PREFIX}" "${CMAKE_INSTALL_DATADIR}" OUTPUT_VARIABLE INFLECTION_DATA_ROOT)
 
 file(MAKE_DIRECTORY ${INFLECTION_DATA_ROOT})
 file(MAKE_DIRECTORY ${INFLECTION_INCLUDE_ROOT})
@@ -91,7 +120,7 @@ include(dependICU)
 find_package(LibXml2 REQUIRED)
 
 # Runs Unicode Inflection unit tests: "make check"
-set(DYLD_LIBRARY_PATH ${ICU_LIB_DIRECTORY}:$<TARGET_FILE_DIR:inflection>)
+cmake_path(CONVERT "${ICU_LIB_DIRECTORY};$<TARGET_FILE_DIR:inflection>" TO_NATIVE_PATH_LIST DYLD_LIBRARY_PATH)
 
 add_subdirectory(ext EXCLUDE_FROM_ALL)
 add_subdirectory(tools EXCLUDE_FROM_ALL)
@@ -99,8 +128,17 @@ add_subdirectory(resources)
 add_subdirectory(src)
 add_subdirectory(test EXCLUDE_FROM_ALL)
 
+# Runs inflection unit tests: "make check"
+add_custom_target(check
+    DEPENDS itest
+    COMMAND ${CMAKE_COMMAND} "-DDYLD_LIBRARY_PATH=${DYLD_LIBRARY_PATH}" -DEXECUTABLE=$<TARGET_FILE:itest> -P ${CMAKE_SOURCE_DIR}/cmake/runTests.cmake
+    COMMENT "Running inflection tests"
+    VERBATIM
+)
+
 add_custom_target(dist
-    COMMAND sh -c "DESTDIR=${CMAKE_CURRENT_BINARY_DIR}/dist ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_install.cmake"
+    COMMAND ${CMAKE_COMMAND} -E env "DESTDIR=${CMAKE_CURRENT_BINARY_DIR}/dist"
+            ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_install.cmake
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     VERBATIM
 )
@@ -119,8 +157,6 @@ make inflection-headers     : Copy all inflection public headers to <build>/infl
 make inflection-data        : Generate all inflection data under <build>/inflection_data.\\n\
 make docs                   : Generate all inflection docs.\\n\
 make dist                   : Builds inflection, the headers, and the data.\\n\
-make coverage               : Generates code coverage using sonar-scanner\\n\
-make generate-coverage-csv  : Generates code coverage as a csv\\n\
         "
         VERBATIM
 )
@@ -172,7 +208,7 @@ set(CPACK_GENERATOR "DEB;TGZ")
 
 # DEB-specific options
 set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Unicode Consortium <inflection-team@unicode.org>")
-set(CPACK_DEBIAN_PACKAGE_DEPENDS "libicu77 (>= 77.1)")
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "libicu79 (>= ${ICU_VERSION_MINIMUM})")
 set(CPACK_DEBIAN_PACKAGE_SECTION "libs")
 set(CPACK_DEBIAN_PACKAGE_PRIORITY "optional")
 set(CPACK_DEBIAN_PACKAGE_VERSION "${INFLECTION_VERSION}")

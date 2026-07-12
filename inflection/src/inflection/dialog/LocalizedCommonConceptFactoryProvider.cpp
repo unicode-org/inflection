@@ -5,35 +5,39 @@
 
 #include <inflection/dialog/CommonConceptFactoryImpl.hpp>
 #include <inflection/dialog/language/ArCommonConceptFactory.hpp>
-#include <inflection/dialog/language/DaCommonConceptFactory.hpp>
+#include <inflection/dialog/language/CsCommonConceptFactory.hpp>
 #include <inflection/dialog/language/DeCommonConceptFactory.hpp>
-#include <inflection/dialog/language/EnCommonConceptFactory.hpp>
 #include <inflection/dialog/language/EsCommonConceptFactory.hpp>
+#include <inflection/dialog/language/FiCommonConceptFactory.hpp>
 #include <inflection/dialog/language/FrCommonConceptFactory.hpp>
 #include <inflection/dialog/language/HeCommonConceptFactory.hpp>
-#include <inflection/dialog/language/HiCommonConceptFactory.hpp>
 #include <inflection/dialog/language/ItCommonConceptFactory.hpp>
 #include <inflection/dialog/language/JaCommonConceptFactory.hpp>
 #include <inflection/dialog/language/KoCommonConceptFactory.hpp>
-#include <inflection/dialog/language/MsCommonConceptFactory.hpp>
-#include <inflection/dialog/language/NbCommonConceptFactory.hpp>
-#include <inflection/dialog/language/NlCommonConceptFactory.hpp>
-#include <inflection/dialog/language/PtCommonConceptFactory.hpp>
+#include <inflection/dialog/language/MlCommonConceptFactory.hpp>
+#include <inflection/dialog/language/PlCommonConceptFactory.hpp>
 #include <inflection/dialog/language/RuCommonConceptFactory.hpp>
-#include <inflection/dialog/language/SrCommonConceptFactory.hpp>
-#include <inflection/dialog/language/SvCommonConceptFactory.hpp>
+#include <inflection/dialog/language/SerboCroatianCommonConceptFactory.hpp>
+#include <inflection/dialog/language/SkCommonConceptFactory.hpp>
 #include <inflection/dialog/language/ThCommonConceptFactory.hpp>
 #include <inflection/dialog/language/TrCommonConceptFactory.hpp>
-#include <inflection/dialog/language/ViCommonConceptFactory.hpp>
+#include <inflection/dialog/language/UkCommonConceptFactory.hpp>
 #include <inflection/dialog/language/YueCommonConceptFactory.hpp>
 #include <inflection/dialog/language/ZhCommonConceptFactory.hpp>
+#include <inflection/grammar/synthesis/GrammemeConstants.hpp>
+#include <inflection/util/ArrayUtils.hpp>
+#include <inflection/util/LocaleConstants.hpp>
 #include <inflection/util/LocaleUtils.hpp>
 #include <inflection/util/Logger.hpp>
 #include <inflection/util/ULocale.hpp>
 #include <inflection/exception/IllegalArgumentException.hpp>
-#include <cstring>
 #include <mutex>
-#include <numeric>
+
+using inflection::grammar::synthesis::GrammemeConstants;
+using inflection::util::LocaleUtils;
+using inflection::util::Logger;
+using inflection::util::LoggerConfig;
+using inflection::util::ULocale;
 
 namespace inflection::dialog {
 
@@ -51,6 +55,31 @@ LocalizedCommonConceptFactoryProvider::~LocalizedCommonConceptFactoryProvider()
 
 static constexpr auto COMPONENT_LOCALIZED_COMMON_CONCEPT_FACTORY_PROVIDER = u"LocalizedCommonConceptFactoryProvider";
 
+static CommonConceptFactory* constructor_CommonConceptFactoryMasculineFeminine(const ULocale& locale) {
+    return new CommonConceptFactoryImpl(locale, GrammemeConstants::GENDER, {
+        {GrammemeConstants::GENDER_MASCULINE, u"cardinal-masculine"},
+        {GrammemeConstants::GENDER_FEMININE, u"cardinal-feminine"}});
+}
+
+static CommonConceptFactory* constructor_CommonConceptFactoryMasculineFeminineNeuter(const ULocale& locale) {
+    return new CommonConceptFactoryImpl(locale, GrammemeConstants::GENDER, {
+        {GrammemeConstants::GENDER_MASCULINE, u"cardinal-masculine"},
+        {GrammemeConstants::GENDER_FEMININE, u"cardinal-feminine"},
+        {GrammemeConstants::GENDER_NEUTER, u"cardinal-neuter"}});
+}
+
+static CommonConceptFactory* constructor_DaCommonConceptFactory(const ULocale& locale) {
+    return new CommonConceptFactoryImpl(locale, GrammemeConstants::GENDER, {
+        {GrammemeConstants::GENDER_COMMON, u"cardinal-common"},
+        {GrammemeConstants::GENDER_NEUTER, u"cardinal-neuter"}});
+}
+
+static CommonConceptFactory* constructor_SvCommonConceptFactory(const ULocale& locale) {
+    return new CommonConceptFactoryImpl(locale, GrammemeConstants::GENDER, {
+        {GrammemeConstants::GENDER_COMMON, u"cardinal-reale"},
+        {GrammemeConstants::GENDER_NEUTER, u"cardinal-neuter"}});
+}
+
 template<typename T>
 static CommonConceptFactory* constructor(const ::inflection::util::ULocale& locale) {
     return new T(locale);
@@ -58,66 +87,67 @@ static CommonConceptFactory* constructor(const ::inflection::util::ULocale& loca
 
 static CommonConceptFactory* constructCommonConceptFactory(const ::inflection::util::ULocale& locale)
 {
-    static const struct {
+    static constexpr struct {
         const char language[4];
         CommonConceptFactory* (*construct)(const ::inflection::util::ULocale& locale);
-    }
-    COMMON_CONCEPT_FACTORY_CONSTRUCTORS[] = {
+    } COMMON_CONCEPT_FACTORY_CONSTRUCTORS[] = {
         // It's very important to keep this in sorted order for the binary search
         {"ar", &constructor<language::ArCommonConceptFactory>},
+        {"bg", &constructor_CommonConceptFactoryMasculineFeminineNeuter}, // TODO Fix this quantity handling so that it handles the financial and masculine-personal (masculine human) types.);
+        {"ca", &constructor_CommonConceptFactoryMasculineFeminine},
         {"cmn", &constructor<language::ZhCommonConceptFactory>}, // alias
-        {"da", &constructor<language::DaCommonConceptFactory>},
+        {"cs", &constructor<language::CsCommonConceptFactory>},
+        {"da", &constructor_DaCommonConceptFactory},
         {"de", &constructor<language::DeCommonConceptFactory>},
-        {"en", &constructor<language::EnCommonConceptFactory>},
+        {"el", &constructor_CommonConceptFactoryMasculineFeminineNeuter},
+        {"en", &constructor<CommonConceptFactoryImpl>},
         {"es", &constructor<language::EsCommonConceptFactory>},
+        {"et", &constructor<CommonConceptFactoryImpl>},
+        {"fi", &constructor<language::FiCommonConceptFactory>},
         {"fr", &constructor<language::FrCommonConceptFactory>},
         {"he", &constructor<language::HeCommonConceptFactory>},
-        {"hi", &constructor<language::HiCommonConceptFactory>},
-        {"id", &constructor<language::MsCommonConceptFactory>}, // The words are the same for what we currently care about.
+        {"hr", &constructor<language::SerboCroatianCommonConceptFactory>},
+        {"is", &constructor_CommonConceptFactoryMasculineFeminineNeuter},
         {"it", &constructor<language::ItCommonConceptFactory>},
         {"iw", &constructor<language::HeCommonConceptFactory>}, // alias
         {"ja", &constructor<language::JaCommonConceptFactory>},
         {"ko", &constructor<language::KoCommonConceptFactory>},
-        {"ms", &constructor<language::MsCommonConceptFactory>},
-        {"nb", &constructor<language::NbCommonConceptFactory>},
-        {"nl", &constructor<language::NlCommonConceptFactory>},
-        {"pt", &constructor<language::PtCommonConceptFactory>},
+        {"lt", &constructor_CommonConceptFactoryMasculineFeminine},
+        {"ml", &constructor<language::MlCommonConceptFactory>},
+        {"nb", &constructor_CommonConceptFactoryMasculineFeminineNeuter},
+        {"pl", &constructor<language::PlCommonConceptFactory>},
+        {"pt", &constructor_CommonConceptFactoryMasculineFeminine},
+        {"ro", &constructor_CommonConceptFactoryMasculineFeminineNeuter},
         {"ru", &constructor<language::RuCommonConceptFactory>},
-        {"sr", &constructor<language::SrCommonConceptFactory>},
-        {"sv", &constructor<language::SvCommonConceptFactory>},
+        {"sk", &constructor<language::SkCommonConceptFactory>},
+        {"sr", &constructor<language::SerboCroatianCommonConceptFactory>},
+        {"sv", &constructor_SvCommonConceptFactory},
         {"th", &constructor<language::ThCommonConceptFactory>},
         {"tr", &constructor<language::TrCommonConceptFactory>},
-        {"vi", &constructor<language::ViCommonConceptFactory>},
+        {"uk", &constructor<language::UkCommonConceptFactory>},
         {"wuu", &constructor<language::ZhCommonConceptFactory>},
         {"yue", &constructor<language::YueCommonConceptFactory>},
         {"zh", &constructor<language::ZhCommonConceptFactory>},
     };
-    if (inflection::util::LocaleUtils::HONGKONG_CHINESE() == locale) {
+    if (locale.getLanguage() == inflection::util::LocaleConstants::CHINESE
+        && locale.getScript().empty()
+        && locale.getCountry() == inflection::util::LocaleConstants::REGION_HONGKONG)
+    {
         return new language::YueCommonConceptFactory(locale);
     }
-    auto language(locale.getLanguage());
+    std::string_view language(locale.getLanguage());
 
-    int32_t start = 0;
-    int32_t limit = std::ssize(COMMON_CONCEPT_FACTORY_CONSTRUCTORS) - 1;
-    while (start <= limit) {
-        int32_t mid = std::midpoint(start, limit);
-        int32_t comp = language.compare(COMMON_CONCEPT_FACTORY_CONSTRUCTORS[mid].language);
-        if (comp < 0) {
-            limit = mid - 1;
+    auto *entry = inflection::util::ArrayUtils::searchSorted<COMMON_CONCEPT_FACTORY_CONSTRUCTORS>(language,
+            [](const auto& item) { return item.language; });
+    if (entry != nullptr) {
+        if (::inflection::util::LoggerConfig::isInfoEnabled()) {
+            // We check for the logging status so that we don't construct a string that is never used.
+            ::inflection::util::Logger::infoComponent(COMPONENT_LOCALIZED_COMMON_CONCEPT_FACTORY_PROVIDER, u"The CommonConceptFactory for " + locale.toString() + u" is being constructed for the first time.");
         }
-        else if (comp > 0) {
-            start = mid + 1;
-        }
-        else {
-            if (::inflection::util::LoggerConfig::isInfoEnabled()) {
-                // We check for the logging status so that we don't construct a string that is never used.
-                ::inflection::util::Logger::infoComponent(COMPONENT_LOCALIZED_COMMON_CONCEPT_FACTORY_PROVIDER, u"The CommonConceptFactory for " + locale.toString() + u" is being constructed for the first time.");
-            }
-            return COMMON_CONCEPT_FACTORY_CONSTRUCTORS[mid].construct(locale);
-        }
+        return entry->construct(locale);
     }
 
-    if (inflection::util::LocaleUtils::getSupportedLocaleMap().contains(language)) {
+    if (inflection::util::LocaleUtils::getSupportedLocaleMap().contains(locale.getLanguage())) {
         return new CommonConceptFactoryImpl(locale);
     }
     return nullptr;

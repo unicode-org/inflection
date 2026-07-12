@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<patterns>
+    <pattern name="1" words="7">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular"><t><stem/></t></inflection>
+            <inflection number="plural"><t><stem/>లు</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="2" words="2">
+        <pos>noun</pos>
+        <suffix>ి</suffix>
+        <inflections>
+            <inflection number="singular"><t><stem/>ి</t></inflection>
+            <inflection number="plural"><t><stem/>ులు</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="3" words="2">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection case="nominative"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="4" words="2">
+        <pos>adjective</pos>
+        <suffix/>
+        <inflections>
+            <inflection comparison-degree="positive"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="5" words="2">
+        <pos>noun</pos>
+        <suffix>ం</suffix>
+        <inflections>
+            <inflection gender="neuter" case="direct" number="singular"><t><stem/>ం</t></inflection>
+            <inflection gender="neuter" case="oblique" number="singular"><t><stem/>ం</t></inflection>
+            <inflection gender="neuter" case="direct" number="plural"><t><stem/>ాలు</t></inflection>
+            <inflection gender="neuter" case="oblique" number="plural"><t><stem/>ాల</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="6" words="2">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection gender="neuter" number="singular"><t><stem/></t></inflection>
+            <inflection gender="neuter" number="plural"><t><stem/>లు</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="7" words="2">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="singular"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="8" words="2">
+        <pos>noun</pos>
+        <suffix>ం</suffix>
+        <inflections>
+            <inflection number="plural"><t><stem/>ాలు</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="9" words="1">
+        <pos>noun</pos>
+        <suffix>ి</suffix>
+        <inflections>
+            <inflection gender="feminine" number="singular"><t><stem/>ి</t></inflection>
+            <inflection gender="feminine" number="plural"><t><stem/>ులు</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="a" words="1">
+        <pos>noun</pos>
+    </pattern>
+    <pattern name="b" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection gender="masculine" case="direct" number="singular"><t><stem/></t></inflection>
+            <inflection gender="masculine" case="oblique" number="singular"><t><stem/></t></inflection>
+            <inflection gender="masculine" case="direct" number="plural"><t><stem/>లు</t></inflection>
+            <inflection gender="masculine" case="oblique" number="plural"><t><stem/>ల</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="c" words="1">
+        <pos>noun</pos>
+        <suffix>ి</suffix>
+        <inflections>
+            <inflection number="plural"><t><stem/>ులు</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="d" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection gender="feminine" case="direct" number="singular"><t><stem/></t></inflection>
+            <inflection gender="feminine" case="oblique" number="singular"><t><stem/></t></inflection>
+            <inflection gender="feminine" case="direct" number="plural"><t><stem/>లు</t></inflection>
+            <inflection gender="feminine" case="oblique" number="plural"><t><stem/>ల</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="e" words="1">
+        <pos>noun</pos>
+        <suffix>రు</suffix>
+        <inflections>
+            <inflection gender="neuter" number="singular"><t><stem/>రు</t></inflection>
+            <inflection gender="neuter" number="plural"><t><stem/>ళ్లు</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="f" words="1">
+        <pos>noun</pos>
+        <suffix>ిషి</suffix>
+        <inflections>
+            <inflection gender="neuter" number="singular"><t><stem/>ిషి</t></inflection>
+            <inflection gender="neuter" number="plural"><t><stem/>ుషులు </t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="10" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection gender="masculine" number="singular"><t><stem/></t></inflection>
+            <inflection gender="masculine" number="plural"><t><stem/>లు</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="11" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection case="nominative" number="singular"><t><stem/></t></inflection>
+            <inflection case="nominative" number="plural"><t><stem/>లు</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="12" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection gender="feminine" number="plural"><t><stem/>లు</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="13" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection gender="neuter" number="plural"><t><stem/>లు</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="14" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection number="plural"><t><stem/>లు</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="15" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection gender="neuter" case="direct" number="singular"><t><stem/></t></inflection>
+            <inflection gender="neuter" case="oblique" number="singular"><t><stem/></t></inflection>
+            <inflection gender="neuter" case="direct" number="plural"><t><stem/>లు</t></inflection>
+            <inflection gender="neuter" case="oblique" number="plural"><t><stem/>ల</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="16" words="1">
+        <pos><!-- number="plural" -->noun</pos>
+        <suffix>ు</suffix>
+        <inflections>
+            <inflection gender="neuter" case="genitive" number="plural"><t><stem/></t></inflection>
+            <inflection gender="neuter" case="nominative" number="plural"><t><stem/>ు</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="17" words="1">
+        <pos>adjective</pos>
+    </pattern>
+    <pattern name="18" words="1">
+        <pos>noun</pos>
+        <suffix>ు</suffix>
+        <inflections>
+            <inflection gender="neuter" case="direct" number="singular"><t><stem/>ు</t></inflection>
+            <inflection gender="neuter" case="oblique" number="singular"><t><stem/>ు</t></inflection>
+            <inflection gender="neuter" case="direct" number="plural"><t><stem/>్లు</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="19" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection case="nominative" number="singular"><t><stem/></t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="1a" words="1">
+        <pos>noun</pos>
+        <suffix/>
+        <inflections>
+            <inflection gender="neuter" case="direct" number="singular"><t><stem/></t></inflection>
+            <inflection gender="neuter" case="oblique" number="singular"><t><stem/></t></inflection>
+            <inflection gender="neuter" case="direct" number="plural"><t><stem/>లు</t></inflection>
+        </inflections>
+    </pattern>
+    <pattern name="1b" words="1">
+        <pos>noun</pos>
+        <suffix>ి</suffix>
+        <inflections>
+            <inflection case="nominative" number="singular"><t><stem/>ి</t></inflection>
+            <inflection case="nominative" number="plural"><t><stem/>ులు</t></inflection>
+        </inflections>
+    </pattern>
+</patterns>

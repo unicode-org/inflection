@@ -9,7 +9,13 @@
 #include <inflection/version.h>
 
 #if !INFLECTION_STATIC
+#if defined(_WIN32)
+#ifndef INFLECTION_EXPORT_API
+#define INFLECTION_EXPORT_API __declspec(dllimport)
+#endif
+#else
 #define INFLECTION_EXPORT_API __attribute__((visibility("default")))
+#endif
 #else
 #define INFLECTION_EXPORT_API
 #endif

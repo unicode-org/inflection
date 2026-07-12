@@ -11,6 +11,7 @@
 #include <inflection/grammar/synthesis/fwd.hpp>
 #include <inflection/grammar/synthesis/ItGrammarSynthesizer_DefiniteArticleLookupFunction.hpp>
 #include <inflection/grammar/synthesis/ItGrammarSynthesizer_IndefiniteArticleLookupFunction.hpp>
+#include <inflection/tokenizer/fwd.hpp>
 #include <string>
 
 class inflection::grammar::synthesis::ItGrammarSynthesizer_ItDisplayFunction

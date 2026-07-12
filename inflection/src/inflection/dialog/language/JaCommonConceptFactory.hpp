@@ -21,5 +21,4 @@ protected: /* package */
 
 public:
     explicit JaCommonConceptFactory(const ::inflection::util::ULocale& language);
-    ~JaCommonConceptFactory() override;
 };

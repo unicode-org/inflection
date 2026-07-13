@@ -48,7 +48,7 @@ bool SlavicCommonConceptFactory::isDirectCase(std::u16string_view baseCase, std:
     return baseCase == GrammemeConstants::CASE_ACCUSATIVE && animacy == GrammemeConstants::ANIMACY_INANIMATE;
 }
 
-void SlavicCommonConceptFactory::applyGatedGenitive(SemanticFeatureConceptBase& clone, std::u16string_view baseCase) const
+void SlavicCommonConceptFactory::applyGatedGenitive(SemanticFeatureConceptBase& clone, std::u16string_view baseCase, Agreement) const
 {
     if (baseCase.empty() || baseCase == GrammemeConstants::CASE_NOMINATIVE || baseCase == GrammemeConstants::CASE_ACCUSATIVE) {
         clone.putConstraint(semanticFeatureCase, GrammemeConstants::CASE_GENITIVE);
@@ -118,7 +118,7 @@ std::u16string SlavicCommonConceptFactory::buildNumeralRuleName(
             // Animacy is needed here to tell the direct (singular paucal) case from the oblique plural.
             const std::u16string animacy(getFeature(semanticConcept, semanticFeatureAnimacy));
             numberConstraint = isDirectCase(baseCase, animacy) ? GrammemeConstants::NUMBER_SINGULAR : GrammemeConstants::NUMBER_PLURAL;
-            applyGatedGenitive(*clone, baseCase);
+            applyGatedGenitive(*clone, baseCase, mode);
             break;
         }
         case Agreement::PAUCAL_PLURAL: {
@@ -130,7 +130,7 @@ std::u16string SlavicCommonConceptFactory::buildNumeralRuleName(
         }
         case Agreement::GOVERNED_PLURAL: {
             numberConstraint = GrammemeConstants::NUMBER_PLURAL;
-            applyGatedGenitive(*clone, baseCase);
+            applyGatedGenitive(*clone, baseCase, mode);
             break;
         }
         case Agreement::FRACTION_GENITIVE_SG: {

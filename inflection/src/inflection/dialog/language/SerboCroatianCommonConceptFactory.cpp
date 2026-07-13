@@ -6,6 +6,7 @@
 #include <inflection/dialog/NumberConcept.hpp>
 #include <inflection/dialog/SemanticFeatureConceptBase.hpp>
 #include <inflection/dialog/SpeakableString.hpp>
+#include <inflection/grammar/synthesis/GrammemeConstants.hpp>
 #include <inflection/util/Validate.hpp>
 #include <inflection/npc.hpp>
 #include <cmath>
@@ -42,6 +43,18 @@ SerboCroatianCommonConceptFactory::SerboCroatianCommonConceptFactory(const ::inf
     ::inflection::util::Validate::isTrue(semanticFeatureCount == nullptr
         || originalCountConstraint == npc(semanticConcept)->getConstraint(*npc(semanticFeatureCount)));
     return result;
+}
+
+void SerboCroatianCommonConceptFactory::applyGatedGenitive(
+    SemanticFeatureConceptBase& clone, std::u16string_view baseCase, Agreement mode) const
+{
+    if (mode == Agreement::GOVERNED_PLURAL) {
+        // In Serbo-Croatian, integers 5+ (and indeclinable numerals like "пет") always govern the Genitive Plural ("бродова"),
+        // even inside an oblique case context (e.g., Locative, Instrumental, Dative).
+        clone.putConstraint(semanticFeatureCase, ::inflection::grammar::synthesis::GrammemeConstants::CASE_GENITIVE);
+    } else {
+        super::applyGatedGenitive(clone, baseCase, mode);
+    }
 }
 
 } // namespace inflection::dialog::language

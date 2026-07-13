@@ -20,4 +20,7 @@ public:
         const SemanticFeatureConceptBase* semanticConcept) const override;
 
     explicit SerboCroatianCommonConceptFactory(const ::inflection::util::ULocale& language);
+
+protected:
+    void applyGatedGenitive(SemanticFeatureConceptBase& clone, std::u16string_view baseCase, Agreement mode) const override;
 };

@@ -41,7 +41,7 @@ protected:
     static std::u16string getFeature(const SemanticFeatureConceptBase& semanticConcept, const SemanticFeature& semanticFeature);
     Agreement agreementForCount(Plurality::Rule countType) const;
     bool isDirectCase(std::u16string_view baseCase, std::u16string_view animacy) const;
-    void applyGatedGenitive(SemanticFeatureConceptBase& clone, std::u16string_view baseCase) const;
+    virtual void applyGatedGenitive(SemanticFeatureConceptBase& clone, std::u16string_view baseCase, Agreement mode) const;
 
     virtual std::optional<std::u16string> adjustCase(Plurality::Rule countType,
         const SemanticFeatureConceptBase& semanticConcept, std::u16string_view baseCase) const;

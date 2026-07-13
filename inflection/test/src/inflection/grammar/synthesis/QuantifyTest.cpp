@@ -584,7 +584,6 @@ TEST_CASE("QuantifyTest#testSerboCroatian")
     assertQuantity(conceptFactory, ::inflection::dialog::SpeakableString(u"3 брода", u"три брода"), 3, ::inflection::dialog::SpeakableString(u"брод"));
     assertQuantity(conceptFactory, ::inflection::dialog::SpeakableString(u"4 брода", u"четири брода"), 4, ::inflection::dialog::SpeakableString(u"брод"));
     assertQuantity(conceptFactory, ::inflection::dialog::SpeakableString(u"5 бродова", u"пет бродова"), 5, ::inflection::dialog::SpeakableString(u"брод"));
-    // A fraction falls in the CLDR "one" bucket yet must take the genitive singular.
 #if U_ICU_VERSION_MAJOR_NUM <= 78
     // TODO remove this version check after version 79 is released, and update versions.mk with the new minimum version.
     WARN("U_ICU_VERSION_MAJOR_NUM <= 78. Please test with a newer version of ICU.");
@@ -602,5 +601,12 @@ TEST_CASE("QuantifyTest#testSerboCroatian")
 #else
     assertQuantity(conceptFactory, ::inflection::dialog::SpeakableString(u"1,1 земље", u"једна зарез једна земље"), 1.1, ::inflection::dialog::SpeakableString(u"земља"));
 #endif
+
+    // Verify oblique cases for 5+ (always genitive plural: бродова / земаља)
+    assertQuantity(conceptFactory, u"5 бродова", u"пет бродова", 5, u"брод", u"locative");
+    assertQuantity(conceptFactory, u"5 бродова", u"пет бродова", 5, u"брод", u"instrumental");
+    assertQuantity(conceptFactory, u"5 бродова", u"пет бродова", 5, u"брод", u"dative");
+    assertQuantity(conceptFactory, u"5 земаља", u"пет земаља", 5, u"земља", u"locative");
+    assertQuantity(conceptFactory, u"5 земаља", u"пет земаља", 5, u"земља", u"instrumental");
 }
 

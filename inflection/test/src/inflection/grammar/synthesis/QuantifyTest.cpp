@@ -584,6 +584,7 @@ TEST_CASE("QuantifyTest#testSerboCroatian")
     assertQuantity(conceptFactory, ::inflection::dialog::SpeakableString(u"3 брода", u"три брода"), 3, ::inflection::dialog::SpeakableString(u"брод"));
     assertQuantity(conceptFactory, ::inflection::dialog::SpeakableString(u"4 брода", u"четири брода"), 4, ::inflection::dialog::SpeakableString(u"брод"));
     assertQuantity(conceptFactory, ::inflection::dialog::SpeakableString(u"5 бродова", u"пет бродова"), 5, ::inflection::dialog::SpeakableString(u"брод"));
+    // A fraction falls in the CLDR "other" bucket yet must take the genitive singular.
 #if U_ICU_VERSION_MAJOR_NUM <= 78
     // TODO remove this version check after version 79 is released, and update versions.mk with the new minimum version.
     WARN("U_ICU_VERSION_MAJOR_NUM <= 78. Please test with a newer version of ICU.");

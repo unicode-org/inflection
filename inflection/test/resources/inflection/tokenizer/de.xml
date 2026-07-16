@@ -19,13 +19,10 @@
         <annotatedTokens>Kaiser|ring</annotatedTokens>
     </test>
     <test>
-        <annotatedTokens>Sonne|n|allee</annotatedTokens>
-    </test>
-    <test>
-        <annotatedTokens>Arbeit|s|zimmer</annotatedTokens>
-    </test>
-    <test>
         <annotatedTokens>Kinder|garten</annotatedTokens>
+    </test>
+    <test>
+        <annotatedTokens>Kinder|wagen</annotatedTokens>
     </test>
     <test>
         <annotatedTokens>Ehe|frau</annotatedTokens>
@@ -34,12 +31,36 @@
         <annotatedTokens>Ehe|mann</annotatedTokens>
     </test>
     <test>
-        <annotatedTokens>Untersuchung|s|aus|schuss</annotatedTokens>
+        <annotatedTokens>Tisch|bein</annotatedTokens>
     </test>
     <test>
-        <annotatedTokens>Kinder|wagen</annotatedTokens>
+        <annotatedTokens>Arbeit|s|zimmer</annotatedTokens>
     </test>
     <test>
         <annotatedTokens>Liebe|s|brief</annotatedTokens>
+    </test>
+    <test>
+        <annotatedTokens>Hoffnung|s|strahl</annotatedTokens>
+    </test>
+    <test>
+        <annotatedTokens>Sonne|n|allee</annotatedTokens>
+    </test>
+    <test>
+        <annotatedTokens>Kuchen|stück</annotatedTokens>
+    </test>
+    <test>
+        <annotatedTokens>Hund|e|hütte</annotatedTokens>
+    </test>
+    <test>
+        <annotatedTokens>Worter|buch</annotatedTokens>
+    </test>
+    <test>
+        <annotatedTokens>Bilder|buch</annotatedTokens>
+    </test>
+    <test>
+        <annotatedTokens>Landes|regelung</annotatedTokens>
+    </test>
+    <test>
+        <annotatedTokens>Untersuchung|s|aus|schuss</annotatedTokens>
     </test>
 </tokenizerTest>

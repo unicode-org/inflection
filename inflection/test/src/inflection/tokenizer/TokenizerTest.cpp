@@ -416,6 +416,20 @@ TEST_CASE("TokenizerTest#testHebrew")
     compareValueTokens(hebTok->createTokenChain(u"תתקשר ל-911"), {u"", u"תתקשר", u" ", u"ל", u"-", u"911", u""});
 }
 
+TEST_CASE("TokenizerTest#testGermanDictionary")
+{
+    ::std::unique_ptr<::inflection::tokenizer::Tokenizer> tokenizer(::inflection::tokenizer::TokenizerFactory::createTokenizer(::inflection::util::LocaleUtils::GERMANY()));
+    compareValueTokens(tokenizer->createTokenChain(u"Hauptstraße"), {u"", u"Haupt", u"straße", u""});
+    compareValueTokens(tokenizer->createTokenChain(u"Waldweg"), {u"", u"Wald", u"weg", u""});
+    compareValueTokens(tokenizer->createTokenChain(u"Schlossgasse"), {u"", u"Schloss", u"gasse", u""});
+    compareValueTokens(tokenizer->createTokenChain(u"Marktplatz"), {u"", u"Markt", u"platz", u""});
+    compareValueTokens(tokenizer->createTokenChain(u"Kaiserring"), {u"", u"Kaiser", u"ring", u""});
+    compareValueTokens(tokenizer->createTokenChain(u"Sonnenallee"), {u"", u"Sonne", u"n", u"allee", u""});
+    compareValueTokens(tokenizer->createTokenChain(u"Arbeitszimmer"), {u"", u"Arbeit", u"s", u"zimmer", u""});
+    compareValueTokens(tokenizer->createTokenChain(u"Kindergarten"), {u"", u"Kinder", u"garten", u""});
+}
+
+
 TEST_CASE("TokenizerTest#testNewInstance")
 {
     ::std::unique_ptr<::inflection::tokenizer::Tokenizer> tokenizer(::inflection::tokenizer::TokenizerFactory::createTokenizer(::inflection::util::LocaleUtils::ENGLISH()));

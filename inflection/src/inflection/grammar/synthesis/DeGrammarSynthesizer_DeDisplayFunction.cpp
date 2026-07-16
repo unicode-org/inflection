@@ -554,6 +554,33 @@ std::optional<::std::pair<::std::u16string, ::std::u16string>> DeGrammarSynthesi
         iteratedToken = npc(iteratedToken)->getPrevious();
     }
 
+    // German nouns are capitalized. When a compound noun is split, the head word
+    // becomes lowercase (e.g., 'Ehefrau' -> 'Ehe' + 'frau'). We must capitalize it
+    // for dictionary lookup to avoid missing the noun entry or matching a lowercase
+    // homonym with a different POS (e.g., matching pronoun 'frau' instead of noun 'Frau').
+    ::std::u16string headWordStr(headWord);
+    bool headWordCapitalized = false;
+    if (!headWordStr.empty() && u_islower(headWordStr[0])) {
+        // Find the start of the compound
+        const inflection::tokenizer::Token* compoundStartToken = headWordToken;
+        auto iterated = headWordToken;
+        while (iterated != nullptr) {
+            if (iterated->isWhitespace()) {
+                break;
+            }
+            compoundStartToken = iterated;
+            iterated = npc(iterated)->getPrevious();
+        }
+        if (compoundStartToken != nullptr && !compoundStartToken->getValue().empty() && u_isupper(compoundStartToken->getValue()[0])) {
+            ::std::u16string capitalized = inflection::util::StringViewUtils::capitalizeFirst(headWordStr, ::inflection::util::LocaleUtils::GERMAN());
+            int64_t capGrammemes = 0;
+            if (dictionary.getCombinedBinaryType(&capGrammemes, capitalized) != nullptr && (capGrammemes & dictionaryNoun) != 0) {
+                headWordStr = capitalized;
+                headWordCapitalized = true;
+            }
+        }
+    }
+
     std::optional<::std::u16string> inflectedHeadWord;
     std::optional<::std::u16string> inflectedDependentWord;
 
@@ -561,7 +588,7 @@ std::optional<::std::pair<::std::u16string, ::std::u16string>> DeGrammarSynthesi
     if (dependentToken != nullptr && npc(dependentToken)->isSignificant()) {
         auto const& dependentWord = dependentToken->getValue();
 
-        const auto inflectionResult = inflect2Words(dependentWord, headWord, constraints, enableInflectionGuess);
+        const auto inflectionResult = inflect2Words(dependentWord, headWordStr, constraints, enableInflectionGuess);
 
         if (!inflectionResult) {
             // inflection has failed
@@ -572,12 +599,18 @@ std::optional<::std::pair<::std::u16string, ::std::u16string>> DeGrammarSynthesi
         inflectedDependentWord = inflectionResult->second;
     } else {
         int64_t wordGrammemes = 0;
-        dictionary.getCombinedBinaryType(&wordGrammemes, headWord);
-        inflectedHeadWord = inflectWord(headWord, wordGrammemes, constraints, {}, enableInflectionGuess);
+        dictionary.getCombinedBinaryType(&wordGrammemes, headWordStr);
+        inflectedHeadWord = inflectWord(headWordStr, wordGrammemes, constraints, {}, enableInflectionGuess);
 
         if (!inflectedHeadWord) {
             return { };
         }
+    }
+
+    if (inflectedHeadWord && headWordCapitalized) {
+        ::std::u16string lowercasedHeadWord;
+        ::inflection::util::StringViewUtils::lowercase(&lowercasedHeadWord, *inflectedHeadWord, ::inflection::util::LocaleUtils::GERMAN());
+        inflectedHeadWord = lowercasedHeadWord;
     }
 
 

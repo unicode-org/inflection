@@ -20,6 +20,7 @@
 #include <inflection/tokenizer/locale/DefaultTokenizer.hpp>
 #include <inflection/tokenizer/locale/ar/ArTokenizer.hpp>
 #include <inflection/tokenizer/locale/da/DaTokenizer.hpp>
+#include <inflection/tokenizer/locale/de/DeTokenizer.hpp>
 #include <inflection/tokenizer/locale/fi/FiTokenizer.hpp>
 #include <inflection/tokenizer/locale/nb/NbTokenizer.hpp>
 #include <inflection/tokenizer/locale/nl/NlTokenizer.hpp>
@@ -122,6 +123,7 @@ Tokenizer* TokenizerFactory::createTokenizerObject(const util::ULocale& locale, 
             {u"DefaultTokenizer", &tokenizer::locale::DefaultTokenizer::createTokenExtractor},
             {u"locale.ar.ArTokenizer", &tokenizer::locale::ar::ArTokenizer::createTokenExtractor},
             {u"locale.da.DaTokenizer", &tokenizer::locale::da::DaTokenizer::createTokenExtractor},
+            {u"locale.de.DeTokenizer", &tokenizer::locale::de::DeTokenizer::createTokenExtractor},
             {u"locale.fi.FiTokenizer", &tokenizer::locale::fi::FiTokenizer::createTokenExtractor},
             {u"locale.nb.NbTokenizer", &tokenizer::locale::nb::NbTokenizer::createTokenExtractor},
             {u"locale.nl.NlTokenizer", &tokenizer::locale::nl::NlTokenizer::createTokenExtractor},

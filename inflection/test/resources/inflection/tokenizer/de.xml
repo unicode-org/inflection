@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!--
+ Copyright 2020-2026 Apple Inc. All rights reserved.
+-->
+<tokenizerTest locale="de">
+    <test>
+        <annotatedTokens>Haupt|straße</annotatedTokens>
+    </test>
+    <test>
+        <annotatedTokens>Wald|weg</annotatedTokens>
+    </test>
+    <test>
+        <annotatedTokens>Schloss|gasse</annotatedTokens>
+    </test>
+    <test>
+        <annotatedTokens>Markt|platz</annotatedTokens>
+    </test>
+    <test>
+        <annotatedTokens>Kaiser|ring</annotatedTokens>
+    </test>
+    <test>
+        <annotatedTokens>Sonne|n|allee</annotatedTokens>
+    </test>
+    <test>
+        <annotatedTokens>Arbeit|s|zimmer</annotatedTokens>
+    </test>
+    <test>
+        <annotatedTokens>Kinder|garten</annotatedTokens>
+    </test>
+    <test>
+        <annotatedTokens>Ehe|frau</annotatedTokens>
+    </test>
+    <test>
+        <annotatedTokens>Ehe|mann</annotatedTokens>
+    </test>
+    <test>
+        <annotatedTokens>Untersuchung|s|aus|schuss</annotatedTokens>
+    </test>
+    <test>
+        <annotatedTokens>Kinder|wagen</annotatedTokens>
+    </test>
+    <test>
+        <annotatedTokens>Liebe|s|brief</annotatedTokens>
+    </test>
+</tokenizerTest>

@@ -14,17 +14,34 @@
     <test><source case="vocative" number="singular" gender="feminine">Србија</source><result>Србијо</result></test>
     <test><source case="instrumental" number="plural" gender="masculine">становник</source><result>становницима</result></test>
     <test><source case="genitive" number="plural" gender="neuter" pos="adjective">плава</source><result>плавe</result></test>
-    <!-- Words not in the dictionary but similar in shape -->
-    <!-- test><source case="vocative" number="singular" gender="masculine">уранак</source><result>уранче</result></test -->
-    <!-- test><source case="vocative" number="singular" gender="masculine">игроказ</source><result>игрокаже</result></test -->
-    <!-- test><source case="vocative" number="singular" gender="masculine">пашњак</source><result>пашњаче</result></test -->
+    <!-- 20 test cases of words not in the dictionary with different endings (exemplar guessing & rule fallback) -->
+    <test><source case="genitive" number="singular" gender="masculine">уранак</source><result>уранка</result></test>
+    <test><source case="dative" number="singular" gender="masculine">уранак</source><result>уранку</result></test>
+    <test><source case="genitive" number="singular" gender="masculine">пашњак</source><result>пашњака</result></test>
+    <test><source case="genitive" number="singular" gender="masculine">клинац</source><result>клинца</result></test>
+    <test><source case="genitive" number="singular" gender="masculine">ученик</source><result>ученика</result></test>
+    <test><source case="genitive" number="singular" gender="masculine">играч</source><result>играча</result></test>
+    <test><source case="genitive" number="singular" gender="masculine">пекар</source><result>пекара</result></test>
+    <test><source case="genitive" number="singular" gender="masculine">микробус</source><result>микробуса</result></test>
+    <test><source case="genitive" number="singular" gender="masculine" pos="proper-noun">Бојан</source><result>Бојана</result></test>
+    <test><source case="genitive" number="singular" gender="masculine" pos="proper-noun">Радош</source><result>Радоша</result></test>
+    <test><source case="genitive" number="singular" gender="masculine" pos="proper-noun">Радиша</source><result>Радише</result></test>
+    <test><source case="genitive" number="singular" gender="feminine">кућица</source><result>кућице</result></test>
+    <test><source case="dative" number="singular" gender="feminine">кућица</source><result>кућици</result></test>
+    <test><source case="genitive" number="singular" gender="feminine">географија</source><result>географије</result></test>
+    <test><source case="genitive" number="singular" gender="feminine">патка</source><result>патке</result></test>
+    <test><source case="genitive" number="singular" gender="neuter">огледало</source><result>огледала</result></test>
+    <test><source case="genitive" number="singular" gender="neuter">стабло</source><result>стабла</result></test>
+    <test><source case="genitive" number="singular" gender="neuter">уточиште</source><result>уточишта</result></test>
+    <test><source case="genitive" number="singular" gender="neuter">саопштење</source><result>саопштења</result></test>
+    <test><source case="dative" number="singular" gender="neuter">презиме</source><result>презимену</result></test>
     <!-- Rule based inflection, group 3, all nouns ending with a -->
     <test><source case="instrumental">Италија</source><result>Италијом</result></test>
     <test><source case="instrumental">авенија</source><result>авенијом</result></test>
     <test><source case="locative" number="plural" gender="feminine">авенија</source><result>авенијама</result></test>
-    <test><source case="vocative">кадија</source><result>кадија</result></test>
+    <test><source case="vocative">кадија</source><result>кадијо</result></test>
     <test><source case="vocative">уметница</source><result>уметнице</result></test>
-    <test><source case="vocative">птица</source><result>птица</result></test>
+    <test><source case="vocative">птица</source><result>птице</result></test>
     <test><source case="vocative">Стана</source><result>Стано</result></test>
     <test><source case="vocative">Зора</source><result>Зоро</result></test>
     <test><source case="vocative">Божа</source><result>Божо</result></test>

@@ -25,6 +25,9 @@
 #include <inflection/util/ResourceLocator.hpp>
 #include <string>
 
+static constexpr int32_t MAX_SUFFIX_LEN = 7;
+static constexpr int32_t MIN_STEM_LEN = 2;
+
 namespace inflection::grammar::synthesis {
 
 SrGrammarSynthesizer_SrDisplayFunction::SrGrammarSynthesizer_SrDisplayFunction(const ::inflection::dialog::SemanticFeatureModel& model)
@@ -175,7 +178,7 @@ bool isProperNoun(const ::std::u16string &lemma);
             if (!caseString.empty() && caseString != GrammemeConstants::CASE_NOMINATIVE) constraintsVec.push_back(caseString);
             if (!genderString.empty()) constraintsVec.push_back(genderString);
 
-            for (int32_t suffixLen = std::min(7, static_cast<int32_t>(displayString.length() - 2)); suffixLen > 0; --suffixLen) {
+            for (int32_t suffixLen = std::min(MAX_SUFFIX_LEN, static_cast<int32_t>(displayString.length() - MIN_STEM_LEN)); suffixLen > 0; --suffixLen) {
                 std::u16string_view suffix = std::u16string_view(displayString).substr(displayString.length() - suffixLen);
                 auto exemplarResult = suffixToExemplar.findTarget(suffix);
                 if (exemplarResult.has_value()) {

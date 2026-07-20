@@ -10,6 +10,7 @@
 #include <inflection/dictionary/Inflector.hpp>
 #include <inflection/grammar/synthesis/fwd.hpp>
 #include <inflection/tokenizer/Tokenizer.hpp>
+#include <inflection/grammar/BidirectionalStringMap.hpp>
 #include <string>
 #include <set>
 #include <vector>
@@ -40,4 +41,5 @@ private:
     const ::inflection::dictionary::Inflector &inflector;
     const ::std::unique_ptr<::inflection::tokenizer::Tokenizer> tokenizer;
     ::inflection::dialog::DictionaryLookupInflector dictionaryInflector;
+    const ::inflection::grammar::BidirectionalStringMap suffixToExemplar;
 };

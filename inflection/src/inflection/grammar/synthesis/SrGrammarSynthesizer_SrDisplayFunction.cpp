@@ -22,6 +22,7 @@
 #include <array>
 #include <iterator>
 #include <memory>
+#include <inflection/util/ResourceLocator.hpp>
 #include <string>
 
 namespace inflection::grammar::synthesis {
@@ -39,6 +40,7 @@ SrGrammarSynthesizer_SrDisplayFunction::SrGrammarSynthesizer_SrDisplayFunction(c
             {GrammemeConstants::NUMBER_SINGULAR, GrammemeConstants::NUMBER_PLURAL},
             {GrammemeConstants::GENDER_MASCULINE, GrammemeConstants::GENDER_FEMININE, GrammemeConstants::GENDER_NEUTER}
     }, {}, true)
+    , suffixToExemplar(inflection::util::ResourceLocator::getRootForLocale(inflection::util::LocaleUtils::SERBIAN()) + u"/exemplar/suffix_" + inflection::util::LocaleUtils::SERBIAN().toString() + u".bist")
 {
 }
 
@@ -159,8 +161,37 @@ bool isProperNoun(const ::std::u16string &lemma);
     if (dictionary.isKnownWord(displayString)) {
         displayString = inflectFromDictionary(constraints, displayString);
     } else if (enableInflectionGuess) {
-        // Let's use rule based inflection for nouns. Assume lemma is singular, nominative.
-        displayString = inflectWithRule(constraints, displayString);
+        // Primary guess: Rule based inflection for nouns.
+        ::std::u16string ruleResult = inflectWithRule(constraints, displayString);
+        if (ruleResult != displayString) {
+            displayString = ruleResult;
+        } else {
+            // Secondary guess: Longest suffix exemplar guessing.
+            auto countString = GrammarSynthesizerUtil::getFeatureValue(constraints, numberFeature);
+            auto caseString = GrammarSynthesizerUtil::getFeatureValue(constraints, caseFeature);
+            auto genderString = GrammarSynthesizerUtil::getFeatureValue(constraints, genderFeature);
+            std::vector<::std::u16string> constraintsVec;
+            if (!countString.empty()) constraintsVec.push_back(countString);
+            if (!caseString.empty() && caseString != GrammemeConstants::CASE_NOMINATIVE) constraintsVec.push_back(caseString);
+            if (!genderString.empty()) constraintsVec.push_back(genderString);
+
+            for (int32_t suffixLen = std::min(7, static_cast<int32_t>(displayString.length() - 2)); suffixLen > 0; --suffixLen) {
+                std::u16string_view suffix = std::u16string_view(displayString).substr(displayString.length() - suffixLen);
+                auto exemplarResult = suffixToExemplar.findTarget(suffix);
+                if (exemplarResult.has_value()) {
+                    const auto& exemplar = *exemplarResult;
+                    int64_t exemplarGrammemes = 0;
+                    dictionary.getCombinedBinaryType(&exemplarGrammemes, exemplar);
+                    if (exemplarGrammemes != 0) {
+                        auto guessedResult = dictionaryInflector.inflectExemplar(displayString, exemplar, exemplarGrammemes, constraintsVec, {});
+                        if (guessedResult.has_value()) {
+                            displayString = *guessedResult;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
     }
     return new ::inflection::dialog::DisplayValue(displayString, constraints);
 }

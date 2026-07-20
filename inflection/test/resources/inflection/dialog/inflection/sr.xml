@@ -30,9 +30,9 @@
     <test><source case="dative" number="singular" gender="feminine">кућица</source><result>кућици</result></test>
     <test><source case="genitive" number="singular" gender="feminine">географија</source><result>географије</result></test>
     <test><source case="genitive" number="singular" gender="feminine">патка</source><result>патке</result></test>
-    <test><source case="genitive" number="singular" gender="neuter">језеро</source><result>језера</result></test>
+    <test><source case="genitive" number="singular" gender="neuter">огледало</source><result>огледала</result></test>
     <test><source case="genitive" number="singular" gender="neuter">стабло</source><result>стабла</result></test>
-    <test><source case="genitive" number="singular" gender="neuter">море</source><result>мора</result></test>
+    <test><source case="genitive" number="singular" gender="neuter">уточиште</source><result>уточишта</result></test>
     <test><source case="genitive" number="singular" gender="neuter">саопштење</source><result>саопштења</result></test>
     <test><source case="dative" number="singular" gender="neuter">презиме</source><result>презимену</result></test>
     <!-- Rule based inflection, group 3, all nouns ending with a -->

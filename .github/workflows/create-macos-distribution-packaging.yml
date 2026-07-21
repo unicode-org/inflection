@@ -56,7 +56,7 @@ jobs:
       - name: Package with CPack
         run: |
           cd inflection/build
-          cpack
+          cpack -G TGZ
           ls -la *.tar.gz
 
       - name: Upload release artifacts

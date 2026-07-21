@@ -1,0 +1,170 @@
+name: Build & Package (Distribution)
+
+on:
+  push:
+    tags:
+      - '*'
+  pull_request:
+    paths:
+      - 'inflection/**'
+      - '.github/workflows/create-distribution-packaging.yml'
+  workflow_dispatch:
+
+jobs:
+  build-and-package:
+    name: Build & Package (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            cpack_generator: "DEB;TGZ"
+            artifact_name: ubuntu-release-artifacts
+            artifact_patterns: |
+              inflection/build/*.deb
+              inflection/build/*.tar.gz
+          - os: macos-latest
+            cpack_generator: "TGZ"
+            artifact_name: macos-release-artifacts
+            artifact_patterns: |
+              inflection/build/*.tar.gz
+    env:
+      ICU_MAJOR: '78'
+      ICU_MINOR: '3'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Setup Git LFS
+        run: |
+          git lfs install
+          git lfs pull
+
+      # Dependencies for Ubuntu
+      - name: Install system dependencies (Ubuntu)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt update
+          sudo apt install -y cmake build-essential clang pkg-config
+
+      - name: Cache ICU (Ubuntu)
+        if: runner.os == 'Linux'
+        uses: actions/cache@v4
+        id: cache-icu
+        with:
+          path: /usr/local/icu-${{ env.ICU_MAJOR }}_${{ env.ICU_MINOR }}
+          key: icu-${{ env.ICU_MAJOR }}_${{ env.ICU_MINOR }}-${{ runner.os }}
+          restore-keys: |
+            icu-${{ env.ICU_MAJOR }}_${{ env.ICU_MINOR }}-
+            icu-
+
+      - name: Install ICU (Ubuntu)
+        if: runner.os == 'Linux' && steps.cache-icu.outputs.cache-hit != 'true'
+        run: |
+          cd /tmp
+          wget https://github.com/unicode-org/icu/releases/download/release-${ICU_MAJOR}.${ICU_MINOR}/icu4c-${ICU_MAJOR}.${ICU_MINOR}-Ubuntu22.04-x64.tgz
+          mkdir icu-install
+          tar -xzf icu4c-${ICU_MAJOR}.${ICU_MINOR}-Ubuntu22.04-x64.tgz -C icu-install
+          sudo mkdir -p /usr/local/icu-${ICU_MAJOR}_${ICU_MINOR}
+          sudo cp -r icu-install/icu/usr/local/* /usr/local/icu-${ICU_MAJOR}_${ICU_MINOR}/
+          sudo ldconfig
+
+      - name: Setup ICU (Ubuntu cache)
+        if: runner.os == 'Linux' && steps.cache-icu.outputs.cache-hit == 'true'
+        run: |
+          sudo ldconfig
+
+      # Dependencies for macOS
+      - name: Install system dependencies (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          brew install icu4c libxml2 cmake pkg-config
+
+      # Configure & Build
+      - name: Configure & Build (Ubuntu)
+        if: runner.os == 'Linux'
+        run: |
+          export PKG_CONFIG_PATH=/usr/local/icu-${ICU_MAJOR}_${ICU_MINOR}/lib/pkgconfig:$PKG_CONFIG_PATH
+          export CPLUS_INCLUDE_PATH=/usr/local/icu-${ICU_MAJOR}_${ICU_MINOR}/include:$CPLUS_INCLUDE_PATH
+          export LD_LIBRARY_PATH=/usr/local/icu-${ICU_MAJOR}_${ICU_MINOR}/lib:$LD_LIBRARY_PATH
+          mkdir -p inflection/build
+          cd inflection/build
+          CC=clang CXX=clang++ cmake .. \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DICU_ROOT=/usr/local/icu-${ICU_MAJOR}_${ICU_MINOR} \
+            -DCMAKE_PREFIX_PATH=/usr/local/icu-${ICU_MAJOR}_${ICU_MINOR}
+          make -j$(nproc)
+
+      - name: Configure & Build (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          ICU_PREFIX=$(brew --prefix icu4c)
+          XML2_PREFIX=$(brew --prefix libxml2)
+          export PKG_CONFIG_PATH="$ICU_PREFIX/lib/pkgconfig:$XML2_PREFIX/lib/pkgconfig:$PKG_CONFIG_PATH"
+          mkdir -p inflection/build
+          cd inflection/build
+          cmake .. \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DICU_ROOT="$ICU_PREFIX" \
+            -DCMAKE_PREFIX_PATH="$ICU_PREFIX;$XML2_PREFIX"
+          make -j$(sysctl -n hw.ncpu)
+
+      # Run tests
+      - name: Run tests (Ubuntu)
+        if: runner.os == 'Linux'
+        run: |
+          export PKG_CONFIG_PATH=/usr/local/icu-${ICU_MAJOR}_${ICU_MINOR}/lib/pkgconfig:$PKG_CONFIG_PATH
+          export CPLUS_INCLUDE_PATH=/usr/local/icu-${ICU_MAJOR}_${ICU_MINOR}/include:$CPLUS_INCLUDE_PATH
+          export LD_LIBRARY_PATH=/usr/local/icu-${ICU_MAJOR}_${ICU_MINOR}/lib:$LD_LIBRARY_PATH
+          cd inflection/build
+          make -j$(nproc) check
+
+      - name: Run tests (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          ICU_PREFIX=$(brew --prefix icu4c)
+          XML2_PREFIX=$(brew --prefix libxml2)
+          export PKG_CONFIG_PATH="$ICU_PREFIX/lib/pkgconfig:$XML2_PREFIX/lib/pkgconfig:$PKG_CONFIG_PATH"
+          export DYLD_LIBRARY_PATH="$ICU_PREFIX/lib:$DYLD_LIBRARY_PATH"
+          cd inflection/build
+          make check
+
+      # Package
+      - name: Package with CPack
+        run: |
+          cd inflection/build
+          cpack -G "${{ matrix.cpack_generator }}"
+          ls -la
+
+      # Upload workflow artifacts per matrix runner
+      - name: Upload release artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact_name }}
+          path: ${{ matrix.artifact_patterns }}
+          retention-days: 30
+
+  release:
+    name: Publish GitHub Release
+    needs: build-and-package
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - name: Download all build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: /tmp/release-assets
+
+      - name: Publish GitHub Release with all assets
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "Release ${{ github.ref_name }}"
+          generate_release_notes: true
+          files: |
+            /tmp/release-assets/*/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

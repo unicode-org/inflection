@@ -4,6 +4,10 @@ on:
   push:
     tags:
       - '*'
+  pull_request:
+    paths:
+      - 'inflection/**'
+      - '.github/workflows/create-macos-distribution-packaging.yml'
   workflow_dispatch:
 
 jobs:

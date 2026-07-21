@@ -350,50 +350,40 @@ static bool isSoftStem(std::u16string_view stem) {
     return base;
 }
 
-::std::u16string inflectByRuleConsonant(const ::std::u16string &lemma, const ::std::u16string &number, const ::std::u16string &targetCase, const ::std::u16string &gender)
+::std::u16string inflectByRuleFeminineConsonant(const ::std::u16string &lemma, const ::std::u16string &number, const ::std::u16string &targetCase)
 {
-    if (lemma.empty()) {
-        return lemma;
-    }
-
-    if (number == GrammemeConstants::NUMBER_SINGULAR && targetCase == GrammemeConstants::CASE_NOMINATIVE) {
-        return lemma;
-    }
-
     ::std::u16string base = lemma;
-
-    // Handle Class IV (Feminine consonant nouns like љубав, младост, памет, ноћ)
-    if (gender == GrammemeConstants::GENDER_FEMININE) {
-        if (number == GrammemeConstants::NUMBER_SINGULAR && targetCase == GrammemeConstants::CASE_INSTRUMENTAL) {
-            if (base.ends_with(u"в") || base.ends_with(u"б") || base.ends_with(u"м") || base.ends_with(u"п")) {
-                return base + u"љу";
-            }
-            if (base.ends_with(u"ст")) {
-                base.replace(base.length() - 2, 2, u"шћ");
-                return base + u"у";
-            }
-            if (base.ends_with(u"т")) {
-                base.back() = u'ћ';
-                return base + u"у";
-            }
-            if (base.ends_with(u"ћ") || base.ends_with(u"ч") || base.ends_with(u"ш") || base.ends_with(u"ж") || base.ends_with(u"ђ") || base.ends_with(u"љ") || base.ends_with(u"њ")) {
-                return base + u"у";
-            }
-            if (base.ends_with(u"р")) {
-                return base + u"ју";
-            }
+    if (number == GrammemeConstants::NUMBER_SINGULAR && targetCase == GrammemeConstants::CASE_INSTRUMENTAL) {
+        if (base.ends_with(u"в") || base.ends_with(u"б") || base.ends_with(u"м") || base.ends_with(u"п")) {
+            return base + u"љу";
         }
-        static constexpr auto suffix_sg_fem = ::std::to_array<::std::u16string_view>({u"", u"и", u"и", u"", u"и", u"и", u"и"});
-        static constexpr auto suffix_pl_fem = ::std::to_array<::std::u16string_view>({u"и", u"и", u"има", u"и", u"и", u"има", u"има"});
-        return applySuffix(base, suffix_sg_fem, suffix_pl_fem, number, targetCase);
+        if (base.ends_with(u"ст")) {
+            base.replace(base.length() - 2, 2, u"шћ");
+            return base + u"у";
+        }
+        if (base.ends_with(u"т")) {
+            base.back() = u'ћ';
+            return base + u"у";
+        }
+        if (base.ends_with(u"ћ") || base.ends_with(u"ч") || base.ends_with(u"ш") || base.ends_with(u"ж") || base.ends_with(u"ђ") || base.ends_with(u"љ") || base.ends_with(u"њ")) {
+            return base + u"у";
+        }
+        if (base.ends_with(u"р")) {
+            return base + u"ју";
+        }
     }
+    static constexpr auto suffix_sg_fem = ::std::to_array<::std::u16string_view>({u"", u"и", u"и", u"", u"и", u"и", u"и"});
+    static constexpr auto suffix_pl_fem = ::std::to_array<::std::u16string_view>({u"и", u"и", u"има", u"и", u"и", u"има", u"има"});
+    return applySuffix(base, suffix_sg_fem, suffix_pl_fem, number, targetCase);
+}
 
-    // Handle Class I (Masculine consonant nouns)
+::std::u16string inflectByRuleMasculineConsonant(const ::std::u16string &lemma, const ::std::u16string &number, const ::std::u16string &targetCase)
+{
+    ::std::u16string base = lemma;
     // Handle fleeting -a- (ац -> ц, нак -> нк, лак -> лк)
     if ((lemma.ends_with(u"ац") || lemma.ends_with(u"нак") || lemma.ends_with(u"лак") || lemma.ends_with(u"цак")) && lemma.length() > 2) {
         base.erase(base.length() - 2, 1);
     }
-
 
     bool soft = isSoftStem(base);
 
@@ -404,6 +394,24 @@ static bool isSoftStem(std::u16string_view stem) {
 
     return applySuffix(base, suffix_sg, suffix_pl, number, targetCase);
 }
+
+::std::u16string inflectByRuleConsonant(const ::std::u16string &lemma, const ::std::u16string &number, const ::std::u16string &targetCase, const ::std::u16string &gender)
+{
+    if (lemma.empty()) {
+        return lemma;
+    }
+
+    if (number == GrammemeConstants::NUMBER_SINGULAR && targetCase == GrammemeConstants::CASE_NOMINATIVE) {
+        return lemma;
+    }
+
+    if (gender == GrammemeConstants::GENDER_FEMININE) {
+        return inflectByRuleFeminineConsonant(lemma, number, targetCase);
+    }
+
+    return inflectByRuleMasculineConsonant(lemma, number, targetCase);
+}
+
 
 
 

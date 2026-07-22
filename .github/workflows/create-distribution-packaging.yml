@@ -109,6 +109,7 @@ jobs:
           cd inflection/build
           cmake .. \
             -DCMAKE_BUILD_TYPE=Release \
+            -DCPACK_SYSTEM_NAME=macOS \
             -DICU_ROOT="$ICU_PREFIX" \
             -DCMAKE_PREFIX_PATH="$ICU_PREFIX;$XML2_PREFIX"
           make -j$(sysctl -n hw.ncpu)

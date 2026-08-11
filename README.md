@@ -11,7 +11,7 @@ Code, data and documentation solving language inflection problems.
 
 For speakers of non-inflected languages, it may be hard to see the importance of inflections. Here is an illustration from Serbian:
 
-① Velike<sup>(The big)</sup> ② crvene<sup>(red)</sup> ③ jabuke<sup>(apples)</sup> ④ su pale<sup>(have fallen)</sup> sa<sup>(from)</sup> ⑤ drveta<sup>(the/a tree)</sup>.
+① Velike *(The big)* ② crvene *(red)* ③ jabuke *(apples)* ④ su pale *(have fallen)* sa *(from)* ⑤ drveta *(the/a tree)*.
 
 * Adjectives ① and ② have to agree in number, gender and case with the noun ③
 * Verb ④ (in the past tense) has to agree with the noun ③ in number and gender.

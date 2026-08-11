@@ -3,7 +3,7 @@
 #
 add_custom_target(docs
 	COMMAND
-	doxygen ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile
-	WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+	doxygen ${CMAKE_SOURCE_DIR}/docs/Doxyfile
+	WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
 	VERBATIM)
 add_dependencies(docs inflection-headers)

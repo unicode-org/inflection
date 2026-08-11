@@ -1,6 +1,32 @@
+# Metadata directory
 .DS_Store
+.gradle
 .idea
 .vscode/launch.json
 .vscode/settings.json
+
+# Temporary build directory
 build
-fst/__pycache__/*
+build_*
+dist
+
+# Generated documentation
+docs/headers
+docs/html
+docs/xml
+docs/pages
+
+# Vim
+*.swp
+
+# CMake ignores
+CMakeLists.txt.user
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+CMakeBuild*
+cmake-build-*
+options.mk
+
+# Gradle
+gradle/wrapper/gradle-wrapper.jar

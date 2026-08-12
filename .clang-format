@@ -1,0 +1,71 @@
+---
+# Clang-format configuration for the Inflection library.
+# Based on Apple's WebKit style with project-specific adjustments.
+
+Language: Cpp
+BasedOnStyle: WebKit
+
+# ------------------------------------------------------------------------------
+# Indentation & Tabs
+# ------------------------------------------------------------------------------
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+ContinuationIndentWidth: 4
+AccessModifierOffset: -4
+
+# ------------------------------------------------------------------------------
+# Namespaces
+# ------------------------------------------------------------------------------
+# Do not indent code inside namespace blocks.
+NamespaceIndentation: None
+FixNamespaceComments: true
+
+# ------------------------------------------------------------------------------
+# Line Length & Wrapping
+# ------------------------------------------------------------------------------
+# 140-column limit (covers >96.4% of lines across the repository).
+ColumnLimit: 140
+
+# ------------------------------------------------------------------------------
+# Braces & Control Statements
+# ------------------------------------------------------------------------------
+# Functions: brace on newline.
+# Control statements (if/for/while): brace on same line.
+# Else / Catch: attached to closing brace ('} else {', '} catch (...) {').
+BreakBeforeBraces: WebKit
+BraceWrapping:
+  AfterCaseLabel: false
+  AfterClass: false
+  AfterControlStatement: Never
+  AfterEnum: false
+  AfterFunction: true
+  AfterNamespace: false
+  AfterStruct: false
+  AfterUnion: false
+  BeforeCatch: false
+  BeforeElse: false
+  IndentBraces: false
+  SplitEmptyFunction: true
+  SplitEmptyRecord: true
+  SplitEmptyNamespace: true
+
+# ------------------------------------------------------------------------------
+# Constructor Initializers & Inheritance
+# ------------------------------------------------------------------------------
+BreakConstructorInitializers: BeforeComma
+ConstructorInitializerIndentWidth: 4
+BreakInheritanceList: BeforeColon
+
+# ------------------------------------------------------------------------------
+# Pointers & References
+# ------------------------------------------------------------------------------
+# Left-aligned pointers: 'Type* ptr', 'const Type& ref'.
+PointerAlignment: Left
+
+# ------------------------------------------------------------------------------
+# Includes
+# ------------------------------------------------------------------------------
+IncludeBlocks: Preserve
+SortIncludes: CaseSensitive
+...

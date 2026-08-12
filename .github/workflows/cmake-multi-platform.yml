@@ -8,18 +8,25 @@ on:
   # Run it on all branches but ignore some paths.
   pull_request:
     paths:
-    - 'inflection/**'
+    - 'src/**'
+    - 'resources/**'
+    - 'tools/**'
+    - 'CMakeLists.txt'
     - '.github/workflows/**'
-    - '!data/**'
+    - '!tools/wikidata/**'
     - '!documents/**'
-    - '!fst/**'
   # Run the build when we merge into main
   push:
     branches:
       - main
     paths:
-      - 'inflection/**'
+      - 'src/**'
+      - 'resources/**'
+      - 'tools/**'
+      - 'CMakeLists.txt'
       - '.github/workflows/**'
+      - '!tools/wikidata/**'
+      - '!documents/**'
 env:
   ICU_MAJOR: '78'
   ICU_MINOR: '3'
@@ -53,7 +60,7 @@ jobs:
       - uses: actions/cache/save@v4
         with:
           path: ~/icu
-          key: ${{ runner.os }}-icu-${{ env.ICU_MAJOR }}-${{ env. ICU_MINOR }}
+          key: ${{ runner.os }}-icu-${{ env.ICU_MAJOR }}-${{ env.ICU_MINOR }}
 
   build:
     needs: cache-icu
@@ -109,15 +116,15 @@ jobs:
       run: git lfs checkout
 
     - name: Check LFS restore the files or not after checkout
-      run: ls -l inflection/resources/org/unicode/inflection/dictionary/*
+      run: ls -l resources/org/unicode/inflection/dictionary/*
 
     - name: Set reusable strings
       # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
       id: strings
       shell: bash
       run: |
-        echo "project-root-dir=${{ github.workspace }}/inflection" >> "$GITHUB_OUTPUT"
-        echo "build-output-dir=${{ github.workspace }}/inflection/build" >> "$GITHUB_OUTPUT"
+        echo "project-root-dir=${{ github.workspace }}" >> "$GITHUB_OUTPUT"
+        echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
   
     - uses: actions/cache/restore@v4
       id: cache

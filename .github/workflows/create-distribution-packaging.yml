@@ -6,7 +6,10 @@ on:
       - '*'
   pull_request:
     paths:
-      - 'inflection/**'
+      - 'src/**'
+      - 'resources/**'
+      - 'tools/**'
+      - 'CMakeLists.txt'
       - '.github/workflows/create-distribution-packaging.yml'
   workflow_dispatch:
 
@@ -22,13 +25,13 @@ jobs:
             cpack_generator: "DEB;TGZ"
             artifact_name: ubuntu-release-artifacts
             artifact_patterns: |
-              inflection/build/*.deb
-              inflection/build/*.tar.gz
+              build/*.deb
+              build/*.tar.gz
           - os: macos-latest
             cpack_generator: "TGZ"
             artifact_name: macos-release-artifacts
             artifact_patterns: |
-              inflection/build/*.tar.gz
+              build/*.tar.gz
     env:
       ICU_MAJOR: '78'
       ICU_MINOR: '3'
@@ -91,8 +94,8 @@ jobs:
           export PKG_CONFIG_PATH=/usr/local/icu-${ICU_MAJOR}_${ICU_MINOR}/lib/pkgconfig:$PKG_CONFIG_PATH
           export CPLUS_INCLUDE_PATH=/usr/local/icu-${ICU_MAJOR}_${ICU_MINOR}/include:$CPLUS_INCLUDE_PATH
           export LD_LIBRARY_PATH=/usr/local/icu-${ICU_MAJOR}_${ICU_MINOR}/lib:$LD_LIBRARY_PATH
-          mkdir -p inflection/build
-          cd inflection/build
+          mkdir -p build
+          cd build
           CC=clang CXX=clang++ cmake .. \
             -DCMAKE_BUILD_TYPE=Release \
             -DICU_ROOT=/usr/local/icu-${ICU_MAJOR}_${ICU_MINOR} \
@@ -105,8 +108,8 @@ jobs:
           ICU_PREFIX=$(brew --prefix icu4c)
           XML2_PREFIX=$(brew --prefix libxml2)
           export PKG_CONFIG_PATH="$ICU_PREFIX/lib/pkgconfig:$XML2_PREFIX/lib/pkgconfig:$PKG_CONFIG_PATH"
-          mkdir -p inflection/build
-          cd inflection/build
+          mkdir -p build
+          cd build
           cmake .. \
             -DCMAKE_BUILD_TYPE=Release \
             -DCPACK_SYSTEM_NAME=macOS \
@@ -121,7 +124,7 @@ jobs:
           export PKG_CONFIG_PATH=/usr/local/icu-${ICU_MAJOR}_${ICU_MINOR}/lib/pkgconfig:$PKG_CONFIG_PATH
           export CPLUS_INCLUDE_PATH=/usr/local/icu-${ICU_MAJOR}_${ICU_MINOR}/include:$CPLUS_INCLUDE_PATH
           export LD_LIBRARY_PATH=/usr/local/icu-${ICU_MAJOR}_${ICU_MINOR}/lib:$LD_LIBRARY_PATH
-          cd inflection/build
+          cd build
           make -j$(nproc) check
 
       - name: Run tests (macOS)
@@ -131,13 +134,13 @@ jobs:
           XML2_PREFIX=$(brew --prefix libxml2)
           export PKG_CONFIG_PATH="$ICU_PREFIX/lib/pkgconfig:$XML2_PREFIX/lib/pkgconfig:$PKG_CONFIG_PATH"
           export DYLD_LIBRARY_PATH="$ICU_PREFIX/lib:$DYLD_LIBRARY_PATH"
-          cd inflection/build
+          cd build
           make check
 
       # Package
       - name: Package with CPack
         run: |
-          cd inflection/build
+          cd build
           cpack -G "${{ matrix.cpack_generator }}"
           ls -la
 

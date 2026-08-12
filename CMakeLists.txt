@@ -64,7 +64,7 @@ if(MSVC)
 else()
     add_compile_options(-Wall -Weffc++ -Wextra)
     if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-        add_compile_options(-Wglobal-constructors -Wexit-time-destructors -Wweak-vtables -Wvla-extension)
+        add_compile_options(-Wglobal-constructors -Wexit-time-destructors -Wweak-vtables -Wvla-extension -Wctad-maybe-unsupported)
     endif()
 
     # Improve code security

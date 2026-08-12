@@ -11,6 +11,7 @@
 #include <inflection/tokenizer/TokenUtil.hpp>
 #include <inflection/npc.hpp>
 #include <unicode/uchar.h>
+#include <unicode/utf16.h>
 
 namespace inflection::tokenizer {
 

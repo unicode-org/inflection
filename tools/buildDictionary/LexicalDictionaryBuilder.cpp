@@ -400,7 +400,7 @@ void LexicalDictionaryBuilder::writeDictionary(::std::ofstream& writer,
                            propertyNameToKeyId,
                            propertyValuesStringContainer,
                            propertyValueMapsVector);
-    inflection::dictionary::metadata::CompressedArray propertyValueMaps(propertyValueMapsVector);
+    inflection::dictionary::metadata::CompressedArray<int32_t> propertyValueMaps(propertyValueMapsVector);
     propertyValueMapsVector.clear();
     propertyValueMapsVector.shrink_to_fit();
 
@@ -420,11 +420,11 @@ void LexicalDictionaryBuilder::writeDictionary(::std::ofstream& writer,
     auto dataSingletonsResult = compressDataSingletons(wordsToData, logger, dictionary.getLocale());
 
     {
-        CompressedArray dataSingletonsRaw(dataSingletonsResult.dataSingletons);
+        CompressedArray<uint64_t> dataSingletonsRaw(dataSingletonsResult.dataSingletons);
         dataSingletonsResult.dataSingletons.clear();
         dataSingletonsResult.dataSingletons.shrink_to_fit();
 
-        MarisaTrie wordsToDataTrie(dataSingletonsResult.use2Stage ? dataSingletonsResult.wordsToDataSingletons : wordsToData);
+        MarisaTrie<uint64_t> wordsToDataTrie(dataSingletonsResult.use2Stage ? dataSingletonsResult.wordsToDataSingletons : wordsToData);
         dataSingletonsResult.wordsToDataSingletons.clear();
         wordsToData.clear();
 

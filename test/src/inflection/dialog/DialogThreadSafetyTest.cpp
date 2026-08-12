@@ -82,8 +82,8 @@ TEST_CASE("DialogThreadSafetyTest#testInflect", "[multithreaded]")
     }
 
     const inflection::dialog::SemanticFeatureModel* currModel = nullptr;
-    std::atomic finished(false);
-    std::barrier barrier(processorCount + 1);
+    std::atomic<bool> finished(false);
+    std::barrier<> barrier(processorCount + 1);
     for (int32_t count = 0; count < processorCount; count++) {
         results[count].reserve(minimumNumberOfWords);
         threads.emplace_back(testInflection, &currModel, &phrases, &constraints, &semanticFeatures, &barrier, &finished, count, &results[count]);

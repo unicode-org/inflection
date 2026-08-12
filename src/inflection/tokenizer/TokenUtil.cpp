@@ -7,6 +7,7 @@
 #include <inflection/util/UnicodeSetUtils.hpp>
 #include <inflection/npc.hpp>
 #include <unicode/uchar.h>
+#include <unicode/utf16.h>
 
 namespace inflection::tokenizer {
 

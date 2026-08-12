@@ -5,6 +5,7 @@
 #include <inflection/util/StringViewUtils.hpp>
 #include <inflection/util/StringUtils.hpp>
 #include <inflection/npc.hpp>
+#include <unicode/utf16.h>
 
 namespace inflection::util {
 

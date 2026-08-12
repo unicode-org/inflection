@@ -6,7 +6,7 @@ var searchData=
   ['telugu_3',['TELUGU',['../classinflection_1_1util_1_1LocaleUtils.html#a80651dc0d258e32049d48c6b5373b20d',1,'inflection::util::LocaleUtils']]],
   ['thai_4',['THAI',['../classinflection_1_1util_1_1LocaleUtils.html#a83142e2d8ed38c54bf8a62f18ed9ae64',1,'inflection::util::LocaleUtils']]],
   ['thailand_5',['THAILAND',['../classinflection_1_1util_1_1LocaleUtils.html#a69d56d9333d7921236a771606db2639f',1,'inflection::util::LocaleUtils']]],
-  ['threading_6',['Multi-threading',['../index.html#autotoc_md6',1,'']]],
+  ['threading_6',['Multi-threading',['../index.html#autotoc_md8',1,'']]],
   ['throwable_7',['throwable',['../classinflection_1_1exception_1_1Throwable.html#a0c0bd2de1ea3d16eda47665652b64d3a',1,'inflection::exception::Throwable::Throwable()'],['../classinflection_1_1exception_1_1Throwable.html',1,'inflection::exception::Throwable'],['../classinflection_1_1exception_1_1Throwable.html#ac846c026a2473dad55cc39a7c1172d9e',1,'inflection::exception::Throwable::Throwable()']]],
   ['throwonfailure_8',['throwonfailure',['../classinflection_1_1exception_1_1ICUException.html#a6645797e5a69c5fe4c031b2253acdd58',1,'inflection::exception::ICUException::throwOnFailure(UErrorCode status, const char16_t *message)'],['../classinflection_1_1exception_1_1ICUException.html#ad0a19d3779920152a1fceff2faba073b',1,'inflection::exception::ICUException::throwOnFailure(UErrorCode status, const std::u16string &amp;message)'],['../classinflection_1_1exception_1_1ICUException.html#ad11d98873df4dc7c989b28f4f005aa2a',1,'inflection::exception::ICUException::throwOnFailure(UErrorCode status)']]],
   ['tolocale_9',['toLocale',['../classinflection_1_1util_1_1LocaleUtils.html#ad9430c52295e845b9d4c0be4a7efea4f',1,'inflection::util::LocaleUtils']]],

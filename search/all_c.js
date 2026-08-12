@@ -12,5 +12,5 @@ var searchData=
   ['minfractiondigits_9',['minFractionDigits',['../classinflection_1_1dialog_1_1NumberConcept.html#aed02f5dba74a6ee2c8b7df2855a4a7bd',1,'inflection::dialog::NumberConcept']]],
   ['minintegerdigits_10',['minIntegerDigits',['../classinflection_1_1dialog_1_1NumberConcept.html#a9d29e546b6b1b901708ee4b0a1ce6f62',1,'inflection::dialog::NumberConcept']]],
   ['missingresourceexception_11',['missingresourceexception',['../classinflection_1_1exception_1_1MissingResourceException.html',1,'inflection::exception::MissingResourceException'],['../classinflection_1_1exception_1_1MissingResourceException.html#a86c3dfcfd261e3eacf743fc8e1d6fa5c',1,'inflection::exception::MissingResourceException::MissingResourceException()']]],
-  ['multi_20threading_12',['Multi-threading',['../index.html#autotoc_md6',1,'']]]
+  ['multi_20threading_12',['Multi-threading',['../index.html#autotoc_md8',1,'']]]
 ];

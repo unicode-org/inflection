@@ -157,11 +157,11 @@ void writeBidirectionalTries(const char* outFileName,
 
     ::std::map<::std::u16string_view, int32_t> fromIdMap;
     convertStringValuesToIdentifiers(fromMap, toSetMap, fromIdMap);
-    ::inflection::dictionary::metadata::MarisaTrie fromTrie(fromIdMap);
+    ::inflection::dictionary::metadata::MarisaTrie<int32_t> fromTrie(fromIdMap);
 
     ::std::map<::std::u16string_view, int32_t> toIdMap;
     convertStringValuesToIdentifiers(toMap, fromSetMap, toIdMap);
-    ::inflection::dictionary::metadata::MarisaTrie toTrie(toIdMap);
+    ::inflection::dictionary::metadata::MarisaTrie<int32_t> toTrie(toIdMap);
 
     std::ofstream out(outFileName, std::ios::binary);
     if (!out) {
@@ -190,7 +190,7 @@ void writeSelfReferencingTrie(const char* outFileName,
     ::std::map<::std::u16string_view, int32_t> combinedIdMap;
     convertStringValuesToIdentifiers(fromMap, combinedSetMap, combinedIdMap);
     convertStringValuesToIdentifiers(toMap, combinedSetMap, combinedIdMap);
-    ::inflection::dictionary::metadata::MarisaTrie combinedTrie(combinedIdMap);
+    ::inflection::dictionary::metadata::MarisaTrie<int32_t> combinedTrie(combinedIdMap);
 
     std::ofstream out(outFileName, std::ios::binary);
     if (!out) {
@@ -284,11 +284,11 @@ int main(int argc, const char * const argv[]) {
 
     ::std::map<::std::u16string_view, int32_t> fromIdMap;
     convertStringValuesToIdentifiers(fromMap, toSetMap, fromIdMap);
-    ::inflection::dictionary::metadata::MarisaTrie fromTrie(fromIdMap);
+    ::inflection::dictionary::metadata::MarisaTrie<int32_t> fromTrie(fromIdMap);
 
     ::std::map<::std::u16string_view, int32_t> toIdMap;
     convertStringValuesToIdentifiers(toMap, fromSetMap, toIdMap);
-    ::inflection::dictionary::metadata::MarisaTrie toTrie(toIdMap);
+    ::inflection::dictionary::metadata::MarisaTrie<int32_t> toTrie(toIdMap);
 
     std::ofstream out(outFileName, std::ios::binary);
     if (!out) {

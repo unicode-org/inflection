@@ -13,6 +13,7 @@
 #include <inflection/dictionary/PhraseProperties.hpp>
 #include <inflection/grammar/synthesis/GrammemeConstants.hpp>
 #include <inflection/grammar/synthesis/TrGrammarSynthesizer.hpp>
+#include <unicode/utf16.h>
 #include <inflection/util/LocaleConstants.hpp>
 #include <inflection/util/LocaleUtils.hpp>
 #include <inflection/util/StringViewUtils.hpp>

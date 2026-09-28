@@ -116,9 +116,9 @@ Static Public Member Functions</h2></td></tr>
 <p>For example: </p><blockquote class="doxtable">
 <pre>
 auto customRegistry = icu::message2::MFFunctionRegistry::Builder(errorCode)
-         .adoptFormatter(FunctionName("inflect"),
+         .adoptFormatter(FunctionName("i:inflect"),
                          <a class="el" href="classinflection_1_1message2_1_1MF2Factory.html#a680f3a5e6f54ca896c0f2c1fd2dd644f">MF2Factory::createInflectFormatterFactory()</a>, errorCode)
-         .adoptSelector(FunctionName("inflect"),
+         .adoptSelector(FunctionName("i:inflect"),
                          <a class="el" href="classinflection_1_1message2_1_1MF2Factory.html#a0bd480a9b4229615e8454aba4dbf5bbc">MF2Factory::createInflectSelectorFactory()</a>, errorCode)
          .build();
 
@@ -126,7 +126,7 @@ UParseError pe;
 auto mf1 = icu::message2::MessageFormatter::Builder(errorCode)
              .setFunctionRegistry(customRegistry)
              .setLocale(Locale::forLanguageTag("es-MX", errorCode))
-             .setPattern("Location is {$name :inflect hello=world \
+             .setPattern("Location is {$name :i:inflect hello=world \
                           definiteness=definite number=plural \
                           gender=feminine}",
                          pe, errorCode)
@@ -135,9 +135,9 @@ auto mf1 = icu::message2::MessageFormatter::Builder(errorCode)
 auto mf2 = icu::message2::MessageFormatter::Builder(errorCode)
              .setFunctionRegistry(customRegistry)
              .setLocale(Locale::forLanguageTag("es-MX", errorCode))
-             .setPattern(".local $gender = {$name :inflect \
+             .setPattern(".local $gender = {$name :i:inflect \
                                             feature=gender} \
-                          .local $number = {$name :inflect \
+                          .local $number = {$name :i:inflect \
                                             feature=number} \
                           .match $gender $number \
                           feminine singular {{Feminine Singular {$name}}}\
@@ -251,7 +251,7 @@ auto mf2 = icu::message2::MessageFormatter::Builder(errorCode)
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Create a FormatterFactory for the :list function (array → plain/and/or list). </p>
+<p>Create a FormatterFactory for the :i:list function (array → plain/and/or list). </p>
 
 </div>
 </div>
@@ -278,7 +278,7 @@ auto mf2 = icu::message2::MessageFormatter::Builder(errorCode)
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Create an implementation of icu::message2::FormatterFactory* for the :numeral function (number formatting), based on the inflection library, which can be passed to icu::messsage2::MFFunctionRegistry::Builder::adoptFormatter to register a custom formatter factory. </p>
+<p>Create an implementation of icu::message2::FormatterFactory* for the :i:numeral function (number formatting), based on the inflection library, which can be passed to icu::messsage2::MFFunctionRegistry::Builder::adoptFormatter to register a custom formatter factory. </p>
 
 </div>
 </div>
@@ -305,7 +305,7 @@ auto mf2 = icu::message2::MessageFormatter::Builder(errorCode)
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Create a FormatterFactory for the :pronoun function. </p>
+<p>Create a FormatterFactory for the :i:pronoun function. </p>
 
 </div>
 </div>
@@ -331,7 +331,7 @@ auto mf2 = icu::message2::MessageFormatter::Builder(errorCode)
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Create a SelectorFactory for the :pronoun function. </p>
+<p>Create a SelectorFactory for the :i:pronoun function. </p>
 
 </div>
 </div>
@@ -358,7 +358,7 @@ auto mf2 = icu::message2::MessageFormatter::Builder(errorCode)
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Create a FormatterFactory for the :quantify function (count + unit agreement). </p>
+<p>Create a FormatterFactory for the :i:quantify function (count + unit agreement). </p>
 
 </div>
 </div>
@@ -368,7 +368,7 @@ auto mf2 = icu::message2::MessageFormatter::Builder(errorCode)
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Aug 12 2026 22:56:52 for Inflection by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+Generated on Mon Sep 28 2026 21:20:16 for Inflection by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
 </small></address>
 </body>
 </html>

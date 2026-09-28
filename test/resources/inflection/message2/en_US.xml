@@ -8,21 +8,21 @@
         <params>
             <param name="object" type="String"><value>lights</value></param>
         </params>
-        <source>The {$object} {is :inflect number=$object} on.</source>
+        <source>The {$object} {is :i:inflect number=$object} on.</source>
         <print>The lights are on.</print>
     </test>
     <test>
         <params>
             <param name="object" type="String"><value>lights</value></param>
         </params>
-        <source>{$object :inflect definiteness=definite} {is :inflect number=$object} on.</source>
+        <source>{$object :i:inflect definiteness=definite} {is :i:inflect number=$object} on.</source>
         <print>the lights are on.</print>
     </test>
     <test>
         <params>
             <param name="object" type="String"><value>light</value></param>
         </params>
-        <source>.local $num = {$object :inflect to=number} .match $num
+        <source>.local $num = {$object :i:inflect to=number} .match $num
 plural {{The {$object} are on}}
 * {{The {$object} is on}}
 </source>
@@ -32,7 +32,7 @@ plural {{The {$object} are on}}
         <params>
             <param name="object" type="String"><value>lights</value></param>
         </params>
-        <source>.local $num = {$object :inflect to=number} .match $num
+        <source>.local $num = {$object :i:inflect to=number} .match $num
 plural {{The {$object} are on}}
 * {{The {$object} is on}}
 </source>
@@ -42,7 +42,7 @@ plural {{The {$object} are on}}
         <params>
             <param name="object" type="String"><value>lights on the front porch</value></param>
         </params>
-        <source>.local $num = {$object :inflect to=number} .match $num
+        <source>.local $num = {$object :i:inflect to=number} .match $num
 plural {{The {$object} are on}}
 * {{The {$object} is on}}
 </source>
@@ -52,7 +52,7 @@ plural {{The {$object} are on}}
         <params>
             <param name="object" type="String"><value>light on the front porch</value></param>
         </params>
-        <source>.local $num = {$object :inflect to=number} .match $num
+        <source>.local $num = {$object :i:inflect to=number} .match $num
 plural {{The {$object} are on}}
 * {{The {$object} is on}}
 </source>
@@ -62,28 +62,28 @@ plural {{The {$object} are on}}
         <params>
             <param name="relationship" type="String"><value>brother</value></param>
         </params>
-        <source>I didn't find {$relationship :inflect definiteness=indefinite} in your contacts. What is your {$relationship :inflect case=genitive} name?</source>
+        <source>I didn't find {$relationship :i:inflect definiteness=indefinite} in your contacts. What is your {$relationship :i:inflect case=genitive} name?</source>
         <print>I didn't find a brother in your contacts. What is your brother’s name?</print>
     </test>
     <test>
         <params>
             <param name="relationship" type="String"><value>aunt</value></param>
         </params>
-        <source>I didn't find {$relationship :inflect definiteness=indefinite} in your contacts. What is your {$relationship :inflect case=genitive} name?</source>
+        <source>I didn't find {$relationship :i:inflect definiteness=indefinite} in your contacts. What is your {$relationship :i:inflect case=genitive} name?</source>
         <print>I didn't find an aunt in your contacts. What is your aunt’s name?</print>
     </test>
     <test>
         <params>
             <param name="oridinalNum" type="Number"><value>4</value></param>
         </params>
-        <source>Your {$oridinalNum :numeral withStyle=asWords withVariant=ordinal} meeting has been canceled</source>
+        <source>Your {$oridinalNum :i:numeral withStyle=asWords withVariant=ordinal} meeting has been canceled</source>
         <print>Your fourth meeting has been canceled</print>
     </test>
     <test>
         <params>
             <param name="count" type="Number"><value>4</value></param>
         </params>
-        <source>You have {$count :numeral withStyle=asSpokenWords} messages</source>
+        <source>You have {$count :i:numeral withStyle=asSpokenWords} messages</source>
         <print>You have 4 messages</print>
         <speak>You have four messages</speak>
     </test>
@@ -92,7 +92,7 @@ plural {{The {$object} are on}}
             <param name="n" type="Number"><value>1</value></param>
             <param name="unit" type="String"><value>day</value></param>
         </params>
-        <source>Your meeting is in {$unit :quantify withValue=$n} from now</source>
+        <source>Your meeting is in {$unit :i:quantify withValue=$n} from now</source>
         <print>Your meeting is in 1 day from now</print>
     </test>
     <test>
@@ -100,7 +100,7 @@ plural {{The {$object} are on}}
             <param name="n" type="Number"><value>2</value></param>
             <param name="unit" type="String"><value>day</value></param>
         </params>
-        <source>Your meeting is in {$unit :quantify withValue=$n} from now</source>
+        <source>Your meeting is in {$unit :i:quantify withValue=$n} from now</source>
         <print>Your meeting is in 2 days from now</print>
     </test>
     <test>
@@ -108,21 +108,21 @@ plural {{The {$object} are on}}
             <param name="n" type="Number"><value>3</value></param>
             <param name="unit" type="String"><value>church</value></param>
         </params>
-        <source>{$unit :quantify withValue=$n} were found nearby</source>
+        <source>{$unit :i:quantify withValue=$n} were found nearby</source>
         <print>3 churches were found nearby</print>
     </test>
     <test>
         <params>
             <param name="word" type="String"><value>valid</value></param>
         </params>
-        <source>{$word :inflect bogusFeature=value}</source>
+        <source>{$word :i:inflect bogusFeature=value}</source>
         <print error="U_MF_FORMATTING_ERROR"/>
     </test>
     <test>
         <params>
             <param name="word" type="String"><value>valid</value></param>
         </params>
-        <source>.local $v = {$word :inflect bogusFeature=value} .match $v
+        <source>.local $v = {$word :i:inflect bogusFeature=value} .match $v
 * {{fallback}}
 </source>
         <print error="U_MF_SELECTOR_ERROR"/>
@@ -131,14 +131,14 @@ plural {{The {$object} are on}}
         <params>
             <param name="word" type="String"><value>valid</value></param>
         </params>
-        <source>{$word :inflect to=bogus}</source>
+        <source>{$word :i:inflect to=bogus}</source>
         <print>valid</print>
     </test>
     <test>
         <params>
             <param name="word" type="String"><value>valid</value></param>
         </params>
-        <source>.local $v = {$word :inflect to=bogus} .match $v
+        <source>.local $v = {$word :i:inflect to=bogus} .match $v
 valid {{is valid}}
 * {{other}}
 </source>
@@ -146,22 +146,22 @@ valid {{is valid}}
     </test>
     <test>
         <params><param name="p" type="String"><value>her</value></param></params>
-        <source>{$p :pronoun gender=masculine}</source>
+        <source>{$p :i:pronoun gender=masculine}</source>
         <print>his</print>
     </test>
     <test>
         <params><param name="p" type="PronounConcept"><value>theirs</value></param></params>
-        <source>{$p :pronoun gender=masculine}</source>
+        <source>{$p :i:pronoun gender=masculine}</source>
         <print>his</print>
     </test>
     <test>
         <params><param name="p" type="PronounConcept"><value>he</value></param></params>
-        <source>{theirs :pronoun gender=$p}</source>
+        <source>{theirs :i:pronoun gender=$p}</source>
         <print>his</print>
     </test>
     <test>
         <params><param name="p" type="String"><value>she</value></param></params>
-        <source>.local $g = {$p :pronoun to=gender} .match $g
+        <source>.local $g = {$p :i:pronoun to=gender} .match $g
 feminine {{feminine phrase}}
 masculine {{masculine phrase}}
 * {{other phrase}}
@@ -170,7 +170,7 @@ masculine {{masculine phrase}}
     </test>
     <test>
         <params><param name="p" type="String"><value>garbage</value></param></params>
-        <source>{$p :pronoun}</source>
+        <source>{$p :i:pronoun}</source>
         <print error="U_MF_FORMATTING_ERROR"/>
     </test>
     <test>
@@ -178,7 +178,7 @@ masculine {{masculine phrase}}
             <param name="p" type="String"><value>her</value></param>
             <param name="obj" type="String"><value>cat</value></param>
         </params>
-        <source>{$p :pronoun to=gender withReferent=$obj}</source>
+        <source>{$p :i:pronoun to=gender withReferent=$obj}</source>
         <print error="U_MF_FORMATTING_ERROR"/>
     </test>
     <test>
@@ -189,7 +189,7 @@ masculine {{masculine phrase}}
                 <value constraint="third singular genitive">xyr</value>
             </param>
         </params>
-        <source>{$np :pronoun case=accusative} {$np :pronoun}</source>
+        <source>{$np :i:pronoun case=accusative} {$np :i:pronoun}</source>
         <print>xem xe</print>
     </test>
 </message2test>

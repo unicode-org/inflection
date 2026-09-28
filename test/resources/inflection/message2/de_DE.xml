@@ -8,7 +8,7 @@
         <params>
             <param name="name" type="String"><value>Bank</value></param>
         </params>
-        <source>.local $defArticleInPreposition = {$name :inflect number=singular case=accusative to=defArticleInPreposition} .match $defArticleInPreposition
+        <source>.local $defArticleInPreposition = {$name :i:inflect number=singular case=accusative to=defArticleInPreposition} .match $defArticleInPreposition
 |in die| {{The defArticleInPreposition of '{$name}' is 'in die'.}}
 * {{The defArticleInPreposition of '{$name}' is unexpectedly '$defArticleInPreposition'.}}
 </source>
@@ -18,7 +18,7 @@
         <params>
             <param name="name" type="String"><value>Fundort</value></param>
         </params>
-        <source>.local $withDefArticleInPreposition = {$name :inflect number=singular case=dative to=withDefArticleInPreposition} .match $withDefArticleInPreposition
+        <source>.local $withDefArticleInPreposition = {$name :i:inflect number=singular case=dative to=withDefArticleInPreposition} .match $withDefArticleInPreposition
 |im Fundort| {{The withDefArticleInPreposition of '{$name}' is 'im Fundort'.}}
 * {{The withDefArticleInPreposition of '{$name}' is something else.}}
 </source>
@@ -28,7 +28,7 @@
         <params>
             <param name="name" type="String"><value>Bank</value></param>
         </params>
-        <source>The defArticleInPreposition is {$name :inflect number=singular case=accusative to=defArticleInPreposition}.</source>
+        <source>The defArticleInPreposition is {$name :i:inflect number=singular case=accusative to=defArticleInPreposition}.</source>
         <print>The defArticleInPreposition is in die.</print>
     </test>
 </message2test>

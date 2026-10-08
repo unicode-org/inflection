@@ -19,10 +19,11 @@ static void checkForFailure(UErrorCode* status)
 std::vector<std::u16string> convertToPropertyNames(const IDDictionaryMetaData* dictionary, int64_t value)
 {
     std::vector<std::u16string> result;
-    char16_t name[64] = {  };
-    while (value != 0) {
-        const auto singleProperty = ((int64_t)(((uint64_t)(value ^ (value - 1))) >> 1)) + 1;
-        value &= value - 1;
+    char16_t name[64] = { };
+    auto uValue = static_cast<uint64_t>(value);
+    while (uValue != 0) {
+        const auto singleProperty = static_cast<int64_t>(((uValue ^ (uValue - 1)) >> 1) + 1);
+        uValue &= uValue - 1;
         auto error = U_ZERO_ERROR;
         int len = iddmd_getPropertyName(dictionary, singleProperty, name, std::size(name), &error);
         REQUIRE(U_SUCCESS(error));

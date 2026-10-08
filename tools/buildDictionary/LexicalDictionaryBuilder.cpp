@@ -125,13 +125,12 @@ static ::std::map<int64_t, int64_t> createBitsToContainerBitsMap(
     return valueBitsToContainerBits;
 }
 
-static int64_t mapValueToContainerBits(int64_t binaryProperties, std::map<int64_t, int64_t> bitmap)
+static int64_t mapValueToContainerBits(uint64_t binaryProperties, std::map<int64_t, int64_t> bitmap)
 {
     int64_t result = 0;
-    auto uBinaryProperties = static_cast<uint64_t>(binaryProperties);
-    while (uBinaryProperties != 0) {
-        auto singleProperty = static_cast<int64_t>(((uBinaryProperties ^ (uBinaryProperties - 1)) >> 1) + 1);
-        uBinaryProperties &= uBinaryProperties - 1;
+    while (binaryProperties != 0) {
+        auto singleProperty = ((binaryProperties ^ (binaryProperties - 1)) >> 1) + 1;
+        binaryProperties &= binaryProperties - 1;
         auto newBitItr = bitmap.find(singleProperty);
         if (newBitItr == bitmap.end()) {
             throw inflection::exception::IllegalArgumentException(u"bit not found in bitmap");

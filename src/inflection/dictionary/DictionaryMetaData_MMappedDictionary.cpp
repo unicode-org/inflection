@@ -98,13 +98,12 @@ std::optional<::std::u16string> DictionaryMetaData_MMappedDictionary::getTypeOfV
     return {};
 }
 
-std::vector<::std::u16string> DictionaryMetaData_MMappedDictionary::getTypesOfValues(int64_t value) const
+std::vector<::std::u16string> DictionaryMetaData_MMappedDictionary::getTypesOfValues(uint64_t value) const
 {
     ::std::vector<::std::u16string> result;
-    auto uValue = static_cast<uint64_t>(value);
-    while (uValue != 0) {
-        const auto singleProperty = static_cast<int64_t>(((uValue ^ (uValue - 1)) >> 1) + 1);
-        uValue &= uValue - 1;
+    while (value != 0) {
+        const auto singleProperty = ((value ^ (value - 1)) >> 1) + 1;
+        value &= value - 1;
         const auto name = getTypeOfValue(singleProperty);
         if (name.has_value()) {
             result.push_back(name.value());

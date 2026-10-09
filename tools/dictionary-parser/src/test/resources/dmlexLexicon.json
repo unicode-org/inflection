@@ -1,0 +1,92 @@
+{
+  "uri": "http://example.org/lexicon/en",
+  "langCode": "en",
+  "entries": [
+    {
+      "id": "dmlex-1",
+      "headword": "cat",
+      "partOfSpeech": ["noun"],
+      "labels": ["masculine"],
+      "inflectedForms": [
+        {
+          "id": "dmlex-1-f1",
+          "value": "cat",
+          "labels": ["singular"]
+        },
+        {
+          "id": "dmlex-1-f2",
+          "value": "cats",
+          "labels": ["plural"]
+        }
+      ]
+    },
+    {
+      "id": "dmlex-2",
+      "headword": "bat",
+      "partOfSpeech": ["noun"],
+      "labels": ["masculine"],
+      "inflectedForms": [
+        {
+          "id": "dmlex-2-f1",
+          "value": "bat",
+          "labels": ["singular"]
+        },
+        {
+          "id": "dmlex-2-f2",
+          "value": "bats",
+          "labels": ["plural"]
+        }
+      ]
+    },
+    {
+      "id": "dmlex-3",
+      "headword": "apple",
+      "partOfSpeech": "noun",
+      "pronunciations": [
+        {
+          "transcription": "ˈæp.əl",
+          "scheme": "IPA"
+        }
+      ],
+      "inflectedForms": [
+        {
+          "id": "dmlex-3-f1",
+          "value": "apple",
+          "labels": [
+            { "tag": "singular" }
+          ]
+        },
+        {
+          "id": "dmlex-3-f2",
+          "value": "apples",
+          "labels": [
+            { "tag": "plural" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dmlex-4",
+      "headword": "wow",
+      "partOfSpeech": ["interjection"]
+    },
+    {
+      "id": "dmlex-5",
+      "headword": "London",
+      "partOfSpeech": ["properNoun"],
+      "inflectedForms": [
+        {
+          "id": "dmlex-5-f1",
+          "value": "London",
+          "labels": ["singular"]
+        }
+      ]
+    },
+    {
+      "id": "dmlex-fr-ignored",
+      "headword": "bonjour",
+      "langCode": "fr",
+      "partOfSpeech": ["interjection"]
+    }
+  ]
+}

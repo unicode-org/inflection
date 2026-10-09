@@ -16,6 +16,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
 
@@ -78,14 +79,15 @@ final class DocumentState {
                 new FileOutputStream(parserOptions.lexicalDictionaryFilename), StandardCharsets.UTF_8))) {
             for (Map.Entry<String, DictionaryEntry> entry : dictionary.entrySet()) {
                 DictionaryEntry dictionaryEntry = entry.getValue();
-                if (dictionaryEntry.getGrammemes().isEmpty()) {
+                Set<Enum<?>> grammemes = dictionaryEntry.getGrammemes();
+                if (grammemes.isEmpty()) {
                     // We don't care about only known words. We need grammeme data
                     unclassifiedTerms++;
                     continue;
                 }
                 // Print the dictionary entry to the .lst file.
                 lexicalDictionaryStream.println(dictionaryEntry.toString(isInflectional()));
-                for (Enum<?> grammeme : dictionaryEntry.getGrammemes()) {
+                for (Enum<?> grammeme : grammemes) {
                     grammemeCounts.merge(grammeme, 1, Integer::sum);
                 }
             }

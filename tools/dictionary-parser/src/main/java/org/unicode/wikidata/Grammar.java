@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -1175,9 +1176,115 @@ public final class Grammar {
         TYPEMAP.put("Q1909485", EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // quantifier, but it might be used frequently as an indefinite noun
         TYPEMAP.put("Q694268", EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // collective
         TYPEMAP.put("Q1450795", EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // singulative
+
+        // Seed TYPEMAP with all canonical grammeme names from DEFAULTMAP (e.g. "noun", "singular",
+        // "proper-noun") so both Wikidata Q-IDs and DMLex string labels can be resolved through
+        // a single read-only lookup table.
+        DEFAULTMAP.forEach((key, value) -> TYPEMAP.putIfAbsent(key, Set.of(value)));
+
+        // Standard OASIS DMLex and Universal Dependencies / morphological shorthand tag aliases.
+        // Part-of-speech abbreviations:
+        TYPEMAP.putIfAbsent("propn", EnumSet.of(PartOfSpeech.PROPER_NOUN));
+        TYPEMAP.putIfAbsent("adj", EnumSet.of(PartOfSpeech.ADJECTIVE));
+        TYPEMAP.putIfAbsent("adv", EnumSet.of(PartOfSpeech.ADVERB));
+        TYPEMAP.putIfAbsent("adp", EnumSet.of(PartOfSpeech.ADPOSITION));
+        TYPEMAP.putIfAbsent("prep", EnumSet.of(PartOfSpeech.PREPOSITION));
+        TYPEMAP.putIfAbsent("conj", EnumSet.of(PartOfSpeech.CONJUNCTION));
+        TYPEMAP.putIfAbsent("cconj", EnumSet.of(PartOfSpeech.CONJUNCTION));
+        TYPEMAP.putIfAbsent("sconj", EnumSet.of(PartOfSpeech.CONJUNCTION));
+        TYPEMAP.putIfAbsent("det", EnumSet.of(PartOfSpeech.DETERMINER));
+        TYPEMAP.putIfAbsent("intj", EnumSet.of(PartOfSpeech.INTERJECTION));
+        TYPEMAP.putIfAbsent("num", EnumSet.of(PartOfSpeech.NUMERAL));
+        TYPEMAP.putIfAbsent("part", EnumSet.of(PartOfSpeech.PARTICLE));
+        TYPEMAP.putIfAbsent("pron", EnumSet.of(PartOfSpeech.PRONOUN));
+
+        // Person aliases:
+        TYPEMAP.putIfAbsent("first-person", EnumSet.of(Person.FIRST));
+        TYPEMAP.putIfAbsent("1st-person", EnumSet.of(Person.FIRST));
+        TYPEMAP.putIfAbsent("second-person", EnumSet.of(Person.SECOND));
+        TYPEMAP.putIfAbsent("2nd-person", EnumSet.of(Person.SECOND));
+        TYPEMAP.putIfAbsent("third-person", EnumSet.of(Person.THIRD));
+        TYPEMAP.putIfAbsent("3rd-person", EnumSet.of(Person.THIRD));
+
+        // Number abbreviations:
+        TYPEMAP.putIfAbsent("sg", EnumSet.of(Number.SINGULAR));
+        TYPEMAP.putIfAbsent("sing", EnumSet.of(Number.SINGULAR));
+        TYPEMAP.putIfAbsent("pl", EnumSet.of(Number.PLURAL));
+        TYPEMAP.putIfAbsent("plur", EnumSet.of(Number.PLURAL));
+
+        // Gender abbreviations:
+        TYPEMAP.putIfAbsent("masc", EnumSet.of(Gender.MASCULINE));
+        TYPEMAP.putIfAbsent("fem", EnumSet.of(Gender.FEMININE));
+        TYPEMAP.putIfAbsent("neut", EnumSet.of(Gender.NEUTER));
+        TYPEMAP.putIfAbsent("common-gender", EnumSet.of(Gender.COMMON));
+
+        // Case abbreviations:
+        TYPEMAP.putIfAbsent("nom", EnumSet.of(Case.NOMINATIVE));
+        TYPEMAP.putIfAbsent("acc", EnumSet.of(Case.ACCUSATIVE));
+        TYPEMAP.putIfAbsent("gen", EnumSet.of(Case.GENITIVE));
+        TYPEMAP.putIfAbsent("dat", EnumSet.of(Case.DATIVE));
+        TYPEMAP.putIfAbsent("ins", EnumSet.of(Case.INSTRUMENTAL));
+        TYPEMAP.putIfAbsent("inst", EnumSet.of(Case.INSTRUMENTAL));
+        TYPEMAP.putIfAbsent("loc", EnumSet.of(Case.LOCATIVE));
+        TYPEMAP.putIfAbsent("voc", EnumSet.of(Case.VOCATIVE));
+        TYPEMAP.putIfAbsent("abl", EnumSet.of(Case.ABLATIVE));
+
+        // Definiteness abbreviations:
+        TYPEMAP.putIfAbsent("def", EnumSet.of(Definiteness.DEFINITE));
+        TYPEMAP.putIfAbsent("indef", EnumSet.of(Definiteness.INDEFINITE));
+        TYPEMAP.putIfAbsent("construct-state", EnumSet.of(Definiteness.CONSTRUCT));
+
+        // Hyphenated aliases for compound enums declared without underscores:
+        TYPEMAP.putIfAbsent("non-finite", EnumSet.of(VerbType.NONFINITE));
+        TYPEMAP.putIfAbsent("non-human", EnumSet.of(Animacy.NONHUMAN));
     }
 
+    /**
+     * Normalizes a grammeme label into canonical lowercase hyphenated form (e.g., converting
+     * camelCase {@code "properNoun"}, snake_case {@code "proper_noun"}, or uppercase
+     * {@code "PROPER_NOUN"} to {@code "proper-noun"}).
+     */
+    static String normalizeGrammemeKey(String grammeme) {
+        if (grammeme == null) {
+            return "";
+        }
+        String trimmed = grammeme.trim();
+        StringBuilder sb = new StringBuilder(trimmed.length() + 4);
+        for (int i = 0; i < trimmed.length(); i++) {
+            char c = trimmed.charAt(i);
+            if (c == '_' || Character.isWhitespace(c)) {
+                if (sb.length() > 0 && sb.charAt(sb.length() - 1) != '-') {
+                    sb.append('-');
+                }
+            } else if (Character.isUpperCase(c)) {
+                if (i > 0) {
+                    char prev = trimmed.charAt(i - 1);
+                    if (Character.isLowerCase(prev) || Character.isDigit(prev)) {
+                        sb.append('-');
+                    }
+                }
+                sb.append(Character.toLowerCase(c));
+            } else {
+                sb.append(Character.toLowerCase(c));
+            }
+        }
+        return sb.toString().toLowerCase(Locale.ROOT);
+    }
+
+    /**
+     * Looks up the default mapped grammeme enums for a Wikidata Q-ID or DMLex grammatical label
+     * in the read-only {@link #TYPEMAP} table. Checks for an exact match first (fast path for
+     * Q-IDs like {@code "Q1084"} and canonical strings like {@code "proper-noun"}), then falls
+     * back to a normalized key lookup via {@link #normalizeGrammemeKey(String)}.
+     */
     static Set<? extends Enum<?>> getMappedGrammemes(String grammeme) {
-        return TYPEMAP.get(grammeme);
+        if (grammeme == null) {
+            return null;
+        }
+        Set<? extends Enum<?>> mapped = TYPEMAP.get(grammeme);
+        if (mapped != null) {
+            return mapped;
+        }
+        return TYPEMAP.get(normalizeGrammemeKey(grammeme));
     }
 }

@@ -20,5 +20,29 @@ These tools generate files that describes the grammatical properties of words fr
     ./ParseWikidata <THE_OPTIONS_FROM_STEP_3> \
     --inflections ../../resources/org/unicode/inflection/dictionary/inflectional_XX.xml \
     --dictionary ../../resources/org/unicode/inflection/dictionary/dictionary_XX.lst \
-    <wikidata-NNNNNNNN-lexemes.json[.bz2]>
+    --wikidata <wikidata-NNNNNNNN-lexemes.json[.bz2]>
 ```
+
+## Usage for OASIS DMLex and Multi-Source Inputs
+
+`ParseWikidata` also supports [OASIS DMLex v1.0](https://docs.oasis-open.org/lexidma/dmlex/v1.0/dmlex-v1.0.html) JSON files via `--dmlex`, either standalone (bypassing Wikidata completely) or combined with `--wikidata`:
+
+- **Standalone DMLex (single or multiple files)**:
+```
+    ./ParseWikidata --language <lang> \
+    --inflections inflectional_<lang>.xml \
+    --dictionary dictionary_<lang>.lst \
+    --dmlex <custom1.json> [<custom2.json> ...]
+```
+- **Multi-Source (Wikidata + DMLex overlay)**:
+```
+    ./ParseWikidata <OPTIONS> \
+    --inflections inflectional_<lang>.xml \
+    --dictionary dictionary_<lang>.lst \
+    --wikidata <wikidata-lexemes.json[.bz2]> \
+    --dmlex <supplement1.json> [<supplement2.json> ...]
+```
+- **Conflict Resolution (`--merge-conflicts`)**:
+  - By default (`--merge-conflicts=false`), later source files take higher precedence per `(surfaceForm, PartOfSpeech)` and `(lemma, PartOfSpeech)` (overwriting conflicting entries of the same part of speech from earlier files while preserving distinct parts of speech).
+  - Pass `--merge-conflicts=true` (or `--merge-conflicts`) to merge conflicting entries across files instead of overwriting.
+

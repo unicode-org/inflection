@@ -90,6 +90,9 @@ if("${CMAKE_BUILD_TYPE}" MATCHES "MinSizeRel" OR "${CMAKE_BUILD_TYPE}" MATCHES "
         # versioned LLVMgold.so can drift out of sync with the compiler and break LTO linking.
         add_link_options(-fuse-ld=lld)
     endif()
+elseif("${CMAKE_BUILD_TYPE}" MATCHES "Debug" AND NOT MSVC)
+    add_compile_options(-fsanitize=undefined -fno-sanitize-recover=undefined)
+    add_link_options(-fsanitize=undefined -fno-sanitize-recover=undefined)
 endif()
 
 if(ALIGNMENT_TEST)

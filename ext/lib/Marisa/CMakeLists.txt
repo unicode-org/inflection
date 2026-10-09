@@ -41,6 +41,11 @@ else()
 endif() # (DEFINED ENV{MARISA_ROOT})
 
 
+if("${CMAKE_BUILD_TYPE}" MATCHES "Debug" AND NOT MSVC)
+    # marisa-trie (keyset.cc, grimoire/vector/vector.h) passes nullptr to std::memcpy with length 0.
+    set_source_files_properties(${MARISA_SOURCES} PROPERTIES COMPILE_OPTIONS "-fno-sanitize=nonnull-attribute")
+endif()
+
 if(XCODE)
     add_library(marisa_objs INTERFACE)
     target_sources(marisa_objs INTERFACE ${MARISA_SOURCES})

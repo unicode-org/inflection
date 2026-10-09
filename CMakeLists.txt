@@ -91,11 +91,8 @@ if("${CMAKE_BUILD_TYPE}" MATCHES "MinSizeRel" OR "${CMAKE_BUILD_TYPE}" MATCHES "
         add_link_options(-fuse-ld=lld)
     endif()
 elseif("${CMAKE_BUILD_TYPE}" MATCHES "Debug" AND NOT MSVC)
-    # Enable UBSan in Debug builds. Exclude:
-    # - vptr: avoids false positives across shared library boundaries with -fvisibility=hidden.
-    # - nonnull-attribute: third-party marisa-trie (keyset.cc) calls std::memcpy(nullptr, ptr, 0) when reserving a zero-length key.
-    add_compile_options(-fsanitize=undefined -fno-sanitize=vptr,nonnull-attribute -fno-sanitize-recover=undefined)
-    add_link_options(-fsanitize=undefined -fno-sanitize=vptr,nonnull-attribute -fno-sanitize-recover=undefined)
+    add_compile_options(-fsanitize=undefined -fno-sanitize-recover=undefined)
+    add_link_options(-fsanitize=undefined -fno-sanitize-recover=undefined)
 endif()
 
 if(ALIGNMENT_TEST)

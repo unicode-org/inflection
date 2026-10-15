@@ -9,8 +9,8 @@
             <param name="name" type="String"><value>Bank</value></param>
         </params>
         <source>.local $defArticleInPreposition = {$name :i:inflect number=singular case=accusative to=defArticleInPreposition} .match $defArticleInPreposition
-|in die| {{The defArticleInPreposition of '{$name}' is 'in die'.}}
-* {{The defArticleInPreposition of '{$name}' is unexpectedly '$defArticleInPreposition'.}}
+|in die| {{The defArticleInPreposition of '{$name :i:inflect}' is 'in die'.}}
+* {{The defArticleInPreposition of '{$name :i:inflect}' is unexpectedly '$defArticleInPreposition'.}}
 </source>
         <print>The defArticleInPreposition of 'Bank' is 'in die'.</print>
     </test>
@@ -19,8 +19,8 @@
             <param name="name" type="String"><value>Fundort</value></param>
         </params>
         <source>.local $withDefArticleInPreposition = {$name :i:inflect number=singular case=dative to=withDefArticleInPreposition} .match $withDefArticleInPreposition
-|im Fundort| {{The withDefArticleInPreposition of '{$name}' is 'im Fundort'.}}
-* {{The withDefArticleInPreposition of '{$name}' is something else.}}
+|im Fundort| {{The withDefArticleInPreposition of '{$name :i:inflect}' is 'im Fundort'.}}
+* {{The withDefArticleInPreposition of '{$name :i:inflect}' is something else.}}
 </source>
         <print>The withDefArticleInPreposition of 'Fundort' is 'im Fundort'.</print>
     </test>

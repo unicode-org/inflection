@@ -8,7 +8,7 @@
         <params>
             <param name="object" type="String"><value>lights</value></param>
         </params>
-        <source>The {$object} {is :i:inflect number=$object} on.</source>
+        <source>The {$object :i:inflect} {is :i:inflect number=$object} on.</source>
         <print>The lights are on.</print>
     </test>
     <test>
@@ -23,8 +23,8 @@
             <param name="object" type="String"><value>light</value></param>
         </params>
         <source>.local $num = {$object :i:inflect to=number} .match $num
-plural {{The {$object} are on}}
-* {{The {$object} is on}}
+plural {{The {$object :i:inflect} are on}}
+* {{The {$object :i:inflect} is on}}
 </source>
         <print>The light is on</print>
     </test>
@@ -33,8 +33,8 @@ plural {{The {$object} are on}}
             <param name="object" type="String"><value>lights</value></param>
         </params>
         <source>.local $num = {$object :i:inflect to=number} .match $num
-plural {{The {$object} are on}}
-* {{The {$object} is on}}
+plural {{The {$object :i:inflect} are on}}
+* {{The {$object :i:inflect} is on}}
 </source>
         <print>The lights are on</print>
     </test>
@@ -43,8 +43,8 @@ plural {{The {$object} are on}}
             <param name="object" type="String"><value>lights on the front porch</value></param>
         </params>
         <source>.local $num = {$object :i:inflect to=number} .match $num
-plural {{The {$object} are on}}
-* {{The {$object} is on}}
+plural {{The {$object :i:inflect} are on}}
+* {{The {$object :i:inflect} is on}}
 </source>
         <print>The lights on the front porch are on</print>
     </test>
@@ -53,8 +53,8 @@ plural {{The {$object} are on}}
             <param name="object" type="String"><value>light on the front porch</value></param>
         </params>
         <source>.local $num = {$object :i:inflect to=number} .match $num
-plural {{The {$object} are on}}
-* {{The {$object} is on}}
+plural {{The {$object :i:inflect} are on}}
+* {{The {$object :i:inflect} is on}}
 </source>
         <print>The light on the front porch is on</print>
     </test>
@@ -125,7 +125,7 @@ plural {{The {$object} are on}}
         <source>.local $v = {$word :i:inflect bogusFeature=value} .match $v
 * {{fallback}}
 </source>
-        <print error="U_MF_SELECTOR_ERROR"/>
+        <print error="U_MF_FORMATTING_ERROR"/>
     </test>
     <test>
         <params>

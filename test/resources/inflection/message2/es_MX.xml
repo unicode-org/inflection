@@ -16,12 +16,12 @@
             <param name="name" type="String"><value>gato</value></param>
         </params>
         <source>.local $var1 = {$name :i:inflect to=gender} .local $var2 = {$name :i:inflect to=number} .match $var1 $var2
-masculine 2 {{{$name} is Masculine &amp; 2}}
-feminine singular {{{$name} is Feminine &amp; Singular}}
-foo 4 {{{$name} is Foo &amp; 4}}
-masculine singular {{{$name} is Masculine &amp; Singular}}
-hello singular {{{$name} is Hello &amp; Singular}}
-* * {{{$name} is other}}
+masculine 2 {{{$name :i:inflect} is Masculine &amp; 2}}
+feminine singular {{{$name :i:inflect} is Feminine &amp; Singular}}
+foo 4 {{{$name :i:inflect} is Foo &amp; 4}}
+masculine singular {{{$name :i:inflect} is Masculine &amp; Singular}}
+hello singular {{{$name :i:inflect} is Hello &amp; Singular}}
+* * {{{$name :i:inflect} is other}}
 </source>
         <print>gato is Masculine &amp; Singular</print>
     </test>

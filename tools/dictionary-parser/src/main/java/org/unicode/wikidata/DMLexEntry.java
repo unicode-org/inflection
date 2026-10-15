@@ -16,11 +16,19 @@ import java.util.List;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DMLexEntry {
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class Lexicon {
+        public String langCode;
+        public List<DMLexEntry> entries;
+    }
+
     public String id;
     public String headword;
     public String langCode;
 
-    public List<String> partOfSpeech = new ArrayList<>();
+    @JsonAlias({"pos"})
+    @JsonDeserialize(using = DMLexStringListDeserializer.class)
+    public List<String> partOfSpeech;
 
     public List<String> labels = new ArrayList<>();
 
@@ -29,15 +37,6 @@ public class DMLexEntry {
 
     @JsonAlias({"forms"})
     public List<DMLexInflectedForm> inflectedForms;
-
-    @JsonSetter("partOfSpeech")
-    @JsonAlias({"pos"})
-    @JsonDeserialize(using = DMLexStringListDeserializer.class)
-    public void addPartOfSpeech(List<String> incoming) {
-        if (incoming != null) {
-            this.partOfSpeech.addAll(incoming);
-        }
-    }
 
     @JsonSetter("labels")
     @JsonAlias({"grammaticalFeatures", "features", "tag", "tags"})

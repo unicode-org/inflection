@@ -43,6 +43,6 @@ These tools generate files that describes the grammatical properties of words fr
     --dmlex <supplement1.json> [<supplement2.json> ...]
 ```
 - **Conflict Resolution (`--merge-conflicts`)**:
-  - By default (`--merge-conflicts=false`), later source files take higher precedence per `(surfaceForm, PartOfSpeech)` and `(lemma, PartOfSpeech)` (overwriting conflicting entries of the same part of speech from earlier files while preserving distinct parts of speech).
-  - Pass `--merge-conflicts=true` (or `--merge-conflicts`) to merge conflicting entries across files instead of overwriting.
+  - By default (`--merge-conflicts=false`), files are processed in CLI order and a conflicting surface form in a later source file overrides all previous grammemes and inflection patterns for that surface form.
+  - Pass `--merge-conflicts=true` (or `--merge-conflicts`) to merge grammemes and inflection patterns across files, placing the later source's conflicting pattern first in priority.
 

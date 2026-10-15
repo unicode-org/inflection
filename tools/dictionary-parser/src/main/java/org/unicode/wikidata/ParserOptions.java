@@ -13,7 +13,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumSet;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -26,6 +25,7 @@ import java.util.TreeSet;
 import java.util.regex.Pattern;
 
 import static org.unicode.wikidata.Grammar.DEFAULTMAP;
+import static org.unicode.wikidata.Grammar.TYPEMAP;
 
 /**
  * The options to extract the data from the data source.
@@ -65,14 +65,6 @@ final class ParserOptions {
     TreeMap<TreeSet<Enum<?>>, List<TreeSet<Enum<?>>>> expandGramemes;
     TreeMap<String, TreeSet<String>> additionalGrammemesDict;
     TreeMap<String, LinkedHashMap<Grammar.Sound, Pattern>> claimsToSound;
-    // Per-run string-to-grammeme overrides configured via --map-grammeme or Q-ID arguments to
-    // --ignore-property / --ignore-entries-with-grammemes. Stored per ParserOptions instance so
-    // static Grammar.TYPEMAP is never mutated in place.
-    private final Map<String, Set<? extends Enum<?>>> customTypeMap = new HashMap<>();
-    // Per-run enum overrides configured via --ignore-property or --ignore-entries-with-grammemes
-    // when specified by grammeme name (e.g. "countable", "shortForm"). Any resolved grammeme enum
-    // present in this map is replaced with its configured Grammar.Ignorable token during lookup.
-    private final Map<Enum<?>, Grammar.Ignorable> ignoredGrammemes = new HashMap<>();
 
     ArrayList<String> sourceFilenames;
     ArrayList<SourceInput> sourceInputs;
@@ -87,7 +79,7 @@ final class ParserOptions {
         System.err.println("\nOPTIONS");
         System.err.println(WIKIDATA_FILE + " <file1> [<file2> ...]\tOne or more Wikidata lexeme JSON/bz2 files (space- or comma-separated)");
         System.err.println(DMLEX_FILE + " <file1> [<file2> ...]\tOne or more OASIS DMLex JSON files (space- or comma-separated)");
-        System.err.println(MERGE_CONFLICTS + "[={true|false}]\tWhen true, merge conflicting cross-file entries of the same part of speech instead of overwriting, default: false");
+        System.err.println(MERGE_CONFLICTS + "[={true|false}]\tWhen true, merge conflicting cross-file surface forms (with the later source's pattern first) instead of overwriting, default: false");
         System.err.println(INFLECTIONS_FILE + " <file.xml>\tthe file for the inflectional patterns to be generated, default: inflectional.xml");
         System.err.println(DICTIONARY_FILE + " <file.lst>\tthe file for the lexical dictionary to be generated, default: dictionary.lst");
         System.err.println(ADD_EXTRA_GRAMMEMES + " <file.lst>\tFile containing words with the extra grammemes to be added, provide path relative to tools/dictionary-parser/src/main/resources/org/unicode/wikidata/ (only to be used for a temporary grammeme addition)");
@@ -121,19 +113,14 @@ final class ParserOptions {
             } else if (ParserOptions.DMLEX_FILE.equals(arg) || arg.startsWith(ParserOptions.DMLEX_FILE + "=")) {
                 i = consumeSourceFiles(args, i, ParserOptions.DMLEX_FILE, SourceFormat.DMLEX);
             } else if (ParserOptions.MERGE_CONFLICTS.equals(arg) || arg.startsWith(ParserOptions.MERGE_CONFLICTS + "=")) {
-                String valueStr;
+                String valueStr = "true";
                 if (arg.startsWith(ParserOptions.MERGE_CONFLICTS + "=")) {
-                    valueStr = arg.substring((ParserOptions.MERGE_CONFLICTS + "=").length()).trim();
-                } else if (i + 1 < args.length && args[i + 1] != null
-                        && ("true".equalsIgnoreCase(args[i + 1]) || "false".equalsIgnoreCase(args[i + 1]))) {
+                    valueStr = arg.substring(ParserOptions.MERGE_CONFLICTS.length() + 1).trim();
+                } else if (i + 1 < args.length && ("true".equalsIgnoreCase(args[i + 1]) || "false".equalsIgnoreCase(args[i + 1]))) {
                     valueStr = args[++i].trim();
-                } else {
-                    valueStr = "true";
                 }
-                if ("true".equalsIgnoreCase(valueStr)) {
-                    mergeConflicts = true;
-                } else if ("false".equalsIgnoreCase(valueStr)) {
-                    mergeConflicts = false;
+                if ("true".equalsIgnoreCase(valueStr) || "false".equalsIgnoreCase(valueStr)) {
+                    mergeConflicts = Boolean.parseBoolean(valueStr);
                 } else {
                     printUsage();
                     throw new IllegalArgumentException("Invalid value for " + ParserOptions.MERGE_CONFLICTS + ": " + valueStr);
@@ -164,9 +151,7 @@ final class ParserOptions {
             } else if (ParserOptions.MAP_GRAMMEME.equals(arg)) {
                 String mapGrammeme = args[++i];
                 String[] split = mapGrammeme.split(",", 2);
-                TreeSet<Enum<?>> mappedSet = toEnumSet(split[1]);
-                customTypeMap.put(split[0], mappedSet);
-                customTypeMap.put(Grammar.normalizeGrammemeKey(split[0]), mappedSet);
+                TYPEMAP.put(split[0], toEnumSet(split[1]));
 
                 optionsUsedToInvoke.add(ParserOptions.MAP_GRAMMEME);
                 optionsUsedToInvoke.add(mapGrammeme);
@@ -194,8 +179,7 @@ final class ParserOptions {
                 posToBeInflected.clear();
 
                 for (String pos : inflectionTypes.split(",")) {
-                    posToBeInflected.add(Grammar.PartOfSpeech.valueOf(
-                            Grammar.normalizeGrammemeKey(pos).toUpperCase(Locale.ROOT).replace('-', '_')));
+                    posToBeInflected.add(Grammar.PartOfSpeech.valueOf(pos.toUpperCase(Locale.ROOT).replace('-', '_')));
                 }
 
                 optionsUsedToInvoke.add(ParserOptions.INFLECTION_TYPES);
@@ -270,27 +254,12 @@ final class ParserOptions {
     }
 
     private int consumeSourceFiles(String[] args, int i, String flagPrefix, SourceFormat format) {
-        String arg = args[i];
         int startCount = sourceInputs.size();
-        if (arg.startsWith(flagPrefix + "=")) {
-            String inlineVal = arg.substring((flagPrefix + "=").length());
-            for (String part : inlineVal.split(",")) {
-                String trimmed = part.trim();
-                if (!trimmed.isEmpty()) {
-                    sourceInputs.add(new SourceInput(trimmed, format, sourceInputs.size()));
-                    sourceFilenames.add(trimmed);
-                }
-            }
+        if (args[i].startsWith(flagPrefix + "=")) {
+            addSourceFiles(args[i].substring(flagPrefix.length() + 1), format);
         }
         while (i + 1 < args.length && args[i + 1] != null && !args[i + 1].startsWith("--")) {
-            String rawArg = args[++i];
-            for (String part : rawArg.split(",")) {
-                String trimmed = part.trim();
-                if (!trimmed.isEmpty()) {
-                    sourceInputs.add(new SourceInput(trimmed, format, sourceInputs.size()));
-                    sourceFilenames.add(trimmed);
-                }
-            }
+            addSourceFiles(args[++i], format);
         }
         if (sourceInputs.size() == startCount) {
             printUsage();
@@ -299,95 +268,49 @@ final class ParserOptions {
         return i;
     }
 
-    /**
-     * Records per-run ignore rules from {@code --ignore-property} or {@code --ignore-entries-with-grammemes}.
-     * Known grammeme names or single-enum shorthand aliases (e.g. {@code "countable"}, {@code "shortForm"},
-     * {@code "masc"}) are resolved to their non-{@link Grammar.Ignorable} enum and recorded in
-     * {@link #ignoredGrammemes} so any Q-ID or DMLex label mapping to that enum is replaced with
-     * {@code ignorable} at lookup time. Raw Wikidata Q-IDs (e.g. {@code "Q55194613"}) and unmapped
-     * DMLex tags (e.g. {@code "archaic"}, {@code "dialectal"}) are recorded in {@link #customTypeMap}.
-     */
-    void setIgnoreProperty(String[] grammemes, Grammar.Ignorable ignorable) {
-        var ignorableSet = EnumSet.of(ignorable);
-        for (String grammeme : grammemes) {
-            Enum<?> enumVal = null;
-            if (!grammeme.matches("Q\\d*")) {
-                enumVal = DEFAULTMAP.get(grammeme);
-                if (enumVal == null) {
-                    enumVal = DEFAULTMAP.get(Grammar.normalizeGrammemeKey(grammeme));
-                }
-                if (enumVal == null) {
-                    Set<? extends Enum<?>> mapped = Grammar.getMappedGrammemes(grammeme);
-                    if (mapped != null && mapped.size() == 1) {
-                        enumVal = mapped.iterator().next();
-                    }
-                }
-            }
-            if (enumVal != null && !(enumVal instanceof Grammar.Ignorable)) {
-                ignoredGrammemes.put(enumVal, ignorable);
-            } else {
-                customTypeMap.put(grammeme, ignorableSet);
-                customTypeMap.put(Grammar.normalizeGrammemeKey(grammeme), ignorableSet);
+    private void addSourceFiles(String rawArg, SourceFormat format) {
+        for (String part : rawArg.split(",")) {
+            String trimmed = part.trim();
+            if (!trimmed.isEmpty()) {
+                sourceInputs.add(new SourceInput(trimmed, format, sourceInputs.size()));
+                sourceFilenames.add(trimmed);
             }
         }
     }
 
-    /**
-     * Resolves a Wikidata Q-ID or DMLex grammatical label to its mapped {@link Grammar} enums,
-     * applying any per-run CLI overrides ({@code --map-grammeme}, {@code --ignore-property},
-     * {@code --ignore-entries-with-grammemes}) without mutating static {@link Grammar#TYPEMAP}.
-     */
-    Set<? extends Enum<?>> getMappedGrammemes(String grammeme) {
-        if (grammeme == null) {
-            return null;
-        }
-        // 1. Check per-run string overrides (--map-grammeme or Q-ID --ignore-* rules).
-        Set<? extends Enum<?>> mapped = customTypeMap.get(grammeme);
-        if (mapped == null && !customTypeMap.isEmpty()) {
-            mapped = customTypeMap.get(Grammar.normalizeGrammemeKey(grammeme));
-        }
-        // 2. Fall back to the read-only static Grammar lookup table.
-        if (mapped == null) {
-            mapped = Grammar.getMappedGrammemes(grammeme);
-        }
-        if (mapped == null || ignoredGrammemes.isEmpty()) {
-            return mapped;
-        }
-        // 3. Replace any resolved enum present in ignoredGrammemes with its Ignorable token.
-        boolean hasIgnored = false;
-        for (Enum<?> e : mapped) {
-            if (ignoredGrammemes.containsKey(e)) {
-                hasIgnored = true;
-                break;
+    void setIgnoreProperty(String[] grammemes, Grammar.Ignorable ignorable) {
+        var ignorableSet = EnumSet.of(ignorable);
+        for (String grammeme : grammemes) {
+            boolean matched = false;
+            if (!grammeme.matches("Q\\d*")) {
+                for (Map.Entry<String, Set<? extends Enum<?>>> entry : TYPEMAP.entrySet()) {
+                    for (var grammemeEnum : entry.getValue()) {
+                        if (grammemeEnum.name().equalsIgnoreCase(grammeme)
+                                || grammemeEnum.toString().equalsIgnoreCase(grammeme)) {
+                            matched = true;
+                            if (entry.getValue().size() == 1) {
+                                entry.setValue(ignorableSet);
+                            } else {
+                                entry.getValue().remove(grammemeEnum);
+                                ArrayList<Enum<?>> clone = new ArrayList<>(entry.getValue());
+                                clone.add(ignorable);
+                                entry.setValue(new HashSet<>(clone));
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+            if (!matched) {
+                TYPEMAP.put(grammeme, ignorableSet);
             }
         }
-        if (!hasIgnored) {
-            return mapped;
-        }
-        if (mapped.size() == 1) {
-            return EnumSet.of(ignoredGrammemes.get(mapped.iterator().next()));
-        }
-        Set<Enum<?>> adjusted = new HashSet<>(mapped.size());
-        for (Enum<?> e : mapped) {
-            Grammar.Ignorable replacement = ignoredGrammemes.get(e);
-            adjusted.add(replacement != null ? replacement : e);
-        }
-        return adjusted;
     }
 
     TreeSet<Enum<?>> toEnumSet(String grammemes) {
         TreeSet<Enum<?>> grammemeSet = new TreeSet<>(Inflection.ENUM_COMPARATOR);
         for (var grammeme : grammemes.split(",")) {
             var grammemeEnum = DEFAULTMAP.get(grammeme);
-            if (grammemeEnum == null) {
-                grammemeEnum = DEFAULTMAP.get(Grammar.normalizeGrammemeKey(grammeme));
-            }
-            if (grammemeEnum == null && !grammeme.matches("Q\\d*")) {
-                Set<? extends Enum<?>> mapped = Grammar.getMappedGrammemes(grammeme);
-                if (mapped != null && mapped.size() == 1) {
-                    grammemeEnum = mapped.iterator().next();
-                }
-            }
             if (grammemeEnum == null) {
                 throw new NullPointerException(grammeme + " is not a valid grammeme");
             }

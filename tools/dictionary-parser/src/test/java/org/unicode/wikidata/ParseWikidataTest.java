@@ -10,8 +10,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
@@ -33,6 +40,8 @@ class ParseWikidataTest {
     private static final String dmlexPatchFile = baseDir + "/dmlexPatch.json";
     private static final String dmlexInvalidSchemaFile = baseDir + "/dmlexInvalidSchema.json";
     private static final String LINE_END = "==============================================";
+    private static final Pattern XML_PATTERN_NAME = Pattern.compile("<pattern name=\"([^\"]+)\"");
+    private static final Pattern DICT_INFLECTION_ID = Pattern.compile("\\binflection=([0-9a-f]+)\\b");
 
     private void compareOutputs(String actual, String expected) {
         String[] actualLines = actual.split("\n");
@@ -61,6 +70,29 @@ class ParseWikidataTest {
                         line -> line.substring(line.indexOf(':') + 1).trim()));
     }
 
+    private Set<String> assertAllXmlPatternsReferencedInDictionary(String dictionaryOutput) throws Exception {
+        String xml = Files.readString(Paths.get(inflectionalFile), StandardCharsets.UTF_8);
+        Set<String> xmlPatternIds = new TreeSet<>();
+        Matcher xmlMatcher = XML_PATTERN_NAME.matcher(xml);
+        while (xmlMatcher.find()) {
+            Assertions.assertTrue(xmlPatternIds.add(xmlMatcher.group(1)),
+                    "Duplicate pattern name in inflectional XML: " + xmlMatcher.group(1));
+        }
+        Set<String> dictPatternIds = new TreeSet<>();
+        for (String line : dictionaryOutput.split("\n")) {
+            if (line.equals(LINE_END)) {
+                break;
+            }
+            Matcher dictMatcher = DICT_INFLECTION_ID.matcher(line);
+            while (dictMatcher.find()) {
+                dictPatternIds.add(dictMatcher.group(1));
+            }
+        }
+        Assertions.assertEquals(dictPatternIds, xmlPatternIds,
+                "Every <pattern name=\"X\"> in inflectional.xml must be referenced as inflection=X in dictionary.lst");
+        return xmlPatternIds;
+    }
+
     @Test
     public void missingInputFile() {
         Assertions.assertThrows(Exception.class, () -> ParseWikidata.main(new String[1]));
@@ -70,6 +102,7 @@ class ParseWikidataTest {
     public void enumTest() {
         String fieldValue = Grammar.Alternate.SPELLING.toString();
         Assertions.assertEquals("spelling", fieldValue);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> Grammar.getMappedGrammemes(null));
     }
 
     @Test
@@ -123,7 +156,7 @@ class ParseWikidataTest {
         Assertions.assertEquals("singular vowel-start noun inflection=2", entries.get("apple"));
         Assertions.assertEquals("plural vowel-start noun inflection=2", entries.get("apples"));
 
-        // London uses camelCase properNoun normalized to proper-noun
+        // London uses proper-noun
         Assertions.assertEquals("singular proper-noun inflection=3", entries.get("London"));
 
         // wow has no inflectedForms array, synthesized default form
@@ -140,7 +173,9 @@ class ParseWikidataTest {
 
     @Test
     public void multiSourceWikidataAndDMLexOverwriteTest() throws Exception {
-        // Default --merge-conflicts=false: later source (dmlexOverlayFile) overrides same-POS conflicts
+        // Default --merge-conflicts=false (Option 4 + Option 3): normal processing happens for earlier
+        // files, and when a surface form is encountered in a later file, the new pattern and grammemes
+        // override all previous data for that surface form.
         String[] args = {
                 "--inflection-types", "noun,adjective,proper-noun",
                 "--add-sound", "vowel-start",
@@ -159,43 +194,36 @@ class ParseWikidataTest {
         Assertions.assertTrue(entries.containsKey("books"));
         Assertions.assertTrue(entries.containsKey("books'"));
 
-        // 2. "hey" was interjection in Wikidata and noun in DMLex -> both POS are preserved
+        // 2. "hey" was interjection in Wikidata and singular noun in DMLex -> DMLex overrides "hey"
         String heyEntry = entries.get("hey");
         Assertions.assertNotNull(heyEntry);
-        Assertions.assertTrue(heyEntry.contains("noun"), "Expected noun in: " + heyEntry);
-        Assertions.assertTrue(heyEntry.contains("interjection"), "Expected interjection in: " + heyEntry);
+        Assertions.assertTrue(heyEntry.startsWith("singular noun inflection="), "Expected singular noun override in: " + heyEntry);
+        Assertions.assertFalse(heyEntry.contains("interjection"), "Did not expect interjection after override in: " + heyEntry);
         Assertions.assertTrue(entries.containsKey("heys"));
 
-        // 3. "ciel" was masculine noun (ciel/ciels/cieux) in Wikidata, overridden by feminine noun (ciel/cieux) in DMLex
+        // 3. "ciel" and "cieux" were masculine noun in Wikidata, overridden by feminine noun in DMLex
         String cielEntry = entries.get("ciel");
         Assertions.assertNotNull(cielEntry);
         Assertions.assertTrue(cielEntry.contains("feminine"), "Expected feminine in: " + cielEntry);
         Assertions.assertFalse(cielEntry.contains("masculine"), "Did not expect masculine in: " + cielEntry);
+        Assertions.assertEquals(1, cielEntry.split("inflection=").length - 1, "Expected 1 override pattern in: " + cielEntry);
 
         String cieuxEntry = entries.get("cieux");
         Assertions.assertNotNull(cieuxEntry);
         Assertions.assertTrue(cieuxEntry.contains("feminine"), "Expected feminine in: " + cieuxEntry);
         Assertions.assertFalse(cieuxEntry.contains("masculine"), "Did not expect masculine in: " + cieuxEntry);
+        Assertions.assertEquals(1, cieuxEntry.split("inflection=").length - 1, "Expected 1 override pattern in: " + cieuxEntry);
 
-        // Orphaned Wikidata form "ciels" must not be present when ciel(noun) was superseded
-        Assertions.assertFalse(entries.containsKey("ciels"), "Expected orphaned form 'ciels' to be removed");
-
-        // 4. Verify inflectional XML: preempting "ciel" (L7, L8) at Tier 1 leaves only "idéal" (L9, L10)
-        // in the -l/-ls/-ux pattern, so its word count is words="2" (instead of words="3" or words="4")
-        // and "idéal" references a single merged pattern instead of two split patterns.
-        String idealEntry = entries.get("idéal");
-        Assertions.assertNotNull(idealEntry);
-        Assertions.assertEquals(1, idealEntry.split("inflection=").length - 1, "Expected 1 merged inflection pattern in: " + idealEntry);
-
-        String xml = Files.readString(Paths.get(inflectionalFile), StandardCharsets.UTF_8);
-        Assertions.assertTrue(xml.contains("<pattern name=\"1\" words=\"2\">"));
-        Assertions.assertFalse(xml.contains("words=\"3\""));
-        Assertions.assertFalse(xml.contains("words=\"4\""));
+        // "ciels" was processed in Wikidata and not overridden in DMLex (Option 4)
+        Assertions.assertTrue(entries.containsKey("ciels"));
+        Assertions.assertTrue(entries.get("ciels").startsWith("plural masculine noun inflection="));
+        assertAllXmlPatternsReferencedInDictionary(actual);
     }
 
     @Test
     public void multiSourceWikidataAndDMLexMergeConflictsTrueTest() throws Exception {
-        // --merge-conflicts=true: conflicting entries of the same POS across files are merged
+        // --merge-conflicts=true (Option 4 + Option 2): conflicting entries across files mix in
+        // their grammemes and patterns, and the later source's conflicting pattern comes first.
         String[] args = {
                 "--merge-conflicts=true",
                 "--inflection-types", "noun,adjective,proper-noun",
@@ -208,36 +236,54 @@ class ParseWikidataTest {
         String actual = getParserOutput(args);
         Map<String, String> entries = parseDictionaryEntries(actual);
 
-        // In merge mode, "ciel" merges Wikidata (masculine) and DMLex (feminine), keeping both patterns and "ciels"
+        // "hey" merges Wikidata (interjection) and DMLex (singular noun)
+        String heyEntry = entries.get("hey");
+        Assertions.assertNotNull(heyEntry);
+        Assertions.assertTrue(heyEntry.contains("noun"), "Expected noun in: " + heyEntry);
+        Assertions.assertTrue(heyEntry.contains("interjection"), "Expected interjection in: " + heyEntry);
+
+        // "ciel" merges Wikidata (masculine) and DMLex (feminine), keeping both patterns,
+        // with the DMLex conflict pattern placed FIRST before the higher-count Wikidata pattern!
         String cielEntry = entries.get("ciel");
         Assertions.assertNotNull(cielEntry);
         Assertions.assertTrue(cielEntry.contains("masculine"), "Expected masculine in: " + cielEntry);
         Assertions.assertTrue(cielEntry.contains("feminine"), "Expected feminine in: " + cielEntry);
-        // Should have two inflection=... references (one from Wikidata pattern, one from DMLex pattern)
-        Assertions.assertEquals(2, cielEntry.split("inflection=").length - 1, "Expected 2 inflection patterns in: " + cielEntry);
+        String[] cielParts = cielEntry.split("inflection=");
+        Assertions.assertEquals(3, cielParts.length, "Expected 2 inflection patterns in: " + cielEntry);
+        String firstPatternId = cielParts[1].trim();
+        String secondPatternId = cielParts[2].trim();
 
-        // "ciels" from Wikidata is preserved in merge mode
-        Assertions.assertTrue(entries.containsKey("ciels"));
-        Assertions.assertTrue(entries.get("ciels").contains("plural masculine noun"));
+        // "ciels" only exists in Wikidata, so its pattern ID is the Wikidata pattern ID.
+        // Verify that on "ciel", the Wikidata pattern ID is second and the DMLex override pattern ID is first!
+        String cielsEntry = entries.get("ciels");
+        Assertions.assertNotNull(cielsEntry);
+        String wikidataPatternId = cielsEntry.split("inflection=")[1].trim();
+        Assertions.assertEquals(wikidataPatternId, secondPatternId,
+                "Expected Wikidata pattern to be second after DMLex override pattern in: " + cielEntry);
+        Assertions.assertNotEquals(firstPatternId, secondPatternId);
+        assertAllXmlPatternsReferencedInDictionary(actual);
     }
 
     @Test
-    public void multiSourcePartialMultiPosOverrideTest() throws Exception {
-        // In sourceLexicon.json, "Élie" (L2) has Q147276 which maps to BOTH noun and proper-noun (plural masculine).
-        // When a later DMLex file overrides ONLY proper-noun on "Élie" (singular feminine proper-noun),
-        // the noun slice from Wikidata (plural masculine noun) must be preserved while proper-noun is replaced.
-        Path tempDmlex = Files.createTempFile(Paths.get(baseDir), "dmlex-partial-pos-", ".json");
+    public void multiSourceSameFileHomographAndMergePriorityTest() throws Exception {
+        // Tests:
+        // 1. When a later DMLex file defines multiple entries for the same surface form ("Élie" as both
+        //    proper-noun and verb in the same file), under --merge-conflicts=false (Option 4 + Option 3)
+        //    the first entry overrides Wikidata's "Élie" and the second entry from the same DMLex file
+        //    merges with it.
+        // 2. Under --merge-conflicts=true (Option 4 + Option 2), both Wikidata and DMLex grammemes/patterns
+        //    are mixed in.
+        Path tempDmlex = Files.createTempFile(Paths.get(baseDir), "dmlex-homograph-", ".json");
         try {
             String json = """
                     {
                       "langCode": "en",
                       "entries": [
                         {
-                          "id": "elie-override",
+                          "id": "elie-proper-noun",
                           "headword": "Élie",
                           "partOfSpeech": ["proper-noun"],
                           "tag": "feminine",
-                          "labels": ["rare"],
                           "pronunciations": [
                             {
                               "transcriptions": [
@@ -248,8 +294,17 @@ class ParseWikidataTest {
                           "inflectedForms": [
                             {
                               "value": "Élie",
-                              "tag": "singular",
-                              "labels": ["rare"]
+                              "tag": "singular"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "elie-verb",
+                          "headword": "Élie",
+                          "partOfSpeech": ["verb"],
+                          "inflectedForms": [
+                            {
+                              "value": "Élie"
                             }
                           ]
                         }
@@ -258,7 +313,7 @@ class ParseWikidataTest {
                     """;
             Files.writeString(tempDmlex, json, StandardCharsets.UTF_8);
 
-            String[] args = {
+            String[] overwriteArgs = {
                     "--inflection-types", "noun,adjective,proper-noun",
                     "--add-sound", "vowel-start",
                     "--inflections", inflectionalFile,
@@ -266,16 +321,67 @@ class ParseWikidataTest {
                     "--wikidata", lexiconSource,
                     "--dmlex=" + tempDmlex
             };
-            String actual = getParserOutput(args);
-            Map<String, String> entries = parseDictionaryEntries(actual);
+            String overwriteOutput = getParserOutput(overwriteArgs);
+            Map<String, String> overwriteEntries = parseDictionaryEntries(overwriteOutput);
+            String elieOverwrite = overwriteEntries.get("Élie");
+            Assertions.assertNotNull(elieOverwrite);
+            // Wikidata's "plural masculine noun proper-noun" was overridden by tempDmlex's first entry
+            // ("singular feminine vowel-start proper-noun"), and tempDmlex's second entry ("verb") merged with it.
+            Assertions.assertTrue(elieOverwrite.startsWith("singular feminine vowel-start proper-noun verb inflection="),
+                    "Unexpected overwrite entry: " + elieOverwrite);
+            Assertions.assertEquals(1, elieOverwrite.split("inflection=").length - 1);
+            // Because Wikidata's "Élie" was the only surface form referencing its inflection pattern,
+            // overriding "Élie" must prune that superseded pattern from inflectional.xml so all XML patterns
+            // are referenced in dictionary.lst (7 patterns total instead of 8).
+            Set<String> overwriteXmlPatternIds = assertAllXmlPatternsReferencedInDictionary(overwriteOutput);
+            Assertions.assertEquals(7, overwriteXmlPatternIds.size());
 
-            String elieEntry = entries.get("Élie");
-            Assertions.assertNotNull(elieEntry);
-            // Both noun (plural masculine from Wikidata) and proper-noun (singular feminine vowel-start from DMLex) are present,
-            // with 2 distinct inflection patterns (non-rare noun pattern first, rare proper-noun pattern second).
-            Assertions.assertEquals(
-                    "singular plural masculine feminine vowel-start noun proper-noun inflection=3 inflection=8",
-                    elieEntry);
+            String[] mergeArgs = {
+                    "--merge-conflicts=true",
+                    "--inflection-types", "noun,adjective,proper-noun",
+                    "--add-sound", "vowel-start",
+                    "--inflections", inflectionalFile,
+                    "--dictionary", dictionaryFile,
+                    "--wikidata", lexiconSource,
+                    "--dmlex=" + tempDmlex
+            };
+            String mergeOutput = getParserOutput(mergeArgs);
+            Map<String, String> mergeEntries = parseDictionaryEntries(mergeOutput);
+            String elieMerge = mergeEntries.get("Élie");
+            Assertions.assertNotNull(elieMerge);
+            Assertions.assertTrue(
+                    elieMerge.startsWith("singular plural masculine feminine vowel-start noun proper-noun verb inflection="),
+                    "Unexpected merge entry: " + elieMerge);
+            Assertions.assertEquals(2, elieMerge.split("inflection=").length - 1);
+            // Under --merge-conflicts=true, "Élie" retains both the DMLex pattern and the Wikidata pattern,
+            // so all 8 patterns remain referenced in dictionary.lst and present in inflectional.xml.
+            Set<String> mergeXmlPatternIds = assertAllXmlPatternsReferencedInDictionary(mergeOutput);
+            Assertions.assertEquals(8, mergeXmlPatternIds.size());
+
+            // Verify that if a pattern was rare in an earlier source (sourceIndex=0) alongside a non-rare
+            // pattern, and a later source (sourceIndex=1) uses that same pattern non-rarely, it is promoted
+            // to non-rare and sorted first under --merge-conflicts=true.
+            TreeSet<Enum<?>> grammemes = new TreeSet<>(EnumComparator.ENUM_COMPARATOR);
+            grammemes.add(Grammar.PartOfSpeech.NOUN);
+            Inflection suffixS = new Inflection("s", false);
+            suffixS.addGrammemes(List.of(Grammar.PartOfSpeech.NOUN, Grammar.Number.PLURAL));
+            Inflection suffixEs = new Inflection("es", false);
+            suffixEs.addGrammemes(List.of(Grammar.PartOfSpeech.NOUN, Grammar.Number.PLURAL));
+            InflectionPattern pattern1 = new InflectionPattern(1, "", grammemes, List.of(suffixS));
+            InflectionPattern pattern2 = new InflectionPattern(2, "", grammemes, List.of(suffixEs));
+            // Give pattern2 a higher count than pattern1
+            pattern2.merge(pattern2);
+
+            DictionaryEntry baseRareEntry = new DictionaryEntry("word", "word", true, grammemes, pattern1, 0);
+            DictionaryEntry baseNonRareEntry = new DictionaryEntry("word", "word", false, grammemes, pattern2, 0);
+            baseRareEntry.merge(baseNonRareEntry, true);
+            // Before override, pattern1 is rare so pattern2 (non-rare) comes first:
+            Assertions.assertEquals("word: noun inflection=2 inflection=1", baseRareEntry.toString(true));
+
+            // Now merge a later source (sourceIndex=1) that uses pattern1 as non-rare:
+            DictionaryEntry overrideNonRareEntry = new DictionaryEntry("word", "word", false, grammemes, pattern1, 1);
+            baseRareEntry.merge(overrideNonRareEntry, true);
+            Assertions.assertEquals("word: noun inflection=1 inflection=2", baseRareEntry.toString(true));
         } finally {
             Files.deleteIfExists(tempDmlex);
         }
@@ -302,19 +408,21 @@ class ParseWikidataTest {
         compareOutputs(spaceOutput, commaOutput);
 
         Map<String, String> entries = parseDictionaryEntries(spaceOutput);
-        // "cat" (noun) was overridden by dmlexPatch.json: feminine, plural "kitties", and "cats" removed
+        // "cat" surface form was overridden by dmlexPatch.json: feminine, plural "kitties" added,
+        // while "cats" from dmlexLexicon.json remains from normal processing (Option 4 + Option 3).
         Assertions.assertTrue(entries.get("cat").contains("singular feminine noun"));
         Assertions.assertFalse(entries.get("cat").contains("masculine"));
         Assertions.assertTrue(entries.containsKey("kitties"));
-        Assertions.assertFalse(entries.containsKey("cats"));
+        Assertions.assertTrue(entries.containsKey("cats"));
 
-        // "bats" surface form from lemma "bat" (masculine noun) was overridden at Tier 2 by lemma "batte" (feminine noun)
+        // "bats" surface form from lemma "bat" (masculine noun) was overridden by lemma "batte" (feminine noun)
         Assertions.assertTrue(entries.get("bats").contains("plural feminine noun"));
         Assertions.assertFalse(entries.get("bats").contains("masculine"));
 
-        // "wow" keeps interjection from dmlexLexicon.json and adds verb from dmlexPatch.json
-        Assertions.assertEquals("interjection verb", entries.get("wow"));
+        // "wow" surface form was overridden by dmlexPatch.json (verb)
+        Assertions.assertEquals("verb", entries.get("wow"));
         Assertions.assertEquals("verb", entries.get("wowed"));
+        assertAllXmlPatternsReferencedInDictionary(spaceOutput);
     }
 
     @Test
@@ -355,6 +463,10 @@ class ParseWikidataTest {
     @Test
     public void dmlexCliOptionsCompatibilityTest() throws Exception {
         Path tempDmlex = Files.createTempFile(Paths.get(baseDir), "dmlex-opts-", ".json");
+        Map<String, Set<? extends Enum<?>>> savedTypeMap = new HashMap<>(Grammar.TYPEMAP.size());
+        for (var entry : Grammar.TYPEMAP.entrySet()) {
+            savedTypeMap.put(entry.getKey(), new HashSet<>(entry.getValue()));
+        }
         try {
             String json = """
                     {
@@ -389,11 +501,11 @@ class ParseWikidataTest {
             String[] args = {
                     "--language", "ro",
                     "--exclude-language", "ro-md",
-                    "--inflection-types", "noun,properNoun",
+                    "--inflection-types", "noun,proper-noun",
                     "--map-grammeme", "customNomAcc,nominative,accusative",
                     "--expand-grammemes", "singular,nominative,accusative,feminine,noun:indefinite",
                     "--ignore-property", "countable,dialectal",
-                    "--ignore-entries-with-grammemes", "shortForm,archaic",
+                    "--ignore-entries-with-grammemes", "short-form,archaic",
                     "--inflections", inflectionalFile,
                     "--dictionary", dictionaryFile,
                     "--dmlex", tempDmlex.toString()
@@ -411,6 +523,8 @@ class ParseWikidataTest {
             Assertions.assertEquals("singular accusative nominative indefinite feminine noun", entries.get("casă"));
             Assertions.assertEquals("plural accusative nominative feminine noun", entries.get("case"));
         } finally {
+            Grammar.TYPEMAP.clear();
+            Grammar.TYPEMAP.putAll(savedTypeMap);
             Files.deleteIfExists(tempDmlex);
         }
     }
@@ -434,7 +548,7 @@ class ParseWikidataTest {
                             { "label": "Common noun", "tag": "noun" }
                           ],
                           "labels": [
-                            { "tag": "nonHuman", "label": "Non-human animacy" }
+                            { "tag": "nonhuman", "label": "Non-human animacy" }
                           ],
                           "pronunciations": [
                             { "label": "US", "transcription": "ˈæp.əl" }
@@ -459,17 +573,25 @@ class ParseWikidataTest {
                           "headword": "ciel",
                           "partOfSpeech": ["noun"],
                           "labels": ["feminine"],
+                          "pronunciations": [
+                            {
+                              "label": "en-US",
+                              "transcriptions": [
+                                { "text": "sjɛl", "scheme": "IPA" }
+                              ]
+                            }
+                          ],
                           "inflectedForms": [
                             { "value": "ciel", "labels": ["singular"] },
-                            { "value": "ciel-obsolete", "labels": ["plural"] }
+                            { "value": "cieux", "labels": ["plural"] },
+                            { "value": "ciel-dmlex-only", "labels": ["plural"] }
                           ]
                         },
                         {
                           "id": "dmlex-posless-early",
                           "headword": "uh-oh",
                           "inflectedForms": [
-                            { "value": "uh-oh", "labels": ["singular"] },
-                            { "value": "uh-oh-obsolete", "labels": ["plural"] }
+                            { "value": "uh-oh", "labels": ["singular"] }
                           ]
                         }
                       ],
@@ -508,21 +630,24 @@ class ParseWikidataTest {
                 String actual = getParserOutput(args);
                 Map<String, String> entries = parseDictionaryEntries(actual);
 
-                // "apple" from DMLex is parsed with multi-field objects and deferred "langCode"
+                // "apple" from DMLex is parsed with multi-field objects and "entries" before "langCode"
                 Assertions.assertTrue(entries.get("apple").startsWith("singular nonhuman vowel-start noun inflection="));
                 Assertions.assertTrue(entries.get("apples").startsWith("plural nonhuman vowel-start noun inflection="));
 
-                // Because --wikidata came AFTER --dmlex, Wikidata's masculine "ciel" (ciel/ciels/cieux) overrides DMLex's feminine "ciel",
-                // and DMLex's orphaned form "ciel-obsolete" is preempted at Tier 1.
+                // Because --wikidata came AFTER --dmlex, Wikidata's masculine "ciel" overrides DMLex's feminine "ciel"
                 Assertions.assertTrue(entries.get("ciel").contains("masculine"));
                 Assertions.assertFalse(entries.get("ciel").contains("feminine"));
                 Assertions.assertTrue(entries.containsKey("ciels"));
-                Assertions.assertTrue(entries.containsKey("cieux"));
-                Assertions.assertFalse(entries.containsKey("ciel-obsolete"));
+                Assertions.assertTrue(entries.get("cieux").contains("masculine"));
+                Assertions.assertFalse(entries.get("cieux").contains("feminine"));
+                // "ciel-dmlex-only" was not in Wikidata, and its pronunciation container's "label": "en-US"
+                // must not be mistaken for a vowel-start transcription when "transcriptions" is present.
+                Assertions.assertTrue(entries.get("ciel-dmlex-only").startsWith("plural feminine noun inflection="));
+                Assertions.assertFalse(entries.get("ciel-dmlex-only").contains("vowel-start"));
 
-                // POS-less lemma "uh-oh" from tempDmlex was preempted at Tier 1 by tempDmlex2, removing "uh-oh-obsolete".
+                // POS-less surface form "uh-oh" from tempDmlex was overridden by tempDmlex2
                 Assertions.assertEquals("plural", entries.get("uh-oh"));
-                Assertions.assertFalse(entries.containsKey("uh-oh-obsolete"));
+                assertAllXmlPatternsReferencedInDictionary(actual);
             } finally {
                 Files.deleteIfExists(tempDmlex2);
             }
@@ -538,7 +663,7 @@ class ParseWikidataTest {
         // 1. Primary Wikidata file (sourceIndex == 0) with multi-variant L27261 ("fr" and "fr-x-Q56352306")
         //    and L1566399 merges both variants and both partner lexemes without throwing "Duplicate lexeme".
         // 2. Supplemental Wikidata file (sourceIndex == 1) containing only L27261 (without L1566399)
-        //    does not throw "L1566399: id not found" and overrides the earlier paradigm.
+        //    does not throw "L1566399: id not found" and overrides the "organisateur" surface form.
         // 3. Duplicate top-level Lexeme objects with the same deferred ID in one file still throw IllegalStateException.
         Path primaryWikidata = Files.createTempFile(Paths.get(baseDir), "wikidata-fr-primary-", ".json");
         Path supplementalWikidata = Files.createTempFile(Paths.get(baseDir), "wikidata-fr-supp-", ".json");
@@ -681,7 +806,12 @@ class ParseWikidataTest {
 
             Assertions.assertTrue(entries.containsKey("organisateur"));
             Assertions.assertTrue(entries.containsKey("organisateurs"));
-            Assertions.assertFalse(entries.containsKey("organisateurs-old"));
+            Assertions.assertTrue(entries.containsKey("organisatrice"));
+            // "organisateur" was overridden by supplementalWikidata, so it shares the same pattern as "organisateurs"
+            Assertions.assertEquals(
+                    entries.get("organisateurs").split("inflection=")[1],
+                    entries.get("organisateur").split("inflection=")[1]);
+            assertAllXmlPatternsReferencedInDictionary(actual);
 
             String[] dupArgs = {
                     "--language", "fr",

@@ -73,7 +73,7 @@
     {
       "id": "dmlex-5",
       "headword": "London",
-      "partOfSpeech": ["properNoun"],
+      "partOfSpeech": ["proper-noun"],
       "inflectedForms": [
         {
           "id": "dmlex-5-f1",

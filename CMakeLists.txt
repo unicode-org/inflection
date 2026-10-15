@@ -173,9 +173,9 @@ install(DIRECTORY ${INFLECTION_DATA_ROOT}/    TYPE DATA    COMPONENT inflection_
 # CPack Configuration for Ubuntu Packaging
 #
 # To update ICU version:
-# 1. Update ICU_VERSION in the GitHub Actions workflow (.github/workflows/create-ubuntu-distribution-packaging.yml)
+# 1. Update ICU_MAJOR and ICU_MINOR in the GitHub Actions workflows (.github/workflows/create-distribution-packaging.yml, etc.)
 # 2. Make sure the downloaded ICU binary file matches the filename format
-#    (e.g., icu4c-78_1-Ubuntu22.04-x64.tgz)
+#    (e.g., icu4c-79.1-Ubuntu24.04-x64.tgz)
 # 3. Update the line below to match the correct ICU dependency in Debian packaging
 # ----------------------------------------------------------------------------------------
 

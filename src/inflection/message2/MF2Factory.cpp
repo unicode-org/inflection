@@ -26,19 +26,17 @@
 
 using inflection::dialog::SpeakableString;
 using U_ICU_NAMESPACE::Locale;
+using U_ICU_NAMESPACE::LocalPointer;
 using U_ICU_NAMESPACE::UnicodeString;
-using U_ICU_NAMESPACE::message2::Formatter;
 using U_ICU_NAMESPACE::message2::Formattable;
-using U_ICU_NAMESPACE::message2::FormattedValue;
-using U_ICU_NAMESPACE::message2::FormattedPlaceholder;
-using U_ICU_NAMESPACE::message2::FormatterFactory;
+using U_ICU_NAMESPACE::message2::Function;
+using U_ICU_NAMESPACE::message2::FunctionContext;
 using U_ICU_NAMESPACE::message2::FunctionOptions;
 using U_ICU_NAMESPACE::message2::FunctionOptionsMap;
+using U_ICU_NAMESPACE::message2::FunctionValue;
 using U_ICU_NAMESPACE::message2::MessageArguments;
 using U_ICU_NAMESPACE::message2::MessageFormatter;
 using U_ICU_NAMESPACE::message2::MFFunctionRegistry;
-using U_ICU_NAMESPACE::message2::Selector;
-using U_ICU_NAMESPACE::message2::SelectorFactory;
 
 namespace inflection::message2 {
 
@@ -71,12 +69,12 @@ static constexpr auto TYPE_OR                            = u"or";
 // Bool option value
 static constexpr auto VALUE_TRUE                         = u"true";
 
-// Per-function fallback names passed to FormattedPlaceholder
-static constexpr auto FN_INFLECTION                      = u"inflection";
-static constexpr auto FN_NUMERAL                         = u"numeral";
-static constexpr auto FN_QUANTIFY                        = u"quantify";
-static constexpr auto FN_LIST                            = u"list";
-static constexpr auto FN_PRONOUN                         = u"pronoun";
+// Per-function names passed to InflectionFunctionValue
+static constexpr auto FN_INFLECTION = u"i:inflect";
+static constexpr auto FN_NUMERAL = u"i:numeral";
+static constexpr auto FN_QUANTIFY = u"i:quantify";
+static constexpr auto FN_LIST = u"i:list";
+static constexpr auto FN_PRONOUN = u"i:pronoun";
 
 static UnicodeString xmlEscape(const std::u16string& s, bool attribute) {
     UnicodeString out;
@@ -163,245 +161,21 @@ resolveConstraintValue(const inflection::dialog::SemanticFeatureModel* model,
     return featureValue != nullptr ? featureValue->getPrint() : std::u16string();
 }
 
-class InflectionFormatterFactory : public FormatterFactory {
-public:
-    explicit InflectionFormatterFactory(MF2Factory::OutputMode mode) : mode(mode) {}
-    Formatter* createFormatter(const Locale&, UErrorCode&) override;
-private:
-    MF2Factory::OutputMode mode;
-};
-
-class InflectionSelectorFactory : public SelectorFactory {
-public:
-    Selector* createSelector(const Locale&, UErrorCode&) const override;
-};
-
-icu::message2::FormatterFactory* MF2Factory::createInflectFormatterFactory(MF2Factory::OutputMode mode) {
-    return new InflectionFormatterFactory(mode);
+const inflection::dialog::CommonConceptFactory* GetCommonConceptFactory(const Locale& locale)
+{
+    return ::inflection::dialog::LocalizedCommonConceptFactoryProvider::getDefaultCommonConceptFactoryProvider()->getCommonConceptFactory(
+        inflection::util::ULocale(locale.getName()));
 }
 
-icu::message2::SelectorFactory* MF2Factory::createInflectSelectorFactory() {
-    return new InflectionSelectorFactory();
-}
-
-const inflection::dialog::CommonConceptFactory* GetCommonConceptFactory(const Locale& locale) {
-    return ::inflection::dialog::LocalizedCommonConceptFactoryProvider
-        ::getDefaultCommonConceptFactoryProvider()
-        ->getCommonConceptFactory(inflection::util::ULocale(locale.getName()));
-}
-
-const inflection::dialog::SemanticFeatureModel* GetSemanticFeatureModel(const Locale& locale) {
+const inflection::dialog::SemanticFeatureModel* GetSemanticFeatureModel(const Locale& locale)
+{
     return GetCommonConceptFactory(locale)->getSemanticFeatureModel();
 }
 
-class InflectionFormatter : public Formatter {
-public:
-    FormattedPlaceholder format(FormattedPlaceholder&&, FunctionOptions&& opts,
-                                UErrorCode& errorCode) const override;
-    InflectionFormatter(const inflection::dialog::SemanticFeatureModel* model,
-                        MF2Factory::OutputMode mode)
-        : model(model), mode(mode) {
-    }
-private:
-     const ::inflection::dialog::SemanticFeatureModel* model;
-     MF2Factory::OutputMode mode;
-};
-
-Formatter* InflectionFormatterFactory::createFormatter(const Locale& locale, UErrorCode& errorCode)
-{
-    if (U_FAILURE(errorCode)) {
-        return nullptr;
-    }
-
-    Formatter* result = new InflectionFormatter(GetSemanticFeatureModel(locale), mode);
-    if (result == nullptr) {
-        errorCode = U_MEMORY_ALLOCATION_ERROR;
-    }
-    return result;
-}
-
-FormattedPlaceholder InflectionFormatter::format(
-    FormattedPlaceholder&& arg, FunctionOptions&& options,
-    UErrorCode& errorCode) const
-{
-    if (U_FAILURE(errorCode)) {
-        return {};
-    }
-
-    // Argument must be present
-    if (!arg.canFormat()) {
-        errorCode = U_MF_FORMATTING_ERROR;
-        return FormattedPlaceholder(FN_INFLECTION);
-    }
-
-    // Assumes the argument is not-yet-formatted
-    const Formattable& toFormat = arg.asFormattable();
-    UnicodeString result;
-
-    UErrorCode conceptCode = U_ZERO_ERROR;
-    auto conceptObj = conceptFromOperand(toFormat, model, conceptCode);
-    if (conceptObj != nullptr) {
-        UnicodeString inputString;
-        if (toFormat.getType() == UFMT_STRING) {
-            inputString = toFormat.getString(errorCode);
-        }
-        auto opt = options.getOptions();
-        for (const auto& [key, value] : opt) {
-            if (key == UnicodeString(OPTION_TO)) {
-                continue;  // control option (the projection feature), not a grammeme constraint
-            }
-            auto constraint = conceptObj->getModel()->getFeature(key);
-            if (constraint == nullptr) {
-                // A bare option must name a known grammatical feature.
-                errorCode = U_MF_FORMATTING_ERROR;
-                return FormattedPlaceholder(FN_INFLECTION);
-            }
-            conceptObj->putConstraint(*constraint, resolveConstraintValue(model, *constraint, value, errorCode));
-        }
-        std::unique_ptr<inflection::dialog::SpeakableString> speakable;
-        if (opt.contains(OPTION_TO)) {
-            auto feature = conceptObj->getModel()->getFeature(opt.at(OPTION_TO).getString(errorCode));
-            // Unknown to= feature: fall back to the uninflected form (intentional, not an error).
-            if (feature != nullptr) {
-                speakable.reset(conceptObj->getFeatureValue(*feature));
-            }
-        } else {
-            speakable.reset(conceptObj->toSpeakableString());
-        }
-        if (speakable != nullptr) {
-            result += emit(*speakable, mode);
-        } else {
-            // conceptObj return nullptr When the constrained values is an empty set
-            // Fallback to the inputString, same as the non-string case.
-            result += emit(inflection::dialog::SpeakableString(inputString), mode);
-        }
-    } else {
-        result += toFormat.getString(errorCode);
-    }
-
-    return FormattedPlaceholder(arg, FormattedValue(std::move(result)));
-}
-
-class InflectionSelector : public Selector {
-public:
-    void selectKey(FormattedPlaceholder &&arg, FunctionOptions &&options,
-                    const UnicodeString *keys, int32_t keysLen,
-                    UnicodeString *prefs, int32_t &prefsLen,
-                    UErrorCode &errorCode) const override;
-
-    explicit InflectionSelector(const inflection::dialog::SemanticFeatureModel* model)
-        : model(model) {
-    }
-
-private:
-     const ::inflection::dialog::SemanticFeatureModel* model;
-};
-
-Selector* InflectionSelectorFactory::createSelector(
-    const Locale& locale, UErrorCode& errorCode) const {
-    if (U_FAILURE(errorCode)) {
-        return nullptr;
-    }
-
-    Selector* result = new InflectionSelector(GetSemanticFeatureModel(locale));
-    if (result == nullptr) {
-        errorCode = U_MEMORY_ALLOCATION_ERROR;
-    }
-    return result;
-}
-
-void InflectionSelector::selectKey(
-    FormattedPlaceholder &&arg, FunctionOptions &&options,
-    const UnicodeString *keys, int32_t keysLen,
-    UnicodeString *prefs, int32_t &prefsLen, UErrorCode &errorCode) const {
-    if (U_FAILURE(errorCode)) {
-        return;
-    }
-    // Argument must be present
-    if (!arg.canFormat()) {
-        errorCode = U_MF_SELECTOR_ERROR;
-        return;
-    }
-
-    // Assumes the argument is not-yet-formatted
-    const Formattable& toFormat = arg.asFormattable();
-    prefsLen = 0;
-    auto conceptObj = conceptFromOperand(toFormat, model, errorCode);
-    if (conceptObj == nullptr) { errorCode = U_MF_SELECTOR_ERROR; return; }
-    auto opt = options.getOptions();
-    for (const auto& [key, value] : opt) {
-        if (key == UnicodeString(OPTION_TO)) {
-            continue;  // control option (the projection feature), not a grammeme constraint
-        }
-        auto feature = conceptObj->getModel()->getFeature(key);
-        if (feature == nullptr) {
-            // A bare option must name a known grammatical feature.
-            errorCode = U_MF_SELECTOR_ERROR;
-            return;
-        }
-        conceptObj->putConstraint(*feature, resolveConstraintValue(model, *feature, value, errorCode));
-    }
-    UnicodeString feature;
-    if (opt.contains(OPTION_TO)) {
-        auto value = conceptObj->getModel()->getFeature(opt.at(OPTION_TO).getString(errorCode));
-        // Unknown to= feature: leave projected value empty — matches only catch-all (intentional, not an error).
-        if (value != nullptr) {
-            std::unique_ptr<inflection::dialog::SpeakableString> result(conceptObj->getFeatureValue(*value));
-            if (result != nullptr) {
-                feature = result->getPrint();
-            }
-        }
-    } else {
-        std::unique_ptr<inflection::dialog::SpeakableString> ss(conceptObj->toSpeakableString());
-        if (ss != nullptr) {
-            feature = ss->getPrint();
-        }
-    }
-    for (int i = 0; i < keysLen; i++) {
-        if (feature == keys[i]) {
-            prefs[prefsLen++] = keys[i];
-        }
-    }
-}
-
-class NumeralFormatter : public Formatter {
-public:
-    FormattedPlaceholder format(FormattedPlaceholder&&, FunctionOptions&&,
-                                UErrorCode&) const override;
-    NumeralFormatter(const inflection::util::ULocale& locale, MF2Factory::OutputMode mode)
-        : locale(locale), mode(mode) {}
-private:
-    inflection::util::ULocale locale;
-    MF2Factory::OutputMode mode;
-};
-
-class NumeralFormatterFactory : public FormatterFactory {
-public:
-    explicit NumeralFormatterFactory(MF2Factory::OutputMode mode) : mode(mode) {}
-    Formatter* createFormatter(const Locale& loc, UErrorCode& ec) override {
-        if (U_FAILURE(ec)) {
-            return nullptr;
-        }
-        return new NumeralFormatter(inflection::util::ULocale(loc.getName()), mode);
-    }
-
-    ~NumeralFormatterFactory() override;
-
-private:
-    MF2Factory::OutputMode mode;
-};
-
-NumeralFormatterFactory::~NumeralFormatterFactory() = default;
-
-icu::message2::FormatterFactory* MF2Factory::createNumeralFormatterFactory(MF2Factory::OutputMode mode) {
-    return new NumeralFormatterFactory(mode);
-}
-
 // Builds the SpeakableString for the numeral per style/variant (mirrors FormatTest::formatNumber).
-static inflection::dialog::SpeakableString
-numeralToSpeakable(const inflection::dialog::NumberConcept& num,
-                   const std::u16string& style, const std::u16string& variant,
-                   bool hasVariant, UErrorCode& errorCode) {
+static inflection::dialog::SpeakableString numeralToSpeakable(const inflection::dialog::NumberConcept& num, const std::u16string& style,
+    const std::u16string& variant, bool hasVariant, UErrorCode& errorCode)
+{
     if (style.empty()) {
         std::unique_ptr<SpeakableString> s(num.toSpeakableString());
         return *s;
@@ -425,308 +199,11 @@ numeralToSpeakable(const inflection::dialog::NumberConcept& num,
     return SpeakableString(u"");
 }
 
-FormattedPlaceholder NumeralFormatter::format(
-    FormattedPlaceholder&& arg, FunctionOptions&& options,
-    UErrorCode& errorCode) const
-{
-    if (U_FAILURE(errorCode)) {
-        return {};
-    }
-    if (!arg.canFormat()) {
-        errorCode = U_MF_FORMATTING_ERROR;
-        return FormattedPlaceholder(FN_NUMERAL);
-    }
-    const Formattable &toFormat = arg.asFormattable();
-
-    std::unique_ptr<inflection::dialog::NumberConcept> num;
-    if (toFormat.getType() == UFMT_DOUBLE) {
-        num = std::make_unique<inflection::dialog::NumberConcept>(
-            toFormat.getDouble(errorCode), locale, locale);
-    }
-    else {
-        num = std::make_unique<inflection::dialog::NumberConcept>(
-            toFormat.getInt64(errorCode), locale, locale);
-    }
-
-    std::u16string style;
-    std::u16string variant;
-    bool hasVariant = false;
-    auto opt = options.getOptions();
-    if (opt.contains(OPTION_WITH_STYLE)) {
-        const UnicodeString &v = opt.at(OPTION_WITH_STYLE).getString(errorCode);
-        style = std::u16string(v.getBuffer(), v.length());
-    }
-    if (opt.contains(OPTION_WITH_VARIANT)) {
-        const UnicodeString &v = opt.at(OPTION_WITH_VARIANT).getString(errorCode);
-        variant = std::u16string(v.getBuffer(), v.length());
-        hasVariant = true;
-    }
-
-    inflection::dialog::SpeakableString result =
-            numeralToSpeakable(*num, style, variant, hasVariant, errorCode);
-    if (U_FAILURE(errorCode)) {
-        return FormattedPlaceholder(FN_NUMERAL);
-    }
-    UnicodeString out = emit(result, mode);
-    return FormattedPlaceholder(arg, FormattedValue(std::move(out)));
-}
-
-class QuantifyFormatter : public Formatter {
-public:
-    FormattedPlaceholder format(FormattedPlaceholder&&, FunctionOptions&&, UErrorCode&) const override;
-    QuantifyFormatter(const inflection::dialog::SemanticFeatureModel* model,
-                      const inflection::dialog::CommonConceptFactory* ccf,
-                      const inflection::util::ULocale& locale, MF2Factory::OutputMode mode)
-        : model(model), ccf(ccf), locale(locale), mode(mode) {}
-private:
-    const inflection::dialog::SemanticFeatureModel* model;
-    const inflection::dialog::CommonConceptFactory* ccf;
-    inflection::util::ULocale locale;
-    MF2Factory::OutputMode mode;
-};
-
-class QuantifyFormatterFactory : public FormatterFactory {
-public:
-    explicit QuantifyFormatterFactory(MF2Factory::OutputMode mode) : mode(mode) {}
-    Formatter* createFormatter(const Locale&, UErrorCode&) override;
-private:
-    MF2Factory::OutputMode mode;
-};
-
-Formatter* QuantifyFormatterFactory::createFormatter(const Locale& loc, UErrorCode& ec) {
-    if (U_FAILURE(ec)) {
-        return nullptr;
-    }
-    return new QuantifyFormatter(GetSemanticFeatureModel(loc), GetCommonConceptFactory(loc),
-                                 inflection::util::ULocale(loc.getName()), mode);
-}
-
-icu::message2::FormatterFactory* MF2Factory::createQuantifyFormatterFactory(OutputMode mode) {
-    return new QuantifyFormatterFactory(mode);
-}
-
-FormattedPlaceholder QuantifyFormatter::format(FormattedPlaceholder&& arg, FunctionOptions&& options, UErrorCode& errorCode) const {
-    if (U_FAILURE(errorCode)) {
-        return {};
-    }
-    if (!arg.canFormat()) {
-        errorCode = U_MF_FORMATTING_ERROR;
-        return FormattedPlaceholder(FN_QUANTIFY);
-    }
-    std::unique_ptr<inflection::dialog::SemanticFeatureConceptBase> unit =
-            conceptFromOperand(arg.asFormattable(), model, errorCode);
-    if (unit == nullptr) {
-        return FormattedPlaceholder(FN_QUANTIFY);
-    }
-
-    auto opt = options.getOptions();
-    if (!opt.contains(OPTION_WITH_VALUE)) {
-        errorCode = U_MF_FORMATTING_ERROR;
-        return FormattedPlaceholder(FN_QUANTIFY);
-    }
-    if (opt.contains(OPTION_WITH_STYLE) || opt.contains(OPTION_WITH_VARIANT)) {
-        // reserved, not implemented, but perhaps it will be used in the future.
-        errorCode = U_MF_FORMATTING_ERROR;
-        return FormattedPlaceholder(FN_QUANTIFY);
-    }
-
-    const Formattable &valueF = opt.at(OPTION_WITH_VALUE);
-    std::unique_ptr<inflection::dialog::NumberConcept> num;
-    if (valueF.getType() == UFMT_DOUBLE) {
-        num = std::make_unique<inflection::dialog::NumberConcept>(valueF.getDouble(errorCode), locale, locale);
-    }
-    else {
-        // Integer-valued args (UFMT_INT64/UFMT_LONG) take this branch; only genuine doubles take the branch above.
-        num = std::make_unique<inflection::dialog::NumberConcept>(valueF.getInt64(errorCode), locale, locale);
-    }
-
-    for (const auto &entry: opt) {
-        const UnicodeString &key = entry.first;
-        // Control options (exact allow-list, NOT a with-prefix test: some real
-        // semantic features are with-prefixed). withValue consumed above;
-        // withStyle/withVariant rejected above.
-        if (key == UnicodeString(OPTION_WITH_VALUE) || key == UnicodeString(OPTION_WITH_STYLE)
-            || key == UnicodeString(OPTION_WITH_VARIANT)) {
-            continue;
-        }
-        std::u16string name(key.getBuffer(), key.length());
-        const auto *feature = unit->getModel()->getFeature(name);
-        if (feature == nullptr) {
-            // unknown feature (mirror FormatTest strictness)
-            errorCode = U_MF_FORMATTING_ERROR;
-            return FormattedPlaceholder(FN_QUANTIFY);
-        }
-        const UnicodeString &v = entry.second.getString(errorCode);
-        unit->putConstraint(*feature, std::u16string(v.getBuffer(), v.length()));
-    }
-
-    std::unique_ptr<inflection::dialog::SpeakableString> result(ccf->quantify(*num, unit.get()));
-    if (result == nullptr) {
-        errorCode = U_MF_FORMATTING_ERROR;
-        return FormattedPlaceholder(FN_QUANTIFY);
-    }
-    UnicodeString out = emit(*result, mode);
-    return FormattedPlaceholder(arg, FormattedValue(std::move(out)));
-}
-
-class ListFormatter : public Formatter {
-public:
-    FormattedPlaceholder format(FormattedPlaceholder&&, FunctionOptions&&, UErrorCode&) const override;
-    ListFormatter(const inflection::dialog::SemanticFeatureModel* model,
-                  const inflection::dialog::CommonConceptFactory* ccf, MF2Factory::OutputMode mode)
-        : model(model), ccf(ccf), mode(mode) {}
-private:
-    const inflection::dialog::SemanticFeatureModel* model;
-    const inflection::dialog::CommonConceptFactory* ccf;
-    MF2Factory::OutputMode mode;
-};
-
-class ListFormatterFactory : public FormatterFactory {
-public:
-    explicit ListFormatterFactory(MF2Factory::OutputMode mode) : mode(mode) {
-    }
-
-    Formatter *createFormatter(const Locale &, UErrorCode &) override;
-
-private:
-    MF2Factory::OutputMode mode;
-};
-
-Formatter *ListFormatterFactory::createFormatter(const Locale &loc, UErrorCode &ec) {
-    if (U_FAILURE(ec)) {
-        return nullptr;
-    }
-    return new ListFormatter(GetSemanticFeatureModel(loc), GetCommonConceptFactory(loc), mode);
-}
-
-icu::message2::FormatterFactory *MF2Factory::createListFormatterFactory(OutputMode mode) {
-    return new ListFormatterFactory(mode);
-}
-
-FormattedPlaceholder ListFormatter::format(FormattedPlaceholder&& arg, FunctionOptions&& options, UErrorCode& errorCode) const {
-    if (U_FAILURE(errorCode)) {
-        return {};
-    }
-    if (!arg.canFormat()) {
-        errorCode = U_MF_FORMATTING_ERROR;
-        return FormattedPlaceholder(FN_LIST);
-    }
-    const Formattable& arrF = arg.asFormattable();
-    if (arrF.getType() != UFMT_ARRAY) {
-        errorCode = U_MF_FORMATTING_ERROR;
-        return FormattedPlaceholder(FN_LIST);
-    }
-    int32_t count = 0;
-    const Formattable* elems = arrF.getArray(count, errorCode);
-    if (U_FAILURE(errorCode)) {
-        return FormattedPlaceholder(FN_LIST);
-    }
-
-    auto opt = options.getOptions();
-
-    std::vector<std::unique_ptr<inflection::dialog::InflectableStringConcept> > items;
-    std::vector<const inflection::dialog::SemanticFeatureConceptBase*> itemPtrs;
-    for (int32_t i = 0; i < count; i++) {
-        UnicodeString elemStr = elems[i].getString(errorCode);
-        if (U_FAILURE(errorCode)) {
-            return FormattedPlaceholder(FN_LIST);
-        }
-        items.push_back(std::make_unique<inflection::dialog::InflectableStringConcept>(
-            model, inflection::dialog::SpeakableString(elemStr)));
-        itemPtrs.push_back(items.back().get());
-    }
-
-    std::unique_ptr<inflection::dialog::SemanticConceptList> list;
-    if (!opt.contains(OPTION_WITH_TYPE)) {
-        list = std::make_unique<inflection::dialog::SemanticConceptList>(model, itemPtrs);
-    }
-    else {
-        const UnicodeString& typeV = opt.at(OPTION_WITH_TYPE).getString(errorCode);
-        std::u16string typeVal(typeV.getBuffer(), typeV.length());
-        if (typeVal == TYPE_AND) {
-            list.reset(ccf->createAndList(itemPtrs));
-        }
-        else if (typeVal == TYPE_OR) {
-            list.reset(ccf->createOrList(itemPtrs));
-        }
-        else {
-            errorCode = U_MF_FORMATTING_ERROR;
-            return FormattedPlaceholder(FN_LIST);
-        }
-    }
-    if (list == nullptr) {
-        errorCode = U_MF_FORMATTING_ERROR;
-        return FormattedPlaceholder(FN_LIST);
-    }
-
-    // Apply separator-setter options.
-    if (opt.contains(OPTION_WITH_BEFORE_FIRST)) {
-        list->setBeforeFirst(inflection::dialog::SpeakableString(opt.at(OPTION_WITH_BEFORE_FIRST).getString(errorCode)));
-    }
-    if (opt.contains(OPTION_WITH_AFTER_FIRST)) {
-        list->setAfterFirst(inflection::dialog::SpeakableString(opt.at(OPTION_WITH_AFTER_FIRST).getString(errorCode)));
-    }
-    if (opt.contains(OPTION_WITH_ITEM_DELIMITER)) {
-        list->setItemDelimiter(inflection::dialog::SpeakableString(opt.at(OPTION_WITH_ITEM_DELIMITER).getString(errorCode)));
-    }
-    if (opt.contains(OPTION_WITH_BEFORE_LAST)) {
-        list->setBeforeLast(inflection::dialog::SpeakableString(opt.at(OPTION_WITH_BEFORE_LAST).getString(errorCode)));
-    }
-    if (opt.contains(OPTION_WITH_AFTER_LAST)) {
-        list->setAfterLast(inflection::dialog::SpeakableString(opt.at(OPTION_WITH_AFTER_LAST).getString(errorCode)));
-    }
-    if (opt.contains(OPTION_WITH_ITEM_PREFIX)) {
-        list->setItemPrefix(inflection::dialog::SpeakableString(opt.at(OPTION_WITH_ITEM_PREFIX).getString(errorCode)));
-    }
-    if (opt.contains(OPTION_WITH_ITEM_SUFFIX)) {
-        list->setItemSuffix(inflection::dialog::SpeakableString(opt.at(OPTION_WITH_ITEM_SUFFIX).getString(errorCode)));
-    }
-    if (opt.contains(OPTION_WITH_AVOID_ITEM_AFFIX_REDUNDANCY)) {
-        const UnicodeString& v = opt.at(OPTION_WITH_AVOID_ITEM_AFFIX_REDUNDANCY).getString(errorCode);
-        list->setAvoidItemAffixRedundancy(std::u16string(v.getBuffer(), static_cast<size_t>(v.length())) == VALUE_TRUE);
-    }
-    // Apply grammeme constraints (options not in the control allow-list).
-    static constexpr std::u16string_view LIST_CONTROL[] = {
-        // This must be in sorted order.
-        OPTION_WITH_AFTER_FIRST,
-        OPTION_WITH_AFTER_LAST,
-        OPTION_WITH_AVOID_ITEM_AFFIX_REDUNDANCY,
-        OPTION_WITH_BEFORE_FIRST,
-        OPTION_WITH_BEFORE_LAST,
-        OPTION_WITH_ITEM_DELIMITER,
-        OPTION_WITH_ITEM_PREFIX,
-        OPTION_WITH_ITEM_SUFFIX,
-        OPTION_WITH_TYPE,
-    };
-    for (const auto& entry : opt) {
-        std::u16string_view nameView(entry.first.getBuffer(), static_cast<size_t>(entry.first.length()));
-        if (inflection::util::ArrayUtils::contains<LIST_CONTROL>(nameView)) { // control options (exact allow-list)
-            continue;
-        }
-        const auto* feature = model->getFeature(nameView);
-        if (feature == nullptr) {
-            // unknown feature (mirror FormatTest/:quantify strictness)
-            errorCode = U_MF_FORMATTING_ERROR;
-            return FormattedPlaceholder(FN_LIST);
-        }
-        const UnicodeString& v = entry.second.getString(errorCode);
-        list->putConstraint(*feature, std::u16string(v.getBuffer(), v.length()));
-    }
-
-    std::unique_ptr<inflection::dialog::SpeakableString> result(list->toSpeakableString());
-    if (result == nullptr) {
-        errorCode = U_MF_FORMATTING_ERROR;
-        return FormattedPlaceholder(FN_LIST);
-    }
-    UnicodeString out = emit(*result, mode);
-    return FormattedPlaceholder(arg, FormattedValue(std::move(out)));
-}
-
 // Operand -> PronounConcept. String = a pronoun seed (PronounConcept(model, seed) THROWS on a bad
 // seed, so it is caught and mapped).
-static std::unique_ptr<inflection::dialog::PronounConcept>
-pronounFromOperand(const Formattable& operand,
-                   const inflection::dialog::SemanticFeatureModel* formatterModel, UErrorCode& errorCode) {
+static std::unique_ptr<inflection::dialog::PronounConcept> pronounFromOperand(
+    const Formattable& operand, const inflection::dialog::SemanticFeatureModel* formatterModel, UErrorCode& errorCode)
+{
     if (operand.getType() == UFMT_STRING) {
         UnicodeString s = operand.getString(errorCode);
         if (U_FAILURE(errorCode)) {
@@ -746,8 +223,8 @@ pronounFromOperand(const Formattable& operand,
             const auto* arg = static_cast<const SemanticFeatureConceptArgument*>(obj);
             try {
                 // The carried concept must be a PronounConcept for :pronoun.
-                const auto* pronoun = inflection::exception::ClassCastException::verifyCast<
-                    const inflection::dialog::PronounConcept*>(arg->getConcept());
+                const auto* pronoun
+                    = inflection::exception::ClassCastException::verifyCast<const inflection::dialog::PronounConcept*>(arg->getConcept());
                 return std::unique_ptr<inflection::dialog::PronounConcept>(pronoun->clone());
             } catch (const std::exception& e) {
                 inflection::util::TypeConversionUtils::convert(e, &errorCode);
@@ -761,187 +238,554 @@ pronounFromOperand(const Formattable& operand,
     return nullptr;
 }
 
-class PronounFormatter : public Formatter {
+class InvalidFormattableObject : public icu::message2::FormattableObject {
 public:
-    FormattedPlaceholder format(FormattedPlaceholder&&, FunctionOptions&&, UErrorCode&) const override;
+    const UnicodeString& tag() const override
+    {
+        static const UnicodeString* tagValue = new UnicodeString(u"inflection::invalid");
+        return *tagValue;
+    }
+    ~InvalidFormattableObject() override;
+};
 
-    PronounFormatter(const inflection::dialog::SemanticFeatureModel* model, MF2Factory::OutputMode mode)
-        : model(model), mode(mode) {
+InvalidFormattableObject::~InvalidFormattableObject() = default;
+
+class InflectionFunctionValue : public FunctionValue {
+public:
+    InflectionFunctionValue(
+        const FunctionContext& context, const FunctionValue& operand, const FunctionOptions& options, const char16_t* fnName)
+    {
+        UErrorCode status = U_ZERO_ERROR;
+        static const InvalidFormattableObject* kInvalidObject = new InvalidFormattableObject();
+        innerValue = Formattable(kInvalidObject);
+        locale = context.getLocale();
+        inputDir = context.getDirection();
+        if (inputDir == icu::U_MF_BIDI_OPTION_LTR) {
+            dir = icu::U_MF_DIRECTIONALITY_LTR;
+        } else if (inputDir == icu::U_MF_BIDI_OPTION_RTL) {
+            dir = icu::U_MF_DIRECTIONALITY_RTL;
+        } else if (inputDir == icu::U_MF_BIDI_OPTION_AUTO || inputDir == icu::U_MF_BIDI_OPTION_INHERIT) {
+            dir = locale.isRightToLeft() ? icu::U_MF_DIRECTIONALITY_RTL : icu::U_MF_DIRECTIONALITY_LTR;
+        } else {
+            dir = icu::U_MF_DIRECTIONALITY_UNKNOWN;
+        }
+        opts = options.mergeOptions(operand.getResolvedOptions(), status);
+        functionName = UnicodeString(fnName);
+        fallback = operand.isNullOperand() ? (UnicodeString(u"{:") + fnName + u"}") : operand.getFallback();
+    }
+
+    InflectionFunctionValue(const FunctionContext& context, const FunctionValue& operand, const FunctionOptions& options,
+        const char16_t* fnName, UnicodeString formattedVal, UnicodeString selectVal, bool selectable)
+        : InflectionFunctionValue(context, operand, options, fnName)
+    {
+        formatted = std::move(formattedVal);
+        selected = std::move(selectVal);
+        innerValue = Formattable(formatted);
+        canSelect = selectable;
+        valid = true;
+    }
+
+    ~InflectionFunctionValue() override;
+
+    UnicodeString formatToString(UErrorCode& status) const override
+    {
+        if (U_FAILURE(status)) {
+            return { };
+        }
+        if (!valid) {
+            status = U_MF_FORMATTING_ERROR;
+            return fallback;
+        }
+        return formatted;
+    }
+
+    UBool isSelectable() const override { return canSelect; }
+
+    void selectKeys(const UnicodeString* keys, int32_t keysLen, int32_t* prefs, int32_t& prefsLen, UErrorCode& status) const override
+    {
+        if (U_FAILURE(status)) {
+            return;
+        }
+        if (!valid || !canSelect) {
+            status = U_MF_SELECTOR_ERROR;
+            return;
+        }
+        prefsLen = 0;
+        for (int32_t i = 0; i < keysLen; i++) {
+            if (selected == keys[i]) {
+                prefs[prefsLen++] = i;
+            }
+        }
     }
 
 private:
-    const inflection::dialog::SemanticFeatureModel* model{};
+    UnicodeString formatted { };
+    UnicodeString selected { };
+    bool canSelect = false;
+    bool valid = false;
+};
+
+InflectionFunctionValue::~InflectionFunctionValue() = default;
+
+static LocalPointer<FunctionValue> makeInvalidFunctionValue(const FunctionContext& context, const FunctionValue& operand,
+    const FunctionOptions& options, const char16_t* fnName, UErrorCode& errorCode)
+{
+    LocalPointer<FunctionValue> result(new InflectionFunctionValue(context, operand, options, fnName));
+    if (!result.isValid()) {
+        errorCode = U_MEMORY_ALLOCATION_ERROR;
+    }
+    return result;
+}
+
+static LocalPointer<FunctionValue> makeValidFunctionValue(const FunctionContext& context, const FunctionValue& operand,
+    const FunctionOptions& options, const char16_t* fnName, UnicodeString formattedVal, UnicodeString selectVal, bool selectable,
+    UErrorCode& errorCode)
+{
+    LocalPointer<FunctionValue> result(
+        new InflectionFunctionValue(context, operand, options, fnName, std::move(formattedVal), std::move(selectVal), selectable));
+    if (!result.isValid()) {
+        errorCode = U_MEMORY_ALLOCATION_ERROR;
+    }
+    return result;
+}
+
+class InflectionFunction : public Function {
+public:
+    explicit InflectionFunction(MF2Factory::OutputMode mode)
+        : mode(mode)
+    {
+    }
+    ~InflectionFunction() override = default;
+    LocalPointer<FunctionValue> call(
+        const FunctionContext& context, const FunctionValue& operand, const FunctionOptions& options, UErrorCode& errorCode) const override;
+
+private:
     MF2Factory::OutputMode mode;
 };
 
-class PronounFormatterFactory : public FormatterFactory {
-public:
-    explicit PronounFormatterFactory(MF2Factory::OutputMode mode) : mode(mode) {
-    }
+Function* MF2Factory::createInflectFunction(OutputMode mode) { return new InflectionFunction(mode); }
 
-    Formatter* createFormatter(const Locale&, UErrorCode&) override;
-
-private:
-    MF2Factory::OutputMode mode;
-};
-
-class PronounSelector : public Selector {
-public:
-    void selectKey(FormattedPlaceholder&&, FunctionOptions&&, const UnicodeString*, int32_t,
-                   UnicodeString*, int32_t&, UErrorCode&) const override;
-
-    explicit PronounSelector(const inflection::dialog::SemanticFeatureModel* model) : model(model) {
-    }
-
-private:
-    const inflection::dialog::SemanticFeatureModel* model;
-};
-
-class PronounSelectorFactory : public SelectorFactory {
-public:
-    Selector* createSelector(const Locale&, UErrorCode&) const override;
-};
-
-Formatter* PronounFormatterFactory::createFormatter(const Locale& loc, UErrorCode& ec) {
-    if (U_FAILURE(ec)) {
-        return nullptr;
-    }
-    return new PronounFormatter(GetSemanticFeatureModel(loc), mode);
-}
-
-Selector* PronounSelectorFactory::createSelector(const Locale& loc, UErrorCode& ec) const {
-    if (U_FAILURE(ec)) {
-        return nullptr;
-    }
-    return new PronounSelector(GetSemanticFeatureModel(loc));
-}
-
-icu::message2::FormatterFactory* MF2Factory::createPronounFormatterFactory(OutputMode mode) {
-    return new PronounFormatterFactory(mode);
-}
-
-icu::message2::SelectorFactory* MF2Factory::createPronounSelectorFactory() {
-    return new PronounSelectorFactory();
-}
-
-FormattedPlaceholder PronounFormatter::format(FormattedPlaceholder&& arg, FunctionOptions&& options,
-                                              UErrorCode& errorCode) const {
+LocalPointer<FunctionValue> InflectionFunction::call(
+    const FunctionContext& context, const FunctionValue& operand, const FunctionOptions& options, UErrorCode& errorCode) const
+{
     if (U_FAILURE(errorCode)) {
-        return {};
+        return LocalPointer<FunctionValue>(nullptr);
     }
-    if (!arg.canFormat()) {
-        errorCode = U_MF_FORMATTING_ERROR;
-        return FormattedPlaceholder(FN_PRONOUN);
+    if (operand.isNullOperand()) {
+        return makeInvalidFunctionValue(context, operand, options, FN_INFLECTION, errorCode);
     }
-    auto pronoun = pronounFromOperand(arg.asFormattable(), model, errorCode);
-    if (pronoun == nullptr) {
-        return FormattedPlaceholder(FN_PRONOUN);
+    const Locale& locale = context.getLocale();
+    const auto* model = GetSemanticFeatureModel(locale);
+    const Formattable& toFormat = operand.unwrap();
+
+    UErrorCode localStatus = U_ZERO_ERROR;
+    auto conceptObj = conceptFromOperand(toFormat, model, localStatus);
+    if (conceptObj == nullptr || U_FAILURE(localStatus)) {
+        return makeInvalidFunctionValue(context, operand, options, FN_INFLECTION, errorCode);
     }
 
-    auto opt = options.getOptions();
-    if (opt.contains(OPTION_TO) && opt.contains(OPTION_WITH_REFERENT)) {
-        errorCode = U_MF_FORMATTING_ERROR;
-        return FormattedPlaceholder(FN_PRONOUN);
+    UnicodeString inputString;
+    if (toFormat.getType() == UFMT_STRING) {
+        inputString = toFormat.getString(localStatus);
     }
-    for (const auto& [key, value] : opt) {
+    const auto& opt = options.getOptions();
+    for (const auto& [key, valPtr] : opt) {
+        if (key == UnicodeString(OPTION_TO)) {
+            continue;
+        }
+        auto constraint = conceptObj->getModel()->getFeature(key);
+        if (constraint == nullptr) {
+            return makeInvalidFunctionValue(context, operand, options, FN_INFLECTION, errorCode);
+        }
+        conceptObj->putConstraint(*constraint, resolveConstraintValue(model, *constraint, valPtr->unwrap(), localStatus));
+        if (U_FAILURE(localStatus)) {
+            return makeInvalidFunctionValue(context, operand, options, FN_INFLECTION, errorCode);
+        }
+    }
+    std::unique_ptr<inflection::dialog::SpeakableString> speakable;
+    if (opt.contains(OPTION_TO)) {
+        const UnicodeString& toName = opt.at(OPTION_TO)->unwrap().getString(localStatus);
+        if (U_FAILURE(localStatus)) {
+            return makeInvalidFunctionValue(context, operand, options, FN_INFLECTION, errorCode);
+        }
+        auto feature = conceptObj->getModel()->getFeature(toName);
+        if (feature != nullptr) {
+            speakable.reset(conceptObj->getFeatureValue(*feature));
+        }
+    } else {
+        speakable.reset(conceptObj->toSpeakableString());
+    }
+    UnicodeString formatted;
+    UnicodeString selected;
+    if (speakable != nullptr) {
+        formatted = emit(*speakable, mode);
+        selected = speakable->getPrint();
+    } else {
+        formatted = emit(inflection::dialog::SpeakableString(inputString), mode);
+    }
+    return makeValidFunctionValue(context, operand, options, FN_INFLECTION, std::move(formatted), std::move(selected), true, errorCode);
+}
+
+class NumeralFunction : public Function {
+public:
+    explicit NumeralFunction(MF2Factory::OutputMode mode)
+        : mode(mode)
+    {
+    }
+    ~NumeralFunction() override = default;
+    LocalPointer<FunctionValue> call(
+        const FunctionContext& context, const FunctionValue& operand, const FunctionOptions& options, UErrorCode& errorCode) const override;
+
+private:
+    MF2Factory::OutputMode mode;
+};
+
+Function* MF2Factory::createNumeralFunction(OutputMode mode) { return new NumeralFunction(mode); }
+
+LocalPointer<FunctionValue> NumeralFunction::call(
+    const FunctionContext& context, const FunctionValue& operand, const FunctionOptions& options, UErrorCode& errorCode) const
+{
+    if (U_FAILURE(errorCode)) {
+        return LocalPointer<FunctionValue>(nullptr);
+    }
+    if (operand.isNullOperand()) {
+        return makeInvalidFunctionValue(context, operand, options, FN_NUMERAL, errorCode);
+    }
+    inflection::util::ULocale locale(context.getLocale().getName());
+    const Formattable& toFormat = operand.unwrap();
+    UErrorCode localStatus = U_ZERO_ERROR;
+    std::unique_ptr<inflection::dialog::NumberConcept> num;
+    if (toFormat.getType() == UFMT_DOUBLE) {
+        num = std::make_unique<inflection::dialog::NumberConcept>(toFormat.getDouble(localStatus), locale, locale);
+    } else {
+        num = std::make_unique<inflection::dialog::NumberConcept>(toFormat.getInt64(localStatus), locale, locale);
+    }
+    if (U_FAILURE(localStatus)) {
+        return makeInvalidFunctionValue(context, operand, options, FN_NUMERAL, errorCode);
+    }
+
+    std::u16string style;
+    std::u16string variant;
+    bool hasVariant = false;
+    const auto& opt = options.getOptions();
+    if (opt.contains(OPTION_WITH_STYLE)) {
+        const UnicodeString& v = opt.at(OPTION_WITH_STYLE)->unwrap().getString(localStatus);
+        style = std::u16string(v.getBuffer(), v.length());
+    }
+    if (opt.contains(OPTION_WITH_VARIANT)) {
+        const UnicodeString& v = opt.at(OPTION_WITH_VARIANT)->unwrap().getString(localStatus);
+        variant = std::u16string(v.getBuffer(), v.length());
+        hasVariant = true;
+    }
+    if (U_FAILURE(localStatus)) {
+        return makeInvalidFunctionValue(context, operand, options, FN_NUMERAL, errorCode);
+    }
+
+    inflection::dialog::SpeakableString result = numeralToSpeakable(*num, style, variant, hasVariant, localStatus);
+    if (U_FAILURE(localStatus)) {
+        return makeInvalidFunctionValue(context, operand, options, FN_NUMERAL, errorCode);
+    }
+    UnicodeString out = emit(result, mode);
+    return makeValidFunctionValue(context, operand, options, FN_NUMERAL, std::move(out), { }, false, errorCode);
+}
+
+class QuantifyFunction : public Function {
+public:
+    explicit QuantifyFunction(MF2Factory::OutputMode mode)
+        : mode(mode)
+    {
+    }
+    ~QuantifyFunction() override = default;
+    LocalPointer<FunctionValue> call(
+        const FunctionContext& context, const FunctionValue& operand, const FunctionOptions& options, UErrorCode& errorCode) const override;
+
+private:
+    MF2Factory::OutputMode mode;
+};
+
+Function* MF2Factory::createQuantifyFunction(OutputMode mode) { return new QuantifyFunction(mode); }
+
+LocalPointer<FunctionValue> QuantifyFunction::call(
+    const FunctionContext& context, const FunctionValue& operand, const FunctionOptions& options, UErrorCode& errorCode) const
+{
+    if (U_FAILURE(errorCode)) {
+        return LocalPointer<FunctionValue>(nullptr);
+    }
+    if (operand.isNullOperand()) {
+        return makeInvalidFunctionValue(context, operand, options, FN_QUANTIFY, errorCode);
+    }
+    const Locale& icuLoc = context.getLocale();
+    const auto* model = GetSemanticFeatureModel(icuLoc);
+    const auto* ccf = GetCommonConceptFactory(icuLoc);
+    inflection::util::ULocale locale(icuLoc.getName());
+
+    UErrorCode localStatus = U_ZERO_ERROR;
+    std::unique_ptr<inflection::dialog::SemanticFeatureConceptBase> unit = conceptFromOperand(operand.unwrap(), model, localStatus);
+    if (unit == nullptr || U_FAILURE(localStatus)) {
+        return makeInvalidFunctionValue(context, operand, options, FN_QUANTIFY, errorCode);
+    }
+
+    const auto& opt = options.getOptions();
+    if (!opt.contains(OPTION_WITH_VALUE)) {
+        return makeInvalidFunctionValue(context, operand, options, FN_QUANTIFY, errorCode);
+    }
+    if (opt.contains(OPTION_WITH_STYLE) || opt.contains(OPTION_WITH_VARIANT)) {
+        return makeInvalidFunctionValue(context, operand, options, FN_QUANTIFY, errorCode);
+    }
+
+    const Formattable& valueF = opt.at(OPTION_WITH_VALUE)->unwrap();
+    std::unique_ptr<inflection::dialog::NumberConcept> num;
+    if (valueF.getType() == UFMT_DOUBLE) {
+        num = std::make_unique<inflection::dialog::NumberConcept>(valueF.getDouble(localStatus), locale, locale);
+    } else {
+        num = std::make_unique<inflection::dialog::NumberConcept>(valueF.getInt64(localStatus), locale, locale);
+    }
+    if (U_FAILURE(localStatus)) {
+        return makeInvalidFunctionValue(context, operand, options, FN_QUANTIFY, errorCode);
+    }
+
+    for (const auto& entry : opt) {
+        const UnicodeString& key = entry.first;
+        if (key == UnicodeString(OPTION_WITH_VALUE) || key == UnicodeString(OPTION_WITH_STYLE)
+            || key == UnicodeString(OPTION_WITH_VARIANT)) {
+            continue;
+        }
+        std::u16string name(key.getBuffer(), key.length());
+        const auto* feature = unit->getModel()->getFeature(name);
+        if (feature == nullptr) {
+            return makeInvalidFunctionValue(context, operand, options, FN_QUANTIFY, errorCode);
+        }
+        const UnicodeString& v = entry.second->unwrap().getString(localStatus);
+        if (U_FAILURE(localStatus)) {
+            return makeInvalidFunctionValue(context, operand, options, FN_QUANTIFY, errorCode);
+        }
+        unit->putConstraint(*feature, std::u16string(v.getBuffer(), v.length()));
+    }
+
+    std::unique_ptr<inflection::dialog::SpeakableString> result(ccf->quantify(*num, unit.get()));
+    if (result == nullptr) {
+        return makeInvalidFunctionValue(context, operand, options, FN_QUANTIFY, errorCode);
+    }
+    UnicodeString out = emit(*result, mode);
+    return makeValidFunctionValue(context, operand, options, FN_QUANTIFY, std::move(out), { }, false, errorCode);
+}
+
+class ListFunction : public Function {
+public:
+    explicit ListFunction(MF2Factory::OutputMode mode)
+        : mode(mode)
+    {
+    }
+    ~ListFunction() override = default;
+    LocalPointer<FunctionValue> call(
+        const FunctionContext& context, const FunctionValue& operand, const FunctionOptions& options, UErrorCode& errorCode) const override;
+
+private:
+    MF2Factory::OutputMode mode;
+};
+
+Function* MF2Factory::createListFunction(OutputMode mode) { return new ListFunction(mode); }
+
+LocalPointer<FunctionValue> ListFunction::call(
+    const FunctionContext& context, const FunctionValue& operand, const FunctionOptions& options, UErrorCode& errorCode) const
+{
+    if (U_FAILURE(errorCode)) {
+        return LocalPointer<FunctionValue>(nullptr);
+    }
+    if (operand.isNullOperand()) {
+        return makeInvalidFunctionValue(context, operand, options, FN_LIST, errorCode);
+    }
+    const Locale& icuLoc = context.getLocale();
+    const auto* model = GetSemanticFeatureModel(icuLoc);
+    const auto* ccf = GetCommonConceptFactory(icuLoc);
+
+    const Formattable& arrF = operand.unwrap();
+    if (arrF.getType() != UFMT_ARRAY) {
+        return makeInvalidFunctionValue(context, operand, options, FN_LIST, errorCode);
+    }
+    UErrorCode localStatus = U_ZERO_ERROR;
+    int32_t count = 0;
+    const Formattable* elems = arrF.getArray(count, localStatus);
+    if (U_FAILURE(localStatus)) {
+        return makeInvalidFunctionValue(context, operand, options, FN_LIST, errorCode);
+    }
+
+    const auto& opt = options.getOptions();
+
+    std::vector<std::unique_ptr<inflection::dialog::InflectableStringConcept>> items;
+    std::vector<const inflection::dialog::SemanticFeatureConceptBase*> itemPtrs;
+    for (int32_t i = 0; i < count; i++) {
+        UnicodeString elemStr = elems[i].getString(localStatus);
+        if (U_FAILURE(localStatus)) {
+            return makeInvalidFunctionValue(context, operand, options, FN_LIST, errorCode);
+        }
+        items.push_back(
+            std::make_unique<inflection::dialog::InflectableStringConcept>(model, inflection::dialog::SpeakableString(elemStr)));
+        itemPtrs.push_back(items.back().get());
+    }
+
+    std::unique_ptr<inflection::dialog::SemanticConceptList> list;
+    if (!opt.contains(OPTION_WITH_TYPE)) {
+        list = std::make_unique<inflection::dialog::SemanticConceptList>(model, itemPtrs);
+    } else {
+        const UnicodeString& typeV = opt.at(OPTION_WITH_TYPE)->unwrap().getString(localStatus);
+        if (U_FAILURE(localStatus)) {
+            return makeInvalidFunctionValue(context, operand, options, FN_LIST, errorCode);
+        }
+        std::u16string typeVal(typeV.getBuffer(), typeV.length());
+        if (typeVal == TYPE_AND) {
+            list.reset(ccf->createAndList(itemPtrs));
+        } else if (typeVal == TYPE_OR) {
+            list.reset(ccf->createOrList(itemPtrs));
+        } else {
+            return makeInvalidFunctionValue(context, operand, options, FN_LIST, errorCode);
+        }
+    }
+    if (list == nullptr) {
+        return makeInvalidFunctionValue(context, operand, options, FN_LIST, errorCode);
+    }
+
+    if (opt.contains(OPTION_WITH_BEFORE_FIRST)) {
+        list->setBeforeFirst(inflection::dialog::SpeakableString(opt.at(OPTION_WITH_BEFORE_FIRST)->unwrap().getString(localStatus)));
+    }
+    if (opt.contains(OPTION_WITH_AFTER_FIRST)) {
+        list->setAfterFirst(inflection::dialog::SpeakableString(opt.at(OPTION_WITH_AFTER_FIRST)->unwrap().getString(localStatus)));
+    }
+    if (opt.contains(OPTION_WITH_ITEM_DELIMITER)) {
+        list->setItemDelimiter(inflection::dialog::SpeakableString(opt.at(OPTION_WITH_ITEM_DELIMITER)->unwrap().getString(localStatus)));
+    }
+    if (opt.contains(OPTION_WITH_BEFORE_LAST)) {
+        list->setBeforeLast(inflection::dialog::SpeakableString(opt.at(OPTION_WITH_BEFORE_LAST)->unwrap().getString(localStatus)));
+    }
+    if (opt.contains(OPTION_WITH_AFTER_LAST)) {
+        list->setAfterLast(inflection::dialog::SpeakableString(opt.at(OPTION_WITH_AFTER_LAST)->unwrap().getString(localStatus)));
+    }
+    if (opt.contains(OPTION_WITH_ITEM_PREFIX)) {
+        list->setItemPrefix(inflection::dialog::SpeakableString(opt.at(OPTION_WITH_ITEM_PREFIX)->unwrap().getString(localStatus)));
+    }
+    if (opt.contains(OPTION_WITH_ITEM_SUFFIX)) {
+        list->setItemSuffix(inflection::dialog::SpeakableString(opt.at(OPTION_WITH_ITEM_SUFFIX)->unwrap().getString(localStatus)));
+    }
+    if (opt.contains(OPTION_WITH_AVOID_ITEM_AFFIX_REDUNDANCY)) {
+        const UnicodeString& v = opt.at(OPTION_WITH_AVOID_ITEM_AFFIX_REDUNDANCY)->unwrap().getString(localStatus);
+        list->setAvoidItemAffixRedundancy(std::u16string(v.getBuffer(), static_cast<size_t>(v.length())) == VALUE_TRUE);
+    }
+    if (U_FAILURE(localStatus)) {
+        return makeInvalidFunctionValue(context, operand, options, FN_LIST, errorCode);
+    }
+
+    static constexpr std::u16string_view LIST_CONTROL[] = {
+        OPTION_WITH_AFTER_FIRST,
+        OPTION_WITH_AFTER_LAST,
+        OPTION_WITH_AVOID_ITEM_AFFIX_REDUNDANCY,
+        OPTION_WITH_BEFORE_FIRST,
+        OPTION_WITH_BEFORE_LAST,
+        OPTION_WITH_ITEM_DELIMITER,
+        OPTION_WITH_ITEM_PREFIX,
+        OPTION_WITH_ITEM_SUFFIX,
+        OPTION_WITH_TYPE,
+    };
+    for (const auto& entry : opt) {
+        std::u16string_view nameView(entry.first.getBuffer(), static_cast<size_t>(entry.first.length()));
+        if (inflection::util::ArrayUtils::contains<LIST_CONTROL>(nameView)) {
+            continue;
+        }
+        const auto* feature = model->getFeature(nameView);
+        if (feature == nullptr) {
+            return makeInvalidFunctionValue(context, operand, options, FN_LIST, errorCode);
+        }
+        const UnicodeString& v = entry.second->unwrap().getString(localStatus);
+        if (U_FAILURE(localStatus)) {
+            return makeInvalidFunctionValue(context, operand, options, FN_LIST, errorCode);
+        }
+        list->putConstraint(*feature, std::u16string(v.getBuffer(), v.length()));
+    }
+
+    std::unique_ptr<inflection::dialog::SpeakableString> result(list->toSpeakableString());
+    if (result == nullptr) {
+        return makeInvalidFunctionValue(context, operand, options, FN_LIST, errorCode);
+    }
+    UnicodeString out = emit(*result, mode);
+    return makeValidFunctionValue(context, operand, options, FN_LIST, std::move(out), { }, false, errorCode);
+}
+
+class PronounFunction : public Function {
+public:
+    explicit PronounFunction(MF2Factory::OutputMode mode)
+        : mode(mode)
+    {
+    }
+    ~PronounFunction() override = default;
+    LocalPointer<FunctionValue> call(
+        const FunctionContext& context, const FunctionValue& operand, const FunctionOptions& options, UErrorCode& errorCode) const override;
+
+private:
+    MF2Factory::OutputMode mode;
+};
+
+Function* MF2Factory::createPronounFunction(OutputMode mode) { return new PronounFunction(mode); }
+
+LocalPointer<FunctionValue> PronounFunction::call(
+    const FunctionContext& context, const FunctionValue& operand, const FunctionOptions& options, UErrorCode& errorCode) const
+{
+    if (U_FAILURE(errorCode)) {
+        return LocalPointer<FunctionValue>(nullptr);
+    }
+    if (operand.isNullOperand()) {
+        return makeInvalidFunctionValue(context, operand, options, FN_PRONOUN, errorCode);
+    }
+    const auto* model = GetSemanticFeatureModel(context.getLocale());
+    UErrorCode localStatus = U_ZERO_ERROR;
+    auto pronoun = pronounFromOperand(operand.unwrap(), model, localStatus);
+    if (pronoun == nullptr || U_FAILURE(localStatus)) {
+        return makeInvalidFunctionValue(context, operand, options, FN_PRONOUN, errorCode);
+    }
+
+    const auto& opt = options.getOptions();
+    if (opt.contains(OPTION_TO) && opt.contains(OPTION_WITH_REFERENT)) {
+        return makeInvalidFunctionValue(context, operand, options, FN_PRONOUN, errorCode);
+    }
+    for (const auto& [key, valPtr] : opt) {
         if (key == UnicodeString(OPTION_TO) || key == UnicodeString(OPTION_WITH_REFERENT)) {
             continue;
         }
         auto feature = pronoun->getModel()->getFeature(key);
         if (feature == nullptr) {
-            errorCode = U_MF_FORMATTING_ERROR;
-            return FormattedPlaceholder(FN_PRONOUN);
+            return makeInvalidFunctionValue(context, operand, options, FN_PRONOUN, errorCode);
         }
-        pronoun->putConstraint(*feature, resolveConstraintValue(model, *feature, value, errorCode));
+        pronoun->putConstraint(*feature, resolveConstraintValue(model, *feature, valPtr->unwrap(), localStatus));
+        if (U_FAILURE(localStatus)) {
+            return makeInvalidFunctionValue(context, operand, options, FN_PRONOUN, errorCode);
+        }
     }
 
     std::unique_ptr<inflection::dialog::SpeakableString> speakable;
     if (opt.contains(OPTION_TO)) {
-        auto feature = pronoun->getModel()->getFeature(opt.at(OPTION_TO).getString(errorCode));
-        // Unknown to= feature: leave null -> fallback (intentional, not an error).
+        const UnicodeString& toName = opt.at(OPTION_TO)->unwrap().getString(localStatus);
+        if (U_FAILURE(localStatus)) {
+            return makeInvalidFunctionValue(context, operand, options, FN_PRONOUN, errorCode);
+        }
+        auto feature = pronoun->getModel()->getFeature(toName);
         if (feature != nullptr) {
             speakable.reset(pronoun->getFeatureValue(*feature));
         }
-    }
-    else if (opt.contains(OPTION_WITH_REFERENT)) {
-        auto referent = conceptFromOperand(opt.at(OPTION_WITH_REFERENT), model, errorCode);
-        if (referent == nullptr) {
-            return FormattedPlaceholder(FN_PRONOUN);
+    } else if (opt.contains(OPTION_WITH_REFERENT)) {
+        auto referent = conceptFromOperand(opt.at(OPTION_WITH_REFERENT)->unwrap(), model, localStatus);
+        if (referent == nullptr || U_FAILURE(localStatus)) {
+            return makeInvalidFunctionValue(context, operand, options, FN_PRONOUN, errorCode);
         }
         speakable.reset(pronoun->toSpeakableString(*referent));
-    }
-    else {
+    } else {
         speakable.reset(pronoun->toSpeakableString());
     }
 
-    UnicodeString result;
+    UnicodeString formatted;
+    UnicodeString selected;
     if (speakable != nullptr) {
-        result += emit(*speakable, mode);
+        formatted = emit(*speakable, mode);
+        selected = speakable->getPrint();
     }
-    return FormattedPlaceholder(arg, FormattedValue(std::move(result)));
-}
-
-void PronounSelector::selectKey(FormattedPlaceholder&& arg, FunctionOptions&& options,
-                                const UnicodeString* keys, int32_t keysLen,
-                                UnicodeString* prefs, int32_t& prefsLen, UErrorCode& errorCode) const {
-    if (U_FAILURE(errorCode)) {
-        return;
-    }
-    if (!arg.canFormat()) {
-        errorCode = U_MF_SELECTOR_ERROR;
-        return;
-    }
-    prefsLen = 0;
-    auto pronoun = pronounFromOperand(arg.asFormattable(), model, errorCode);
-    if (pronoun == nullptr) {
-        errorCode = U_MF_SELECTOR_ERROR;
-        return;
-    }
-
-    auto opt = options.getOptions();
-    if (opt.contains(OPTION_TO) && opt.contains(OPTION_WITH_REFERENT)) {
-        errorCode = U_MF_SELECTOR_ERROR;
-        return;
-    }
-    for (const auto& [key, value] : opt) {
-        if (key == UnicodeString(OPTION_TO) || key == UnicodeString(OPTION_WITH_REFERENT)) {
-            continue;
-        }
-        auto feature = pronoun->getModel()->getFeature(key);
-        if (feature == nullptr) {
-            errorCode = U_MF_SELECTOR_ERROR;
-            return;
-        }
-        pronoun->putConstraint(*feature, resolveConstraintValue(model, *feature, value, errorCode));
-    }
-
-    UnicodeString projected;
-    std::unique_ptr<inflection::dialog::SpeakableString> v;
-    if (opt.contains(OPTION_TO)) {
-        auto feature = pronoun->getModel()->getFeature(opt.at(OPTION_TO).getString(errorCode));
-        if (feature != nullptr) {
-            v.reset(pronoun->getFeatureValue(*feature));
-        }
-    }
-    else if (opt.contains(OPTION_WITH_REFERENT)) {
-        auto referent = conceptFromOperand(opt.at(OPTION_WITH_REFERENT), model, errorCode);
-        if (referent == nullptr) {
-            errorCode = U_MF_SELECTOR_ERROR;
-            return;
-        }
-        v.reset(pronoun->toSpeakableString(*referent));
-    }
-    else {
-        v.reset(pronoun->toSpeakableString());
-    }
-    if (v != nullptr) {
-        projected = v->getPrint();
-    }
-    for (int i = 0; i < keysLen; i++) {
-        if (projected == keys[i]) {
-            prefs[prefsLen++] = keys[i];
-        }
-    }
+    return makeValidFunctionValue(context, operand, options, FN_PRONOUN, std::move(formatted), std::move(selected), true, errorCode);
 }
 
 }  // namespace inflection::message2

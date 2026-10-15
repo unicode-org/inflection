@@ -275,14 +275,12 @@ TEST_CASE("Message2Test#testLocales")
     auto buildRegistry = [&](inflection::message2::MF2Factory::OutputMode mode) {
         UErrorCode ec = U_ZERO_ERROR;
         auto r = MFFunctionRegistry::Builder(ec)
-            .adoptFormatter(FunctionName("i:inflect"), inflection::message2::MF2Factory::createInflectFormatterFactory(mode), ec)
-            .adoptSelector(FunctionName("i:inflect"), inflection::message2::MF2Factory::createInflectSelectorFactory(), ec)
-            .adoptFormatter(FunctionName("i:numeral"), inflection::message2::MF2Factory::createNumeralFormatterFactory(mode), ec)
-            .adoptFormatter(FunctionName("i:quantify"), inflection::message2::MF2Factory::createQuantifyFormatterFactory(mode), ec)
-            .adoptFormatter(FunctionName("i:list"), inflection::message2::MF2Factory::createListFormatterFactory(mode), ec)
-            .adoptFormatter(FunctionName("i:pronoun"), inflection::message2::MF2Factory::createPronounFormatterFactory(mode), ec)
-            .adoptSelector(FunctionName("i:pronoun"), inflection::message2::MF2Factory::createPronounSelectorFactory(), ec)
-            .build();
+                     .adoptFunction(FunctionName("i:inflect"), inflection::message2::MF2Factory::createInflectFunction(mode), ec)
+                     .adoptFunction(FunctionName("i:numeral"), inflection::message2::MF2Factory::createNumeralFunction(mode), ec)
+                     .adoptFunction(FunctionName("i:quantify"), inflection::message2::MF2Factory::createQuantifyFunction(mode), ec)
+                     .adoptFunction(FunctionName("i:list"), inflection::message2::MF2Factory::createListFunction(mode), ec)
+                     .adoptFunction(FunctionName("i:pronoun"), inflection::message2::MF2Factory::createPronounFunction(mode), ec)
+                     .build();
         REQUIRE(U_SUCCESS(ec));
         return r;
     };
@@ -412,6 +410,7 @@ TEST_CASE("Message2Test#testLocales")
             MessageFormatter::Builder builder(testError);
             builder.setFunctionRegistry(hasSpeak ? ssmlRegistry : plainRegistry)
                 .setLocale(icuLocale)
+                .setBidiIsolationStrategy(icu::U_MF_BIDI_OFF)
                 .setPattern(UnicodeString(source.c_str()), pe, testError);
             if (errorExpected) {
                 // Surface MF errors (e.g. an unknown :i:inflect feature) via the UErrorCode.
@@ -461,4 +460,89 @@ TEST_CASE("Message2Test#testLocales")
     }
     xmlCleanupParser();
     REQUIRE(executedFiles > 0);
+
+    // Verify strict error reporting on invalid option value types and best-effort fallback formatting.
+    {
+        std::map<UnicodeString, Formattable> args;
+        args[UnicodeString(u"word")] = Formattable(UnicodeString(u"cat"));
+        args[UnicodeString(u"n")] = Formattable(static_cast<int64_t>(2));
+        Locale enUS("en_US");
+
+        for (const auto* pattern : { u"{$word :i:quantify withValue=$word}", u"{$word :i:inflect number=$n}" }) {
+            UErrorCode ec = U_ZERO_ERROR;
+            UParseError pe;
+            MessageFormatter::Builder b(ec);
+            b.setFunctionRegistry(plainRegistry)
+                .setLocale(enUS)
+                .setErrorHandlingBehavior(MessageFormatter::U_MF_STRICT)
+                .setPattern(UnicodeString(pattern), pe, ec);
+            MessageFormatter mf = b.build(ec);
+            if (U_SUCCESS(ec)) {
+                mf.formatToString(MessageArguments(args, ec), ec);
+            }
+            CHECK(U_FAILURE(ec));
+        }
+
+        {
+            UErrorCode ec = U_ZERO_ERROR;
+            UParseError pe;
+            MessageFormatter mf = MessageFormatter::Builder(ec)
+                                      .setFunctionRegistry(plainRegistry)
+                                      .setLocale(enUS)
+                                      .setBidiIsolationStrategy(icu::U_MF_BIDI_OFF)
+                                      .setPattern(UnicodeString(u"Hello {$word :i:inflect bogusFeature=value} and {:i:inflect}!"), pe, ec)
+                                      .build(ec);
+            REQUIRE(U_SUCCESS(ec));
+            UnicodeString out = mf.formatToString(MessageArguments(args, ec), ec);
+            REQUIRE(U_SUCCESS(ec));
+            CHECK(out == UnicodeString(u"Hello {$word} and {:i:inflect}!"));
+        }
+        {
+            // Default bidi isolation strategy (U_MF_BIDI_AUTO) with LTR locale and no u:dir option
+            // should treat locale-aware inflection functions as LTR (no FSI/PDI wrapping).
+            UErrorCode ec = U_ZERO_ERROR;
+            UParseError pe;
+            MessageFormatter mf = MessageFormatter::Builder(ec)
+                                      .setFunctionRegistry(plainRegistry)
+                                      .setLocale(enUS)
+                                      .setPattern(UnicodeString(u"You have {$n :i:numeral withStyle=asWords} messages."), pe, ec)
+                                      .build(ec);
+            REQUIRE(U_SUCCESS(ec));
+            UnicodeString out = mf.formatToString(MessageArguments(args, ec), ec);
+            REQUIRE(U_SUCCESS(ec));
+            CHECK(out == UnicodeString(u"You have two messages."));
+        }
+        {
+            // Local variable bound to an invalid inflection function call and referenced without a function annotation,
+            // as well as chained into another inflection function call.
+            for (const auto* pattern : {
+                     u".local $v = {$word :i:inflect bogusFeature=value} {{{$v}}}",
+                     u".local $v = {$word :i:numeral} {{{$v :i:numeral}}}",
+                 }) {
+                UErrorCode ec = U_ZERO_ERROR;
+                UParseError pe;
+                MessageFormatter mf = MessageFormatter::Builder(ec)
+                                          .setFunctionRegistry(plainRegistry)
+                                          .setLocale(enUS)
+                                          .setBidiIsolationStrategy(icu::U_MF_BIDI_OFF)
+                                          .setPattern(UnicodeString(pattern), pe, ec)
+                                          .build(ec);
+                REQUIRE(U_SUCCESS(ec));
+                UnicodeString out = mf.formatToString(MessageArguments(args, ec), ec);
+                REQUIRE(U_SUCCESS(ec));
+                CHECK(out == UnicodeString(u"{$v}"));
+
+                UErrorCode strictEc = U_ZERO_ERROR;
+                MessageFormatter strictMf = MessageFormatter::Builder(strictEc)
+                                                .setFunctionRegistry(plainRegistry)
+                                                .setLocale(enUS)
+                                                .setErrorHandlingBehavior(MessageFormatter::U_MF_STRICT)
+                                                .setPattern(UnicodeString(pattern), pe, strictEc)
+                                                .build(strictEc);
+                REQUIRE(U_SUCCESS(strictEc));
+                strictMf.formatToString(MessageArguments(args, strictEc), strictEc);
+                CHECK(strictEc == U_MF_FORMATTING_ERROR);
+            }
+        }
+    }
 }

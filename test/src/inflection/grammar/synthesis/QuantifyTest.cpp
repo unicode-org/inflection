@@ -585,23 +585,16 @@ TEST_CASE("QuantifyTest#testSerboCroatian")
     assertQuantity(conceptFactory, ::inflection::dialog::SpeakableString(u"4 брода", u"четири брода"), 4, ::inflection::dialog::SpeakableString(u"брод"));
     assertQuantity(conceptFactory, ::inflection::dialog::SpeakableString(u"5 бродова", u"пет бродова"), 5, ::inflection::dialog::SpeakableString(u"брод"));
     // A fraction falls in the CLDR "other" bucket yet must take the genitive singular.
-#if U_ICU_VERSION_MAJOR_NUM <= 78
-    // TODO remove this version check after version 79 is released, and update versions.mk with the new minimum version.
-    WARN("U_ICU_VERSION_MAJOR_NUM <= 78. Please test with a newer version of ICU.");
-#else
-    assertQuantity(conceptFactory, ::inflection::dialog::SpeakableString(u"1,1 брода", u"један зарез један брода"), 1.1, ::inflection::dialog::SpeakableString(u"брод"));
-#endif
+    assertQuantity(conceptFactory, ::inflection::dialog::SpeakableString(u"1,1 брода", u"један зарез један брода"), 1.1,
+        ::inflection::dialog::SpeakableString(u"брод"));
 
     // Feminine noun "земља" (land) through the same states.
     assertQuantity(conceptFactory, ::inflection::dialog::SpeakableString(u"1 земља", u"једна земља"), 1, ::inflection::dialog::SpeakableString(u"земља"));
     assertQuantity(conceptFactory, ::inflection::dialog::SpeakableString(u"2 земље", u"две земље"), 2, ::inflection::dialog::SpeakableString(u"земља"));
-    assertQuantity(conceptFactory, ::inflection::dialog::SpeakableString(u"5 земаља", u"пет земаља"), 5, ::inflection::dialog::SpeakableString(u"земља"));
-#if U_ICU_VERSION_MAJOR_NUM <= 78
-    // TODO remove this version check after version 79 is released, and update versions.mk with the new minimum version.
-    WARN("U_ICU_VERSION_MAJOR_NUM <= 78. Please test with a newer version of ICU.");
-#else
-    assertQuantity(conceptFactory, ::inflection::dialog::SpeakableString(u"1,1 земље", u"једна зарез једна земље"), 1.1, ::inflection::dialog::SpeakableString(u"земља"));
-#endif
+    assertQuantity(conceptFactory, ::inflection::dialog::SpeakableString(u"5 земаља", u"пет земаља"), 5,
+        ::inflection::dialog::SpeakableString(u"земља"));
+    assertQuantity(conceptFactory, ::inflection::dialog::SpeakableString(u"1,1 земље", u"једна зарез једна земље"), 1.1,
+        ::inflection::dialog::SpeakableString(u"земља"));
 
     // Verify oblique cases for 5+ (always genitive plural: бродова / земаља)
     assertQuantity(conceptFactory, u"5 бродова", u"пет бродова", 5, u"брод", u"locative");

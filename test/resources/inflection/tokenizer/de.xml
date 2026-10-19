@@ -37,7 +37,7 @@
         <annotatedTokens>Arbeit|s|zimmer</annotatedTokens>
     </test>
     <test>
-        <annotatedTokens>Liebe|s|brief</annotatedTokens>
+        <annotatedTokens>Lieb|es|brief</annotatedTokens>
     </test>
     <test>
         <annotatedTokens>Hoffnung|s|strahl</annotatedTokens>
@@ -52,13 +52,13 @@
         <annotatedTokens>Hund|e|hütte</annotatedTokens>
     </test>
     <test>
-        <annotatedTokens>Worter|buch</annotatedTokens>
+        <annotatedTokens>Wörter|buch</annotatedTokens>
     </test>
     <test>
         <annotatedTokens>Bilder|buch</annotatedTokens>
     </test>
     <test>
-        <annotatedTokens>Landes|regelung</annotatedTokens>
+        <annotatedTokens>Land|es|regelung</annotatedTokens>
     </test>
     <test>
         <annotatedTokens>Untersuchung|s|aus|schuss</annotatedTokens>

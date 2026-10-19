@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2024 Apple Inc. All rights reserved.
+ * Copyright 2016-2026 Apple Inc. All rights reserved.
  */
 #include <inflection/tokenizer/locale/de/DeTokenizer.hpp>
 
@@ -9,10 +9,11 @@
 namespace inflection::tokenizer::locale {
 namespace de {
 
-::inflection::tokenizer::TokenExtractor* DeTokenizer::createTokenExtractor(const ::inflection::util::ULocale& locale, const ::std::map<::std::u16string_view, const char16_t*>& config)
+::inflection::tokenizer::TokenExtractor* DeTokenizer::createTokenExtractor(
+    const ::inflection::util::ULocale& locale, const ::std::map<::std::u16string_view, const char16_t*>& config)
 {
     return new ::inflection::tokenizer::locale::GermanicWordAndDelimiterTokenExtractor(locale, config, DeDictionaryTokenizerConfig());
 }
 
-} // namespace tokenizer::locale::de
-} // namespace inflection
+} // namespace de
+} // namespace inflection::tokenizer::locale

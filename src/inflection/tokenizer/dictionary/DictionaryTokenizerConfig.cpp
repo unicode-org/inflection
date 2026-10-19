@@ -2,7 +2,6 @@
  * Copyright 2016-2024 Apple Inc. All rights reserved.
  */
 #include <inflection/tokenizer/dictionary/DictionaryTokenizerConfig.hpp>
-#include <algorithm>
 
 namespace inflection::tokenizer::dictionary {
 

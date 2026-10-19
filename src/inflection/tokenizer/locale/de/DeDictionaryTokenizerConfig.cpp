@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2024 Apple Inc. All rights reserved.
+ * Copyright 2016-2026 Apple Inc. All rights reserved.
  */
 #include <inflection/tokenizer/locale/de/DeDictionaryTokenizerConfig.hpp>
 
@@ -7,7 +7,7 @@ namespace inflection::tokenizer::locale {
 namespace de {
 
 DeDictionaryTokenizerConfig::DeDictionaryTokenizerConfig()
-    : super({u"s", u"se", u"e", u"n", u"ne", u"re", u"sne"}, {}, {}, {})
+    : super({ u"s", u"es", u"e", u"n", u"en", u"er", u"ens" }, { }, { }, { })
 {
     setMinCandidateLength(3);
     setMinSegmentLength(3);
@@ -17,5 +17,5 @@ DeDictionaryTokenizerConfig::DeDictionaryTokenizerConfig()
     setMinCompoundLengthForCredibility(20);
 }
 
-} // namespace tokenizer::locale::de
-} // namespace inflection
+} // namespace de
+} // namespace inflection::tokenizer::locale

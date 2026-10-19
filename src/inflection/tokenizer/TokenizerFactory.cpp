@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2024 Apple Inc. All rights reserved.
+ * Copyright 2016-2026 Apple Inc. All rights reserved.
  */
 #include <inflection/tokenizer/TokenizerFactory.hpp>
 

@@ -97,21 +97,25 @@ public class DictionaryEntry implements Comparable<DictionaryEntry> {
                 }
             }
             for (InflectionPattern pattern : entry.inflectionalPatterns) {
-                this.patternSourceIndices.merge(pattern, entry.getPatternSourceIndex(pattern), Math::max);
+                int existingSource = this.patternSourceIndices.getOrDefault(pattern, this.sourceIndex);
+                int incomingSource = entry.getPatternSourceIndex(pattern);
+                if (incomingSource > existingSource && !entry.rareInflectionalPatterns.contains(pattern)) {
+                    this.rareInflectionalPatterns.remove(pattern);
+                }
+                this.patternSourceIndices.put(pattern, Math.max(existingSource, incomingSource));
             }
             this.sourceIndex = Math.max(this.sourceIndex, entry.sourceIndex);
         }
 
         this.grammemes.addAll(entry.grammemes);
         for (InflectionPattern inflectionalPattern : entry.inflectionalPatterns) {
-            boolean isRareInEntry = entry.rareInflectionalPatterns.contains(inflectionalPattern);
             if (!this.inflectionalPatterns.contains(inflectionalPattern)) {
                 this.inflectionalPatterns.add(inflectionalPattern);
-                if (isRareInEntry) {
-                    this.rareInflectionalPatterns.add(inflectionalPattern);
-                }
-            } else if (!isRareInEntry) {
-                this.rareInflectionalPatterns.remove(inflectionalPattern);
+            }
+        }
+        for (InflectionPattern inflectionalPattern : entry.rareInflectionalPatterns) {
+            if (!this.rareInflectionalPatterns.contains(inflectionalPattern)) {
+                this.rareInflectionalPatterns.add(inflectionalPattern);
             }
         }
         this.lemmas.addAll(entry.lemmas);

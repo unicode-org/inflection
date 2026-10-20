@@ -8,8 +8,8 @@
         <params>
             <param name="object" type="String"><value>lights</value></param>
         </params>
-        <source>The {$object :i:inflect} {is :i:inflect number=$object} on.</source>
-        <print>The lights are on.</print>
+        <source>The {$object} {is :i:inflect number=$object} on.</source>
+        <print>The &#x2068;lights&#x2069; are on.</print>
     </test>
     <test>
         <params>
@@ -23,40 +23,40 @@
             <param name="object" type="String"><value>light</value></param>
         </params>
         <source>.local $num = {$object :i:inflect to=number} .match $num
-plural {{The {$object :i:inflect} are on}}
-* {{The {$object :i:inflect} is on}}
+plural {{The {$object} are on}}
+* {{The {$object} is on}}
 </source>
-        <print>The light is on</print>
+        <print>The &#x2068;light&#x2069; is on</print>
     </test>
     <test>
         <params>
             <param name="object" type="String"><value>lights</value></param>
         </params>
         <source>.local $num = {$object :i:inflect to=number} .match $num
-plural {{The {$object :i:inflect} are on}}
-* {{The {$object :i:inflect} is on}}
+plural {{The {$object} are on}}
+* {{The {$object} is on}}
 </source>
-        <print>The lights are on</print>
+        <print>The &#x2068;lights&#x2069; are on</print>
     </test>
     <test>
         <params>
             <param name="object" type="String"><value>lights on the front porch</value></param>
         </params>
         <source>.local $num = {$object :i:inflect to=number} .match $num
-plural {{The {$object :i:inflect} are on}}
-* {{The {$object :i:inflect} is on}}
+plural {{The {$object} are on}}
+* {{The {$object} is on}}
 </source>
-        <print>The lights on the front porch are on</print>
+        <print>The &#x2068;lights on the front porch&#x2069; are on</print>
     </test>
     <test>
         <params>
             <param name="object" type="String"><value>light on the front porch</value></param>
         </params>
         <source>.local $num = {$object :i:inflect to=number} .match $num
-plural {{The {$object :i:inflect} are on}}
-* {{The {$object :i:inflect} is on}}
+plural {{The {$object} are on}}
+* {{The {$object} is on}}
 </source>
-        <print>The light on the front porch is on</print>
+        <print>The &#x2068;light on the front porch&#x2069; is on</print>
     </test>
     <test>
         <params>

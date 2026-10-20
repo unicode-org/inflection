@@ -12,7 +12,7 @@
 |in die| {{The defArticleInPreposition of '{$name}' is 'in die'.}}
 * {{The defArticleInPreposition of '{$name}' is unexpectedly '$defArticleInPreposition'.}}
 </source>
-        <print>The defArticleInPreposition of '&#x2068;Bank&#x2069;' is 'in die'.</print>
+        <print>The defArticleInPreposition of 'Bank' is 'in die'.</print>
     </test>
     <test>
         <params>
@@ -22,7 +22,7 @@
 |im Fundort| {{The withDefArticleInPreposition of '{$name}' is 'im Fundort'.}}
 * {{The withDefArticleInPreposition of '{$name}' is something else.}}
 </source>
-        <print>The withDefArticleInPreposition of '&#x2068;Fundort&#x2069;' is 'im Fundort'.</print>
+        <print>The withDefArticleInPreposition of 'Fundort' is 'im Fundort'.</print>
     </test>
     <test>
         <params>

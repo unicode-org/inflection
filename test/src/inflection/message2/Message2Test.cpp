@@ -410,6 +410,7 @@ TEST_CASE("Message2Test#testLocales")
             MessageFormatter::Builder builder(testError);
             builder.setFunctionRegistry(hasSpeak ? ssmlRegistry : plainRegistry)
                 .setLocale(icuLocale)
+                .setBidiIsolationStrategy(icu::U_MF_BIDI_OFF)
                 .setPattern(UnicodeString(source.c_str()), pe, testError);
             if (errorExpected) {
                 // Surface MF errors (e.g. an unknown :i:inflect feature) via the UErrorCode.

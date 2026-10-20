@@ -23,7 +23,7 @@ masculine singular {{{$name} is Masculine &amp; Singular}}
 hello singular {{{$name} is Hello &amp; Singular}}
 * * {{{$name} is other}}
 </source>
-        <print>&#x2068;gato&#x2069; is Masculine &amp; Singular</print>
+        <print>gato is Masculine &amp; Singular</print>
     </test>
     <test>
         <params>

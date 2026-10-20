@@ -9,7 +9,7 @@
             <param name="object" type="String"><value>lights</value></param>
         </params>
         <source>The {$object} {is :i:inflect number=$object} on.</source>
-        <print>The &#x2068;lights&#x2069; are on.</print>
+        <print>The lights are on.</print>
     </test>
     <test>
         <params>
@@ -26,7 +26,7 @@
 plural {{The {$object} are on}}
 * {{The {$object} is on}}
 </source>
-        <print>The &#x2068;light&#x2069; is on</print>
+        <print>The light is on</print>
     </test>
     <test>
         <params>
@@ -36,7 +36,7 @@ plural {{The {$object} are on}}
 plural {{The {$object} are on}}
 * {{The {$object} is on}}
 </source>
-        <print>The &#x2068;lights&#x2069; are on</print>
+        <print>The lights are on</print>
     </test>
     <test>
         <params>
@@ -46,7 +46,7 @@ plural {{The {$object} are on}}
 plural {{The {$object} are on}}
 * {{The {$object} is on}}
 </source>
-        <print>The &#x2068;lights on the front porch&#x2069; are on</print>
+        <print>The lights on the front porch are on</print>
     </test>
     <test>
         <params>
@@ -56,7 +56,7 @@ plural {{The {$object} are on}}
 plural {{The {$object} are on}}
 * {{The {$object} is on}}
 </source>
-        <print>The &#x2068;light on the front porch&#x2069; is on</print>
+        <print>The light on the front porch is on</print>
     </test>
     <test>
         <params>

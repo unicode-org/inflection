@@ -34,7 +34,7 @@ jobs:
               build/*.tar.gz
     env:
       ICU_MAJOR: '79'
-      ICU_MINOR: '1rc'
+      ICU_MINOR: '1'
 
     steps:
       - name: Checkout

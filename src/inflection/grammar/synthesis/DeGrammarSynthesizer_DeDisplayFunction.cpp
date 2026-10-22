@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2025 Apple Inc. All rights reserved.
+ * Copyright 2017-2026 Apple Inc. All rights reserved.
  */
 #include <inflection/grammar/synthesis/DeGrammarSynthesizer_DeDisplayFunction.hpp>
 
@@ -554,6 +554,30 @@ std::optional<::std::pair<::std::u16string, ::std::u16string>> DeGrammarSynthesi
         iteratedToken = npc(iteratedToken)->getPrevious();
     }
 
+    // German nouns are capitalized. When a compound noun is split, the head word
+    // becomes lowercase (e.g., 'Ehefrau' -> 'Ehe' + 'frau'). Capitalize the head
+    // word for dictionary lookup and inflection (e.g., to match noun 'Frau' instead
+    // of pronoun 'frau', or capitalized suffixes like 'Arzt' -> 'Ärzte').
+    int64_t headBinaryType = 0;
+    ::std::u16string capitalizedHeadWord;
+    if (u_islower(headWord[0])) {
+        const inflection::tokenizer::Token* compoundStartToken = headWordToken;
+        while (compoundStartToken->getPrevious() != nullptr && compoundStartToken->getPrevious()->isSignificant()) {
+            compoundStartToken = compoundStartToken->getPrevious();
+        }
+        if (compoundStartToken != headWordToken && !compoundStartToken->getValue().empty()
+            && u_isupper(compoundStartToken->getValue()[0])) {
+            ::std::u16string capitalized
+                = inflection::util::StringViewUtils::capitalizeFirst(headWord, ::inflection::util::LocaleUtils::GERMAN());
+            int64_t capGrammemes = 0;
+            if (dictionary.getCombinedBinaryType(&capGrammemes, capitalized) != nullptr && (capGrammemes & dictionaryNoun) != 0) {
+                capitalizedHeadWord = ::std::move(capitalized);
+                headBinaryType = capGrammemes;
+            }
+        }
+    }
+    const auto& headWordToInflect = capitalizedHeadWord.empty() ? headWord : capitalizedHeadWord;
+
     std::optional<::std::u16string> inflectedHeadWord;
     std::optional<::std::u16string> inflectedDependentWord;
 
@@ -561,25 +585,31 @@ std::optional<::std::pair<::std::u16string, ::std::u16string>> DeGrammarSynthesi
     if (dependentToken != nullptr && npc(dependentToken)->isSignificant()) {
         auto const& dependentWord = dependentToken->getValue();
 
-        const auto inflectionResult = inflect2Words(dependentWord, headWord, constraints, enableInflectionGuess);
+        const auto inflectionResult = inflect2Words(dependentWord, headWordToInflect, constraints, enableInflectionGuess);
 
         if (!inflectionResult) {
             // inflection has failed
-            return {};
+            return { };
         }
 
         inflectedHeadWord = inflectionResult->first;
         inflectedDependentWord = inflectionResult->second;
     } else {
-        int64_t wordGrammemes = 0;
-        dictionary.getCombinedBinaryType(&wordGrammemes, headWord);
-        inflectedHeadWord = inflectWord(headWord, wordGrammemes, constraints, {}, enableInflectionGuess);
+        if (capitalizedHeadWord.empty()) {
+            dictionary.getCombinedBinaryType(&headBinaryType, headWord);
+        }
+        inflectedHeadWord = inflectWord(headWordToInflect, headBinaryType, constraints, { }, enableInflectionGuess);
 
         if (!inflectedHeadWord) {
             return { };
         }
     }
 
+    if (inflectedHeadWord && !capitalizedHeadWord.empty()) {
+        ::std::u16string lowercasedHeadWord;
+        ::inflection::util::StringViewUtils::lowercase(&lowercasedHeadWord, *inflectedHeadWord, ::inflection::util::LocaleUtils::GERMAN());
+        inflectedHeadWord = lowercasedHeadWord;
+    }
 
     // Postflight: put all tokens back together:
     ::std::u16string inflectedResult;

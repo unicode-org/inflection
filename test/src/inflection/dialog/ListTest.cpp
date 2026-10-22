@@ -720,9 +720,9 @@ TEST_CASE("ListTest#testListHi")
 
     REQUIRE(andList(factory, {u"1"}) == u"1");
     REQUIRE(andList(factory, {u"1", u"2"}) == u"1 और 2");
-    REQUIRE(andList(factory, {u"1", u"2", u"3"}) == u"1, 2, और 3");
-    REQUIRE(andList(factory, {u"1", u"2", u"3", u"4"}) == u"1, 2, 3, और 4");
-    REQUIRE(andList(factory, {u"Joe", u"John Junior", u"Jane", u"Joan"}) == u"Joe, John Junior, Jane, और Joan");
+    REQUIRE(andList(factory, { u"1", u"2", u"3" }) == u"1, 2 और 3");
+    REQUIRE(andList(factory, { u"1", u"2", u"3", u"4" }) == u"1, 2, 3 और 4");
+    REQUIRE(andList(factory, { u"Joe", u"John Junior", u"Jane", u"Joan" }) == u"Joe, John Junior, Jane और Joan");
 
     REQUIRE(orList(factory, {u"1"}) == u"1");
     REQUIRE(orList(factory, {u"1", u"2"}) == u"1 या 2");

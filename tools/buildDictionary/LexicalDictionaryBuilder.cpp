@@ -125,11 +125,11 @@ static ::std::map<int64_t, int64_t> createBitsToContainerBitsMap(
     return valueBitsToContainerBits;
 }
 
-static int64_t mapValueToContainerBits(int64_t binaryProperties, std::map<int64_t, int64_t> bitmap)
+static int64_t mapValueToContainerBits(uint64_t binaryProperties, std::map<int64_t, int64_t> bitmap)
 {
     int64_t result = 0;
     while (binaryProperties != 0) {
-        auto singleProperty = ((int64_t) (((uint64_t) (binaryProperties ^ (binaryProperties - 1))) >> 1)) + 1;
+        auto singleProperty = ((binaryProperties ^ (binaryProperties - 1)) >> 1) + 1;
         binaryProperties &= binaryProperties - 1;
         auto newBitItr = bitmap.find(singleProperty);
         if (newBitItr == bitmap.end()) {
@@ -400,7 +400,7 @@ void LexicalDictionaryBuilder::writeDictionary(::std::ofstream& writer,
                            propertyNameToKeyId,
                            propertyValuesStringContainer,
                            propertyValueMapsVector);
-    inflection::dictionary::metadata::CompressedArray propertyValueMaps(propertyValueMapsVector);
+    inflection::dictionary::metadata::CompressedArray<int32_t> propertyValueMaps(propertyValueMapsVector);
     propertyValueMapsVector.clear();
     propertyValueMapsVector.shrink_to_fit();
 
@@ -420,11 +420,11 @@ void LexicalDictionaryBuilder::writeDictionary(::std::ofstream& writer,
     auto dataSingletonsResult = compressDataSingletons(wordsToData, logger, dictionary.getLocale());
 
     {
-        CompressedArray dataSingletonsRaw(dataSingletonsResult.dataSingletons);
+        CompressedArray<uint64_t> dataSingletonsRaw(dataSingletonsResult.dataSingletons);
         dataSingletonsResult.dataSingletons.clear();
         dataSingletonsResult.dataSingletons.shrink_to_fit();
 
-        MarisaTrie wordsToDataTrie(dataSingletonsResult.use2Stage ? dataSingletonsResult.wordsToDataSingletons : wordsToData);
+        MarisaTrie<uint64_t> wordsToDataTrie(dataSingletonsResult.use2Stage ? dataSingletonsResult.wordsToDataSingletons : wordsToData);
         dataSingletonsResult.wordsToDataSingletons.clear();
         wordsToData.clear();
 

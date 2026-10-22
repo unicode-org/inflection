@@ -156,9 +156,10 @@ TEST_CASE("MMappedDictionaryTest#testCompressedArray")
 TEST_CASE("MMappedDictionaryTest#readInvalidFiles")
 {
     auto temporaryPath = createTemporaryFilePath();
-    ::inflection::util::Finally finally([&temporaryPath]() noexcept {
+    auto cleanup = [&temporaryPath]() noexcept {
         ::std::filesystem::remove(temporaryPath);
-    });
+    };
+    ::inflection::util::Finally<decltype(cleanup)> finally(cleanup);
 
     ::std::u16string uPath;
     ::inflection::util::StringUtils::convert(&uPath, temporaryPath.string());

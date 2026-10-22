@@ -13,6 +13,7 @@
 #include <inflection/tokenizer/Token_Tail.hpp>
 #include <inflection/tokenizer/Tokenizer.hpp>
 #include <inflection/tokenizer/TokenizerFactory.hpp>
+#include <unicode/utf16.h>
 #include <inflection/npc.hpp>
 #include <memory>
 #include <unicode/uchar.h>

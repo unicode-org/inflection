@@ -11,6 +11,7 @@
 #include <unicode/uchar.h>
 #include <unicode/ustring.h>
 #include <unicode/utf8.h>
+#include <unicode/utf16.h>
 
 namespace inflection::util {
 

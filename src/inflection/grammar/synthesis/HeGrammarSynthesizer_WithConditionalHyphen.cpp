@@ -8,6 +8,7 @@
 #include <inflection/util/StringViewUtils.hpp>
 #include <unicode/uchar.h>
 #include <unicode/uscript.h>
+#include <unicode/utf16.h>
 
 namespace inflection::grammar::synthesis {
 

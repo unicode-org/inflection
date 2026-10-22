@@ -4,7 +4,9 @@
   License & terms of use: http://www.unicode.org/copyright.html
 -->
 <inflectionTest locale="sr">
-    <!-- Tests of dictionary words -->
+    <!-- ========================================================== -->
+    <!-- 1. Dictionary Words Tests                                 -->
+    <!-- ========================================================== -->
     <test><source case="nominative" number="singular">једро</source><result>једро</result></test>
     <test><source case="nominative" number="plural">једро</source><result>једра</result></test>
     <test><source case="nominative" number="singular">жена</source><result>жена</result></test>
@@ -14,11 +16,55 @@
     <test><source case="vocative" number="singular" gender="feminine">Србија</source><result>Србијо</result></test>
     <test><source case="instrumental" number="plural" gender="masculine">становник</source><result>становницима</result></test>
     <test><source case="genitive" number="plural" gender="neuter" pos="adjective">плава</source><result>плавe</result></test>
-    <!-- Words not in the dictionary but similar in shape -->
-    <!-- test><source case="vocative" number="singular" gender="masculine">уранак</source><result>уранче</result></test -->
-    <!-- test><source case="vocative" number="singular" gender="masculine">игроказ</source><result>игрокаже</result></test -->
-    <!-- test><source case="vocative" number="singular" gender="masculine">пашњак</source><result>пашњаче</result></test -->
-    <!-- Rule based inflection, group 3, all nouns ending with a -->
+
+    <!-- ========================================================== -->
+    <!-- 2. Class I (I Vrsta) - Genitive Sg -a                     -->
+    <!--    Masculine consonant & Neuter -o/-e unexpanded nouns    -->
+    <!-- ========================================================== -->
+    <!-- Masculine consonant nouns & fleeting -a- stem reduction -->
+    <test><source case="genitive" number="singular" gender="masculine">уранак</source><result>уранка</result></test>
+    <test><source case="dative" number="singular" gender="masculine">уранак</source><result>уранку</result></test>
+    <test><source case="genitive" number="singular" gender="masculine">пашњак</source><result>пашњака</result></test>
+    <test><source case="genitive" number="singular" gender="masculine">клинац</source><result>клинца</result></test>
+    <test><source case="genitive" number="singular" gender="masculine">ученик</source><result>ученика</result></test>
+    <test><source case="genitive" number="singular" gender="masculine">играч</source><result>играча</result></test>
+    <test><source case="genitive" number="singular" gender="masculine">пекар</source><result>пекара</result></test>
+    <test><source case="genitive" number="singular" gender="masculine">микробус</source><result>микробуса</result></test>
+    <test><source case="genitive" number="singular" gender="masculine" pos="proper-noun">Бојан</source><result>Бојана</result></test>
+    <test><source case="genitive" number="singular" gender="masculine" pos="proper-noun">Радош</source><result>Радоша</result></test>
+    <test><source case="instrumental" number="singular" gender="masculine">прозор</source><result>прозором</result></test>
+    <!-- Neuter unexpanded nouns in -o and -e -->
+    <test><source case="genitive" number="singular" gender="neuter">огледало</source><result>огледала</result></test>
+    <test><source case="genitive" number="singular" gender="neuter">стабло</source><result>стабла</result></test>
+    <test><source case="genitive" number="singular" gender="neuter">уточиште</source><result>уточишта</result></test>
+    <test><source case="genitive" number="singular" gender="neuter">саопштење</source><result>саопштења</result></test>
+    <test><source case="instrumental" number="singular" gender="neuter">село</source><result>селом</result></test>
+    <test><source case="instrumental" number="singular" gender="neuter">поље</source><result>пољем</result></test>
+
+    <!-- ========================================================== -->
+    <!-- 3. Class II (II Vrsta) - Genitive Sg -a with stem extension-->
+    <!--    Neuter -e nouns expanding stem with -n- or -t-        -->
+    <!-- ========================================================== -->
+    <!-- Stem extension -n- (-me nouns) -->
+    <test><source case="genitive" number="singular" gender="neuter">име</source><result>имена</result></test>
+    <test><source case="genitive" number="singular" gender="neuter">време</source><result>времена</result></test>
+    <test><source case="dative" number="singular" gender="neuter">презиме</source><result>презимену</result></test>
+    <!-- Stem extension -t- (-te, -le, -ce, -be nouns) -->
+    <test><source case="dative" number="singular" gender="neuter">дете</source><result>детету</result></test>
+    <test><source case="genitive" number="singular" gender="neuter">дугме</source><result>дугмета</result></test>
+    <test><source case="genitive" number="singular" gender="neuter">пиле</source><result>пилета</result></test>
+
+    <!-- ========================================================== -->
+    <!-- 4. Class III (III Vrsta) - Genitive Sg -e                 -->
+    <!--    Feminine & Masculine nouns ending in -a                -->
+    <!-- ========================================================== -->
+    <test><source case="genitive" number="singular" gender="feminine">кућица</source><result>кућице</result></test>
+    <test><source case="dative" number="singular" gender="feminine">кућица</source><result>кућици</result></test>
+
+    <test><source case="genitive" number="singular" gender="feminine">географија</source><result>географије</result></test>
+    <test><source case="genitive" number="singular" gender="feminine">патка</source><result>патке</result></test>
+    <test><source case="genitive" number="singular" gender="masculine" pos="proper-noun">Радиша</source><result>Радише</result></test>
+    <test><source case="genitive" number="singular" gender="masculine" pos="proper-noun">Никола</source><result>Николе</result></test>
     <test><source case="instrumental">Италија</source><result>Италијом</result></test>
     <test><source case="instrumental">авенија</source><result>авенијом</result></test>
     <test><source case="locative" number="plural" gender="feminine">авенија</source><result>авенијама</result></test>
@@ -29,6 +75,7 @@
     <test><source case="vocative">Зора</source><result>Зоро</result></test>
     <test><source case="vocative">Божа</source><result>Божо</result></test>
     <test><source case="vocative">Љуба</source><result>Љубо</result></test>
+    <!-- Genitive Plural inserted -a- vs cluster ending -i -->
     <test><source case="genitive" number="plural">пратња</source><result>пратњи</result></test>
     <test><source case="genitive" number="plural">радња</source><result>радњи</result></test>
     <test><source case="genitive" number="plural">лопта</source><result>лопти</result></test>
@@ -37,6 +84,25 @@
     <test><source case="genitive" number="plural">гошћа</source><result>гошћа</result></test>
     <test><source case="genitive" number="plural">двојка</source><result>двојака</result></test>
     <test><source case="genitive" number="plural">битка</source><result>битака</result></test>
-    <!-- There are some exception, like pripovetka where tk -> dak because of the base word. This has to be dictionary exception -->
-    <!-- <test><source case="genitive" number="plural" gender="feminine">приповетка</source><result>приповедака</result></test> -->
+
+    <!-- ========================================================== -->
+    <!-- 5. Class IV (IV Vrsta) - Genitive Sg -i                   -->
+    <!--    Feminine consonant nouns (i-declension)                -->
+    <!-- ========================================================== -->
+    <test><source case="dative" number="singular" gender="feminine">памет</source><result>памети</result></test>
+    <test><source case="genitive" number="singular" gender="feminine">младост</source><result>младости</result></test>
+    <test><source case="genitive" number="singular" gender="feminine">кост</source><result>кости</result></test>
+    <test><source case="genitive" number="singular" gender="feminine">ствар</source><result>ствари</result></test>
+    <!-- Instrumental Singular iotation (љубављу, памећу, младошћу, кошћу, ноћу) -->
+
+    <test><source case="instrumental" number="singular" gender="feminine">љубав</source><result>љубављу</result></test>
+    <test><source case="instrumental" number="singular" gender="feminine">памет</source><result>памећу</result></test>
+    <test><source case="instrumental" number="singular" gender="feminine">младост</source><result>младошћу</result></test>
+    <test><source case="instrumental" number="singular" gender="feminine">кост</source><result>кошћу</result></test>
+    <test><source case="instrumental" number="singular" gender="feminine">ноћ</source><result>ноћу</result></test>
 </inflectionTest>
+
+
+
+
+

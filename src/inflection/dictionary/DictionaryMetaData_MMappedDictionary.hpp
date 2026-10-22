@@ -29,7 +29,8 @@ public:
     ::std::optional<int64_t> getValueOfType(std::u16string_view type) const;
     int64_t getValuesOfTypes(const std::vector<std::u16string> &types) const;
     ::std::optional<::std::u16string> getTypeOfValue(int64_t value) const;
-    ::std::vector<::std::u16string> getTypesOfValues(int64_t value) const;
+    ::std::vector<::std::u16string> getTypesOfValues(uint64_t value) const;
+
 private:
     void getPropertyMapInternalIdentifiers(std::vector<int32_t> &propertyIdentifiers, int32_t startingOffset, int32_t length) const;
     typedef enum {

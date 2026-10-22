@@ -125,7 +125,7 @@ plural {{The {$object} are on}}
         <source>.local $v = {$word :i:inflect bogusFeature=value} .match $v
 * {{fallback}}
 </source>
-        <print error="U_MF_SELECTOR_ERROR"/>
+        <print error="U_MF_FORMATTING_ERROR"/>
     </test>
     <test>
         <params>

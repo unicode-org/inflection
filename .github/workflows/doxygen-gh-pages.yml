@@ -24,8 +24,8 @@ on:
     - '!documents/**'
 
 env:
-  ICU_MAJOR: '78'
-  ICU_MINOR: '3'
+  ICU_MAJOR: '79'
+  ICU_MINOR: '1'
 
 jobs:
   cache-icu:
@@ -39,13 +39,13 @@ jobs:
       - name: Download and install icu
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
-          wget https://github.com/unicode-org/icu/releases/download/release-${ICU_MAJOR}.${ICU_MINOR}/icu4c-${ICU_MAJOR}.${ICU_MINOR}-Ubuntu22.04-x64.tgz
+          wget https://github.com/unicode-org/icu/releases/download/release-${ICU_MAJOR}.${ICU_MINOR}/icu4c-${ICU_MAJOR}.${ICU_MINOR}-Ubuntu24.04-x64.tgz
           export ICU=~/icu/
           mkdir -p $ICU
           echo "ICU directory is $ICU"
 
           # Get the release and unpack.
-          cp icu4c-${ICU_MAJOR}.${ICU_MINOR}-Ubuntu22.04-x64.tgz $ICU
+          cp icu4c-${ICU_MAJOR}.${ICU_MINOR}-Ubuntu24.04-x64.tgz $ICU
           pushd $ICU
 
           pwd

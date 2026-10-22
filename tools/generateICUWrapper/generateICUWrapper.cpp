@@ -276,6 +276,7 @@ static void RunOnFile(const char *className, const char *filePath, std::stringst
     vector<RegexToMatch> normalizationMap = {
         RegexToMatch("\\bU_CAPI\\b", ""),
         RegexToMatch("\\bU_EXPORT2\\b", ""),
+        RegexToMatch("\\s*\\bU_LIFETIME_BOUND\\b", ""),
         RegexToMatch("\\s*/\\*[^\\*]*\\*/", ""),
         RegexToMatch("\\*", " *"),
         RegexToMatch("\\s+", " "),

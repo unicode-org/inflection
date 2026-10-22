@@ -12,6 +12,7 @@
 #include <icu4cxx/UnicodeSet.hpp>
 #include <unicode/ulocdata.h>
 #include <unicode/uscript.h>
+#include <unicode/utf16.h>
 #include <map>
 #include <mutex>
 

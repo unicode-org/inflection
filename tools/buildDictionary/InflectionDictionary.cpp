@@ -15,6 +15,7 @@
 
 #include <algorithm>
 #include <fstream>
+#include <functional>
 #include <map>
 #include <set>
 #include <string>
@@ -183,12 +184,13 @@ static ParsedInflectionData parseXMLDocument(const std::string& source,
     LIBXML_TEST_VERSION
 
     xmlDocPtr xmlDoc = nullptr;
-    inflection::util::Finally finally([&xmlDoc]() noexcept {
+    auto cleanup = [&xmlDoc]() noexcept {
         if (xmlDoc != nullptr) {
             xmlFreeDoc(xmlDoc);
         }
         xmlCleanupParser();
-    });
+    };
+    inflection::util::Finally<decltype(cleanup)> finally(cleanup);
     std::u16string resourceName = inflection::util::StringViewUtils::to_u16string(source);
     inflection::util::MemoryMappedFile mMapFile(resourceName);
     auto xmlDocSize = mMapFile.getSize();
@@ -336,7 +338,7 @@ void InflectionDictionary::write(::std::ofstream& writer, DictionaryLogger& logg
     npc(inflection_Suffixes)->write(writer);
     logger.logWithOffset(locale.getName() + " inflection_Suffixes number=" + std::to_string(npc(inflection_Suffixes)->size()));
 
-    inflection::dictionary::metadata::CompressedArray compressedInflectionsArray(inflectionsArray);
+    inflection::dictionary::metadata::CompressedArray<int64_t> compressedInflectionsArray(inflectionsArray);
     compressedInflectionsArray.serialize(writer);
     logger.logWithOffset(locale.getName() + " inflections number=" + std::to_string(inflectionsArray.size()));
 

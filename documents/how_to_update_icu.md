@@ -10,15 +10,16 @@ Follow [ICU instructions](https://unicode-org.github.io/icu/download/) on how to
 Test your update locally and fix any problems - most likely to happen due to CLDR changes.
 If there are errors, you'll need to update the CI actions before submitting.
 
-### Update Actions on GitHub
-Edit all yml files under .github/workflows that contain:
+### Update Minimum ICU Version and Actions on GitHub
+1. Update `ICU_VERSION_MINIMUM` in `cmake/versions.mk` (e.g. `79.1`) and `CPACK_DEBIAN_PACKAGE_DEPENDS` in `CMakeLists.txt` (e.g. `libicu79 (>= ${ICU_VERSION_MINIMUM})`).
+2. Edit all `.yml` files under `.github/workflows` that contain:
 
 ```
 env:
   ICU_MAJOR: 'xx'
   ICU_MINOR: 'y'
 ```
-and update major and minor ICU versions, e.g. 78.2.
+and update major and minor ICU versions, e.g. `79` and `1`.
 
 ### Clear the GitHub Cache if necessary
 Go to [Caches](https://github.com/unicode-org/inflection/actions/caches) page, and clear all ICU related caches on the right.

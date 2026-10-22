@@ -9,7 +9,7 @@
             <param name="n" type="Number"><value>1</value></param>
             <param name="unit" type="String"><value>километр</value></param>
         </params>
-        <source>{$unit :quantify withValue=$n} {$unit :quantify withValue=$n case=genitive} {$unit :quantify withValue=$n case=accusative} {$unit :quantify withValue=$n case=dative} {$unit :quantify withValue=$n case=instrumental} {$unit :quantify withValue=$n case=prepositional}</source>
+        <source>{$unit :i:quantify withValue=$n} {$unit :i:quantify withValue=$n case=genitive} {$unit :i:quantify withValue=$n case=accusative} {$unit :i:quantify withValue=$n case=dative} {$unit :i:quantify withValue=$n case=instrumental} {$unit :i:quantify withValue=$n case=prepositional}</source>
         <print>1 километр 1 километра 1 километр 1 километру 1 километром 1 километре</print>
     </test>
     <test>
@@ -17,7 +17,7 @@
             <param name="n" type="Number"><value>2</value></param>
             <param name="unit" type="String"><value>километр</value></param>
         </params>
-        <source>{$unit :quantify withValue=$n} {$unit :quantify withValue=$n case=genitive} {$unit :quantify withValue=$n case=accusative} {$unit :quantify withValue=$n case=dative} {$unit :quantify withValue=$n case=instrumental} {$unit :quantify withValue=$n case=prepositional}</source>
+        <source>{$unit :i:quantify withValue=$n} {$unit :i:quantify withValue=$n case=genitive} {$unit :i:quantify withValue=$n case=accusative} {$unit :i:quantify withValue=$n case=dative} {$unit :i:quantify withValue=$n case=instrumental} {$unit :i:quantify withValue=$n case=prepositional}</source>
         <print>2 километра 2 километров 2 километра 2 километрам 2 километрами 2 километрах</print>
     </test>
     <test>
@@ -25,7 +25,7 @@
             <param name="n" type="Number"><value>5</value></param>
             <param name="unit" type="String"><value>километр</value></param>
         </params>
-        <source>{$unit :quantify withValue=$n} {$unit :quantify withValue=$n case=genitive} {$unit :quantify withValue=$n case=accusative} {$unit :quantify withValue=$n case=dative} {$unit :quantify withValue=$n case=instrumental} {$unit :quantify withValue=$n case=prepositional}</source>
+        <source>{$unit :i:quantify withValue=$n} {$unit :i:quantify withValue=$n case=genitive} {$unit :i:quantify withValue=$n case=accusative} {$unit :i:quantify withValue=$n case=dative} {$unit :i:quantify withValue=$n case=instrumental} {$unit :i:quantify withValue=$n case=prepositional}</source>
         <print>5 километров 5 километров 5 километров 5 километрам 5 километрами 5 километрах</print>
     </test>
     <test>
@@ -45,7 +45,7 @@
                 <value constraint="neuter prepositional plural">prepositional,plural</value>
             </param>
         </params>
-        <source>{$unit :inflect gender=neuter case=genitive number=singular}</source>
+        <source>{$unit :i:inflect gender=neuter case=genitive number=singular}</source>
         <print>genitive,singular</print>
     </test>
     <test>
@@ -66,7 +66,7 @@
                 <value constraint="neuter prepositional plural">prepositional,plural</value>
             </param>
         </params>
-        <source>{$unit :quantify withValue=$number} {$unit :quantify withValue=$number case=genitive} {$unit :quantify withValue=$number case=accusative} {$unit :quantify withValue=$number case=dative} {$unit :quantify withValue=$number case=instrumental} {$unit :quantify withValue=$number case=prepositional}</source>
+        <source>{$unit :i:quantify withValue=$number} {$unit :i:quantify withValue=$number case=genitive} {$unit :i:quantify withValue=$number case=accusative} {$unit :i:quantify withValue=$number case=dative} {$unit :i:quantify withValue=$number case=instrumental} {$unit :i:quantify withValue=$number case=prepositional}</source>
         <print>1 nominative,singular 1 genitive,singular 1 accusative,singular 1 dative,singular 1 instrumental,singular 1 prepositional,singular</print>
         <speak>одно nominative,singular одного genitive,singular одно accusative,singular одному dative,singular одним instrumental,singular одном prepositional,singular</speak>
     </test>
@@ -88,7 +88,7 @@
                 <value constraint="neuter prepositional plural">prepositional,plural</value>
             </param>
         </params>
-        <source>{$unit :quantify withValue=$number} {$unit :quantify withValue=$number case=genitive} {$unit :quantify withValue=$number case=accusative} {$unit :quantify withValue=$number case=dative} {$unit :quantify withValue=$number case=instrumental} {$unit :quantify withValue=$number case=prepositional}</source>
+        <source>{$unit :i:quantify withValue=$number} {$unit :i:quantify withValue=$number case=genitive} {$unit :i:quantify withValue=$number case=accusative} {$unit :i:quantify withValue=$number case=dative} {$unit :i:quantify withValue=$number case=instrumental} {$unit :i:quantify withValue=$number case=prepositional}</source>
         <print>2 genitive,singular 2 genitive,plural 2 genitive,plural 2 dative,plural 2 instrumental,plural 2 prepositional,plural</print>
         <speak>два genitive,singular двух genitive,plural два genitive,plural двум dative,plural двумя instrumental,plural двух prepositional,plural</speak>
     </test>
@@ -110,7 +110,7 @@
                 <value constraint="neuter prepositional plural">prepositional,plural</value>
             </param>
         </params>
-        <source>{$unit :quantify withValue=$number} {$unit :quantify withValue=$number case=genitive} {$unit :quantify withValue=$number case=accusative} {$unit :quantify withValue=$number case=dative} {$unit :quantify withValue=$number case=instrumental} {$unit :quantify withValue=$number case=prepositional}</source>
+        <source>{$unit :i:quantify withValue=$number} {$unit :i:quantify withValue=$number case=genitive} {$unit :i:quantify withValue=$number case=accusative} {$unit :i:quantify withValue=$number case=dative} {$unit :i:quantify withValue=$number case=instrumental} {$unit :i:quantify withValue=$number case=prepositional}</source>
         <print>5 genitive,plural 5 genitive,plural 5 genitive,plural 5 dative,plural 5 instrumental,plural 5 prepositional,plural</print>
         <speak>пять genitive,plural пяти genitive,plural пять genitive,plural пяти dative,plural пятью instrumental,plural пяти prepositional,plural</speak>
     </test>
@@ -131,7 +131,7 @@
                 <value constraint="neuter prepositional plural">prepositional,plural</value>
             </param>
         </params>
-        <source>.local $v = {$unit :inflect gender=neuter case=genitive number=singular} .match $v
+        <source>.local $v = {$unit :i:inflect gender=neuter case=genitive number=singular} .match $v
 |genitive,singular| {{matched genitive singular}}
 * {{other}}
 </source>

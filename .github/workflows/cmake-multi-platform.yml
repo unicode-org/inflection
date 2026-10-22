@@ -28,8 +28,8 @@ on:
       - '!tools/wikidata/**'
       - '!documents/**'
 env:
-  ICU_MAJOR: '78'
-  ICU_MINOR: '3'
+  ICU_MAJOR: '79'
+  ICU_MINOR: '1'
 
 jobs:
   cache-icu:
@@ -43,13 +43,13 @@ jobs:
       - name: Download and install icu
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
-          wget https://github.com/unicode-org/icu/releases/download/release-${ICU_MAJOR}.${ICU_MINOR}/icu4c-${ICU_MAJOR}.${ICU_MINOR}-Ubuntu22.04-x64.tgz
+          wget https://github.com/unicode-org/icu/releases/download/release-${ICU_MAJOR}.${ICU_MINOR}/icu4c-${ICU_MAJOR}.${ICU_MINOR}-Ubuntu24.04-x64.tgz
           export ICU=~/icu/
           mkdir -p $ICU
           echo "ICU directory is $ICU"
 
           # Get the release and unpack.
-          cp icu4c-${ICU_MAJOR}.${ICU_MINOR}-Ubuntu22.04-x64.tgz $ICU
+          cp icu4c-${ICU_MAJOR}.${ICU_MINOR}-Ubuntu24.04-x64.tgz $ICU
           pushd $ICU
 
           pwd
@@ -135,12 +135,25 @@ jobs:
       # Install all the required dependencies for the macos
     - name: Install ICU (Ubuntu/macos)
       run: |
-        if [[ "${{ matrix.os }}" == "ubuntu-latest" ]]; then
-          echo "ICU_ROOT=~/icu/icu/usr/local" >> $GITHUB_ENV
-        elif [[ "${{ matrix.os }}" == "macos-latest" ]]; then
-            brew list icu4c || brew install icu4c
-            echo "ICU_ROOT=$(brew --prefix icu4c)" >> $GITHUB_ENV
+        if [[ "${{ matrix.os }}" == "macos-latest" && "${{ steps.cache.outputs.cache-hit }}" != "true" ]]; then
+          pushd /tmp
+          curl -fLO https://github.com/unicode-org/icu/releases/download/release-${ICU_MAJOR}.${ICU_MINOR}/icu4c-${ICU_MAJOR}.${ICU_MINOR}-sources.tgz
+          tar -xzf icu4c-${ICU_MAJOR}.${ICU_MINOR}-sources.tgz
+          cd icu/source
+          ./runConfigureICU MacOSX --prefix="$HOME/icu/icu/usr/local" --enable-rpath --disable-samples --disable-tests --disable-extras --disable-icuio
+          make -j$(sysctl -n hw.ncpu)
+          make install
+          popd
+          rm -rf /tmp/icu /tmp/icu4c-${ICU_MAJOR}.${ICU_MINOR}-sources.tgz
         fi
+        echo "ICU_ROOT=$HOME/icu/icu/usr/local" >> $GITHUB_ENV
+
+    - name: Save ICU cache (macOS)
+      if: matrix.os == 'macos-latest' && steps.cache.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v4
+      with:
+        path: ~/icu
+        key: ${{ runner.os }}-icu-${{ env.ICU_MAJOR }}-${{ env.ICU_MINOR }}
 
     - name: Install lld (Ubuntu)
       # Linux Release builds link with -fuse-ld=lld to avoid gold-plugin LTO version mismatches.

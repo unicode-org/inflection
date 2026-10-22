@@ -275,14 +275,12 @@ TEST_CASE("Message2Test#testLocales")
     auto buildRegistry = [&](inflection::message2::MF2Factory::OutputMode mode) {
         UErrorCode ec = U_ZERO_ERROR;
         auto r = MFFunctionRegistry::Builder(ec)
-            .adoptFormatter(FunctionName("i:inflect"), inflection::message2::MF2Factory::createInflectFormatterFactory(mode), ec)
-            .adoptSelector(FunctionName("i:inflect"), inflection::message2::MF2Factory::createInflectSelectorFactory(), ec)
-            .adoptFormatter(FunctionName("i:numeral"), inflection::message2::MF2Factory::createNumeralFormatterFactory(mode), ec)
-            .adoptFormatter(FunctionName("i:quantify"), inflection::message2::MF2Factory::createQuantifyFormatterFactory(mode), ec)
-            .adoptFormatter(FunctionName("i:list"), inflection::message2::MF2Factory::createListFormatterFactory(mode), ec)
-            .adoptFormatter(FunctionName("i:pronoun"), inflection::message2::MF2Factory::createPronounFormatterFactory(mode), ec)
-            .adoptSelector(FunctionName("i:pronoun"), inflection::message2::MF2Factory::createPronounSelectorFactory(), ec)
-            .build();
+                     .adoptFunction(FunctionName("i:inflect"), inflection::message2::MF2Factory::createInflectFunction(mode), ec)
+                     .adoptFunction(FunctionName("i:numeral"), inflection::message2::MF2Factory::createNumeralFunction(mode), ec)
+                     .adoptFunction(FunctionName("i:quantify"), inflection::message2::MF2Factory::createQuantifyFunction(mode), ec)
+                     .adoptFunction(FunctionName("i:list"), inflection::message2::MF2Factory::createListFunction(mode), ec)
+                     .adoptFunction(FunctionName("i:pronoun"), inflection::message2::MF2Factory::createPronounFunction(mode), ec)
+                     .build();
         REQUIRE(U_SUCCESS(ec));
         return r;
     };
@@ -412,6 +410,7 @@ TEST_CASE("Message2Test#testLocales")
             MessageFormatter::Builder builder(testError);
             builder.setFunctionRegistry(hasSpeak ? ssmlRegistry : plainRegistry)
                 .setLocale(icuLocale)
+                .setBidiIsolationStrategy(icu::U_MF_BIDI_OFF)
                 .setPattern(UnicodeString(source.c_str()), pe, testError);
             if (errorExpected) {
                 // Surface MF errors (e.g. an unknown :i:inflect feature) via the UErrorCode.

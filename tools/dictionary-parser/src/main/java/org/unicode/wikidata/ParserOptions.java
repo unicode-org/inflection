@@ -285,8 +285,7 @@ final class ParserOptions {
             if (!grammeme.matches("Q\\d*")) {
                 for (Map.Entry<String, Set<? extends Enum<?>>> entry : TYPEMAP.entrySet()) {
                     for (var grammemeEnum : entry.getValue()) {
-                        if (grammemeEnum.name().equalsIgnoreCase(grammeme)
-                                || grammemeEnum.toString().equalsIgnoreCase(grammeme)) {
+                        if (grammemeEnum.toString().equalsIgnoreCase(grammeme)) {
                             matched = true;
                             if (entry.getValue().size() == 1) {
                                 entry.setValue(ignorableSet);

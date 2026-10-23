@@ -118,6 +118,18 @@ Typical ICU installation requires:
 * ICU4C is installed to `/usr/local/lib/*icu*` by default.
 * `ICU_ROOT` should point to `/usr/local/lib/`. Omitting `/icu` applies to any other installation path.
 
+#### Minimizing ICU4C Data Size (Optional)
+For mobile, embedded, or size-constrained deployments, this repository provides an [ICU Data Build Tool filter configuration](https://unicode-org.github.io/icu/userguide/icu_data/buildtool.html) in [`icu_filters.json`](./icu_filters.json) that strips unused ICU data trees and locales not needed by Unicode Inflection (reducing `libicudata` from ~33 MB to ~1.7 MB uncompressed / ~310 KB compressed).
+
+To build ICU4C from a Git checkout of the ICU release tag with the data filter applied:
+```bash
+git clone --depth 1 --branch release-79.1 https://github.com/unicode-org/icu.git
+cd icu/icu4c/source
+ICU_DATA_FILTER_FILE=<PATH_TO_INFLECTION>/icu_filters.json ./runConfigureICU <Linux|MacOSX> --prefix=<PATH_TO_ICU>
+make -j 8 install
+```
+*(Note: Building with `ICU_DATA_FILTER_FILE` requires the full `icu4c/source/data/` source tree present in the ICU Git repository rather than the pre-built `.dat` archive bundled in `icu4c-*-sources.tgz`, as well as Python 3 for `icutools.databuilder`.)*
+
 ### Build Instructions
 
 ```bash

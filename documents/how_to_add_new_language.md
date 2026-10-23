@@ -19,6 +19,7 @@ Before you add new language support, go to the README.md in the inflection subfo
 * UPDATE: inflection/src/inflection/util/LocaleUtils.cpp
 * UPDATE: inflection/test/src/inflection/util/LocaleUtilsTest.cpp
 * UPDATE: inflection/resources/org/unicode/inflection/locale/supported-locales.properties
+* UPDATE: inflection/icu_filters.json (add the new language code to `localeFilter.includelist` so filtered ICU builds and `LocaleUtilsTest#testMinimalICUData` include its locale and RBNF data)
 * ADD: inflection/resources/org/unicode/inflection/tokenizer/config_*XX*.properties
 
 ## Define language grammar

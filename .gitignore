@@ -27,6 +27,7 @@ CMakeScripts
 CMakeBuild*
 cmake-build-*
 options.mk
+/icu_filters.json
 
 # Gradle
 gradle/wrapper/gradle-wrapper.jar

@@ -1,0 +1,53 @@
+{
+  "uri": "http://example.org/lexicon/en-patch",
+  "langCode": "en",
+  "entries": [
+    {
+      "id": "patch-1",
+      "headword": "cat",
+      "partOfSpeech": ["noun"],
+      "labels": ["feminine"],
+      "inflectedForms": [
+        {
+          "value": "cat",
+          "labels": ["singular"]
+        },
+        {
+          "value": "kitties",
+          "labels": ["plural"]
+        }
+      ]
+    },
+    {
+      "id": "patch-2",
+      "headword": "wow",
+      "partOfSpeech": ["verb"],
+      "inflectedForms": [
+        {
+          "value": "wow",
+          "labels": []
+        },
+        {
+          "value": "wowed",
+          "labels": []
+        }
+      ]
+    },
+    {
+      "id": "patch-3",
+      "headword": "batte",
+      "partOfSpeech": ["noun"],
+      "labels": ["feminine"],
+      "inflectedForms": [
+        {
+          "value": "batte",
+          "labels": ["singular"]
+        },
+        {
+          "value": "bats",
+          "labels": ["plural"]
+        }
+      ]
+    }
+  ]
+}

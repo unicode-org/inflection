@@ -1,0 +1,60 @@
+{
+  "uri": "http://example.org/lexicon/en-overlay",
+  "langCode": "en",
+  "entries": [
+    {
+      "id": "overlay-new",
+      "headword": "book",
+      "partOfSpeech": ["noun"],
+      "inflectedForms": [
+        {
+          "value": "book",
+          "labels": ["singular"]
+        },
+        {
+          "value": "book's",
+          "labels": ["singular", "genitive"]
+        },
+        {
+          "value": "books",
+          "labels": ["plural"]
+        },
+        {
+          "value": "books'",
+          "labels": ["plural", "genitive"]
+        }
+      ]
+    },
+    {
+      "id": "overlay-diff-pos",
+      "headword": "hey",
+      "partOfSpeech": ["noun"],
+      "inflectedForms": [
+        {
+          "value": "hey",
+          "labels": ["singular"]
+        },
+        {
+          "value": "heys",
+          "labels": ["plural"]
+        }
+      ]
+    },
+    {
+      "id": "overlay-same-pos-conflict",
+      "headword": "ciel",
+      "partOfSpeech": ["noun"],
+      "labels": ["feminine"],
+      "inflectedForms": [
+        {
+          "value": "ciel",
+          "labels": ["singular"]
+        },
+        {
+          "value": "cieux",
+          "labels": ["plural"]
+        }
+      ]
+    }
+  ]
+}

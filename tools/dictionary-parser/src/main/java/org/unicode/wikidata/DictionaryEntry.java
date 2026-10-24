@@ -4,12 +4,14 @@
  */
 package org.unicode.wikidata;
 
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.IdentityHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 import javax.annotation.Nonnull;
 
 /**
@@ -25,20 +27,27 @@ public class DictionaryEntry implements Comparable<DictionaryEntry> {
     private final TreeSet<Enum<?>> grammemes;
     private final List<InflectionPattern> inflectionalPatterns;
     private final List<InflectionPattern> rareInflectionalPatterns = new ArrayList<>();
+    private int sourceIndex;
+    private Map<InflectionPattern, Integer> patternSourceIndices = null;
 
     public static final Comparator<InflectionPattern> INFLECTION_PATTERN_COMPARATOR = Comparator
             .comparing(InflectionPattern::getCount)
             .reversed();
 
     public DictionaryEntry(String phrase, boolean isLemmaRare, TreeSet<Enum<?>> grammemes, InflectionPattern inflectionalPattern) {
-        this(phrase, phrase, isLemmaRare, grammemes, inflectionalPattern);
+        this(phrase, phrase, isLemmaRare, grammemes, inflectionalPattern, 0);
     }
 
     public DictionaryEntry(String phrase, String lemmas, boolean isLemmaRare, TreeSet<Enum<?>> grammemes, InflectionPattern inflectionalPattern) {
+        this(phrase, lemmas, isLemmaRare, grammemes, inflectionalPattern, 0);
+    }
+
+    public DictionaryEntry(String phrase, String lemmas, boolean isLemmaRare, TreeSet<Enum<?>> grammemes, InflectionPattern inflectionalPattern, int sourceIndex) {
         this.phrase = phrase;
         this.lemmas = new TreeSet<>(Collections.singleton(lemmas));
         this.grammemes = new TreeSet<>(grammemes.comparator());
         this.grammemes.addAll(grammemes);
+        this.sourceIndex = sourceIndex;
         if (inflectionalPattern != null) {
             this.inflectionalPatterns = new ArrayList<>(2);
             this.inflectionalPatterns.add(inflectionalPattern);
@@ -51,7 +60,53 @@ public class DictionaryEntry implements Comparable<DictionaryEntry> {
         }
     }
 
+    private int getPatternSourceIndex(InflectionPattern pattern) {
+        if (patternSourceIndices != null) {
+            return patternSourceIndices.getOrDefault(pattern, sourceIndex);
+        }
+        return sourceIndex;
+    }
+
     public void merge(DictionaryEntry entry) {
+        merge(entry, false);
+    }
+
+    public void merge(DictionaryEntry entry, boolean mergeConflicts) {
+        if (!mergeConflicts) {
+            if (entry.sourceIndex > this.sourceIndex) {
+                this.sourceIndex = entry.sourceIndex;
+                this.grammemes.clear();
+                this.grammemes.addAll(entry.grammemes);
+                this.inflectionalPatterns.clear();
+                this.inflectionalPatterns.addAll(entry.inflectionalPatterns);
+                this.rareInflectionalPatterns.clear();
+                this.rareInflectionalPatterns.addAll(entry.rareInflectionalPatterns);
+                this.lemmas.clear();
+                this.lemmas.addAll(entry.lemmas);
+                this.patternSourceIndices = null;
+                return;
+            }
+            if (entry.sourceIndex < this.sourceIndex) {
+                return;
+            }
+        } else if (entry.sourceIndex != this.sourceIndex || this.patternSourceIndices != null || entry.patternSourceIndices != null) {
+            if (this.patternSourceIndices == null) {
+                this.patternSourceIndices = new IdentityHashMap<>();
+                for (InflectionPattern pattern : this.inflectionalPatterns) {
+                    this.patternSourceIndices.put(pattern, this.sourceIndex);
+                }
+            }
+            for (InflectionPattern pattern : entry.inflectionalPatterns) {
+                int existingSource = this.patternSourceIndices.getOrDefault(pattern, this.sourceIndex);
+                int incomingSource = entry.getPatternSourceIndex(pattern);
+                if (incomingSource > existingSource && !entry.rareInflectionalPatterns.contains(pattern)) {
+                    this.rareInflectionalPatterns.remove(pattern);
+                }
+                this.patternSourceIndices.put(pattern, Math.max(existingSource, incomingSource));
+            }
+            this.sourceIndex = Math.max(this.sourceIndex, entry.sourceIndex);
+        }
+
         this.grammemes.addAll(entry.grammemes);
         for (InflectionPattern inflectionalPattern : entry.inflectionalPatterns) {
             if (!this.inflectionalPatterns.contains(inflectionalPattern)) {
@@ -70,6 +125,10 @@ public class DictionaryEntry implements Comparable<DictionaryEntry> {
         return grammemes;
     }
 
+    List<InflectionPattern> getInflectionalPatterns() {
+        return inflectionalPatterns;
+    }
+
     @Override
     public String toString() {
         return this.toString(true);
@@ -82,10 +141,15 @@ public class DictionaryEntry implements Comparable<DictionaryEntry> {
             sb.append(' ').append(enumVal);
         }
         if (isInflectional) {
+            Comparator<InflectionPattern> patternComparator = (patternSourceIndices == null)
+                    ? INFLECTION_PATTERN_COMPARATOR
+                    : Comparator.<InflectionPattern, Integer>comparing(
+                            p -> patternSourceIndices.getOrDefault(p, sourceIndex), Comparator.reverseOrder())
+                            .thenComparing(INFLECTION_PATTERN_COMPARATOR);
             if (inflectionalPatterns.size() > 1) {
-                inflectionalPatterns.sort(INFLECTION_PATTERN_COMPARATOR);
+                inflectionalPatterns.sort(patternComparator);
                 if (rareInflectionalPatterns.size() > 1) {
-                    rareInflectionalPatterns.sort(INFLECTION_PATTERN_COMPARATOR);
+                    rareInflectionalPatterns.sort(patternComparator);
                 }
             }
             for (InflectionPattern inflectionPattern : inflectionalPatterns) {

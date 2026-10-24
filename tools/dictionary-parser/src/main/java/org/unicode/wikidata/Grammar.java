@@ -1175,9 +1175,18 @@ public final class Grammar {
         TYPEMAP.put("Q1909485", EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // quantifier, but it might be used frequently as an indefinite noun
         TYPEMAP.put("Q694268", EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // collective
         TYPEMAP.put("Q1450795", EnumSet.of(Ignorable.IGNORABLE_PROPERTY)); // singulative
+
+        for (var entry : DEFAULTMAP.entrySet()) {
+            @SuppressWarnings({"unchecked", "rawtypes"})
+            Set<? extends Enum<?>> enumSet = EnumSet.of((Enum) entry.getValue());
+            TYPEMAP.putIfAbsent(entry.getKey(), enumSet);
+        }
     }
 
     static Set<? extends Enum<?>> getMappedGrammemes(String grammeme) {
+        if (grammeme == null) {
+            throw new IllegalArgumentException("Grammeme cannot be null");
+        }
         return TYPEMAP.get(grammeme);
     }
 }

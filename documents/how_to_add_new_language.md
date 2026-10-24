@@ -18,7 +18,7 @@ Before you add new language support, go to the README.md in the inflection subfo
 * UPDATE: inflection/src/inflection/util/LocaleUtils.hpp
 * UPDATE: inflection/src/inflection/util/LocaleUtils.cpp
 * UPDATE: inflection/test/src/inflection/util/LocaleUtilsTest.cpp
-* UPDATE: inflection/resources/org/unicode/inflection/locale/supported-locales.properties
+* UPDATE: inflection/resources/org/unicode/inflection/locale/supported-locales.properties (`tools/scripts/generate_icu_filters.py` reads this file to populate `icu_filters.json` from `icu_filters.json.in` for filtered ICU builds)
 * ADD: inflection/resources/org/unicode/inflection/tokenizer/config_*XX*.properties
 
 ## Define language grammar

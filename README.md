@@ -118,6 +118,23 @@ Typical ICU installation requires:
 * ICU4C is installed to `/usr/local/lib/*icu*` by default.
 * `ICU_ROOT` should point to `/usr/local/lib/`. Omitting `/icu` applies to any other installation path.
 
+#### Minimizing ICU4C Size (Optional)
+For mobile, embedded, or size-constrained deployments, this repository provides an [ICU Data Build Tool filter configuration](https://unicode-org.github.io/icu/userguide/icu_data/buildtool.html) template in [`icu_filters.json.in`](./icu_filters.json.in). Running [`tools/scripts/generate_icu_filters.py`](./tools/scripts/generate_icu_filters.py) populates `localeFilter.includelist` from [`supported-locales.properties`](./resources/org/unicode/inflection/locale/supported-locales.properties) and produces `icu_filters.json`, stripping unused ICU data trees and locales not needed by Unicode Inflection (reducing `libicudata` from ~33 MB to ~1.7 MB uncompressed / ~310 KB compressed).
+
+In addition, unused ICU4C code features (collation, IDNA, legacy conversion, transliteration, filtered break iteration, and `ICUService`) can be compiled out via `UCONFIG_*` flags, reducing `libicuuc` + `libicui18n` code size by ~15% (from ~6.0 MB to ~5.1 MB stripped, or ~7.4 MB to ~6.2 MB unstripped).
+
+To build ICU4C from a Git checkout of the ICU release tag with both the data filter and `UCONFIG_*` flags applied:
+```bash
+<PATH_TO_INFLECTION>/tools/scripts/generate_icu_filters.py
+git clone --depth 1 --branch release-79.1 https://github.com/unicode-org/icu.git
+cd icu/icu4c/source
+ICU_DATA_FILTER_FILE=<PATH_TO_INFLECTION>/icu_filters.json \
+  CPPFLAGS="-DUCONFIG_NO_COLLATION=1 -DUCONFIG_NO_IDNA=1 -DUCONFIG_NO_LEGACY_CONVERSION=1 -DUCONFIG_NO_TRANSLITERATION=1 -DUCONFIG_USE_ML_PHRASE_BREAKING=1 -DUCONFIG_NO_FILTERED_BREAK_ITERATION=1 -DUCONFIG_NO_SERVICE=1" \
+  ./runConfigureICU <Linux|MacOSX> --prefix=<PATH_TO_ICU>
+make -j$(getconf _NPROCESSORS_ONLN) install
+```
+*(Note: Building with `ICU_DATA_FILTER_FILE` requires the full `icu4c/source/data/` source tree present in the ICU Git repository rather than the pre-built `.dat` archive bundled in `icu4c-*-sources.tgz`, as well as Python 3 for `icutools.databuilder`.)*
+
 ### Build Instructions
 
 ```bash

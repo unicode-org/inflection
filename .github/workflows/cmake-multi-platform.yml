@@ -11,7 +11,9 @@ on:
     - 'src/**'
     - 'resources/**'
     - 'tools/**'
+    - 'test/**'
     - 'CMakeLists.txt'
+    - 'icu_filters.json.in'
     - '.github/workflows/**'
     - '!tools/wikidata/**'
     - '!documents/**'
@@ -23,7 +25,9 @@ on:
       - 'src/**'
       - 'resources/**'
       - 'tools/**'
+      - 'test/**'
       - 'CMakeLists.txt'
+      - 'icu_filters.json.in'
       - '.github/workflows/**'
       - '!tools/wikidata/**'
       - '!documents/**'
@@ -32,38 +36,7 @@ env:
   ICU_MINOR: '1'
 
 jobs:
-  cache-icu:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/cache/restore@v4
-        id: cache
-        with:
-          path: ~/icu
-          key: ${{ runner.os }}-icu-${{ env.ICU_MAJOR }}-${{ env.ICU_MINOR }}
-      - name: Download and install icu
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: |
-          wget https://github.com/unicode-org/icu/releases/download/release-${ICU_MAJOR}.${ICU_MINOR}/icu4c-${ICU_MAJOR}.${ICU_MINOR}-Ubuntu24.04-x64.tgz
-          export ICU=~/icu/
-          mkdir -p $ICU
-          echo "ICU directory is $ICU"
-
-          # Get the release and unpack.
-          cp icu4c-${ICU_MAJOR}.${ICU_MINOR}-Ubuntu24.04-x64.tgz $ICU
-          pushd $ICU
-
-          pwd
-
-          tar xvfz *.tgz
-          rm *.tgz
-
-      - uses: actions/cache/save@v4
-        with:
-          path: ~/icu
-          key: ${{ runner.os }}-icu-${{ env.ICU_MAJOR }}-${{ env.ICU_MINOR }}
-
   build:
-    needs: cache-icu
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -130,30 +103,37 @@ jobs:
       id: cache
       with:
         path: ~/icu
-        key: ${{ runner.os }}-icu-${{ env.ICU_MAJOR }}-${{ env.ICU_MINOR }}
+        key: ${{ runner.os }}-icu-filtered-${{ env.ICU_MAJOR }}-${{ env.ICU_MINOR }}-${{ hashFiles('icu_filters.json.in', 'resources/org/unicode/inflection/locale/supported-locales.properties', 'tools/scripts/generate_icu_filters.py') }}
 
-      # Install all the required dependencies for the macos
-    - name: Install ICU (Ubuntu/macos)
+    - name: Install ICU with data filter (Ubuntu/macOS)
       run: |
-        if [[ "${{ matrix.os }}" == "macos-latest" && "${{ steps.cache.outputs.cache-hit }}" != "true" ]]; then
+        if [[ "${{ steps.cache.outputs.cache-hit }}" != "true" ]]; then
+          if [[ "${{ matrix.os }}" == "macos-latest" ]]; then
+            ICU_PLATFORM="MacOSX"
+          else
+            ICU_PLATFORM="Linux"
+          fi
+          NPROC=$(getconf _NPROCESSORS_ONLN)
+          "${GITHUB_WORKSPACE}/tools/scripts/generate_icu_filters.py"
           pushd /tmp
-          curl -fLO https://github.com/unicode-org/icu/releases/download/release-${ICU_MAJOR}.${ICU_MINOR}/icu4c-${ICU_MAJOR}.${ICU_MINOR}-sources.tgz
-          tar -xzf icu4c-${ICU_MAJOR}.${ICU_MINOR}-sources.tgz
-          cd icu/source
-          ./runConfigureICU MacOSX --prefix="$HOME/icu/icu/usr/local" --enable-rpath --disable-samples --disable-tests --disable-extras --disable-icuio
-          make -j$(sysctl -n hw.ncpu)
+          git clone --depth 1 --branch release-${ICU_MAJOR}.${ICU_MINOR} https://github.com/unicode-org/icu.git
+          cd icu/icu4c/source
+          ICU_DATA_FILTER_FILE="${GITHUB_WORKSPACE}/icu_filters.json" \
+            CPPFLAGS="-DUCONFIG_NO_COLLATION=1 -DUCONFIG_NO_IDNA=1 -DUCONFIG_NO_LEGACY_CONVERSION=1 -DUCONFIG_NO_TRANSLITERATION=1 -DUCONFIG_USE_ML_PHRASE_BREAKING=1 -DUCONFIG_NO_FILTERED_BREAK_ITERATION=1 -DUCONFIG_NO_SERVICE=1" \
+            ./runConfigureICU "${ICU_PLATFORM}" --prefix="$HOME/icu/icu/usr/local" --enable-rpath --disable-samples --disable-tests --disable-extras --disable-icuio
+          make -j"${NPROC}"
           make install
           popd
-          rm -rf /tmp/icu /tmp/icu4c-${ICU_MAJOR}.${ICU_MINOR}-sources.tgz
+          rm -rf /tmp/icu
         fi
         echo "ICU_ROOT=$HOME/icu/icu/usr/local" >> $GITHUB_ENV
 
-    - name: Save ICU cache (macOS)
-      if: matrix.os == 'macos-latest' && steps.cache.outputs.cache-hit != 'true'
+    - name: Save ICU cache
+      if: steps.cache.outputs.cache-hit != 'true'
       uses: actions/cache/save@v4
       with:
         path: ~/icu
-        key: ${{ runner.os }}-icu-${{ env.ICU_MAJOR }}-${{ env.ICU_MINOR }}
+        key: ${{ runner.os }}-icu-filtered-${{ env.ICU_MAJOR }}-${{ env.ICU_MINOR }}-${{ hashFiles('icu_filters.json.in', 'resources/org/unicode/inflection/locale/supported-locales.properties', 'tools/scripts/generate_icu_filters.py') }}
 
     - name: Install lld (Ubuntu)
       # Linux Release builds link with -fuse-ld=lld to avoid gold-plugin LTO version mismatches.

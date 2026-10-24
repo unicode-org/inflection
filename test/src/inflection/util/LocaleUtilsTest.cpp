@@ -3,11 +3,15 @@
  */
 #include "catch2/catch_test_macros.hpp"
 
+#include <icu4cxx/UnicodeSet.hpp>
 #include <inflection/util/LocaleUtils.hpp>
 #include <inflection/util/LogToString.hpp>
 #include <inflection/util/ULocale.hpp>
-#include <unicode/uloc.h>
 #include <set>
+#include <unicode/uloc.h>
+#include <unicode/ulocdata.h>
+#include <unicode/unum.h>
+#include <unicode/ures.h>
 
 TEST_CASE("LocaleUtilsTest#testCreateValidRegionAwareLanguage")
 {
@@ -200,6 +204,64 @@ TEST_CASE("LocaleUtilsTest#testCoverage")
         for (const auto& locale : entry.second) {
             INFO(locale.getName());
             CHECK(locales.count(locale) == 1);
+        }
+    }
+}
+
+// Verifies that every supported locale has its required ICU data bundles present,
+// acting as a guardrail when ICU is built with icu_filters.json (while also passing
+// against a full, unfiltered ICU build).
+TEST_CASE("LocaleUtilsTest#testMinimalICUData")
+{
+    for (const auto& [languageStr, locales] : inflection::util::LocaleUtils::getSupportedLocaleMap()) {
+        INFO(languageStr);
+        ::inflection::util::ULocale language(languageStr);
+        for (const auto& locale : locales) {
+            INFO(locale.getName());
+
+            // 1. Verify that the exact locale bundle exists in locales_tree without falling
+            // back to a parent or default locale (status == U_ZERO_ERROR).
+            // We query ures_open(nullptr, ...) directly rather than checking status on
+            // ulocdata_open, because ulocdata_open also opens U_ICUDATA_LANG (lang_tree);
+            // on unfiltered ICU builds where lang_tree is present, regional locales (e.g. en_US)
+            // fall back to their parent language in lang_tree and set U_USING_FALLBACK_WARNING.
+            auto status = U_ZERO_ERROR;
+            auto bundle = ures_open(nullptr, locale.getName().c_str(), &status);
+            REQUIRE(U_SUCCESS(status));
+            CHECK(status == U_ZERO_ERROR);
+            ures_close(bundle);
+
+            // 2. Verify that ExemplarCharacters can be loaded and is non-empty.
+            // Since root defines an empty ExemplarCharacters{"[]"}, a non-empty set confirms
+            // that the locale (or its parent language bundle) provides ExemplarCharacters.
+            // Note: we intentionally do not call ulocdata_setNoSubstitute(localeData, true)
+            // because ICU's uresbund.cpp sets U_USING_DEFAULT_WARNING whenever a child locale
+            // (e.g. en_US) inherits a resource from a parent bundle (e.g. en) whose name
+            // happens to match uloc_getDefault() (e.g. when LC_ALL=en).
+            status = U_ZERO_ERROR;
+            auto localeData = ulocdata_open(locale.getName().c_str(), &status);
+            REQUIRE(U_SUCCESS(status));
+            icu4cxx::UnicodeSet exemplarSet;
+            status = U_ZERO_ERROR;
+            ulocdata_getExemplarSet(localeData, exemplarSet.wrappee_, USET_CASE_INSENSITIVE, ULOCDATA_ES_STANDARD, &status);
+            CHECK(U_SUCCESS(status));
+            CHECK(!exemplarSet.isEmpty());
+            ulocdata_close(localeData);
+
+            // 3. Verify that RBNF spellout rules exist in rbnf_tree for this locale's language
+            // and did not fall back to the system default locale.
+            // We check ULOC_VALID_LOCALE rather than status != U_USING_DEFAULT_WARNING because
+            // RuleBasedNumberFormat::init constructs DecimalFormatSymbols, which looks up
+            // currencySpacing in curr_tree and sets U_USING_DEFAULT_WARNING when curr_tree
+            // is filtered to root only. Note that zh_HK aliases to "yue" in ICU's rbnf_tree.
+            status = U_ZERO_ERROR;
+            auto rbnf = unum_open(UNUM_SPELLOUT, nullptr, 0, locale.getName().c_str(), nullptr, &status);
+            REQUIRE(U_SUCCESS(status));
+            auto validRbnfLocale = unum_getLocaleByType(rbnf, ULOC_VALID_LOCALE, &status);
+            REQUIRE(U_SUCCESS(status));
+            CHECK((::inflection::util::ULocale(validRbnfLocale).getLanguage() == language.getLanguage()
+                || (locale == inflection::util::LocaleUtils::HONGKONG_CHINESE() && ::std::string_view(validRbnfLocale) == "yue")));
+            unum_close(rbnf);
         }
     }
 }

@@ -1,0 +1,143 @@
+{
+  "localeFilter": {
+    "filterType": "locale",
+    "includeChildren": true,
+    "includeScripts": true,
+    "includelist": []
+  },
+  "featureFilters": {
+    "brkitr_dictionaries": "exclude",
+    "brkitr_lstm": "exclude",
+    "brkitr_adaboost": "exclude",
+    "brkitr_rules": {
+      "includelist": [
+        "word"
+      ]
+    },
+    "brkitr_tree": {
+      "filterType": "locale",
+      "includeChildren": false,
+      "includelist": [
+        "root"
+      ]
+    },
+    "coll_ucadata": "exclude",
+    "coll_tree": "exclude",
+    "confusables": "exclude",
+    "conversion_mappings": "exclude",
+    "curr_supplemental": "exclude",
+    "curr_tree": {
+      "filterType": "locale",
+      "includeChildren": false,
+      "includelist": [
+        "root"
+      ]
+    },
+    "lang_tree": "exclude",
+    "normalization": {
+      "includelist": [
+        "nfkc"
+      ]
+    },
+    "region_tree": "exclude",
+    "stringprep": "exclude",
+    "translit": "exclude",
+    "unames": "exclude",
+    "unit_tree": "exclude",
+    "zone_supplemental": "exclude",
+    "zone_tree": "exclude",
+    "misc": {
+      "includelist": [
+        "keyTypeData",
+        "langInfo",
+        "likelySubtags",
+        "metadata",
+        "numberingSystems",
+        "pluralRanges",
+        "plurals",
+        "supplementalData"
+      ]
+    }
+  },
+  "resourceFilters": [
+    {
+      "categories": [
+        "brkitr_tree"
+      ],
+      "rules": [
+        "-/boundaries/*",
+        "+/boundaries/word",
+        "-/dictionaries",
+        "-/lstm"
+      ]
+    },
+    {
+      "categories": [
+        "curr_tree"
+      ],
+      "rules": [
+        "-/Currencies",
+        "-/Currencies%narrow",
+        "-/Currencies%variant",
+        "-/CurrencyUnitPatterns"
+      ]
+    },
+    {
+      "categories": [
+        "rbnf_tree"
+      ],
+      "rules": [
+        "-/RBNFRules/DurationRules"
+      ]
+    },
+    {
+      "categories": [
+        "locales_tree"
+      ],
+      "rules": [
+        "-/AuxExemplarCharacters",
+        "-/ExemplarCharactersIndex",
+        "-/ExemplarCharactersNumbers",
+        "-/ExemplarCharactersPunctuation",
+        "-/calendar",
+        "-/characterLabel",
+        "-/contextTransforms",
+        "-/fields",
+        "-/layout",
+        "-/measurementSystemNames",
+        "-/personNames",
+        "-/NumberElements/*/patternsLong",
+        "-/NumberElements/*/patternsShort"
+      ]
+    },
+    {
+      "categories": [
+        "misc"
+      ],
+      "files": {
+        "includelist": [
+          "supplementalData"
+        ]
+      },
+      "rules": [
+        "-/calendarData",
+        "-/calendarPreferenceData",
+        "-/characterFallbacks",
+        "-/codeMappings",
+        "-/currencyMap",
+        "-/idValidity",
+        "-/languageData",
+        "-/LanguageMatch",
+        "-/measurementData",
+        "-/metaZones",
+        "-/parentLocales",
+        "-/subdivisionContainment",
+        "-/territoryContainment",
+        "-/territoryInfo",
+        "-/timeData",
+        "-/unitPreferenceData",
+        "-/weekData"
+      ]
+    }
+  ]
+}

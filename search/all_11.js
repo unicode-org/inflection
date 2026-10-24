@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['references_0',['References',['../index.html#autotoc_md17',1,'']]],
+  ['references_0',['References',['../index.html#autotoc_md18',1,'']]],
   ['registerdatapathforlocale_1',['registerDataPathForLocale',['../classinflection_1_1resources_1_1DataRegistrationService.html#ac1dc87e112a93f4a57eaa0e367d8eb38',1,'inflection::resources::DataRegistrationService']]],
   ['registerlogger_2',['registerLogger',['../classinflection_1_1util_1_1LoggerConfig.html#a4e99a8d28d37b3bf8e3564f1ffc79d98',1,'inflection::util::LoggerConfig']]],
   ['reset_3',['reset',['../classinflection_1_1dialog_1_1SemanticConceptList.html#ad24b722e3f6f3726b3a003d7271540a1',1,'inflection::dialog::SemanticConceptList::reset()'],['../classinflection_1_1dialog_1_1SemanticFeatureConceptBase.html#ab2a552df4eedcb8415c34298f3b4a70b',1,'inflection::dialog::SemanticFeatureConceptBase::reset()']]],

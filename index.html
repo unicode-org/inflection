@@ -177,7 +177,19 @@ Linux Specific</h4>
 <li>ICU4C is installed to <code>/usr/local/lib/*icu*</code> by default.</li>
 <li><code>ICU_ROOT</code> should point to <code>/usr/local/lib/</code>. Omitting <code>/icu</code> applies to any other installation path.</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md16"></a>
+<h4><a class="anchor" id="autotoc_md16"></a>
+Minimizing ICU4C Size (Optional)</h4>
+<p>For mobile, embedded, or size-constrained deployments, this repository provides an <a href="https://unicode-org.github.io/icu/userguide/icu_data/buildtool.html">ICU Data Build Tool filter configuration</a> template in <a href="./icu_filters.json.in"><code>icu_filters.json.in</code></a>. Running <a href="./tools/scripts/generate_icu_filters.py"><code>tools/scripts/generate_icu_filters.py</code></a> populates <code>localeFilter.includelist</code> from <a href="./resources/org/unicode/inflection/locale/supported-locales.properties"><code>supported-locales.properties</code></a> and produces <code>icu_filters.json</code>, stripping unused ICU data trees and locales not needed by Unicode Inflection (reducing <code>libicudata</code> from ~33 MB to ~1.7 MB uncompressed / ~310 KB compressed).</p>
+<p>In addition, unused ICU4C code features (collation, IDNA, legacy conversion, transliteration, filtered break iteration, and <code>ICUService</code>) can be compiled out via <code>UCONFIG_*</code> flags, reducing <code>libicuuc</code> + <code>libicui18n</code> code size by ~15% (from ~6.0 MB to ~5.1 MB stripped, or ~7.4 MB to ~6.2 MB unstripped).</p>
+<p>To build ICU4C from a Git checkout of the ICU release tag with both the data filter and <code>UCONFIG_*</code> flags applied: </p><div class="fragment"><div class="line">&lt;PATH_TO_INFLECTION&gt;/tools/scripts/generate_icu_filters.py</div>
+<div class="line">git clone --depth 1 --branch release-79.1 https://github.com/unicode-org/icu.git</div>
+<div class="line">cd icu/icu4c/source</div>
+<div class="line">ICU_DATA_FILTER_FILE=&lt;PATH_TO_INFLECTION&gt;/icu_filters.json \</div>
+<div class="line">  CPPFLAGS=&quot;-DUCONFIG_NO_COLLATION=1 -DUCONFIG_NO_IDNA=1 -DUCONFIG_NO_LEGACY_CONVERSION=1 -DUCONFIG_NO_TRANSLITERATION=1 -DUCONFIG_USE_ML_PHRASE_BREAKING=1 -DUCONFIG_NO_FILTERED_BREAK_ITERATION=1 -DUCONFIG_NO_SERVICE=1&quot; \</div>
+<div class="line">  ./runConfigureICU &lt;Linux|MacOSX&gt; --prefix=&lt;PATH_TO_ICU&gt;</div>
+<div class="line">make -j$(getconf _NPROCESSORS_ONLN) install</div>
+</div><!-- fragment --><p> *(Note: Building with <code>ICU_DATA_FILTER_FILE</code> requires the full <code>icu4c/source/data/</code> source tree present in the ICU Git repository rather than the pre-built <code>.dat</code> archive bundled in <code>icu4c-*-sources.tgz</code>, as well as Python 3 for <code>icutools.databuilder</code>.)*</p>
+<h3><a class="anchor" id="autotoc_md17"></a>
 Build Instructions</h3>
 <div class="fragment"><div class="line">mkdir build</div>
 <div class="line">cd build</div>
@@ -185,11 +197,11 @@ Build Instructions</h3>
 <div class="line">make -j 8 check</div>
 </div><!-- fragment --><p>Alternatively, you can use cmake for building and testing: </p><div class="fragment"><div class="line">cmake --build . -j8 -t check</div>
 </div><!-- fragment --><p>Optionally, <code>ICU_ROOT</code> can be specified in the file <code>options.mk</code> with the following syntax: </p><div class="fragment"><div class="line">ICU_ROOT=&lt;PATH_TO_ICU&gt;</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md17"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md18"></a>
 References</h2>
 <p>For more details refer to the <a href="https://docs.google.com/document/d/1YWGnMxnJWUC9MFl4j4l8fHeh83ikbpG9_1jCiDCrvIg/edit?usp=sharing">Proposal for a Unicode Language Inflection Work Group</a> document.</p>
 <p>See more details about how to use this library in the <a href="https://unicode-org.github.io/inflection">API Document</a>.</p>
-<h2><a class="anchor" id="autotoc_md18"></a>
+<h2><a class="anchor" id="autotoc_md19"></a>
 Copyright &amp; Licenses</h2>
 <p>Copyright © 2024 Unicode, Inc. Unicode and the Unicode Logo are registered trademarks of Unicode, Inc. in the United States and other countries.</p>
 <p>A CLA is required to contribute to this project - please refer to the <a href="https://github.com/unicode-org/.github/blob/main/.github/CONTRIBUTING.md">CONTRIBUTING.md</a> file (or start a Pull Request) for more information.</p>
@@ -198,7 +210,7 @@ Copyright &amp; Licenses</h2>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Oct 22 2026 21:14:57 for Inflection by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+Generated on Sat Oct 24 2026 05:22:43 for Inflection by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
 </small></address>
 </body>
 </html>

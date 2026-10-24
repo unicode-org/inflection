@@ -6,7 +6,7 @@ var searchData=
   ['languagegrammarfeatures_5fgrammarfeatures_3',['languagegrammarfeatures_grammarfeatures',['../classinflection_1_1lang_1_1features_1_1LanguageGrammarFeatures__GrammarFeatures.html',1,'inflection::lang::features::LanguageGrammarFeatures_GrammarFeatures'],['../classinflection_1_1lang_1_1features_1_1LanguageGrammarFeatures__GrammarFeatures.html#a7ec2ded7d869526a2d123c6be4e58a44',1,'inflection::lang::features::LanguageGrammarFeatures_GrammarFeatures::LanguageGrammarFeatures_GrammarFeatures()']]],
   ['lfs_4',['Working with LFS',['../index.html#autotoc_md12',1,'']]],
   ['lfs_20client_20and_20install_20it_20e_20g_20on_20ubuntu_5',['Get LFS client and install it (e.g., on Ubuntu)',['../index.html#autotoc_md13',1,'']]],
-  ['licenses_6',['Copyright &amp; Licenses',['../index.html#autotoc_md18',1,'']]],
+  ['licenses_6',['Copyright &amp; Licenses',['../index.html#autotoc_md19',1,'']]],
   ['linux_20specific_7',['Linux Specific',['../index.html#autotoc_md15',1,'']]],
   ['lithuania_8',['LITHUANIA',['../classinflection_1_1util_1_1LocaleUtils.html#a4c77509d935acb7e25414d9626232261',1,'inflection::util::LocaleUtils']]],
   ['lithuanian_9',['LITHUANIAN',['../classinflection_1_1util_1_1LocaleUtils.html#a66606873fd0b919c6d6e7ab44daaea76',1,'inflection::util::LocaleUtils']]],

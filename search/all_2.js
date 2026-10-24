@@ -21,7 +21,7 @@ var searchData=
   ['constraintmaplen_18',['constraintMapLen',['../structIDDisplayValue.html#a630e0c1eda38144d598e8fc5e48202bc',1,'IDDisplayValue']]],
   ['constraints_19',['constraints',['../classinflection_1_1dialog_1_1SemanticFeatureConceptBase.html#a783903fdc965444b3bbeee836d1cfc65',1,'inflection::dialog::SemanticFeatureConceptBase']]],
   ['contains_20',['contains',['../classinflection_1_1dialog_1_1SpeakableString.html#ad5662edb50d03ab79a2feed2b35077aa',1,'inflection::dialog::SpeakableString']]],
-  ['copyright_20licenses_21',['Copyright &amp; Licenses',['../index.html#autotoc_md18',1,'']]],
+  ['copyright_20licenses_21',['Copyright &amp; Licenses',['../index.html#autotoc_md19',1,'']]],
   ['createandlist_22',['createandlist',['../classinflection_1_1dialog_1_1CommonConceptFactory.html#a31be079d35aee642dc28e80da3171f1a',1,'inflection::dialog::CommonConceptFactory::createAndList(const ::std::vector&lt;::inflection::dialog::SemanticFeatureConceptBase * &gt; &amp;concepts) const =0'],['../classinflection_1_1dialog_1_1CommonConceptFactory.html#ac29e1ffbffd0c5bc3004e0338f50e5d6',1,'inflection::dialog::CommonConceptFactory::createAndList(const ::std::vector&lt; const ::inflection::dialog::SemanticFeatureConceptBase * &gt; &amp;concepts) const =0']]],
   ['createconcept_23',['createConcept',['../classinflection_1_1dialog_1_1CommonConceptFactory.html#a3520dca9f770ecb05c5a51ac9026766f',1,'inflection::dialog::CommonConceptFactory']]],
   ['createdictionary_24',['createDictionary',['../classinflection_1_1dictionary_1_1DictionaryMetaData.html#a1df660602f699be480526c92b59638ed',1,'inflection::dictionary::DictionaryMetaData']]],

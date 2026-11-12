@@ -97,12 +97,16 @@ public class DictionaryEntry implements Comparable<DictionaryEntry> {
                 }
             }
             for (InflectionPattern pattern : entry.inflectionalPatterns) {
-                int existingSource = this.patternSourceIndices.getOrDefault(pattern, this.sourceIndex);
+                Integer existingSource = this.patternSourceIndices.get(pattern);
                 int incomingSource = entry.getPatternSourceIndex(pattern);
-                if (incomingSource > existingSource && !entry.rareInflectionalPatterns.contains(pattern)) {
-                    this.rareInflectionalPatterns.remove(pattern);
+                if (existingSource == null) {
+                    this.patternSourceIndices.put(pattern, incomingSource);
+                } else {
+                    if (incomingSource > existingSource && !entry.rareInflectionalPatterns.contains(pattern)) {
+                        this.rareInflectionalPatterns.remove(pattern);
+                    }
+                    this.patternSourceIndices.put(pattern, Math.max(existingSource, incomingSource));
                 }
-                this.patternSourceIndices.put(pattern, Math.max(existingSource, incomingSource));
             }
             this.sourceIndex = Math.max(this.sourceIndex, entry.sourceIndex);
         }

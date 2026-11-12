@@ -281,12 +281,12 @@ final class ParserOptions {
     void setIgnoreProperty(String[] grammemes, Grammar.Ignorable ignorable) {
         var ignorableSet = EnumSet.of(ignorable);
         for (String grammeme : grammemes) {
-            boolean matched = false;
-            if (!grammeme.matches("Q\\d*")) {
+            if (grammeme.matches("Q\\d*")) {
+                TYPEMAP.put(grammeme, ignorableSet);
+            } else {
                 for (Map.Entry<String, Set<? extends Enum<?>>> entry : TYPEMAP.entrySet()) {
                     for (var grammemeEnum : entry.getValue()) {
                         if (grammemeEnum.toString().equalsIgnoreCase(grammeme)) {
-                            matched = true;
                             if (entry.getValue().size() == 1) {
                                 entry.setValue(ignorableSet);
                             } else {
@@ -299,9 +299,6 @@ final class ParserOptions {
                         }
                     }
                 }
-            }
-            if (!matched) {
-                TYPEMAP.put(grammeme, ignorableSet);
             }
         }
     }

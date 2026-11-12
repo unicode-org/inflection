@@ -38,6 +38,7 @@ class ParseWikidataTest {
     private static final String dmlexLexiconFile = baseDir + "/dmlexLexicon.json";
     private static final String dmlexOverlayFile = baseDir + "/dmlexOverlay.json";
     private static final String dmlexPatchFile = baseDir + "/dmlexPatch.json";
+    private static final String dmlexExampleA28File = baseDir + "/dmlexExampleA28.json";
     private static final String dmlexInvalidSchemaFile = baseDir + "/dmlexInvalidSchema.json";
     private static final String LINE_END = "==============================================";
     private static final Pattern XML_PATTERN_NAME = Pattern.compile("<pattern name=\"([^\"]+)\"");
@@ -162,13 +163,36 @@ class ParseWikidataTest {
         // wow has no inflectedForms array, synthesized default form
         Assertions.assertEquals("interjection", entries.get("wow"));
 
-        // French entry "bonjour" must be filtered out because default --language is en
-        Assertions.assertFalse(entries.containsKey("bonjour"));
-
         // Verify inflectional XML was generated
         String xml = Files.readString(Paths.get(inflectionalFile), StandardCharsets.UTF_8);
         Assertions.assertTrue(xml.contains("<patterns>"));
         Assertions.assertTrue(xml.contains("<pattern name=\"1\" words=\"2\">"));
+    }
+
+    @Test
+    public void dmlexSpecExampleA28Test() throws Exception {
+        // With default --language en, the Irish ("ga") lexicon is skipped
+        String[] enArgs = {
+                "--inflection-types", "noun",
+                "--inflections", inflectionalFile,
+                "--dictionary", dictionaryFile,
+                "--dmlex", dmlexExampleA28File
+        };
+        Assertions.assertTrue(parseDictionaryEntries(getParserOutput(enArgs)).isEmpty());
+
+        String[] args = {
+                "--language", "ga",
+                "--inflection-types", "noun",
+                "--inflections", inflectionalFile,
+                "--dictionary", dictionaryFile,
+                "--dmlex", dmlexExampleA28File
+        };
+        String actual = getParserOutput(args);
+        Map<String, String> entries = parseDictionaryEntries(actual);
+
+        Assertions.assertEquals("singular masculine noun", entries.get("folúsghlantóir"));
+        Assertions.assertEquals("singular genitive masculine noun", entries.get("folúsghlantóra"));
+        Assertions.assertEquals("plural masculine noun", entries.get("folúsghlantóirí"));
     }
 
     @Test
@@ -282,31 +306,44 @@ class ParseWikidataTest {
                         {
                           "id": "elie-proper-noun",
                           "headword": "Élie",
-                          "partOfSpeech": ["proper-noun"],
-                          "tag": "feminine",
+                          "partsOfSpeech": ["propn-fem"],
                           "pronunciations": [
                             {
                               "transcriptions": [
-                                { "text": "e.li", "scheme": "IPA" }
+                                { "text": "e.li", "scheme": "en-fonipa" }
                               ]
                             }
                           ],
                           "inflectedForms": [
                             {
-                              "value": "Élie",
-                              "tag": "singular"
+                              "tag": "sg",
+                              "text": "Élie"
                             }
                           ]
                         },
                         {
                           "id": "elie-verb",
                           "headword": "Élie",
-                          "partOfSpeech": ["verb"],
-                          "inflectedForms": [
-                            {
-                              "value": "Élie"
-                            }
+                          "partsOfSpeech": ["v"]
+                        }
+                      ],
+                      "partOfSpeechTags": [
+                        {
+                          "tag": "propn-fem",
+                          "sameAs": [
+                            "http://www.wikidata.org/entity/Q147276",
+                            "http://www.wikidata.org/entity/Q1775415"
                           ]
+                        },
+                        {
+                          "tag": "v",
+                          "sameAs": ["http://www.wikidata.org/entity/Q24905"]
+                        }
+                      ],
+                      "inflectedFormTags": [
+                        {
+                          "tag": "sg",
+                          "sameAs": ["http://www.wikidata.org/entity/Q110786"]
                         }
                       ]
                     }
@@ -420,13 +457,13 @@ class ParseWikidataTest {
         Assertions.assertFalse(entries.get("bats").contains("masculine"));
 
         // "wow" surface form was overridden by dmlexPatch.json (verb)
-        Assertions.assertEquals("verb", entries.get("wow"));
-        Assertions.assertEquals("verb", entries.get("wowed"));
+        Assertions.assertEquals("infinitive verb", entries.get("wow"));
+        Assertions.assertEquals("past verb", entries.get("wowed"));
         assertAllXmlPatternsReferencedInDictionary(spaceOutput);
     }
 
     @Test
-    public void invalidDMLexSchemaAndUnknownOptionTest() {
+    public void invalidDMLexSchemaAndUnknownOptionTest() throws Exception {
         // 1. JSON object missing required "langCode" / "entries"
         String[] invalidObjArgs = {
                 "--inflections", inflectionalFile,
@@ -458,11 +495,150 @@ class ParseWikidataTest {
                 "--dmlex"
         };
         Assertions.assertThrows(IllegalArgumentException.class, () -> ParseWikidata.main(emptyDmlexArgs));
+
+        // 5. Strict validation: unknown property, missing/multiple POS, undefined tag, unresolvable sameAs,
+        //    and missing headword in inflectedForms must fail loudly with file name and entry id.
+        Path tempInvalid = Files.createTempFile(Paths.get(baseDir), "dmlex-strict-invalid-", ".json");
+        try {
+            // 5a. Unknown JSON property on entry ("partOfSpeech" instead of "partsOfSpeech")
+            Files.writeString(tempInvalid, """
+                    {
+                      "langCode": "en",
+                      "entries": [
+                        { "id": "bad-prop", "headword": "cat", "partOfSpeech": ["n"] }
+                      ]
+                    }
+                    """, StandardCharsets.UTF_8);
+            String[] badArgs = {
+                    "--inflections", inflectionalFile,
+                    "--dictionary", dictionaryFile,
+                    "--dmlex", tempInvalid.toString()
+            };
+            MismatchedInputException badPropEx = Assertions.assertThrows(
+                    MismatchedInputException.class, () -> ParseWikidata.main(badArgs));
+            Assertions.assertTrue(badPropEx.getMessage().contains(tempInvalid.toString()));
+
+            // 5b. Entry with no part of speech
+            Files.writeString(tempInvalid, """
+                    {
+                      "langCode": "en",
+                      "entries": [
+                        { "id": "no-pos", "headword": "cat" }
+                      ]
+                    }
+                    """, StandardCharsets.UTF_8);
+            IllegalArgumentException noPosEx = Assertions.assertThrows(
+                    IllegalArgumentException.class, () -> ParseWikidata.main(badArgs));
+            Assertions.assertTrue(noPosEx.getMessage().contains(tempInvalid.toString()));
+            Assertions.assertTrue(noPosEx.getMessage().contains("no-pos"));
+
+            // 5c. Entry with multiple parts of speech
+            Files.writeString(tempInvalid, """
+                    {
+                      "langCode": "en",
+                      "entries": [
+                        { "id": "multi-pos", "headword": "Czech", "partsOfSpeech": ["n", "adj"] }
+                      ],
+                      "partOfSpeechTags": [
+                        { "tag": "n", "sameAs": ["http://www.wikidata.org/entity/Q1084"] },
+                        { "tag": "adj", "sameAs": ["http://www.wikidata.org/entity/Q34698"] }
+                      ]
+                    }
+                    """, StandardCharsets.UTF_8);
+            IllegalArgumentException multiPosEx = Assertions.assertThrows(
+                    IllegalArgumentException.class, () -> ParseWikidata.main(badArgs));
+            Assertions.assertTrue(multiPosEx.getMessage().contains(tempInvalid.toString()));
+            Assertions.assertTrue(multiPosEx.getMessage().contains("multi-pos"));
+
+            // 5d. Undefined tag in partsOfSpeech
+            Files.writeString(tempInvalid, """
+                    {
+                      "langCode": "en",
+                      "entries": [
+                        { "id": "undef-tag", "headword": "cat", "partsOfSpeech": ["n-missing"] }
+                      ]
+                    }
+                    """, StandardCharsets.UTF_8);
+            IllegalArgumentException undefTagEx = Assertions.assertThrows(
+                    IllegalArgumentException.class, () -> ParseWikidata.main(badArgs));
+            Assertions.assertTrue(undefTagEx.getMessage().contains(tempInvalid.toString()));
+            Assertions.assertTrue(undefTagEx.getMessage().contains("undef-tag"));
+
+            // 5e. Unresolvable sameAs URI
+            Files.writeString(tempInvalid, """
+                    {
+                      "langCode": "en",
+                      "entries": [
+                        { "id": "bad-uri", "headword": "cat", "partsOfSpeech": ["n"] }
+                      ],
+                      "partOfSpeechTags": [
+                        { "tag": "n", "sameAs": ["http://www.wikidata.org/entity/Q999999999"] }
+                      ]
+                    }
+                    """, StandardCharsets.UTF_8);
+            IllegalArgumentException badUriEx = Assertions.assertThrows(
+                    IllegalArgumentException.class, () -> ParseWikidata.main(badArgs));
+            Assertions.assertTrue(badUriEx.getMessage().contains(tempInvalid.toString()));
+            Assertions.assertTrue(badUriEx.getMessage().contains("bad-uri"));
+
+            // 5f. Non-empty inflectedForms missing the headword form (unmodified A.28 without headword form)
+            Files.writeString(tempInvalid, """
+                    {
+                      "langCode": "ga",
+                      "entries": [
+                        {
+                          "id": "folúsghlantóir-n",
+                          "headword": "folúsghlantóir",
+                          "partsOfSpeech": ["n-masc"],
+                          "inflectedForms": [
+                            { "tag": "sg-gen", "text": "folúsghlantóra" },
+                            { "tag": "pl", "text": "folúsghlantóirí" }
+                          ]
+                        }
+                      ],
+                      "partOfSpeechTags": [
+                        {
+                          "tag": "n-masc",
+                          "sameAs": [
+                            "http://www.wikidata.org/entity/Q1084",
+                            "http://www.wikidata.org/entity/Q499327"
+                          ]
+                        }
+                      ],
+                      "inflectedFormTags": [
+                        {
+                          "tag": "sg-gen",
+                          "sameAs": [
+                            "http://www.wikidata.org/entity/Q110786",
+                            "http://www.wikidata.org/entity/Q146233"
+                          ]
+                        },
+                        {
+                          "tag": "pl",
+                          "sameAs": ["http://www.wikidata.org/entity/Q146786"]
+                        }
+                      ]
+                    }
+                    """, StandardCharsets.UTF_8);
+            String[] gaBadArgs = {
+                    "--language", "ga",
+                    "--inflections", inflectionalFile,
+                    "--dictionary", dictionaryFile,
+                    "--dmlex", tempInvalid.toString()
+            };
+            IllegalArgumentException missingHwEx = Assertions.assertThrows(
+                    IllegalArgumentException.class, () -> ParseWikidata.main(gaBadArgs));
+            Assertions.assertTrue(missingHwEx.getMessage().contains(tempInvalid.toString()));
+            Assertions.assertTrue(missingHwEx.getMessage().contains("folúsghlantóir-n"));
+        } finally {
+            Files.deleteIfExists(tempInvalid);
+        }
     }
 
     @Test
     public void dmlexCliOptionsCompatibilityTest() throws Exception {
         Path tempDmlex = Files.createTempFile(Paths.get(baseDir), "dmlex-opts-", ".json");
+        Path tempExcludedDmlex = Files.createTempFile(Paths.get(baseDir), "dmlex-opts-md-", ".json");
         Map<String, Set<? extends Enum<?>>> savedTypeMap = new HashMap<>(Grammar.TYPEMAP.size());
         for (var entry : Grammar.TYPEMAP.entrySet()) {
             savedTypeMap.put(entry.getKey(), new HashSet<>(entry.getValue()));
@@ -475,66 +651,120 @@ class ParseWikidataTest {
                         {
                           "id": "ro-1",
                           "headword": "casă",
-                          "partOfSpeech": ["noun"],
-                          "labels": ["feminine", "countable", "dialectal"],
+                          "partsOfSpeech": ["n-fem"],
+                          "labels": ["cnt", "dial"],
                           "inflectedForms": [
-                            { "value": "casă", "labels": ["singular", "customNomAcc"] },
-                            { "value": "case", "labels": ["plural", "customNomAcc"] },
-                            { "value": "casă-short", "labels": ["singular", "short-form"] },
-                            { "value": "casă-archaic", "labels": ["singular", "archaic"] }
+                            { "tag": "sg-nom-acc", "text": "casă" },
+                            { "tag": "pl-nom-acc", "text": "case" },
+                            { "tag": "sg-short", "text": "casă-short" },
+                            { "tag": "sg", "text": "casă-archaic", "labels": ["arch"] }
+                          ]
+                        }
+                      ],
+                      "partOfSpeechTags": [
+                        {
+                          "tag": "n-fem",
+                          "sameAs": [
+                            "http://www.wikidata.org/entity/Q1084",
+                            "http://www.wikidata.org/entity/Q1775415"
+                          ]
+                        }
+                      ],
+                      "labelTags": [
+                        { "tag": "cnt", "sameAs": ["http://www.wikidata.org/entity/Q1520033"] },
+                        { "tag": "dial", "sameAs": ["http://www.wikidata.org/entity/Q99990001"] },
+                        { "tag": "arch", "sameAs": ["http://www.wikidata.org/entity/Q99990002"] }
+                      ],
+                      "inflectedFormTags": [
+                        {
+                          "tag": "sg",
+                          "sameAs": ["http://www.wikidata.org/entity/Q110786"]
+                        },
+                        {
+                          "tag": "sg-nom-acc",
+                          "sameAs": [
+                            "http://www.wikidata.org/entity/Q110786",
+                            "http://www.wikidata.org/entity/Q99990003"
                           ]
                         },
                         {
-                          "id": "ro-md-1",
-                          "headword": "moldovanWord",
-                          "langCode": "ro-md",
-                          "partOfSpeech": ["noun"],
-                          "inflectedForms": [
-                            { "value": "moldovanWord", "labels": ["singular"] }
+                          "tag": "pl-nom-acc",
+                          "sameAs": [
+                            "http://www.wikidata.org/entity/Q146786",
+                            "http://www.wikidata.org/entity/Q99990003"
+                          ]
+                        },
+                        {
+                          "tag": "sg-short",
+                          "sameAs": [
+                            "http://www.wikidata.org/entity/Q110786",
+                            "http://www.wikidata.org/entity/Q96406487"
                           ]
                         }
                       ]
                     }
                     """;
+            String excludedJson = """
+                    {
+                      "langCode": "ro-md",
+                      "entries": [
+                        {
+                          "id": "ro-md-1",
+                          "headword": "moldovanWord",
+                          "partsOfSpeech": ["n"],
+                          "inflectedForms": [
+                            { "tag": "sg", "text": "moldovanWord" }
+                          ]
+                        }
+                      ],
+                      "partOfSpeechTags": [
+                        { "tag": "n", "sameAs": ["http://www.wikidata.org/entity/Q1084"] }
+                      ],
+                      "inflectedFormTags": [
+                        { "tag": "sg", "sameAs": ["http://www.wikidata.org/entity/Q110786"] }
+                      ]
+                    }
+                    """;
             Files.writeString(tempDmlex, json, StandardCharsets.UTF_8);
+            Files.writeString(tempExcludedDmlex, excludedJson, StandardCharsets.UTF_8);
 
             String[] args = {
                     "--language", "ro",
                     "--exclude-language", "ro-md",
                     "--inflection-types", "noun,proper-noun",
-                    "--map-grammeme", "customNomAcc,nominative,accusative",
+                    "--map-grammeme", "Q99990003,nominative,accusative",
                     "--expand-grammemes", "singular,nominative,accusative,feminine,noun:indefinite",
-                    "--ignore-property", "countable,dialectal",
-                    "--ignore-entries-with-grammemes", "short-form,archaic",
+                    "--ignore-property", "countable,Q99990001",
+                    "--ignore-entries-with-grammemes", "short-form,Q99990002",
                     "--inflections", inflectionalFile,
                     "--dictionary", dictionaryFile,
-                    "--dmlex", tempDmlex.toString()
+                    "--dmlex", tempDmlex.toString(), tempExcludedDmlex.toString()
             };
             String actual = getParserOutput(args);
             Map<String, String> entries = parseDictionaryEntries(actual);
 
-            // ro-md entry excluded via --exclude-language
+            // ro-md lexicon excluded via --exclude-language
             Assertions.assertFalse(entries.containsKey("moldovanWord"));
-            // short-form and unmapped "archaic" surface forms ignored via --ignore-entries-with-grammemes
+            // short-form and Q99990002 ("arch") surface forms ignored via --ignore-entries-with-grammemes
             Assertions.assertFalse(entries.containsKey("casă-short"));
             Assertions.assertFalse(entries.containsKey("casă-archaic"));
-            // countable and unmapped "dialectal" ignored via --ignore-property;
-            // customNomAcc mapped to nominative,accusative; singular expanded with indefinite via --expand-grammemes
+            // countable and Q99990001 ("dial") ignored via --ignore-property;
+            // Q99990003 mapped to nominative,accusative; singular expanded with indefinite via --expand-grammemes
             Assertions.assertEquals("singular accusative nominative indefinite feminine noun", entries.get("casă"));
             Assertions.assertEquals("plural accusative nominative feminine noun", entries.get("case"));
         } finally {
             Grammar.TYPEMAP.clear();
             Grammar.TYPEMAP.putAll(savedTypeMap);
             Files.deleteIfExists(tempDmlex);
+            Files.deleteIfExists(tempExcludedDmlex);
         }
     }
 
     @Test
-    public void dmlexEntriesBeforeLangCodeMultiFieldObjectsAndReverseOrderTest() throws Exception {
+    public void dmlexEntriesBeforeLangCodeImplicitSchemeAndReverseOrderTest() throws Exception {
         // Tests:
         // 1. "entries" appearing before "langCode" in the root DMLex JSON object.
-        // 2. Single-object multi-field labels ({"tag": "singular", "label": "Singular number"}) and
-        //    pronunciations ({"label": "US", "transcription": "ˈæp.əl"}).
+        // 2. Implicit transcription scheme (omitted "scheme") treated as IPA, while non-fonipa scheme is ignored.
         // 3. Reverse source order (--dmlex <file> --wikidata <file>), where Wikidata overrides DMLex.
         Path tempDmlex = Files.createTempFile(Paths.get(baseDir), "dmlex-reverse-", ".json");
         try {
@@ -544,75 +774,98 @@ class ParseWikidataTest {
                         {
                           "id": "dmlex-apple",
                           "headword": "apple",
-                          "partOfSpeech": [
-                            { "label": "Common noun", "tag": "noun" }
-                          ],
-                          "labels": [
-                            { "tag": "nonhuman", "label": "Non-human animacy" }
-                          ],
+                          "partsOfSpeech": ["n"],
+                          "labels": ["nonhuman"],
                           "pronunciations": [
-                            { "label": "US", "transcription": "ˈæp.əl" }
+                            {
+                              "labels": ["US"],
+                              "transcriptions": [
+                                { "text": "ˈæp.əl" }
+                              ]
+                            }
                           ],
                           "inflectedForms": [
                             {
-                              "value": "apple",
-                              "labels": [
-                                { "tag": "singular", "label": "Singular number" }
-                              ]
+                              "tag": "sg",
+                              "text": "apple"
                             },
                             {
-                              "value": "apples",
-                              "labels": [
-                                { "label": "Plural number", "tag": "plural" }
-                              ]
+                              "tag": "pl",
+                              "text": "apples"
                             }
                           ]
                         },
                         {
                           "id": "dmlex-ciel-early",
                           "headword": "ciel",
-                          "partOfSpeech": ["noun"],
-                          "labels": ["feminine"],
+                          "partsOfSpeech": ["n-fem"],
                           "pronunciations": [
                             {
-                              "label": "en-US",
+                              "labels": ["en-US"],
                               "transcriptions": [
-                                { "text": "sjɛl", "scheme": "IPA" }
+                                { "text": "sjɛl", "scheme": "fr-fonipa" },
+                                { "text": "ael", "scheme": "fr-Latn" }
                               ]
                             }
                           ],
                           "inflectedForms": [
-                            { "value": "ciel", "labels": ["singular"] },
-                            { "value": "cieux", "labels": ["plural"] },
-                            { "value": "ciel-dmlex-only", "labels": ["plural"] }
+                            { "tag": "sg", "text": "ciel" },
+                            { "tag": "pl", "text": "cieux" },
+                            { "tag": "pl", "text": "ciel-dmlex-only" }
                           ]
                         },
                         {
-                          "id": "dmlex-posless-early",
+                          "id": "dmlex-intj-early",
                           "headword": "uh-oh",
+                          "partsOfSpeech": ["intj"],
                           "inflectedForms": [
-                            { "value": "uh-oh", "labels": ["singular"] }
+                            { "tag": "sg", "text": "uh-oh" }
                           ]
                         }
+                      ],
+                      "partOfSpeechTags": [
+                        { "tag": "n", "sameAs": ["http://www.wikidata.org/entity/Q1084"] },
+                        {
+                          "tag": "n-fem",
+                          "sameAs": [
+                            "http://www.wikidata.org/entity/Q1084",
+                            "http://www.wikidata.org/entity/Q1775415"
+                          ]
+                        },
+                        { "tag": "intj", "sameAs": ["http://www.wikidata.org/entity/Q83034"] }
+                      ],
+                      "labelTags": [
+                        { "tag": "nonhuman", "sameAs": ["http://www.wikidata.org/entity/Q67372837"] }
+                      ],
+                      "inflectedFormTags": [
+                        { "tag": "sg", "sameAs": ["http://www.wikidata.org/entity/Q110786"] },
+                        { "tag": "pl", "sameAs": ["http://www.wikidata.org/entity/Q146786"] }
                       ],
                       "langCode": "en"
                     }
                     """;
             Files.writeString(tempDmlex, json, StandardCharsets.UTF_8);
 
-            Path tempDmlex2 = Files.createTempFile(Paths.get(baseDir), "dmlex-posless-late-", ".json");
+            Path tempDmlex2 = Files.createTempFile(Paths.get(baseDir), "dmlex-intj-late-", ".json");
             try {
                 String json2 = """
                         {
                           "langCode": "en",
                           "entries": [
                             {
-                              "id": "dmlex-posless-late",
+                              "id": "dmlex-intj-late",
                               "headword": "uh-oh",
+                              "partsOfSpeech": ["intj"],
                               "inflectedForms": [
-                                { "value": "uh-oh", "labels": ["plural"] }
+                                { "tag": "pl", "text": "uh-oh" }
                               ]
                             }
+                          ],
+                          "partOfSpeechTags": [
+                            { "tag": "intj", "sameAs": ["http://www.wikidata.org/entity/Q83034"] }
+                          ],
+                          "inflectedFormTags": [
+                            { "tag": "pl", "sameAs": ["http://www.wikidata.org/entity/Q146786"] }
                           ]
                         }
                         """;
@@ -630,7 +883,7 @@ class ParseWikidataTest {
                 String actual = getParserOutput(args);
                 Map<String, String> entries = parseDictionaryEntries(actual);
 
-                // "apple" from DMLex is parsed with multi-field objects and "entries" before "langCode"
+                // "apple" from DMLex is parsed with implicit IPA scheme and "entries" before "langCode"
                 Assertions.assertTrue(entries.get("apple").startsWith("singular nonhuman vowel-start noun inflection="));
                 Assertions.assertTrue(entries.get("apples").startsWith("plural nonhuman vowel-start noun inflection="));
 
@@ -640,13 +893,13 @@ class ParseWikidataTest {
                 Assertions.assertTrue(entries.containsKey("ciels"));
                 Assertions.assertTrue(entries.get("cieux").contains("masculine"));
                 Assertions.assertFalse(entries.get("cieux").contains("feminine"));
-                // "ciel-dmlex-only" was not in Wikidata, and its pronunciation container's "label": "en-US"
-                // must not be mistaken for a vowel-start transcription when "transcriptions" is present.
+                // "ciel-dmlex-only" was not in Wikidata, and its non-IPA transcription ("fr-Latn": "ael")
+                // must not be treated as a vowel-start IPA transcription.
                 Assertions.assertTrue(entries.get("ciel-dmlex-only").startsWith("plural feminine noun inflection="));
                 Assertions.assertFalse(entries.get("ciel-dmlex-only").contains("vowel-start"));
 
-                // POS-less surface form "uh-oh" from tempDmlex was overridden by tempDmlex2
-                Assertions.assertEquals("plural", entries.get("uh-oh"));
+                // Non-inflected POS surface form "uh-oh" from tempDmlex was overridden by tempDmlex2
+                Assertions.assertEquals("plural interjection", entries.get("uh-oh"));
                 assertAllXmlPatternsReferencedInDictionary(actual);
             } finally {
                 Files.deleteIfExists(tempDmlex2);

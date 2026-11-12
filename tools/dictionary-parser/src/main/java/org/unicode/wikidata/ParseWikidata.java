@@ -18,7 +18,6 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
 import org.apache.commons.lang3.StringUtils;
@@ -72,17 +71,18 @@ public final class ParseWikidata {
             inflections.clear();
         }
 
-        private Lemma() {
+        Lemma() {
         }
     }
 
-    private final ParserOptions parserOptions;
-    private final DocumentState documentState = new DocumentState();
-    private final TreeSet<String> rareLemmas = new TreeSet<>();
-    private final TreeSet<String> omitLemmas = new TreeSet<>();
+    final ParserOptions parserOptions;
+    final DocumentState documentState = new DocumentState();
+    final TreeSet<String> rareLemmas = new TreeSet<>();
+    final TreeSet<String> omitLemmas = new TreeSet<>();
     private final Map<String, List<String>> mergeMap = new HashMap<>();
     private final TreeSet<String> deferredLexemes = new TreeSet<>();
     private final Map<String, Lemma> deferredLemmaMap = new HashMap<>();
+    private boolean isFirstWikidataSource = true;
 
     ParseWikidata(ParserOptions parserOptions) {
         this.parserOptions = parserOptions;
@@ -133,7 +133,7 @@ public final class ParseWikidata {
      *
      * @return {@code false} if the entire lemma must be aborted due to {@code IGNORABLE_LEMMA}; {@code true} otherwise.
      */
-    private boolean finalizeAndAddInflection(
+    boolean finalizeAndAddInflection(
             Lemma lemma,
             @Nullable TreeSet<Enum<?>> genderlessLemmaGrammemes,
             Inflection currentInflection) {
@@ -177,7 +177,7 @@ public final class ParseWikidata {
      * extracts lemma-level {@link Grammar.Usage#RARE}, rejects lemmas with no usable surface forms,
      * and strips {@link Gender} from {@code lemma.grammemes}.
      */
-    private boolean finalizeLemmaAfterForms(Lemma lemma) {
+    boolean finalizeLemmaAfterForms(Lemma lemma) {
         documentState.incomingSurfaceForm += lemma.inflections.size();
         lemma.isRare = lemma.grammemes.contains(Grammar.Usage.RARE);
         if (lemma.isRare) {
@@ -294,125 +294,9 @@ public final class ParseWikidata {
         }
     }
 
-    /**
-     * Converts a single OASIS DMLex {@link DMLexEntry} into the internal {@link Lemma} representation
-     * and routes it through the shared normalization and analysis pipeline.
-     */
-    private void analyzeDMLexEntry(Lemma lemma, DMLexEntry entry, String lexiconLangCode, int sourceIndex) {
-        if (entry == null) {
-            throw new IllegalArgumentException("Null DMLex entry");
-        }
-        String entryLang = (entry.langCode != null && !entry.langCode.isBlank()) ? entry.langCode : lexiconLangCode;
-        if (!LexemesJsonDeserializer.isContained(entryLang)) {
-            return;
-        }
-        String entryId = (entry.id != null && !entry.id.isBlank()) ? entry.id : "<unknown>";
-        if (omitLemmas.contains(entryId)) {
-            return;
-        }
-        lemma.reset();
-        documentState.lemmaCount++;
-        if (entry.headword == null || entry.headword.isBlank()) {
-            throw new IllegalArgumentException("Missing headword for DMLex entry " + entryId);
-        }
-
-        lemma.value = entry.headword;
-
-        int qVariantIdx = entryLang.indexOf(VARIANT_SEPARATOR);
-        if (qVariantIdx >= 0) {
-            var additionalCategory = entryLang.substring(qVariantIdx + VARIANT_SEPARATOR.length());
-            var variant = Grammar.getMappedGrammemes(additionalCategory);
-            if (variant == null) {
-                if (parserOptions.debug) {
-                    System.err.println(additionalCategory
-                            + " is not a known grammeme for the language variant " + entryId + "(" + lemma.value + ")");
-                }
-                return;
-            }
-            if (variant.contains(Ignorable.IGNORABLE_INFLECTION)) {
-                return;
-            }
-            lemma.grammemes.addAll(variant);
-        }
-
-        if (entry.partOfSpeech != null) {
-            for (String posStr : entry.partOfSpeech) {
-                var mappedPos = Grammar.getMappedGrammemes(posStr);
-                if (mappedPos == null) {
-                    throw new IllegalArgumentException(posStr
-                            + " is not a known part of speech grammeme for " + entryId + "(" + lemma.value + ")");
-                }
-                lemma.grammemes.addAll(mappedPos);
-            }
-        }
-        if (rareLemmas.contains(entryId)) {
-            lemma.grammemes.add(Grammar.Usage.RARE);
-        }
-        if (entry.labels != null) {
-            for (String labelStr : entry.labels) {
-                var mappedLabel = Grammar.getMappedGrammemes(labelStr);
-                if (mappedLabel == null) {
-                    throw new IllegalArgumentException(labelStr
-                            + " is not a known grammeme for " + entryId + "(" + lemma.value + ")");
-                }
-                lemma.grammemes.addAll(mappedLabel);
-            }
-        }
-        if (parserOptions.addSound && entry.pronunciations != null && !entry.pronunciations.isEmpty()) {
-            addSound("P898", entry.pronunciations, lemma.grammemes, entryId, lemma.value);
-        }
-
-        if (lemma.grammemes.contains(Ignorable.IGNORABLE_LEMMA)
-                || lemma.grammemes.contains(Ignorable.IGNORABLE_INFLECTION)) {
-            documentState.unusableLemmaCount++;
-            return;
-        }
-        lemma.grammemes.remove(Ignorable.IGNORABLE_PROPERTY);
-
-        TreeSet<Enum<?>> genderlessLemmaGrammemes = null;
-        if (countGrammemeType(lemma.grammemes, Gender.class) > 0) {
-            genderlessLemmaGrammemes = new TreeSet<>(lemma.grammemes);
-            removeGrammemeType(genderlessLemmaGrammemes, Gender.class);
-        }
-
-        List<DMLexInflectedForm> forms = entry.inflectedForms;
-        if (forms == null || forms.isEmpty()) {
-            DMLexInflectedForm defaultForm = new DMLexInflectedForm();
-            defaultForm.value = entry.headword;
-            forms = List.of(defaultForm);
-        }
-
-        for (DMLexInflectedForm form : forms) {
-            if (form == null || form.value == null || form.value.isBlank()) {
-                throw new IllegalArgumentException("Missing inflected form value for " + entryId + "(" + lemma.value + ")");
-            }
-            Inflection currentInflection = new Inflection(form.value);
-            if (form.labels != null) {
-                for (String labelStr : form.labels) {
-                    Set<? extends Enum<?>> values = Grammar.getMappedGrammemes(labelStr);
-                    if (values == null) {
-                        throw new IllegalArgumentException(labelStr
-                                + " is not a known grammeme for " + entryId + "(" + lemma.value + ")");
-                    }
-                    currentInflection.grammemeSet.addAll(values);
-                }
-            }
-            if (parserOptions.addSound && form.pronunciations != null && !form.pronunciations.isEmpty()) {
-                addSound("P898", form.pronunciations, currentInflection.grammemeSet, entryId, lemma.value);
-            }
-            if (!finalizeAndAddInflection(lemma, genderlessLemmaGrammemes, currentInflection)) {
-                return;
-            }
-        }
-
-        if (!finalizeLemmaAfterForms(lemma)) {
-            return;
-        }
-        analyzeLemma(lemma, sourceIndex);
-    }
-
     private void processAndMergeLexemes(int sourceIndex) {
-        if (sourceIndex == 0) {
+        if (isFirstWikidataSource) {
+            isFirstWikidataSource = false;
             for (Map.Entry<String, List<String>> entry : mergeMap.entrySet()) {
                 Lemma lemma = deferredLemmaMap.computeIfAbsent(entry.getKey(), key -> {
                     throw new IllegalArgumentException(key + ": id not found");
@@ -452,7 +336,7 @@ public final class ParseWikidata {
         deferredLemmaMap.clear();
     }
 
-    private void removeGrammemeType(TreeSet<Enum<?>> grammemes, Class<?> grammemeType) {
+    void removeGrammemeType(TreeSet<Enum<?>> grammemes, Class<?> grammemeType) {
         var iter = grammemes.iterator();
         while (iter.hasNext()) {
             var grammeme = iter.next();
@@ -462,7 +346,7 @@ public final class ParseWikidata {
         }
     }
 
-    private int countGrammemeType(TreeSet<Enum<?>> grammemes, Class<?> grammemeType) {
+    int countGrammemeType(TreeSet<Enum<?>> grammemes, Class<?> grammemeType) {
         int count = 0;
         var iter = grammemes.iterator();
         while (iter.hasNext()) {
@@ -532,7 +416,7 @@ public final class ParseWikidata {
         return conflicts;
     }
 
-    private void addSound(String property, List<String> claims, TreeSet<Enum<?>> grammemeSet, String id, String lemma) {
+    void addSound(String property, List<String> claims, TreeSet<Enum<?>> grammemeSet, String id, String lemma) {
         var dataForClaim = parserOptions.claimsToSound.get(property);
         if (dataForClaim != null && !dataForClaim.isEmpty()) {
             for (var soundMatcher : dataForClaim.entrySet()) {
@@ -775,7 +659,7 @@ public final class ParseWikidata {
         }
     }
 
-    private void analyzeLemma(Lemma lemma, int sourceIndex) {
+    void analyzeLemma(Lemma lemma, int sourceIndex) {
         analyzeInflections(lemma, lemma.inflections, sourceIndex);
 
         if (parserOptions.includeLemmasWithoutWords) {
@@ -808,28 +692,6 @@ public final class ParseWikidata {
         }
     }
 
-    private void parseDMLexStream(
-            ObjectMapper objectMapper,
-            JsonParser parser,
-            ParserOptions.SourceInput sourceInput) throws IOException {
-        DMLexEntry.Lexicon lexicon = objectMapper.readValue(parser, DMLexEntry.Lexicon.class);
-        if (lexicon == null || lexicon.langCode == null || lexicon.langCode.isBlank() || lexicon.entries == null) {
-            throw MismatchedInputException.from(
-                    parser,
-                    DMLexEntry.Lexicon.class,
-                    "Invalid DMLex file (missing required 'langCode' or 'entries'): " + sourceInput.filename());
-        }
-        Lemma lemma = new Lemma();
-        for (DMLexEntry entry : lexicon.entries) {
-            try {
-                analyzeDMLexEntry(lemma, entry, lexicon.langCode, sourceInput.sourceIndex());
-            } catch (IllegalArgumentException e) {
-                documentState.unusableLemmaCount++;
-                System.err.println(e.getMessage());
-            }
-        }
-    }
-
     public static void main(String[] args) throws Exception {
         ParserOptions parserOptions = new ParserOptions(args);
         long startTime = System.currentTimeMillis();
@@ -837,6 +699,7 @@ public final class ParseWikidata {
                 .configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true)
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         var lexParser = new ParseWikidata(parserOptions);
+        var dmLexParser = new DMLexParser(lexParser);
         LexemesJsonDeserializer.setLanguage(parserOptions.locales);
         LexemesJsonDeserializer.setExcludedLanguages(parserOptions.excludedLanguages);
 
@@ -854,7 +717,7 @@ public final class ParseWikidata {
                 }
                 try (JsonParser parser = objectMapper.createParser(inputStream)) {
                     if (sourceInput.format() == ParserOptions.SourceFormat.DMLEX) {
-                        lexParser.parseDMLexStream(objectMapper, parser, sourceInput);
+                        dmLexParser.parseDMLexStream(objectMapper, parser, sourceInput);
                     } else {
                         lexParser.parseWikidataStream(objectMapper, parser, sourceInput.sourceIndex());
                     }

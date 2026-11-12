@@ -5,55 +5,101 @@
     {
       "id": "overlay-new",
       "headword": "book",
-      "partOfSpeech": ["noun"],
+      "partsOfSpeech": ["n"],
       "inflectedForms": [
         {
-          "value": "book",
-          "labels": ["singular"]
+          "tag": "sg",
+          "text": "book"
         },
         {
-          "value": "book's",
-          "labels": ["singular", "genitive"]
+          "tag": "sg-gen",
+          "text": "book's"
         },
         {
-          "value": "books",
-          "labels": ["plural"]
+          "tag": "pl",
+          "text": "books"
         },
         {
-          "value": "books'",
-          "labels": ["plural", "genitive"]
+          "tag": "pl-gen",
+          "text": "books'"
         }
       ]
     },
     {
       "id": "overlay-diff-pos",
       "headword": "hey",
-      "partOfSpeech": ["noun"],
+      "partsOfSpeech": ["n"],
       "inflectedForms": [
         {
-          "value": "hey",
-          "labels": ["singular"]
+          "tag": "sg",
+          "text": "hey"
         },
         {
-          "value": "heys",
-          "labels": ["plural"]
+          "tag": "pl",
+          "text": "heys"
         }
       ]
     },
     {
       "id": "overlay-same-pos-conflict",
       "headword": "ciel",
-      "partOfSpeech": ["noun"],
-      "labels": ["feminine"],
+      "partsOfSpeech": ["n-fem"],
       "inflectedForms": [
         {
-          "value": "ciel",
-          "labels": ["singular"]
+          "tag": "sg",
+          "text": "ciel"
         },
         {
-          "value": "cieux",
-          "labels": ["plural"]
+          "tag": "pl",
+          "text": "cieux"
         }
+      ]
+    }
+  ],
+  "partOfSpeechTags": [
+    {
+      "tag": "n",
+      "description": "noun",
+      "sameAs": ["http://www.wikidata.org/entity/Q1084"]
+    },
+    {
+      "tag": "n-fem",
+      "description": "feminine noun",
+      "sameAs": [
+        "http://www.wikidata.org/entity/Q1084",
+        "http://www.wikidata.org/entity/Q1775415"
+      ]
+    }
+  ],
+  "inflectedFormTags": [
+    {
+      "tag": "sg",
+      "description": "singular",
+      "for": "n n-fem",
+      "sameAs": ["http://www.wikidata.org/entity/Q110786"]
+    },
+    {
+      "tag": "sg-gen",
+      "description": "singular genitive",
+      "for": "n",
+      "sameAs": [
+        "http://www.wikidata.org/entity/Q110786",
+        "http://www.wikidata.org/entity/Q146233"
+      ]
+    },
+    {
+      "tag": "pl",
+      "description": "plural",
+      "for": "n n-fem",
+      "sameAs": ["http://www.wikidata.org/entity/Q146786"]
+    },
+    {
+      "tag": "pl-gen",
+      "description": "plural genitive",
+      "for": "n",
+      "sameAs": [
+        "http://www.wikidata.org/entity/Q146786",
+        "http://www.wikidata.org/entity/Q146233"
       ]
     }
   ]

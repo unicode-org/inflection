@@ -5,88 +5,116 @@
     {
       "id": "dmlex-1",
       "headword": "cat",
-      "partOfSpeech": ["noun"],
-      "labels": ["masculine"],
+      "partsOfSpeech": ["n-masc"],
       "inflectedForms": [
         {
-          "id": "dmlex-1-f1",
-          "value": "cat",
-          "labels": ["singular"]
+          "tag": "sg",
+          "text": "cat"
         },
         {
-          "id": "dmlex-1-f2",
-          "value": "cats",
-          "labels": ["plural"]
+          "tag": "pl",
+          "text": "cats"
         }
       ]
     },
     {
       "id": "dmlex-2",
       "headword": "bat",
-      "partOfSpeech": ["noun"],
-      "labels": ["masculine"],
+      "partsOfSpeech": ["n-masc"],
       "inflectedForms": [
         {
-          "id": "dmlex-2-f1",
-          "value": "bat",
-          "labels": ["singular"]
+          "tag": "sg",
+          "text": "bat"
         },
         {
-          "id": "dmlex-2-f2",
-          "value": "bats",
-          "labels": ["plural"]
+          "tag": "pl",
+          "text": "bats"
         }
       ]
     },
     {
       "id": "dmlex-3",
       "headword": "apple",
-      "partOfSpeech": "noun",
+      "partsOfSpeech": ["n"],
       "pronunciations": [
         {
-          "transcription": "ˈæp.əl",
-          "scheme": "IPA"
+          "transcriptions": [
+            {
+              "text": "ˈæp.əl",
+              "scheme": "en-fonipa"
+            },
+            {
+              "text": "bæd",
+              "scheme": "en-fonxsamp"
+            }
+          ]
         }
       ],
       "inflectedForms": [
         {
-          "id": "dmlex-3-f1",
-          "value": "apple",
-          "labels": [
-            { "tag": "singular" }
-          ]
+          "tag": "sg",
+          "text": "apple"
         },
         {
-          "id": "dmlex-3-f2",
-          "value": "apples",
-          "labels": [
-            { "tag": "plural" }
-          ]
+          "tag": "pl",
+          "text": "apples"
         }
       ]
     },
     {
       "id": "dmlex-4",
       "headword": "wow",
-      "partOfSpeech": ["interjection"]
+      "partsOfSpeech": ["intj"]
     },
     {
       "id": "dmlex-5",
       "headword": "London",
-      "partOfSpeech": ["proper-noun"],
+      "partsOfSpeech": ["propn"],
       "inflectedForms": [
         {
-          "id": "dmlex-5-f1",
-          "value": "London",
-          "labels": ["singular"]
+          "tag": "sg",
+          "text": "London"
         }
+      ]
+    }
+  ],
+  "partOfSpeechTags": [
+    {
+      "tag": "n",
+      "description": "noun",
+      "sameAs": ["http://www.wikidata.org/entity/Q1084"]
+    },
+    {
+      "tag": "n-masc",
+      "description": "masculine noun",
+      "sameAs": [
+        "http://www.wikidata.org/entity/Q1084",
+        "http://www.wikidata.org/entity/Q499327"
       ]
     },
     {
-      "id": "dmlex-fr-ignored",
-      "headword": "bonjour",
-      "langCode": "fr",
-      "partOfSpeech": ["interjection"]
+      "tag": "intj",
+      "description": "interjection",
+      "sameAs": ["http://www.wikidata.org/entity/Q83034"]
+    },
+    {
+      "tag": "propn",
+      "description": "proper noun",
+      "sameAs": ["http://www.wikidata.org/entity/Q147276"]
+    }
+  ],
+  "inflectedFormTags": [
+    {
+      "tag": "sg",
+      "description": "singular",
+      "for": "n n-masc propn",
+      "sameAs": ["http://www.wikidata.org/entity/Q110786"]
+    },
+    {
+      "tag": "pl",
+      "description": "plural",
+      "for": "n n-masc",
+      "sameAs": ["http://www.wikidata.org/entity/Q146786"]
     }
   ]
 }

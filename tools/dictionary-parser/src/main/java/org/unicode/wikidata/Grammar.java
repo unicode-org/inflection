@@ -1178,6 +1178,9 @@ public final class Grammar {
     }
 
     static Set<? extends Enum<?>> getMappedGrammemes(String grammeme) {
+        if (grammeme == null) {
+            throw new IllegalArgumentException("Grammeme cannot be null");
+        }
         return TYPEMAP.get(grammeme);
     }
 }

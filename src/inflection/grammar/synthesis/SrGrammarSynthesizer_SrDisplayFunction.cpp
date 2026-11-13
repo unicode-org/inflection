@@ -19,18 +19,47 @@
 #include <inflection/util/LocaleUtils.hpp>
 #include <inflection/util/StringViewUtils.hpp>
 #include <inflection/util/UnicodeSetUtils.hpp>
+#include <inflection/util/Validate.hpp>
 #include <iterator>
 #include <memory>
+#include <span>
 #include <string>
 #include <unicode/uscript.h>
+#include <utility>
 
 namespace inflection::grammar::synthesis {
 
-SrGrammarSynthesizer_SrDisplayFunction::SrGrammarSynthesizer_SrDisplayFunction(
-    const ::inflection::dialog::SemanticFeatureModel& model)
+namespace {
+
+// Rule based inflectors for four declination groups.
+// Masculine or neuter ending in o or e and masculine ending with consonant.
+::std::u16string inflectByRuleOE(
+    const ::std::u16string& lemma, const ::std::u16string& number, const ::std::u16string& targetCase, const ::std::u16string& gender);
+// Neuter ending in e
+::std::u16string inflectByRuleE(
+    const ::std::u16string& lemma, const ::std::u16string& number, const ::std::u16string& targetCase, const ::std::u16string& gender);
+// All genders ending in a
+::std::u16string inflectByRuleA(const ::std::u16string& lemma, const ::std::u16string& number, const ::std::u16string& targetCase);
+// Feminine or masculine ending with consonant
+::std::u16string inflectByRuleConsonant(
+    const ::std::u16string& lemma, const ::std::u16string& number, const ::std::u16string& targetCase, const ::std::u16string& gender);
+
+// Number of cases in Serbian.
+static constexpr auto NUMBER_OF_CASES = 7UL;
+
+// Given the table of all suffixes, both for singular and plural, append suffix to lemma, matching the number and
+// case.
+::std::u16string applySuffix(const ::std::u16string&, const ::std::array<::std::u16string_view, NUMBER_OF_CASES>&,
+    const ::std::array<::std::u16string_view, NUMBER_OF_CASES>&, const ::std::u16string&, const ::std::u16string&);
+
+// Check if proper noun by checking the first character is capital letter.
+bool isProperNoun(const ::std::u16string& lemma);
+
+} // namespace
+
+SrGrammarSynthesizer_SrDisplayFunction::SrGrammarSynthesizer_SrDisplayFunction(const ::inflection::dialog::SemanticFeatureModel& model)
     : super()
-    , dictionary(*npc(
-          ::inflection::dictionary::DictionaryMetaData::createDictionary(::inflection::util::LocaleUtils::SERBIAN())))
+    , dictionary(*npc(::inflection::dictionary::DictionaryMetaData::createDictionary(::inflection::util::LocaleUtils::SERBIAN())))
     , caseFeature(*npc(model.getFeature(GrammemeConstants::CASE)))
     , numberFeature(*npc(model.getFeature(GrammemeConstants::NUMBER)))
     , genderFeature(*npc(model.getFeature(GrammemeConstants::GENDER)))
@@ -39,17 +68,32 @@ SrGrammarSynthesizer_SrDisplayFunction::SrGrammarSynthesizer_SrDisplayFunction(
     , dictionaryInflector(::inflection::util::LocaleUtils::SERBIAN(),
           { { GrammemeConstants::POS_NOUN, GrammemeConstants::POS_ADJECTIVE },
               { GrammemeConstants::NUMBER_SINGULAR, GrammemeConstants::NUMBER_PLURAL },
-              { GrammemeConstants::GENDER_MASCULINE, GrammemeConstants::GENDER_FEMININE,
-                  GrammemeConstants::GENDER_NEUTER } },
+              { GrammemeConstants::GENDER_MASCULINE, GrammemeConstants::GENDER_FEMININE, GrammemeConstants::GENDER_NEUTER } },
           { }, true)
 {
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryNominative, { GrammemeConstants::CASE_NOMINATIVE }));
+    ::inflection::util::Validate::notNull(dictionary.getBinaryProperties(&dictionaryProperNoun, { GrammemeConstants::POS_PROPER_NOUN }));
 }
 
 SrGrammarSynthesizer_SrDisplayFunction::~SrGrammarSynthesizer_SrDisplayFunction() { }
 
+bool SrGrammarSynthesizer_SrDisplayFunction::canInflectFromDictionary(const ::std::u16string& word, int64_t& wordGrammemes) const
+{
+    wordGrammemes = 0;
+    if (dictionary.getCombinedBinaryType(&wordGrammemes, word) == nullptr) {
+        return false;
+    }
+    if (isProperNoun(word) && ((wordGrammemes & (dictionaryNominative | dictionaryProperNoun)) == 0)) {
+        // Prevent a capitalized proper noun not in the dictionary (e.g. "Стана") from matching an oblique
+        // case form of a lowercase common noun (e.g. "стана", genitive singular of "стан").
+        return false;
+    }
+    return true;
+}
+
 ::std::u16string SrGrammarSynthesizer_SrDisplayFunction::inflectFromDictionary(
-    const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints,
-    const ::std::u16string& lemma) const
+    const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, const ::std::u16string& lemma,
+    int64_t wordGrammemes) const
 {
     ::std::u16string countString(GrammarSynthesizerUtil::getFeatureValue(constraints, numberFeature));
     ::std::u16string caseString(GrammarSynthesizerUtil::getFeatureValue(constraints, caseFeature));
@@ -68,8 +112,6 @@ SrGrammarSynthesizer_SrDisplayFunction::~SrGrammarSynthesizer_SrDisplayFunction(
     if (!genderString.empty()) {
         string_constraints.emplace_back(genderString);
     }
-    int64_t wordGrammemes = 0;
-    dictionary.getCombinedBinaryType(&wordGrammemes, lemma);
 
     auto inflectionResult = dictionaryInflector.inflect(lemma, wordGrammemes, string_constraints, { });
     if (inflectionResult) {
@@ -83,38 +125,8 @@ SrGrammarSynthesizer_SrDisplayFunction::~SrGrammarSynthesizer_SrDisplayFunction(
     return inflection;
 }
 
-namespace {
-
-// Rule based inflectors for four declination groups.
-// Masculine or neuter ending in o or e and masculine ending with consonant.
-::std::u16string inflectByRuleOE(const ::std::u16string& lemma, const ::std::u16string& number,
-    const ::std::u16string& targetCase, const ::std::u16string& gender);
-// Neuter ending in e
-::std::u16string inflectByRuleE(const ::std::u16string& lemma, const ::std::u16string& number,
-    const ::std::u16string& targetCase, const ::std::u16string& gender);
-// All genders ending in a
-::std::u16string inflectByRuleA(
-    const ::std::u16string& lemma, const ::std::u16string& number, const ::std::u16string& targetCase);
-// Feminine, ending with consonant
-::std::u16string inflectByRuleConsonant(const ::std::u16string& lemma, const ::std::u16string& number,
-    const ::std::u16string& targetCase, const ::std::u16string& gender);
-
-// Number of cases in Serbian.
-static constexpr auto NUMBER_OF_CASES = 7UL;
-
-// Given the table of all suffixes, both for singular and plural, append suffix to lemma, matching the number and
-// case.
-::std::u16string applySuffix(const ::std::u16string&, const ::std::array<::std::u16string_view, NUMBER_OF_CASES>&,
-    const ::std::array<::std::u16string_view, NUMBER_OF_CASES>&, const ::std::u16string&, const ::std::u16string&);
-
-// Check if proper noun by checking the first character is capital letter.
-bool isProperNoun(const ::std::u16string& lemma);
-
-} // namespace
-
 ::std::u16string SrGrammarSynthesizer_SrDisplayFunction::inflectWithRule(
-    const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints,
-    const ::std::u16string& lemma) const
+    const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, const ::std::u16string& lemma) const
 {
     auto countString = GrammarSynthesizerUtil::getFeatureValue(constraints, numberFeature);
     auto caseString = GrammarSynthesizerUtil::getFeatureValue(constraints, caseFeature);
@@ -141,8 +153,8 @@ bool isProperNoun(const ::std::u16string& lemma);
     }
 
     // These are four declension groups in the language.
-    if ((lemma.ends_with(u"ме") || (lemma.ends_with(u"те") && !lemma.ends_with(u"ште")) || lemma.ends_with(u"же")
-            || lemma.ends_with(u"ле") || lemma.ends_with(u"че") || lemma.ends_with(u"бе"))
+    if ((lemma.ends_with(u"ме") || (lemma.ends_with(u"те") && !lemma.ends_with(u"ште")) || lemma.ends_with(u"же") || lemma.ends_with(u"ле")
+            || lemma.ends_with(u"че") || lemma.ends_with(u"бе"))
         && genderString == GrammemeConstants::GENDER_NEUTER) {
         inflection = inflectByRuleE(lemma, countString, caseString, genderString);
     } else if ((lemma.ends_with(u'о') || lemma.ends_with(u'е'))
@@ -163,8 +175,7 @@ bool isProperNoun(const ::std::u16string& lemma);
 
 ::inflection::dialog::DisplayValue* SrGrammarSynthesizer_SrDisplayFunction::getDisplayValue(
     const dialog::SemanticFeatureModel_DisplayData& displayData,
-    const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints,
-    bool enableInflectionGuess) const
+    const ::std::map<::inflection::dialog::SemanticFeature, ::std::u16string>& constraints, bool enableInflectionGuess) const
 {
     ::std::u16string displayString;
     if (!displayData.getValues().empty()) {
@@ -173,8 +184,9 @@ bool isProperNoun(const ::std::u16string& lemma);
     if (displayString.empty()) {
         return nullptr;
     }
-    if (dictionary.isKnownWord(displayString)) {
-        displayString = inflectFromDictionary(constraints, displayString);
+    int64_t wordGrammemes = 0;
+    if (canInflectFromDictionary(displayString, wordGrammemes)) {
+        displayString = inflectFromDictionary(constraints, displayString, wordGrammemes);
     } else if (enableInflectionGuess) {
         // Let's use rule based inflection for nouns. Assume lemma is singular, nominative.
         displayString = inflectWithRule(constraints, displayString);
@@ -186,14 +198,12 @@ namespace {
 
 static bool isConsonant(char16_t ch)
 {
-    return uscript_hasScript(ch, USCRIPT_CYRILLIC)
-        && !::inflection::dictionary::PhraseProperties::DEFAULT_VOWELS_START().contains(ch);
+    return uscript_hasScript(ch, USCRIPT_CYRILLIC) && !::inflection::dictionary::PhraseProperties::DEFAULT_VOWELS_START().contains(ch);
 }
 
 static bool isVowel(char16_t ch)
 {
-    return uscript_hasScript(ch, USCRIPT_CYRILLIC)
-        && ::inflection::dictionary::PhraseProperties::DEFAULT_VOWELS_START().contains(ch);
+    return uscript_hasScript(ch, USCRIPT_CYRILLIC) && ::inflection::dictionary::PhraseProperties::DEFAULT_VOWELS_START().contains(ch);
 }
 
 // Some rules require number of syllables in the word. It's counted as all vowels plus r if in between consonants,
@@ -262,8 +272,7 @@ constexpr size_t getCaseIndex(std::u16string_view targetCase)
 
 static bool isSoftStemChar(char16_t ch)
 {
-    return ch == u'ж' || ch == u'ч' || ch == u'ш' || ch == u'ћ' || ch == u'ђ' || ch == u'љ' || ch == u'њ' || ch == u'ј'
-        || ch == u'ц';
+    return ch == u'ж' || ch == u'ч' || ch == u'ш' || ch == u'ћ' || ch == u'ђ' || ch == u'љ' || ch == u'њ' || ch == u'ј' || ch == u'ц';
 }
 
 static bool isSoftStem(std::u16string_view stem)
@@ -277,8 +286,18 @@ static bool isSoftStem(std::u16string_view stem)
     return isSoftStemChar(stem.back());
 }
 
-::std::u16string applySuffix(const ::std::u16string& lemma,
-    const ::std::array<::std::u16string_view, NUMBER_OF_CASES>& suffix_sg,
+bool replaceSuffix(::std::u16string& word, ::std::span<const ::std::pair<::std::u16string_view, ::std::u16string_view>> mappings)
+{
+    for (const auto& [suffix, replacement] : mappings) {
+        if (word.ends_with(suffix)) {
+            word.replace(word.length() - suffix.length(), suffix.length(), replacement);
+            return true;
+        }
+    }
+    return false;
+}
+
+::std::u16string applySuffix(const ::std::u16string& lemma, const ::std::array<::std::u16string_view, NUMBER_OF_CASES>& suffix_sg,
     const ::std::array<::std::u16string_view, NUMBER_OF_CASES>& suffix_pl, const ::std::u16string& number,
     const ::std::u16string& targetCase)
 {
@@ -291,8 +310,8 @@ static bool isSoftStem(std::u16string_view stem)
     }
 }
 
-::std::u16string inflectByRuleOE(const ::std::u16string& lemma, const ::std::u16string& number,
-    const ::std::u16string& targetCase, [[maybe_unused]] const ::std::u16string& gender)
+::std::u16string inflectByRuleOE(const ::std::u16string& lemma, const ::std::u16string& number, const ::std::u16string& targetCase,
+    [[maybe_unused]] const ::std::u16string& gender)
 {
     if (lemma.empty()) {
         return lemma;
@@ -306,20 +325,17 @@ static bool isSoftStem(std::u16string_view stem)
 
     std::array<::std::u16string_view, NUMBER_OF_CASES> suffix_sg;
     if (ending == u'е') {
-        suffix_sg
-            = ::std::to_array<::std::u16string_view>({ u"е", u"а", u"у", u"е", u"е", soft ? u"ем" : u"ом", u"у" });
+        suffix_sg = ::std::to_array<::std::u16string_view>({ u"е", u"а", u"у", u"е", u"е", soft ? u"ем" : u"ом", u"у" });
     } else {
-        suffix_sg
-            = ::std::to_array<::std::u16string_view>({ u"о", u"а", u"у", u"о", u"о", soft ? u"ем" : u"ом", u"у" });
+        suffix_sg = ::std::to_array<::std::u16string_view>({ u"о", u"а", u"у", u"о", u"о", soft ? u"ем" : u"ом", u"у" });
     }
-    static constexpr auto suffix_pl
-        = ::std::to_array<::std::u16string_view>({ u"а", u"а", u"има", u"а", u"а", u"има", u"има" });
+    static constexpr auto suffix_pl = ::std::to_array<::std::u16string_view>({ u"а", u"а", u"има", u"а", u"а", u"има", u"има" });
 
     return applySuffix(base, suffix_sg, suffix_pl, number, targetCase);
 }
 
-::std::u16string inflectByRuleE(const ::std::u16string& lemma, const ::std::u16string& number,
-    const ::std::u16string& targetCase, [[maybe_unused]] const ::std::u16string& gender)
+::std::u16string inflectByRuleE(const ::std::u16string& lemma, const ::std::u16string& number, const ::std::u16string& targetCase,
+    [[maybe_unused]] const ::std::u16string& gender)
 {
     if (lemma.empty()) {
         return lemma;
@@ -335,21 +351,16 @@ static bool isSoftStem(std::u16string_view stem)
         base += u"ет";
     }
 
-    static constexpr auto suffix_sg
-        = ::std::to_array<::std::u16string_view>({ u"е", u"а", u"у", u"е", u"е", u"ом", u"у" });
-    static constexpr auto suffix_pl
-        = ::std::to_array<::std::u16string_view>({ u"а", u"а", u"има", u"а", u"а", u"има", u"има" });
+    static constexpr auto suffix_sg = ::std::to_array<::std::u16string_view>({ u"е", u"а", u"у", u"е", u"е", u"ом", u"у" });
+    static constexpr auto suffix_pl = ::std::to_array<::std::u16string_view>({ u"а", u"а", u"има", u"а", u"а", u"има", u"има" });
 
     return applySuffix(base, suffix_sg, suffix_pl, number, targetCase);
 }
 
-::std::u16string inflectByRuleA(
-    const ::std::u16string& lemma, const ::std::u16string& number, const ::std::u16string& targetCase)
+::std::u16string inflectByRuleA(const ::std::u16string& lemma, const ::std::u16string& number, const ::std::u16string& targetCase)
 {
-    static constexpr auto suffix_sg
-        = ::std::to_array<::std::u16string_view>({ u"а", u"е", u"и", u"у", u"а", u"ом", u"и" });
-    static constexpr auto suffix_pl
-        = ::std::to_array<::std::u16string_view>({ u"е", u"а", u"ама", u"е", u"е", u"ама", u"ама" });
+    static constexpr auto suffix_sg = ::std::to_array<::std::u16string_view>({ u"а", u"е", u"и", u"у", u"о", u"ом", u"и" });
+    static constexpr auto suffix_pl = ::std::to_array<::std::u16string_view>({ u"е", u"а", u"ама", u"е", u"е", u"ама", u"ама" });
 
     ::std::u16string base = lemma;
     // Remove trailing a and apply suffix.
@@ -361,8 +372,8 @@ static bool isSoftStem(std::u16string_view stem)
         Syllables syllables = countSyllables(lemma);
         if (lemma.ends_with(u"ица") && syllables == Syllables::MULTI_SYLLABLES) {
             base.back() = u'е';
-        } else if (isProperNoun(lemma) && syllables == Syllables::TWO_SYLLABLES) {
-            base.back() = u'о';
+        } else if (isProperNoun(lemma) && syllables == Syllables::MULTI_SYLLABLES) {
+            base.back() = u'а';
         }
     }
 
@@ -371,19 +382,14 @@ static bool isSoftStem(std::u16string_view stem)
             || lemma.ends_with(u"рва")) {
             base.back() = u'и';
         }
-        static const char16_t* mappings[][2] = {
+        static constexpr ::std::pair<::std::u16string_view, ::std::u16string_view> genitivePluralMappings[] = {
             { u"јка", u"јака" },
             { u"мља", u"маља" },
             { u"вца", u"ваца" },
             { u"тка", u"така" },
             { u"пка", u"пака" },
         };
-        for (const auto& [suffix, replacement] : mappings) {
-            if (base.ends_with(suffix)) {
-                auto suffix_length = std::u16string_view(suffix).length();
-                base.replace(base.length() - suffix_length, suffix_length, replacement);
-            }
-        }
+        replaceSuffix(base, genitivePluralMappings);
     }
 
     return base;
@@ -405,18 +411,16 @@ static bool isSoftStem(std::u16string_view stem)
             base.back() = u'ћ';
             return base + u"у";
         }
-        if (base.ends_with(u"ћ") || base.ends_with(u"ч") || base.ends_with(u"ш") || base.ends_with(u"ж")
-            || base.ends_with(u"ђ") || base.ends_with(u"љ") || base.ends_with(u"њ")) {
+        if (base.ends_with(u"ћ") || base.ends_with(u"ч") || base.ends_with(u"ш") || base.ends_with(u"ж") || base.ends_with(u"ђ")
+            || base.ends_with(u"љ") || base.ends_with(u"њ")) {
             return base + u"у";
         }
         if (base.ends_with(u"р")) {
             return base + u"ју";
         }
     }
-    static constexpr auto suffix_sg_fem
-        = ::std::to_array<::std::u16string_view>({ u"", u"и", u"и", u"", u"и", u"и", u"и" });
-    static constexpr auto suffix_pl_fem
-        = ::std::to_array<::std::u16string_view>({ u"и", u"и", u"има", u"и", u"и", u"има", u"има" });
+    static constexpr auto suffix_sg_fem = ::std::to_array<::std::u16string_view>({ u"", u"и", u"и", u"", u"и", u"и", u"и" });
+    static constexpr auto suffix_pl_fem = ::std::to_array<::std::u16string_view>({ u"и", u"и", u"има", u"и", u"и", u"има", u"има" });
     return applySuffix(base, suffix_sg_fem, suffix_pl_fem, number, targetCase);
 }
 
@@ -424,24 +428,67 @@ static bool isSoftStem(std::u16string_view stem)
     const ::std::u16string& lemma, const ::std::u16string& number, const ::std::u16string& targetCase)
 {
     ::std::u16string base = lemma;
-    // Handle fleeting -a- (ац -> ц, нак -> нк, лак -> лк)
-    if ((lemma.ends_with(u"ац") || lemma.ends_with(u"нак") || lemma.ends_with(u"лак") || lemma.ends_with(u"цак"))
-        && lemma.length() > 2) {
-        base.erase(base.length() - 2, 1);
+    Syllables syllables = countSyllables(lemma);
+
+    // Handle fleeting -a- (with voicing assimilation and L-vocalization) in oblique cases except genitive plural
+    if (syllables != Syllables::ONE_SYLLABLE
+        && !(number == GrammemeConstants::NUMBER_PLURAL && targetCase == GrammemeConstants::CASE_GENITIVE)) {
+        static constexpr ::std::pair<::std::u16string_view, ::std::u16string_view> fleetingAMappings[] = {
+            { u"бац", u"пц" },
+            { u"лац", u"оц" },
+            { u"ац", u"ц" },
+            { u"дак", u"тк" },
+            { u"зак", u"ск" },
+            { u"сак", u"ск" },
+            { u"так", u"тк" },
+            { u"нак", u"нк" },
+            { u"лак", u"лк" },
+            { u"цак", u"цк" },
+            { u"зам", u"зм" },
+        };
+        replaceSuffix(base, fleetingAMappings);
     }
 
     bool soft = isSoftStem(base);
 
+    // Vocative singular palatalization for velar stems (к -> че, г -> же, х -> ше) and -ац -> -че
+    if (number == GrammemeConstants::NUMBER_SINGULAR && targetCase == GrammemeConstants::CASE_VOCATIVE) {
+        static constexpr ::std::pair<::std::u16string_view, ::std::u16string_view> vocativeMappings[] = {
+            { u"ц", u"че" },
+            { u"к", u"че" },
+            { u"г", u"же" },
+            { u"х", u"ше" },
+        };
+        if (replaceSuffix(base, vocativeMappings)) {
+            return base;
+        }
+    }
+
+    if (number == GrammemeConstants::NUMBER_PLURAL) {
+        if (syllables == Syllables::ONE_SYLLABLE) {
+            base += soft ? u"ев" : u"ов";
+        } else if (targetCase == GrammemeConstants::CASE_NOMINATIVE || targetCase == GrammemeConstants::CASE_VOCATIVE
+            || targetCase == GrammemeConstants::CASE_DATIVE || targetCase == GrammemeConstants::CASE_INSTRUMENTAL
+            || targetCase == GrammemeConstants::CASE_LOCATIVE) {
+            // Sibilarization before -и / -има in plural
+            static constexpr ::std::pair<::std::u16string_view, ::std::u16string_view> sibilarizationMappings[] = {
+                { u"к", u"ц" },
+                { u"г", u"з" },
+                { u"х", u"с" },
+            };
+            replaceSuffix(base, sibilarizationMappings);
+        }
+    }
+
     std::array<::std::u16string_view, NUMBER_OF_CASES> suffix_sg
         = { u"", u"а", u"у", u"а", soft ? u"у" : u"е", soft ? u"ем" : u"ом", u"у" };
-    static constexpr auto suffix_pl
-        = ::std::to_array<::std::u16string_view>({ u"и", u"а", u"има", u"е", u"и", u"има", u"има" });
+    static constexpr auto suffix_pl = ::std::to_array<::std::u16string_view>({ u"и", u"а", u"има", u"е", u"и", u"има", u"има" });
 
     return applySuffix(base, suffix_sg, suffix_pl, number, targetCase);
 }
 
-::std::u16string inflectByRuleConsonant(const ::std::u16string& lemma, const ::std::u16string& number,
-    const ::std::u16string& targetCase, const ::std::u16string& gender)
+::std::u16string inflectByRuleConsonant(
+    const ::std::u16string& lemma, const ::std::u16string& number, const ::std::u16string& targetCase, const ::std::u16string& gender)
 {
     if (lemma.empty()) {
         return lemma;
@@ -460,6 +507,9 @@ static bool isSoftStem(std::u16string_view stem)
 
 bool isProperNoun(const ::std::u16string& lemma)
 {
+    if (lemma.empty()) {
+        return false;
+    }
     // Check if first character is in range of Cyrl capital letters.
     auto first_ch = lemma.front();
     if (0x402 <= first_ch && first_ch <= 0x428) {

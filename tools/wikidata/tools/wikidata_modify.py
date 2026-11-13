@@ -22,14 +22,16 @@ Input file is a JSON array of per-lexeme modifications, e.g.:
     "lexemeId": "L1493026",
     "modifications": [
       { "formId": "L1493026-F9", "add": ["Q65048529"] },
-      { "form": "ai-udviklingen", "add": ["Q65048529"], "remove": [] }
+      { "form": "ai-udviklingen", "add": ["Q65048529"], "remove": [] },
+      { "formId": "L1590644-F13", "representations": { "sr": "кошћу", "sr-cyrl": "кошћу", "sr-latn": "košću" } }
     ]
   }
 ]
 
 A form is identified either by "formId" (preferred, unambiguous) or by "form"
 (the surface string, matched against the representation in the requested
-language). "add" and "remove" hold raw feature Q-ids.
+language). "add" and "remove" hold raw feature Q-ids, and "representations"
+holds a mapping of representation language codes to replacement surface strings.
 
 Run with --self-check to exercise the pure logic without any network access.
 """
@@ -52,7 +54,7 @@ def _import_tfsl():
     Deferred so that pure-logic paths (validation, --self-check) work without a
     tfsl checkout or network access.
     """
-    sys.path.append(os.path.join(os.path.dirname(__file__), "..", "..", "..", "tfsl"))
+    sys.path.append(os.path.join(os.path.dirname(__file__), "..", "..", "..", "..", "tfsl"))
     import tfsl
 
     return tfsl
@@ -92,11 +94,19 @@ def validate_modifications(data):
                 raise ValueError(f"'form' must be a string in:\n{mod}")
             add = mod.get("add", [])
             remove = mod.get("remove", [])
+            reps = mod.get("representations", {})
             if not isinstance(add, list) or not isinstance(remove, list):
                 raise ValueError(f"'add' and 'remove' must be arrays in:\n{mod}")
-            if not add and not remove:
+            if not isinstance(reps, dict) or any(
+                not isinstance(k, str) or not isinstance(v, str) or not v
+                for k, v in reps.items()
+            ):
                 raise ValueError(
-                    f"Modification must have a non-empty 'add' or 'remove':\n{mod}"
+                    f"'representations' must be a dict of non-empty strings in:\n{mod}"
+                )
+            if not add and not remove and not reps:
+                raise ValueError(
+                    f"Modification must have a non-empty 'add', 'remove', or 'representations':\n{mod}"
                 )
             for qid in add + remove:
                 if not isinstance(qid, str) or not QID_RE.match(qid):
@@ -180,8 +190,9 @@ def locate_form(lexeme, mod, lang):
 def apply_to_lexeme(lexeme, mods, lang):
     """Applies modifications to an editable lexeme in place.
 
-    Mutates each target form's feature set directly, preserving the form id so
-    the eventual push edits the existing form rather than adding a new one.
+    Mutates each target form's feature set and/or representations directly,
+    preserving the form id so the eventual push edits the existing form rather
+    than adding a new one.
 
     Args:
         lexeme: An editable tfsl Lexeme.
@@ -189,33 +200,77 @@ def apply_to_lexeme(lexeme, mods, lang):
         lang (str): Language code for surface-string matching.
 
     Returns:
-        List of (form_id, surface, before_features, after_features) tuples.
+        List of (form_id, surface, before_features, after_features, rep_diffs) tuples.
     """
+    tfsl = _import_tfsl()
     changes = []
     for mod in mods:
         form = locate_form(lexeme, mod, lang)
         before = set(form.features)
-        new_features, warnings = compute_new_features(
-            before, mod.get("add", []), mod.get("remove", [])
-        )
+        add = mod.get("add", [])
+        remove = mod.get("remove", [])
+        reps = mod.get("representations", {})
+        if add or remove:
+            new_features, warnings = compute_new_features(before, add, remove)
+        else:
+            new_features, warnings = before, []
         surface = _form_rep_value(form, lang)
         for warning in warnings:
             print(f"  WARNING ({getattr(form, 'id', '?')} '{surface}'): {warning}")
-        form.features.clear()
-        form.features.update(new_features)
+        if add or remove:
+            form.features.clear()
+            form.features.update(new_features)
+        rep_diffs = {}
+        if reps:
+            before_reps = form.__jsonout__().get("representations", {})
+            for rep_lang, new_val in reps.items():
+                old_val = before_reps.get(rep_lang, {}).get("value")
+                if old_val == new_val:
+                    print(
+                        f"  WARNING ({getattr(form, 'id', '?')} '{surface}'): representation[{rep_lang}] '{new_val}' already matches (no-op)"
+                    )
+                rep_diffs[rep_lang] = (old_val, new_val)
+                lang_obj = tfsl.languages.get_first_lang(rep_lang)
+                form.representations = form.representations + (new_val @ lang_obj)
         changes.append(
-            (getattr(form, "id", None), surface, sorted(before), sorted(new_features))
+            (
+                getattr(form, "id", None),
+                surface,
+                sorted(before),
+                sorted(new_features),
+                rep_diffs,
+            )
         )
     return changes
 
 
 def _print_changes(lexeme_id, changes):
-    """Prints a per-form before -> after feature diff."""
+    """Prints a per-form before -> after feature/representation diff."""
     print(f"{lexeme_id}:")
-    for form_id, surface, before, after in changes:
+    for change in changes:
+        form_id, surface, before, after = change[:4]
+        rep_diffs = change[4] if len(change) > 4 else {}
         print(f"  {form_id} '{surface}'")
-        print(f"    before: {before}")
-        print(f"    after:  {after}")
+        if before != after:
+            print(f"    features before: {before}")
+            print(f"    features after:  {after}")
+        for rep_lang, (old_val, new_val) in rep_diffs.items():
+            print(f"    rep[{rep_lang}]: '{old_val}' -> '{new_val}'")
+
+
+def build_form_edit_payload(form):
+    """Builds the ``data`` payload for a single ``wbleditformelements`` request.
+
+    Unlike ``WikibaseSession.push`` (a full-entity ``wbeditentity``),
+    ``wbleditformelements`` updates a single form's representations and
+    grammaticalFeatures without re-serializing the lexeme's statements or senses
+    (avoiding ``param-illegal`` errors on lexemes with existing statements/senses).
+    """
+    form_json = form.__jsonout__()
+    return {
+        "representations": form_json["representations"],
+        "grammaticalFeatures": form_json["grammaticalFeatures"],
+    }
 
 
 def modify_data(username, password, lang, input_file, test_only, delay_ms):
@@ -243,9 +298,32 @@ def modify_data(username, password, lang, input_file, test_only, delay_ms):
         if test_only:
             _print_changes(lexeme_id, changes)
         else:
-            print(f"Pushing {lexeme_id} ({len(changes)} forms modified).")
-            session.push(lexeme)
-            time.sleep(delay_ms / 1000)
+            print(f"Updating {lexeme_id} ({len(changes)} forms modified):")
+            forms_by_id = {getattr(f, "id", None): f for f in lexeme.forms}
+            for change in changes:
+                form_id = change[0]
+                form = forms_by_id[form_id]
+                payload = build_form_edit_payload(form)
+                params = {
+                    "action": "wbleditformelements",
+                    "formId": form_id,
+                    "data": json.dumps(payload),
+                    "token": "__AUTO__",
+                    "format": "json",
+                }
+                while True:
+                    try:
+                        session.post(params)
+                        print(f"  Updated {form_id}")
+                        break
+                    except PermissionError as err:
+                        if "ratelimited" in str(err):
+                            wait_sec = max(delay_ms / 1000, 10.0)
+                            print(f"  Rate limited on {form_id}, sleeping {wait_sec}s and retrying...")
+                            time.sleep(wait_sec)
+                        else:
+                            raise
+                time.sleep(delay_ms / 1000)
 
 
 def self_check():
@@ -271,7 +349,10 @@ def self_check():
     ok = [
         {
             "lexemeId": "L1",
-            "modifications": [{"formId": "L1-F2", "add": ["Q65048529"]}],
+            "modifications": [
+                {"formId": "L1-F2", "add": ["Q65048529"]},
+                {"formId": "L1-F3", "representations": {"sr": "кошћу", "sr-latn": "košću"}},
+            ],
         }
     ]
     try:
@@ -289,6 +370,8 @@ def self_check():
         [{"lexemeId": "L1", "modifications": [{"formId": "L1-F2", "form": "x", "add": ["Q1"]}]}],
         [{"lexemeId": "L1", "modifications": [{"formId": "L1-F2"}]}],
         [{"lexemeId": "L1", "modifications": [{"formId": "L1-F2", "add": ["bad"]}]}],
+        [{"lexemeId": "L1", "modifications": [{"formId": "L1-F2", "representations": {"sr": ""}}]}],
+        [{"lexemeId": "L1", "modifications": [{"formId": "L1-F2", "representations": ["bad"]}]}],
     ]
     rejected = 0
     for case in bad_cases:
@@ -316,8 +399,8 @@ if __name__ == "__main__":
     parser.add_argument(
         "--delay",
         type=int,
-        default=1000,
-        help="Milliseconds between pushes for rate limiting.",
+        default=5000,
+        help="Milliseconds between pushes for rate limiting (default: 5000).",
     )
     parser.add_argument(
         "--self-check",

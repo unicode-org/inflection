@@ -47,8 +47,7 @@ final class DMLexParser {
     void parseDMLexStream(
             ObjectMapper objectMapper,
             JsonParser parser,
-            ParserOptions.SourceInput sourceInput) throws IOException {
-        String sourceFilename = sourceInput.filename();
+            String sourceFilename) throws IOException {
         DMLexEntry.Lexicon lexicon;
         try {
             lexicon = objectMapper
@@ -116,7 +115,6 @@ final class DMLexParser {
                     entry,
                     lexicon.langCode,
                     sourceFilename,
-                    sourceInput.sourceIndex(),
                     posTagSameAsMap,
                     formTagSameAsMap,
                     labelTagSameAsMap,
@@ -152,7 +150,6 @@ final class DMLexParser {
             DMLexEntry entry,
             String lexiconLangCode,
             String sourceFilename,
-            int sourceIndex,
             Map<String, List<String>> posTagSameAsMap,
             Map<String, List<String>> formTagSameAsMap,
             Map<String, List<String>> labelTagSameAsMap,
@@ -336,7 +333,7 @@ final class DMLexParser {
         if (!parseWikidata.finalizeLemmaAfterForms(lemma)) {
             return;
         }
-        parseWikidata.analyzeLemma(lemma, sourceIndex);
+        parseWikidata.analyzeLemma(lemma);
     }
 
     private static Set<Enum<?>> resolveSameAsGrammemes(

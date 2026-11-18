@@ -34,15 +34,13 @@ These tools generate files that describes the grammatical properties of words fr
     --dictionary dictionary_<lang>.lst \
     --dmlex <custom1.json> [<custom2.json> ...]
 ```
-- **Multi-Source (Wikidata + DMLex overlay)**:
+- **Multi-Source (Wikidata + DMLex)**:
 ```
     ./ParseWikidata <OPTIONS> \
     --inflections inflectional_<lang>.xml \
     --dictionary dictionary_<lang>.lst \
-    --wikidata <wikidata-lexemes.json[.bz2]> \
-    --dmlex <supplement1.json> [<supplement2.json> ...]
+    --dmlex <supplement1.json> [<supplement2.json> ...] \
+    --wikidata <wikidata-lexemes.json[.bz2]>
 ```
-- **Conflict Resolution (`--merge-conflicts`)**:
-  - By default (`--merge-conflicts=false`), files are processed in CLI order and a conflicting surface form in a later source file overrides all previous grammemes and inflection patterns for that surface form.
-  - Pass `--merge-conflicts=true` (or `--merge-conflicts`) to merge grammemes and inflection patterns across files, placing the later source's conflicting pattern first in priority.
+  - Multiple `--wikidata` and `--dmlex` inputs are processed in command-line argument order, merging grammemes and inflection patterns across sources (prioritizing earlier sources' inflection patterns when rarity and pattern frequency counts are equal).
 

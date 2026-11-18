@@ -13,11 +13,9 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
 
@@ -50,31 +48,17 @@ final class DocumentState {
     }
 
     public void addDictionaryEntry(DictionaryEntry dictionaryEntry) {
-        addDictionaryEntry(dictionaryEntry, false);
-    }
-
-    public void addDictionaryEntry(DictionaryEntry dictionaryEntry, boolean mergeConflicts) {
         String phrase = dictionaryEntry.phrase;
         DictionaryEntry existingDictionaryEntry = dictionary.get(phrase);
         if (existingDictionaryEntry == null) {
             dictionary.put(phrase, dictionaryEntry);
         } else {
             mergedCount++;
-            existingDictionaryEntry.merge(dictionaryEntry, mergeConflicts);
+            existingDictionaryEntry.merge(dictionaryEntry);
         }
     }
 
     void printDocument(ParserOptions parserOptions, long startTime) throws FileNotFoundException {
-        if (!inflectionPatterns.isEmpty()) {
-            Set<InflectionPattern> referencedPatterns = Collections.newSetFromMap(new IdentityHashMap<>());
-            for (DictionaryEntry dictionaryEntry : dictionary.values()) {
-                if (!dictionaryEntry.getGrammemes().isEmpty()) {
-                    referencedPatterns.addAll(dictionaryEntry.getInflectionalPatterns());
-                }
-            }
-            inflectionPatterns.removeIf(pattern -> !referencedPatterns.contains(pattern));
-        }
-
         TreeMap<Enum<?>, Integer> grammemeCounts = new TreeMap<>(EnumComparator.ENUM_COMPARATOR);
         int unclassifiedTerms = 0;
         if (isInflectional()) {
@@ -111,8 +95,8 @@ final class DocumentState {
             int dictionarySize = dictionary.size();
             StringBuilder source = new StringBuilder();
             Pattern anythingSlash = Pattern.compile(".*/");
-            for (String sourceFilename : parserOptions.sourceFilenames) {
-                source.append(anythingSlash.matcher(sourceFilename).replaceAll("")).append(" ");
+            for (ParserOptions.SourceInput sourceInput : parserOptions.sourceInputs) {
+                source.append(anythingSlash.matcher(sourceInput.filename()).replaceAll("")).append(" ");
             }
             lexicalDictionaryStream.println("==============================================");
             lexicalDictionaryStream.printf("%30s %7s%n", "Source:", source);

@@ -36,12 +36,11 @@ final class ParserOptions {
         DMLEX
     }
 
-    record SourceInput(String filename, SourceFormat format, int sourceIndex) {}
+    record SourceInput(String filename, SourceFormat format) {}
 
     private static final char COLON_SEPARATOR = ':';
     static final String WIKIDATA_FILE = "--wikidata";
     static final String DMLEX_FILE = "--dmlex";
-    static final String MERGE_CONFLICTS = "--merge-conflicts";
     static final String INFLECTIONS_FILE = "--inflections";
     static final String DICTIONARY_FILE = "--dictionary";
     static final String MAP_GRAMMEME = "--map-grammeme";
@@ -57,7 +56,6 @@ final class ParserOptions {
     static final String ADD_SOUND = "--add-sound";
 
     boolean includeLemmasWithoutWords = false;
-    boolean mergeConflicts = false;
     boolean debug = false;
     final boolean addSound;
 
@@ -66,7 +64,6 @@ final class ParserOptions {
     TreeMap<String, TreeSet<String>> additionalGrammemesDict;
     TreeMap<String, LinkedHashMap<Grammar.Sound, Pattern>> claimsToSound;
 
-    ArrayList<String> sourceFilenames;
     ArrayList<SourceInput> sourceInputs;
     String inflectionalFilename = ParserDefaults.DEFAULT_INFLECTION_FILE_NAME;
     String lexicalDictionaryFilename = ParserDefaults.DEFAULT_DICTIONARY_FILE_NAME;
@@ -79,7 +76,6 @@ final class ParserOptions {
         System.err.println("\nOPTIONS");
         System.err.println(WIKIDATA_FILE + " <file1> [<file2> ...]\tOne or more Wikidata lexeme JSON/bz2 files (space- or comma-separated)");
         System.err.println(DMLEX_FILE + " <file1> [<file2> ...]\tOne or more OASIS DMLex JSON files (space- or comma-separated)");
-        System.err.println(MERGE_CONFLICTS + "[={true|false}]\tWhen true, merge conflicting cross-file surface forms (with the later source's pattern first) instead of overwriting, default: false");
         System.err.println(INFLECTIONS_FILE + " <file.xml>\tthe file for the inflectional patterns to be generated, default: inflectional.xml");
         System.err.println(DICTIONARY_FILE + " <file.lst>\tthe file for the lexical dictionary to be generated, default: dictionary.lst");
         System.err.println(ADD_EXTRA_GRAMMEMES + " <file.lst>\tFile containing words with the extra grammemes to be added, provide path relative to tools/dictionary-parser/src/main/resources/org/unicode/wikidata/ (only to be used for a temporary grammeme addition)");
@@ -98,7 +94,6 @@ final class ParserOptions {
     ParserOptions(String[] args) throws IOException {
         posToBeInflected = EnumSet.of(Grammar.PartOfSpeech.NOUN);
         additionalGrammemesDict = new TreeMap<>();
-        sourceFilenames = new ArrayList<>();
         sourceInputs = new ArrayList<>();
         claimsToSound = new TreeMap<>();
 
@@ -112,20 +107,6 @@ final class ParserOptions {
                 i = consumeSourceFiles(args, i, ParserOptions.WIKIDATA_FILE, SourceFormat.WIKIDATA);
             } else if (ParserOptions.DMLEX_FILE.equals(arg) || arg.startsWith(ParserOptions.DMLEX_FILE + "=")) {
                 i = consumeSourceFiles(args, i, ParserOptions.DMLEX_FILE, SourceFormat.DMLEX);
-            } else if (ParserOptions.MERGE_CONFLICTS.equals(arg) || arg.startsWith(ParserOptions.MERGE_CONFLICTS + "=")) {
-                String valueStr = "true";
-                if (arg.startsWith(ParserOptions.MERGE_CONFLICTS + "=")) {
-                    valueStr = arg.substring(ParserOptions.MERGE_CONFLICTS.length() + 1).trim();
-                } else if (i + 1 < args.length && ("true".equalsIgnoreCase(args[i + 1]) || "false".equalsIgnoreCase(args[i + 1]))) {
-                    valueStr = args[++i].trim();
-                }
-                if ("true".equalsIgnoreCase(valueStr) || "false".equalsIgnoreCase(valueStr)) {
-                    mergeConflicts = Boolean.parseBoolean(valueStr);
-                } else {
-                    printUsage();
-                    throw new IllegalArgumentException("Invalid value for " + ParserOptions.MERGE_CONFLICTS + ": " + valueStr);
-                }
-                optionsUsedToInvoke.add(ParserOptions.MERGE_CONFLICTS + "=" + mergeConflicts);
             } else if (ParserOptions.INFLECTIONS_FILE.equals(arg)) {
                 inflectionalFilename = args[++i];
             } else if (ParserOptions.DICTIONARY_FILE.equals(arg)) {
@@ -272,8 +253,7 @@ final class ParserOptions {
         for (String part : rawArg.split(",")) {
             String trimmed = part.trim();
             if (!trimmed.isEmpty()) {
-                sourceInputs.add(new SourceInput(trimmed, format, sourceInputs.size()));
-                sourceFilenames.add(trimmed);
+                sourceInputs.add(new SourceInput(trimmed, format));
             }
         }
     }

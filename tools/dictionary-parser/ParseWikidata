@@ -23,7 +23,7 @@ if [[ $# -eq 2 && $1 == "--all" ]]; then
         if [[ "$LAST_LINE" =~ $COMMAND_OPTS_PREFIX ]]; then
             OPTIONS=`echo $LAST_LINE | sed "s/$COMMAND_OPTS_PREFIX//"`
             echo Generating $LANGUAGE from $LEXEME_FILE
-            $RUN_COMMAND $OPTIONS --inflections $LEXICAL_DIR/inflectional_${LANGUAGE}.xml --dictionary $LEXICAL_DIR/dictionary_${LANGUAGE}.lst $LEXEME_FILE
+            $RUN_COMMAND $OPTIONS --inflections $LEXICAL_DIR/inflectional_${LANGUAGE}.xml --dictionary $LEXICAL_DIR/dictionary_${LANGUAGE}.lst --wikidata $LEXEME_FILE
         else
             echo skipping $LANGUAGE
         fi

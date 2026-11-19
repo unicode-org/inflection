@@ -31,7 +31,16 @@ import static org.unicode.wikidata.Grammar.TYPEMAP;
  * The options to extract the data from the data source.
  */
 final class ParserOptions {
+    enum SourceFormat {
+        WIKIDATA,
+        DMLEX
+    }
+
+    record SourceInput(String filename, SourceFormat format) {}
+
     private static final char COLON_SEPARATOR = ':';
+    static final String WIKIDATA_FILE = "--wikidata";
+    static final String DMLEX_FILE = "--dmlex";
     static final String INFLECTIONS_FILE = "--inflections";
     static final String DICTIONARY_FILE = "--dictionary";
     static final String MAP_GRAMMEME = "--map-grammeme";
@@ -55,7 +64,7 @@ final class ParserOptions {
     TreeMap<String, TreeSet<String>> additionalGrammemesDict;
     TreeMap<String, LinkedHashMap<Grammar.Sound, Pattern>> claimsToSound;
 
-    ArrayList<String> sourceFilenames;
+    ArrayList<SourceInput> sourceInputs;
     String inflectionalFilename = ParserDefaults.DEFAULT_INFLECTION_FILE_NAME;
     String lexicalDictionaryFilename = ParserDefaults.DEFAULT_DICTIONARY_FILE_NAME;
     ArrayList<String> locales = new ArrayList<>(List.of(Locale.ENGLISH.getLanguage()));
@@ -63,8 +72,10 @@ final class ParserOptions {
     List<String> optionsUsedToInvoke = new ArrayList<>();
 
     private static void printUsage() {
-        System.err.println("Usage: ParseLexicon [OPTIONS] <file1.xml or file1.lexicon>[ <file2.xml or file2.lexicon> ...]");
+        System.err.println("Usage: ParseLexicon [OPTIONS] (--wikidata <file1> [<file2> ...] | --dmlex <file1> [<file2> ...]) ...");
         System.err.println("\nOPTIONS");
+        System.err.println(WIKIDATA_FILE + " <file1> [<file2> ...]\tOne or more Wikidata lexeme JSON/bz2 files (space- or comma-separated)");
+        System.err.println(DMLEX_FILE + " <file1> [<file2> ...]\tOne or more OASIS DMLex JSON files (space- or comma-separated)");
         System.err.println(INFLECTIONS_FILE + " <file.xml>\tthe file for the inflectional patterns to be generated, default: inflectional.xml");
         System.err.println(DICTIONARY_FILE + " <file.lst>\tthe file for the lexical dictionary to be generated, default: dictionary.lst");
         System.err.println(ADD_EXTRA_GRAMMEMES + " <file.lst>\tFile containing words with the extra grammemes to be added, provide path relative to tools/dictionary-parser/src/main/resources/org/unicode/wikidata/ (only to be used for a temporary grammeme addition)");
@@ -83,12 +94,20 @@ final class ParserOptions {
     ParserOptions(String[] args) throws IOException {
         posToBeInflected = EnumSet.of(Grammar.PartOfSpeech.NOUN);
         additionalGrammemesDict = new TreeMap<>();
-        sourceFilenames = new ArrayList<>();
+        sourceInputs = new ArrayList<>();
         claimsToSound = new TreeMap<>();
 
         for (int i = 0; i < args.length; i++) {
             String arg = args[i];
-            if (ParserOptions.INFLECTIONS_FILE.equals(arg)) {
+            if (arg == null) {
+                printUsage();
+                throw new IllegalArgumentException("Null argument at index " + i);
+            }
+            if (ParserOptions.WIKIDATA_FILE.equals(arg) || arg.startsWith(ParserOptions.WIKIDATA_FILE + "=")) {
+                i = consumeSourceFiles(args, i, ParserOptions.WIKIDATA_FILE, SourceFormat.WIKIDATA);
+            } else if (ParserOptions.DMLEX_FILE.equals(arg) || arg.startsWith(ParserOptions.DMLEX_FILE + "=")) {
+                i = consumeSourceFiles(args, i, ParserOptions.DMLEX_FILE, SourceFormat.DMLEX);
+            } else if (ParserOptions.INFLECTIONS_FILE.equals(arg)) {
                 inflectionalFilename = args[++i];
             } else if (ParserOptions.DICTIONARY_FILE.equals(arg)) {
                 lexicalDictionaryFilename = args[++i];
@@ -141,7 +160,7 @@ final class ParserOptions {
                 posToBeInflected.clear();
 
                 for (String pos : inflectionTypes.split(",")) {
-                    posToBeInflected.add(Grammar.PartOfSpeech.valueOf(pos.toUpperCase().replace('-', '_')));
+                    posToBeInflected.add(Grammar.PartOfSpeech.valueOf(pos.toUpperCase(Locale.ROOT).replace('-', '_')));
                 }
 
                 optionsUsedToInvoke.add(ParserOptions.INFLECTION_TYPES);
@@ -202,15 +221,40 @@ final class ParserOptions {
                 optionsUsedToInvoke.add(ParserOptions.ADD_SOUND);
                 optionsUsedToInvoke.add(soundGrammemeTypes);
             } else {
-                sourceFilenames.add(arg);
+                printUsage();
+                throw new IllegalArgumentException("Unknown option: " + arg);
             }
         }
 
         addSound = !claimsToSound.isEmpty();
 
-        if (sourceFilenames.isEmpty()) {
+        if (sourceInputs.isEmpty()) {
             printUsage();
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("At least one input file must be specified via --wikidata or --dmlex");
+        }
+    }
+
+    private int consumeSourceFiles(String[] args, int i, String flagPrefix, SourceFormat format) {
+        int startCount = sourceInputs.size();
+        if (args[i].startsWith(flagPrefix + "=")) {
+            addSourceFiles(args[i].substring(flagPrefix.length() + 1), format);
+        }
+        while (i + 1 < args.length && args[i + 1] != null && !args[i + 1].startsWith("--")) {
+            addSourceFiles(args[++i], format);
+        }
+        if (sourceInputs.size() == startCount) {
+            printUsage();
+            throw new IllegalArgumentException(flagPrefix + " requires at least one file argument");
+        }
+        return i;
+    }
+
+    private void addSourceFiles(String rawArg, SourceFormat format) {
+        for (String part : rawArg.split(",")) {
+            String trimmed = part.trim();
+            if (!trimmed.isEmpty()) {
+                sourceInputs.add(new SourceInput(trimmed, format));
+            }
         }
     }
 
@@ -222,8 +266,7 @@ final class ParserOptions {
             } else {
                 for (Map.Entry<String, Set<? extends Enum<?>>> entry : TYPEMAP.entrySet()) {
                     for (var grammemeEnum : entry.getValue()) {
-                        String name = grammemeEnum.name();
-                        if (name.equalsIgnoreCase(grammeme)) {
+                        if (grammemeEnum.toString().equalsIgnoreCase(grammeme)) {
                             if (entry.getValue().size() == 1) {
                                 entry.setValue(ignorableSet);
                             } else {

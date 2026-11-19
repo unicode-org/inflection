@@ -95,8 +95,8 @@ final class DocumentState {
             int dictionarySize = dictionary.size();
             StringBuilder source = new StringBuilder();
             Pattern anythingSlash = Pattern.compile(".*/");
-            for (String sourceFilename : parserOptions.sourceFilenames) {
-                source.append(anythingSlash.matcher(sourceFilename).replaceAll("")).append(" ");
+            for (ParserOptions.SourceInput sourceInput : parserOptions.sourceInputs) {
+                source.append(anythingSlash.matcher(sourceInput.filename()).replaceAll("")).append(" ");
             }
             lexicalDictionaryStream.println("==============================================");
             lexicalDictionaryStream.printf("%30s %7s%n", "Source:", source);

@@ -1,0 +1,92 @@
+{
+  "uri": "http://example.org/lexicon/en-patch",
+  "langCode": "en",
+  "entries": [
+    {
+      "id": "patch-1",
+      "headword": "cat",
+      "partsOfSpeech": ["n-fem"],
+      "inflectedForms": [
+        {
+          "tag": "sg",
+          "text": "cat"
+        },
+        {
+          "tag": "pl",
+          "text": "kitties"
+        }
+      ]
+    },
+    {
+      "id": "patch-2",
+      "headword": "wow",
+      "partsOfSpeech": ["v"],
+      "inflectedForms": [
+        {
+          "tag": "inf",
+          "text": "wow"
+        },
+        {
+          "tag": "pst",
+          "text": "wowed"
+        }
+      ]
+    },
+    {
+      "id": "patch-3",
+      "headword": "batte",
+      "partsOfSpeech": ["n-fem"],
+      "inflectedForms": [
+        {
+          "tag": "sg",
+          "text": "batte"
+        },
+        {
+          "tag": "pl",
+          "text": "bats"
+        }
+      ]
+    }
+  ],
+  "partOfSpeechTags": [
+    {
+      "tag": "n-fem",
+      "description": "feminine noun",
+      "sameAs": [
+        "http://www.wikidata.org/entity/Q1084",
+        "http://www.wikidata.org/entity/Q1775415"
+      ]
+    },
+    {
+      "tag": "v",
+      "description": "verb",
+      "sameAs": ["http://www.wikidata.org/entity/Q24905"]
+    }
+  ],
+  "inflectedFormTags": [
+    {
+      "tag": "sg",
+      "description": "singular",
+      "for": "n-fem",
+      "sameAs": ["http://www.wikidata.org/entity/Q110786"]
+    },
+    {
+      "tag": "pl",
+      "description": "plural",
+      "for": "n-fem",
+      "sameAs": ["http://www.wikidata.org/entity/Q146786"]
+    },
+    {
+      "tag": "inf",
+      "description": "infinitive",
+      "for": "v",
+      "sameAs": ["http://www.wikidata.org/entity/Q179230"]
+    },
+    {
+      "tag": "pst",
+      "description": "past",
+      "for": "v",
+      "sameAs": ["http://www.wikidata.org/entity/Q1994301"]
+    }
+  ]
+}

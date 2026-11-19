@@ -1,0 +1,67 @@
+{
+  "uri": "http://example.com",
+  "langCode": "ga",
+  "entries": [
+    {
+      "id": "folúsghlantóir-n",
+      "headword": "folúsghlantóir",
+      "partsOfSpeech": ["n-masc"],
+      "inflectedForms": [
+        {
+          "tag": "sg",
+          "text": "folúsghlantóir"
+        },
+        {
+          "tag": "sg-gen",
+          "text": "folúsghlantóra"
+        },
+        {
+          "tag": "pl",
+          "text": "folúsghlantóirí"
+        }
+      ],
+      "senses": []
+    }
+  ],
+  "partOfSpeechTags": [
+    {
+      "tag": "n-masc",
+      "description": "masculine noun",
+      "sameAs": [
+        "http://www.wikidata.org/entity/Q1084",
+        "http://www.wikidata.org/entity/Q499327"
+      ]
+    },
+    {
+      "tag": "n-fem",
+      "description": "feminine noun",
+      "sameAs": [
+        "http://www.wikidata.org/entity/Q1084",
+        "http://www.wikidata.org/entity/Q1775415"
+      ]
+    }
+  ],
+  "inflectedFormTags": [
+    {
+      "tag": "sg",
+      "description": "singular",
+      "for": "n-masc n-fem",
+      "sameAs": ["http://www.wikidata.org/entity/Q110786"]
+    },
+    {
+      "tag": "sg-gen",
+      "description": "singular genitive",
+      "for": "n-masc n-fem",
+      "sameAs": [
+        "http://www.wikidata.org/entity/Q110786",
+        "http://www.wikidata.org/entity/Q146233"
+      ]
+    },
+    {
+      "tag": "pl",
+      "description": "plural",
+      "for": "n-masc n-fem",
+      "sameAs": ["http://www.wikidata.org/entity/Q146786"]
+    }
+  ]
+}

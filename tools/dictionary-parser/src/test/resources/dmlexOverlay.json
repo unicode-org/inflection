@@ -1,0 +1,106 @@
+{
+  "uri": "http://example.org/lexicon/en-overlay",
+  "langCode": "en",
+  "entries": [
+    {
+      "id": "overlay-new",
+      "headword": "book",
+      "partsOfSpeech": ["n"],
+      "inflectedForms": [
+        {
+          "tag": "sg",
+          "text": "book"
+        },
+        {
+          "tag": "sg-gen",
+          "text": "book's"
+        },
+        {
+          "tag": "pl",
+          "text": "books"
+        },
+        {
+          "tag": "pl-gen",
+          "text": "books'"
+        }
+      ]
+    },
+    {
+      "id": "overlay-diff-pos",
+      "headword": "hey",
+      "partsOfSpeech": ["n"],
+      "inflectedForms": [
+        {
+          "tag": "sg",
+          "text": "hey"
+        },
+        {
+          "tag": "pl",
+          "text": "heys"
+        }
+      ]
+    },
+    {
+      "id": "overlay-same-pos-conflict",
+      "headword": "ciel",
+      "partsOfSpeech": ["n-fem"],
+      "inflectedForms": [
+        {
+          "tag": "sg",
+          "text": "ciel"
+        },
+        {
+          "tag": "pl",
+          "text": "cieux"
+        }
+      ]
+    }
+  ],
+  "partOfSpeechTags": [
+    {
+      "tag": "n",
+      "description": "noun",
+      "sameAs": ["http://www.wikidata.org/entity/Q1084"]
+    },
+    {
+      "tag": "n-fem",
+      "description": "feminine noun",
+      "sameAs": [
+        "http://www.wikidata.org/entity/Q1084",
+        "http://www.wikidata.org/entity/Q1775415"
+      ]
+    }
+  ],
+  "inflectedFormTags": [
+    {
+      "tag": "sg",
+      "description": "singular",
+      "for": "n n-fem",
+      "sameAs": ["http://www.wikidata.org/entity/Q110786"]
+    },
+    {
+      "tag": "sg-gen",
+      "description": "singular genitive",
+      "for": "n",
+      "sameAs": [
+        "http://www.wikidata.org/entity/Q110786",
+        "http://www.wikidata.org/entity/Q146233"
+      ]
+    },
+    {
+      "tag": "pl",
+      "description": "plural",
+      "for": "n n-fem",
+      "sameAs": ["http://www.wikidata.org/entity/Q146786"]
+    },
+    {
+      "tag": "pl-gen",
+      "description": "plural genitive",
+      "for": "n",
+      "sameAs": [
+        "http://www.wikidata.org/entity/Q146786",
+        "http://www.wikidata.org/entity/Q146233"
+      ]
+    }
+  ]
+}
